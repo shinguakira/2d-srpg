@@ -1,0 +1,29 @@
+/* ===== Unit Sprite ===== */
+.unit-sprite {
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.unit-sprite--idle {
+  animation: unit-idle-bob 2s ease-in-out infinite;
+}
+
+.unit-sprite--selected {
+  animation: unit-selected-pulse 0.8s ease-in-out infinite;
+}
+
+.unit-sprite__body {
+  image-rendering: pixelated;
+}
+
+@keyframes unit-idle-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes unit-selected-pulse {
+  0%, 100% { filter: drop-shadow(0 0 4px gold) brightness(1.1); }
+  50% { filter: drop-shadow(0 0 8px gold) brightness(1.2); }
+}

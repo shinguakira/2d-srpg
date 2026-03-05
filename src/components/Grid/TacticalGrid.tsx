@@ -2,6 +2,7 @@ import { useGameStore } from '../../stores/gameStore';
 import { useUIStore } from '../../stores/uiStore';
 import { Tile } from './Tile';
 import { RangeOverlay } from './RangeOverlay';
+import { FloatingNumbers } from './FloatingNumber';
 import { posKey } from '../../core/types';
 
 export function TacticalGrid() {
@@ -58,6 +59,9 @@ export function TacticalGrid() {
 
       {/* Range overlay rendered on top of tiles */}
       <RangeOverlay />
+
+      {/* Floating damage numbers */}
+      <FloatingNumbers />
 
       {/* Keyboard cursor overlay */}
       {keyboardMode && cursorPosition && (

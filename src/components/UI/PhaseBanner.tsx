@@ -3,12 +3,13 @@ import { useGameStore } from '../../stores/gameStore';
 
 export function PhaseBanner() {
   const phaseBanner = useGameStore((s) => s.phaseBanner);
+  const currentTurn = useGameStore((s) => s.currentTurn);
   const dismissPhaseBanner = useGameStore((s) => s.dismissPhaseBanner);
 
-  // Auto-dismiss after 1.5 seconds
+  // Auto-dismiss after 2 seconds (up from 1.5s for more drama)
   useEffect(() => {
     if (!phaseBanner) return;
-    const timer = setTimeout(dismissPhaseBanner, 1500);
+    const timer = setTimeout(dismissPhaseBanner, 2000);
     return () => clearTimeout(timer);
   }, [phaseBanner, dismissPhaseBanner]);
 
@@ -24,6 +25,9 @@ export function PhaseBanner() {
     >
       <div className="phase-banner__text">
         {isPlayer ? 'Player Phase' : 'Enemy Phase'}
+      </div>
+      <div className="phase-banner__turn">
+        Turn {currentTurn}
       </div>
     </div>
   );

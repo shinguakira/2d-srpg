@@ -49,6 +49,8 @@ function renderTerrain(terrain: TerrainType) {
       return <FortTerrain />;
     case 'village':
       return <VillageTerrain />;
+    case 'throne':
+      return <ThroneTerrain />;
   }
 }
 
@@ -180,6 +182,34 @@ function VillageTerrain() {
       <rect x="30" y="28" width="5" height="5" fill="#8fd4f0" stroke="#a07850" strokeWidth="0.5" />
       <line x1="32.5" y1="28" x2="32.5" y2="33" stroke="#a07850" strokeWidth="0.5" />
       <line x1="30" y1="30.5" x2="35" y2="30.5" stroke="#a07850" strokeWidth="0.5" />
+    </>
+  );
+}
+
+function ThroneTerrain() {
+  return (
+    <>
+      {/* Stone floor */}
+      <rect width="48" height="48" fill="#6b7280" />
+      <rect x="0" y="0" width="24" height="24" fill="#5b6370" stroke="#4b5563" strokeWidth="0.5" />
+      <rect x="24" y="24" width="24" height="24" fill="#5b6370" stroke="#4b5563" strokeWidth="0.5" />
+      {/* Steps */}
+      <rect x="12" y="38" width="24" height="4" fill="#4b5563" />
+      <rect x="14" y="34" width="20" height="4" fill="#5b6370" />
+      {/* Throne chair */}
+      <rect x="17" y="14" width="14" height="20" fill="#d4a537" rx="2" />
+      <rect x="17" y="14" width="14" height="20" fill="#b8922e" rx="2" />
+      {/* Throne back (tall) */}
+      <rect x="18" y="6" width="12" height="12" fill="#d4a537" rx="2" />
+      <rect x="20" y="4" width="8" height="4" fill="#d4a537" rx="2" />
+      {/* Crown ornament on top */}
+      <polygon points="22,3 24,0 26,3" fill="#fbbf24" />
+      {/* Red cushion */}
+      <rect x="19" y="24" width="10" height="6" fill="#b91c1c" rx="1" />
+      <rect x="19" y="24" width="10" height="3" fill="#dc2626" rx="1" />
+      {/* Armrests */}
+      <rect x="15" y="18" width="3" height="12" fill="#b8922e" rx="1" />
+      <rect x="30" y="18" width="3" height="12" fill="#b8922e" rx="1" />
     </>
   );
 }

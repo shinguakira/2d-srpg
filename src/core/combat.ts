@@ -6,7 +6,7 @@ import type { SeededRandom } from './rng';
 
 type TriangleResult = { hitMod: number; dmgMod: number };
 
-const WEAPON_ADVANTAGE: Record<WeaponType, WeaponType> = {
+const WEAPON_ADVANTAGE: Partial<Record<WeaponType, WeaponType>> = {
   sword: 'axe',
   axe: 'lance',
   lance: 'sword',
@@ -35,8 +35,8 @@ export type CombatRound = {
 };
 
 export type CombatForecast = {
-  attacker: { unitId: string; name: string; currentHp: number; maxHp: number; faction: Faction };
-  defender: { unitId: string; name: string; currentHp: number; maxHp: number; faction: Faction };
+  attacker: { unitId: string; name: string; currentHp: number; maxHp: number; faction: Faction; classId: string; weaponName: string; weaponType: WeaponType };
+  defender: { unitId: string; name: string; currentHp: number; maxHp: number; faction: Faction; classId: string; weaponName: string; weaponType: WeaponType };
   attackerDamage: number;
   attackerHit: number;
   attackerCrit: number;
@@ -89,7 +89,7 @@ function canDouble(attacker: Unit, defender: Unit): boolean {
   return attacker.stats.spd - defender.stats.spd >= 5;
 }
 
-function canCounterattack(attacker: Unit, defender: Unit, distance: number): boolean {
+function canCounterattack(_attacker: Unit, defender: Unit, distance: number): boolean {
   const defWeapon = defender.equippedWeapon;
   return distance >= defWeapon.minRange && distance <= defWeapon.maxRange;
 }
@@ -127,8 +127,8 @@ export function calculateCombatForecast(
   }
 
   return {
-    attacker: { unitId: attacker.id, name: attacker.name, currentHp: attacker.currentHp, maxHp: attacker.stats.hp, faction: attacker.faction },
-    defender: { unitId: defender.id, name: defender.name, currentHp: defender.currentHp, maxHp: defender.stats.hp, faction: defender.faction },
+    attacker: { unitId: attacker.id, name: attacker.name, currentHp: attacker.currentHp, maxHp: attacker.stats.hp, faction: attacker.faction, classId: attacker.classId, weaponName: attacker.equippedWeapon.name, weaponType: attacker.equippedWeapon.type },
+    defender: { unitId: defender.id, name: defender.name, currentHp: defender.currentHp, maxHp: defender.stats.hp, faction: defender.faction, classId: defender.classId, weaponName: defender.equippedWeapon.name, weaponType: defender.equippedWeapon.type },
     attackerDamage: atkDmg,
     attackerHit: atkHit,
     attackerCrit: atkCrit,
@@ -203,5 +203,25 @@ export function resolveCombat(forecast: CombatForecast, rng: SeededRandom): Comb
     defenderHpAfter: defHp,
     attackerDied: atkHp <= 0,
     defenderDied: defHp <= 0,
+  };
+}
+
+// ===== Healing =====
+
+export type HealResult = {
+  healAmount: number;
+  targetHpBefore: number;
+  targetHpAfter: number;
+};
+
+/** Resolve a staff heal. Always succeeds. Heal = mag + weapon.might, capped at target maxHP. */
+export function resolveHealing(healer: Unit, target: Unit): HealResult {
+  const healPower = healer.stats.mag + healer.equippedWeapon.might;
+  const hpBefore = target.currentHp;
+  const hpAfter = Math.min(target.stats.hp, hpBefore + healPower);
+  return {
+    healAmount: hpAfter - hpBefore,
+    targetHpBefore: hpBefore,
+    targetHpAfter: hpAfter,
   };
 }

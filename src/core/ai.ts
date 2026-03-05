@@ -1,6 +1,6 @@
 import type { Unit, GameMap, Position } from './types';
 import { posKey } from './types';
-import { getMovementRange, getPath, getAttackTilesFrom } from './pathfinding';
+import { getMovementRange, getAttackTilesFrom } from './pathfinding';
 import { calculateCombatForecast } from './combat';
 import type { CombatForecast } from './combat';
 
@@ -13,22 +13,41 @@ export type AIAction = {
 
 /**
  * Decide the best action for an enemy unit.
- * Strategy:
- *  1. Find all reachable positions (BFS movement range)
- *  2. For each reachable position, find attackable player units
- *  3. Score each (position, target) pair
- *  4. If no target reachable, move toward nearest player unit
+ * Dispatches on AI behavior type:
+ *  - aggressive (default): chase + attack
+ *  - stationary: don't move, attack in weapon range only
+ *  - guard: stay within radius of start position
+ *  - boss: don't move, attack in range, prioritize Lord
  */
 export function decideAction(
   unit: Unit,
   gameMap: GameMap,
   allUnits: Map<string, Unit>,
 ): AIAction {
-  const moveRange = getMovementRange(unit, gameMap, allUnits);
-  const movablePositions = Array.from(moveRange).map((key) => {
-    const [x, y] = key.split(',').map(Number);
-    return { x, y } as Position;
-  });
+  const behavior = unit.aiBehavior?.type ?? 'aggressive';
+
+  // Get movable positions based on behavior type
+  let movablePositions: Position[];
+  if (behavior === 'stationary' || behavior === 'boss') {
+    // Can only stay in place
+    movablePositions = [{ ...unit.position }];
+  } else {
+    const moveRange = getMovementRange(unit, gameMap, allUnits);
+    movablePositions = Array.from(moveRange).map((key) => {
+      const [x, y] = key.split(',').map(Number);
+      return { x, y } as Position;
+    });
+
+    // Guard: filter to within radius of start position
+    if (behavior === 'guard' && unit.aiBehavior?.type === 'guard' && unit.startPosition) {
+      const { radius } = unit.aiBehavior;
+      const start = unit.startPosition;
+      movablePositions = movablePositions.filter((pos) => {
+        const dist = Math.abs(pos.x - start.x) + Math.abs(pos.y - start.y);
+        return dist <= radius;
+      });
+    }
+  }
 
   // Collect all (position, target, forecast) combinations
   type ScoredOption = {
@@ -54,7 +73,13 @@ export function decideAction(
       const unitAtPos = { ...unit, position: pos };
       const forecast = calculateCombatForecast(unitAtPos, target, attackerTerrain, defenderTerrain, distance);
 
-      const score = scoreTarget(forecast, target);
+      let score = scoreTarget(forecast, target);
+
+      // Boss AI: bonus for attacking the Lord
+      if (behavior === 'boss' && target.isLord) {
+        score += 50;
+      }
+
       options.push({ moveTo: pos, targetId: target.id, forecast, score });
     }
   }
@@ -71,7 +96,28 @@ export function decideAction(
     };
   }
 
-  // No target reachable — move toward nearest player unit
+  // No target reachable
+  if (behavior === 'stationary' || behavior === 'boss') {
+    // Stay in place
+    return {
+      unitId: unit.id,
+      moveTo: unit.position,
+      attackTargetId: null,
+      forecast: null,
+    };
+  }
+
+  if (behavior === 'guard') {
+    // Stay in place within guard zone
+    return {
+      unitId: unit.id,
+      moveTo: unit.position,
+      attackTargetId: null,
+      forecast: null,
+    };
+  }
+
+  // Aggressive: move toward nearest player unit
   const moveToward = findMoveTowardNearestPlayer(unit, movablePositions, allUnits);
   return {
     unitId: unit.id,

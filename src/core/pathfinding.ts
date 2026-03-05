@@ -183,6 +183,30 @@ export function getAttackTilesFrom(
 }
 
 /**
+ * Get the danger zone: all tiles that any enemy can attack
+ * (union of each enemy's movement range + attack range from every reachable position).
+ */
+export function getDangerZone(
+  enemies: Unit[],
+  map: GameMap,
+  allUnits: Map<string, Unit>,
+): Set<string> {
+  const dangerZone = new Set<string>();
+  for (const enemy of enemies) {
+    const moveRange = getMovementRange(enemy, map, allUnits);
+    for (const moveKey of moveRange) {
+      dangerZone.add(moveKey); // enemy can occupy this tile
+      const [x, y] = moveKey.split(',').map(Number);
+      const atkTiles = getAttackTilesFrom({ x, y }, enemy.equippedWeapon, map);
+      for (const atkKey of atkTiles) {
+        dangerZone.add(atkKey);
+      }
+    }
+  }
+  return dangerZone;
+}
+
+/**
  * Get the full attack range for a unit: all tiles it could attack
  * from any reachable position (movement range + attack range).
  * Excludes tiles that are already in the movement range.

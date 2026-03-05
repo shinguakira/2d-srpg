@@ -23,7 +23,8 @@ export type TerrainType =
   | 'water'
   | 'wall'
   | 'fort'
-  | 'village';
+  | 'village'
+  | 'throne';
 
 export type TerrainData = {
   readonly name: string;
@@ -48,7 +49,7 @@ export type GameMap = {
 
 // ===== Weapons =====
 
-export type WeaponType = 'sword' | 'axe' | 'lance' | 'fire' | 'thunder' | 'wind';
+export type WeaponType = 'sword' | 'axe' | 'lance' | 'fire' | 'thunder' | 'wind' | 'staff';
 
 export type Weapon = {
   readonly id: string;
@@ -60,6 +61,20 @@ export type Weapon = {
   readonly weight: number;
   readonly minRange: number;
   readonly maxRange: number;
+};
+
+// ===== Items =====
+
+export type ItemEffect =
+  | { readonly kind: 'heal'; readonly amount: number };
+
+export type ConsumableItem = {
+  readonly id: string;
+  readonly name: string;
+  readonly type: 'consumable';
+  uses: number;
+  readonly maxUses: number;
+  readonly effect: ItemEffect;
 };
 
 // ===== Units =====
@@ -94,6 +109,14 @@ export type UnitClass = {
   readonly growthRates: GrowthRates;
 };
 
+// ===== AI Behavior =====
+
+export type AIBehavior =
+  | { readonly type: 'aggressive' }
+  | { readonly type: 'stationary' }
+  | { readonly type: 'guard'; readonly radius: number }
+  | { readonly type: 'boss' };
+
 export type Faction = 'player' | 'enemy' | 'ally';
 
 export type Unit = {
@@ -108,8 +131,13 @@ export type Unit = {
   exp: number;
   equippedWeapon: Weapon;
   inventory: Weapon[];
+  items: ConsumableItem[];
   hasActed: boolean;
   sprite: string; // sprite image path
+  aiBehavior?: AIBehavior;
+  startPosition?: Position;
+  isLord?: boolean;
+  deathQuote?: string;
 };
 
 // ===== Game State =====
@@ -122,6 +150,7 @@ export type PlayerAction =
   | 'move_target'
   | 'action_menu'
   | 'attack_target'
+  | 'heal_target'
   | 'confirm'
   | 'village_visit';
 
@@ -165,6 +194,14 @@ export type ChapterData = {
   readonly prologue?: DialogueScene;
   readonly epilogue?: DialogueScene;
   readonly villages?: VillageData[];
+  readonly seizePosition?: Position;
+  readonly reinforcements?: ReinforcementWave[];
+};
+
+export type ReinforcementWave = {
+  readonly turn: number;
+  readonly units: UnitPlacement[];
+  readonly message?: string;
 };
 
 // ===== Dialogue =====

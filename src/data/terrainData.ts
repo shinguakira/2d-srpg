@@ -9,6 +9,7 @@ export const TERRAIN_COLORS: Record<TerrainType, string> = {
   wall:     '#5c4033',
   fort:     '#a0a0a0',
   village:  '#d4a574',
+  throne:   '#d4a537',
 };
 
 /** Display label for terrain info panel */
@@ -20,4 +21,5 @@ export const TERRAIN_LABELS: Record<TerrainType, string> = {
   wall:     'Wall',
   fort:     'Fort',
   village:  'Village',
+  throne:   'Throne',
 };

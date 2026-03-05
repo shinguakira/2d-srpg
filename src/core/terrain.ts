@@ -8,6 +8,7 @@ export const TERRAIN: Record<TerrainType, TerrainData> = {
   wall:     { name: 'Wall',     movementCost: 99, defenseBonus: 0, avoidBonus: 0 },
   fort:     { name: 'Fort',     movementCost: 1,  defenseBonus: 3, avoidBonus: 20 },
   village:  { name: 'Village',  movementCost: 1,  defenseBonus: 0, avoidBonus: 10 },
+  throne:   { name: 'Throne',  movementCost: 1,  defenseBonus: 5, avoidBonus: 30 },
 };
 
 export function getTerrainData(terrain: TerrainType): TerrainData {

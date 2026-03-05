@@ -7,7 +7,7 @@ export type ChapterMeta = {
 
 export const CAMPAIGN: ChapterMeta[] = [
   { id: 'ch1', name: 'Prologue: The Fall of Renais', chapterNumber: 1, implemented: true },
-  { id: 'ch2', name: 'Chapter 2: Escape', chapterNumber: 2, implemented: false },
+  { id: 'ch2', name: 'Chapter 2: Escape', chapterNumber: 2, implemented: true },
   { id: 'ch3', name: 'Chapter 3: The Bandits of Borgo', chapterNumber: 3, implemented: false },
   { id: 'ch4', name: 'Chapter 4: Ancient Horrors', chapterNumber: 4, implemented: false },
   { id: 'ch5', name: 'Chapter 5: The Empire\'s Reach', chapterNumber: 5, implemented: false },

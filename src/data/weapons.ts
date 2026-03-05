@@ -78,4 +78,102 @@ export const WEAPONS: Record<string, Weapon> = {
     minRange: 1,
     maxRange: 2,
   },
+
+  // Steel tier
+  steel_sword: {
+    id: 'steel_sword',
+    name: 'Steel Sword',
+    type: 'sword',
+    might: 8,
+    hit: 75,
+    crit: 0,
+    weight: 10,
+    minRange: 1,
+    maxRange: 1,
+  },
+  steel_lance: {
+    id: 'steel_lance',
+    name: 'Steel Lance',
+    type: 'lance',
+    might: 10,
+    hit: 70,
+    crit: 0,
+    weight: 13,
+    minRange: 1,
+    maxRange: 1,
+  },
+  steel_axe: {
+    id: 'steel_axe',
+    name: 'Steel Axe',
+    type: 'axe',
+    might: 11,
+    hit: 65,
+    crit: 0,
+    weight: 15,
+    minRange: 1,
+    maxRange: 1,
+  },
+
+  // Ranged physical (1-2 range)
+  javelin: {
+    id: 'javelin',
+    name: 'Javelin',
+    type: 'lance',
+    might: 6,
+    hit: 65,
+    crit: 0,
+    weight: 11,
+    minRange: 1,
+    maxRange: 2,
+  },
+  hand_axe: {
+    id: 'hand_axe',
+    name: 'Hand Axe',
+    type: 'axe',
+    might: 7,
+    hit: 60,
+    crit: 0,
+    weight: 12,
+    minRange: 1,
+    maxRange: 2,
+  },
+
+  // Silver tier
+  silver_sword: {
+    id: 'silver_sword',
+    name: 'Silver Sword',
+    type: 'sword',
+    might: 13,
+    hit: 80,
+    crit: 0,
+    weight: 8,
+    minRange: 1,
+    maxRange: 1,
+  },
+
+  // Advanced magic
+  elfire: {
+    id: 'elfire',
+    name: 'Elfire',
+    type: 'fire',
+    might: 10,
+    hit: 85,
+    crit: 0,
+    weight: 8,
+    minRange: 1,
+    maxRange: 2,
+  },
+
+  // Staff
+  heal_staff: {
+    id: 'heal_staff',
+    name: 'Heal',
+    type: 'staff',
+    might: 10,
+    hit: 100,
+    crit: 0,
+    weight: 3,
+    minRange: 1,
+    maxRange: 1,
+  },
 };

@@ -31,4 +31,10 @@ export const CLASSES: Record<string, UnitClass> = {
     baseStats: { hp: 20, str: 6, mag: 0, def: 6, res: 0, spd: 5, skl: 5, lck: 3, mov: 5 },
     growthRates: { hp: 75, str: 40, mag: 5, def: 40, res: 15, spd: 35, skl: 40, lck: 30 },
   },
+  cleric: {
+    id: 'cleric',
+    name: 'Cleric',
+    baseStats: { hp: 18, str: 1, mag: 4, def: 2, res: 6, spd: 5, skl: 3, lck: 5, mov: 5 },
+    growthRates: { hp: 50, str: 5, mag: 55, def: 15, res: 55, spd: 40, skl: 30, lck: 50 },
+  },
 };

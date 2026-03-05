@@ -15,6 +15,7 @@ export type UIState = {
   tileSize: number;
   cursorPosition: CursorPosition;
   keyboardMode: boolean;
+  detailUnitId: string | null;
 };
 
 export type UIActions = {
@@ -25,6 +26,7 @@ export type UIActions = {
   setCursor: (pos: CursorPosition) => void;
   moveCursor: (dx: number, dy: number, mapWidth: number, mapHeight: number) => void;
   setKeyboardMode: (enabled: boolean) => void;
+  setDetailUnitId: (id: string | null) => void;
 };
 
 export const useUIStore = create<UIState & UIActions>((set, get) => ({
@@ -32,6 +34,7 @@ export const useUIStore = create<UIState & UIActions>((set, get) => ({
   tileSize: 64,
   cursorPosition: null,
   keyboardMode: false,
+  detailUnitId: null,
 
   panCamera: (dx, dy) => {
     set((state) => ({
@@ -84,5 +87,9 @@ export const useUIStore = create<UIState & UIActions>((set, get) => ({
 
   setKeyboardMode: (enabled) => {
     set({ keyboardMode: enabled });
+  },
+
+  setDetailUnitId: (id) => {
+    set({ detailUnitId: id });
   },
 }));

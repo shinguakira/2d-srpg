@@ -3,6 +3,7 @@ import type { AppScreen, ChapterData, DialogueScene, UnitProgress } from '../cor
 import { writeSave, readSave, deleteSave, hasAnySave, getSlotSummary } from '../core/saveManager';
 import { CHAPTERS, CHAPTER_ORDER } from '../data/chapters';
 
+export type GameMode = 'classic' | 'casual';
 type DialoguePhase = 'prologue' | 'epilogue';
 
 type CampaignState = {
@@ -11,6 +12,8 @@ type CampaignState = {
   currentChapterData: ChapterData | null;
   completedChapters: string[];
   unitProgress: Record<string, UnitProgress>;
+  gameMode: GameMode;
+  deadUnitIds: string[];
 
   // Dialogue playback
   dialogueScene: DialogueScene | null;
@@ -20,6 +23,7 @@ type CampaignState = {
   // Actions
   goToTitle: () => void;
   goToDebug: () => void;
+  setGameMode: (mode: GameMode) => void;
   startNewGame: () => void;
   startChapter: (id: string) => void;
   startChapterDirect: (id: string) => void;
@@ -41,6 +45,8 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
   currentChapterData: null,
   completedChapters: [],
   unitProgress: {},
+  gameMode: 'classic',
+  deadUnitIds: [],
   dialogueScene: null,
   dialogueLineIndex: 0,
   dialoguePhase: null,
@@ -54,8 +60,10 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
 
   goToDebug: () => set({ currentScreen: 'debug' }),
 
+  setGameMode: (mode: GameMode) => set({ gameMode: mode }),
+
   startNewGame: () => {
-    set({ completedChapters: [], unitProgress: {} });
+    set({ completedChapters: [], unitProgress: {}, deadUnitIds: [] });
     get().startChapter('ch1');
   },
 
@@ -94,7 +102,7 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
   },
 
   advanceDialogue: () => {
-    const { dialogueScene, dialogueLineIndex, dialoguePhase, currentChapterData } = get();
+    const { dialogueScene, dialogueLineIndex, dialoguePhase } = get();
     if (!dialogueScene) return;
 
     if (dialogueLineIndex < dialogueScene.lines.length - 1) {
@@ -158,7 +166,7 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
   getSlotSummary: (slot: number) => getSlotSummary(slot),
 }));
 
-function getNextChapterId(currentId: string | null, completed: string[]): string {
+function getNextChapterId(currentId: string | null, _completed: string[]): string {
   if (!currentId) return CHAPTER_ORDER[0];
   const idx = CHAPTER_ORDER.indexOf(currentId);
   if (idx >= 0 && idx < CHAPTER_ORDER.length - 1) {

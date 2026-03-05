@@ -16,8 +16,8 @@ import { PLAYER_UNITS, ENEMY_UNITS } from '../data/units';
 import { CLASSES } from '../data/classes';
 import { WEAPONS } from '../data/weapons';
 import { SeededRandom } from '../core/rng';
-import { getMovementRange, getFullAttackRange, getPath, getAttackTilesFrom } from '../core/pathfinding';
-import { calculateCombatForecast, resolveCombat } from '../core/combat';
+import { getMovementRange, getFullAttackRange, getPath, getAttackTilesFrom, getDangerZone } from '../core/pathfinding';
+import { calculateCombatForecast, resolveCombat, resolveHealing } from '../core/combat';
 import type { CombatForecast, CombatResult } from '../core/combat';
 import { calculateExpGain, checkLevelUp, rollLevelUp, applyStatGains } from '../core/experience';
 import type { StatGains } from '../core/experience';
@@ -67,6 +67,26 @@ export type GameState = {
   visitedVillages: Set<string>;
   villageReward: VillageReward | null;
   chapterVillages: VillageData[];
+
+  // Danger zone
+  dangerZone: Set<string>;
+  showDangerZone: boolean;
+
+  // Chapter reference
+  chapterData: ChapterData | null;
+
+  // Healing
+  healableTiles: Set<string>;
+  healResult: { healerName: string; targetName: string; hpBefore: number; hpAfter: number } | null;
+
+  // Reinforcements
+  reinforcementMessage: string | null;
+
+  // Death quote
+  deathQuote: { unitName: string; quote: string } | null;
+
+  // Map combat effects (floating numbers after combat)
+  floatingNumbers: Array<{ id: number; x: number; y: number; text: string; color: string }>;
 };
 
 export type GameActions = {
@@ -94,6 +114,26 @@ export type GameActions = {
   // Village
   visitVillage: () => void;
   dismissVillageReward: () => void;
+
+  // Items
+  useItem: (itemIndex: number) => void;
+
+  // Healing
+  startHealTargeting: () => void;
+  confirmHeal: (targetId: string) => void;
+  dismissHealResult: () => void;
+
+  // Reinforcements
+  dismissReinforcementMessage: () => void;
+
+  // Death quote
+  dismissDeathQuote: () => void;
+
+  // Seize
+  seize: () => void;
+
+  // Danger zone
+  toggleDangerZone: () => void;
 
   // Turn system
   endPlayerTurn: () => void;
@@ -136,6 +176,7 @@ function placeUnits(chapter: ChapterData, map: GameMap, unitProgress?: Record<st
       exp: progress ? progress.exp : template.exp,
       equippedWeapon: { ...template.equippedWeapon },
       inventory: template.inventory.map((w) => ({ ...w })),
+      items: template.items.map((i) => ({ ...i, effect: { ...i.effect } })),
     };
     units.set(unit.id, unit);
     map.tiles[placement.position.y][placement.position.x].occupantId = unit.id;
@@ -147,9 +188,11 @@ function placeUnits(chapter: ChapterData, map: GameMap, unitProgress?: Record<st
     const unit: Unit = {
       ...template,
       position: { ...placement.position },
+      startPosition: { ...placement.position },
       stats: { ...template.stats },
       equippedWeapon: { ...template.equippedWeapon },
       inventory: template.inventory.map((w) => ({ ...w })),
+      items: template.items.map((i) => ({ ...i, effect: { ...i.effect } })),
     };
     units.set(unit.id, unit);
     map.tiles[placement.position.y][placement.position.x].occupantId = unit.id;
@@ -169,8 +212,56 @@ function allPlayersDone(units: Map<string, Unit>): boolean {
   return true;
 }
 
+/** Check if seize objective boss is defeated (no enemy with boss AI remains) */
+function isBossDefeated(units: Map<string, Unit>): boolean {
+  for (const u of units.values()) {
+    if (u.faction === 'enemy' && u.aiBehavior?.type === 'boss') return false;
+  }
+  return true;
+}
+
+/** Check if the game should end based on objective and current state */
+function checkVictory(units: Map<string, Unit>, chapterData: ChapterData | null): 'victory' | 'defeat' | null {
+  let hasPlayer = false;
+  let hasEnemy = false;
+  for (const u of units.values()) {
+    if (u.faction === 'player') hasPlayer = true;
+    if (u.faction === 'enemy') hasEnemy = true;
+  }
+
+  if (!hasPlayer) return 'defeat';
+
+  // For rout objective, win when all enemies dead
+  if (!chapterData || chapterData.objective.type === 'rout') {
+    if (!hasEnemy) return 'victory';
+  }
+
+  // For seize, victory is triggered by the seize action, not by kills
+  // But rout still triggers if all enemies die even in seize maps
+  if (chapterData?.objective.type === 'seize' && !hasEnemy) {
+    return 'victory';
+  }
+
+  return null;
+}
+
 const EMPTY_MAP: GameMap = { width: 0, height: 0, tiles: [] };
 const EMPTY_SET = new Set<string>();
+
+/** Recompute danger zone if it's currently shown */
+function refreshDangerZone(get: () => GameState & GameActions, set: (s: Partial<GameState>) => void) {
+  if (!get().showDangerZone) return;
+  const { units, gameMap } = get();
+  const enemies: Unit[] = [];
+  for (const u of units.values()) {
+    if (u.faction === 'enemy') enemies.push(u);
+  }
+  if (enemies.length === 0) {
+    set({ dangerZone: EMPTY_SET, showDangerZone: false });
+  } else {
+    set({ dangerZone: getDangerZone(enemies, gameMap, units) });
+  }
+}
 
 export const useGameStore = create<GameState & GameActions>((set, get) => ({
   gameMap: EMPTY_MAP,
@@ -201,6 +292,14 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   visitedVillages: EMPTY_SET,
   villageReward: null,
   chapterVillages: [],
+  dangerZone: EMPTY_SET,
+  showDangerZone: false,
+  chapterData: null,
+  healableTiles: EMPTY_SET,
+  healResult: null,
+  reinforcementMessage: null,
+  deathQuote: null,
+  floatingNumbers: [],
 
   initChapter: (chapter, seed = 12345, unitProgress?) => {
     const map = buildMap(chapter);
@@ -234,6 +333,14 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
       visitedVillages: new Set<string>(),
       villageReward: null,
       chapterVillages: chapter.villages ?? [],
+      chapterData: chapter,
+      dangerZone: EMPTY_SET,
+      showDangerZone: false,
+      deathQuote: null,
+      healableTiles: EMPTY_SET,
+      healResult: null,
+      reinforcementMessage: null,
+      floatingNumbers: [],
     });
   },
 
@@ -381,6 +488,22 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
       return;
     }
 
+    if (playerAction === 'heal_target' && selectedUnitId && pendingPosition) {
+      const key = posKey(pos);
+      const { healableTiles } = get();
+      if (healableTiles.has(key)) {
+        for (const unit of units.values()) {
+          if (posKey(unit.position) === key && unit.faction === 'player' && unit.id !== selectedUnitId) {
+            get().confirmHeal(unit.id);
+            return;
+          }
+        }
+      }
+      // Clicked non-target — cancel back to action menu
+      set({ playerAction: 'action_menu', healableTiles: EMPTY_SET });
+      return;
+    }
+
     if (playerAction === 'action_menu' && selectedUnitId && pendingPosition) {
       // Clicking an enemy in attack range — auto-attack
       const key = posKey(pos);
@@ -440,6 +563,11 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
     if (playerAction === 'attack_target' && selectedUnitId) {
       // Go back to action menu
       set({ playerAction: 'action_menu', attackTargetId: null, combatForecast: null });
+      return;
+    }
+
+    if (playerAction === 'heal_target' && selectedUnitId) {
+      set({ playerAction: 'action_menu', healableTiles: EMPTY_SET });
       return;
     }
 
@@ -535,6 +663,251 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
     if (allPlayersDone(newUnits)) {
       get().endPlayerTurn();
     }
+  },
+
+  // ===== Items =====
+
+  useItem: (itemIndex: number) => {
+    const { selectedUnitId, pendingPosition, units, gameMap } = get();
+    if (!selectedUnitId || !pendingPosition) return;
+
+    const newUnits = new Map(units);
+    const unit = units.get(selectedUnitId)!;
+    const item = unit.items[itemIndex];
+    if (!item) return;
+
+    // Apply item effect
+    let updatedUnit = { ...unit, position: { ...pendingPosition }, hasActed: true };
+    if (item.effect.kind === 'heal') {
+      const healAmount = Math.min(item.effect.amount, unit.stats.hp - unit.currentHp);
+      updatedUnit = { ...updatedUnit, currentHp: unit.currentHp + healAmount };
+    }
+
+    // Update items (decrement uses, remove if depleted)
+    const remaining = item.uses - 1;
+    const newItems = remaining > 0
+      ? unit.items.map((it, i) => i === itemIndex ? { ...it, uses: remaining } : it)
+      : unit.items.filter((_, i) => i !== itemIndex);
+    updatedUnit = { ...updatedUnit, items: newItems };
+
+    // Move unit to pending position
+    const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
+    newTiles[unit.position.y][unit.position.x].occupantId = null;
+    newTiles[pendingPosition.y][pendingPosition.x].occupantId = selectedUnitId;
+
+    newUnits.set(selectedUnitId, updatedUnit);
+
+    set({
+      units: newUnits,
+      gameMap: { ...gameMap, tiles: newTiles },
+      selectedUnitId: null,
+      playerAction: 'idle',
+      movementRange: EMPTY_SET,
+      attackRange: EMPTY_SET,
+      movePath: [],
+      pendingPosition: null,
+      pendingAttackTiles: EMPTY_SET,
+      combatForecast: null,
+      attackTargetId: null,
+      selectedWeaponIndex: 0,
+    });
+
+    // Auto end turn if all player units have acted
+    if (allPlayersDone(newUnits)) {
+      get().endPlayerTurn();
+    }
+  },
+
+  // ===== Healing =====
+
+  startHealTargeting: () => {
+    const { selectedUnitId, pendingPosition, units } = get();
+    if (!selectedUnitId || !pendingPosition) return;
+
+    const unit = units.get(selectedUnitId);
+    if (!unit) return;
+
+    // Find staff in inventory
+    const staff = unit.inventory.find((w) => w.type === 'staff');
+    if (!staff) return;
+    const healable = new Set<string>();
+    for (const ally of units.values()) {
+      if (ally.id === selectedUnitId) continue;
+      if (ally.faction !== 'player') continue;
+      if (ally.currentHp >= ally.stats.hp) continue; // full HP
+      const dist = Math.abs(pendingPosition.x - ally.position.x) + Math.abs(pendingPosition.y - ally.position.y);
+      if (dist >= staff.minRange && dist <= staff.maxRange) {
+        healable.add(posKey(ally.position));
+      }
+    }
+
+    if (healable.size === 0) return;
+
+    set({
+      playerAction: 'heal_target',
+      healableTiles: healable,
+    });
+  },
+
+  confirmHeal: (targetId: string) => {
+    const { selectedUnitId, pendingPosition, units, gameMap, rng } = get();
+    if (!selectedUnitId || !pendingPosition) return;
+
+    const healer = units.get(selectedUnitId);
+    const target = units.get(targetId);
+    if (!healer || !target) return;
+
+    // Equip the staff for healing
+    const staff = healer.inventory.find((w) => w.type === 'staff');
+    if (!staff) return;
+    const healerWithStaff = { ...healer, equippedWeapon: staff };
+
+    const result = resolveHealing(healerWithStaff, target);
+
+    // Apply healing and move healer to pending position
+    const newUnits = new Map(units);
+    const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
+
+    // Move healer
+    newTiles[healer.position.y][healer.position.x].occupantId = null;
+    newTiles[pendingPosition.y][pendingPosition.x].occupantId = selectedUnitId;
+
+    // Grant EXP for healing (20 flat)
+    const healerExp = healer.exp + 20;
+    let gains: StatGains | null = null;
+    let levelUpUnit: string | null = null;
+    let newLevel = healer.level;
+    let newStats = { ...healer.stats };
+    let finalExp = healerExp;
+
+    if (healerExp >= 100) {
+      const cls = CLASSES[healer.classId];
+      if (cls) {
+        gains = rollLevelUp(cls.growthRates, rng);
+        newStats = applyStatGains(healer.stats, gains);
+        newLevel = healer.level + 1;
+        finalExp = healerExp - 100;
+        levelUpUnit = selectedUnitId;
+      }
+    }
+
+    newUnits.set(selectedUnitId, {
+      ...healer,
+      position: { ...pendingPosition },
+      hasActed: true,
+      exp: finalExp,
+      level: newLevel,
+      stats: newStats,
+      currentHp: gains ? healer.currentHp + gains.hp : healer.currentHp,
+    });
+
+    newUnits.set(targetId, {
+      ...target,
+      currentHp: result.targetHpAfter,
+    });
+
+    set({
+      units: newUnits,
+      gameMap: { ...gameMap, tiles: newTiles },
+      playerAction: 'idle',
+      selectedUnitId: null,
+      movementRange: EMPTY_SET,
+      attackRange: EMPTY_SET,
+      movePath: [],
+      pendingPosition: null,
+      pendingAttackTiles: EMPTY_SET,
+      healableTiles: EMPTY_SET,
+      combatForecast: null,
+      attackTargetId: null,
+      selectedWeaponIndex: 0,
+      healResult: {
+        healerName: healer.name,
+        targetName: target.name,
+        hpBefore: result.targetHpBefore,
+        hpAfter: result.targetHpAfter,
+      },
+      levelUpGains: gains,
+      levelUpUnitId: levelUpUnit,
+    });
+
+    // Auto end turn if all player units have acted
+    if (!gains && allPlayersDone(newUnits)) {
+      get().endPlayerTurn();
+    }
+  },
+
+  dismissHealResult: () => {
+    set({ healResult: null });
+  },
+
+  // ===== Reinforcements =====
+
+  dismissReinforcementMessage: () => {
+    set({ reinforcementMessage: null });
+  },
+
+  // ===== Death Quote =====
+
+  dismissDeathQuote: () => {
+    set({ deathQuote: null });
+  },
+
+  // ===== Seize =====
+
+  seize: () => {
+    const { selectedUnitId, pendingPosition, units, gameMap, chapterData } = get();
+    if (!selectedUnitId || !pendingPosition || !chapterData) return;
+
+    const unit = units.get(selectedUnitId);
+    if (!unit || !unit.isLord) return;
+
+    // Verify on seize position
+    if (!chapterData.seizePosition) return;
+    if (pendingPosition.x !== chapterData.seizePosition.x || pendingPosition.y !== chapterData.seizePosition.y) return;
+
+    // Verify boss is defeated
+    if (!isBossDefeated(units)) return;
+
+    // Move unit to pending position and trigger victory
+    const newUnits = new Map(units);
+    const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
+    newTiles[unit.position.y][unit.position.x].occupantId = null;
+    newTiles[pendingPosition.y][pendingPosition.x].occupantId = selectedUnitId;
+
+    newUnits.set(selectedUnitId, { ...unit, position: { ...pendingPosition }, hasActed: true });
+
+    set({
+      units: newUnits,
+      gameMap: { ...gameMap, tiles: newTiles },
+      currentPhase: 'game_over',
+      playerAction: 'idle',
+      selectedUnitId: null,
+      movementRange: EMPTY_SET,
+      attackRange: EMPTY_SET,
+      movePath: [],
+      pendingPosition: null,
+      pendingAttackTiles: EMPTY_SET,
+      combatForecast: null,
+      attackTargetId: null,
+      selectedWeaponIndex: 0,
+    });
+  },
+
+  // ===== Danger Zone =====
+
+  toggleDangerZone: () => {
+    const { showDangerZone, units, gameMap } = get();
+    if (showDangerZone) {
+      set({ showDangerZone: false, dangerZone: EMPTY_SET });
+      return;
+    }
+    // Compute danger zone from all living enemies
+    const enemies: Unit[] = [];
+    for (const u of units.values()) {
+      if (u.faction === 'enemy') enemies.push(u);
+    }
+    const zone = getDangerZone(enemies, gameMap, units);
+    set({ showDangerZone: true, dangerZone: zone });
   },
 
   // ===== Combat Actions =====
@@ -650,23 +1023,50 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
     newUnits.set(selectedUnitId, updatedAttacker);
     newUnits.set(attackTargetId, updatedDefender);
 
+    // Track death quote for player units
+    let deathQuoteData: { unitName: string; quote: string } | null = null;
+
     // Remove dead units
     if (combatResult.defenderDied) {
       newUnits.delete(attackTargetId);
       newTiles[defender.position.y][defender.position.x].occupantId = null;
     }
     if (combatResult.attackerDied) {
+      // Player attacker died from counter — show death quote if applicable
+      if (attacker.faction === 'player' && attacker.deathQuote) {
+        deathQuoteData = { unitName: attacker.name, quote: attacker.deathQuote };
+      }
+      // Lord death → game over
+      if (attacker.faction === 'player' && attacker.isLord) {
+        newUnits.delete(selectedUnitId);
+        newTiles[attacker.position.y][attacker.position.x].occupantId = null;
+        set({
+          units: newUnits,
+          gameMap: { ...gameMap, tiles: newTiles },
+          currentPhase: 'game_over',
+          playerAction: 'idle',
+          selectedUnitId: null,
+          combatForecast: null,
+          combatResult: null,
+          combatAnimationStep: -1,
+          attackTargetId: null,
+          pendingPosition: null,
+          pendingAttackTiles: EMPTY_SET,
+          selectedWeaponIndex: 0,
+          deathQuote: deathQuoteData,
+        });
+        return;
+      }
       newUnits.delete(selectedUnitId);
       newTiles[attacker.position.y][attacker.position.x].occupantId = null;
     }
 
     // Calculate EXP for player attacker (only if attacker survived)
-    let expGain = 0;
     let gains: StatGains | null = null;
     let levelUpUnit: string | null = null;
 
     if (!combatResult.attackerDied && attacker.faction === 'player') {
-      expGain = calculateExpGain(attacker, defender, combatResult.defenderDied);
+      const expGain = calculateExpGain(attacker, defender, combatResult.defenderDied);
       const levelCheck = checkLevelUp(attacker.exp, expGain);
       const updated = newUnits.get(selectedUnitId)!;
 
@@ -689,15 +1089,23 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
       }
     }
 
-    // Check win/lose conditions
-    let allEnemiesDead = true;
-    let allPlayersDead = true;
-    for (const u of newUnits.values()) {
-      if (u.faction === 'enemy') allEnemiesDead = false;
-      if (u.faction === 'player') allPlayersDead = false;
+    // Generate floating damage numbers
+    const floats: GameState['floatingNumbers'] = [];
+    let floatId = Date.now();
+    // Damage dealt to defender
+    const defDmgTotal = attacker.currentHp > 0 ? attacker.currentHp - combatResult.attackerHpAfter : 0;
+    const atkDmgTotal = defender.currentHp - combatResult.defenderHpAfter;
+    if (atkDmgTotal > 0 && !combatResult.defenderDied) {
+      floats.push({ id: floatId++, x: defender.position.x, y: defender.position.y, text: `-${atkDmgTotal}`, color: '#ef4444' });
+    }
+    if (defDmgTotal > 0 && !combatResult.attackerDied) {
+      floats.push({ id: floatId++, x: attacker.position.x, y: attacker.position.y, text: `-${defDmgTotal}`, color: '#ef4444' });
     }
 
-    const nextPhase: GamePhase = allEnemiesDead || allPlayersDead ? 'game_over' : 'player_phase';
+    // Check win/lose conditions
+    const { chapterData } = get();
+    const result2 = checkVictory(newUnits, chapterData);
+    const nextPhase: GamePhase = result2 ? 'game_over' : 'player_phase';
 
     set({
       units: newUnits,
@@ -714,10 +1122,15 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
       levelUpGains: gains,
       levelUpUnitId: levelUpUnit,
       selectedWeaponIndex: 0,
+      deathQuote: deathQuoteData,
+      floatingNumbers: floats,
     });
 
+    // Refresh danger zone if active
+    refreshDangerZone(get, set);
+
     // Auto end turn if all player units have acted (and game isn't over)
-    if (nextPhase === 'player_phase' && !gains && allPlayersDone(get().units)) {
+    if (nextPhase === 'player_phase' && !gains && !deathQuoteData && allPlayersDone(get().units)) {
       get().endPlayerTurn();
     }
   },
@@ -753,26 +1166,91 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   },
 
   dismissPhaseBanner: () => {
-    const { phaseBanner, units } = get();
+    const { phaseBanner, units, gameMap } = get();
 
     if (phaseBanner === 'enemy_phase') {
+      const { currentTurn, chapterData } = get();
+
+      // Fort/throne healing for enemy units at start of enemy phase
+      const newEnemyUnits = new Map(units);
+      const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
+
+      for (const [id, unit] of newEnemyUnits) {
+        if (unit.faction === 'enemy' && unit.currentHp < unit.stats.hp) {
+          const tile = newTiles[unit.position.y]?.[unit.position.x];
+          if (tile && (tile.terrain === 'fort' || tile.terrain === 'throne')) {
+            const heal = Math.max(1, Math.floor(unit.stats.hp * 0.1));
+            const newHp = Math.min(unit.stats.hp, unit.currentHp + heal);
+            newEnemyUnits.set(id, { ...unit, currentHp: newHp });
+          }
+        }
+      }
+
+      // Spawn reinforcements for this turn
+      let reinforcementMessage: string | null = null;
+      if (chapterData?.reinforcements) {
+        for (const wave of chapterData.reinforcements) {
+          if (wave.turn === currentTurn) {
+            for (const placement of wave.units) {
+              const template = ENEMY_UNITS[placement.unitId];
+              if (!template) continue;
+              // Don't spawn if tile is occupied
+              if (newTiles[placement.position.y]?.[placement.position.x]?.occupantId) continue;
+              const spawnedUnit: Unit = {
+                ...template,
+                position: { ...placement.position },
+                startPosition: { ...placement.position },
+                stats: { ...template.stats },
+                equippedWeapon: { ...template.equippedWeapon },
+                inventory: template.inventory.map((w) => ({ ...w })),
+                items: template.items.map((i) => ({ ...i, effect: { ...i.effect } })),
+              };
+              newEnemyUnits.set(spawnedUnit.id, spawnedUnit);
+              newTiles[placement.position.y][placement.position.x].occupantId = spawnedUnit.id;
+            }
+            if (wave.message) reinforcementMessage = wave.message;
+          }
+        }
+      }
+
       // Check if there are any enemies left
       let hasEnemy = false;
-      for (const u of units.values()) {
+      for (const u of newEnemyUnits.values()) {
         if (u.faction === 'enemy') { hasEnemy = true; break; }
       }
       if (hasEnemy) {
-        set({ phaseBanner: null, currentPhase: 'enemy_phase' });
+        set({
+          phaseBanner: null,
+          currentPhase: 'enemy_phase',
+          units: newEnemyUnits,
+          gameMap: { ...gameMap, tiles: newTiles },
+          reinforcementMessage,
+        });
         get().computeEnemyActions();
       } else {
-        set({ phaseBanner: null, currentPhase: 'game_over' });
+        set({ phaseBanner: null, currentPhase: 'game_over', units: newEnemyUnits, gameMap: { ...gameMap, tiles: newTiles } });
       }
     } else if (phaseBanner === 'player_phase') {
-      // Reset player units' hasActed, start player phase
+      // Reset player units' hasActed + fort/throne healing
       const newUnits = new Map(get().units);
       for (const [id, unit] of newUnits) {
-        if (unit.faction === 'player' && unit.hasActed) {
-          newUnits.set(id, { ...unit, hasActed: false });
+        if (unit.faction === 'player') {
+          let updated = unit;
+          if (unit.hasActed) {
+            updated = { ...updated, hasActed: false };
+          }
+          // Fort/throne healing at start of player phase
+          if (unit.currentHp < unit.stats.hp) {
+            const tile = gameMap.tiles[unit.position.y]?.[unit.position.x];
+            if (tile && (tile.terrain === 'fort' || tile.terrain === 'throne')) {
+              const heal = Math.max(1, Math.floor(unit.stats.hp * 0.1));
+              const newHp = Math.min(unit.stats.hp, unit.currentHp + heal);
+              updated = { ...updated, currentHp: newHp };
+            }
+          }
+          if (updated !== unit) {
+            newUnits.set(id, updated);
+          }
         }
       }
       set({
@@ -780,6 +1258,8 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
         currentPhase: 'player_phase',
         units: newUnits,
       });
+      // Refresh danger zone after enemy turn (enemies may have moved)
+      refreshDangerZone(get, set);
     }
   },
 
@@ -908,8 +1388,34 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
     newUnits.set(selectedUnitId, { ...attacker, currentHp: combatResult.attackerHpAfter, hasActed: true });
     newUnits.set(attackTargetId, { ...defender, currentHp: combatResult.defenderHpAfter });
 
+    // Track death quote for player units
+    let deathQuoteData: { unitName: string; quote: string } | null = null;
+
     // Remove dead units
     if (combatResult.defenderDied) {
+      // Defender is a player unit killed by enemy
+      if (defender.faction === 'player') {
+        if (defender.deathQuote) {
+          deathQuoteData = { unitName: defender.name, quote: defender.deathQuote };
+        }
+        // Lord death → game over
+        if (defender.isLord) {
+          newUnits.delete(attackTargetId);
+          newTiles[defender.position.y][defender.position.x].occupantId = null;
+          set({
+            units: newUnits,
+            gameMap: { ...gameMap, tiles: newTiles },
+            currentPhase: 'game_over',
+            combatForecast: null,
+            combatResult: null,
+            combatAnimationStep: -1,
+            selectedUnitId: null,
+            attackTargetId: null,
+            deathQuote: deathQuoteData,
+          });
+          return;
+        }
+      }
       newUnits.delete(attackTargetId);
       newTiles[defender.position.y][defender.position.x].occupantId = null;
     }
@@ -918,15 +1424,23 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
       newTiles[attacker.position.y][attacker.position.x].occupantId = null;
     }
 
-    // Check win/lose
-    let allEnemiesDead = true;
-    let allPlayersDead = true;
-    for (const u of newUnits.values()) {
-      if (u.faction === 'enemy') allEnemiesDead = false;
-      if (u.faction === 'player') allPlayersDead = false;
+    // Generate floating damage numbers
+    const floats: GameState['floatingNumbers'] = [];
+    let floatId = Date.now();
+    const atkDmg = defender.currentHp - combatResult.defenderHpAfter;
+    const defDmg = attacker.currentHp - combatResult.attackerHpAfter;
+    if (atkDmg > 0 && !combatResult.defenderDied) {
+      floats.push({ id: floatId++, x: defender.position.x, y: defender.position.y, text: `-${atkDmg}`, color: '#ef4444' });
+    }
+    if (defDmg > 0 && !combatResult.attackerDied) {
+      floats.push({ id: floatId++, x: attacker.position.x, y: attacker.position.y, text: `-${defDmg}`, color: '#ef4444' });
     }
 
-    if (allEnemiesDead || allPlayersDead) {
+    // Check win/lose
+    const { chapterData } = get();
+    const victoryResult = checkVictory(newUnits, chapterData);
+
+    if (victoryResult) {
       set({
         units: newUnits,
         gameMap: { ...gameMap, tiles: newTiles },
@@ -936,6 +1450,8 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
         combatAnimationStep: -1,
         selectedUnitId: null,
         attackTargetId: null,
+        deathQuote: deathQuoteData,
+        floatingNumbers: floats,
       });
       return;
     }
@@ -950,20 +1466,17 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
       selectedUnitId: null,
       attackTargetId: null,
       enemyActionIndex: enemyActionIndex + 1,
+      deathQuote: deathQuoteData,
+      floatingNumbers: floats,
     });
   },
 
   endEnemyTurn: () => {
     // Check win/lose before transitioning
-    const { units } = get();
-    let hasEnemy = false;
-    let hasPlayer = false;
-    for (const u of units.values()) {
-      if (u.faction === 'enemy') hasEnemy = true;
-      if (u.faction === 'player') hasPlayer = true;
-    }
+    const { units, chapterData } = get();
+    const endResult = checkVictory(units, chapterData);
 
-    if (!hasEnemy || !hasPlayer) {
+    if (endResult) {
       set({ currentPhase: 'game_over', enemyActions: [], enemyActionIndex: -1 });
       return;
     }

@@ -8,7 +8,12 @@ import { PhaseBanner } from './UI/PhaseBanner';
 import { CombatAnimation } from './Combat/CombatAnimation';
 import { CombatPreview } from './Combat/CombatPreview';
 import { VillageDialogue } from './UI/VillageDialogue';
+import { DeathQuoteOverlay } from './UI/DeathQuoteOverlay';
+import { HealNotification } from './UI/HealNotification';
+import { ReinforcementBanner } from './UI/ReinforcementBanner';
 import { LevelUpPopup } from './Combat/LevelUpPopup';
+import { TerrainInfoPanel } from './UI/TerrainInfoPanel';
+import { UnitDetailScreen } from './UI/UnitDetailScreen';
 import { useGameStore } from '../stores/gameStore';
 import { useUIStore } from '../stores/uiStore';
 import { useCampaignStore } from '../stores/campaignStore';
@@ -88,13 +93,18 @@ export function Game() {
         <ActionMenu />
         <EndTurnButton />
         <UnitStatsPanel />
+        <TerrainInfoPanel />
         <CombatPreview />
       </div>
 
       {/* Full-screen overlays */}
       <CombatAnimation />
       <VillageDialogue />
+      <HealNotification />
+      <DeathQuoteOverlay />
       <LevelUpPopup />
+      <ReinforcementBanner />
+      <UnitDetailScreen />
       <PhaseBanner />
 
       {/* Game Over overlay */}
@@ -105,6 +115,7 @@ export function Game() {
 
 function GameOverOverlay() {
   const units = useGameStore((s) => s.units);
+  const chapterData = useGameStore((s) => s.chapterData);
   const onChapterVictory = useCampaignStore((s) => s.onChapterVictory);
   const goToTitle = useCampaignStore((s) => s.goToTitle);
 
@@ -115,7 +126,21 @@ function GameOverOverlay() {
     if (u.faction === 'enemy') hasEnemy = true;
   }
 
-  const victory = hasPlayer && !hasEnemy;
+  // Victory: for rout, all enemies dead. For seize, Lord on throne (boss dead, enemies may remain).
+  // Defeat: no player units remaining.
+  const victory = hasPlayer && (
+    !hasEnemy || // rout win or all enemies killed
+    (chapterData?.objective.type === 'seize' && (() => {
+      // Check if Lord is on seize position (meaning seize action was used)
+      if (!chapterData.seizePosition) return false;
+      for (const u of units.values()) {
+        if (u.isLord && u.position.x === chapterData.seizePosition.x && u.position.y === chapterData.seizePosition.y) {
+          return true;
+        }
+      }
+      return false;
+    })())
+  );
 
   const handleVictoryContinue = useCallback(() => {
     const progress: Record<string, UnitProgress> = {};
@@ -141,7 +166,9 @@ function GameOverOverlay() {
           {victory ? 'Victory!' : 'Defeat'}
         </div>
         <div className="game-over__subtitle">
-          {victory ? 'All enemies have been defeated.' : 'Your army has fallen.'}
+          {victory
+            ? (chapterData?.objective.type === 'seize' ? 'The throne has been seized!' : 'All enemies have been defeated.')
+            : 'Your army has fallen.'}
         </div>
         <div className="game-over__actions">
           {victory ? (

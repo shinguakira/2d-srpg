@@ -22,6 +22,7 @@ export function useKeyboard() {
   const hoverTile = useGameStore((s) => s.hoverTile);
   const selectUnit = useGameStore((s) => s.selectUnit);
   const endPlayerTurn = useGameStore((s) => s.endPlayerTurn);
+  const toggleDangerZone = useGameStore((s) => s.toggleDangerZone);
 
   const moveCursor = useUIStore((s) => s.moveCursor);
   const setCursor = useUIStore((s) => s.setCursor);
@@ -112,10 +113,41 @@ export function useKeyboard() {
         return;
       }
 
+      // X: toggle danger zone
+      if (e.key === 'x' || e.key === 'X') {
+        if (playerAction === 'idle' || playerAction === 'unit_selected' || playerAction === 'move_target') {
+          toggleDangerZone();
+        }
+        return;
+      }
+
       // E: end turn shortcut
       if (e.key === 'e' || e.key === 'E') {
         if (playerAction === 'idle') {
           endPlayerTurn();
+        }
+        return;
+      }
+
+      // I: unit detail screen
+      if (e.key === 'i' || e.key === 'I') {
+        const cursor = useUIStore.getState().cursorPosition;
+        const { detailUnitId, setDetailUnitId } = useUIStore.getState();
+        // Toggle off if already showing
+        if (detailUnitId) {
+          setDetailUnitId(null);
+          return;
+        }
+        // Check if there's a unit under cursor or selected
+        if (cursor) {
+          const unitUnderCursor = useGameStore.getState().getUnitAt(cursor);
+          if (unitUnderCursor) {
+            setDetailUnitId(unitUnderCursor.id);
+            return;
+          }
+        }
+        if (selectedUnitId) {
+          setDetailUnitId(selectedUnitId);
         }
         return;
       }
@@ -137,6 +169,7 @@ export function useKeyboard() {
       confirmAttack,
       selectUnit,
       endPlayerTurn,
+      toggleDangerZone,
     ]
   );
 

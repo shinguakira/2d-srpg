@@ -50,7 +50,7 @@ test.describe('Screenshot Report — Menus & Screens', () => {
     await page.goto('/');
     await page.waitForSelector('[data-testid="title-screen"]', { timeout: 10000 });
     await page.waitForTimeout(500);
-    await page.screenshot({ path: 'screenshots/01-title-screen.png' });
+    await page.screenshot({ path: 'screenshots/e2e/01-title-screen.png' });
   });
 
   test('02 - Difficulty Selection', async ({ page }) => {
@@ -58,7 +58,7 @@ test.describe('Screenshot Report — Menus & Screens', () => {
     await page.waitForSelector('[data-testid="title-screen"]', { timeout: 10000 });
     await page.click('[data-testid="new-game"]');
     await page.waitForTimeout(500);
-    await page.screenshot({ path: 'screenshots/02-difficulty-select.png' });
+    await page.screenshot({ path: 'screenshots/e2e/02-difficulty-select.png' });
   });
 
   test('03 - Prologue Dialogue', async ({ page }) => {
@@ -69,7 +69,7 @@ test.describe('Screenshot Report — Menus & Screens', () => {
     // Select Classic and confirm
     await page.click('[data-testid="mode-confirm"]');
     await page.waitForTimeout(600);
-    await page.screenshot({ path: 'screenshots/03-prologue-dialogue.png' });
+    await page.screenshot({ path: 'screenshots/e2e/03-prologue-dialogue.png' });
   });
 
   test('04 - Chapter Select', async ({ page }) => {
@@ -77,7 +77,7 @@ test.describe('Screenshot Report — Menus & Screens', () => {
     await page.waitForSelector('[data-testid="title-screen"]', { timeout: 10000 });
     await page.click('[data-testid="chapter-select"]');
     await page.waitForTimeout(500);
-    await page.screenshot({ path: 'screenshots/04-chapter-select.png' });
+    await page.screenshot({ path: 'screenshots/e2e/04-chapter-select.png' });
   });
 });
 
@@ -87,42 +87,42 @@ test.describe('Screenshot Report — Phase Banners', () => {
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
     // Phase banner appears immediately for 2s — capture it early
     await page.waitForTimeout(800);
-    await page.screenshot({ path: 'screenshots/05-player-phase-banner.png' });
+    await page.screenshot({ path: 'screenshots/e2e/05-player-phase-banner.png' });
   });
 
   test('06 - Enemy Phase Banner', async ({ page }) => {
     await startBattle(page);
     await page.keyboard.press('e');
     await page.waitForTimeout(800);
-    await page.screenshot({ path: 'screenshots/06-enemy-phase-banner.png' });
+    await page.screenshot({ path: 'screenshots/e2e/06-enemy-phase-banner.png' });
   });
 });
 
 test.describe('Screenshot Report — Battle Map & UI Panels', () => {
   test('07 - Battle Map Overview', async ({ page }) => {
     await startBattle(page);
-    await page.screenshot({ path: 'screenshots/07-battle-map.png' });
+    await page.screenshot({ path: 'screenshots/e2e/07-battle-map.png' });
   });
 
   test('08 - Unit Stats Panel (player)', async ({ page }) => {
     await startBattle(page);
     await page.hover('[data-testid="tile-6-10"]');
     await page.waitForTimeout(400);
-    await page.screenshot({ path: 'screenshots/08-unit-stats-player.png' });
+    await page.screenshot({ path: 'screenshots/e2e/08-unit-stats-player.png' });
   });
 
   test('09 - Terrain Info (forest)', async ({ page }) => {
     await startBattle(page);
     await page.hover('[data-testid="tile-4-4"]');
     await page.waitForTimeout(400);
-    await page.screenshot({ path: 'screenshots/09-terrain-forest.png' });
+    await page.screenshot({ path: 'screenshots/e2e/09-terrain-forest.png' });
   });
 
   test('10 - Terrain Info (fort)', async ({ page }) => {
     await startBattle(page);
     await page.hover('[data-testid="tile-7-4"]');
     await page.waitForTimeout(400);
-    await page.screenshot({ path: 'screenshots/10-terrain-fort.png' });
+    await page.screenshot({ path: 'screenshots/e2e/10-terrain-fort.png' });
   });
 
   test('11 - Unit Detail Screen (Eirik)', async ({ page }) => {
@@ -131,7 +131,7 @@ test.describe('Screenshot Report — Battle Map & UI Panels', () => {
     await page.keyboard.press('i');
     await page.waitForSelector('[data-testid="unit-detail-screen"]', { timeout: 3000 });
     await page.waitForTimeout(500);
-    await page.screenshot({ path: 'screenshots/11-unit-detail-eirik.png' });
+    await page.screenshot({ path: 'screenshots/e2e/11-unit-detail-eirik.png' });
   });
 
   test('12 - Unit Detail Screen (Boss)', async ({ page }) => {
@@ -142,14 +142,14 @@ test.describe('Screenshot Report — Battle Map & UI Panels', () => {
     await clickTile(page, 7, 1);
     await page.keyboard.press('i');
     await page.waitForTimeout(600);
-    await page.screenshot({ path: 'screenshots/12-unit-detail-boss.png' });
+    await page.screenshot({ path: 'screenshots/e2e/12-unit-detail-boss.png' });
   });
 
   test('13 - Danger Zone Overlay', async ({ page }) => {
     await startBattle(page);
     await page.keyboard.press('x');
     await page.waitForTimeout(500);
-    await page.screenshot({ path: 'screenshots/13-danger-zone.png' });
+    await page.screenshot({ path: 'screenshots/e2e/13-danger-zone.png' });
   });
 });
 
@@ -158,7 +158,7 @@ test.describe('Screenshot Report — Movement & Actions', () => {
     await startBattle(page);
     await clickTile(page, 6, 10); // Select Eirik
     await page.waitForTimeout(400);
-    await page.screenshot({ path: 'screenshots/14-movement-range.png' });
+    await page.screenshot({ path: 'screenshots/e2e/14-movement-range.png' });
   });
 
   test('15 - Action Menu (Seth with weapons)', async ({ page }) => {
@@ -168,7 +168,7 @@ test.describe('Screenshot Report — Movement & Actions', () => {
     await clickTile(page, 9, 9);
     await page.waitForSelector('[data-testid="action-menu"]', { timeout: 5000 });
     await page.waitForTimeout(200);
-    await page.screenshot({ path: 'screenshots/15-action-menu.png' });
+    await page.screenshot({ path: 'screenshots/e2e/15-action-menu.png' });
   });
 
   test('16 - Action Menu (Eirik move up)', async ({ page }) => {
@@ -178,7 +178,7 @@ test.describe('Screenshot Report — Movement & Actions', () => {
     await clickTile(page, 5, 9);
     await page.waitForSelector('[data-testid="action-menu"]', { timeout: 5000 });
     await page.waitForTimeout(200);
-    await page.screenshot({ path: 'screenshots/16-action-menu-eirik.png' });
+    await page.screenshot({ path: 'screenshots/e2e/16-action-menu-eirik.png' });
   });
 });
 
@@ -224,7 +224,7 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
             }
           }
         }
-        await page.screenshot({ path: 'screenshots/17-combat-forecast.png' });
+        await page.screenshot({ path: 'screenshots/e2e/17-combat-forecast.png' });
         return;
       }
       // No attack available from (10,4), cancel
@@ -261,7 +261,7 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
         }
       }
     }
-    await page.screenshot({ path: 'screenshots/17-combat-forecast.png' });
+    await page.screenshot({ path: 'screenshots/e2e/17-combat-forecast.png' });
   });
 
   test('18 - Combat Animation + Level Up', async ({ page }) => {
@@ -345,22 +345,22 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     if (attacked) {
       await page.waitForSelector('[data-testid="combat-animation"]', { timeout: 5000 });
       await page.waitForTimeout(700);
-      await page.screenshot({ path: 'screenshots/18a-combat-animation.png' });
+      await page.screenshot({ path: 'screenshots/e2e/18a-combat-animation.png' });
       await page.waitForTimeout(1000);
-      await page.screenshot({ path: 'screenshots/18b-combat-mid.png' });
+      await page.screenshot({ path: 'screenshots/e2e/18b-combat-mid.png' });
       await page.waitForSelector('[data-testid="combat-animation"]', { state: 'hidden', timeout: 15000 });
       await page.waitForTimeout(300);
 
       const levelUp = page.locator('[data-testid="level-up-popup"]');
       if (await levelUp.isVisible().catch(() => false)) {
         await page.waitForTimeout(1500);
-        await page.screenshot({ path: 'screenshots/18c-level-up.png' });
+        await page.screenshot({ path: 'screenshots/e2e/18c-level-up.png' });
         await levelUp.click();
         await page.waitForTimeout(300);
       }
-      await page.screenshot({ path: 'screenshots/18d-post-combat.png' });
+      await page.screenshot({ path: 'screenshots/e2e/18d-post-combat.png' });
     } else {
-      await page.screenshot({ path: 'screenshots/18-no-combat-found.png' });
+      await page.screenshot({ path: 'screenshots/e2e/18-no-combat-found.png' });
     }
   });
 
@@ -391,7 +391,7 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     const combat = page.locator('[data-testid="combat-animation"]');
     if (await combat.isVisible().catch(() => false)) {
       await page.waitForTimeout(600);
-      await page.screenshot({ path: 'screenshots/19a-enemy-combat-anim.png' });
+      await page.screenshot({ path: 'screenshots/e2e/19a-enemy-combat-anim.png' });
       await page.waitForSelector('[data-testid="combat-animation"]', { state: 'hidden', timeout: 15000 });
       await page.waitForTimeout(200);
     }
@@ -420,12 +420,12 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
 
     // Wait for player phase return
     await page.waitForTimeout(3500);
-    await page.screenshot({ path: 'screenshots/19b-after-enemy-turn.png' });
+    await page.screenshot({ path: 'screenshots/e2e/19b-after-enemy-turn.png' });
 
     // Hover a unit that likely took damage
     await page.hover('[data-testid="tile-6-6"]');
     await page.waitForTimeout(400);
-    await page.screenshot({ path: 'screenshots/19c-damaged-unit.png' });
+    await page.screenshot({ path: 'screenshots/e2e/19c-damaged-unit.png' });
   });
 
   test('20 - Healing + Item Use', async ({ page }) => {
@@ -458,10 +458,10 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
 
     const healBtn = page.locator('[data-testid="action-heal"]');
     if (await healBtn.isVisible().catch(() => false)) {
-      await page.screenshot({ path: 'screenshots/20a-heal-in-menu.png' });
+      await page.screenshot({ path: 'screenshots/e2e/20a-heal-in-menu.png' });
       await healBtn.click();
       await page.waitForTimeout(500);
-      await page.screenshot({ path: 'screenshots/20b-heal-targets.png' });
+      await page.screenshot({ path: 'screenshots/e2e/20b-heal-targets.png' });
       // Click first heal target
       const healTarget = page.locator('[data-testid^="heal-target-"]').first();
       if (await healTarget.isVisible().catch(() => false)) {
@@ -471,7 +471,7 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
           if (match) {
             await page.click(`[data-testid="tile-${match[1]}-${match[2]}"]`);
             await page.waitForTimeout(1500);
-            await page.screenshot({ path: 'screenshots/20c-heal-result.png' });
+            await page.screenshot({ path: 'screenshots/e2e/20c-heal-result.png' });
           }
         }
       }
@@ -496,21 +496,21 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
       if (await am.isVisible().catch(() => false)) {
         const itemBtn = page.locator('[data-testid="action-item"]');
         if (await itemBtn.isVisible().catch(() => false)) {
-          await page.screenshot({ path: 'screenshots/20a-item-in-menu.png' });
+          await page.screenshot({ path: 'screenshots/e2e/20a-item-in-menu.png' });
           await itemBtn.click();
           await page.waitForTimeout(300);
-          await page.screenshot({ path: 'screenshots/20b-item-submenu.png' });
+          await page.screenshot({ path: 'screenshots/e2e/20b-item-submenu.png' });
           const vuln = page.locator('[data-testid="item-vulnerary"]');
           if (await vuln.isVisible().catch(() => false)) {
             await vuln.click();
             await page.waitForTimeout(500);
-            await page.screenshot({ path: 'screenshots/20c-after-item-use.png' });
+            await page.screenshot({ path: 'screenshots/e2e/20c-after-item-use.png' });
           }
         } else {
-          await page.screenshot({ path: 'screenshots/20-no-item-available.png' });
+          await page.screenshot({ path: 'screenshots/e2e/20-no-item-available.png' });
         }
       } else {
-        await page.screenshot({ path: 'screenshots/20-no-heal-or-item.png' });
+        await page.screenshot({ path: 'screenshots/e2e/20-no-heal-or-item.png' });
       }
     }
   });

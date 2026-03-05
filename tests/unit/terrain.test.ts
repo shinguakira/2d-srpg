@@ -4,7 +4,7 @@ import type { TerrainType } from '../../src/core/types';
 
 describe('terrain', () => {
   it('has data for all terrain types', () => {
-    const types: TerrainType[] = ['plain', 'forest', 'mountain', 'water', 'wall', 'fort', 'village'];
+    const types: TerrainType[] = ['plain', 'forest', 'mountain', 'water', 'wall', 'fort', 'village', 'throne'];
     for (const t of types) {
       expect(TERRAIN[t]).toBeDefined();
       expect(TERRAIN[t].name).toBeTruthy();
@@ -50,5 +50,21 @@ describe('terrain', () => {
     expect(isPassable('forest')).toBe(true);
     expect(isPassable('fort')).toBe(true);
     expect(isPassable('village')).toBe(true);
+    expect(isPassable('throne')).toBe(true);
+  });
+
+  it('throne has high defense and avoid bonuses', () => {
+    const data = getTerrainData('throne');
+    expect(data.movementCost).toBe(1);
+    expect(data.defenseBonus).toBe(5);
+    expect(data.avoidBonus).toBe(30);
+    expect(data.name).toBe('Throne');
+  });
+
+  it('throne defense is higher than fort', () => {
+    const throne = getTerrainData('throne');
+    const fort = getTerrainData('fort');
+    expect(throne.defenseBonus).toBeGreaterThan(fort.defenseBonus);
+    expect(throne.avoidBonus).toBeGreaterThan(fort.avoidBonus);
   });
 });

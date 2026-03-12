@@ -1,0 +1,67 @@
+/* ===== Phase Banner ===== */
+.phase-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  pointer-events: none;
+  animation: banner-fade 2s ease forwards;
+}
+
+.phase-banner--player {
+  background: rgba(59, 130, 246, 0.15);
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(59,130,246,0.05) 10px, rgba(59,130,246,0.05) 20px);
+}
+
+.phase-banner--enemy {
+  background: rgba(239, 68, 68, 0.15);
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(239,68,68,0.05) 10px, rgba(239,68,68,0.05) 20px);
+}
+
+.phase-banner__text {
+  font-size: 56px;
+  font-weight: bold;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  animation: banner-slide 2s ease forwards;
+}
+
+.phase-banner--player .phase-banner__text {
+  color: #3b82f6;
+  text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+
+.phase-banner--enemy .phase-banner__text {
+  color: #ef4444;
+  text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+}
+
+.phase-banner__turn {
+  font-size: 16px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 4px;
+  letter-spacing: 2px;
+  animation: banner-slide 2s ease forwards;
+}
+
+@keyframes banner-slide {
+  0% { transform: translateX(-100%); opacity: 0; }
+  15% { transform: translateX(0); opacity: 1; }
+  85% { transform: translateX(0); opacity: 1; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+@keyframes banner-fade {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
+}

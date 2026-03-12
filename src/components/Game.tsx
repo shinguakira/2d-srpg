@@ -20,6 +20,7 @@ import { useCampaignStore } from '../stores/campaignStore';
 import { useCamera } from '../hooks/useCamera';
 import { useGameLoop } from '../hooks/useGameLoop';
 import { useKeyboard } from '../hooks/useKeyboard';
+import { useMovementAnimation } from '../hooks/useMovementAnimation';
 import type { UnitProgress } from '../core/types';
 
 export function Game() {
@@ -57,6 +58,7 @@ export function Game() {
   useCamera(viewportRef);
   useGameLoop();
   useKeyboard();
+  useMovementAnimation();
 
   // Right-click to cancel
   const handleContextMenu = useCallback((e: React.MouseEvent) => {

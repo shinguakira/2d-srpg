@@ -22,6 +22,10 @@ test.describe('Start Menu & Dialogue', () => {
     await page.waitForSelector('[data-testid="title-screen"]', { timeout: 10000 });
 
     await page.click('[data-testid="new-game"]');
+    await page.waitForTimeout(200);
+
+    // Mode selection screen appears — confirm with default (Classic)
+    await page.click('[data-testid="mode-confirm"]');
     await page.waitForTimeout(300);
 
     // Dialogue box should appear
@@ -36,6 +40,10 @@ test.describe('Start Menu & Dialogue', () => {
     await page.waitForSelector('[data-testid="title-screen"]', { timeout: 10000 });
 
     await page.click('[data-testid="new-game"]');
+    await page.waitForTimeout(200);
+
+    // Mode selection screen — confirm with default (Classic)
+    await page.click('[data-testid="mode-confirm"]');
     await page.waitForTimeout(300);
 
     // Ch1 prologue has 7 lines — click through all of them
@@ -50,7 +58,7 @@ test.describe('Start Menu & Dialogue', () => {
   });
 
   test('seed param bypasses title and goes straight to battle', async ({ page }) => {
-    await page.goto('/?seed=12345');
+    await page.goto('/?seed=12345&skipWalkAnim=true');
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
 
     // Should be directly in battle, no title screen

@@ -1,6 +1,6 @@
 import type { Unit, GameMap, Position } from './types';
 import { posKey } from './types';
-import { getMovementRange, getAttackTilesFrom } from './pathfinding';
+import { getMovementRange, getAttackTilesFrom, getManhattanDistance } from './pathfinding';
 import { calculateCombatForecast } from './combat';
 import type { CombatForecast } from './combat';
 
@@ -43,7 +43,7 @@ export function decideAction(
       const { radius } = unit.aiBehavior;
       const start = unit.startPosition;
       movablePositions = movablePositions.filter((pos) => {
-        const dist = Math.abs(pos.x - start.x) + Math.abs(pos.y - start.y);
+        const dist = getManhattanDistance(pos, start);
         return dist <= radius;
       });
     }
@@ -68,7 +68,7 @@ export function decideAction(
 
       const attackerTerrain = gameMap.tiles[pos.y][pos.x].terrain;
       const defenderTerrain = gameMap.tiles[target.position.y][target.position.x].terrain;
-      const distance = Math.abs(pos.x - target.position.x) + Math.abs(pos.y - target.position.y);
+      const distance = getManhattanDistance(pos, target.position);
 
       const unitAtPos = { ...unit, position: pos };
       const forecast = calculateCombatForecast(unitAtPos, target, attackerTerrain, defenderTerrain, distance);
@@ -178,7 +178,7 @@ function findMoveTowardNearestPlayer(
   let nearestPlayer = playerUnits[0];
   let nearestDist = Infinity;
   for (const pu of playerUnits) {
-    const dist = Math.abs(unit.position.x - pu.position.x) + Math.abs(unit.position.y - pu.position.y);
+    const dist = getManhattanDistance(unit.position, pu.position);
     if (dist < nearestDist) {
       nearestDist = dist;
       nearestPlayer = pu;
@@ -189,7 +189,7 @@ function findMoveTowardNearestPlayer(
   let bestPos = unit.position;
   let bestDist = Infinity;
   for (const pos of movablePositions) {
-    const dist = Math.abs(pos.x - nearestPlayer.position.x) + Math.abs(pos.y - nearestPlayer.position.y);
+    const dist = getManhattanDistance(pos, nearestPlayer.position);
     if (dist < bestDist) {
       bestDist = dist;
       bestPos = pos;

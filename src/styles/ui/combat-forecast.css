@@ -1,0 +1,120 @@
+/* ===== Combat Forecast (hover preview) ===== */
+.combat-forecast {
+  position: absolute;
+  top: 48px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #fff;
+  min-width: 300px;
+  backdrop-filter: blur(8px);
+  z-index: 60;
+  pointer-events: none;
+}
+
+.combat-forecast__header {
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #fbbf24;
+}
+
+.combat-forecast__matchup {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.combat-forecast__unit {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.combat-forecast__unit--attacker {
+  border: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+.combat-forecast__unit--defender {
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.combat-forecast__name {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.combat-forecast__hp {
+  color: #22c55e;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.combat-forecast__stat {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  padding: 1px 0;
+}
+
+.combat-forecast__label {
+  opacity: 0.7;
+}
+
+.combat-forecast__value {
+  font-weight: bold;
+}
+
+.combat-forecast__double {
+  color: #fbbf24;
+  font-weight: bold;
+  font-size: 13px;
+  text-align: center;
+  margin-top: 2px;
+}
+
+.combat-forecast__no-counter {
+  opacity: 0.5;
+  font-style: italic;
+  font-size: 12px;
+}
+
+.combat-forecast__weapon-type {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 4px;
+}
+
+.combat-forecast__predicted-hp {
+  font-size: 11px;
+  margin-left: 4px;
+}
+
+.combat-forecast__no-double {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 13px;
+  text-align: center;
+  margin-top: 2px;
+}
+
+.combat-forecast__triangle {
+  font-size: 12px;
+  font-style: italic;
+  text-align: center;
+  padding: 6px 0 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.combat-forecast__vs {
+  font-size: 16px;
+  font-weight: bold;
+  color: #fbbf24;
+  align-self: center;
+  padding: 0 2px;
+}

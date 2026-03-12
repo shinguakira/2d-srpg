@@ -1,0 +1,23 @@
+/* ===== End Turn Button ===== */
+.end-turn-btn {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background: rgba(59, 130, 246, 0.4);
+  color: #fff;
+  border: 2px solid rgba(59, 130, 246, 0.7);
+  border-radius: 8px;
+  padding: 12px 32px;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  backdrop-filter: blur(4px);
+  z-index: 10;
+}
+
+.end-turn-btn:hover {
+  background: rgba(59, 130, 246, 0.6);
+  transform: scale(1.03);
+}

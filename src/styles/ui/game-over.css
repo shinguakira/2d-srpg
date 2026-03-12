@@ -1,0 +1,70 @@
+/* ===== Game Over ===== */
+.game-over {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 400;
+  animation: fade-in 0.5s ease;
+}
+
+.game-over--victory {
+  background: rgba(0, 0, 40, 0.8);
+}
+
+.game-over--defeat {
+  background: rgba(40, 0, 0, 0.8);
+}
+
+.game-over__panel {
+  text-align: center;
+  color: #fff;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.game-over__title {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.game-over--victory .game-over__title {
+  color: #fbbf24;
+}
+
+.game-over--defeat .game-over__title {
+  color: #ef4444;
+}
+
+.game-over__subtitle {
+  font-size: 18px;
+  opacity: 0.8;
+}
+
+/* ===== Game Over Buttons ===== */
+
+.game-over__actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.game-over__btn {
+  padding: 10px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.game-over__btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}

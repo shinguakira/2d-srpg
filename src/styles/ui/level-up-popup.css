@@ -1,0 +1,148 @@
+/* ===== Level Up Popup ===== */
+.level-up-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+  cursor: pointer;
+}
+
+.level-up-popup__panel {
+  background: rgba(0, 0, 0, 0.95);
+  border: 2px solid #fbbf24;
+  border-radius: 12px;
+  padding: 24px 32px;
+  color: #fff;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  text-align: center;
+  min-width: 320px;
+  animation: level-up-bounce 0.4s ease;
+}
+
+.level-up-popup__header {
+  font-size: 28px;
+  font-weight: bold;
+  color: #fbbf24;
+  margin-bottom: 16px;
+  text-shadow: 0 0 12px rgba(251, 191, 36, 0.4);
+  letter-spacing: 2px;
+}
+
+.level-up-popup__identity {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  justify-content: center;
+}
+
+.level-up-popup__sprite {
+  flex-shrink: 0;
+}
+
+.level-up-popup__name-block {
+  text-align: left;
+}
+
+.level-up-popup__name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.level-up-popup__class {
+  font-size: 14px;
+  color: #fbbf24;
+}
+
+.level-up-popup__stats {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+.level-up-popup__stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  animation: stat-reveal 0.3s ease both;
+}
+
+.level-up-popup__stat--gained {
+  background: rgba(34, 197, 94, 0.15);
+}
+
+.level-up-popup__stat-name {
+  width: 32px;
+  font-weight: 700;
+  opacity: 0.6;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.level-up-popup__stat-value {
+  width: 28px;
+  font-weight: bold;
+  font-size: 14px;
+  text-align: right;
+}
+
+.level-up-popup__stat-bar {
+  flex: 1;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.level-up-popup__stat-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: rgba(59, 130, 246, 0.4);
+  transition: width 0.5s ease;
+}
+
+.level-up-popup__stat-bar-fill--gained {
+  background: rgba(34, 197, 94, 0.6);
+}
+
+.level-up-popup__stat-gain {
+  width: 28px;
+  text-align: right;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.level-up-popup__stat--gained .level-up-popup__stat-gain {
+  color: #22c55e;
+}
+
+.level-up-popup__stat:not(.level-up-popup__stat--gained) .level-up-popup__stat-gain {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.level-up-popup__hint {
+  font-size: 12px;
+  opacity: 0.4;
+}
+
+@keyframes level-up-bounce {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes stat-reveal {
+  0% { opacity: 0; transform: translateX(-8px); }
+  100% { opacity: 1; transform: translateX(0); }
+}

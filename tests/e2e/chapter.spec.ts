@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Chapter 1 — Full Game Flow', () => {
   test('turn system works — end turn triggers enemy phase', async ({ page }) => {
-    await page.goto('/?seed=12345');
+    await page.goto('/?seed=12345&skipWalkAnim=true');
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
     await page.waitForTimeout(500);
 
@@ -23,7 +23,7 @@ test.describe('Chapter 1 — Full Game Flow', () => {
   });
 
   test('game starts with correct initial state', async ({ page }) => {
-    await page.goto('/?seed=12345');
+    await page.goto('/?seed=12345&skipWalkAnim=true');
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
     await page.waitForTimeout(300);
 
@@ -49,7 +49,7 @@ test.describe('Chapter 1 — Full Game Flow', () => {
   });
 
   test('unit positions match chapter data', async ({ page }) => {
-    await page.goto('/?seed=12345');
+    await page.goto('/?seed=12345&skipWalkAnim=true');
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
     await page.waitForTimeout(300);
 
@@ -65,7 +65,7 @@ test.describe('Chapter 1 — Full Game Flow', () => {
   });
 
   test('terrain types are correctly rendered', async ({ page }) => {
-    await page.goto('/?seed=12345');
+    await page.goto('/?seed=12345&skipWalkAnim=true');
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
     await page.waitForTimeout(300);
 
@@ -84,7 +84,7 @@ test.describe('Chapter 1 — Full Game Flow', () => {
 
   test('seeded RNG produces deterministic results', async ({ page }) => {
     // Play the same moves with the same seed twice, results should match
-    await page.goto('/?seed=99999');
+    await page.goto('/?seed=99999&skipWalkAnim=true');
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
     await page.waitForTimeout(300);
 
@@ -107,7 +107,7 @@ test.describe('Chapter 1 — Full Game Flow', () => {
     const sethHp1 = await page.locator('[data-testid="unit-seth"]').getAttribute('data-hp');
 
     // Now reload with same seed
-    await page.goto('/?seed=99999');
+    await page.goto('/?seed=99999&skipWalkAnim=true');
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
     await page.waitForTimeout(300);
 

@@ -2,6 +2,10 @@ import type { Position, GameMap, Unit, Weapon } from './types';
 import { posKey } from './types';
 import { getMovementCost, isPassable } from './terrain';
 
+export function getManhattanDistance(a: Position, b: Position): number {
+  return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+}
+
 const DIRECTIONS: Position[] = [
   { x: 0, y: -1 }, // up
   { x: 1, y: 0 },  // right

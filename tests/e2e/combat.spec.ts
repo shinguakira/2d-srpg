@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Combat System', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/?seed=12345');
+    await page.goto('/?seed=12345&skipWalkAnim=true');
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
     await page.waitForTimeout(300);
   });

@@ -3,6 +3,7 @@ import { useGameStore } from '../../stores/gameStore';
 import { useUIStore } from '../../stores/uiStore';
 import { posKey } from '../../core/types';
 import { canUseItem } from '../../core/items';
+import { getManhattanDistance } from '../../core/pathfinding';
 
 export function ActionMenu() {
   const playerAction = useGameStore((s) => s.playerAction);
@@ -54,7 +55,7 @@ export function ActionMenu() {
       if (ally.id === selectedUnitId) continue;
       if (ally.faction !== 'player') continue;
       if (ally.currentHp >= ally.stats.hp) continue;
-      const dist = Math.abs(pendingPosition.x - ally.position.x) + Math.abs(pendingPosition.y - ally.position.y);
+      const dist = getManhattanDistance(pendingPosition, ally.position);
       if (dist >= staff.minRange && dist <= staff.maxRange) return true;
     }
     return false;

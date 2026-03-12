@@ -44,6 +44,7 @@ export const CHAPTER_1: ChapterData = {
   enemyUnits: [
     { unitId: 'fighter_1', position: { x: 5, y: 2 } },
     { unitId: 'fighter_2', position: { x: 9, y: 2 } },
+    { unitId: 'fighter_3', position: { x: 7, y: 4 } },
     { unitId: 'soldier_1', position: { x: 3, y: 1 } },
     { unitId: 'soldier_2', position: { x: 11, y: 1 } },
     { unitId: 'bone', position: { x: 7, y: 1 } }, // boss on throne

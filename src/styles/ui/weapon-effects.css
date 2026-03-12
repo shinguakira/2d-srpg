@@ -1,0 +1,213 @@
+/* ===== Weapon Effect Animations ===== */
+
+.weapon-effect {
+  position: absolute;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Sword slash — diagonal line draw */
+.weapon-effect--slash {
+  animation: effect-appear 0.3s ease-out;
+}
+
+.weapon-effect__line {
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+  animation: slash-draw 0.25s ease-out forwards;
+}
+
+.weapon-effect__line--glow {
+  animation: slash-draw 0.25s ease-out forwards, effect-glow-pulse 0.3s ease-out;
+}
+
+@keyframes slash-draw {
+  0% { stroke-dashoffset: 80; }
+  100% { stroke-dashoffset: 0; }
+}
+
+/* Lance thrust — horizontal extend */
+.weapon-effect--thrust {
+  animation: effect-appear 0.2s ease-out;
+}
+
+.weapon-effect--thrust .weapon-effect__line {
+  stroke-dasharray: 70;
+  stroke-dashoffset: 70;
+  animation: thrust-draw 0.2s ease-out forwards;
+}
+
+.weapon-effect__tip {
+  opacity: 0;
+  animation: tip-appear 0.1s ease-out 0.15s forwards;
+}
+
+@keyframes thrust-draw {
+  0% { stroke-dashoffset: 70; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes tip-appear {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Axe arc sweep */
+.weapon-effect--arc {
+  animation: effect-appear 0.3s ease-out;
+}
+
+.weapon-effect__arc {
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: arc-sweep 0.3s ease-out forwards;
+}
+
+.weapon-effect__arc--glow {
+  animation: arc-sweep 0.3s ease-out forwards, effect-glow-pulse 0.3s ease-out;
+}
+
+@keyframes arc-sweep {
+  0% { stroke-dashoffset: 120; }
+  100% { stroke-dashoffset: 0; }
+}
+
+/* Fire — expanding flame */
+.weapon-effect--fire {
+  animation: effect-appear 0.3s ease-out;
+}
+
+.weapon-effect__flame--outer {
+  animation: fire-expand 0.4s ease-out forwards;
+}
+
+.weapon-effect__flame--mid {
+  animation: fire-expand 0.35s ease-out 0.05s forwards;
+}
+
+.weapon-effect__flame--core {
+  animation: fire-pulse 0.3s ease-in-out;
+}
+
+.weapon-effect__flame--flicker {
+  animation: fire-flicker 0.2s ease-in-out infinite alternate;
+}
+
+@keyframes fire-expand {
+  0% { r: 0; opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0.8; }
+}
+
+@keyframes fire-pulse {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 1; r: 3; }
+}
+
+@keyframes fire-flicker {
+  0% { opacity: 0.3; transform: translateY(0); }
+  100% { opacity: 0.6; transform: translateY(-3px); }
+}
+
+/* Thunder — lightning bolt flash */
+.weapon-effect--thunder {
+  animation: thunder-flash 0.35s ease-out;
+}
+
+.weapon-effect__bolt {
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: bolt-strike 0.15s ease-out forwards;
+}
+
+.weapon-effect__bolt--core {
+  animation: bolt-strike 0.15s ease-out forwards, effect-glow-pulse 0.2s ease-out;
+}
+
+@keyframes bolt-strike {
+  0% { stroke-dashoffset: 120; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes thunder-flash {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  40% { opacity: 0.3; }
+  60% { opacity: 1; }
+  100% { opacity: 0.8; }
+}
+
+/* Wind — swirling gusts */
+.weapon-effect--wind {
+  animation: effect-appear 0.3s ease-out;
+}
+
+.weapon-effect__gust--1 {
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+  animation: gust-blow 0.3s ease-out forwards;
+}
+
+.weapon-effect__gust--2 {
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+  animation: gust-blow 0.3s ease-out 0.08s forwards;
+}
+
+.weapon-effect__gust--3 {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  animation: gust-blow 0.25s ease-out 0.15s forwards;
+}
+
+@keyframes gust-blow {
+  0% { stroke-dashoffset: 80; }
+  100% { stroke-dashoffset: 0; }
+}
+
+/* Staff heal — gentle glow pulse */
+.weapon-effect--heal {
+  animation: heal-glow 0.5s ease-in-out;
+}
+
+.weapon-effect__glow--outer {
+  animation: heal-ring 0.5s ease-out forwards;
+}
+
+.weapon-effect__glow--inner {
+  animation: heal-ring 0.4s ease-out 0.1s forwards;
+}
+
+.weapon-effect__cross {
+  animation: heal-cross-appear 0.3s ease-out 0.1s forwards;
+  opacity: 0;
+}
+
+@keyframes heal-ring {
+  0% { r: 0; opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+@keyframes heal-cross-appear {
+  0% { opacity: 0; }
+  100% { opacity: 0.8; }
+}
+
+@keyframes heal-glow {
+  0% { opacity: 0; filter: brightness(1); }
+  50% { opacity: 1; filter: brightness(1.5); }
+  100% { opacity: 0.8; filter: brightness(1); }
+}
+
+/* Shared */
+@keyframes effect-appear {
+  0% { opacity: 0; transform: scale(0.5); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes effect-glow-pulse {
+  0% { filter: brightness(1); }
+  50% { filter: brightness(2); }
+  100% { filter: brightness(1); }
+}

@@ -1,0 +1,65 @@
+/* ===== Title Screen ===== */
+
+.title-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+  color: #e2e8f0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  gap: 16px;
+}
+
+.title-screen__title {
+  font-size: 48px;
+  font-weight: 700;
+  color: #fbbf24;
+  text-shadow: 0 2px 12px rgba(251, 191, 36, 0.4);
+  margin: 0;
+}
+
+.title-screen__subtitle {
+  font-size: 18px;
+  color: #64748b;
+  margin: 0 0 32px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.title-screen__menu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 280px;
+}
+
+.title-screen__btn {
+  padding: 14px 24px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  text-align: left;
+}
+
+.title-screen__btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #fbbf24;
+}
+
+.title-screen__btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.save-slot--empty {
+  font-style: italic;
+  color: #64748b;
+}

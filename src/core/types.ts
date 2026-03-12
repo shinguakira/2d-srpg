@@ -133,6 +133,7 @@ export type Unit = {
   inventory: Weapon[];
   items: ConsumableItem[];
   hasActed: boolean;
+  facing: 'down' | 'up' | 'left' | 'right';
   sprite: string; // sprite image path
   aiBehavior?: AIBehavior;
   startPosition?: Position;

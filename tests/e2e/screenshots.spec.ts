@@ -4,7 +4,7 @@ const SEED = '12345';
 
 // Helper: start battle, wait for phase banner to dismiss
 async function startBattle(page: import('@playwright/test').Page) {
-  await page.goto(`/?seed=${SEED}`);
+  await page.goto(`/?seed=${SEED}&skipWalkAnim=true`);
   await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
   // Wait for phase banner to appear and dismiss (2s animation + buffer)
   await page.waitForTimeout(2800);
@@ -83,7 +83,7 @@ test.describe('Screenshot Report — Menus & Screens', () => {
 
 test.describe('Screenshot Report — Phase Banners', () => {
   test('05 - Player Phase Banner', async ({ page }) => {
-    await page.goto(`/?seed=${SEED}`);
+    await page.goto(`/?seed=${SEED}&skipWalkAnim=true`);
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
     // Phase banner appears immediately for 2s — capture it early
     await page.waitForTimeout(800);

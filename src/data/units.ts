@@ -36,6 +36,7 @@ function createUnit(
     inventory: weapons,
     items,
     hasActed: false,
+    facing: 'down',
     sprite,
     isLord: opts?.isLord,
     deathQuote: opts?.deathQuote,

@@ -1,0 +1,475 @@
+/* ===== FE GBA-Style Combat Animation ===== */
+
+/* Fullscreen overlay */
+.combat-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+/* Screen flash overlays */
+.combat-animation__flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 210;
+}
+
+.combat-animation__flash--hit {
+  background: white;
+  animation: screen-flash-hit 0.2s ease forwards;
+}
+
+.combat-animation__flash--crit {
+  background: white;
+  animation: screen-flash-crit 0.5s ease forwards;
+}
+
+@keyframes screen-flash-hit {
+  0% { opacity: 0; }
+  20% { opacity: 0.25; }
+  100% { opacity: 0; }
+}
+
+@keyframes screen-flash-crit {
+  0% { opacity: 0; }
+  10% { opacity: 0.5; }
+  30% { opacity: 0.1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 0; }
+}
+
+/* Crit dramatic darken — dark overlay before crit dash */
+.combat-animation__crit-darken {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  z-index: 205;
+  animation: crit-darken-pulse 0.6s ease forwards;
+  pointer-events: none;
+}
+
+@keyframes crit-darken-pulse {
+  0% { opacity: 0; }
+  30% { opacity: 0.5; }
+  70% { opacity: 0.5; }
+  100% { opacity: 0; }
+}
+
+/* Modal container */
+.combat-animation__modal {
+  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+  border: 2px solid rgba(251, 191, 36, 0.5);
+  border-radius: 12px;
+  overflow: hidden;
+  width: 640px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 60px rgba(251, 191, 36, 0.1);
+  animation: modal-appear 0.3s ease;
+  position: relative;
+}
+
+@keyframes modal-appear {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Title bar */
+.combat-animation__title {
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fbbf24;
+  padding: 8px 0;
+  background: rgba(251, 191, 36, 0.1);
+  border-bottom: 1px solid rgba(251, 191, 36, 0.2);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ===== WIDE BATTLE STAGE ===== */
+.combat-animation__stage {
+  position: relative;
+  height: 160px;
+  overflow: hidden;
+}
+
+/* Ground line across the stage */
+.combat-animation__ground-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  background: linear-gradient(180deg, #3a3a2e 0%, #2a2a20 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ===== FIGHTER SPRITES ===== */
+.combat-animation__fighter {
+  position: absolute;
+  bottom: 32px;
+  width: 64px;
+  height: 72px;
+  z-index: 10;
+}
+
+/* Starting positions — far apart, like FE GBA */
+.combat-animation__fighter--left {
+  left: 60px;
+}
+
+.combat-animation__fighter--right {
+  right: 60px;
+}
+
+/* ===== IDLE ===== */
+.combat-animation__fighter--idle {
+  /* Subtle breathing */
+  animation: fighter-breathe 2s ease-in-out infinite;
+}
+
+@keyframes fighter-breathe {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1px); }
+}
+
+/* ===== PHYSICAL ATTACK CHOREOGRAPHY ===== */
+
+/* Windup — slight crouch before dash */
+.combat-animation__fighter--windup {
+  animation: fighter-windup 0.2s ease forwards;
+}
+
+@keyframes fighter-windup {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(2px) scaleY(0.95); }
+}
+
+/* Dash — attacker runs across to opponent (left side attacks right) */
+.combat-animation__fighter--left.combat-animation__fighter--dash {
+  animation: dash-right 0.25s cubic-bezier(0.2, 0, 0.4, 1) forwards;
+}
+
+.combat-animation__fighter--right.combat-animation__fighter--dash {
+  animation: dash-left 0.25s cubic-bezier(0.2, 0, 0.4, 1) forwards;
+}
+
+/* Dash distances: fighters are ~456px apart (640 - 60*2 - 64), land right next to defender */
+@keyframes dash-right {
+  0% { transform: translateX(0) translateY(2px); }
+  100% { transform: translateX(392px); }
+}
+
+@keyframes dash-left {
+  0% { transform: translateX(0) translateY(2px); }
+  100% { transform: translateX(-392px); }
+}
+
+/* Strike — hold at opponent's position with slight push */
+.combat-animation__fighter--left.combat-animation__fighter--strike {
+  transform: translateX(392px);
+  animation: strike-push-right 0.12s ease forwards;
+}
+
+.combat-animation__fighter--right.combat-animation__fighter--strike {
+  transform: translateX(-392px);
+  animation: strike-push-left 0.12s ease forwards;
+}
+
+@keyframes strike-push-right {
+  0% { transform: translateX(392px) scale(1); }
+  50% { transform: translateX(400px) scale(1.1); }
+  100% { transform: translateX(392px) scale(1.05); }
+}
+
+@keyframes strike-push-left {
+  0% { transform: translateX(-392px) scale(1); }
+  50% { transform: translateX(-400px) scale(1.1); }
+  100% { transform: translateX(-392px) scale(1.05); }
+}
+
+/* Return — run back to starting position */
+.combat-animation__fighter--left.combat-animation__fighter--return {
+  animation: return-left 0.3s cubic-bezier(0.4, 0, 0.8, 1) forwards;
+}
+
+.combat-animation__fighter--right.combat-animation__fighter--return {
+  animation: return-right 0.3s cubic-bezier(0.4, 0, 0.8, 1) forwards;
+}
+
+@keyframes return-left {
+  0% { transform: translateX(392px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes return-right {
+  0% { transform: translateX(-392px); }
+  100% { transform: translateX(0); }
+}
+
+/* ===== MAGIC ATTACK ===== */
+
+/* Casting — mage raises hand/staff, stays in place */
+.combat-animation__fighter--casting {
+  animation: casting-glow 0.4s ease-in-out;
+}
+
+@keyframes casting-glow {
+  0% { filter: brightness(1); }
+  50% { filter: brightness(1.4) drop-shadow(0 0 8px rgba(147, 197, 253, 0.6)); }
+  100% { filter: brightness(1.1) drop-shadow(0 0 4px rgba(147, 197, 253, 0.3)); }
+}
+
+/* ===== CRIT PAUSE ===== */
+.combat-animation__fighter--crit-pause {
+  animation: crit-flash-unit 0.6s ease;
+}
+
+@keyframes crit-flash-unit {
+  0% { filter: brightness(1); }
+  25% { filter: brightness(2); }
+  50% { filter: brightness(0.8); }
+  75% { filter: brightness(1.8); }
+  100% { filter: brightness(1); }
+}
+
+/* ===== DEFENDER REACTIONS ===== */
+
+/* Hit — violent shake */
+.combat-animation__fighter--hit {
+  animation: unit-hit-violent 0.3s ease;
+}
+
+@keyframes unit-hit-violent {
+  0% { transform: translateX(0); }
+  15% { transform: translateX(-8px) rotate(-2deg); }
+  30% { transform: translateX(8px) rotate(2deg); }
+  45% { transform: translateX(-6px); }
+  60% { transform: translateX(6px); }
+  80% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+/* Dodge — leap backward */
+.combat-animation__fighter--left.combat-animation__fighter--dodge {
+  animation: dodge-left 0.3s ease forwards;
+}
+
+.combat-animation__fighter--right.combat-animation__fighter--dodge {
+  animation: dodge-right 0.3s ease forwards;
+}
+
+@keyframes dodge-left {
+  0% { transform: translateX(0) translateY(0); }
+  40% { transform: translateX(-30px) translateY(-20px); }
+  100% { transform: translateX(-20px) translateY(0); }
+}
+
+@keyframes dodge-right {
+  0% { transform: translateX(0) translateY(0); }
+  40% { transform: translateX(30px) translateY(-20px); }
+  100% { transform: translateX(20px) translateY(0); }
+}
+
+/* Death — collapse downward */
+.combat-animation__fighter--death {
+  animation: unit-death-collapse 0.6s ease forwards;
+}
+
+@keyframes unit-death-collapse {
+  0% { opacity: 1; transform: translateY(0) scale(1); filter: brightness(1); }
+  20% { filter: brightness(2); }
+  40% { opacity: 1; transform: translateY(0) scale(1); filter: brightness(0.5); }
+  100% { opacity: 0; transform: translateY(15px) scaleY(0.3) scaleX(1.3); filter: brightness(0); }
+}
+
+/* ===== WEAPON EFFECT POSITIONING ===== */
+.combat-animation__effect {
+  position: absolute;
+  bottom: 52px;
+  z-index: 15;
+  pointer-events: none;
+}
+
+/* Effect appears near the defender */
+.combat-animation__effect--right {
+  right: 60px;
+  animation: effect-pop 0.15s ease-out;
+}
+
+.combat-animation__effect--left {
+  left: 60px;
+  animation: effect-pop 0.15s ease-out;
+}
+
+/* Magic projectile flying across */
+.combat-animation__effect--flying.combat-animation__effect--right {
+  animation: spell-fly-right 0.4s ease-out forwards;
+}
+
+.combat-animation__effect--flying.combat-animation__effect--left {
+  animation: spell-fly-left 0.4s ease-out forwards;
+}
+
+@keyframes spell-fly-right {
+  0% { left: 100px; right: auto; opacity: 0.5; transform: scale(0.5); }
+  100% { left: 480px; right: auto; opacity: 1; transform: scale(1); }
+}
+
+@keyframes spell-fly-left {
+  0% { right: 100px; left: auto; opacity: 0.5; transform: scale(0.5); }
+  100% { right: 480px; left: auto; opacity: 1; transform: scale(1); }
+}
+
+@keyframes effect-pop {
+  0% { transform: scale(0.3); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ===== FLOATING DAMAGE NUMBER ===== */
+.combat-animation__dmg-float {
+  position: absolute;
+  bottom: 100px;
+  z-index: 20;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 36px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.5);
+  animation: dmg-float-up 0.6s ease-out forwards;
+  pointer-events: none;
+  text-align: center;
+}
+
+.combat-animation__dmg-float--right {
+  right: 40px;
+}
+
+.combat-animation__dmg-float--left {
+  left: 40px;
+}
+
+.combat-animation__dmg-float--crit {
+  color: #fbbf24;
+  font-size: 44px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 16px rgba(251, 191, 36, 0.6);
+}
+
+.combat-animation__dmg-float--miss {
+  color: #64748b;
+  font-size: 24px;
+  font-style: italic;
+}
+
+.combat-animation__crit-label {
+  display: block;
+  color: #fbbf24;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+  margin-top: 2px;
+}
+
+@keyframes dmg-float-up {
+  0% { transform: translateY(0) scale(0.5); opacity: 0; }
+  30% { transform: translateY(-10px) scale(1.3); opacity: 1; }
+  60% { transform: translateY(-20px) scale(1); opacity: 1; }
+  100% { transform: translateY(-30px); opacity: 0.7; }
+}
+
+/* ===== INFO PANEL ===== */
+.combat-animation__info {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px 24px 16px;
+  color: #fff;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.combat-animation__unit-info {
+  flex: 1;
+  text-align: center;
+}
+
+.combat-animation__name {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 2px;
+}
+
+.combat-animation__weapon-name {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 8px;
+}
+
+.combat-animation__hp-bar {
+  height: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.combat-animation__hp-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.5s ease;
+}
+
+.combat-animation__hp-fill--player {
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+}
+
+.combat-animation__hp-fill--enemy {
+  background: linear-gradient(90deg, #dc2626, #ef4444);
+}
+
+.combat-animation__hp-text {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.combat-animation__step {
+  font-size: 12px;
+  opacity: 0.4;
+  align-self: center;
+  white-space: nowrap;
+  padding: 0 12px;
+}
+
+/* Battle pose magic glow animations (used in battlePoses.tsx) */
+.battle-pose__magic-glow {
+  animation: magic-glow-pulse 0.6s ease-in-out infinite alternate;
+}
+
+.battle-pose__magic-core {
+  animation: magic-core-pulse 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes magic-glow-pulse {
+  0% { opacity: 0.3; }
+  100% { opacity: 0.6; }
+}
+
+@keyframes magic-core-pulse {
+  0% { opacity: 0.5; r: 1.5; }
+  100% { opacity: 0.9; r: 2.5; }
+}

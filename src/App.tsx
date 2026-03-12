@@ -2,12 +2,12 @@ import { useEffect } from 'react';
 import { Game } from './components/Game';
 import { TitleScreen } from './components/TitleScreen';
 import { DialogueBox } from './components/DialogueBox';
-import { DebugScreen } from './components/DebugScreen';
+import { DebugScreen } from './components/Debug/DebugScreen';
 import { useCampaignStore } from './stores/campaignStore';
 import './styles/grid.css';
 import './styles/units.css';
 import './styles/camera.css';
-import './styles/ui.css';
+import './styles/ui/index.css';
 
 function App() {
   const currentScreen = useCampaignStore((s) => s.currentScreen);

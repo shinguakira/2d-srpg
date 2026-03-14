@@ -69,6 +69,20 @@ export type GameState = {
   // Healing
   healableTiles: Set<string>;
   healResult: { healerName: string; targetName: string; hpBefore: number; hpAfter: number } | null;
+  healAnimationData: {
+    healerName: string;
+    healerClassId: string;
+    targetName: string;
+    targetClassId: string;
+    targetFaction: 'player' | 'enemy' | 'ally';
+    healAmount: number;
+    targetHpBefore: number;
+    targetHpAfter: number;
+    targetMaxHp: number;
+    healerMaxHp: number;
+    healerHp: number;
+    staffName: string;
+  } | null;
 
   // Reinforcements
   reinforcementMessage: string | null;
@@ -116,6 +130,7 @@ export type GameActions = {
   startHealTargeting: () => void;
   confirmHeal: (targetId: string) => void;
   dismissHealResult: () => void;
+  finishHealAnimation: () => void;
 
   // Reinforcements
   dismissReinforcementMessage: () => void;

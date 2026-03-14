@@ -79,7 +79,7 @@ export const CHAPTER_2: ChapterData = {
   ],
   reinforcements: [
     {
-      turn: 4,
+      turn: 6,
       units: [
         { unitId: 'ch2_reinforce_1', position: { x: 0, y: 0 } },
         { unitId: 'ch2_reinforce_2', position: { x: 11, y: 0 } },

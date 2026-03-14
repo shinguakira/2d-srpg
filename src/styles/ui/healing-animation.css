@@ -1,0 +1,196 @@
+/* ===== Healing Animation (extends combat-animation layout) ===== */
+
+/* Green screen flash on heal connect */
+.heal-animation__flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 210;
+  background: #22c55e;
+  animation: heal-flash 0.4s ease forwards;
+}
+
+@keyframes heal-flash {
+  0% { opacity: 0; }
+  20% { opacity: 0.2; }
+  50% { opacity: 0.1; }
+  100% { opacity: 0; }
+}
+
+/* Title bar green accent */
+.heal-animation__title-bar {
+  color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.1) !important;
+  border-bottom-color: rgba(34, 197, 94, 0.2) !important;
+}
+
+/* Modal green border accent */
+.heal-animation__modal {
+  border-color: rgba(34, 197, 94, 0.4) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 60px rgba(34, 197, 94, 0.15) !important;
+}
+
+/* ===== Healer casting glow ===== */
+.heal-animation__fighter--heal-casting {
+  animation: heal-cast-glow 0.5s ease-in-out;
+}
+
+@keyframes heal-cast-glow {
+  0% { filter: brightness(1); }
+  40% { filter: brightness(1.5) drop-shadow(0 0 12px rgba(34, 197, 94, 0.8)); }
+  100% { filter: brightness(1.2) drop-shadow(0 0 8px rgba(34, 197, 94, 0.5)); }
+}
+
+/* ===== Target receive glow ===== */
+.heal-animation__fighter--heal-receive {
+  animation: heal-receive-glow 0.8s ease-in-out;
+}
+
+@keyframes heal-receive-glow {
+  0% { filter: brightness(1); }
+  30% { filter: brightness(1.6) drop-shadow(0 0 16px rgba(34, 197, 94, 0.9)); }
+  60% { filter: brightness(1.3) drop-shadow(0 0 10px rgba(34, 197, 94, 0.6)); }
+  100% { filter: brightness(1); }
+}
+
+/* ===== Green heal orb flying across stage ===== */
+.heal-animation__orb {
+  position: absolute;
+  bottom: 72px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #86efac 0%, #22c55e 50%, transparent 70%);
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.8), 0 0 32px rgba(34, 197, 94, 0.4);
+  z-index: 15;
+  pointer-events: none;
+  animation: heal-orb-fly 0.5s ease-out forwards;
+}
+
+@keyframes heal-orb-fly {
+  0% {
+    left: 100px;
+    opacity: 0.6;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    left: 480px;
+    opacity: 0.8;
+    transform: scale(1);
+  }
+}
+
+/* ===== Heal particles rising around target ===== */
+.heal-animation__particles {
+  position: absolute;
+  bottom: 32px;
+  right: 50px;
+  width: 84px;
+  height: 100px;
+  z-index: 12;
+  pointer-events: none;
+}
+
+.heal-animation__particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #86efac;
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.6);
+}
+
+.heal-animation__particle--1 {
+  left: 10px;
+  bottom: 0;
+  animation: heal-particle-rise 0.8s ease-out forwards;
+  animation-delay: 0s;
+}
+
+.heal-animation__particle--2 {
+  left: 35px;
+  bottom: 0;
+  animation: heal-particle-rise 0.8s ease-out forwards;
+  animation-delay: 0.1s;
+  opacity: 0;
+}
+
+.heal-animation__particle--3 {
+  left: 55px;
+  bottom: 0;
+  animation: heal-particle-rise 0.8s ease-out forwards;
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
+.heal-animation__particle--4 {
+  left: 72px;
+  bottom: 0;
+  animation: heal-particle-rise 0.8s ease-out forwards;
+  animation-delay: 0.05s;
+  opacity: 0;
+}
+
+@keyframes heal-particle-rise {
+  0% {
+    transform: translateY(0) scale(0.3);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(-10px) scale(1);
+  }
+  100% {
+    transform: translateY(-80px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* ===== Heal number floating up (green) ===== */
+.heal-animation__number {
+  position: absolute;
+  bottom: 100px;
+  right: 40px;
+  z-index: 20;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 36px;
+  font-weight: bold;
+  color: #22c55e;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 12px rgba(34, 197, 94, 0.5);
+  animation: heal-number-float 0.8s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes heal-number-float {
+  0% {
+    transform: translateY(0) scale(0.5);
+    opacity: 0;
+  }
+  25% {
+    transform: translateY(-10px) scale(1.3);
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(-20px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-35px);
+    opacity: 0.7;
+  }
+}
+
+/* ===== HP bar green fill for healing ===== */
+.heal-animation__hp-fill--heal {
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #16a34a, #22c55e);
+  transition: width 0.6s ease;
+}

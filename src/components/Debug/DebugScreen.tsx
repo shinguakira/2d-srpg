@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useCampaignStore } from '../../stores/campaignStore';
 import { PLAYER_UNITS, ENEMY_UNITS } from '../../data/units';
 import { WEAPONS } from '../../data/weapons';
-import { ITEMS } from '../../data/items';
 import { CharactersView } from './CharactersView';
 import { ItemsView } from './ItemsView';
 
@@ -10,7 +9,6 @@ type Tab = 'characters' | 'items';
 
 const ALL_UNITS = Object.values({ ...PLAYER_UNITS, ...ENEMY_UNITS });
 const ALL_WEAPONS = Object.values(WEAPONS);
-const ALL_CONSUMABLES = Object.values(ITEMS);
 
 export function DebugScreen() {
   const goToTitle = useCampaignStore((s) => s.goToTitle);

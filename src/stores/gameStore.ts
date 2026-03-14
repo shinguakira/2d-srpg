@@ -13,7 +13,7 @@ import { toggleDangerZone, dismissDeathQuote, dismissReinforcementMessage, selec
 import { seize } from './actions/seizeActions';
 import { useItem } from './actions/itemActions';
 import { visitVillage, dismissVillageReward } from './actions/villageActions';
-import { startHealTargeting, confirmHeal } from './actions/healActions';
+import { startHealTargeting, confirmHeal, finishHealAnimation } from './actions/healActions';
 import { endPlayerTurn, dismissPhaseBanner } from './actions/turnActions';
 import { startAttackTargeting, selectAttackTarget, confirmAttack, advanceCombatAnimation, finishCombat } from './actions/combatActions';
 import { computeEnemyActions, executeNextEnemyAction, finishEnemyCombat, endEnemyTurn } from './actions/enemyActions';
@@ -52,6 +52,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   chapterData: null,
   healableTiles: EMPTY_SET,
   healResult: null,
+  healAnimationData: null,
   reinforcementMessage: null,
   deathQuote: null,
   floatingNumbers: [],
@@ -92,6 +93,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   // Healing
   startHealTargeting: () => startHealTargeting(get, set),
   confirmHeal: (targetId) => confirmHeal(get, set, targetId),
+  finishHealAnimation: () => finishHealAnimation(get, set),
 
   // Turn system
   endPlayerTurn: () => endPlayerTurn(get, set),

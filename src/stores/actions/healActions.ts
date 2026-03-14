@@ -100,22 +100,42 @@ export function confirmHeal(get: Get, set: Set, targetId: string) {
     currentHp: result.targetHpAfter,
   });
 
+  // Transition to heal animation phase
   set({
     ...IDLE_RESET,
     units: newUnits,
     gameMap: { ...gameMap, tiles: newTiles },
-    healResult: {
+    currentPhase: 'heal_animation',
+    healAnimationData: {
       healerName: healer.name,
+      healerClassId: healer.classId,
       targetName: target.name,
-      hpBefore: result.targetHpBefore,
-      hpAfter: result.targetHpAfter,
+      targetClassId: target.classId,
+      targetFaction: target.faction,
+      healAmount: result.targetHpAfter - result.targetHpBefore,
+      targetHpBefore: result.targetHpBefore,
+      targetHpAfter: result.targetHpAfter,
+      targetMaxHp: target.stats.hp,
+      healerMaxHp: healer.stats.hp,
+      healerHp: gains ? healer.currentHp + gains.hp : healer.currentHp,
+      staffName: staff.name,
     },
     levelUpGains: gains,
     levelUpUnitId: levelUpUnit,
   });
+}
 
-  // Auto end turn if all player units have acted
-  if (!gains && allPlayersDone(newUnits)) {
+export function finishHealAnimation(get: Get, set: Set) {
+  const { levelUpGains, units } = get();
+
+  set({
+    currentPhase: 'player_phase',
+    healAnimationData: null,
+    healResult: null,
+  });
+
+  // Auto end turn if all player units have acted (and no level-up pending)
+  if (!levelUpGains && allPlayersDone(units)) {
     get().endPlayerTurn();
   }
 }

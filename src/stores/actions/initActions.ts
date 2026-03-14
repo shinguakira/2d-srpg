@@ -45,6 +45,7 @@ export function initChapter(_get: Get, set: Set, chapter: ChapterData, seed: num
     deathQuote: null,
     healableTiles: EMPTY_SET,
     healResult: null,
+    healAnimationData: null,
     reinforcementMessage: null,
     floatingNumbers: [],
   });

@@ -43,7 +43,7 @@ export function advanceMovement(get: Get, set: Set) {
   const { movingUnit, units, gameMap } = get();
   if (!movingUnit) return;
 
-  const { unitId, path, stepIndex, onComplete } = movingUnit;
+  const { unitId, path, stepIndex } = movingUnit;
   const unit = units.get(unitId);
   if (!unit) {
     set({ movingUnit: null });

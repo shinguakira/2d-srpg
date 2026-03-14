@@ -10,6 +10,7 @@ import { CombatPreview } from './Combat/CombatPreview';
 import { VillageDialogue } from './UI/VillageDialogue';
 import { DeathQuoteOverlay } from './UI/DeathQuoteOverlay';
 import { HealNotification } from './UI/HealNotification';
+import { HealingAnimation } from './Combat/HealingAnimation';
 import { ReinforcementBanner } from './UI/ReinforcementBanner';
 import { LevelUpPopup } from './Combat/LevelUpPopup';
 import { TerrainInfoPanel } from './UI/TerrainInfoPanel';
@@ -101,6 +102,7 @@ export function Game() {
 
       {/* Full-screen overlays */}
       <CombatAnimation />
+      <HealingAnimation />
       <VillageDialogue />
       <HealNotification />
       <DeathQuoteOverlay />

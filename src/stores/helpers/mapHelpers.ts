@@ -1,5 +1,7 @@
-import type { GameMap, Unit, Tile, ChapterData, UnitProgress } from '../../core/types';
+import type { GameMap, Unit, Tile, ChapterData, UnitProgress, Weapon, ConsumableItem } from '../../core/types';
 import { PLAYER_UNITS, ENEMY_UNITS } from '../../data/units';
+import { WEAPONS } from '../../data/weapons';
+import { ITEMS } from '../../data/items';
 
 export function buildMap(chapter: ChapterData): GameMap {
   const tiles: Tile[][] = [];
@@ -24,6 +26,20 @@ export function placeUnits(chapter: ChapterData, map: GameMap, unitProgress?: Re
     const template = PLAYER_UNITS[placement.unitId];
     if (!template) continue;
     const progress = unitProgress?.[placement.unitId];
+    // Restore inventory from progress if available
+    let inventory: Weapon[];
+    let items: ConsumableItem[];
+    if (progress?.weaponIds && progress.weaponIds.length > 0) {
+      inventory = progress.weaponIds.map((wid) => ({ ...WEAPONS[wid] })).filter(Boolean);
+    } else {
+      inventory = template.inventory.map((w) => ({ ...w }));
+    }
+    if (progress?.itemIds && progress.itemIds.length > 0) {
+      items = progress.itemIds.map((iid) => ({ ...ITEMS[iid] })).filter(Boolean);
+    } else {
+      items = template.items.map((i) => ({ ...i, effect: { ...i.effect } }));
+    }
+
     const unit: Unit = {
       ...template,
       position: { ...placement.position },
@@ -31,9 +47,9 @@ export function placeUnits(chapter: ChapterData, map: GameMap, unitProgress?: Re
       currentHp: progress ? progress.stats.hp : template.currentHp,
       level: progress ? progress.level : template.level,
       exp: progress ? progress.exp : template.exp,
-      equippedWeapon: { ...template.equippedWeapon },
-      inventory: template.inventory.map((w) => ({ ...w })),
-      items: template.items.map((i) => ({ ...i, effect: { ...i.effect } })),
+      equippedWeapon: inventory.length > 0 ? { ...inventory[0] } : { ...template.equippedWeapon },
+      inventory,
+      items,
     };
     units.set(unit.id, unit);
     map.tiles[placement.position.y][placement.position.x].occupantId = unit.id;

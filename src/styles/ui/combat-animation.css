@@ -455,6 +455,53 @@
   padding: 0 12px;
 }
 
+/* Forecast stats row below HP */
+.combat-animation__forecast-stats {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.combat-animation__stat {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.5px;
+}
+
+.combat-animation__stat strong {
+  color: #fff;
+  font-size: 13px;
+}
+
+.combat-animation__stat--no-counter {
+  color: rgba(255, 255, 255, 0.35);
+  font-style: italic;
+}
+
+/* Weapon triangle indicator — top right of stage */
+.combat-animation__triangle {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  z-index: 5;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.combat-animation__triangle-arrow {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.combat-animation__triangle-weapons {
+  font-size: 11px;
+  opacity: 0.7;
+  color: rgba(255, 255, 255, 0.8);
+}
+
 /* Battle pose magic glow animations (used in battlePoses.tsx) */
 .battle-pose__magic-glow {
   animation: magic-glow-pulse 0.6s ease-in-out infinite alternate;

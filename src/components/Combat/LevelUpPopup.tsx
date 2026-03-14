@@ -1,3 +1,4 @@
+import { useState, useEffect, useCallback } from 'react';
 import { useGameStore } from '../../stores/gameStore';
 import { BattleSprite } from './BattleSprite';
 
@@ -13,14 +14,52 @@ export function LevelUpPopup() {
   const unitId = useGameStore((s) => s.levelUpUnitId);
   const units = useGameStore((s) => s.units);
   const dismiss = useGameStore((s) => s.dismissLevelUp);
+  const expBarData = useGameStore((s) => s.expBarData);
 
+  // FE-style: reveal stats one by one
+  const [revealedCount, setRevealedCount] = useState(0);
+  const [allRevealed, setAllRevealed] = useState(false);
+
+  useEffect(() => {
+    if (!gains || !unitId) {
+      setRevealedCount(0);
+      setAllRevealed(false);
+      return;
+    }
+    // Start revealing stats one by one
+    setRevealedCount(0);
+    setAllRevealed(false);
+    let idx = 0;
+    const interval = setInterval(() => {
+      idx++;
+      setRevealedCount(idx);
+      if (idx >= STAT_ORDER.length) {
+        clearInterval(interval);
+        setAllRevealed(true);
+      }
+    }, 250); // 250ms per stat — FE-style pacing
+    return () => clearInterval(interval);
+  }, [gains, unitId]);
+
+  const handleClick = useCallback(() => {
+    if (!allRevealed) {
+      // Skip animation — reveal all at once
+      setRevealedCount(STAT_ORDER.length);
+      setAllRevealed(true);
+    } else {
+      dismiss();
+    }
+  }, [allRevealed, dismiss]);
+
+  // Don't show level-up until EXP bar is done
+  if (expBarData) return null;
   if (!gains || !unitId) return null;
 
   const unit = units.get(unitId);
   if (!unit) return null;
 
   return (
-    <div className="level-up-popup" data-testid="level-up-popup" onClick={dismiss}>
+    <div className="level-up-popup" data-testid="level-up-popup" onClick={handleClick}>
       <div className="level-up-popup__panel">
         <div className="level-up-popup__header">
           ★ LEVEL UP! ★
@@ -41,30 +80,32 @@ export function LevelUpPopup() {
             const value = (gains as Record<string, number>)[key] ?? 0;
             const statVal = (unit.stats as Record<string, number>)[key] ?? 0;
             const gained = value > 0;
+            const revealed = idx < revealedCount;
 
             return (
               <div
                 key={key}
-                className={`level-up-popup__stat ${gained ? 'level-up-popup__stat--gained' : ''}`}
-                style={{ animationDelay: `${idx * 0.08}s` }}
+                className={`level-up-popup__stat ${revealed && gained ? 'level-up-popup__stat--gained' : ''} ${revealed ? 'level-up-popup__stat--revealed' : 'level-up-popup__stat--hidden'}`}
               >
                 <span className="level-up-popup__stat-name">{STAT_LABELS[key]}</span>
-                <span className="level-up-popup__stat-value">{statVal}</span>
+                <span className="level-up-popup__stat-value">{revealed ? statVal : '—'}</span>
                 <div className="level-up-popup__stat-bar">
                   <div
-                    className={`level-up-popup__stat-bar-fill ${gained ? 'level-up-popup__stat-bar-fill--gained' : ''}`}
-                    style={{ width: `${Math.min(100, (statVal / 30) * 100)}%` }}
+                    className={`level-up-popup__stat-bar-fill ${revealed && gained ? 'level-up-popup__stat-bar-fill--gained' : ''}`}
+                    style={{ width: revealed ? `${Math.min(100, (statVal / 30) * 100)}%` : '0%' }}
                   />
                 </div>
                 <span className="level-up-popup__stat-gain">
-                  {gained ? `+${value}` : '—'}
+                  {revealed ? (gained ? `+${value}` : '—') : ''}
                 </span>
               </div>
             );
           })}
         </div>
 
-        <div className="level-up-popup__hint">Click to dismiss</div>
+        <div className="level-up-popup__hint">
+          {allRevealed ? 'Click to dismiss' : 'Click to skip'}
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import type { ChapterData, TerrainType } from '../../core/types';
+import type { ChapterData, TerrainType, SupportConversation } from '../../core/types';
 
 const P: TerrainType = 'plain';
 const F: TerrainType = 'forest';
@@ -39,10 +39,8 @@ export const CHAPTER_2: ChapterData = {
   ],
   enemyUnits: [
     { unitId: 'ch2_fighter_1', position: { x: 4, y: 5 } },
-    { unitId: 'ch2_fighter_2', position: { x: 12, y: 5 } },
     { unitId: 'ch2_soldier_1', position: { x: 7, y: 3 } },
     { unitId: 'ch2_guard_1', position: { x: 6, y: 1 } },
-    { unitId: 'ch2_guard_2', position: { x: 10, y: 1 } },
     { unitId: 'zonta', position: { x: 7, y: 0 } },
   ],
   objective: {
@@ -82,9 +80,32 @@ export const CHAPTER_2: ChapterData = {
       turn: 6,
       units: [
         { unitId: 'ch2_reinforce_1', position: { x: 0, y: 0 } },
-        { unitId: 'ch2_reinforce_2', position: { x: 17, y: 0 } },
       ],
       message: 'Enemy reinforcements arrive from the north!',
+    },
+  ],
+  supportConversations: [
+    {
+      unitA: 'eirik',
+      unitB: 'lute',
+      lines: [
+        { speaker: 'Eirik', text: 'Lute, your magic was instrumental in the last battle. Thank you.', speakerFaction: 'player' },
+        { speaker: 'Lute', text: 'Naturally. I am a prodigy, after all. But your swordplay was... not terrible.', speakerFaction: 'player' },
+        { speaker: 'Eirik', text: 'Ha! Coming from you, I will take that as a compliment.', speakerFaction: 'player' },
+        { speaker: 'Lute', text: 'I have been observing your combat style. Here — adjust your stance like this.', speakerFaction: 'player' },
+      ],
+      reward: { type: 'stat', unitId: 'eirik', stat: 'skl', amount: 1 },
+    },
+    {
+      unitA: 'seth',
+      unitB: 'natasha',
+      lines: [
+        { speaker: 'Seth', text: 'Sister Natasha, are you well? The march has been long.', speakerFaction: 'player' },
+        { speaker: 'Natasha', text: 'I am fine, thank you. But I worry about morale. The soldiers look exhausted.', speakerFaction: 'player' },
+        { speaker: 'Seth', text: 'Your healing has kept us all going. The troops speak highly of you.', speakerFaction: 'player' },
+        { speaker: 'Natasha', text: 'That gives me strength. Let us continue to support each other.', speakerFaction: 'player' },
+      ],
+      reward: { type: 'exp_both', amount: 15 },
     },
   ],
 };

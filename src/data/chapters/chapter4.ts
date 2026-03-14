@@ -1,4 +1,4 @@
-import type { ChapterData, TerrainType } from '../../core/types';
+import type { ChapterData, TerrainType, SupportConversation } from '../../core/types';
 
 const P: TerrainType = 'plain';
 const F: TerrainType = 'forest';
@@ -94,6 +94,30 @@ export const CHAPTER_4: ChapterData = {
         { unitId: 'ch4_reinforce_3', position: { x: 15, y: 8 } },
       ],
       message: 'More creatures stir from the depths of the ruins!',
+    },
+  ],
+  supportConversations: [
+    {
+      unitA: 'eirik',
+      unitB: 'seth',
+      lines: [
+        { speaker: 'Eirik', text: 'Seth, these ruins... I can feel an ancient darkness within them.', speakerFaction: 'player' },
+        { speaker: 'Seth', text: 'Stay close to me. Whatever lurks here, we will face it together.', speakerFaction: 'player' },
+        { speaker: 'Eirik', text: 'You know, Seth... I have grown so much since we fled Renais. I feel stronger.', speakerFaction: 'player' },
+        { speaker: 'Seth', text: 'You have, Eirik. You are no longer just a princess. You are a warrior.', speakerFaction: 'player' },
+      ],
+      reward: { type: 'stat', unitId: 'eirik', stat: 'str', amount: 1 },
+    },
+    {
+      unitA: 'lute',
+      unitB: 'natasha',
+      lines: [
+        { speaker: 'Lute', text: 'These undead creatures are fascinating. Their magic is primitive but powerful.', speakerFaction: 'player' },
+        { speaker: 'Natasha', text: 'Lute! They are dangerous! Please do not get too close.', speakerFaction: 'player' },
+        { speaker: 'Lute', text: 'Relax. I have already devised a counter-spell. Here, I will teach you the incantation.', speakerFaction: 'player' },
+        { speaker: 'Natasha', text: 'That is... actually quite brilliant. Thank you, Lute.', speakerFaction: 'player' },
+      ],
+      reward: { type: 'exp_both', amount: 25 },
     },
   ],
 };

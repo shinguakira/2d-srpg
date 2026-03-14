@@ -17,19 +17,21 @@ function createUnit(
     isLord?: boolean;
     deathQuote?: string;
     aiBehavior?: AIBehavior;
+    statOverrides?: Partial<Unit['stats']>;
   },
 ): Unit {
   const cls = CLASSES[classId];
   const weapons = weaponIds.map((wid) => ({ ...WEAPONS[wid] }));
   const items: ConsumableItem[] = itemIds.map((iid) => ({ ...ITEMS[iid] }));
+  const stats = { ...cls.baseStats, ...opts?.statOverrides };
   return {
     id,
     name,
     classId,
     faction,
     position: { x: 0, y: 0 },
-    stats: { ...cls.baseStats },
-    currentHp: cls.baseStats.hp,
+    stats,
+    currentHp: stats.hp,
     level,
     exp: 0,
     equippedWeapon: { ...weapons[0] },
@@ -63,35 +65,41 @@ export const PLAYER_UNITS: Record<string, Unit> = {
 
 // Enemy templates
 export const ENEMY_UNITS: Record<string, Unit> = {
-  // Chapter 1 enemies — tutorial difficulty (easy)
-  fighter_1: createUnit('fighter_1', 'Brigand', 'fighter', 'enemy', ['iron_axe'], 1),
-  fighter_2: createUnit('fighter_2', 'Brigand', 'fighter', 'enemy', ['iron_axe'], 1),
-  fighter_3: createUnit('fighter_3', 'Brigand', 'fighter', 'enemy', ['iron_axe'], 1),
-  soldier_1: createUnit('soldier_1', 'Soldier', 'soldier', 'enemy', ['iron_lance'], 1),
-  soldier_2: createUnit('soldier_2', 'Soldier', 'soldier', 'enemy', ['iron_lance'], 1, '', [], {
-    aiBehavior: { type: 'guard', radius: 3 },
+  // Chapter 1 enemies — tutorial difficulty (very easy, halved attack)
+  fighter_1: createUnit('fighter_1', 'Brigand', 'fighter', 'enemy', ['iron_axe'], 1, '', [], {
+    statOverrides: { str: 4, skl: 2 },
+  }),
+  fighter_3: createUnit('fighter_3', 'Brigand', 'fighter', 'enemy', ['iron_axe'], 1, '', [], {
+    statOverrides: { str: 4, skl: 2 },
+  }),
+  soldier_1: createUnit('soldier_1', 'Soldier', 'soldier', 'enemy', ['iron_lance'], 1, '', [], {
+    statOverrides: { str: 3, skl: 3 },
   }),
   // Ch1 Boss — weaker for tutorial
-  bone: createUnit('bone', 'Bone', 'fighter', 'enemy', ['iron_axe', 'hand_axe'], 3, '', [], {
+  bone: createUnit('bone', 'Bone', 'fighter', 'enemy', ['iron_axe', 'hand_axe'], 2, '', [], {
     aiBehavior: { type: 'boss' },
+    statOverrides: { str: 5, skl: 3 },
   }),
 
-  // Chapter 2 enemies — still introductory (easy-medium)
-  ch2_fighter_1: createUnit('ch2_fighter_1', 'Brigand', 'fighter', 'enemy', ['iron_axe'], 1),
-  ch2_fighter_2: createUnit('ch2_fighter_2', 'Brigand', 'fighter', 'enemy', ['iron_axe'], 2),
-  ch2_soldier_1: createUnit('ch2_soldier_1', 'Soldier', 'soldier', 'enemy', ['iron_lance'], 1),
+  // Chapter 2 enemies — still introductory (easy, halved attack)
+  ch2_fighter_1: createUnit('ch2_fighter_1', 'Brigand', 'fighter', 'enemy', ['iron_axe'], 1, '', [], {
+    statOverrides: { str: 4, skl: 2 },
+  }),
+  ch2_soldier_1: createUnit('ch2_soldier_1', 'Soldier', 'soldier', 'enemy', ['iron_lance'], 1, '', [], {
+    statOverrides: { str: 3, skl: 3 },
+  }),
   ch2_guard_1: createUnit('ch2_guard_1', 'Soldier', 'soldier', 'enemy', ['iron_lance'], 2, '', [], {
     aiBehavior: { type: 'guard', radius: 3 },
+    statOverrides: { str: 4, skl: 3 },
   }),
-  ch2_guard_2: createUnit('ch2_guard_2', 'Fighter', 'fighter', 'enemy', ['iron_axe'], 2, '', [], {
-    aiBehavior: { type: 'guard', radius: 3 },
-  }),
-  zonta: createUnit('zonta', 'Zonta', 'soldier', 'enemy', ['steel_lance', 'javelin'], 4, '', [], {
+  zonta: createUnit('zonta', 'Zonta', 'soldier', 'enemy', ['steel_lance', 'javelin'], 3, '', [], {
     aiBehavior: { type: 'boss' },
+    statOverrides: { str: 5, skl: 3 },
   }),
   // Ch2 reinforcements — delayed and weaker
-  ch2_reinforce_1: createUnit('ch2_reinforce_1', 'Brigand', 'fighter', 'enemy', ['iron_axe'], 2),
-  ch2_reinforce_2: createUnit('ch2_reinforce_2', 'Soldier', 'soldier', 'enemy', ['iron_lance'], 2),
+  ch2_reinforce_1: createUnit('ch2_reinforce_1', 'Brigand', 'fighter', 'enemy', ['iron_axe'], 1, '', [], {
+    statOverrides: { str: 4, skl: 2 },
+  }),
 
   // Chapter 3 enemies — Bandits of Borgo (hard — difficulty ramp)
   ch3_fighter_1: createUnit('ch3_fighter_1', 'Brigand', 'fighter', 'enemy', ['iron_axe'], 4),

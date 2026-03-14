@@ -43,10 +43,18 @@ export type GameState = {
   levelUpGains: StatGains | null;
   levelUpUnitId: string | null;
 
+  // EXP bar animation
+  expBarData: { unitId: string; unitName: string; expBefore: number; expGain: number; leveled: boolean } | null;
+
   // Phase transitions
   phaseBanner: 'player_phase' | 'enemy_phase' | null;
   enemyActions: AIAction[];
   enemyActionIndex: number;
+
+  // Auto-battle
+  autoBattleActions: AIAction[];
+  autoBattleIndex: number;
+  isAutoBattle: boolean;
 
   chapterName: string;
   objectiveDescription: string;
@@ -115,6 +123,7 @@ export type GameActions = {
   advanceCombatAnimation: () => void;
   finishCombat: () => void;
   dismissLevelUp: () => void;
+  dismissExpBar: () => void;
 
   // Weapon selection
   selectWeapon: (index: number) => void;
@@ -149,6 +158,9 @@ export type GameActions = {
 
   // Turn system
   endPlayerTurn: () => void;
+  startAutoBattle: () => void;
+  executeNextAutoAction: () => void;
+  finishAutoCombat: () => void;
   dismissPhaseBanner: () => void;
   computeEnemyActions: () => void;
   executeNextEnemyAction: () => void;

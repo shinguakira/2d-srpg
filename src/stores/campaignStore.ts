@@ -14,6 +14,8 @@ type CampaignState = {
   unitProgress: Record<string, UnitProgress>;
   gameMode: GameMode;
   deadUnitIds: string[];
+  storage: string[]; // weapon/item IDs in shared storage
+  viewedSupports: string[]; // "chapterId:unitA:unitB" keys of viewed conversations
 
   // Dialogue playback
   dialogueScene: DialogueScene | null;
@@ -27,6 +29,7 @@ type CampaignState = {
   startNewGame: () => void;
   startChapter: (id: string) => void;
   startChapterDirect: (id: string) => void;
+  startBattle: () => void;
   startDialogue: (scene: DialogueScene, phase: DialoguePhase) => void;
   advanceDialogue: () => void;
   onChapterVictory: (unitProgress: Record<string, UnitProgress>) => void;
@@ -50,6 +53,8 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
   dialogueScene: null,
   dialogueLineIndex: 0,
   dialoguePhase: null,
+  storage: [],
+  viewedSupports: [],
 
   goToTitle: () => set({
     currentScreen: 'title',
@@ -63,7 +68,7 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
   setGameMode: (mode: GameMode) => set({ gameMode: mode }),
 
   startNewGame: () => {
-    set({ completedChapters: [], unitProgress: {}, deadUnitIds: [] });
+    set({ completedChapters: [], unitProgress: {}, deadUnitIds: [], storage: [], viewedSupports: [] });
     get().startChapter('ch1');
   },
 
@@ -75,7 +80,7 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
     if (chapter.prologue) {
       get().startDialogue(chapter.prologue, 'prologue');
     } else {
-      set({ currentScreen: 'battle' });
+      set({ currentScreen: 'preparation' });
     }
   },
 
@@ -91,6 +96,8 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
       dialoguePhase: null,
     });
   },
+
+  startBattle: () => set({ currentScreen: 'battle' }),
 
   startDialogue: (scene: DialogueScene, phase: DialoguePhase) => {
     set({
@@ -110,11 +117,19 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
     } else {
       // Last line — transition
       if (dialoguePhase === 'prologue') {
-        set({ currentScreen: 'battle', dialogueScene: null, dialoguePhase: null });
+        set({ currentScreen: 'preparation', dialogueScene: null, dialoguePhase: null });
       } else if (dialoguePhase === 'epilogue') {
-        // Auto-save and go to title
+        // Auto-save and advance to next chapter (or title if last chapter)
         get().saveToSlot(0);
-        set({ currentScreen: 'title', dialogueScene: null, dialoguePhase: null });
+        const { currentChapterId } = get();
+        const nextId = getNextChapterId(currentChapterId, []);
+        if (nextId !== currentChapterId && CHAPTERS[nextId]) {
+          set({ dialogueScene: null, dialoguePhase: null });
+          get().startChapter(nextId);
+        } else {
+          // Last chapter — go to title
+          set({ currentScreen: 'title', dialogueScene: null, dialoguePhase: null });
+        }
       }
     }
   },
@@ -132,8 +147,14 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
     if (currentChapterData?.epilogue) {
       get().startDialogue(currentChapterData.epilogue, 'epilogue');
     } else {
+      // No epilogue — auto-advance to next chapter
       get().saveToSlot(0);
-      get().goToTitle();
+      const nextId = getNextChapterId(currentChapterId, []);
+      if (nextId !== currentChapterId && CHAPTERS[nextId]) {
+        get().startChapter(nextId);
+      } else {
+        get().goToTitle();
+      }
     }
   },
 

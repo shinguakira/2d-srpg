@@ -1,4 +1,4 @@
-import type { ChapterData, TerrainType } from '../../core/types';
+import type { ChapterData, TerrainType, SupportConversation } from '../../core/types';
 
 // Shorthand aliases for readability
 const P: TerrainType = 'plain';
@@ -42,10 +42,8 @@ export const CHAPTER_1: ChapterData = {
   ],
   enemyUnits: [
     { unitId: 'fighter_1', position: { x: 8, y: 2 } },
-    { unitId: 'fighter_2', position: { x: 15, y: 2 } },
     { unitId: 'fighter_3', position: { x: 11, y: 4 } },
     { unitId: 'soldier_1', position: { x: 5, y: 1 } },
-    { unitId: 'soldier_2', position: { x: 17, y: 1 } },
     { unitId: 'bone', position: { x: 11, y: 1 } }, // boss on throne
   ],
   objective: {
@@ -92,4 +90,28 @@ export const CHAPTER_1: ChapterData = {
       { speaker: 'Narrator', text: 'The survivors press onward, leaving the ruins of Renais behind them.' },
     ],
   },
+  supportConversations: [
+    {
+      unitA: 'eirik',
+      unitB: 'seth',
+      lines: [
+        { speaker: 'Eirik', text: 'Seth, you fought bravely today. I feel safer with you by my side.', speakerFaction: 'player' },
+        { speaker: 'Seth', text: 'It is my honor, Princess. I swear I will not let harm befall you.', speakerFaction: 'player' },
+        { speaker: 'Eirik', text: 'Please, just call me Eirik. We are companions now, not just knight and princess.', speakerFaction: 'player' },
+        { speaker: 'Seth', text: '...Very well, Eirik. Then let us face what comes together.', speakerFaction: 'player' },
+      ],
+      reward: { type: 'exp_both', amount: 20 },
+    },
+    {
+      unitA: 'lute',
+      unitB: 'natasha',
+      lines: [
+        { speaker: 'Lute', text: 'Natasha, I have been studying healing magic. Your technique is... adequate.', speakerFaction: 'player' },
+        { speaker: 'Natasha', text: 'Oh? That is high praise coming from you, Lute.', speakerFaction: 'player' },
+        { speaker: 'Lute', text: 'I could teach you a focus technique that amplifies magical energy. Interested?', speakerFaction: 'player' },
+        { speaker: 'Natasha', text: 'I would be grateful. Every bit of knowledge helps protect our friends.', speakerFaction: 'player' },
+      ],
+      reward: { type: 'stat', unitId: 'natasha', stat: 'mag', amount: 1 },
+    },
+  ],
 };

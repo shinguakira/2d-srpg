@@ -1,23 +1,33 @@
-/* ===== End Turn Button ===== */
-.end-turn-btn {
+/* ===== End Turn / Auto Battle Buttons ===== */
+.end-turn-btns {
   position: absolute;
   bottom: 16px;
   right: 16px;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.end-turn-btn {
   background: rgba(59, 130, 246, 0.4);
   color: #fff;
   border: 2px solid rgba(59, 130, 246, 0.7);
   border-radius: 8px;
-  padding: 12px 32px;
-  font-size: 16px;
+  padding: 12px 24px;
+  font-size: 14px;
   font-weight: bold;
   font-family: 'Segoe UI', system-ui, sans-serif;
   cursor: pointer;
   transition: background 0.15s, transform 0.1s;
   backdrop-filter: blur(4px);
-  z-index: 10;
 }
 
-.end-turn-btn:hover {
+.end-turn-btn:hover:not(:disabled) {
   background: rgba(59, 130, 246, 0.6);
   transform: scale(1.03);
+}
+
+.end-turn-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

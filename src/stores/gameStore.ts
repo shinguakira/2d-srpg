@@ -9,7 +9,7 @@ import type { GameState, GameActions } from './gameStoreTypes';
 import { initChapter } from './actions/initActions';
 import { selectUnit, deselectUnit, hoverTile, clickTile, cancelAction } from './actions/selectionActions';
 import { confirmMove, advanceMovement } from './actions/movementActions';
-import { toggleDangerZone, dismissDeathQuote, dismissReinforcementMessage, selectWeapon, dismissLevelUp, dismissHealResult } from './actions/miscActions';
+import { toggleDangerZone, dismissDeathQuote, dismissReinforcementMessage, selectWeapon, dismissLevelUp, dismissHealResult, dismissExpBar } from './actions/miscActions';
 import { seize } from './actions/seizeActions';
 import { useItem } from './actions/itemActions';
 import { visitVillage, dismissVillageReward } from './actions/villageActions';
@@ -17,6 +17,7 @@ import { startHealTargeting, confirmHeal, finishHealAnimation } from './actions/
 import { endPlayerTurn, dismissPhaseBanner } from './actions/turnActions';
 import { startAttackTargeting, selectAttackTarget, confirmAttack, advanceCombatAnimation, finishCombat } from './actions/combatActions';
 import { computeEnemyActions, executeNextEnemyAction, finishEnemyCombat, endEnemyTurn } from './actions/enemyActions';
+import { startAutoBattle, executeNextAutoAction, finishAutoCombat } from './actions/autoBattleActions';
 
 export const useGameStore = create<GameState & GameActions>((set, get) => ({
   gameMap: EMPTY_MAP,
@@ -38,9 +39,13 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   attackTargetId: null,
   levelUpGains: null,
   levelUpUnitId: null,
+  expBarData: null,
   phaseBanner: null,
   enemyActions: [],
   enemyActionIndex: -1,
+  autoBattleActions: [],
+  autoBattleIndex: -1,
+  isAutoBattle: false,
   chapterName: '',
   objectiveDescription: '',
   selectedWeaponIndex: 0,
@@ -78,6 +83,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   dismissReinforcementMessage: () => dismissReinforcementMessage(get, set),
   selectWeapon: (index) => selectWeapon(get, set, index),
   dismissLevelUp: () => dismissLevelUp(get, set),
+  dismissExpBar: () => dismissExpBar(get, set),
   dismissHealResult: () => dismissHealResult(get, set),
 
   // Seize
@@ -105,6 +111,11 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   confirmAttack: () => confirmAttack(get, set),
   advanceCombatAnimation: () => advanceCombatAnimation(get, set),
   finishCombat: () => finishCombat(get, set),
+
+  // Auto-battle
+  startAutoBattle: () => startAutoBattle(get, set),
+  executeNextAutoAction: () => executeNextAutoAction(get, set),
+  finishAutoCombat: () => finishAutoCombat(get, set),
 
   // Enemy actions
   computeEnemyActions: () => computeEnemyActions(get, set),

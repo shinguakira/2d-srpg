@@ -102,7 +102,10 @@ export function advanceCombatAnimation(get: Get, set: Set) {
   if (nextStep >= combatResult.hits.length) {
     // Animation complete — determine which finish function to call
     const attacker = selectedUnitId ? units.get(selectedUnitId) : null;
-    if (attacker && attacker.faction === 'enemy') {
+    const { isAutoBattle } = get();
+    if (isAutoBattle && attacker && attacker.faction === 'player') {
+      get().finishAutoCombat();
+    } else if (attacker && attacker.faction === 'enemy') {
       get().finishEnemyCombat();
     } else {
       get().finishCombat();
@@ -137,9 +140,11 @@ export function finishCombat(get: Get, set: Set) {
   // Calculate EXP for player attacker (only if attacker survived)
   let gains: StatGains | null = null;
   let levelUpUnit: string | null = null;
+  let expBarData: GameState['expBarData'] = null;
 
   if (!combatResult.attackerDied && attacker.faction === 'player') {
     const expGain = calculateExpGain(attacker, defender, combatResult.defenderDied);
+    const expBefore = attacker.exp;
     const levelCheck = checkLevelUp(attacker.exp, expGain);
     const updated = resolution.newUnits.get(selectedUnitId)!;
 
@@ -160,6 +165,15 @@ export function finishCombat(get: Get, set: Set) {
     } else {
       resolution.newUnits.set(selectedUnitId, { ...updated, exp: levelCheck.newExp });
     }
+
+    // Always show EXP bar after player combat
+    expBarData = {
+      unitId: selectedUnitId,
+      unitName: attacker.name,
+      expBefore,
+      expGain,
+      leveled: levelCheck.leveled,
+    };
   }
 
   const nextPhase: GamePhase = resolution.victoryResult ? 'game_over' : 'player_phase';
@@ -169,15 +183,18 @@ export function finishCombat(get: Get, set: Set) {
     units: resolution.newUnits,
     gameMap: { ...gameMap, tiles: resolution.newTiles },
     currentPhase: nextPhase,
+    // Defer level-up display until after EXP bar — store gains but don't show popup yet
     levelUpGains: gains,
     levelUpUnitId: levelUpUnit,
     deathQuote: resolution.deathQuote,
     floatingNumbers: resolution.floatingNumbers,
+    expBarData,
   });
 
   refreshDangerZone(get, set);
 
-  if (nextPhase === 'player_phase' && !gains && !resolution.deathQuote && allPlayersDone(get().units)) {
+  // Only auto-end turn if no EXP bar to show
+  if (nextPhase === 'player_phase' && !expBarData && !gains && !resolution.deathQuote && allPlayersDone(get().units)) {
     get().endPlayerTurn();
   }
 }

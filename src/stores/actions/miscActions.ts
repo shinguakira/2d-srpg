@@ -57,6 +57,19 @@ export function dismissLevelUp(get: Get, set: Set) {
   }
 }
 
+export function dismissExpBar(get: Get, set: Set) {
+  const { levelUpGains, levelUpUnitId } = get();
+  set({ expBarData: null });
+
+  // If no level-up pending, check auto-end turn
+  if (!levelUpGains && !levelUpUnitId) {
+    const { currentPhase, deathQuote, units } = get();
+    if (currentPhase === 'player_phase' && !deathQuote && allPlayersDone(units)) {
+      get().endPlayerTurn();
+    }
+  }
+}
+
 export function dismissHealResult(_get: Get, set: Set) {
   set({ healResult: null });
 }

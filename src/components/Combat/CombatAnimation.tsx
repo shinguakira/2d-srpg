@@ -3,6 +3,7 @@ import { useGameStore } from '../../stores/gameStore';
 import { BattleSprite } from './BattleSprite';
 import { WeaponEffect } from './WeaponEffect';
 import type { WeaponType } from '../../core/types';
+import { getWeaponTriangle } from '../../core/combat';
 
 /**
  * FE GBA-style battle animation choreography.
@@ -45,6 +46,7 @@ export function CombatAnimation() {
   const [flashType, setFlashType] = useState<'none' | 'hit' | 'crit'>('none');
   const [critDarken, setCritDarken] = useState(false);
   const [damageVisible, setDamageVisible] = useState(false);
+  const [hpDrained, setHpDrained] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const advance = useCallback(() => {
@@ -90,6 +92,7 @@ export function CombatAnimation() {
     setFlashType('none');
     setCritDarken(false);
     setDamageVisible(false);
+    setHpDrained(false);
 
     let cursor = 100; // Start after brief idle
 
@@ -101,7 +104,7 @@ export function CombatAnimation() {
     }
 
     if (isMagic) {
-      // Magic: caster raises staff/hand → spell flies across → impact
+      // Magic: caster raises staff/hand → spell flies across → impact → damage
       t(() => setPhase('windup'), cursor);
       cursor += 300;
       t(() => setPhase('spell-fly'), cursor);
@@ -110,8 +113,13 @@ export function CombatAnimation() {
         t(() => {
           setPhase('spell-hit');
           setFlashType(isCrit ? 'crit' : 'hit');
-          setDamageVisible(true);
         }, cursor);
+        cursor += 250;
+        // Damage number appears after hit registers visually
+        t(() => setDamageVisible(true), cursor);
+        cursor += 150;
+        // HP drains after damage number pops
+        t(() => setHpDrained(true), cursor);
         cursor += 100;
         if (currentHit.targetKilled) {
           t(() => setPhase('death'), cursor);
@@ -120,12 +128,14 @@ export function CombatAnimation() {
           cursor += 300;
         }
       } else {
-        // Miss — target dodges
-        t(() => { setPhase('dodge'); setDamageVisible(true); }, cursor);
+        // Miss — target dodges, then MISS text
+        t(() => setPhase('dodge'), cursor);
+        cursor += 250;
+        t(() => setDamageVisible(true), cursor);
         cursor += 400;
       }
     } else {
-      // Physical: windup → dash across → strike → impact → return
+      // Physical: windup → dash across → strike → impact → damage → HP drain → return
       t(() => setPhase('windup'), cursor);
       cursor += 200;
       t(() => setPhase('dash'), cursor);
@@ -137,20 +147,27 @@ export function CombatAnimation() {
         t(() => {
           setPhase('impact');
           setFlashType(isCrit ? 'crit' : 'hit');
-          setDamageVisible(true);
         }, cursor);
+        cursor += 300;
+        // Damage number pops after hit impact registers visually
+        t(() => setDamageVisible(true), cursor);
+        cursor += 200;
+        // HP drains after damage number pops
+        t(() => setHpDrained(true), cursor);
         cursor += 150;
         if (currentHit.targetKilled) {
           t(() => setPhase('death'), cursor);
           cursor += 600;
         } else {
-          cursor += 250;
+          cursor += 200;
         }
         t(() => setPhase('return'), cursor);
         cursor += 300;
       } else {
-        // Miss — defender dodges, attacker whiffs and returns
-        t(() => { setPhase('dodge'); setDamageVisible(true); }, cursor);
+        // Miss — defender dodges, then MISS text
+        t(() => setPhase('dodge'), cursor);
+        cursor += 250;
+        t(() => setDamageVisible(true), cursor);
         cursor += 300;
         t(() => setPhase('return'), cursor);
         cursor += 300;
@@ -174,10 +191,11 @@ export function CombatAnimation() {
     ? combatResult.hits[combatAnimationStep]
     : null;
 
-  // Calculate running HP totals
+  // Calculate running HP totals — current hit only applies after HP drain animation
   let atkHpDisplay = combatForecast.attacker.currentHp;
   let defHpDisplay = combatForecast.defender.currentHp;
-  for (let i = 0; i <= combatAnimationStep && i < combatResult.hits.length; i++) {
+  const hpStepLimit = hpDrained ? combatAnimationStep : combatAnimationStep - 1;
+  for (let i = 0; i <= hpStepLimit && i < combatResult.hits.length; i++) {
     const hit = combatResult.hits[i];
     if (hit.attackerIsInitiator) defHpDisplay = hit.targetHpAfter;
     else atkHpDisplay = hit.targetHpAfter;
@@ -242,6 +260,19 @@ export function CombatAnimation() {
 
   // Show weapon effect during specific phases
   const showEffect = phase === 'strike' || phase === 'impact' || phase === 'spell-fly' || phase === 'spell-hit';
+
+  // Weapon triangle
+  const triangle = getWeaponTriangle(playerSide.info.weaponType, enemySide.info.weaponType);
+  const triangleLabel = triangle.dmgMod > 0 ? '▲' : triangle.dmgMod < 0 ? '▼' : '';
+  const triangleColor = triangle.dmgMod > 0 ? '#22c55e' : triangle.dmgMod < 0 ? '#ef4444' : '';
+
+  // Forecast stats for each side
+  const playerForecast = attackerIsPlayer
+    ? { damage: combatForecast.attackerDamage, hit: combatForecast.attackerHit, crit: combatForecast.attackerCrit, canCounter: true }
+    : { damage: combatForecast.defenderDamage, hit: combatForecast.defenderHit, crit: combatForecast.defenderCrit, canCounter: combatForecast.defenderCanCounter };
+  const enemyForecast = attackerIsPlayer
+    ? { damage: combatForecast.defenderDamage, hit: combatForecast.defenderHit, crit: combatForecast.defenderCrit, canCounter: combatForecast.defenderCanCounter }
+    : { damage: combatForecast.attackerDamage, hit: combatForecast.attackerHit, crit: combatForecast.attackerCrit, canCounter: true };
 
   const hpColor = (hp: number, maxHp: number) => {
     const pct = hp / maxHp;
@@ -309,6 +340,16 @@ export function CombatAnimation() {
             />
           </div>
 
+          {/* Weapon triangle indicator — top right */}
+          {triangleLabel && (
+            <div className="combat-animation__triangle" style={{ color: triangleColor }}>
+              <span className="combat-animation__triangle-arrow">{triangleLabel}</span>
+              <span className="combat-animation__triangle-weapons">
+                {playerSide.info.weaponName} vs {enemySide.info.weaponName}
+              </span>
+            </div>
+          )}
+
           {/* Ground */}
           <div className="combat-animation__ground-line" />
         </div>
@@ -327,6 +368,11 @@ export function CombatAnimation() {
             <div className="combat-animation__hp-text" style={{ color: hpColor(playerSide.hp, playerSide.info.maxHp) }}>
               {playerSide.hp}/{playerSide.info.maxHp}
             </div>
+            <div className="combat-animation__forecast-stats">
+              <span className="combat-animation__stat">Dmg <strong>{playerForecast.damage}</strong></span>
+              <span className="combat-animation__stat">Hit <strong>{playerForecast.hit}%</strong></span>
+              <span className="combat-animation__stat">Crit <strong>{playerForecast.crit}%</strong></span>
+            </div>
           </div>
 
           <div className="combat-animation__step">
@@ -344,6 +390,17 @@ export function CombatAnimation() {
             </div>
             <div className="combat-animation__hp-text" style={{ color: hpColor(enemySide.hp, enemySide.info.maxHp) }}>
               {enemySide.hp}/{enemySide.info.maxHp}
+            </div>
+            <div className="combat-animation__forecast-stats">
+              {enemyForecast.canCounter ? (
+                <>
+                  <span className="combat-animation__stat">Dmg <strong>{enemyForecast.damage}</strong></span>
+                  <span className="combat-animation__stat">Hit <strong>{enemyForecast.hit}%</strong></span>
+                  <span className="combat-animation__stat">Crit <strong>{enemyForecast.crit}%</strong></span>
+                </>
+              ) : (
+                <span className="combat-animation__stat combat-animation__stat--no-counter">No counter</span>
+              )}
             </div>
           </div>
         </div>

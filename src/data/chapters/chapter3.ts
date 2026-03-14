@@ -1,4 +1,4 @@
-import type { ChapterData, TerrainType } from '../../core/types';
+import type { ChapterData, TerrainType, SupportConversation } from '../../core/types';
 
 const P: TerrainType = 'plain';
 const F: TerrainType = 'forest';
@@ -100,6 +100,30 @@ export const CHAPTER_3: ChapterData = {
         { unitId: 'ch3_reinforce_2', position: { x: 20, y: 11 } },
       ],
       message: 'More bandits emerge from the forest!',
+    },
+  ],
+  supportConversations: [
+    {
+      unitA: 'eirik',
+      unitB: 'natasha',
+      lines: [
+        { speaker: 'Eirik', text: 'Natasha, you seem troubled. Is something on your mind?', speakerFaction: 'player' },
+        { speaker: 'Natasha', text: 'These bandits... they prey on the innocent. It fills me with resolve.', speakerFaction: 'player' },
+        { speaker: 'Eirik', text: 'Then let us fight together to protect those who cannot protect themselves.', speakerFaction: 'player' },
+        { speaker: 'Natasha', text: 'Yes. Your determination gives me courage, Eirik. I feel my faith growing stronger.', speakerFaction: 'player' },
+      ],
+      reward: { type: 'stat', unitId: 'natasha', stat: 'res', amount: 1 },
+    },
+    {
+      unitA: 'seth',
+      unitB: 'lute',
+      lines: [
+        { speaker: 'Seth', text: 'Lute, I have noticed you studying the enemy formations before each battle.', speakerFaction: 'player' },
+        { speaker: 'Lute', text: 'Obviously. Knowledge is the ultimate weapon. I have identified three weaknesses in their strategy.', speakerFaction: 'player' },
+        { speaker: 'Seth', text: 'Impressive. Perhaps you could brief me before we engage? Your insights could save lives.', speakerFaction: 'player' },
+        { speaker: 'Lute', text: 'Hmm. Very well. I suppose even a genius needs someone to execute the plan.', speakerFaction: 'player' },
+      ],
+      reward: { type: 'stat', unitId: 'seth', stat: 'spd', amount: 1 },
     },
   ],
 };

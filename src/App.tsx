@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Game } from './components/Game';
 import { TitleScreen } from './components/TitleScreen';
 import { DialogueBox } from './components/DialogueBox';
+import { PreparationScreen } from './components/PreparationScreen';
 import { DebugScreen } from './components/Debug/DebugScreen';
 import { useCampaignStore } from './stores/campaignStore';
 import './styles/grid.css';
@@ -27,6 +28,8 @@ function App() {
       return <TitleScreen />;
     case 'dialogue':
       return <DialogueBox />;
+    case 'preparation':
+      return <PreparationScreen />;
     case 'battle':
       return <Game />;
     case 'debug':

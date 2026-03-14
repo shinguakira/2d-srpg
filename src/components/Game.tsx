@@ -13,7 +13,7 @@ import { HealNotification } from './UI/HealNotification';
 import { HealingAnimation } from './Combat/HealingAnimation';
 import { ReinforcementBanner } from './UI/ReinforcementBanner';
 import { LevelUpPopup } from './Combat/LevelUpPopup';
-import { TerrainInfoPanel } from './UI/TerrainInfoPanel';
+import { ExpBar } from './Combat/ExpBar';
 import { UnitDetailScreen } from './UI/UnitDetailScreen';
 import { useGameStore } from '../stores/gameStore';
 import { useUIStore } from '../stores/uiStore';
@@ -96,7 +96,6 @@ export function Game() {
         <ActionMenu />
         <EndTurnButton />
         <UnitStatsPanel />
-        <TerrainInfoPanel />
         <CombatPreview />
       </div>
 
@@ -106,6 +105,7 @@ export function Game() {
       <VillageDialogue />
       <HealNotification />
       <DeathQuoteOverlay />
+      <ExpBar />
       <LevelUpPopup />
       <ReinforcementBanner />
       <UnitDetailScreen />
@@ -154,6 +154,8 @@ function GameOverOverlay() {
           level: u.level,
           exp: u.exp,
           stats: { ...u.stats },
+          weaponIds: u.inventory.map((w) => w.id),
+          itemIds: u.items.map((i) => i.id),
         };
       }
     }

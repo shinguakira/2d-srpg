@@ -75,6 +75,15 @@
   font-size: 13px;
   padding: 3px 8px;
   border-radius: 3px;
+  transition: opacity 0.2s ease, background 0.3s ease;
+}
+
+.level-up-popup__stat--hidden {
+  opacity: 0.3;
+}
+
+.level-up-popup__stat--revealed {
+  opacity: 1;
   animation: stat-reveal 0.3s ease both;
 }
 

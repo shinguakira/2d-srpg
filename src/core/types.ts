@@ -182,6 +182,18 @@ export type VillageData = {
   readonly reward: VillageReward;
 };
 
+export type SupportConversation = {
+  readonly unitA: string;
+  readonly unitB: string;
+  readonly lines: DialogueLine[];
+  readonly reward: SupportReward;
+};
+
+export type SupportReward =
+  | { readonly type: 'exp'; readonly unitId: string; readonly amount: number }
+  | { readonly type: 'stat'; readonly unitId: string; readonly stat: keyof Omit<UnitStats, 'mov'>; readonly amount: number }
+  | { readonly type: 'exp_both'; readonly amount: number };
+
 export type ChapterData = {
   readonly id: string;
   readonly name: string;
@@ -197,6 +209,7 @@ export type ChapterData = {
   readonly villages?: VillageData[];
   readonly seizePosition?: Position;
   readonly reinforcements?: ReinforcementWave[];
+  readonly supportConversations?: SupportConversation[];
 };
 
 export type ReinforcementWave = {
@@ -223,6 +236,8 @@ export type UnitProgress = {
   readonly level: number;
   readonly exp: number;
   readonly stats: UnitStats;
+  readonly weaponIds: string[];
+  readonly itemIds: string[];
 };
 
 export type SaveData = {
@@ -235,4 +250,4 @@ export type SaveData = {
 
 // ===== App Screens =====
 
-export type AppScreen = 'title' | 'dialogue' | 'battle' | 'debug';
+export type AppScreen = 'title' | 'dialogue' | 'battle' | 'debug' | 'preparation';

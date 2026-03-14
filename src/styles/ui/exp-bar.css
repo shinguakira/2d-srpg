@@ -1,0 +1,73 @@
+/* ===== EXP Bar (FE GBA-style) ===== */
+.exp-bar-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 250;
+  cursor: pointer;
+}
+
+.exp-bar__panel {
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 10px 20px 12px;
+  min-width: 320px;
+  animation: exp-bar-pop 0.3s ease;
+}
+
+.exp-bar__label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #fff;
+}
+
+.exp-bar__name {
+  font-weight: bold;
+  font-size: 14px;
+  flex: 1;
+}
+
+.exp-bar__text {
+  font-size: 12px;
+  color: #fbbf24;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.exp-bar__value {
+  font-size: 16px;
+  font-weight: bold;
+  width: 28px;
+  text-align: right;
+  color: #fbbf24;
+}
+
+.exp-bar__track {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.exp-bar__fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2563eb, #60a5fa);
+  border-radius: 4px;
+  transition: width 0.05s linear;
+}
+
+.exp-bar__fill--filling {
+  box-shadow: 0 0 6px rgba(59, 130, 246, 0.5);
+}
+
+@keyframes exp-bar-pop {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}

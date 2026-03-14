@@ -515,3 +515,149 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     }
   });
 });
+
+// ===== Chapter 3 Screenshots =====
+test.describe('Screenshot Report — Chapter 3', () => {
+  async function startCh3(page: import('@playwright/test').Page) {
+    await page.goto(`/?seed=${SEED}&skipWalkAnim=true&chapter=ch3`);
+    await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
+    await page.waitForTimeout(2800);
+  }
+
+  test('21 - Chapter 3 Map Overview', async ({ page }) => {
+    await startCh3(page);
+    await page.screenshot({ path: 'screenshots/e2e/21-ch3-map-overview.png' });
+  });
+
+  test('22 - Chapter 3 Player Units', async ({ page }) => {
+    await startCh3(page);
+    // Hover Eirik to show stats
+    await page.hover('[data-testid="tile-5-10"]');
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: 'screenshots/e2e/22-ch3-player-units.png' });
+  });
+
+  test('23 - Chapter 3 Enemy Boss', async ({ page }) => {
+    await startCh3(page);
+    // Hover boss at (6,5)
+    await page.hover('[data-testid="tile-6-5"]');
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: 'screenshots/e2e/23-ch3-boss.png' });
+  });
+
+  test('24 - Chapter 3 Danger Zone', async ({ page }) => {
+    await startCh3(page);
+    await page.keyboard.press('x');
+    await page.waitForTimeout(500);
+    await page.screenshot({ path: 'screenshots/e2e/24-ch3-danger-zone.png' });
+  });
+
+  test('25 - Chapter 3 Combat', async ({ page }) => {
+    test.setTimeout(120000);
+    await startCh3(page);
+
+    // End turn to let enemies advance
+    await page.keyboard.press('e');
+    await page.waitForTimeout(2500);
+
+    // Wait for enemy combats
+    for (let i = 0; i < 10; i++) {
+      const combat = page.locator('[data-testid="combat-animation"]');
+      if (await combat.isVisible().catch(() => false)) {
+        await page.waitForTimeout(600);
+        await page.screenshot({ path: 'screenshots/e2e/25-ch3-combat.png' });
+        await page.waitForSelector('[data-testid="combat-animation"]', { state: 'hidden', timeout: 20000 });
+        await page.waitForTimeout(300);
+        // Dismiss level-up
+        const lu = page.locator('[data-testid="level-up-popup"]');
+        if (await lu.isVisible().catch(() => false)) {
+          await lu.click();
+          await page.waitForTimeout(300);
+        }
+      } else {
+        break;
+      }
+    }
+
+    // Wait for player phase return
+    await page.waitForTimeout(3500);
+    await page.waitForSelector('[data-testid="end-turn-button"]', { timeout: 20000 });
+    await page.screenshot({ path: 'screenshots/e2e/25b-ch3-after-enemy-turn.png' });
+  });
+});
+
+// ===== Chapter 4 Screenshots =====
+test.describe('Screenshot Report — Chapter 4', () => {
+  async function startCh4(page: import('@playwright/test').Page) {
+    await page.goto(`/?seed=${SEED}&skipWalkAnim=true&chapter=ch4`);
+    await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
+    await page.waitForTimeout(2800);
+  }
+
+  test('26 - Chapter 4 Map Overview', async ({ page }) => {
+    await startCh4(page);
+    await page.screenshot({ path: 'screenshots/e2e/26-ch4-map-overview.png' });
+  });
+
+  test('27 - Chapter 4 Dungeon Corridors', async ({ page }) => {
+    await startCh4(page);
+    // Hover a wall tile to show terrain info
+    await page.hover('[data-testid="tile-0-0"]');
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: 'screenshots/e2e/27-ch4-dungeon-walls.png' });
+  });
+
+  test('28 - Chapter 4 Boss on Throne', async ({ page }) => {
+    await startCh4(page);
+    // Hover boss at (7,0) on throne
+    await page.hover('[data-testid="tile-7-0"]');
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: 'screenshots/e2e/28-ch4-boss-throne.png' });
+  });
+
+  test('29 - Chapter 4 Danger Zone', async ({ page }) => {
+    await startCh4(page);
+    await page.keyboard.press('x');
+    await page.waitForTimeout(500);
+    await page.screenshot({ path: 'screenshots/e2e/29-ch4-danger-zone.png' });
+  });
+
+  test('30 - Chapter 4 Movement in Corridors', async ({ page }) => {
+    await startCh4(page);
+    // Select Eirik at (6,9) to show movement range in corridors
+    await clickTile(page, 6, 9);
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: 'screenshots/e2e/30-ch4-movement-corridors.png' });
+  });
+
+  test('31 - Chapter 4 Combat', async ({ page }) => {
+    test.setTimeout(120000);
+    await startCh4(page);
+
+    // End turn to let enemies advance through corridors
+    await page.keyboard.press('e');
+    await page.waitForTimeout(2500);
+
+    // Wait for enemy combats
+    for (let i = 0; i < 10; i++) {
+      const combat = page.locator('[data-testid="combat-animation"]');
+      if (await combat.isVisible().catch(() => false)) {
+        await page.waitForTimeout(600);
+        await page.screenshot({ path: 'screenshots/e2e/31-ch4-combat.png' });
+        await page.waitForSelector('[data-testid="combat-animation"]', { state: 'hidden', timeout: 20000 });
+        await page.waitForTimeout(300);
+        const lu = page.locator('[data-testid="level-up-popup"]');
+        if (await lu.isVisible().catch(() => false)) {
+          await lu.click();
+          await page.waitForTimeout(300);
+        }
+      } else {
+        break;
+      }
+    }
+
+    await page.waitForTimeout(3500);
+    await page.waitForSelector('[data-testid="end-turn-button"]', { timeout: 20000 });
+    await page.screenshot({ path: 'screenshots/e2e/31b-ch4-after-enemy-turn.png' });
+  });
+});

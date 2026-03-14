@@ -12,11 +12,13 @@ import './styles/ui/index.css';
 function App() {
   const currentScreen = useCampaignStore((s) => s.currentScreen);
 
-  // Backward compat: if ?seed param exists, skip title and go direct to battle
+  // If ?seed param exists, skip title and go direct to battle
+  // Optional ?chapter=ch3 to start a specific chapter (defaults to ch1)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.has('seed')) {
-      useCampaignStore.getState().startChapterDirect('ch1');
+      const chapterId = params.get('chapter') || 'ch1';
+      useCampaignStore.getState().startChapterDirect(chapterId);
     }
   }, []);
 

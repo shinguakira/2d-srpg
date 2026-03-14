@@ -7,7 +7,7 @@ test.describe('Chapter 3 — The Bandits of Borgo', () => {
     await page.waitForTimeout(300);
 
     const grid = page.locator('[data-testid="tactical-grid"]');
-    await expect(grid).toHaveAttribute('data-grid-width', '14');
+    await expect(grid).toHaveAttribute('data-grid-width', '25');
     await expect(grid).toHaveAttribute('data-grid-height', '12');
   });
 
@@ -16,10 +16,10 @@ test.describe('Chapter 3 — The Bandits of Borgo', () => {
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
     await page.waitForTimeout(300);
 
-    await expect(page.locator('[data-testid="tile-5-10"] [data-testid="unit-eirik"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-7-10"] [data-testid="unit-seth"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-6-11"] [data-testid="unit-lute"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-8-11"] [data-testid="unit-natasha"]')).toBeVisible();
+    await expect(page.locator('[data-testid="tile-9-10"] [data-testid="unit-eirik"]')).toBeVisible();
+    await expect(page.locator('[data-testid="tile-14-10"] [data-testid="unit-seth"]')).toBeVisible();
+    await expect(page.locator('[data-testid="tile-10-11"] [data-testid="unit-lute"]')).toBeVisible();
+    await expect(page.locator('[data-testid="tile-15-11"] [data-testid="unit-natasha"]')).toBeVisible();
   });
 
   test('enemy units are present and at correct positions', async ({ page }) => {
@@ -27,15 +27,16 @@ test.describe('Chapter 3 — The Bandits of Borgo', () => {
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
     await page.waitForTimeout(300);
 
-    // 8 enemies total
-    await expect(page.locator('[data-testid="tile-5-5"] [data-testid="unit-ch3_fighter_1"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-8-6"] [data-testid="unit-ch3_fighter_2"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-3-3"] [data-testid="unit-ch3_fighter_3"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-9-3"] [data-testid="unit-ch3_soldier_1"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-4-4"] [data-testid="unit-ch3_soldier_2"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-7-2"] [data-testid="unit-ch3_mage_1"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-6-3"] [data-testid="unit-ch3_guard_1"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-6-5"] [data-testid="unit-ch3_boss"]')).toBeVisible();
+    // 9 enemies total (including ch3_mage_2)
+    await expect(page.locator('[data-testid="tile-8-5"] [data-testid="unit-ch3_fighter_1"]')).toBeVisible();
+    await expect(page.locator('[data-testid="tile-14-6"] [data-testid="unit-ch3_fighter_2"]')).toBeVisible();
+    await expect(page.locator('[data-testid="tile-5-3"] [data-testid="unit-ch3_fighter_3"]')).toBeVisible();
+    await expect(page.locator('[data-testid="tile-15-3"] [data-testid="unit-ch3_soldier_1"]')).toBeVisible();
+    await expect(page.locator('[data-testid="tile-7-4"] [data-testid="unit-ch3_soldier_2"]')).toBeVisible();
+    await expect(page.locator('[data-testid="tile-12-2"] [data-testid="unit-ch3_mage_1"]')).toBeVisible();
+    await expect(page.locator('[data-testid="tile-17-4"] [data-testid="unit-ch3_mage_2"]')).toBeVisible();
+    await expect(page.locator('[data-testid="tile-9-3"] [data-testid="unit-ch3_guard_1"]')).toBeVisible();
+    await expect(page.locator('[data-testid="tile-9-5"] [data-testid="unit-ch3_boss"]')).toBeVisible();
   });
 
   test('terrain features are correct', async ({ page }) => {
@@ -45,19 +46,19 @@ test.describe('Chapter 3 — The Bandits of Borgo', () => {
 
     // Mountains at corners
     await expect(page.locator('[data-testid="tile-0-0"]')).toHaveAttribute('data-terrain', 'mountain');
-    await expect(page.locator('[data-testid="tile-13-0"]')).toHaveAttribute('data-terrain', 'mountain');
+    await expect(page.locator('[data-testid="tile-24-0"]')).toHaveAttribute('data-terrain', 'mountain');
 
     // Villages
-    await expect(page.locator('[data-testid="tile-3-2"]')).toHaveAttribute('data-terrain', 'village');
-    await expect(page.locator('[data-testid="tile-10-2"]')).toHaveAttribute('data-terrain', 'village');
+    await expect(page.locator('[data-testid="tile-5-2"]')).toHaveAttribute('data-terrain', 'village');
+    await expect(page.locator('[data-testid="tile-13-2"]')).toHaveAttribute('data-terrain', 'village');
 
     // Forts
-    await expect(page.locator('[data-testid="tile-6-3"]')).toHaveAttribute('data-terrain', 'fort');
-    await expect(page.locator('[data-testid="tile-6-5"]')).toHaveAttribute('data-terrain', 'fort');
+    await expect(page.locator('[data-testid="tile-9-3"]')).toHaveAttribute('data-terrain', 'fort');
+    await expect(page.locator('[data-testid="tile-9-5"]')).toHaveAttribute('data-terrain', 'fort');
 
     // Water (pond)
-    await expect(page.locator('[data-testid="tile-1-4"]')).toHaveAttribute('data-terrain', 'water');
-    await expect(page.locator('[data-testid="tile-1-5"]')).toHaveAttribute('data-terrain', 'water');
+    await expect(page.locator('[data-testid="tile-3-4"]')).toHaveAttribute('data-terrain', 'water');
+    await expect(page.locator('[data-testid="tile-3-5"]')).toHaveAttribute('data-terrain', 'water');
   });
 
   test('objective displays as rout', async ({ page }) => {
@@ -76,7 +77,7 @@ test.describe('Chapter 3 — The Bandits of Borgo', () => {
     await page.waitForTimeout(300);
 
     // Click mage to see stats
-    await page.click('[data-testid="tile-7-2"]');
+    await page.click('[data-testid="tile-12-2"]');
     await page.waitForTimeout(300);
 
     // Should show unit stats with Fire weapon

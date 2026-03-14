@@ -8,52 +8,51 @@ const W: TerrainType = 'water';
 const X: TerrainType = 'wall';
 const T: TerrainType = 'fort';
 const V: TerrainType = 'village';
-const H: TerrainType = 'throne'; // throne for boss
+const H: TerrainType = 'throne';
 
-// 15 columns x 12 rows
-// Row 0 is the top (north), row 11 is the bottom (south)
+// 25 columns x 12 rows — fills 16:9 desktop with square tiles
 const terrain: TerrainType[][] = [
-  //0  1  2  3  4  5  6  7  8  9  10 11 12 13 14
-  [M, M, F, P, P, P, P, F, P, P, P, P, F, M, M], // row 0
-  [M, F, P, P, F, P, P, H, P, P, F, P, P, F, M], // row 1 — throne at (7,1)
-  [F, P, P, P, P, P, F, P, F, P, P, P, P, P, F], // row 2
-  [P, P, V, P, P, P, P, P, P, P, P, P, V, P, P], // row 3
-  [P, P, P, P, F, P, P, T, P, P, F, P, P, P, P], // row 4
-  [P, P, P, W, W, P, P, P, P, P, W, W, P, P, P], // row 5
-  [P, P, P, W, P, P, P, P, P, P, P, W, P, P, P], // row 6
-  [P, P, P, P, P, F, P, P, P, F, P, P, P, P, P], // row 7
-  [P, F, P, P, P, P, P, P, P, P, P, P, P, F, P], // row 8
-  [F, P, P, P, P, P, F, X, F, P, P, P, P, P, F], // row 9
-  [M, F, P, P, F, P, P, X, P, P, F, P, P, F, M], // row 10
-  [M, M, F, P, P, P, X, X, X, P, P, P, F, M, M], // row 11
+  //0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
+  [M, M, M, F, P, P, P, P, P, F, P, P, P, F, P, P, P, P, P, F, P, F, M, M, M], // row 0
+  [M, M, F, P, P, F, P, P, P, P, P, H, P, P, P, P, F, P, P, P, F, P, F, M, M], // row 1 — throne at (11,1)
+  [M, F, P, P, P, P, P, P, F, P, P, P, P, P, F, P, P, P, P, P, P, P, P, F, M], // row 2
+  [F, P, P, V, P, P, P, P, P, P, P, P, P, P, P, P, P, P, V, P, P, P, P, P, F], // row 3
+  [P, P, P, P, P, F, P, P, P, P, P, T, P, P, P, F, P, P, P, P, F, P, P, P, P], // row 4
+  [P, P, P, P, W, W, P, P, P, P, P, P, P, P, P, W, W, P, P, P, P, P, P, P, P], // row 5
+  [P, P, F, P, W, P, P, P, P, P, P, P, P, P, P, P, W, P, P, F, P, P, P, F, P], // row 6
+  [P, P, P, P, P, P, F, P, P, P, P, P, P, P, F, P, P, P, P, P, P, P, F, P, P], // row 7
+  [P, P, F, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, F, P, P, P, P, F], // row 8
+  [F, P, P, P, P, P, P, P, F, P, X, F, P, P, P, P, P, F, P, P, P, P, P, P, F], // row 9
+  [M, F, P, P, P, F, P, P, P, P, X, P, P, P, F, P, P, P, P, F, P, P, F, P, M], // row 10
+  [M, M, F, P, P, P, P, P, P, X, X, X, P, P, P, P, P, P, P, P, F, F, F, M, M], // row 11
 ];
 
 export const CHAPTER_1: ChapterData = {
   id: 'ch1',
   name: 'Prologue: The Fall of Renais',
   chapterNumber: 1,
-  mapWidth: 15,
+  mapWidth: 25,
   mapHeight: 12,
   terrain,
   playerUnits: [
-    { unitId: 'eirik', position: { x: 6, y: 10 } },
-    { unitId: 'seth', position: { x: 8, y: 10 } },
-    { unitId: 'lute', position: { x: 5, y: 11 } },
-    { unitId: 'natasha', position: { x: 9, y: 11 } },
+    { unitId: 'eirik', position: { x: 10, y: 10 } },
+    { unitId: 'seth', position: { x: 13, y: 10 } },
+    { unitId: 'lute', position: { x: 9, y: 11 } },
+    { unitId: 'natasha', position: { x: 14, y: 11 } },
   ],
   enemyUnits: [
-    { unitId: 'fighter_1', position: { x: 5, y: 2 } },
-    { unitId: 'fighter_2', position: { x: 9, y: 2 } },
-    { unitId: 'fighter_3', position: { x: 7, y: 4 } },
-    { unitId: 'soldier_1', position: { x: 3, y: 1 } },
-    { unitId: 'soldier_2', position: { x: 11, y: 1 } },
-    { unitId: 'bone', position: { x: 7, y: 1 } }, // boss on throne
+    { unitId: 'fighter_1', position: { x: 8, y: 2 } },
+    { unitId: 'fighter_2', position: { x: 15, y: 2 } },
+    { unitId: 'fighter_3', position: { x: 11, y: 4 } },
+    { unitId: 'soldier_1', position: { x: 5, y: 1 } },
+    { unitId: 'soldier_2', position: { x: 17, y: 1 } },
+    { unitId: 'bone', position: { x: 11, y: 1 } }, // boss on throne
   ],
   objective: {
     type: 'seize',
     description: 'Seize the throne',
   },
-  seizePosition: { x: 7, y: 1 },
+  seizePosition: { x: 11, y: 1 },
   prologue: {
     lines: [
       { speaker: 'Narrator', text: 'The kingdom of Renais has fallen. The Grado Empire struck without warning, shattering a century of peace.' },
@@ -67,7 +66,7 @@ export const CHAPTER_1: ChapterData = {
   },
   villages: [
     {
-      position: { x: 2, y: 3 },
+      position: { x: 3, y: 3 },  // village west
       reward: {
         type: 'weapon',
         weaponId: 'hand_axe',
@@ -76,7 +75,7 @@ export const CHAPTER_1: ChapterData = {
       },
     },
     {
-      position: { x: 12, y: 3 },
+      position: { x: 18, y: 3 },
       reward: {
         type: 'weapon',
         weaponId: 'wind',

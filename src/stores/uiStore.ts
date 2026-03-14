@@ -67,8 +67,9 @@ export const useUIStore = create<UIState & UIActions>((set, get) => ({
   },
 
   computeTileSize: (mapWidth, mapHeight, viewportWidth, viewportHeight) => {
-    const tileW = Math.floor(viewportWidth / mapWidth);
-    const tileH = Math.floor(viewportHeight / mapHeight);
+    // Fit entire map: no right gap AND full map visible (both dimensions fit)
+    const tileW = viewportWidth / mapWidth;
+    const tileH = viewportHeight / mapHeight;
     const size = Math.max(32, Math.min(tileW, tileH));
     set({ tileSize: size });
   },

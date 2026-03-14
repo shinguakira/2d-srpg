@@ -8,52 +8,52 @@ const T: TerrainType = 'fort';
 const V: TerrainType = 'village';
 const H: TerrainType = 'throne';
 
-// 16 columns x 10 rows — ancient dungeon/ruins with wall corridors
+// 18 columns x 10 rows — fills 16:9 desktop with square tiles
 const terrain: TerrainType[][] = [
-  //0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
-  [X, X, X, X, F, X, X, H, X, X, F, X, X, X, X, X], // row 0 — throne at (7,0)
-  [X, P, P, X, P, P, P, P, P, P, P, X, P, P, P, X], // row 1
-  [X, P, P, X, P, X, X, P, X, X, P, X, P, P, P, X], // row 2
-  [X, P, P, P, P, X, P, P, P, X, P, P, P, X, P, X], // row 3
-  [X, X, X, P, X, X, P, T, P, X, X, P, X, X, P, X], // row 4 — fort at (7,4)
-  [X, P, P, P, P, P, P, P, P, P, P, P, P, P, P, X], // row 5 — main east-west corridor
-  [X, P, X, X, P, X, P, P, P, X, P, X, X, P, V, X], // row 6 — village at (14,6)
-  [X, P, P, P, P, X, P, T, P, X, P, P, P, P, P, X], // row 7 — fort at (7,7)
-  [X, X, P, P, P, P, P, P, P, P, P, P, P, X, P, X], // row 8
-  [M, X, X, F, P, P, P, P, P, P, P, F, X, X, P, M], // row 9 — entrance
+  //0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17
+  [X, X, X, X, X, F, X, X, H, X, X, F, X, X, X, X, X, X], // row 0 — throne at (8,0)
+  [X, P, P, X, P, P, P, P, P, P, P, P, P, X, P, P, P, X], // row 1
+  [X, P, P, X, P, X, X, P, P, X, X, P, P, X, P, P, P, X], // row 2
+  [X, P, P, P, P, X, P, P, P, P, X, P, P, P, P, X, P, X], // row 3
+  [X, X, X, P, X, X, P, T, P, P, X, X, P, X, X, P, P, X], // row 4 — fort at (7,4)
+  [X, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, X], // row 5 — main corridor
+  [X, P, X, X, P, X, P, P, P, X, P, X, X, P, V, P, P, X], // row 6 — village at (14,6)
+  [X, P, P, P, P, X, P, T, P, X, P, P, P, P, P, P, P, X], // row 7 — fort at (7,7)
+  [X, X, P, P, P, P, P, P, P, P, P, P, P, P, X, P, P, X], // row 8
+  [M, X, X, F, P, P, P, P, P, P, P, P, F, X, X, P, P, M], // row 9 — entrance
 ];
 
 export const CHAPTER_4: ChapterData = {
   id: 'ch4',
   name: 'Chapter 4: Ancient Horrors',
   chapterNumber: 4,
-  mapWidth: 16,
+  mapWidth: 18,
   mapHeight: 10,
   terrain,
   playerUnits: [
-    { unitId: 'eirik', position: { x: 6, y: 9 } },
-    { unitId: 'seth', position: { x: 8, y: 9 } },
-    { unitId: 'lute', position: { x: 5, y: 9 } },
-    { unitId: 'natasha', position: { x: 9, y: 9 } },
+    { unitId: 'eirik', position: { x: 7, y: 9 } },
+    { unitId: 'seth', position: { x: 10, y: 9 } },
+    { unitId: 'lute', position: { x: 6, y: 9 } },
+    { unitId: 'natasha', position: { x: 11, y: 9 } },
   ],
   enemyUnits: [
-    { unitId: 'ch4_soldier_1', position: { x: 3, y: 7 } },
-    { unitId: 'ch4_soldier_2', position: { x: 12, y: 7 } },
-    { unitId: 'ch4_soldier_3', position: { x: 13, y: 5 } },  // extra — corridor blocker
-    { unitId: 'ch4_fighter_1', position: { x: 7, y: 5 } },
-    { unitId: 'ch4_fighter_2', position: { x: 2, y: 5 } },
-    { unitId: 'ch4_fighter_3', position: { x: 11, y: 3 } },  // extra — ambush position
-    { unitId: 'ch4_mage_1', position: { x: 10, y: 3 } },
-    { unitId: 'ch4_mage_2', position: { x: 4, y: 3 } },
+    { unitId: 'ch4_soldier_1', position: { x: 4, y: 7 } },
+    { unitId: 'ch4_soldier_2', position: { x: 13, y: 7 } },
+    { unitId: 'ch4_soldier_3', position: { x: 15, y: 5 } },
+    { unitId: 'ch4_fighter_1', position: { x: 8, y: 5 } },
+    { unitId: 'ch4_fighter_2', position: { x: 3, y: 5 } },
+    { unitId: 'ch4_fighter_3', position: { x: 13, y: 3 } },
+    { unitId: 'ch4_mage_1', position: { x: 11, y: 3 } },
+    { unitId: 'ch4_mage_2', position: { x: 5, y: 3 } },
     { unitId: 'ch4_guard_1', position: { x: 7, y: 4 } },     // on fort
     { unitId: 'ch4_guard_2', position: { x: 4, y: 1 } },
-    { unitId: 'ch4_boss', position: { x: 7, y: 0 } },        // boss on throne
+    { unitId: 'ch4_boss', position: { x: 8, y: 0 } },        // boss on throne
   ],
   objective: {
     type: 'seize',
     description: 'Seize the throne',
   },
-  seizePosition: { x: 7, y: 0 },
+  seizePosition: { x: 8, y: 0 },
   prologue: {
     lines: [
       { speaker: 'Narrator', text: 'North of Borgo, the ancient ruins loom before Eirik\'s company. Strange sounds echo from within.' },
@@ -90,8 +90,8 @@ export const CHAPTER_4: ChapterData = {
       turn: 4,
       units: [
         { unitId: 'ch4_reinforce_1', position: { x: 4, y: 9 } },
-        { unitId: 'ch4_reinforce_2', position: { x: 10, y: 9 } },
-        { unitId: 'ch4_reinforce_3', position: { x: 14, y: 8 } },
+        { unitId: 'ch4_reinforce_2', position: { x: 12, y: 9 } },
+        { unitId: 'ch4_reinforce_3', position: { x: 15, y: 8 } },
       ],
       message: 'More creatures stir from the depths of the ruins!',
     },

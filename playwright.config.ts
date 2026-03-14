@@ -5,7 +5,7 @@ export default defineConfig({
   timeout: 60000,
   use: {
     baseURL: 'http://localhost:5178',
-    viewport: { width: 1280, height: 800 },
+    viewport: { width: 1920, height: 1080 },
   },
   webServer: {
     command: 'npx vite --port 5178',

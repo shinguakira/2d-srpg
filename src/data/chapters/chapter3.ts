@@ -7,46 +7,46 @@ const W: TerrainType = 'water';
 const T: TerrainType = 'fort';
 const V: TerrainType = 'village';
 
-// 14 columns x 12 rows — bandit-infested village with dense forest ambush zones
+// 25 columns x 12 rows — fills 16:9 desktop with square tiles
 const terrain: TerrainType[][] = [
-  //0  1  2  3  4  5  6  7  8  9  10 11 12 13
-  [M, M, F, F, P, P, P, P, P, P, F, F, M, M], // row 0
-  [M, F, P, P, P, F, P, P, F, P, P, P, F, M], // row 1
-  [F, P, P, V, P, P, P, P, P, P, V, P, P, F], // row 2 — villages at (3,2) and (10,2)
-  [P, P, F, F, P, P, T, P, P, F, F, P, P, P], // row 3 — fort at (6,3)
-  [P, W, P, F, P, P, P, P, P, F, P, P, P, P], // row 4 — pond
-  [P, W, P, P, P, F, T, F, P, P, P, F, P, P], // row 5 — fort at (6,5), boss position
-  [P, P, P, F, P, P, P, P, P, F, P, P, P, P], // row 6
-  [P, P, F, P, P, P, P, P, P, P, F, P, P, P], // row 7
-  [P, P, P, P, F, P, P, P, F, P, P, P, P, P], // row 8
-  [F, P, P, P, P, P, P, P, P, P, P, P, P, F], // row 9
-  [M, F, P, P, P, P, P, P, P, P, P, P, F, M], // row 10
-  [M, M, F, P, P, P, P, P, P, P, P, F, M, M], // row 11
+  //0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
+  [M, M, M, M, F, F, P, P, P, P, P, P, P, P, P, F, F, P, P, F, P, F, M, M, M], // row 0
+  [M, M, M, F, P, P, P, F, P, P, P, F, P, P, P, P, F, P, P, P, F, P, F, M, M], // row 1
+  [M, M, F, P, P, V, P, P, P, P, P, P, P, V, P, P, P, P, F, P, P, P, P, M, M], // row 2 — villages
+  [M, F, P, P, F, F, P, P, P, T, P, P, F, F, P, P, P, F, P, P, F, P, P, F, M], // row 3 — fort at (9,3)
+  [F, P, P, W, P, F, P, P, P, P, P, P, F, P, P, P, F, P, P, F, P, P, P, P, F], // row 4
+  [P, P, P, W, P, P, P, F, P, T, F, P, P, P, F, P, P, P, P, P, P, P, P, P, P], // row 5 — fort at (9,5), boss
+  [P, P, P, P, P, F, P, P, P, P, P, P, F, P, P, P, P, F, P, P, P, P, P, F, P], // row 6
+  [P, P, P, P, F, P, P, P, P, P, P, P, P, F, P, P, P, P, F, P, P, P, P, P, P], // row 7
+  [P, P, F, P, P, P, F, P, P, P, P, F, P, P, P, P, F, P, P, P, F, P, P, P, F], // row 8
+  [F, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, F], // row 9
+  [M, F, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, F, M], // row 10
+  [M, M, F, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, F, M, M], // row 11
 ];
 
 export const CHAPTER_3: ChapterData = {
   id: 'ch3',
   name: 'Chapter 3: The Bandits of Borgo',
   chapterNumber: 3,
-  mapWidth: 14,
+  mapWidth: 25,
   mapHeight: 12,
   terrain,
   playerUnits: [
-    { unitId: 'eirik', position: { x: 5, y: 10 } },
-    { unitId: 'seth', position: { x: 7, y: 10 } },
-    { unitId: 'lute', position: { x: 6, y: 11 } },
-    { unitId: 'natasha', position: { x: 8, y: 11 } },
+    { unitId: 'eirik', position: { x: 9, y: 10 } },
+    { unitId: 'seth', position: { x: 14, y: 10 } },
+    { unitId: 'lute', position: { x: 10, y: 11 } },
+    { unitId: 'natasha', position: { x: 15, y: 11 } },
   ],
   enemyUnits: [
-    { unitId: 'ch3_fighter_1', position: { x: 5, y: 5 } },
-    { unitId: 'ch3_fighter_2', position: { x: 8, y: 6 } },
-    { unitId: 'ch3_fighter_3', position: { x: 3, y: 3 } },
-    { unitId: 'ch3_soldier_1', position: { x: 9, y: 3 } },
-    { unitId: 'ch3_soldier_2', position: { x: 4, y: 4 } },
-    { unitId: 'ch3_mage_1', position: { x: 7, y: 2 } },
-    { unitId: 'ch3_mage_2', position: { x: 10, y: 4 } },  // extra mage — flanking threat
-    { unitId: 'ch3_guard_1', position: { x: 6, y: 3 } },   // on fort
-    { unitId: 'ch3_boss', position: { x: 6, y: 5 } },      // boss on fort
+    { unitId: 'ch3_fighter_1', position: { x: 8, y: 5 } },
+    { unitId: 'ch3_fighter_2', position: { x: 14, y: 6 } },
+    { unitId: 'ch3_fighter_3', position: { x: 5, y: 3 } },
+    { unitId: 'ch3_soldier_1', position: { x: 15, y: 3 } },
+    { unitId: 'ch3_soldier_2', position: { x: 7, y: 4 } },
+    { unitId: 'ch3_mage_1', position: { x: 12, y: 2 } },
+    { unitId: 'ch3_mage_2', position: { x: 17, y: 4 } },
+    { unitId: 'ch3_guard_1', position: { x: 9, y: 3 } },   // on fort
+    { unitId: 'ch3_boss', position: { x: 9, y: 5 } },       // boss on fort
   ],
   objective: {
     type: 'rout',
@@ -74,7 +74,7 @@ export const CHAPTER_3: ChapterData = {
   },
   villages: [
     {
-      position: { x: 3, y: 2 },
+      position: { x: 5, y: 2 },  // village west
       reward: {
         type: 'weapon',
         weaponId: 'steel_sword',
@@ -83,7 +83,7 @@ export const CHAPTER_3: ChapterData = {
       },
     },
     {
-      position: { x: 10, y: 2 },
+      position: { x: 13, y: 2 },
       reward: {
         type: 'weapon',
         weaponId: 'elfire',
@@ -97,7 +97,7 @@ export const CHAPTER_3: ChapterData = {
       turn: 4,
       units: [
         { unitId: 'ch3_reinforce_1', position: { x: 3, y: 11 } },
-        { unitId: 'ch3_reinforce_2', position: { x: 10, y: 11 } },
+        { unitId: 'ch3_reinforce_2', position: { x: 20, y: 11 } },
       ],
       message: 'More bandits emerge from the forest!',
     },

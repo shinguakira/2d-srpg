@@ -106,28 +106,28 @@ test.describe('Screenshot Report — Battle Map & UI Panels', () => {
 
   test('08 - Unit Stats Panel (player)', async ({ page }) => {
     await startBattle(page);
-    await page.hover('[data-testid="tile-6-10"]');
+    await page.hover('[data-testid="tile-10-10"]');
     await page.waitForTimeout(400);
     await page.screenshot({ path: 'screenshots/e2e/08-unit-stats-player.png' });
   });
 
   test('09 - Terrain Info (forest)', async ({ page }) => {
     await startBattle(page);
-    await page.hover('[data-testid="tile-4-4"]');
+    await page.hover('[data-testid="tile-5-4"]');
     await page.waitForTimeout(400);
     await page.screenshot({ path: 'screenshots/e2e/09-terrain-forest.png' });
   });
 
   test('10 - Terrain Info (fort)', async ({ page }) => {
     await startBattle(page);
-    await page.hover('[data-testid="tile-7-4"]');
+    await page.hover('[data-testid="tile-11-4"]');
     await page.waitForTimeout(400);
     await page.screenshot({ path: 'screenshots/e2e/10-terrain-fort.png' });
   });
 
   test('11 - Unit Detail Screen (Eirik)', async ({ page }) => {
     await startBattle(page);
-    await clickTile(page, 6, 10);
+    await clickTile(page, 10, 10);
     await page.keyboard.press('i');
     await page.waitForSelector('[data-testid="unit-detail-screen"]', { timeout: 3000 });
     await page.waitForTimeout(500);
@@ -136,10 +136,10 @@ test.describe('Screenshot Report — Battle Map & UI Panels', () => {
 
   test('12 - Unit Detail Screen (Boss)', async ({ page }) => {
     await startBattle(page);
-    // Boss Bone at (7,1) on throne
-    await page.hover('[data-testid="tile-7-1"]');
+    // Boss Bone at (11,1) on throne
+    await page.hover('[data-testid="tile-11-1"]');
     await page.waitForTimeout(200);
-    await clickTile(page, 7, 1);
+    await clickTile(page, 11, 1);
     await page.keyboard.press('i');
     await page.waitForTimeout(600);
     await page.screenshot({ path: 'screenshots/e2e/12-unit-detail-boss.png' });
@@ -156,16 +156,16 @@ test.describe('Screenshot Report — Battle Map & UI Panels', () => {
 test.describe('Screenshot Report — Movement & Actions', () => {
   test('14 - Movement Range (Eirik)', async ({ page }) => {
     await startBattle(page);
-    await clickTile(page, 6, 10); // Select Eirik
+    await clickTile(page, 10, 10); // Select Eirik
     await page.waitForTimeout(400);
     await page.screenshot({ path: 'screenshots/e2e/14-movement-range.png' });
   });
 
   test('15 - Action Menu (Seth with weapons)', async ({ page }) => {
     await startBattle(page);
-    // Select Seth at (8,10), move to (9,9)
-    await clickTile(page, 8, 10);
-    await clickTile(page, 9, 9);
+    // Select Seth at (13,10), move to (13,9)
+    await clickTile(page, 13, 10);
+    await clickTile(page, 13, 9);
     await page.waitForSelector('[data-testid="action-menu"]', { timeout: 5000 });
     await page.waitForTimeout(200);
     await page.screenshot({ path: 'screenshots/e2e/15-action-menu.png' });
@@ -173,9 +173,9 @@ test.describe('Screenshot Report — Movement & Actions', () => {
 
   test('16 - Action Menu (Eirik move up)', async ({ page }) => {
     await startBattle(page);
-    // Select Eirik, move to (6,9)
-    await clickTile(page, 6, 10);
-    await clickTile(page, 5, 9);
+    // Select Eirik at (10,10), move to (9,9) (10,9 is wall)
+    await clickTile(page, 10, 10);
+    await clickTile(page, 9, 9);
     await page.waitForSelector('[data-testid="action-menu"]', { timeout: 5000 });
     await page.waitForTimeout(200);
     await page.screenshot({ path: 'screenshots/e2e/16-action-menu-eirik.png' });
@@ -193,14 +193,14 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     // Turn 1: end turn to let enemies advance
     await endTurnAndWait(page);
 
-    // Turn 2: Move Seth toward enemies. Aggressive fighters should have moved ~3 tiles south.
-    // fighter_1 started at (5,2) → ~(5,5), fighter_2 at (9,2) → ~(9,5)
-    // Seth is at (8,10), MOV 7. Try to reach adjacent to where enemies moved.
-    await clickTile(page, 8, 10);
+    // Turn 2: Move Seth toward enemies. Aggressive fighters should have moved south.
+    // fighter_1 started at (8,2), fighter_2 at (15,2)
+    // Seth is at (13,10), MOV 7. Try to reach adjacent to where enemies moved.
+    await clickTile(page, 13, 10);
     await page.waitForTimeout(200);
 
-    // Try clicking (10,4) — Seth should be able to reach this via east route
-    await clickTile(page, 10, 4);
+    // Try clicking (14,4) — Seth should be able to reach this
+    await clickTile(page, 14, 4);
     await page.waitForTimeout(300);
 
     const actionMenu = page.locator('[data-testid="action-menu"]');
@@ -227,17 +227,17 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
         await page.screenshot({ path: 'screenshots/e2e/17-combat-forecast.png' });
         return;
       }
-      // No attack available from (10,4), cancel
+      // No attack available from (14,4), cancel
       await page.click('[data-testid="action-cancel"]');
       await page.waitForTimeout(200);
     }
 
-    // Fallback: try Eirik at (6,10) → move to (5,5) area
+    // Fallback: try Eirik at (10,10) → move to (10,5) area
     await page.keyboard.press('Escape');
     await page.waitForTimeout(200);
-    await clickTile(page, 6, 10);
+    await clickTile(page, 10, 10);
     await page.waitForTimeout(200);
-    await clickTile(page, 5, 5);
+    await clickTile(page, 10, 5);
     await page.waitForTimeout(300);
 
     const actionMenu2 = page.locator('[data-testid="action-menu"]');
@@ -273,9 +273,9 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
 
     // Turn 2: find and attack an enemy
     // Try Seth first
-    await clickTile(page, 8, 10);
+    await clickTile(page, 13, 10);
     await page.waitForTimeout(200);
-    await clickTile(page, 10, 4);
+    await clickTile(page, 14, 4);
     await page.waitForTimeout(300);
 
     let attacked = false;
@@ -315,9 +315,9 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
 
     if (!attacked) {
       // Try Eirik
-      await clickTile(page, 6, 10);
+      await clickTile(page, 10, 10);
       await page.waitForTimeout(200);
-      await clickTile(page, 5, 5);
+      await clickTile(page, 10, 5);
       await page.waitForTimeout(300);
       const am2 = page.locator('[data-testid="action-menu"]');
       if (await am2.isVisible().catch(() => false)) {
@@ -369,16 +369,16 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     await startBattle(page);
 
     // Move player units north to bait enemies into attacking on their turn
-    // Move Eirik from (6,10) to (6,6)
-    await clickTile(page, 6, 10);
-    await clickTile(page, 6, 6);
+    // Move Eirik from (10,10) to (9,7) (wall at 10,9 blocks straight path)
+    await clickTile(page, 10, 10);
+    await clickTile(page, 9, 7);
     await page.waitForTimeout(200);
     await page.click('[data-testid="action-wait"]');
     await page.waitForTimeout(200);
 
-    // Move Seth from (8,10) to (9,5)
-    await clickTile(page, 8, 10);
-    await clickTile(page, 9, 5);
+    // Move Seth from (13,10) to (13,7)
+    await clickTile(page, 13, 10);
+    await clickTile(page, 13, 7);
     await page.waitForTimeout(200);
     await page.click('[data-testid="action-wait"]');
     await page.waitForTimeout(200);
@@ -423,7 +423,7 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     await page.screenshot({ path: 'screenshots/e2e/19b-after-enemy-turn.png' });
 
     // Hover a unit that likely took damage
-    await page.hover('[data-testid="tile-6-6"]');
+    await page.hover('[data-testid="tile-9-7"]');
     await page.waitForTimeout(400);
     await page.screenshot({ path: 'screenshots/e2e/19c-damaged-unit.png' });
   });
@@ -432,28 +432,29 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     test.setTimeout(120000);
     await startBattle(page);
 
-    // Move units north to bait enemies
-    await clickTile(page, 6, 10);
-    await clickTile(page, 6, 6);
+    // Move Seth north to bait enemies (Seth is tanky, won't die)
+    // Seth (13,10) → (13,7)
+    await clickTile(page, 13, 10);
+    await clickTile(page, 13, 7);
     await page.waitForTimeout(200);
     await page.click('[data-testid="action-wait"]');
     await page.waitForTimeout(200);
 
-    // Move Natasha close (9,11 → 9,7)
-    await clickTile(page, 9, 11);
-    await clickTile(page, 9, 7);
+    // Move Natasha close but safe (14,11 → 14,9)
+    await clickTile(page, 14, 11);
+    await clickTile(page, 14, 9);
     await page.waitForTimeout(200);
     await page.click('[data-testid="action-wait"]');
     await page.waitForTimeout(200);
 
-    // End turn — enemies attack
+    // End turn — enemies attack Seth
     await endTurnAndWait(page);
 
-    // Turn 2: Try to heal with Natasha
-    await clickTile(page, 9, 7);
+    // Turn 2: Try to heal Seth with Natasha
+    await clickTile(page, 14, 9);
     await page.waitForTimeout(200);
-    // Move Natasha adjacent to where Eirik might be
-    await clickTile(page, 7, 6);
+    // Move Natasha adjacent to where Seth might be
+    await clickTile(page, 13, 8);
     await page.waitForTimeout(300);
 
     const healBtn = page.locator('[data-testid="action-heal"]');
@@ -486,10 +487,10 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
         await page.waitForTimeout(200);
       }
 
-      // Try using Vulnerary on a damaged unit
-      await clickTile(page, 6, 6);
+      // Try using Vulnerary on a damaged Seth
+      await clickTile(page, 13, 7);
       await page.waitForTimeout(200);
-      await clickTile(page, 6, 5);
+      await clickTile(page, 13, 6);
       await page.waitForTimeout(300);
 
       const am = page.locator('[data-testid="action-menu"]');
@@ -532,15 +533,15 @@ test.describe('Screenshot Report — Chapter 3', () => {
   test('22 - Chapter 3 Player Units', async ({ page }) => {
     await startCh3(page);
     // Hover Eirik to show stats
-    await page.hover('[data-testid="tile-5-10"]');
+    await page.hover('[data-testid="tile-9-10"]');
     await page.waitForTimeout(400);
     await page.screenshot({ path: 'screenshots/e2e/22-ch3-player-units.png' });
   });
 
   test('23 - Chapter 3 Enemy Boss', async ({ page }) => {
     await startCh3(page);
-    // Hover boss at (6,5)
-    await page.hover('[data-testid="tile-6-5"]');
+    // Hover boss at (9,5)
+    await page.hover('[data-testid="tile-9-5"]');
     await page.waitForTimeout(400);
     await page.screenshot({ path: 'screenshots/e2e/23-ch3-boss.png' });
   });
@@ -609,8 +610,8 @@ test.describe('Screenshot Report — Chapter 4', () => {
 
   test('28 - Chapter 4 Boss on Throne', async ({ page }) => {
     await startCh4(page);
-    // Hover boss at (7,0) on throne
-    await page.hover('[data-testid="tile-7-0"]');
+    // Hover boss at (8,0) on throne
+    await page.hover('[data-testid="tile-8-0"]');
     await page.waitForTimeout(400);
     await page.screenshot({ path: 'screenshots/e2e/28-ch4-boss-throne.png' });
   });
@@ -624,8 +625,8 @@ test.describe('Screenshot Report — Chapter 4', () => {
 
   test('30 - Chapter 4 Movement in Corridors', async ({ page }) => {
     await startCh4(page);
-    // Select Eirik at (6,9) to show movement range in corridors
-    await clickTile(page, 6, 9);
+    // Select Eirik at (7,9) to show movement range in corridors
+    await clickTile(page, 7, 9);
     await page.waitForTimeout(400);
     await page.screenshot({ path: 'screenshots/e2e/30-ch4-movement-corridors.png' });
   });

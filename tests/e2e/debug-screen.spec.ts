@@ -124,7 +124,7 @@ test.describe('Debug Screen Screenshots', () => {
     await page.waitForSelector('[data-testid="title-screen"]', { timeout: 10000 });
     await page.click('[data-testid="debug-btn"]');
     await page.waitForSelector('[data-testid="debug-screen"]', { timeout: 5000 });
-    await page.click('[data-testid="debug-unit-soldier_2"]');
+    await page.click('[data-testid="debug-unit-soldier_1"]');
     await page.waitForTimeout(200);
     await page.screenshot({ path: 'screenshots/debug/12-soldier-guard.png' });
   });

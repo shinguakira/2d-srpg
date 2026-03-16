@@ -194,7 +194,7 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     await endTurnAndWait(page);
 
     // Turn 2: Move Seth toward enemies. Aggressive fighters should have moved south.
-    // fighter_1 started at (8,2), fighter_2 at (15,2)
+    // fighter_1 started at (8,2), fighter_3 at (11,4)
     // Seth is at (13,10), MOV 7. Try to reach adjacent to where enemies moved.
     await clickTile(page, 13, 10);
     await page.waitForTimeout(200);

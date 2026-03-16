@@ -39,10 +39,8 @@ test.describe('Chapter 1 — Full Game Flow', () => {
 
     // Enemy units present
     await expect(page.locator('[data-testid="unit-fighter_1"]')).toBeVisible();
-    await expect(page.locator('[data-testid="unit-fighter_2"]')).toBeVisible();
     await expect(page.locator('[data-testid="unit-fighter_3"]')).toBeVisible();
     await expect(page.locator('[data-testid="unit-soldier_1"]')).toBeVisible();
-    await expect(page.locator('[data-testid="unit-soldier_2"]')).toBeVisible();
 
     // Turn info shows
     await expect(page.locator('text=Turn 1')).toBeVisible();

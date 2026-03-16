@@ -1,5 +1,5 @@
 import { posKey } from '../../core/types';
-import { getManhattanDistance } from '../../core/pathfinding';
+import { getManhattanDistance, getPath } from '../../core/pathfinding';
 import { calculateCombatForecast, resolveCombat } from '../../core/combat';
 import { decideAction } from '../../core/ai';
 import type { AIAction } from '../../core/ai';
@@ -8,6 +8,12 @@ import { IDLE_RESET } from '../helpers/constants';
 import { applyCombatResult } from '../helpers/combatResolution';
 import { checkVictory } from '../helpers/mapHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
+
+/** Check if walk animation should be skipped (for E2E tests) */
+function shouldSkipWalkAnim(): boolean {
+  if (typeof window === 'undefined') return true;
+  return new URLSearchParams(window.location.search).has('skipWalkAnim');
+}
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -53,16 +59,38 @@ export function executeNextEnemyAction(get: Get, set: Set) {
     return;
   }
 
-  // Move the unit — check destination isn't already occupied
-  const newUnits = new Map(units);
-  const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
-
+  // Check destination isn't already occupied
   let destination = action.moveTo;
-  const destOccupant = newTiles[destination.y][destination.x].occupantId;
+  const destOccupant = gameMap.tiles[destination.y]?.[destination.x]?.occupantId;
   if (destOccupant && destOccupant !== unit.id) {
-    // Destination occupied — stay in place
     destination = unit.position;
   }
+
+  const needsMove = posKey(unit.position) !== posKey(destination);
+
+  // Start walk animation if the unit actually moves
+  if (needsMove && !shouldSkipWalkAnim()) {
+    const path = getPath(unit.position, destination, unit, gameMap, units);
+    if (path.length > 1) {
+      set({
+        movingUnit: { unitId: unit.id, path, stepIndex: 0, onComplete: 'enemy_action' },
+      });
+      return; // useGameLoop will wait for movingUnit to be null, then re-trigger
+    }
+  }
+
+  // Walk done or no walk needed — finalize move + combat
+  finalizeEnemyAction(get, set, action, unit, destination);
+}
+
+/** Finalize enemy action after walk animation completes (or was skipped) */
+function finalizeEnemyAction(
+  get: Get, set: Set, action: AIAction, unit: ReturnType<Get>['units'] extends Map<string, infer U> ? U : never, destination: { x: number; y: number }
+) {
+  const { units, gameMap, rng, enemyActionIndex } = get();
+
+  const newUnits = new Map(units);
+  const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
 
   if (posKey(unit.position) !== posKey(destination)) {
     newTiles[unit.position.y][unit.position.x].occupantId = null;
@@ -75,7 +103,6 @@ export function executeNextEnemyAction(get: Get, set: Set) {
   if (action.attackTargetId && action.forecast) {
     const target = newUnits.get(action.attackTargetId);
     if (!target) {
-      // Target already dead, just move and mark acted
       newUnits.set(unit.id, { ...movedUnit, hasActed: true });
       set({
         units: newUnits,
@@ -85,12 +112,10 @@ export function executeNextEnemyAction(get: Get, set: Set) {
       return;
     }
 
-    // Recalculate forecast with actual current HP and real destination
     const attackerTerrain = newTiles[destination.y][destination.x].terrain;
     const defenderTerrain = newTiles[target.position.y][target.position.x].terrain;
     const distance = getManhattanDistance(destination, target.position);
 
-    // If enemy couldn't move to attack range, skip combat
     if (distance < unit.equippedWeapon.minRange || distance > unit.equippedWeapon.maxRange) {
       newUnits.set(unit.id, { ...movedUnit, hasActed: true });
       set({
@@ -101,7 +126,6 @@ export function executeNextEnemyAction(get: Get, set: Set) {
       return;
     }
 
-    // Face toward attack target
     const attackFacing = deriveFacing(destination, target.position);
     const combatUnit = { ...movedUnit, facing: attackFacing };
     newUnits.set(unit.id, combatUnit);
@@ -120,7 +144,6 @@ export function executeNextEnemyAction(get: Get, set: Set) {
       combatAnimationStep: 0,
     });
   } else {
-    // No attack — just move and mark acted
     newUnits.set(unit.id, { ...movedUnit, hasActed: true });
     set({
       units: newUnits,

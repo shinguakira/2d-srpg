@@ -1,5 +1,5 @@
 import { posKey } from '../../core/types';
-import { getManhattanDistance } from '../../core/pathfinding';
+import { getManhattanDistance, getPath } from '../../core/pathfinding';
 import { calculateCombatForecast, resolveCombat } from '../../core/combat';
 import { calculateExpGain, checkLevelUp, rollLevelUp, applyStatGains } from '../../core/experience';
 import type { StatGains } from '../../core/experience';
@@ -12,6 +12,12 @@ import { applyCombatResult } from '../helpers/combatResolution';
 import { allPlayersDone } from '../helpers/mapHelpers';
 import { refreshDangerZone } from '../helpers/dangerZoneHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
+
+/** Check if walk animation should be skipped (for E2E tests) */
+function shouldSkipWalkAnim(): boolean {
+  if (typeof window === 'undefined') return true;
+  return new URLSearchParams(window.location.search).has('skipWalkAnim');
+}
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -32,12 +38,22 @@ export function startAutoBattle(get: Get, set: Set) {
 
   for (const unit of units.values()) {
     if (unit.faction === 'player' && !unit.hasActed) {
-      // Use aggressive AI for player units (temporarily set faction-aware targeting)
-      const fakeEnemy = { ...simUnits.get(unit.id)!, faction: 'enemy' as const };
-      simUnits.set(unit.id, fakeEnemy);
-      const action = decideAction(fakeEnemy, gameMap, simUnits);
-      // Restore faction
-      simUnits.set(unit.id, { ...simUnits.get(unit.id)!, faction: 'player', position: { ...action.moveTo } });
+      // Temporarily make ALL player units look like 'player_auto' faction,
+      // and this unit as 'enemy', so the AI targets enemies only.
+      // First, hide all other player units from being targeted by setting them as 'enemy' too
+      // Actually: swap ALL factions: player→enemy, enemy→player, so the AI sees enemies as allies
+      const swappedUnits = new Map(simUnits);
+      for (const [id, u] of swappedUnits) {
+        if (u.faction === 'player') {
+          swappedUnits.set(id, { ...u, faction: 'enemy' as const });
+        } else if (u.faction === 'enemy') {
+          swappedUnits.set(id, { ...u, faction: 'player' as const });
+        }
+      }
+      const fakeUnit = swappedUnits.get(unit.id)!;
+      const action = decideAction(fakeUnit, gameMap, swappedUnits);
+      // Update sim position for subsequent units
+      simUnits.set(unit.id, { ...simUnits.get(unit.id)!, position: { ...action.moveTo } });
       actions.push(action);
     }
   }
@@ -57,7 +73,6 @@ export function executeNextAutoAction(get: Get, set: Set) {
   if (autoBattleIndex < 0 || autoBattleIndex >= autoBattleActions.length) {
     // All done — end auto-battle, then end turn
     set({ isAutoBattle: false, autoBattleActions: [], autoBattleIndex: -1 });
-    // Mark remaining player units as acted and end turn
     const newUnits = new Map(units);
     for (const [id, u] of newUnits) {
       if (u.faction === 'player' && !u.hasActed) {
@@ -76,14 +91,48 @@ export function executeNextAutoAction(get: Get, set: Set) {
     return;
   }
 
-  const newUnits = new Map(units);
-  const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
+  // Verify target is actually an enemy (safety check)
+  if (action.attackTargetId) {
+    const target = units.get(action.attackTargetId);
+    if (target && target.faction === 'player') {
+      // Bug safety: never attack allies — skip this action, just wait
+      const newUnits = new Map(units);
+      newUnits.set(unit.id, { ...unit, hasActed: true });
+      set({ units: newUnits, autoBattleIndex: autoBattleIndex + 1 });
+      return;
+    }
+  }
 
   let destination = action.moveTo;
-  const destOccupant = newTiles[destination.y]?.[destination.x]?.occupantId;
+  const destOccupant = gameMap.tiles[destination.y]?.[destination.x]?.occupantId;
   if (destOccupant && destOccupant !== unit.id) {
     destination = unit.position;
   }
+
+  const needsMove = posKey(unit.position) !== posKey(destination);
+
+  // Start walk animation if the unit actually moves
+  if (needsMove && !shouldSkipWalkAnim()) {
+    const path = getPath(unit.position, destination, unit, gameMap, units);
+    if (path.length > 1) {
+      set({
+        movingUnit: { unitId: unit.id, path, stepIndex: 0, onComplete: 'auto_action' },
+      });
+      return; // useGameLoop will wait for movingUnit to be null, then re-trigger
+    }
+  }
+
+  // Walk done or no walk needed — finalize
+  finalizeAutoAction(get, set, action, unit, destination);
+}
+
+function finalizeAutoAction(
+  get: Get, set: Set, action: AIAction, unit: ReturnType<Get>['units'] extends Map<string, infer U> ? U : never, destination: { x: number; y: number }
+) {
+  const { units, gameMap, rng, autoBattleIndex } = get();
+
+  const newUnits = new Map(units);
+  const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
 
   if (posKey(unit.position) !== posKey(destination)) {
     newTiles[unit.position.y][unit.position.x].occupantId = null;
@@ -96,7 +145,7 @@ export function executeNextAutoAction(get: Get, set: Set) {
 
   if (action.attackTargetId) {
     const target = newUnits.get(action.attackTargetId);
-    if (!target) {
+    if (!target || target.faction === 'player') {
       newUnits.set(unit.id, { ...movedUnit, hasActed: true });
       set({ units: newUnits, gameMap: { ...gameMap, tiles: newTiles }, autoBattleIndex: autoBattleIndex + 1 });
       return;

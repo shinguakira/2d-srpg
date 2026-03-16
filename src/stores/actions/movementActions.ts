@@ -55,7 +55,14 @@ export function advanceMovement(get: Get, set: Set) {
   if (nextIndex >= path.length) {
     // Walk complete — finalize
     const destination = path[path.length - 1];
+    const { onComplete } = movingUnit;
     set({ movingUnit: null });
+
+    // Enemy/auto-battle walk: just clear movingUnit, let the game loop proceed
+    if (onComplete === 'enemy_action' || onComplete === 'auto_action') {
+      return;
+    }
+
     teleportUnit(get, set, unitId, unit, destination, gameMap, units);
     return;
   }

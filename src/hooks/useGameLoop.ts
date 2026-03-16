@@ -33,10 +33,10 @@ export function useGameLoop() {
       return;
     }
 
-    // Longer delay (1200ms) so player can see each enemy move clearly
+    // Short delay between enemy actions so player can see each move
     const timer = setTimeout(() => {
       executeNextEnemyAction();
-    }, 1200);
+    }, 400);
 
     return () => clearTimeout(timer);
   }, [currentPhase, enemyActionIndex, enemyActions.length, combatResult, deathQuote, movingUnit, executeNextEnemyAction]);
@@ -50,6 +50,7 @@ export function useGameLoop() {
     if (expBarData) return;
     if (levelUpGains) return;
     if (deathQuote) return;
+    if (movingUnit) return; // walking animation in progress
 
     if (autoBattleIndex >= autoBattleActions.length) {
       executeNextAutoAction();
@@ -58,8 +59,8 @@ export function useGameLoop() {
 
     const timer = setTimeout(() => {
       executeNextAutoAction();
-    }, 600);
+    }, 400);
 
     return () => clearTimeout(timer);
-  }, [isAutoBattle, currentPhase, autoBattleIndex, autoBattleActions.length, combatResult, expBarData, levelUpGains, deathQuote, executeNextAutoAction]);
+  }, [isAutoBattle, currentPhase, autoBattleIndex, autoBattleActions.length, combatResult, expBarData, levelUpGains, deathQuote, movingUnit, executeNextAutoAction]);
 }

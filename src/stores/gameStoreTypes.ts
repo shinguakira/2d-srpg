@@ -102,7 +102,7 @@ export type GameState = {
   floatingNumbers: Array<{ id: number; x: number; y: number; text: string; color: string }>;
 
   // Walking animation
-  movingUnit: { unitId: string; path: Position[]; stepIndex: number; onComplete: 'wait' | 'combat' | 'heal' | 'item' | 'seize' | 'village' } | null;
+  movingUnit: { unitId: string; path: Position[]; stepIndex: number; onComplete: 'wait' | 'combat' | 'heal' | 'item' | 'seize' | 'village' | 'enemy_action' | 'auto_action' } | null;
 };
 
 export type GameActions = {

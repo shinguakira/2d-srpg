@@ -6,11 +6,13 @@ Equippable abilities that modify combat, movement, or meta-stat interactions. Se
 
 ## Equip Rules
 
-- Each unit has **2 skill slots**.
+- Each unit has up to **10 skill slots**.
+- Slots unlock as the unit levels up: start with 2 slots, +1 slot every 3 levels (Lv1=2, Lv4=3, Lv7=4, Lv10=5, Lv13=6, Lv16=7, Lv19=8, promotion=10).
 - Skills can be swapped freely during the preparation phase (before a chapter starts).
 - Skills CANNOT be changed mid-chapter.
 - A unit can only equip skills they have learned — skills are permanently added to a unit's skill pool once acquired.
 - Character passives do NOT occupy skill slots.
+- Trauma skills (auto-learned) occupy a slot and CANNOT be unequipped while active.
 
 ---
 

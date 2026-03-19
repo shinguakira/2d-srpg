@@ -16,6 +16,7 @@ Each enemy unit has an assigned AI behavior that determines how it moves and sel
 | **Stationary** | Cannot move | Attack in weapon range only | Archers on walls, mages behind lines |
 | **Guard** | Stay within radius of start position | Best target within guard zone | Area defenders, gatekeepers |
 | **Boss** | Cannot move | Attack in range, prioritize Lord | Chapter bosses on thrones |
+| **Survival** | Flee to fort/safe tile when low HP | Attack only when healthy | Self-preserving enemies, named enemies, mini-bosses |
 
 ### Aggressive
 
@@ -62,6 +63,49 @@ Like stationary but with Lord-targeting priority.
 3. +50 bonus to score if target is Lord class
 4. Attack best target
 5. If no target: do nothing
+```
+
+### Survival
+
+Self-preserving AI. Fights when healthy, retreats to heal when wounded. Makes enemies feel smarter — they don't suicidally charge when near death.
+
+```
+HP threshold: ≤ 30% max HP → retreat mode
+HP threshold: > 50% max HP → attack mode
+Between 30-50%: stay cautious (attack only safe targets, don't chase)
+
+RETREAT MODE:
+1. Find nearest fort/throne tile (healing terrain)
+2. Move toward it (BFS shortest path)
+3. If already on fort: stay and heal (do nothing)
+4. If no fort reachable: move AWAY from nearest player unit (maximize distance)
+5. Do NOT attack even if target is in range (priority is survival)
+
+ATTACK MODE:
+1. Behave like Aggressive — chase and attack best target
+2. Full target scoring applies
+
+CAUTIOUS MODE (30-50% HP):
+1. Calculate all attack options
+2. Only attack if: score > 80 AND self would survive the counter
+3. If no safe attack: move toward fort or hold position
+4. Will not chase — only attacks targets that come to them
+```
+
+**Use cases:**
+- **Named enemies** that flee and return later in the chapter (mini-boss retreats, heals, comes back)
+- **Mages** that kite — attack from range, retreat when approached
+- **Thieves/Brigands** targeting villages — run toward village, attack only if cornered
+- **Enemies with Vulneraries** — retreat, use item, then re-engage
+
+**Survival + Items:**
+When in retreat mode, if the unit has a healing item (Vulnerary, etc.), they will use it instead of attacking — even if a target is in range. Item use consumes their action for the turn.
+
+```
+RETREAT MODE with item:
+1. If has healing item AND current HP < max HP: use item (action consumed)
+2. Then move toward fort (if movement remains via Canto, otherwise stay)
+3. If no healing item: move toward fort without acting
 ```
 
 ---
@@ -246,6 +290,7 @@ General guidelines for enemy placement and behavior assignment.
 | Archer | 2 | Stationary | 4 | On elevated terrain |
 | Mage | 1-2 | Guard (r=3) | 4 | Protect boss approach |
 | Knight | 1-2 | Guard (r=2) | 5 | High DEF blocker |
+| Named enemy | 1 | Survival | 5 | Mini-boss with Vulnerary, retreats to fort when hurt |
 | Boss | 1 | Boss | 6 | Stronger, may have skill |
 | Reinforcements | 2-3 | Aggressive | 3-4 | Turn 4-5 from map edges |
 
@@ -254,8 +299,9 @@ General guidelines for enemy placement and behavior assignment.
 | Enemy Type | Count | Behavior | Level | Notes |
 |-----------|-------|----------|-------|-------|
 | Mixed | 8-10 | Aggressive | 6-9 | Harder, smarter |
-| Dark Mage | 2 | Guard (r=4) | 7 | CRP on hit |
+| Dark Mage | 2 | Survival | 7 | CRP on hit, kites — retreats when approached |
 | Knight | 3 | Guard (r=2) | 8 | Wall formation |
+| Named enemy | 1 | Survival | 9 | Recurring mini-boss, flees at low HP, returns healed |
 | Boss | 1 | Boss | 10 | Significant threat |
 | Reinforcements | 3-4 | Aggressive | 6-7 | Multiple waves |
 
@@ -274,7 +320,7 @@ General guidelines for enemy placement and behavior assignment.
 ## Open Questions
 
 - **AI difficulty scaling**: Should AI behavior improve per chapter (e.g., aggressive in Ch1 → tactical in Ch4)?
-- **Retreat behavior**: Should wounded enemies retreat to forts to heal? (Never in current code.)
+- ~~**Retreat behavior**~~: Resolved — added Survival AI type with retreat/cautious/attack modes.
 - **Healer enemies**: Should enemy clerics heal their allies? Not implemented.
 - **Coordinated attacks**: Should enemies focus-fire one unit? Current scoring slightly favors wounded targets, but no explicit coordination.
 - **AI cheating**: Should boss AI know player unit stats regardless of AWR? Or play fair?

@@ -85,9 +85,9 @@ Border conflict. Voss defects from the enemy army mid-battle after recognizing t
 
 ### Ch3 — "Scout's Honor"
 First chapter with full 6-unit party. Introduces terrain variety, side objectives.
-- **Objective**: Rout + visit 2 villages for rewards
+- **Objective**: Boss Kill + visit 2 villages for rewards
 - **Recruits**: Nira (Archer, mid-chapter — saved from bandits)
-- **Boss**: Bandit Chief (Brigand, Tier 4 unaware)
+- **Boss**: Captain Holtz (Soldier, lance, Tier 4 unaware — fort defender, high DEF)
 - **Key event**: First glitched tiles appear on the map. Senna notices.
 - **Roster after**: 7 units
 

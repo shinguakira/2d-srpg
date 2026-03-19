@@ -17,6 +17,11 @@ Each enemy unit has an assigned AI behavior that determines how it moves and sel
 | **Guard** | Stay within radius of start position | Best target within guard zone | Area defenders, gatekeepers |
 | **Boss** | Cannot move | Attack in range, prioritize Lord | Chapter bosses on thrones |
 | **Survival** | Flee to fort/safe tile when low HP | Attack only when healthy | Self-preserving enemies, named enemies, mini-bosses |
+| **Thief** | Beeline to treasure chests/villages | Ignore combat unless cornered | Enemy thieves racing for loot |
+| **Healer** | Stay behind frontline, heal wounded allies | Heal lowest-HP ally in range | Enemy clerics/troubadours |
+| **Escort** | Follow and protect a specific unit | Attack threats to escort target | Bodyguards, NPC protectors |
+| **Coordinated** | Focus-fire a single target | All coordinated enemies pick same target | Elite squads, Arc 4-5 |
+| **Ambush** | Wait hidden in fog, attack when enemy enters range | Highest damage target in range | Fog of war chapters |
 
 ### Aggressive
 
@@ -107,6 +112,74 @@ RETREAT MODE with item:
 2. Then move toward fort (if movement remains via Canto, otherwise stay)
 3. If no healing item: move toward fort without acting
 ```
+
+### Thief
+
+Prioritizes stealing loot over combat. Used for enemy thieves that race toward treasure chests and villages.
+
+```
+1. Find nearest unopened chest or unvisited village
+2. Move toward it (shortest path)
+3. If adjacent to chest: open it (steals contents)
+4. If on village: visit it (destroys village reward)
+5. If no loot targets remain: behave like Aggressive
+6. If cornered (player unit blocks path): attack to escape, then resume looting
+7. After stealing: move toward map edge (tries to escape with loot)
+```
+
+**Counter-play**: Kill the thief before they reach chests, or block their path. If a thief steals an item and is killed, the item is recovered.
+
+### Healer
+
+Stays safe and heals wounded allies. Used for enemy clerics, troubadours, and bishops.
+
+```
+1. Find lowest-HP enemy ally within heal range
+2. If ally found AND ally HP < 80%: heal them
+3. If no one to heal: move toward the wounded ally closest to battle
+4. NEVER initiate combat (even if target is available)
+5. If attacked: can counter (if promoted with weapon), but won't seek fights
+6. Self-preservation: if HP < 50%, move away from player units
+```
+
+### Escort
+
+Follows and protects a specific escort target (usually the boss or a key unit).
+
+```
+1. Stay within 2 tiles of escort target
+2. If player unit threatens escort target (within attack range of target): prioritize attacking that player unit
+3. If escort target is safe: attack best available target within movement range
+4. If escort target moves: follow (maintain 1-2 tile distance)
+5. Will take hits for escort target (auto-shield at adjacent positions)
+```
+
+### Coordinated
+
+Elite behavior. All units with Coordinated AI share target selection — they focus-fire the same player unit.
+
+```
+1. All Coordinated enemies evaluate the same target pool
+2. Pick the player unit with highest kill potential (most enemies can reach + damage)
+3. All Coordinated enemies attack that one target in sequence
+4. If target dies mid-sequence: remaining Coordinated enemies pick next-best target
+5. Requires 3+ Coordinated enemies to activate — otherwise behaves as Aggressive
+```
+
+**Design intent**: Creates dangerous enemy squads that punish exposed units. Player must position carefully to avoid letting one unit get focus-fired.
+
+### Ambush
+
+Hidden in fog of war. Waits until a player unit enters attack range, then strikes.
+
+```
+1. If NOT in fog of war or no player in range: behave like Stationary (don't move)
+2. If player unit enters weapon range: attack with maximum damage target
+3. After attacking: switch to Aggressive behavior for the rest of the chapter
+4. Ambush units are hidden in fog — player cannot see them until they attack or are revealed
+```
+
+**Design intent**: Creates tension in fog chapters. Thieves can scout ahead to reveal ambushes safely.
 
 ---
 
@@ -270,58 +343,93 @@ Enemies act in the order they were computed (currently: iteration order of the u
 
 ---
 
-## Enemy Composition Per Chapter
+## Enemy Composition Per Arc
 
-General guidelines for enemy placement and behavior assignment.
+Summary guidelines for enemy placement and behavior assignment across 25 chapters. Individual chapter enemy placement is defined in chapter files (`specs/story/chapters/`).
 
-### Ch1 — Tutorial
+### Arc 1 — The Script (Ch1-5)
 
-| Enemy Type | Count | Behavior | Level | Notes |
-|-----------|-------|----------|-------|-------|
-| Brigand | 4-5 | Aggressive | 1-2 | Spread out, approach in waves |
-| Brigand (axe) | 2 | Stationary | 2 | Block chokepoint |
-| Boss | 1 | Boss | 3 | On throne, higher stats |
+| Enemy Type | Behavior | Levels | Notes |
+|-----------|----------|--------|-------|
+| Brigand (axe) | Aggressive | 1-5 | Primary threat. Simple enemies. |
+| Soldier (lance) | Stationary/Guard | 2-5 | Chokepoint defenders. |
+| Archer | Stationary | 3-5 | Elevated terrain, ranged pressure. |
+| Mage (fire/thunder) | Guard (r=3) | 3-6 | Protect boss. Teaches RES value. |
+| Knight | Guard (r=2) | 4-7 | High DEF. Teaches effective weapons. |
+| Thief | Thief | 3-5 | Ch4+. Races to chests. Teaches urgency. |
+| Boss | Boss | 5-9 | Throne, higher stats, 1 per chapter. |
+| Reinforcements | Aggressive | 2-5 | Turn 5-6. Single wave. Ch3-5 only. |
 
-### Ch2 — Expanding
+**Arc 1 AI philosophy**: Simple. Aggressive is dominant. Teach player to exploit stationary/guard limits.
 
-| Enemy Type | Count | Behavior | Level | Notes |
-|-----------|-------|----------|-------|-------|
-| Mixed (sword/lance/axe) | 6-8 | Aggressive | 3-5 | Weapon triangle variety |
-| Archer | 2 | Stationary | 4 | On elevated terrain |
-| Mage | 1-2 | Guard (r=3) | 4 | Protect boss approach |
-| Knight | 1-2 | Guard (r=2) | 5 | High DEF blocker |
-| Named enemy | 1 | Survival | 5 | Mini-boss with Vulnerary, retreats to fort when hurt |
-| Boss | 1 | Boss | 6 | Stronger, may have skill |
-| Reinforcements | 2-3 | Aggressive | 3-4 | Turn 4-5 from map edges |
+### Arc 2 — Fractures (Ch6-10)
 
-### Ch3 — Crisis
+| Enemy Type | Behavior | Levels | Notes |
+|-----------|----------|--------|-------|
+| All Ch1 types | Mixed | 7-12 | Continuing, higher level |
+| Dark Mage | Survival | 8-12 | CRP on hit, kites. First dark magic enemies. |
+| Cavalier | Aggressive | 8-11 | Mobile threats. Teaches anti-cavalry. |
+| Pegasus Knight | Aggressive | 9-12 | Flying. Teaches bow effectiveness. |
+| Healer (enemy cleric) | Healer | 8-10 | Heals allies. Priority kill target. |
+| Named mini-boss | Survival | 10-14 | Retreats to heal, returns. |
+| Boss | Boss | 12-16 | Ch8 boss kills Kael (scripted). |
+| Reinforcements | Aggressive | 7-11 | Multi-wave from Turn 4-5. |
 
-| Enemy Type | Count | Behavior | Level | Notes |
-|-----------|-------|----------|-------|-------|
-| Mixed | 8-10 | Aggressive | 6-9 | Harder, smarter |
-| Dark Mage | 2 | Survival | 7 | CRP on hit, kites — retreats when approached |
-| Knight | 3 | Guard (r=2) | 8 | Wall formation |
-| Named enemy | 1 | Survival | 9 | Recurring mini-boss, flees at low HP, returns healed |
-| Boss | 1 | Boss | 10 | Significant threat |
-| Reinforcements | 3-4 | Aggressive | 6-7 | Multiple waves |
+**Arc 2 AI philosophy**: Introduce Survival and Healer. Enemies feel smarter — they retreat, they heal, they kite.
 
-### Ch4 — Finale
+### Arc 3 — Corruption (Ch11-15)
 
-| Enemy Type | Count | Behavior | Level | Notes |
-|-----------|-------|----------|-------|-------|
-| Corrupted | 5-6 | Aggressive | 8-12 | Randomized stats, unpredictable |
-| Dark Mage | 3 | Aggressive | 10 | High CRP spread |
-| Mixed elite | 4-5 | Guard (r=5) | 10-12 | Protecting boss arena |
-| Boss (???) | 1 | Boss | 15 | Type-cycling weapon, highest stats |
-| Reinforcements | Continuous | Aggressive | 8-10 | Every 2 turns from voids |
+| Enemy Type | Behavior | Levels | Notes |
+|-----------|----------|--------|-------|
+| Promoted enemies | Mixed | 14-18 | Paladins, Sages, Generals appear |
+| Dark Mage (promoted) | Survival | 15-18 | High CRP spread. Nosferatu drain. |
+| Wyvern Rider | Aggressive | 15-18 | Flying tank. Bow-vulnerable. |
+| Assassin | Ambush | 16-18 | Fog chapters. Hidden killers. |
+| Thief (improved) | Thief | 14-16 | Faster, steals weapons too. |
+| Corrupted units | Aggressive | 14-20 | Stat randomization. CRP on contact. |
+| Escort guard | Escort | 15-18 | Protecting boss. |
+| Boss | Boss | 18-22 | May have skills. Higher stat bonuses. |
+| Reinforcements | Aggressive/Ambush | 14-17 | Multi-wave. Fog ambush reinforcements. |
+
+**Arc 3 AI philosophy**: Fog + Ambush creates tension. Corrupted enemies are unpredictable. Escort AI protects bosses.
+
+### Arc 4 — Awakening (Ch16-20)
+
+| Enemy Type | Behavior | Levels | Notes |
+|-----------|----------|--------|-------|
+| Elite promoted | Coordinated | 20-25 | Focus-fire squads. The biggest AI threat. |
+| Master class enemies (rare) | Aggressive | 25-27 | 1-2 per chapter. Show what master classes do. |
+| Dark Mage elite | Survival | 22-25 | Eclipse (siege), Fenrir (long range). |
+| Mounted promoted | Aggressive | 20-25 | Paladins, Great Knights. Fast and strong. |
+| System Constructs | Aggressive | 22-27 | Artificial enemies. No CRP. High stats. |
+| Healer (promoted) | Healer | 20-23 | Physic range. Harder to reach. |
+| Boss | Boss | 25-30 | Multi-phase. May retreat at 50% HP. |
+| Reinforcements | Coordinated/Aggressive | 20-25 | Continuous in some chapters. |
+
+**Arc 4 AI philosophy**: Coordinated is the signature challenge. Player must prevent focus-fire through positioning and threat management.
+
+### Arc 5 — The Last Save File (Ch21-25)
+
+| Enemy Type | Behavior | Levels | Notes |
+|-----------|----------|--------|-------|
+| Everything from Arc 4 | Mixed | 27-33 | Higher levels, more aggressive. |
+| Master class enemies | Aggressive/Coordinated | 28-33 | Regular occurrence now. |
+| Corrupted elites | Aggressive | 28-33 | High CRP, stat chaos, bonus dark damage. |
+| ???_CORRUPTED (Ch24) | Boss (unique) | 33 | Kael's data. Cycling weapons. 3 phases. |
+| System (Ch25 boss) | Boss (unique) | 35 | Reads LOOP data. Adapts to player strategy. |
+| Reinforcements | Continuous | 27-30 | Every 2-3 turns. Corruption Storm spawns extras. |
+
+**Arc 5 AI philosophy**: Everything at once. Coordinated squads, ambushes, healers, flying threats. The full AI toolkit deployed simultaneously.
 
 ---
 
 ## Open Questions
 
-- **AI difficulty scaling**: Should AI behavior improve per chapter (e.g., aggressive in Ch1 → tactical in Ch4)?
-- ~~**Retreat behavior**~~: Resolved — added Survival AI type with retreat/cautious/attack modes.
-- **Healer enemies**: Should enemy clerics heal their allies? Not implemented.
-- **Coordinated attacks**: Should enemies focus-fire one unit? Current scoring slightly favors wounded targets, but no explicit coordination.
-- **AI cheating**: Should boss AI know player unit stats regardless of AWR? Or play fair?
-- **Aggro leashing**: Should aggressive enemies that chase too far give up and return?
+- ~~**AI difficulty scaling**~~: **RESOLVED** — AI behaviors scale by arc. Arc 1 is simple (Aggressive/Stationary), Arc 5 uses all behaviors.
+- ~~**Retreat behavior**~~: **RESOLVED** — Survival AI type.
+- ~~**Healer enemies**~~: **RESOLVED** — Healer AI type.
+- ~~**Coordinated attacks**~~: **RESOLVED** — Coordinated AI type (Arc 4+).
+- **AI cheating**: Should boss AI know player unit stats regardless of AWR? *Recommendation: Bosses always see player stats. They ARE the System's agents.*
+- **Aggro leashing**: Should aggressive enemies that chase too far give up and return? *Recommendation: No leash — aggressive means aggressive. Guard behavior is the "leashed" version.*
+- **Enemy item usage**: Should all enemies with items use them (not just Survival)? *Recommendation: Yes — any enemy with a Vulnerary uses it at ≤40% HP. Adds realism.*
+- **Thief escape**: If a thief reaches the map edge with stolen loot, does the item disappear? *Recommendation: Yes — creates real urgency. The item is gone.*

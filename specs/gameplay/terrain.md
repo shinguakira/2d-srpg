@@ -9,6 +9,8 @@ Code reference: `src/core/terrain.ts`
 
 ## Terrain Types
 
+### Standard Terrain
+
 | Terrain | Move Cost | DEF Bonus | Avoid Bonus | HP Regen | STA Recovery | Notes |
 |---------|-----------|-----------|-------------|----------|-------------|-------|
 | **Plain** | 1 | 0 | 0 | — | — | Open ground. No benefits, no costs. |
@@ -17,8 +19,17 @@ Code reference: `src/core/terrain.ts`
 | **Fort** | 1 | +3 | +20 | +5 HP/turn | -3 STA/turn | Safe zone. Heals and recovers stamina passively. |
 | **Village** | 1 | 0 | +10 | — | — | Can be visited for rewards (items, gold, story). |
 | **Throne** | 1 | +5 | +30 | +10 HP/turn | -5 STA/turn | Boss tile. Best defensive bonuses. Seize target. |
-| **Water** | Impassable | — | — | — | — | Cannot be crossed by any ground unit. |
+| **Water** | Impassable | — | — | — | — | Cannot be crossed by ground units. Flying passes over. |
 | **Wall** | Impassable | — | — | — | — | Map boundary or obstacle. |
+| **Bridge** | 1 | 0 | 0 | — | — | Crosses water. Can be destroyed (see destructible terrain). |
+| **Sand** | 2 (foot), 3 (mounted) | 0 | -10 | — | +1 STA/tile | Desert terrain. Penalizes movement and drains stamina. |
+| **Ice** | 1 | 0 | -10 | — | — | Slippery. Units that end turn here may slide 1 tile in movement direction (50% chance). |
+| **Lava** | Impassable | — | — | — | — | Volcanic terrain. Flying units can cross but take 5 damage if ending turn above. |
+| **Ruins** | 1 | +1 | +10 | — | — | Ancient structures. May contain hidden items (Thief can detect). |
+| **Indoor** | 1 | 0 | 0 | — | — | Interior tile. Mounted units have -2 MOV in indoor chapters. Flying units dismount. |
+| **Door** | Locked | — | — | — | — | Requires Door Key or Lockpick to open. Becomes plain tile when opened. |
+| **Chest** | 1 | 0 | 0 | — | — | Requires Chest Key or Lockpick. Contains items. Becomes plain after opened. |
+| **Armory** | 1 | 0 | 0 | — | — | Mid-chapter shop access. Can buy/sell during player phase. |
 
 ### New Terrain Types (Meta-Narrative)
 
@@ -60,9 +71,11 @@ Code reference: `src/core/terrain.ts`
 
 | Rule | Classes Affected | Effect |
 |------|-----------------|--------|
-| **Mounted movement** | Cavalier (Kael) | Forest costs 3 instead of 2. Mountain costs 4 instead of 3. Penalty for riding through rough terrain. |
-| **Infantry standard** | Lord, Mage, Fighter, Cleric, Soldier | Normal movement costs as listed. |
-| **Heavy armor** | Knight (enemy only) | Forest costs 3. Mountain impassable. Slow but tanky. |
+| **Infantry standard** | Lord, Mage, Fighter, Cleric, Soldier, Mercenary, Archer, Thief, Shaman, Monk, Dancer | Normal movement costs as listed. |
+| **Mounted movement** | Cavalier, Troubadour, Paladin, Great Knight, Mage Knight, Nomad Trooper, Valkyrie | Forest costs 3 instead of 2. Mountain costs 4. Sand costs 3. Indoor -2 MOV. |
+| **Flying movement** | Pegasus Knight, Wyvern Rider, Falcon Knight, Dark Flier, Wyvern Lord, Malig Knight, Seraph | ALL terrain costs 1 (ignores terrain). Can cross water, mountains, lava. No terrain DEF/Avoid bonuses. Indoor: dismount (become infantry). |
+| **Heavy armor** | Armor Knight, General, Marshal | Forest costs 3. Mountain impassable. Sand costs 4. Slow but tanky. |
+| **Thief movement** | Thief, Assassin, Rogue | Desert/sand costs 1 (agile). Can detect hidden items in Ruins tiles. |
 
 ### Terrain × CHA (Aggro)
 
@@ -115,10 +128,69 @@ Rules of thumb for chapter map design:
 
 ---
 
+## Weather System
+
+Some chapters have weather effects that modify terrain and combat. Weather is set per chapter (fixed, not random). Some chapters have weather that changes mid-battle.
+
+### Weather Types
+
+| Weather | Move Cost Mod | Hit Mod | Other Effects | Chapters |
+|---------|--------------|---------|---------------|----------|
+| **Clear** | None | None | Standard conditions | Most chapters |
+| **Rain** | +1 to all terrain | -10 hit (all ranged) | Fire magic -20% damage. Thunder magic +20% damage. | Arc 2, Arc 4 |
+| **Fog** | None | -15 hit (all units, unless Torch) | Visibility reduced to 2 tiles (1 less than normal). Thief sight unaffected. | Arc 3+ |
+| **Sandstorm** | Sand costs +1 extra | -10 hit (all units) | -2 DEF (sand particles). Bow range reduced by 1. | Arc 3 (desert chapters) |
+| **Snow** | +1 to all terrain | None | -2 SPD all units. Fire magic +20% damage. | Arc 4 (northern chapters) |
+| **Corruption Storm** | None | None | +1 CRP/turn to ALL units on map. Glitched tiles spread each turn. | Arc 5 (Ch24-25) |
+
+### Weather × Class Interactions
+
+- **Flying units in Rain/Sandstorm**: -1 MOV (turbulence)
+- **Flying units in Snow**: -2 MOV (ice on wings)
+- **Armored units in Rain**: No extra penalty (already slow)
+- **Thief in Fog**: Full sight range (5 tiles, unaffected)
+- **Mounted units in Snow**: Sand movement penalty applies to snow too (+1 cost)
+
+---
+
+## Destructible Terrain
+
+Some terrain can be destroyed during combat.
+
+| Terrain | Destroyable? | HP | When Destroyed Becomes |
+|---------|-------------|----|-----------------------|
+| **Wall** | Yes (some) | 30 | Rubble (plain tile, no bonus) |
+| **Bridge** | Yes | 20 | Water (impassable) |
+| **Forest** | Yes (fire magic) | — | Burnt ground (plain tile) |
+| **Door** | Yes (can be smashed) | 15 | Open door (plain tile) |
+
+- Only siege weapons (Ballista), axes, and fire magic can damage destructible terrain
+- Destroying a bridge while enemies are on it = enemies fall (instant kill, but cruel)
+- Forest burning: fire magic that kills an enemy on forest has 30% chance to burn the forest
+
+---
+
+## Corrupted Terrain Variants
+
+Late-game (Arc 3-5), standard terrain types can become corrupted versions:
+
+| Base Terrain | Corrupted Version | Additional Effect |
+|-------------|-------------------|-------------------|
+| Plain | Glitched Tile | +2 CRP/turn |
+| Forest | Corrupted Forest | +1 DEF, +20 Avoid (same), but +1 CRP/turn |
+| Fort | Corrupted Fort | Heals +5 HP but +1 CRP/turn |
+| Throne | Broken Throne | +2 DEF, +10 Avoid (reduced), +2 CRP/turn |
+| Mountain | Data Spike | +2 DEF, +30 Avoid (same), but +3 CRP/turn |
+
+Corrupted terrain spreads in late-game chapters: at the start of each enemy phase, one adjacent tile to each corrupted tile has a 20% chance of becoming corrupted. This creates escalating map pressure.
+
+---
+
 ## Open Questions
 
-- **Flying units**: If flying enemies or classes are added, they should ignore all movement costs (1 per tile, pass over water/mountains). Do they still benefit from terrain DEF/avoid?
-- **Destructible terrain**: Should siege weapons or high-CRP explosions be able to destroy walls/forests? Adds tactical depth but complexity.
-- **Weather**: Rain (+1 move cost to all terrain, +10 avoid on forests), snow (+2 move cost, -5 SPD to all units), sandstorm (fog of war + -10 hit). Worth adding?
-- **Bridges**: Should bridges exist over water? Currently water is always impassable.
-- **Terrain shift**: Glitched tiles spreading to adjacent tiles over time? Map degradation as a mechanic in Ch4.
+- ~~**Flying units**~~: **RESOLVED** — flying ignores terrain costs, no terrain DEF/Avoid bonuses.
+- ~~**Bridges**~~: **RESOLVED** — bridges exist, can be destroyed.
+- ~~**Weather**~~: **RESOLVED** — weather system added.
+- **Terrain shift**: Glitched tiles spreading is now defined (corrupted terrain spread, 20% per turn). Should the spread rate increase in Arc 5? *Recommendation: Yes — 30% in Arc 5, 40% in Ch25.*
+- **Lava flow**: Should lava tiles move/expand during volcanic chapters? *Recommendation: Only in 1-2 specific chapters. Scripted movement, not random.*
+- **Ice sliding**: 50% chance to slide 1 tile feels right. Should sliding into an enemy deal collision damage? *Recommendation: No — too complex. Sliding stops at occupied tiles.*

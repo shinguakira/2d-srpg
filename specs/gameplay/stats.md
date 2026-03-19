@@ -4,7 +4,7 @@ Defines every stat field in the game: what it means, how it's used in formulas, 
 
 This game has two stat layers:
 1. **Classic SRPG stats** — standard combat math (HP, STR, DEF, etc.)
-2. **Meta stats** — unique to this game's meta-narrative (AWR, LOOP, SYNC)
+2. **Meta stats** — unique to this game's meta-narrative (AWR, LOOP, SYNC, LOY, CRP, STA)
 
 The meta stats are NOT cosmetic. They create real mechanical trade-offs and tie gameplay directly to the story. All actions remain within standard SRPG rules — Attack, Wait, Heal, Item, Seize.
 
@@ -22,6 +22,8 @@ The meta stats are NOT cosmetic. They create real mechanical trade-offs and tie 
 | **Speed** | SPD | Evasion + double attack threshold. | Evade = SPD×2 + LCK; Double if SPD diff ≥ 5 |
 | **Skill** | SKL | Accuracy + crit chance. | Accuracy = SKL×2 + LCK + weapon hit; Crit = SKL/2 + weapon crit |
 | **Luck** | LCK | Small boost to hit, avoid, crit-avoid. | +LCK to accuracy & evade; -LCK from enemy crit |
+| **Charisma** | CHA | Leadership presence. Boosts nearby allies AND draws enemy attention. | Ally aura (hit/avoid), enemy aggro priority |
+| **Willpower** | WIL | Mental resistance. NOT magic defense — protects against psychological/system effects. | AWR resistance, SYNC trauma reduction, mental status immunity |
 | **Movement** | MOV | Tiles traversable per turn. | BFS pathfinding range; does NOT grow on level-up |
 
 ## Derived Stats (calculated, never stored)
@@ -37,6 +39,9 @@ These are computed on the fly from base stats + weapon + terrain.
 | **Crit Rate** | SKL/2 + weapon crit - enemy LCK | Clamped 0–100% |
 | **Crit Damage** | Normal damage × 3 | Only on crit hit |
 | **Terrain DEF** | terrain defenseBonus | Added to effective DEF |
+| **Charisma Aura** | Allies within floor(CHA/3) tiles: +CHA hit, +CHA avoid | Ren(9)=3tiles, Kael(7)=2, Bram(6)=2, Lira(5)=1, Senna(3)=1, Voss(2)=0 |
+| **Aggro Weight** | 10 + CHA×2 + (maxHP - currentHP)/2 | Wounded high-CHA units draw the most fire |
+| **WIL Check** | effect% = base% - WIL×5% (min 0%) | Mental effects: AWR forced gain, Panic, Despair, Déjà Vu freeze |
 
 ## Weapon Triangle Modifiers
 
@@ -58,9 +63,27 @@ Both attacker and defender can double (defender only if they can counter).
 Each class defines growth rates (0–100%) per stat (except MOV).
 On level-up, each stat rolls independently against its growth rate: success = +1, fail = +0.
 
-| Example: Lord | HP | STR | MAG | DEF | RES | SPD | SKL | LCK |
-|---------------|----|----|-----|-----|-----|-----|-----|-----|
-| Growth % | 80 | 45 | 10 | 30 | 20 | 50 | 45 | 60 |
+### Growth Rates Per Class
+
+| Class | HP | STR | MAG | DEF | RES | SPD | SKL | LCK | CHA | WIL |
+|-------|----|----|-----|-----|-----|-----|-----|-----|-----|-----|
+| Lord | 80 | 45 | 10 | 30 | 20 | 50 | 45 | 60 | 40 | 35 |
+| Cavalier | 75 | 40 | 5 | 35 | 15 | 35 | 30 | 40 | 35 | 45 |
+| Mage | 55 | 5 | 55 | 15 | 40 | 30 | 45 | 30 | 15 | 40 |
+| Fighter | 90 | 55 | 0 | 35 | 5 | 25 | 20 | 25 | 30 | 35 |
+| Cleric | 50 | 5 | 45 | 10 | 45 | 30 | 25 | 50 | 25 | 15 |
+| Soldier | 70 | 35 | 5 | 45 | 10 | 20 | 35 | 20 | 10 | 30 |
+
+### Stat Caps (Unpromoted)
+
+| Stat | Cap | Notes |
+|------|-----|-------|
+| HP | 60 | High ceiling, rarely hit without grinding |
+| STR/MAG/DEF/RES/SPD/SKL | 20 | Standard FE unpromoted cap |
+| LCK | 30 | Higher cap — LCK is minor per point |
+| CHA | 15 | Intentionally low cap — CHA is powerful per point (aura + aggro) |
+| WIL | 15 | Low cap — WIL checks are balanced around low values |
+| MOV | Class-locked | Cannot exceed class base |
 
 ## EXP & Level-Up
 
@@ -76,6 +99,8 @@ On level-up, each stat rolls independently against its growth rate: success = +1
 - **SKL is subtle**: Matters most for low-hit weapons (axes) and crit builds
 - **LCK is minor**: Small nudge to multiple formulas, never dominant — "nice to have" stat
 - **DEF vs RES**: Most enemies are physical, so RES is niche but critical vs mages
+- **CHA is a double-edged sword**: Buffs nearby allies but makes you a priority target. High CHA units are natural tanks/bait — place them where you WANT the enemy to attack. Low CHA units are ignored by enemies, good for flanking.
+- **WIL is mental armor**: Separate from RES — RES blocks magic damage, WIL blocks psychological/system effects (AWR forced changes, SYNC trauma, mental statuses like Panic/Despair). High WIL characters resist the meta-narrative breaking them.
 - **MOV is class-locked**: Only changes via promotion (future), never via level-up — keeps cavalry unique
 
 ## Terrain Bonuses (for reference)
@@ -90,6 +115,45 @@ On level-up, each stat rolls independently against its growth rate: success = +1
 | Throne | 1 | +5 | +30 |
 | Water | impassable | — | — |
 | Wall | impassable | — | — |
+
+## Time of Day (Map Property)
+
+Each map has a time-of-day setting. Some maps may shift time mid-chapter (e.g., dawn → day after turn 10). Each unit has an Activity type (Morning/Night/Irregular) that interacts with the current time.
+
+### Time Periods
+
+| Time | Turns | Visual | Notes |
+|------|-------|--------|-------|
+| **Dawn (早朝)** | Typically turns 1-5 | Dim orange light, long shadows | Transition period |
+| **Day (昼)** | Typically turns 6-15 | Full brightness | Standard |
+| **Dusk (夕方)** | Typically turns 16-20 | Red/purple sky, visibility drops | Transition period |
+| **Night (夜)** | Typically turns 21+ | Dark, limited visibility (fog of war?) | Reduced vision range |
+
+### Activity Type Effects
+
+| Activity | Dawn | Day | Dusk | Night |
+|----------|------|-----|------|-------|
+| **Morning (朝型)** | +2 hit, +2 avoid, +1 STR | +1 hit, +1 avoid | No bonus | -2 hit, -2 avoid, -1 SPD |
+| **Night (夜型)** | -1 hit, -1 avoid | No bonus | +1 hit, +1 avoid | +2 hit, +2 avoid, +1 SKL |
+| **Irregular (不規則)** | No bonus | No bonus | No bonus | No bonus |
+
+### Activity Type Per Character (Summary)
+
+| Character | Activity | Peak | Penalty | Notes |
+|-----------|----------|------|---------|-------|
+| **Ren** | Irregular | None | None | 347 cycles destroyed his body clock. No peak, no penalty. Consistent but never optimal. |
+| **Kael** | Morning | Dawn/Day | Night | Soldier's discipline. Early riser, fades at night. |
+| **Senna** | Night | Night | Dawn | Researcher hours. Sharpest when everyone else sleeps. |
+| **Bram** | Irregular | None | None | No pattern. Runs on adrenaline, not schedule. |
+| **Lira** | Morning | Dawn/Day | Night | Cheerful early bird. Wilts after dark. |
+| **Voss** | Morning | Dawn/Day | Night | Military habit from 300 cycles. Wakes at the same time regardless. |
+
+### Time × Tactical Implications
+
+- **Night maps favor Senna** — she gets +2 hit/+2 avoid/+1 SKL while Kael, Lira, and Voss are weakened.
+- **Dawn maps favor the majority** — 3 Morning units (Kael/Lira/Voss) all peak simultaneously.
+- **Ren and Bram are time-proof** — Irregular means no bonus but no weakness. Reliable anchors regardless of time.
+- **Ch3 (Kael's death chapter)**: If set at night, Kael is weakened when he dies — adding tactical cruelty. If set at dawn, he's at peak strength when killed — adding narrative tragedy.
 
 ---
 
@@ -254,6 +318,188 @@ SYNC is NOT about genre — it's about how "clean" a unit's data is. Corrupted d
 
 ---
 
+## LOY (Loyalty / 忠誠度)
+
+How committed a unit is to the party and its cause. NOT a simple "good/bad" meter — it measures trust, willingness to follow orders, and willingness to sacrifice. Low LOY units may disobey, hesitate, or act independently.
+
+### LOY Effects Table
+
+| LOY | Effect | Behavior |
+|-----|--------|----------|
+| 0-20 | **Defiant** | 15% chance per turn to ignore player command and act independently (attack nearest, retreat, or skip turn). Cannot be paired for Rescue. May refuse healing. |
+| 21-40 | **Reluctant** | 5% chance to ignore commands. -10% hit when attacking enemies the player didn't highlight. Will not use items on allies. |
+| 41-60 | **Neutral** | No penalties, no bonuses. Follows orders. |
+| 61-80 | **Devoted** | +5% hit/avoid when within 3 tiles of party leader (Ren). Will automatically shield adjacent allies from lethal blows (take the hit instead, once per chapter). |
+| 81-100 | **Sworn** | +10% hit/avoid near leader. Auto-shield with no limit. If Ren drops below 30% HP, Sworn units gain +5 all combat stats until Ren is healed. "I won't let it end like this." |
+
+### LOY Change Events
+
+| Event | LOY Change | Notes |
+|-------|-----------|-------|
+| Ren protects this unit (takes a hit or heals) | +5 | Leadership through action |
+| Unit is left at low HP without healing for 2+ turns | -5 | "You left me to die." |
+| Unit sees Ren use LOOP abilities | -3 | Distrust — "What else are you hiding?" (only if unit AWR < 30) |
+| Ren reveals truth about loops voluntarily | +8 or -8 | Depends on WIL — high WIL respects honesty, low WIL panics |
+| Unit kills a boss alongside Ren | +5 | Shared victory builds trust |
+| Ally dies | -3 to -8 | "You could have prevented this." Worse if Ren had high LOOP (they wonder if he could have used it) |
+| Player chooses dialogue that validates this unit | +3 | Feeling heard |
+| Unit is ordered to attack an enemy that will clearly kill them | -10 | Suicide orders destroy trust |
+
+### LOY Per Character
+
+| Character | Start | Drift | Notes |
+|-----------|-------|-------|-------|
+| **Kael** | 90 | Stable 85-95 | Trusts Ren almost unconditionally. Only drops if Ren clearly withholds life-saving info. |
+| **Senna** | 40 | Rises slowly → 55-70 | Doesn't trust — she verifies. LOY grows as Ren's knowledge proves accurate. |
+| **Bram** | 55 | Volatile 40-75 | Loyal when fights are fun, drops fast when bored or when Ren overthinks. |
+| **Lira** | 70 | Stable 65-80 | Emotionally loyal. Drops hard on betrayal of trust, but forgives fast. |
+| **Voss** | 25 | Slow rise → 45-60 | Former enemy. Has to earn trust both ways. Low start is the cost of defection — nobody fully trusts a turncoat. |
+
+### LOY Auto-Shield Mechanics
+
+When a Devoted/Sworn unit is adjacent to an ally who would take a lethal blow:
+- The shielding unit **takes the full damage instead** of the target.
+- If the shield unit would die from this, they die (permadeath). This triggers ally death LOY/AWR/SYNC cascades.
+- The shielded unit takes 0 damage.
+- Does NOT consume the shielding unit's action — it's a passive reaction.
+- Devoted (61-80): triggers once per chapter. Sworn (81-100): no limit.
+- The shielding unit must be adjacent (1 tile) and must have more HP than the incoming damage to survive.
+
+### LOY Narrative Triggers
+
+- **Voss at 15- LOY**: Re-defection risk. If LOY hits 0, Voss leaves the party permanently. "I didn't leave one army to be mistreated in another."
+- **Any unit at 90+ LOY**: Unlocks a unique dialogue with Ren where they acknowledge the loops. Even low-AWR units sense something: "I don't know what you've been through. But I'll follow you."
+
+---
+
+## CRP (Corruption / 汚染度)
+
+How much System corruption has infected a unit's data. Different from SYNC — SYNC is structural stability, CRP is active malicious data spreading through the unit. Think of SYNC as "how intact your bones are" and CRP as "how much poison is in your blood."
+
+CRP starts at 0 for all player units and only goes UP. It cannot be reduced to 0 once above 0 — corruption leaves permanent traces.
+
+### CRP Thresholds
+
+| CRP | State | Effects |
+|-----|-------|---------|
+| 0 | **Clean** | No corruption. Normal operation. |
+| 1-15 | **Traces** | Cosmetic only — occasional sprite flicker. No gameplay effect. A warning. |
+| 16-30 | **Infected** | -1 to a random stat each turn (rerolled each turn). Corrupted tiles no longer damage this unit (the corruption recognizes its own). |
+| 31-50 | **Spreading** | -2 to random stat each turn. This unit's attacks have a 10% chance to apply +3 CRP to the TARGET (corruption spreads through combat). Adjacent allies gain +1 CRP per turn from proximity. |
+| 51-75 | **Consumed** | -3 to random stat each turn. All attacks deal bonus corruption damage (+20% damage to units with CRP > 0). Sprite visibly glitched — color bleeding, frame skipping. Can hear the System whispering. |
+| 76-100 | **Overwritten** | Unit is no longer fully under player control. 30% chance each turn to act as an enemy (attacks nearest unit, ally or enemy). If CRP reaches 100: unit is **permanently converted** to an enemy unit. Gone. Worse than death — they fight against you. |
+
+### CRP Gain Events
+
+| Event | CRP Gain | Notes |
+|-------|---------|-------|
+| Stand on a glitched/corrupted tile | +2 per turn | Proximity |
+| Take damage from a corrupted enemy | +3 | Corruption spreads through wounds |
+| Take damage from ???_CORRUPTED (Ch4 boss) | +5 | Direct System injection |
+| Use LOOP abilities | +1 | Accessing past data opens channels for corruption |
+| Ally converted (CRP 100) | +5 ALL | Witnessing a friend become an enemy |
+| Kill a corrupted ally | +8 | The trauma of putting down your own |
+
+### CRP Reduction (Partial Only)
+
+| Event | CRP Reduction | Notes |
+|-------|-------------|-------|
+| Heal at fort/throne for full turn | -2 | Safe zones cleanse slowly |
+| Lira's Heal (staff) on a corrupted ally | -1 per heal | Lira's empathy is the closest thing to an antivirus |
+| Chapter end | -3 | Rest between chapters cleanses some |
+| **Cannot go below**: max(0, highest_CRP_ever - 20) | — | Corruption leaves scars. A unit that hit 50 CRP can never go below 30. |
+
+### CRP × SYNC Compound Rule
+
+When a unit has both high CRP (16+) and low SYNC (50%-), the stat penalties DO stack — this is intentional. However, a safety cap applies:
+- **Total stat reduction from CRP + SYNC combined cannot exceed -5 to any single stat per turn.**
+- This prevents a unit from becoming completely unusable but keeps the pressure real.
+- High SYNC (71%+) grants CRP resistance: CRP gain events are halved (rounded down).
+
+### CRP Per Character (Starting / Vulnerability)
+
+| Character | Start | Vulnerability | Notes |
+|-----------|-------|--------------|-------|
+| **Ren** | 0 | Medium | 347 cycles of clean data, but LOOP usage opens corruption channels. |
+| **Kael** | 0 | Very Low | 100% SYNC = natural corruption resistance. Almost impossible to corrupt while alive. |
+| **Senna** | 0 | High | High AWR = she can SEE the corruption, which means the corruption can see HER. |
+| **Bram** | 0 | High | Low SYNC = poor data integrity. Corruption finds easy entry points. |
+| **Lira** | 0 | Medium | Low SYNC but her healing abilities give partial immunity. |
+| **Voss** | 5 | Medium | Starts with trace corruption from defection — his data crossed between systems. |
+
+---
+
+## STA (Stamina / スタミナ)
+
+Physical exhaustion accumulated from movement and actions. STA starts at 0 each chapter and **increases** as the unit acts — higher STA = more tired = worse physical performance. Resets to 0 at chapter start.
+
+STA primarily degrades body-related stats: STR, SPD, DEF, SKL. Mental/magical stats (MAG, RES, WIL) are unaffected — exhaustion is physical.
+
+### STA Accumulation
+
+| Action | STA Gain | Notes |
+|--------|---------|-------|
+| Move (per tile) | +1 | Walking is tiring. Cavalry (high MOV) accumulate faster per turn. |
+| Attack | +3 | Swinging a weapon. |
+| Double attack | +5 | Two swings = more exhaustion. |
+| Take damage | +2 | Being hit wears you down. |
+| Use item | +1 | Minor effort. |
+| Heal (staff) | +2 | Channeling healing is physical work. |
+| Wait (no action) | +0 | Resting costs nothing. |
+| Carry/Rescue an ally | +3 per turn | Hauling someone is exhausting. |
+| LOOP action | +2 | Accessing cycle memory strains the body. |
+
+### STA Thresholds
+
+| STA | State | Physical Penalties |
+|-----|-------|-------------------|
+| 0-15 | **Fresh** | No penalties. Full performance. |
+| 16-25 | **Winded** | -1 STR, -1 SPD. Sprite shows heavy breathing animation. |
+| 26-35 | **Fatigued** | -2 STR, -2 SPD, -1 DEF, -1 SKL. Movement costs +1 STA per tile. |
+| 36-45 | **Exhausted** | -3 STR, -3 SPD, -2 DEF, -2 SKL. Cannot double attack. MOV -1. |
+| 46+ | **Collapsed** | -5 STR, -4 SPD, -3 DEF, -3 SKL. MOV halved (round down). Cannot initiate combat — can only counterattack and use items. Unit visibly staggering. |
+
+### STA Recovery (During Chapter)
+
+| Action | STA Reduction | Notes |
+|--------|-------------|-------|
+| Wait (take no action for a turn) | -5 | Active rest. The main way to recover mid-chapter. |
+| Stand on Fort | -3 per turn (passive) | Automatic — triggers even without Wait. Bram can recover here. |
+| Stand on Throne | -5 per turn (passive) | Automatic — triggers even without Wait. Best rest point. |
+| Lira's heal | -2 (bonus) | Her healing soothes physical fatigue too. |
+| Use Vulnerary | -3 (bonus) | Medicine helps fatigue alongside HP. |
+
+### STA Per Character
+
+| Character | STA Rate | Max Comfortable | Notes |
+|-----------|---------|----------------|-------|
+| **Ren** | Normal | ~30 before Exhausted | 347 cycles of muscle memory = efficient movement, but his body is still human. |
+| **Kael** | Low (+0.8× rate) | ~38 | Cavalier — trained for endurance. Highest stamina ceiling. |
+| **Senna** | High (+1.2× rate) | ~22 | Physically weak. Tires fast. Must be positioned carefully — can't march across the map AND cast. |
+| **Bram** | Low (+0.8× rate) | ~38 | Raw physical conditioning. Can fight longer than anyone. But No Patience passive means he's always moving/fighting — so he WILL hit high STA if fights drag. |
+| **Lira** | High (+1.3× rate) | ~20 | Physically frail. Exhausts fastest. Needs to stay near forts or be rotated out. |
+| **Voss** | Very Low (+0.7× rate) | ~42 | 300 cycles of standing still = ironically incredible stamina. He never gets tired because he spent centuries doing nothing. The one benefit of stationary AI. |
+
+### STA × Meta-Stat Interactions
+
+| Interaction | Effect |
+|-------------|--------|
+| High STA + Low SYNC | Physical collapse + data instability = dangerous. Unit may glitch-teleport to a random adjacent tile when Exhausted. |
+| High STA + LOOP | Exhausted body + cycle memory strain: LOOP actions cost +1 STA per 10 LOOP spent. Ren burning 30 LOOP for Echo while Exhausted is brutal. |
+| High STA + Low LOY | Exhausted + resentful: LOY drops -1 per turn while Fatigued or worse. "You're running me into the ground." |
+| High STA + CRP | Exhaustion lowers corruption resistance. +1 CRP per turn while Exhausted on corrupted tiles (instead of the normal +2, total +3). |
+
+### STA Tactical Design
+
+STA creates a **pacing problem** the player must solve:
+- **Push hard, rest later**: Rush objectives but risk units Collapsing at the worst moment.
+- **Rotate units**: Swap frontline fighters with rested backline. Forces you to use your whole roster.
+- **Cavalry trap**: Kael/mounted units move far = high STA per turn. Their strength (mobility) becomes a cost.
+- **Healer dilemma**: Lira exhausts fastest but is most needed. Do you heal one more ally or let her rest?
+- **Voss's niche**: His absurd stamina makes him the reliable late-fight anchor when everyone else is winded.
+
+---
+
 ## Character Passive Abilities
 
 Each character has unique passives tied to their narrative role — NOT genre-based, but rooted in who they are and how they relate to the system. All characters use standard SRPG actions (Attack, Heal, Wait, Item, Seize).
@@ -291,7 +537,7 @@ Each character has unique passives tied to their narrative role — NOT genre-ba
 
 | Passive | Effect |
 |---------|--------|
-| **Empathy Aura** | Adjacent allies gain +10 hit and +10 avoid. |
+| **Empathy Aura** | Adjacent allies gain +10 hit and +10 avoid. (Stacks with CHA aura — Lira's is flat bonus on top of CHA-based scaling.) |
 | **Devoted Healer** | Healing the same ally 3 times in one chapter grants that ally +2 to a random stat permanently (for that chapter). |
 
 ### Voss — Soldier
@@ -327,16 +573,21 @@ Discovered by Senna in Ch2 by reading enemy unit data structure. A universal com
 
 ## Stat Interactions Summary
 
-How all three meta-stats interact in practice:
+How all six meta-stats interact in practice:
 
-| Situation | AWR | LOOP | SYNC |
-|-----------|-----|------|------|
-| Combat forecast detail | Higher AWR = more info visible | — | High SYNC = no display glitches |
-| Before committing attack | Decoded AWR = peek at actual result | Déjà Vu Strike = guaranteed hit+crit | Low SYNC = stat fluctuation might help or hurt |
-| During enemy phase | — | Recall previews all enemy movements | High SYNC = immune to corruption damage |
-| Ally near death | — | Last Words = survive at cost of ALL LOOP | — |
-| Ally actually dies | ALL units +8-12 AWR | ALL units +8 LOOP | ALL units -10 SYNC |
-| Ch4 boss fight | High AWR reveals cycling weapon type | High remaining LOOP = harder boss phase | Low party SYNC = more map corruption |
+| Situation | AWR | LOOP | SYNC | LOY | CRP | STA |
+|-----------|-----|------|------|-----|-----|-----|
+| Combat forecast | Higher = more info | — | High = clean display | — | High = garbled display | — |
+| Before attack | Decoded = peek result | Déjà Vu = guaranteed hit | Low = stat fluctuation | Low = may refuse | — | High = physical stat penalties |
+| Enemy phase | — | Recall = preview moves | High = immune to corruption | — | High = may act as enemy | — |
+| Ally near death | — | Last Words = survive | — | Sworn = auto-shield | — | — |
+| Ally dies | ALL +8-12 | ALL +8 | ALL -10 | ALL -3 to -8 | — | — |
+| Kael dies (Ch3) | +extra | +extra | -10 extra | varies | — | — |
+| Corrupted tile | +3-5 AWR if witnessed | — | -2 | — | +2 per turn | — |
+| Ch4 boss | Reveals weapon cycle | High = harder boss | Low = more map corruption | — | +5 per hit taken | Accumulates fast — long fight |
+| Between chapters | — | No regen | — | Stable | -3 | Resets to 0 |
+| Movement | — | — | — | — | — | +1 per tile moved |
+| Double attack | — | — | — | — | — | +5 (vs +3 single) |
 
 ---
 
@@ -344,60 +595,219 @@ How all three meta-stats interact in practice:
 
 ```
 Ren — Lord
-HP: 22  STR: 8  MAG: 2  SPD: 9  DEF: 7  RES: 3  SKL: 10  LCK: 5  MOV: 5
-AWR: 95    LOOP: 347    SYNC: 75%
+HP: 22  STR: 8  MAG: 2  SPD: 9  DEF: 7  RES: 3  SKL: 10  LCK: 5  CHA: 9  WIL: 4  MOV: 5
+AWR: 95    LOOP: 347    SYNC: 75%    LOY: —    CRP: 0    STA: 0
 Actions: Attack | Item | Seize | Wait
 Passive: Cycle Memory | Route Optimization | Speedrunner's Curse
+Gender: Male
+Activity: Irregular — hasn't had a normal sleep schedule in 300+ cycles. Sleeps when he crashes, wakes when nightmares do.
+MBTI: INTJ — "The Architect." 347 cycles turned him into a cold strategist who sees 15 moves ahead.
+       But he used to be ENFP. 347 cycles of failure beat the optimism out of him.
+Fav Category: Alcohol      Fav Food: Whiskey ("Only thing that still tastes different each cycle.")
+Hate Category: Sweets      Hate Food: Frosted cake ("I've eaten this exact cake 347 times at the same banquet.")
+Fav Cuisine: 北国風 (Nordic)   Hate Cuisine: 和風 (Japanese)
 ```
 
 ```
 Kael — Cavalier
-HP: 24  STR: 9  MAG: 1  SPD: 8  DEF: 8  RES: 2  SKL: 7  LCK: 6  MOV: 7
-AWR: 0     LOOP: 0      SYNC: 100%
+HP: 24  STR: 9  MAG: 1  SPD: 8  DEF: 8  RES: 2  SKL: 7  LCK: 6  CHA: 7  WIL: 10  MOV: 7
+AWR: 0     LOOP: 0      SYNC: 100%   LOY: 90    CRP: 0    STA: 0
 Actions: Attack | Wait | Item
 Passive: True Strike | Stability Anchor
+Gender: Male
+Activity: Morning — up before dawn, patrols the camp perimeter, has breakfast ready before anyone wakes.
+MBTI: ISFJ — "The Defender." Loyal, dutiful, protects without asking why. The purest ISFJ in fiction.
+       Will never change. That's the point. That's why his death destroys everyone.
+Fav Category: Meat         Fav Food: Grilled steak ("Medium rare. Always medium rare.")
+Hate Category: Seafood     Hate Food: Sashimi ("It's RAW. Why is it raw. Cook the fish.")
+Fav Cuisine: 洋風 (Western)    Hate Cuisine: 和風 (Japanese)
 ```
 
 ```
 Senna — Mage
-HP: 19  STR: 2  MAG: 10 SPD: 7  DEF: 3  RES: 8  SKL: 9  LCK: 4  MOV: 5
-AWR: 25    LOOP: 0      SYNC: 85%
+HP: 19  STR: 2  MAG: 10 SPD: 7  DEF: 3  RES: 8  SKL: 9  LCK: 4  CHA: 3  WIL: 7  MOV: 5
+AWR: 25    LOOP: 0      SYNC: 85%    LOY: 40    CRP: 0    STA: 0
 Actions: Attack | Item | Wait
 Passive: Exploit | Data Dependency
+Gender: Female
+Activity: Night — does her best analysis between midnight and 4am. "Less noise in the data at night."
+MBTI: INTP — "The Logician." Lives inside her own head. Would rather solve an equation than talk to a person.
+       Gains J tendencies as AWR rises — the more she sees, the more she needs to control.
+Fav Category: Seafood      Fav Food: Salt-baked sea bream ("Clean flavor. Predictable. I can taste each element separately.")
+Hate Category: Spicy       Hate Food: Fire pepper stew ("Uncontrolled variable. My tongue can't analyze anything past the pain.")
+Fav Cuisine: 和風 (Japanese)   Hate Cuisine: 中華風 (Chinese)
 ```
 
 ```
 Bram — Fighter
-HP: 28  STR: 12  MAG: 0  SPD: 6  DEF: 8  RES: 1  SKL: 5  LCK: 3  MOV: 5
-AWR: 35    LOOP: 0      SYNC: 40%
+HP: 28  STR: 12  MAG: 0  SPD: 6  DEF: 8  RES: 1  SKL: 5  LCK: 3  CHA: 6  WIL: 8  MOV: 5
+AWR: 35    LOOP: 0      SYNC: 40%    LOY: 55    CRP: 0    STA: 0
 Actions: Attack | Item
 Passive: Reckless (bonus turns on kill) | No Patience (cannot Wait)
+Gender: Male
+Activity: Irregular — sleeps when he's bored, wakes up when something explodes. No pattern, no regrets.
+MBTI: ESTP — "The Entrepreneur." Acts first, thinks never. Every moment is a chance to DO something.
+       The most ESTP thing about him: he doesn't know what MBTI is and doesn't care.
+Fav Category: Spicy        Fav Food: Chili oil dumplings ("PERFECT HIT! CRITICAL FLAVOR! COMBO INTO THE NEXT ONE!")
+Hate Category: Vegetables  Hate Food: Steamed broccoli ("This has NO IMPACT. Zero damage. Where's the PUNCH?")
+Fav Cuisine: 中華風 (Chinese)   Hate Cuisine: 洋風 (Western)
 ```
 
 ```
 Lira — Cleric
-HP: 18  STR: 1  MAG: 8  SPD: 7  DEF: 3  RES: 9  SKL: 6  LCK: 8  MOV: 5
-AWR: 30    LOOP: 0      SYNC: 35%
+HP: 18  STR: 1  MAG: 8  SPD: 7  DEF: 3  RES: 9  SKL: 6  LCK: 8  CHA: 5  WIL: 3  MOV: 5
+AWR: 30    LOOP: 0      SYNC: 35%    LOY: 70    CRP: 0    STA: 0
 Actions: Heal | Item | Wait
 Passive: Empathy Aura | Devoted Healer
+Gender: Female
+Activity: Morning — cheerful early riser. Makes tea for everyone. "Morning is when the best story events happen!"
+MBTI: ENFJ — "The Protagonist." Ironic — she thinks she's the protagonist of a dating sim.
+       Reads people better than Senna reads data. The emotional core of every room she's in.
+Fav Category: Sweets       Fav Food: Caramel pudding ("It's sweet and warm and soft... like a hug you can eat!")
+Hate Category: Alcohol     Hate Food: Whiskey ("It BURNS. How is this a DRINK? This is an ATTACK.")
+Fav Cuisine: 南国風 (Tropical)  Hate Cuisine: 北国風 (Nordic)
 ```
 
 ```
 Voss — Soldier
-HP: 23  STR: 8  MAG: 1  SPD: 5  DEF: 10  RES: 2  SKL: 7  LCK: 3  MOV: 5
-AWR: 5→35  LOOP: 150    SYNC: 55%
+HP: 23  STR: 8  MAG: 1  SPD: 5  DEF: 10  RES: 2  SKL: 7  LCK: 3  CHA: 2  WIL: 6  MOV: 5
+AWR: 5→35  LOOP: 150    SYNC: 55%    LOY: 25    CRP: 5    STA: 0
 Actions: Attack | Item | Wait
 Passive: Defector's Resolve | Faction Ghost | Residual Data
+Gender: Male
+Activity: Morning — military discipline. Wakes at the same time every day. 300 cycles of routine don't break easily.
+MBTI: ISTJ — "The Logistician." Follows rules, respects structure — until the structure betrays him.
+       His defection is the most un-ISTJ act possible. That's what makes it meaningful.
+Fav Category: Grain        Fav Food: White rice with salt ("First meal I chose for myself. It's enough.")
+Hate Category: Dairy       Hate Food: Cream stew ("Too thick. Too rich. My stomach doesn't know what to do with this.")
+Fav Cuisine: 和風 (Japanese)   Hate Cuisine: 南国風 (Tropical)
 ```
+
+---
+
+## Food Preferences
+
+Each unit has a favorite and hated food category, plus specific favorite and hated foods. Food items can be used during preparation phase or at camps/villages.
+
+### Food Categories (Taste)
+
+| Category | Items |
+|----------|-------|
+| **Meat** | Grilled steak, lamb skewers, smoked jerky, roast chicken, venison stew |
+| **Seafood** | Grilled salmon, salt-baked sea bream, fried shrimp, squid ink pasta, clam chowder, sashimi |
+| **Grain** | Rye bread, white rice, buckwheat noodles, oat porridge, barley soup |
+| **Vegetables** | Steamed broccoli, roast pumpkin, garlic mushrooms, tomato salad, pickled turnips |
+| **Fruit** | Baked apple, citrus tart, dried figs, grape compote, melon |
+| **Sweets** | Honey pastry, frosted cake, chocolate truffle, caramel pudding, sugar cookies |
+| **Spicy** | Fire pepper stew, red curry, chili oil dumplings, wasabi, kimchi |
+| **Dairy** | Aged cheese, butter toast, cream stew, yogurt, milk |
+| **Alcohol** | Ale, red wine, wheat beer, mead, rice sake, plum wine, whiskey |
+
+### Cuisine Styles (Region)
+
+Each food item also has a cuisine style based on its cultural origin. Characters have a preferred and disliked cuisine — this stacks with taste category preferences. Each food item belongs to exactly one style.
+
+| Style | Flavor Profile | Example Dishes |
+|-------|---------------|----------------|
+| **和風 (Japanese)** | Subtle, clean, umami. Raw, steamed, grilled. Minimal seasoning. | Sashimi, white rice, miso soup, buckwheat noodles, pickled turnips, rice sake, wasabi, grilled salmon, melon |
+| **洋風 (Western)** | Rich, hearty, butter/cream-based. Roasted, baked. | Grilled steak, cream stew, rye bread, roast chicken, chocolate truffle, red wine, butter toast, aged cheese, whiskey |
+| **中華風 (Chinese)** | Bold, aromatic, oily. Stir-fried, steamed, spiced. | Chili oil dumplings, red curry, fried shrimp, lamb skewers, kimchi, plum wine, garlic mushrooms |
+| **南国風 (Tropical)** | Sweet, fruity, light. Fresh ingredients, bright flavors. | Citrus tart, dried figs, grape compote, melon, honey pastry, mead, yogurt |
+| **北国風 (Nordic)** | Smoky, preserved, filling. Cold-weather survival food. | Smoked jerky, venison stew, oat porridge, barley soup, wheat beer, ale, roast pumpkin, baked apple, salt-baked sea bream |
+
+### Cuisine Style Effects
+
+| Match | Effect |
+|-------|--------|
+| **Favorite cuisine** | +1 to one random stat for the chapter. Stacks with taste category bonus. |
+| **Disliked cuisine** | -1 to one random stat. Stacks with taste category penalty. |
+
+Best case (favorite taste + favorite cuisine): +2 stat, +1 stat, LOY +3, STA recovery +2.
+Worst case (hated taste + hated cuisine): -2 stat, -1 stat, LOY -3.
+
+### Cuisine Preferences Per Character
+
+| Character | Fav Cuisine | Hate Cuisine | Notes |
+|-----------|------------|-------------|-------|
+| **Ren** | 北国風 (Nordic) | 和風 (Japanese) | Loves Nordic — smoky, strong, warming. Hates Japanese — too delicate, too precise, reminds him of scripted elegance. "Every tea ceremony plays out the same way." |
+| **Kael** | 洋風 (Western) | 和風 (Japanese) | Western man through and through. Steak, bread, cheese. Raw fish is incomprehensible to him. |
+| **Senna** | 和風 (Japanese) | 中華風 (Chinese) | Loves Japanese — clean, analytical flavors she can deconstruct. Chinese is chaos: "Too many spices. I can't isolate the variables." |
+| **Bram** | 中華風 (Chinese) | 洋風 (Western) | Chinese heat matches his personality. Western food is "too SLOW. Too much butter. Where's the FIRE?" |
+| **Lira** | 南国風 (Tropical) | 北国風 (Nordic) | Tropical — sweet, bright, romantic. Nordic is too heavy and grim: "This food has no LOVE in it." |
+| **Voss** | 和風 (Japanese) | 南国風 (Tropical) | Japanese — simple, clean, respectful. Tropical is too sweet, too colorful. "I don't trust food that looks happy." |
+
+### Food as Items
+
+Food items are consumable items used in battle (Item action) or during preparation phase. Each food has a **base effect** (HP recovery, stat buff, STA reduction, etc.) plus a **preference modifier** based on the unit's taste/cuisine preferences.
+
+#### Base Effects by Food Type
+
+| Type | Base Effect | Notes |
+|------|-----------|-------|
+| **Rations (携帯食)** | Heal 10 HP | Basic. Cheap. No preference bonus. |
+| **Cooked Meal (料理)** | Heal 15 HP, -5 STA | Prepared food. Full preference system applies. |
+| **Feast Dish (御馳走)** | Heal 20 HP, -8 STA, +1 random stat for chapter | Rare. Expensive. Strongest preference effects. |
+| **Drink (飲料)** | -5 STA only | No HP heal. Pure stamina recovery. |
+| **Alcohol (酒)** | -5 STA, +2 STR/CHA, -1 SKL/SPD, -2 WIL for chapter | See Alcohol Effects below. |
+| **Buff Food (強化食)** | +2 to a specific stat for chapter | No HP heal. Targeted stat boost. |
+| **Antidote Food (解毒食)** | -5 CRP | Rare. Only food-based way to cleanse corruption. |
+
+#### Preference Modifier (Cooked Meal / Feast Dish only)
+
+| Match | Modifier |
+|-------|----------|
+| **Favorite food** | Base effect ×1.5 (rounded down). LOY +3. |
+| **Favorite category** | Base effect ×1.2. LOY +1. |
+| **Favorite cuisine** | +1 to one random stat for chapter. Stacks. |
+| **Neutral** | No modifier. |
+| **Hated category** | Base effect ×0.8. LOY -1. |
+| **Hated food** | Base effect ×0.5. LOY -3. "Why would you give me this." |
+| **Hated cuisine** | -1 to one random stat for chapter. Stacks. |
+
+Best case (favorite food + favorite cuisine): ×1.5 heal, LOY +3, +1 stat.
+Worst case (hated food + hated cuisine): ×0.5 heal, LOY -3, -1 stat.
+
+### Alcohol Effects
+
+Alcohol has unique bonuses and risks beyond normal food:
+
+| Effect | Value | Notes |
+|--------|-------|-------|
+| STR/CHA buff | +2 for the chapter | Liquid courage |
+| SKL/SPD debuff | -1 for the chapter | Dulled reflexes |
+| LOY bonus | +5 if shared with allies | Drinking together builds trust |
+| STA recovery | +3 per rest | Relaxation helps recovery |
+| WIL debuff | -2 for the chapter | Lowered mental guard |
+| Overdrink (2+ alcohol same chapter) | -3 SKL, -2 SPD, +3 CHA | Drunk — terrible aim, great speeches |
+
+### Food × Character Interactions
+
+- **Ren** loves whiskey — it's one of the few things that still feels unpredictable after 347 cycles. Lira HATES whiskey. If Ren drinks near Lira: "That's not a beverage, that's a WAR CRIME."
+- **Ren** hates frosted cake — the same scripted banquet scene, 347 times, same cake. "I can tell you the exact position of every crumb."
+- **Bram** and **Senna** are food rivals — Bram's favorite (chili oil dumplings) is close to Senna's nightmare. Bram intentionally eats spicy food near Senna to annoy her.
+- **Kael** refuses sashimi but loves grilled steak. Simple man. Senna finds this baffling: "It's the same protein. The preparation is irrelevant." Kael: "It's NOT the same."
+- **Voss** chose white rice as his first free meal after defection. It means everything to him. As his LOY rises, he starts trying new foods — each new food is a small act of freedom.
+- **Lira** tries to organize group meals as "bonding events." Mechanically useful — shared meals between two units boost both LOY. She keeps a mental ranking of everyone's favorites.
+- **Kael + Bram** drinking ale together is one of the highest LOY gain events in the game. Two soldiers, no pretense, just beer. (+8 LOY each)
+
+---
+
+## Skills
+
+Each unit can equip skills that provide passive effects, triggered abilities, or combat modifiers. Skills are separate from character passives — passives are innate to the character, skills are learned/equipped.
+
+Full skill definitions, categories, and acquisition rules: see [skills.md](skills.md).
 
 ---
 
 ## Open Questions
 
-- **Stat caps**: No global or per-class caps exist yet. FE typically caps at 20-30 unpromoted, 25-40 promoted. Should we add them?
-- **Weight / Attack Speed**: Weapons have a `weight` field but it's unused. Classic FE: AS = SPD - (weapon weight - STR). Add this?
 - **AWR cap behavior**: Should AWR ever exceed 100? What happens if system corruption pushes it past the max?
 - **LOOP negative**: Can LOOP go negative? What happens if you overspend? (Narrative potential: negative LOOP = you're borrowing memories from FUTURE cycles that will never happen)
 - **SYNC floor**: Should SYNC have a minimum? Or can a character hit 0% and become completely unstable?
 - **Body targeting on magic**: Do magic attacks use the same body targeting system? Or is magic inherently "formless" and always hits Body?
 - **Low SYNC randomness**: How much stat fluctuation is fun vs frustrating? ±1 feels safe, ±3 might be too chaotic. Needs playtesting.
+- **Promoted class caps**: Unpromoted caps defined (20 for combat stats). Promoted caps TBD when promotion system is designed.
+- **Food system details**: How many meals per chapter? Individual or shared? Inventory limits? Purchase locations? (Deferred to battle-logic.md)
+- **Time-of-day shift triggers**: Fixed turn count per map or event-driven? What happens to bonuses mid-turn on shift?
+- **Enemy CHA/WIL/STA**: Do enemies use the same CHA aura, WIL checks, and STA system? Or simplified for AI?

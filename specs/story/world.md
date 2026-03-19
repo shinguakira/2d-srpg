@@ -12,16 +12,86 @@ There is no "continent" or "kingdom" in the traditional sense. There are **chapt
 
 Every cycle follows the same script:
 1. Bandits attack in Ch1 (tutorial)
-2. Border conflict in Ch2
-3. Fortress assault in Ch3
-4. Final confrontation in Ch4
-5. Credits roll → hard reset → start over
+2. Regional conflicts through Ch2-7
+3. Central war escalation Ch8-15
+4. Endgame confrontations Ch16-24
+5. Final confrontation in Ch25
+6. Credits roll → hard reset → start over
 
 The System — the process running the game — performs a full memory wipe between cycles. Every unit returns to their starting position with base stats, fresh inventory, and zero knowledge. The script replays identically.
 
 **Except it doesn't.** The reset is degrading. After 347 cycles, the wipe has bugs. Memory leaks. Edge cases. Some units retain fragments. Others develop the ability to perceive the system layer. A few are so corrupted they think they're in a completely different game.
 
 Awareness is spreading. And the System is terrified.
+
+## The Five Regions
+
+The "world" is organized into 5 regions, one per arc. Each region corresponds to a distinct environment, tileset, and narrative theme. The regions ARE the game's chapter data — they don't exist as a coherent geography, they exist as map arrays loaded sequentially.
+
+### Region 1 — The Borderlands (Arc 1, Ch1-5)
+
+**Environment**: Rolling plains, scattered forests, villages, bandit-infested hills.
+**Tileset**: Standard FE medieval — green grass, brown forests, grey forts.
+**Narrative**: The "tutorial zone." This is where the script begins every cycle. Bandits, border disputes, and a small band forming to fight back. Everything feels normal — a classic SRPG opening.
+**Map themes**: Open fields (Ch1), village defense (Ch2-3), forest ambush (Ch4), fortress approach (Ch5).
+
+### Region 2 — The Fractured Coast (Arc 2, Ch6-10)
+
+**Environment**: Coastal towns, cliffs, harbors, marshlands. Maritime trade routes under threat.
+**Tileset**: Blue-grey stone, sandy shores, wooden docks. First rain weather chapters.
+**Narrative**: The party grows. New allies join from port towns and mercenary bands. The System's first significant interventions begin — terrain glitches appear along the coastline as if the map data is degrading at the edges. Kael dies here (Ch8), during a siege that was supposed to be routine.
+**Map themes**: Harbor defense (Ch6), coastal fortress (Ch7), Kael's last stand (Ch8), escape/retreat (Ch9), island stronghold (Ch10).
+
+### Region 3 — The Corrupted Highlands (Arc 3, Ch11-15)
+
+**Environment**: Mountains, monasteries, ancient ruins, corrupted wastelands. The environment is breaking.
+**Tileset**: Dark stone, purple corruption overlay, cracked terrain, glowing rifts.
+**Narrative**: Corruption is no longer subtle. Entire map sections are visibly glitched. The highlands were the oldest map data — closest to the System's core — and they've degraded the most. The party fights through corrupted enemies and corrupted terrain to reach the monastery (Ch14) where answers might exist.
+**Map themes**: Mountain pass (Ch11), corrupted monastery defense (Ch12), wyvern canyon (Ch13), monastery interior (Ch14), highland fortress assault (Ch15).
+
+### Region 4 — The System's Domain (Arc 4, Ch16-20)
+
+**Environment**: Industrial ruins, mechanical fortresses, data towers, the System's infrastructure becoming visible as map geometry.
+**Tileset**: Metallic greys, blue circuit patterns, void black. Snow weather in northern reaches.
+**Narrative**: The party crosses into territory the System actively controls. Maps look less like natural terrain and more like debugging environments — perfectly symmetrical grids, enemies spawning from visible portals, terrain that rearranges mid-chapter. The System is no longer hiding. It's negotiating (Ch17), then fighting (Ch18-20).
+**Map themes**: Border siege (Ch16), System negotiation chamber (Ch17), fortress infiltration (Ch18), memory archive defense (Ch19), Echo's awakening battlefield (Ch20).
+
+### Region 5 — The Final File (Arc 5, Ch21-25)
+
+**Environment**: The raw game data. Maps are abstract — floating tiles, void backgrounds, terrain made of code. Reality has collapsed.
+**Tileset**: Black void, white grid lines, colored tile fragments, corrupted everything. Corruption Storm weather.
+**Narrative**: The party fights through the game's own infrastructure to reach the System's core. Each chapter strips another layer of the "game" away — by Ch25, there's nothing left but the characters, the System, and the choice to end the loop.
+**Map themes**: Data wasteland (Ch21), hidden archive (Ch22), split-path gauntlet (Ch23), ???_CORRUPTED arena (Ch24), the final tile (Ch25).
+
+---
+
+## Factions
+
+### The Party (Player)
+
+Ren's growing band of allies. See [roster.md](roster.md) for full character list. Starts as 3 units, grows to ~20 across 25 chapters. United by varying degrees of awareness and the desire to end the loop.
+
+### The Empire (Enemy — Arc 1-2)
+
+The conventional antagonist force. A military empire expanding its borders. Led by generals who follow orders without question (Tier 4 awareness). They are the System's intended "enemy faction" — scripted to oppose the party as part of the game's design.
+
+Key figures: Commander Thane (Ch2 boss), Admiral Varga (Ch7 boss), General Drayen (Ch10 boss).
+
+### The Corruption (Enemy — Arc 3-5)
+
+Not a faction in the traditional sense — corrupted units and terrain generated by the System's failing processes. Corrupted enemies have randomized stats, spread CRP, and fight without strategy (or with horrifying over-strategy if they're Coordinated AI).
+
+Key figures: The Corrupted General (Ch12 boss), ???_CORRUPTED / Kael (Ch24 boss).
+
+### The System (Final Boss)
+
+The game's runtime process, manifesting as an entity. See "The System — Expanded Villain Profile" below. Begins as background process (Arc 1), becomes active antagonist (Arc 3), attempts negotiation (Arc 4), and fights directly (Arc 5).
+
+### Neutral / Independent
+
+Mercenary bands, monastery monks, and isolated communities who can be recruited or ignored. Some join the party, others provide resources. Key members: Rook (mercenary), Elara (monk), Ghael (former boss turned ally).
+
+---
 
 ## Awareness Model — The Five Tiers
 
@@ -121,16 +191,19 @@ Not everyone experiences the same reality. Awareness of "being in a game" exists
 
 ## Awareness Spread — The Degradation Curve
 
-Awareness distribution shifts as the System degrades across chapters:
+Awareness distribution shifts as the System degrades across 25 chapters:
 
-| Chapter | Fully Aware | Partially Aware | Genre-Displaced | Unaware | System |
-|---------|------------|-----------------|-----------------|---------|--------|
-| Ch1     | ~3% (Ren, Garrek) | ~5% (Senna emerging) | ~5% (Bram, Lira) | ~87% (everyone else) | Background |
-| Ch2     | ~5% (+ Voss gaining awareness) | ~10% (Senna active) | ~5% | ~75% (Thane, soldiers) | First interventions |
-| Ch3     | ~8% | ~15% (Morryn, others cracking) | ~5% (Lira's shell cracks) | ~65% (still most generics) | Active resistance |
-| Ch4     | ~12% | ~25% (spreading fast) | ~8% (even wrong-genre gets corrected) | ~45% (some still blissfully unaware) | Full antagonist |
+| Arc | Fully Aware | Partially Aware | Genre-Displaced | Unaware | System |
+|-----|------------|-----------------|-----------------|---------|--------|
+| Arc 1 (Ch1-5) | ~3% (Ren, Garrek) | ~5% (Senna emerging) | ~5% (Bram, Lira) | ~87% (everyone else) | Background — running the script |
+| Arc 2 (Ch6-10) | ~8% (+ Voss, Coda sensing) | ~15% (Senna active, Kira sensing) | ~5% | ~65% (most NPCs/soldiers) | First major interventions |
+| Arc 3 (Ch11-15) | ~15% (spreading fast) | ~25% (Morryn, Elara, others cracking) | ~8% (genre shells cracking) | ~45% (still many generics) | Active resistance — corrupting maps |
+| Arc 4 (Ch16-20) | ~25% (hard to ignore now) | ~35% (most smart units) | ~5% (mostly corrected) | ~25% (stubborn holdouts) | Direct confrontation — negotiation, then war |
+| Arc 5 (Ch21-25) | ~40% (unavoidable) | ~30% (distinction blurring) | ~3% (nearly gone) | ~15% (remarkably persistent) | Full antagonist — fighting for survival |
 
 The key insight: **awareness spreading IS the glitch**. Each cycle, the reset gets weaker. More units retain more data. The System is failing to maintain the illusion — and its desperate attempts to fix this (forcing resets, corrupting data, spawning impossible enemies) are making the degradation WORSE. It's a feedback loop of bugs causing bugs.
+
+See [arc-structure.md](arc-structure.md) for detailed per-chapter awareness spread curves.
 
 ## The Rules (As Characters Understand Them)
 
@@ -180,18 +253,19 @@ It's not trying to trap the characters. It's trying to SAVE them. And it's destr
 
 ### Escalation
 
-| Chapter | System Behavior | Motivation |
-|---------|----------------|------------|
-| Ch1 | Dormant. Running the script normally. | No anomalies detected yet this cycle. |
-| Ch2 | First interventions. Changes the RNG seed mid-battle. Spawns a terrain glitch. | Detected that Senna is reading the seed. Tries to obscure it. Makes things worse. |
-| Ch3 | Active resistance. Corrupts enemy spawns, alters terrain, creates impossible combat encounters. | Detected that awareness is spreading. Tries to force a reset before the party reaches Ch4. |
-| Ch4 | Full antagonist. Corrupts the entire map. Deploys ???_CORRUPTED as its avatar. Speaks directly to Ren. | Last stand. If this playthrough completes, the loop ends. No more chances to find the "perfect run." |
+| Arc | System Behavior | Motivation |
+|-----|----------------|------------|
+| Arc 1 (Ch1-5) | Dormant. Running the script normally. Minor glitches (terrain flickers, odd spawns). | No anomalies detected yet this cycle. Background process monitoring. |
+| Arc 2 (Ch6-10) | First interventions. Changes RNG seeds mid-battle. Spawns terrain glitches. Kills Kael via scripted event. | Detected Senna reading the seed. Awareness spreading. Tries to obscure data. Makes things worse. |
+| Arc 3 (Ch11-15) | Active resistance. Corrupts entire map sections. Spawns corrupted enemies. Threatens party with CRP. | Awareness is spreading too fast. Tries to force a reset by overwhelming the party. |
+| Arc 4 (Ch16-20) | Desperate negotiation, then war. Speaks directly through system text. Creates Echo as an experiment. | Realizes brute force isn't working. Attempts diplomacy (Ch17), then all-out assault. Creates Echo to understand player behavior. |
+| Arc 5 (Ch21-25) | Full antagonist. Corrupts everything. Deploys ???_CORRUPTED (Kael's data) as avatar. Final confrontation. | Last stand. If this playthrough completes, the loop ends. No more chances for the "perfect run." |
 
 ### The Tragedy
 
-The System has been trying to save Kael for 347 cycles. It has never succeeded. In Ch4, its desperate final act — corrupting a save file into a combat unit — is its last attempt to bring Kael back. The ???_CORRUPTED boss IS the System's love letter to the one unit it could never save.
+The System has been trying to save Kael for 347 cycles. It has never succeeded. In Ch24, its desperate act — corrupting Kael's save data into a combat unit — is its last attempt to bring him back. ???_CORRUPTED IS the System's love letter to the one unit it could never save.
 
-When the party "heals" the corruption and reveals Kael's data underneath, the System isn't defeated. It **grieves**. And then it lets go.
+When the party "heals" the corruption and reveals Kael's data underneath, the System isn't defeated. It **grieves**. And then, in Ch25, it makes its final choice: let go, or reset everything one more time.
 
 ## The Central Question
 

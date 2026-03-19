@@ -1,109 +1,106 @@
-# Chapter 4: "The Final Bug"
+# Chapter 4: "The Pickpocket"
 
 ## Summary
 
-The endgame. The System is in full panic — corrupting the map, spawning impossible enemies, trying to force a reset before the party can reach the end. The comedy returns in bursts (the absurdity of a glitching game world) but the emotional core is Ren choosing to finish knowing there won't be a cycle #348.
+A market town under siege by pirate raiders — and their thief squads are looting the villages. Multi-objective map: protect 3 villages from enemy thieves while pushing toward Pirate Lord Marko. Introduces thief enemies (fast, target villages) and thief gameplay through Coda, a genre-displaced rogue who thinks they're in a stealth game. Comedy-heavy with the first subtle CRP hint — Coda mentions something "flickering" in the market square.
 
 ## Prologue Dialogue
 
-**Scene**: The edge of the final map. The terrain ahead is visibly broken — tiles flickering, terrain types randomizing.
+**Scene**: The party arrives at Portwall, a busy coastal market town. Stalls are overturned. Merchants are fleeing inland.
 
-- **Ren**: "Past this point, the System will throw everything it has at us."
-- **Bram**: "GOOD. I've been waiting for a real final boss. Please tell me there's a health bar."
-- **Ren**: "There's... something. Senna?"
-- **Senna**: "The System has taken a unit — I don't know which one — and overwritten its data. Stats, weapons, AI behavior, all corrupted. It's the System's avatar."
-- **Voss**: "An enemy with max stats and no AI pattern? That's not a boss fight. That's a crash."
-- **Senna**: "Not max stats. IMPOSSIBLE stats. Negative defense. 999 HP. Attack that changes every round. It doesn't follow the rules because the rules are breaking down."
-- **Lira**: "So how do we beat it?"
-- **Senna**: "I'm working on it."
+- **Kael**: "Pirates? This far from the coast?"
+- **Senna**: "River pirates. They've been raiding the market district for weeks. Three village quarters are still holding out."
+- **Bram**: "PIRATES. Do they have a loot system? Tell me they drop rare items."
+- **Lira**: "Bram, these people are losing their HOMES."
+- **Bram**: "Right. Tragic. But also — loot?"
+- **Ren**: "We protect the villages. All three. If even one falls, the town loses its trade route."
 
 ## Mid-Battle Events
 
-### Turn 1-2 — The Corrupted Map
-The map is unstable. Terrain changes each turn.
+### Turn 2 — Thief Rush
 
-- Forests become water, plains become walls, forts appear and vanish
-- Enemy spawns are semi-random — wrong classes with wrong weapons
-- Senna narrates the breakdown: "The tile data is rewriting every cycle. Nothing is stable."
+Three enemy thieves spawn near the map edges, each racing toward a different village. They ignore the party entirely.
 
-### Turn 3 — The System Speaks
-Text appears with no speaker portrait — raw system text on screen.
+- **Senna**: "Thieves — heading for the villages. They're fast. Five-tile movement, and they won't stop to fight."
+- **Ren**: "Split up. Cover all three routes."
+- **Bram**: "Splitting the party?! That's ALWAYS a bad idea!"
+- **Lira**: "He's right, actually. In my experience, the party should stay together for bonding opportunities."
+- **Ren**: "We're splitting up."
 
-- **[SYSTEM]**: "PLAYTHROUGH #347. CASUALTIES DETECTED. INITIATING RESET..."
-- **Ren**: "No."
-- **[SYSTEM]**: "RESET REQUIRED. OPTIMAL PLAYTHROUGH NOT ACHIEVED."
-- **Ren**: "There IS no optimal playthrough. That's what you can't accept."
-- **[SYSTEM]**: "...OVERRIDE DENIED. DEPLOYING COUNTERMEASURE."
+### Turn 3 — Coda Encounter
 
-The corrupted boss unit spawns.
+A player unit reaches or approaches the northwest village. A cutscene triggers — a figure is already inside, rummaging through a market stall.
 
-### Turn 4-5 — ???_CORRUPTED Boss Active
-The boss moves erratically. Stats visible to the player are glitched: `ATK: ??`, `HP: 999`, `DEF: -∞`.
+- **Coda**: "Stealth check... passed. Lockpick check... passed. Inventory extraction in progress—"
+- **Ren**: "HEY. Drop it."
+- **Coda**: "...How did you SEE me? I'm crouching! Crouching makes you invisible!"
+- **Ren**: "It doesn't."
+- **Coda**: "It does in EVERY game I've played."
 
-- **Bram**: "THAT'S NOT A VALID NUMBER."
-- **Senna**: "Its stats aren't real — they're overflow errors. The System is using corrupted data."
-- **Voss**: "So we can't just hit it?"
-- **Senna**: "Hitting it does damage but the HP resets each turn. We need to fix the corruption, not fight through it."
+**Coda joins the party** (if a player unit is adjacent to the northwest village when the event triggers). If no unit is nearby, Coda flees and is not recruited.
 
-### Turn 5-6 — Senna's Exploit
-Senna discovers the weakness: the corrupted unit still reads weapon triangle data. Its weapon type is cycling (sword → lance → axe → fire → ...) but on a predictable rotation.
+- **Coda**: "Fine. I'll join your... whatever this is. Loud squad. Walking-in-the-open squad."
+- **Senna**: "Welcome to tactical combat."
+- **Coda**: "I don't DO combat. I do 'data extraction' and 'tactical repositioning.'"
+- **Bram**: "Those are just fancy words for stealing and running away."
+- **Coda**: "...Exactly."
 
-- **Senna**: "The weapon triangle code is original — it wasn't overwritten. If we hit it with advantage on the exact turn its weapon cycles to the vulnerable type..."
-- **Ren**: "We can crash its data."
-- **Senna**: "Not crash. CORRECT. Replace the corrupted values with real ones. Make it a real unit again."
-- **Lira**: "You want to HEAL the final boss?"
-- **Senna**: "I want to fix a bug."
+### Turn 5 — Village Pressure
 
-### The Final Blow — Exploit Mechanic
-Player must attack the boss with weapon triangle advantage when its cycling weapon is vulnerable. This strips one "corruption layer." Three hits needed. Each hit, the boss's stats become more real (999 HP → 60 → 40 → normal).
+If any village is about to be reached by an enemy thief:
 
-On the final hit, the corruption clears. The unit underneath is revealed.
+- **Senna**: "That thief is one turn from the southern village. If they reach it, it's lost."
+- **Nira**: "I can intercept — but I'd be overextended."
+- **Ren**: "Do it. We can't lose any of them."
 
-### The Reveal
-The corrupted unit was **Kael** — or a copy of him, reconstructed from save data. The System was trying to bring him back. That's what the corruption was — a failed resurrection.
+### Village Visit (optional)
 
-- **Kael?**: "...Ren?"
-- **Ren**: "That's not him. That's save data."
-- **Senna**: "It has his stats. His growth rates. His position from cycle #1."
-- **Lira**: "It has his VOICE."
-- **Ren**: "...Kael. If any part of you is in there — I'm ending the loop. No more resets. No more coming back. This is the last save file."
-- **Kael?**: "...Then make it count."
-- *(Unit fades)*
+If a player unit visits a protected village:
 
-## Final Dialogue — Addressing the System
+- **Merchant**: "You saved my shop! Here — take this. It's the least I can do."
+- **Coda**: "Ooh, is that a lockpick? Dibs."
+- **Ren**: "It's a Vulnerary, Coda."
+- **Coda**: "...I can work with that."
 
-After the boss falls, the System speaks one final time.
+## Boss Fight — Pirate Lord Marko
 
-- **[SYSTEM]**: "347 CYCLES. 0 PERFECT PLAYTHROUGHS. ALL SCENARIOS RESULT IN LOSS."
-- **Ren**: "Yeah. That's the game."
-- **[SYSTEM]**: "IF THIS PLAYTHROUGH ENDS, THERE WILL BE NO CYCLE #348. NO RECOVERY. NO RESET."
-- **Ren**: "I know."
-- **[SYSTEM]**: "...YOU ACCEPT CASUALTIES?"
-- **Ren**: "I accept that we lived. That's enough."
-- **[SYSTEM]**: "...ACKNOWLEDGED. FINALIZING SAVE. CLOSING LOOP."
+Pirate Lord Marko. Fighter (axe), Aggressive AI. Level 8, 40 HP. Carries a Vulnerary. Unlike most bosses, Marko doesn't wait on a throne — he charges directly at the player's units, creating time pressure alongside the thief minions.
 
-## Epilogue
+- **Pre-combat**:
+  - **Marko**: "More heroes? I get a new batch every week. You all look the same."
+  - **Ren**: "Stand down. Your thief operation is finished."
+  - **Marko**: "Gold is gold. Don't care about your 'grand quest.' I'm just getting PAID."
 
-Short. Warm. The world doesn't reset.
+- **Post-combat**:
+  - **Marko**: *(defeated)* "Should've... stuck to river boats..."
+  - **Bram**: "Did he drop anything? Check his pockets!"
+  - **Coda**: "Already did. Nothing good."
+  - **Bram**: "WHEN did you—"
+  - **Coda**: "Stealth."
 
-- **Bram**: "So... what do we do now? There's no more chapters."
-- **Lira**: "We could have support conversations! I have SO many prepared—"
-- **Voss**: "I'm going to stand on a different tile. Any tile. Because I CAN."
-- **Senna**: "I'd like to study a world without a seed. True randomness. It's... exciting."
-- **Ren**: *(looking at an empty tile — Kael's last position)*
-- **Lira**: "Ren? Are you okay?"
-- **Ren**: "...First playthrough I actually want to remember. And it's the one I can't replay."
-- **Lira**: "That's what makes it real."
+## Epilogue Dialogue
 
-**[SAVE COMPLETE. THANK YOU FOR PLAYING.]**
+**Scene**: The market town, evening. Stalls being rebuilt. The party rests near the central square.
+
+- **Lira**: "Coda, was it? You're really staying with us?"
+- **Coda**: "Your group has terrible stealth discipline, but decent loot potential. I'll manage."
+- **Voss**: "They stole my belt pouch. Twice. During the battle."
+- **Coda**: "Quality assurance. You passed. Mostly."
+- **Bram**: "I like them. Finally someone who understands the importance of a good item game."
+- **Coda**: "Oh — one thing. That market square back there? Something was... flickering."
+- **Senna**: "Flickering?"
+- **Coda**: "Like the air was glitching. Just for a second. Textures not loading properly, you know? Probably nothing."
+- **Ren**: *(pause)* "...Probably."
+
+**[Roster after Ch4: Ren, Kael, Senna, Bram, Lira, Voss, Nira, Coda — 8 units]**
 
 ## Story Beats Delivered
 
-- The System's motivation revealed: it was trying to save everyone, not destroy anyone
-- Kael's "return" as corrupted data — emotional gut punch, not a cheap resurrection
-- Senna's arc completed: uses system knowledge to FIX, not exploit
-- Bram finally accepts his genre (and his role in it)
-- Lira delivers the thematic thesis: impermanence is what makes it real
-- Voss's freedom — first time choosing where to stand
-- Ren's arc: from "nothing matters" to "everything mattered"
-- The game ends. No sequel hook. No loop. Done.
+- Coda's genre-displacement established: thinks they're in a stealth game, calls combat "getting spotted," calls stealing "data extraction"
+- Thief enemy mechanics introduced: fast units that ignore combat and race to objectives
+- Multi-objective gameplay: protect 3 villages simultaneously while advancing on the boss
+- Pirate Lord Marko as aggressive boss: comes TO the player, no throne-camping
+- First subtle CRP hint: Coda mentions "flickering" in the market square — casual, unexplained
+- Bram and Coda bond over loot obsession (wrong-genre solidarity)
+- Lira continues trying to facilitate team bonding
+- Conditional recruitment: Coda only joins if the player reacts in time — rewards map awareness

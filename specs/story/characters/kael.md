@@ -39,13 +39,13 @@ He doesn't become meta-aware. He doesn't start making system jokes. He absorbs t
 
 ## Arc
 
-1. **Ch1**: The classic FE cavalier. Charges in, fights bravely, celebrates victory. Pure, uncomplicated.
-2. **Ch2**: Notices Ren acting strange. Starts asking questions. "Why do you always know what's coming?"
-3. **Ch3**: Learns about the loops. Processes the truth. Chooses courage. Then dies.
+1. **Ch1-5**: The classic FE cavalier. Charges in, fights bravely, celebrates victory. Pure, uncomplicated. Notices Ren acting strange. "Why do you always know what's coming?"
+2. **Ch6-7**: Grows as a leader. Takes on more responsibility as the party expands. Becomes the tactical anchor.
+3. **Ch8**: Learns about the loops from Ren during the march. Processes the truth. Chooses courage. Then dies holding the rear guard.
 
-## The Death (Ch3, Turn 6-7)
+## The Death (Ch8, Turn 10+)
 
-Kael is caught out of position — his high MOV means he's always overextended. A corrupted enemy spawn (the System fighting back) traps him. His greatest strength (mobility) becomes his fatal weakness.
+Kael holds the rear guard against General Morryn's forces. A scripted event removes him from player control. His high MOV means he pushed forward to shield the party's retreat — his greatest strength (mobility) becomes his fatal weakness. He fights alone against overwhelming reinforcements and falls.
 
 - "Ren... this is the part where I retreat to safety and recover, right?"
 - "...Kael."
@@ -61,7 +61,9 @@ He dies believing it mattered. He's right.
 
 ## After Death
 
-Kael's absence haunts Ch4. His empty tile. The party avoiding eye contact when someone almost says his name. And then — the Ch4 boss reveals Kael's reconstructed data underneath the corruption. Not a resurrection. A ghost in the machine. The System's failed attempt to bring back the one unit it could never save.
+Kael's absence haunts Ch9 onward. His empty tile. The party avoiding eye contact when someone almost says his name. Grief trauma hits all party members (-3 all stats for 2 chapters). Orin joins in Ch9 partly to fill the emotional void.
+
+And then — Ch24. ???_CORRUPTED reveals Kael's reconstructed data underneath the corruption. Not a resurrection. A ghost in the machine. The System's failed attempt to bring back the one unit it could never save.
 
 ## Key Lines
 

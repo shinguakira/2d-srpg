@@ -63,7 +63,7 @@ Both attacker and defender can double (defender only if they can counter).
 Each class defines growth rates (0–100%) per stat (except MOV).
 On level-up, each stat rolls independently against its growth rate: success = +1, fail = +0.
 
-### Growth Rates Per Class
+### Growth Rates Per Class (All 16 Base Classes)
 
 | Class | HP | STR | MAG | DEF | RES | SPD | SKL | LCK | CHA | WIL |
 |-------|----|----|-----|-----|-----|-----|-----|-----|-----|-----|
@@ -73,17 +73,31 @@ On level-up, each stat rolls independently against its growth rate: success = +1
 | Fighter | 90 | 55 | 0 | 35 | 5 | 25 | 20 | 25 | 30 | 35 |
 | Cleric | 50 | 5 | 45 | 10 | 45 | 30 | 25 | 50 | 25 | 15 |
 | Soldier | 70 | 35 | 5 | 45 | 10 | 20 | 35 | 20 | 10 | 30 |
+| Archer | 65 | 40 | 5 | 20 | 15 | 40 | 50 | 35 | 10 | 25 |
+| Thief | 55 | 30 | 5 | 15 | 20 | 55 | 45 | 40 | 15 | 30 |
+| Pegasus Knight | 60 | 30 | 15 | 20 | 35 | 50 | 40 | 45 | 20 | 25 |
+| Wyvern Rider | 80 | 45 | 0 | 40 | 5 | 25 | 25 | 25 | 30 | 40 |
+| Troubadour | 50 | 5 | 40 | 10 | 40 | 35 | 30 | 45 | 30 | 20 |
+| Mercenary | 70 | 40 | 5 | 25 | 15 | 45 | 45 | 30 | 20 | 30 |
+| Shaman | 55 | 5 | 50 | 15 | 30 | 25 | 40 | 20 | 10 | 50 |
+| Monk | 55 | 10 | 45 | 15 | 40 | 30 | 35 | 40 | 25 | 35 |
+| Dancer | 45 | 5 | 10 | 10 | 20 | 55 | 30 | 50 | 45 | 20 |
+| Armor Knight | 85 | 40 | 0 | 55 | 5 | 10 | 25 | 20 | 15 | 45 |
 
-### Stat Caps (Unpromoted)
+See [classes-expanded.md](classes-expanded.md) for promoted/master class stat bonuses and full class details.
 
-| Stat | Cap | Notes |
-|------|-----|-------|
-| HP | 60 | High ceiling, rarely hit without grinding |
-| STR/MAG/DEF/RES/SPD/SKL | 20 | Standard FE unpromoted cap |
-| LCK | 30 | Higher cap — LCK is minor per point |
-| CHA | 15 | Intentionally low cap — CHA is powerful per point (aura + aggro) |
-| WIL | 15 | Low cap — WIL checks are balanced around low values |
-| MOV | Class-locked | Cannot exceed class base |
+### Stat Caps by Promotion Tier
+
+| Stat | Base (Unpromoted) | Promoted | Master |
+|------|-------------------|----------|--------|
+| HP | 60 | 80 | 99 |
+| STR/MAG/DEF/RES/SPD/SKL | 20 | 30 | 35 (key stat 40) |
+| LCK | 30 | 40 | 45 |
+| CHA | 15 | 20 | 25 |
+| WIL | 15 | 20 | 25 |
+| MOV | Class-locked | +1 on promotion (foot only) | +1 on master promotion |
+
+See [promotion.md](promotion.md) for promotion mechanics and stat bonus details.
 
 ## EXP & Level-Up
 
@@ -137,23 +151,34 @@ Each map has a time-of-day setting. Some maps may shift time mid-chapter (e.g., 
 | **Night (夜型)** | -1 hit, -1 avoid | No bonus | +1 hit, +1 avoid | +2 hit, +2 avoid, +1 SKL |
 | **Irregular (不規則)** | No bonus | No bonus | No bonus | No bonus |
 
-### Activity Type Per Character (Summary)
+### Activity Type Per Character (Full Roster)
 
 | Character | Activity | Peak | Penalty | Notes |
 |-----------|----------|------|---------|-------|
-| **Ren** | Irregular | None | None | 347 cycles destroyed his body clock. No peak, no penalty. Consistent but never optimal. |
-| **Kael** | Morning | Dawn/Day | Night | Soldier's discipline. Early riser, fades at night. |
-| **Senna** | Night | Night | Dawn | Researcher hours. Sharpest when everyone else sleeps. |
-| **Bram** | Irregular | None | None | No pattern. Runs on adrenaline, not schedule. |
-| **Lira** | Morning | Dawn/Day | Night | Cheerful early bird. Wilts after dark. |
-| **Voss** | Morning | Dawn/Day | Night | Military habit from 300 cycles. Wakes at the same time regardless. |
+| **Ren** | Irregular | None | None | 347 cycles destroyed his body clock. |
+| **Kael** | Morning | Dawn/Day | Night | Soldier's discipline. Early riser. |
+| **Senna** | Night | Night | Dawn | Researcher hours. |
+| **Bram** | Irregular | None | None | Runs on adrenaline. |
+| **Lira** | Morning | Dawn/Day | Night | Cheerful early bird. |
+| **Voss** | Morning | Dawn/Day | Night | Military habit from 300 cycles. |
+| **Nira** | Morning | Dawn/Day | Night | Village hunter. Best at dawn. |
+| **Coda** | Night | Night | Dawn | Thief's hours. Works best in darkness. |
+| **Yuel** | Morning | Dawn/Day | Night | Pegasus knight. Flies at first light. |
+| **Rook** | Irregular | None | None | Mercenary. Fights whenever paid. |
+| **Faye** | Morning | Dawn/Day | Night | Noble schedule. Proper hours. |
+| **Orin** | Night | Night | Dawn | Dancer. Performs under moonlight. |
+| **Kira** | Night | Night | Dawn | Dark mage. Studies the void at night. |
+| **Zael** | Morning | Dawn/Day | Night | Wyvern rider. Catches thermals at dawn. |
+| **Elara** | Morning | Dawn/Day | Night | Monastic prayers begin at dawn. |
+| **Ghael** | Irregular | None | None | Former boss. No routine — he was AI. |
+| **Echo** | Irregular | None | None | System construct. Doesn't sleep. |
 
 ### Time × Tactical Implications
 
 - **Night maps favor Senna** — she gets +2 hit/+2 avoid/+1 SKL while Kael, Lira, and Voss are weakened.
 - **Dawn maps favor the majority** — 3 Morning units (Kael/Lira/Voss) all peak simultaneously.
 - **Ren and Bram are time-proof** — Irregular means no bonus but no weakness. Reliable anchors regardless of time.
-- **Ch3 (Kael's death chapter)**: If set at night, Kael is weakened when he dies — adding tactical cruelty. If set at dawn, he's at peak strength when killed — adding narrative tragedy.
+- **Ch8 (Kael's death chapter)**: If set at night, Kael is weakened when he dies — adding tactical cruelty. If set at dawn, he's at peak strength when killed — adding narrative tragedy.
 
 ---
 
@@ -191,16 +216,40 @@ AWR changes through story events and choices, not combat EXP.
 | Successfully use Senna's Seed Read | +2 | Senna only |
 | Dialogue choice: "choose not to know" | -5 to -10 | Player can deliberately keep a unit ignorant — sometimes tactically correct |
 
-### AWR Per Character
+### AWR Per Character (25-Chapter Pacing)
 
-| Character | Ch1 | Ch2 | Ch3 | Ch4 | Notes |
-|-----------|-----|-----|-----|-----|-------|
-| Ren | 95 | 96 | 97 | 98 | Near-max. Slight growth from genuinely new events (glitches). |
-| Senna | 25 | 45 | 60 | 70 | Rapid analytical growth. Crosses "Reading" mid-Ch2, "Decoded" by Ch4. |
-| Kael | 0 | 5 | 18 | — | Stays Blind until told about loops in Ch3. Dies before going further. |
-| Bram | 35 | 38 | 42 | 50 | In "Reading" but sees system data through fighting game UI. Growth is slow — he resists understanding. |
-| Lira | 30 | 33 | 45 | 55 | Sees system as dating sim mechanics. Spikes +12 on Kael's death. |
-| Voss | 5→35 | 40 | 50 | 60 | Jumps massively on defection. Steady growth after. |
+AWR spreads much more gradually across 25 chapters. Only Ren and Senna reach high tiers early. Most units don't cross into "Decoded" until Arc 4.
+
+| Character | Arc 1 (Ch1-5) | Arc 2 (Ch6-10) | Arc 3 (Ch11-15) | Arc 4 (Ch16-20) | Arc 5 (Ch21-25) | Notes |
+|-----------|--------------|----------------|-----------------|-----------------|-----------------|-------|
+| **Ren** | 95→96 | 96→97 | 97→98 | 98→99 | 99→100 | Near-max. Barely grows — he already knows everything. |
+| **Senna** | 25→40 | 40→55 | 55→70 | 70→82 | 82→90 | Rapid analytical growth. Crosses "Reading" Arc 1, "Decoded" Arc 3. |
+| **Kael** | 0→5 | 5→18 (dies Ch8) | — | — | — | Stays Blind unless told. Dies before significant growth. |
+| **Bram** | 35→38 | 38→42 | 42→50 | 50→58 | 58→65 | Slow growth — resists understanding. Stays in "Reading" until late. |
+| **Lira** | 30→33 | 33→48 (+12 Kael) | 48→55 | 55→65 | 65→72 | Spikes on Kael's death. Gradual emotional growth. |
+| **Voss** | 5→35 | 35→45 | 45→55 | 55→65 | 65→75 | Jumps massively on defection. Steady after. |
+| **Nira** | 0→3 | 3→8 | 8→20 | 20→35 | 35→50 | Village girl. Slow natural growth. Crosses "Flickering" mid-game. |
+| **Coda** | 10→15 | 15→25 | 25→40 | 40→55 | 55→68 | Street smart — picks up anomalies. |
+| **Yuel** | 0→2 | 2→10 | 10→25 | 25→40 | 40→55 | Idealist. Resists awareness at first. |
+| **Rook** | — | 5→15 | 15→30 | 30→45 | 45→55 | Practical mercenary. Accepts what he sees. |
+| **Faye** | — | 0→10 | 10→25 | 25→40 | 40→50 | Sheltered noble. Slow awakening. |
+| **Orin** | — | — (joins Ch9) 0→5 | 5→20 | 20→40 | 40→60 | Dances between awareness and denial. |
+| **Kira** | — | — | 60→65 | 65→75 | 75→85 | Joins at high AWR — former dark mage saw things. |
+| **Zael** | — | — | 15→25 (conditional) | 25→45 | 45→60 | Wyvern rider. Joins corrupted. |
+| **Elara** | — | — | 40→50 | 50→65 | 65→80 | Monk. Spiritual awareness parallels meta-awareness. |
+| **Ghael** | — | — | — | 0→5 | 5→15 | Former boss. Stubbornly unaware. Refuses to see. |
+| **Echo** | — | — | — | 70→80 | 80→95 | System-created. Born aware. |
+
+### AWR Player Choice
+
+At certain dialogue points, the player can raise or lower a character's AWR. These appear 2-3 times per arc:
+
+- "Tell [unit] the truth about the loops" → +15 AWR (gains forecast info, loses Instinct Guard)
+- "Let [unit] believe this is real" → stays low AWR (keeps +10% avoid, no forecast)
+- "Share Senna's research data" → target +10 AWR, Senna +2 AWR
+- "Destroy the evidence" → target -5 AWR
+
+Real tactical dilemma: more information vs better instinctive performance.
 
 ### AWR Player Choice
 
@@ -237,18 +286,28 @@ How many past cycles a unit retains. LOOP is a **spendable resource** — accumu
 | Witness ally death | +8 | You'll never forget this. |
 | System glitch exposure | +2 | Breaking world leaks past-cycle data. |
 
-LOOP does NOT regenerate between chapters. What you spend is permanent.
+LOOP does NOT regenerate between chapters normally. However, between **arcs** (every 5 chapters), units recover **+10 LOOP** from rest and reflection. This prevents total LOOP bankruptcy over 25 chapters while keeping spending meaningful.
 
-### LOOP Per Character
+### LOOP Per Character (25-Chapter Pacing)
 
-| Character | Starting | Max | Notes |
-|-----------|---------|-----|-------|
-| Ren | 347 | ~400 | Enormous reservoir. Can spend liberally early but must conserve for Ch4. |
-| Senna | 0 | ~40 | No cycle memory. Gains LOOP through analysis — reverse-engineering past-cycle data. |
-| Kael | 0 | ~25 | Gains modest LOOP through combat. Lost when he dies in Ch3 — unless the Ch4 boss has it. |
-| Bram | 0 | ~30 | No past memories. His LOOP gains are flavored as muscle memory: "I've never fought this guy but my HANDS remember." |
-| Lira | 0 | ~35 | Remembers emotional patterns, not combat. LOOP abilities flavored as empathy: "I knew you'd do that because I KNOW you." |
-| Voss | 150 | ~180 | 300 cycles as stationary AI, but only remembers the last ~150. All the SAME memory: standing on one tile. His Recall shows the same image until he gains NEW experiences. |
+| Character | Starting | Expected by Arc 5 | Max | Notes |
+|-----------|---------|-------------------|-----|-------|
+| **Ren** | 347 | 250-350 (depends on spending) | ~420 | Enormous reservoir. Must conserve — Ch25 boss scaling reads remaining LOOP. |
+| **Senna** | 0 | 60-80 | ~100 | Gains LOOP through analysis. Reverse-engineers past-cycle data. |
+| **Kael** | 0 | — (dies Ch8) | ~25 | Gains modest LOOP through combat. Lost when he dies — unless ???_CORRUPTED has it. |
+| **Bram** | 0 | 40-60 | ~80 | Muscle memory gains. "I've never fought this guy but my HANDS remember." |
+| **Lira** | 0 | 45-65 | ~85 | Emotional pattern memory. "I knew you'd do that because I KNOW you." |
+| **Voss** | 150 | 160-200 | ~220 | 300 cycles of standing still. Gains slowly from new experiences. |
+| **Nira** | 0 | 20-35 | ~50 | Low LOOP potential. Archer instincts, not memories. |
+| **Coda** | 0 | 30-50 | ~65 | Thief's gut feelings. "I've robbed this type of building before." |
+| **Rook** | 0 | 25-45 | ~60 | Mercenary déjà vu. "This formation... I've broken it." |
+| **Faye** | 0 | 20-35 | ~50 | Noble's intuition. Low combat memories. |
+| **Orin** | 0 | 30-50 | ~65 | Dance memories. Each performance echoes past cycles. |
+| **Kira** | 20 | 50-70 | ~90 | Dark magic studies revealed fragments. Starts with some. |
+| **Zael** | 0 | 15-30 | ~45 | Wyvern rider. Few intellectual memories. |
+| **Elara** | 10 | 40-60 | ~80 | Monastic meditation revealed echoes. |
+| **Ghael** | 0 | 10-20 | ~30 | Former boss. Refuses to acknowledge past cycles. |
+| **Echo** | 100 | 100-130 | ~150 | System-created with cycle data loaded. Second-highest starting LOOP. |
 
 ### Ren's LOOP — The Big Decisions
 
@@ -287,20 +346,31 @@ SYNC is NOT about genre — it's about how "clean" a unit's data is. Corrupted d
 | Take damage from a corrupted enemy | -3 | Corruption spreads through combat |
 | Stand on a glitched tile | -2 | Proximity to instability |
 | Ally dies (permadeath) | -10 ALL | Trauma destabilizes everyone's data |
-| Kael dies (Ch3) | -10 ALL additional | The most stable unit is gone. Everyone's anchor removed. |
+| Kael dies (Ch8) | -10 ALL additional | The most stable unit is gone. Everyone's anchor removed. |
 | Heal at a fort/throne | +2 | Safe zones stabilize data |
 | Use a LOOP action | -2 | Accessing past cycle data introduces instability |
 
-### SYNC Per Character
+### SYNC Per Character (Full Roster)
 
-| Character | Start | Natural Drift | Notes |
-|-----------|-------|--------------|-------|
-| **Kael** | 100% | Fixed. Always 100%. | The most stable unit. His death is a SYNC earthquake for the whole party. |
-| **Ren** | 75% | Slow rise → 80-85% | 347 cycles of memory have slightly corrupted his data. Not dangerously low, but never perfectly clean. |
-| **Senna** | 85% | Rises → 90%+ | Analytical mind keeps her data organized. Naturally trends toward Hardened. |
-| **Bram** | 40% | Slow rise → 50-60% | His data was initialized wrong. The instability makes him unpredictable — sometimes amazing, sometimes terrible. |
-| **Lira** | 35% | Very slow rise → 40-50% | Similar to Bram — corrupted initialization. Her stat fluctuations are smaller but she's vulnerable to System interference. |
-| **Voss** | 55% | Stable around 55-65% | Defection scrambled his data. Mid-range — neither fully stable nor dangerously volatile. |
+| Character | Start | Arc 5 Range | Notes |
+|-----------|-------|------------|-------|
+| **Kael** | 100% | — (dies Ch8) | The most stable unit. His death is a SYNC earthquake for the whole party. |
+| **Ren** | 75% | 80-90% | 347 cycles slightly corrupted his data. Slow recovery over 25 chapters. |
+| **Senna** | 85% | 90-100% | Analytical mind keeps data organized. Trends toward Anchored. |
+| **Bram** | 40% | 55-70% | Corrupted initialization. Instability is part of his identity. |
+| **Lira** | 35% | 50-65% | Similar to Bram. Healing magic slowly stabilizes her data. |
+| **Voss** | 55% | 65-80% | Defection scrambled his data. Gradually stabilizes through loyalty. |
+| **Nira** | 80% | 85-95% | Clean village data. Naturally stable, rarely corrupted. |
+| **Coda** | 50% | 55-70% | Street data is messy. Unstable but functional. |
+| **Yuel** | 90% | 85-95% | Pegasus knight — aerial data is clean. May drop from idealism crises. |
+| **Rook** | 60% | 65-75% | Mercenary — practical stability. No highs, no lows. |
+| **Faye** | 75% | 70-85% | Noble data is well-structured. Drops if she witnesses corruption. |
+| **Orin** | 45% | 50-65% | Dancer data is inherently fluid. Not corrupted, just... flexible. |
+| **Kira** | 30% | 40-55% | Dark magic has degraded her data significantly. High CRP risk. |
+| **Zael** | 35% | 45-60% | Partially corrupted from Ch13 recruitment. Can be cleansed. |
+| **Elara** | 70% | 75-90% | Monastic discipline = clean data. Light magic naturally purifies. |
+| **Ghael** | 65% | 60-75% | Former boss — his data was restructured by the System. Stable but artificial. |
+| **Echo** | 50% | 50-70% | System-created. Data is technically perfect but... wrong. The System's code isn't the same as natural data. |
 
 ### SYNC Narrative Triggers
 
@@ -345,15 +415,26 @@ How committed a unit is to the party and its cause. NOT a simple "good/bad" mete
 | Player chooses dialogue that validates this unit | +3 | Feeling heard |
 | Unit is ordered to attack an enemy that will clearly kill them | -10 | Suicide orders destroy trust |
 
-### LOY Per Character
+### LOY Per Character (Full Roster)
 
-| Character | Start | Drift | Notes |
-|-----------|-------|-------|-------|
-| **Kael** | 90 | Stable 85-95 | Trusts Ren almost unconditionally. Only drops if Ren clearly withholds life-saving info. |
-| **Senna** | 40 | Rises slowly → 55-70 | Doesn't trust — she verifies. LOY grows as Ren's knowledge proves accurate. |
-| **Bram** | 55 | Volatile 40-75 | Loyal when fights are fun, drops fast when bored or when Ren overthinks. |
-| **Lira** | 70 | Stable 65-80 | Emotionally loyal. Drops hard on betrayal of trust, but forgives fast. |
-| **Voss** | 25 | Slow rise → 45-60 | Former enemy. Has to earn trust both ways. Low start is the cost of defection — nobody fully trusts a turncoat. |
+| Character | Start | Arc 5 Range | Notes |
+|-----------|-------|------------|-------|
+| **Kael** | 90 | — (dies Ch8) | Trusts Ren unconditionally. His death's LOY cascade hits everyone hard. |
+| **Senna** | 40 | 60-80 | Doesn't trust — she verifies. LOY grows as Ren's knowledge proves accurate. |
+| **Bram** | 55 | 50-80 (volatile) | Loyal when fights are fun, drops fast when bored. |
+| **Lira** | 70 | 70-90 | Emotionally loyal. Drops hard on betrayal, forgives fast. |
+| **Voss** | 25 | 50-70 | Former enemy. Low start is the cost of defection. Slow build. |
+| **Nira** | 60 | 65-85 | Village loyalty. Grateful for rescue. Steady growth. |
+| **Coda** | 30 | 40-65 | Trusts no one initially. Pragmatic — follows results. |
+| **Yuel** | 70 | 60-85 | Idealistic loyalty. Can drop sharply if disillusioned. |
+| **Rook** | 35 | 45-70 | Mercenary — loyalty is earned, not given. Respects competence. |
+| **Faye** | 55 | 60-80 | Noble sense of duty. Loyal to the cause more than to Ren specifically. |
+| **Orin** | 50 | 55-75 | Follows the best performance — wherever the drama is. |
+| **Kira** | 20 | 35-60 | Dark mage defector. Deeply distrustful. Slow to warm. |
+| **Zael** | 15 (if recruited) | 30-55 | Conditional recruit. Starts hostile. Needs reason to stay. |
+| **Elara** | 65 | 70-90 | Monastic compassion. Believes in everyone. High floor. |
+| **Ghael** | 10 | 25-50 | Former boss. Joining doesn't mean trusting. Years of resentment. |
+| **Echo** | 50 | 50-80 | System-created. Learning what loyalty even means. Can spike dramatically. |
 
 ### LOY Auto-Shield Mechanics
 
@@ -395,7 +476,7 @@ CRP starts at 0 for all player units and only goes UP. It cannot be reduced to 0
 |-------|---------|-------|
 | Stand on a glitched/corrupted tile | +2 per turn | Proximity |
 | Take damage from a corrupted enemy | +3 | Corruption spreads through wounds |
-| Take damage from ???_CORRUPTED (Ch4 boss) | +5 | Direct System injection |
+| Take damage from ???_CORRUPTED (Ch24-25 boss) | +5 | Direct System injection |
 | Use LOOP abilities | +1 | Accessing past data opens channels for corruption |
 | Ally converted (CRP 100) | +5 ALL | Witnessing a friend become an enemy |
 | Kill a corrupted ally | +8 | The trauma of putting down your own |
@@ -406,8 +487,16 @@ CRP starts at 0 for all player units and only goes UP. It cannot be reduced to 0
 |-------|-------------|-------|
 | Heal at fort/throne for full turn | -2 | Safe zones cleanse slowly |
 | Lira's Heal (staff) on a corrupted ally | -1 per heal | Lira's empathy is the closest thing to an antivirus |
+| Elara's Light magic heal | -2 per heal | Light magic has purifying properties |
 | Chapter end | -3 | Rest between chapters cleanses some |
-| **Cannot go below**: max(0, highest_CRP_ever - 20) | — | Corruption leaves scars. A unit that hit 50 CRP can never go below 30. |
+| Arc transition (every 5 chapters) | -5 bonus | Extended rest between arcs allows deeper cleansing |
+| Purifying Herb (item) | -5 | See [items.md](items.md) |
+| Cleansing Broth (item) | -10 | See [items.md](items.md) |
+| Sacred Water (item) | -15 | See [items.md](items.md) |
+| Ward Stone (key item, Ch12-15) | Prevents CRP gain for 1 unit/chapter | 3 uses total |
+| Ancient Tome ritual (Ch14 event) | -5 ALL units | One-time story event |
+| **Passive decay**: If CRP stays below 15 for 3+ chapters | -1 per chapter | Body naturally fights off trace corruption |
+| **Cannot go below**: max(0, highest_CRP_ever - 25) | — | Corruption leaves scars. A unit that hit 50 CRP can never go below 25. (Loosened from -20 to -25 for 25-chapter sustainability) |
 
 ### CRP × SYNC Compound Rule
 
@@ -416,16 +505,27 @@ When a unit has both high CRP (16+) and low SYNC (50%-), the stat penalties DO s
 - This prevents a unit from becoming completely unusable but keeps the pressure real.
 - High SYNC (71%+) grants CRP resistance: CRP gain events are halved (rounded down).
 
-### CRP Per Character (Starting / Vulnerability)
+### CRP Per Character (Full Roster)
 
 | Character | Start | Vulnerability | Notes |
 |-----------|-------|--------------|-------|
 | **Ren** | 0 | Medium | 347 cycles of clean data, but LOOP usage opens corruption channels. |
-| **Kael** | 0 | Very Low | 100% SYNC = natural corruption resistance. Almost impossible to corrupt while alive. |
-| **Senna** | 0 | High | High AWR = she can SEE the corruption, which means the corruption can see HER. |
+| **Kael** | 0 | Very Low | 100% SYNC = natural corruption resistance. Almost impossible to corrupt. |
+| **Senna** | 0 | High | High AWR = she can SEE corruption, which means it can see HER. |
 | **Bram** | 0 | High | Low SYNC = poor data integrity. Corruption finds easy entry points. |
-| **Lira** | 0 | Medium | Low SYNC but her healing abilities give partial immunity. |
-| **Voss** | 5 | Medium | Starts with trace corruption from defection — his data crossed between systems. |
+| **Lira** | 0 | Medium | Low SYNC but healing abilities give partial immunity. |
+| **Voss** | 5 | Medium | Trace corruption from defection. |
+| **Nira** | 0 | Low | Clean village data. High SYNC protects her. |
+| **Coda** | 0 | Medium | Mid SYNC. Street-level corruption exposure. |
+| **Yuel** | 0 | Low | High SYNC. Aerial units have natural resistance. |
+| **Rook** | 0 | Medium | Practical resistance. Not immune, not vulnerable. |
+| **Faye** | 0 | Low | Well-structured noble data. |
+| **Orin** | 0 | Medium | Fluid data is hard to corrupt but also hard to cleanse. |
+| **Kira** | 15 | Very High | Joins with corruption from dark magic studies. Highest risk unit. |
+| **Zael** | 20 | Very High | Joins partially corrupted. Cleansing is a mini-quest. |
+| **Elara** | 0 | Very Low | Light magic = natural anti-corruption. Can cleanse self. |
+| **Ghael** | 10 | High | Former boss — System touched his data. Residual corruption. |
+| **Echo** | 0 | Special | System-created. Technically immune (corruption IS the System). But if Echo turns against the System, vulnerability becomes Very High. |
 
 ---
 
@@ -469,16 +569,27 @@ STA primarily degrades body-related stats: STR, SPD, DEF, SKL. Mental/magical st
 | Lira's heal | -2 (bonus) | Her healing soothes physical fatigue too. |
 | Use Vulnerary | -3 (bonus) | Medicine helps fatigue alongside HP. |
 
-### STA Per Character
+### STA Per Character (Full Roster)
 
 | Character | STA Rate | Max Comfortable | Notes |
 |-----------|---------|----------------|-------|
-| **Ren** | Normal | ~30 before Exhausted | 347 cycles of muscle memory = efficient movement, but his body is still human. |
-| **Kael** | Low (+0.8× rate) | ~38 | Cavalier — trained for endurance. Highest stamina ceiling. |
-| **Senna** | High (+1.2× rate) | ~22 | Physically weak. Tires fast. Must be positioned carefully — can't march across the map AND cast. |
-| **Bram** | Low (+0.8× rate) | ~38 | Raw physical conditioning. Can fight longer than anyone. But No Patience passive means he's always moving/fighting — so he WILL hit high STA if fights drag. |
-| **Lira** | High (+1.3× rate) | ~20 | Physically frail. Exhausts fastest. Needs to stay near forts or be rotated out. |
-| **Voss** | Very Low (+0.7× rate) | ~42 | 300 cycles of standing still = ironically incredible stamina. He never gets tired because he spent centuries doing nothing. The one benefit of stationary AI. |
+| **Ren** | Normal (1.0×) | ~30 | 347 cycles of muscle memory = efficient, but still human. |
+| **Kael** | Low (0.8×) | ~38 | Cavalier endurance. Highest ceiling. |
+| **Senna** | High (1.2×) | ~22 | Physically weak. Can't march AND cast. |
+| **Bram** | Low (0.8×) | ~38 | Raw conditioning. But No Patience = always moving. |
+| **Lira** | High (1.3×) | ~20 | Physically frail. Needs fort rotation. |
+| **Voss** | Very Low (0.7×) | ~42 | 300 cycles standing still = incredible stamina. |
+| **Nira** | Normal (1.0×) | ~30 | Village archer. Average endurance. |
+| **Coda** | Low (0.85×) | ~35 | Thief conditioning. Quick and efficient. |
+| **Yuel** | Normal (1.0×) | ~30 | Pegasus knight — mount does the work. |
+| **Rook** | Low (0.8×) | ~38 | Mercenary endurance. Battle-hardened. |
+| **Faye** | High (1.2×) | ~22 | Mounted healer but physically frail. |
+| **Orin** | Normal (1.0×) | ~30 | Dancer stamina is average — Dance action costs STA. |
+| **Kira** | High (1.25×) | ~21 | Dark magic drains physically. Frail. |
+| **Zael** | Low (0.8×) | ~38 | Wyvern rider. Mount carries the load. |
+| **Elara** | Normal (1.1×) | ~27 | Monastic fitness. Slightly below average. |
+| **Ghael** | Very Low (0.7×) | ~42 | Armor knight. Trained for sustained heavy combat. |
+| **Echo** | None (0.5×) | ~55 | System construct. Doesn't tire like humans. Near-infinite stamina. |
 
 ### STA × Meta-Stat Interactions
 
@@ -582,9 +693,9 @@ How all six meta-stats interact in practice:
 | Enemy phase | — | Recall = preview moves | High = immune to corruption | — | High = may act as enemy | — |
 | Ally near death | — | Last Words = survive | — | Sworn = auto-shield | — | — |
 | Ally dies | ALL +8-12 | ALL +8 | ALL -10 | ALL -3 to -8 | — | — |
-| Kael dies (Ch3) | +extra | +extra | -10 extra | varies | — | — |
+| Kael dies (Ch8) | +extra | +extra | -10 extra | varies | — | — |
 | Corrupted tile | +3-5 AWR if witnessed | — | -2 | — | +2 per turn | — |
-| Ch4 boss | Reveals weapon cycle | High = harder boss | Low = more map corruption | — | +5 per hit taken | Accumulates fast — long fight |
+| Ch25 boss | Reveals weapon cycle | High = harder boss | Low = more map corruption | — | +5 per hit taken | Accumulates fast — long fight |
 | Between chapters | — | No regen | — | Stable | -3 | Resets to 0 |
 | Movement | — | — | — | — | — | +1 per tile moved |
 | Double attack | — | — | — | — | — | +5 (vs +3 single) |
@@ -802,12 +913,12 @@ Full skill definitions, categories, and acquisition rules: see [skills.md](skill
 
 ## Open Questions
 
-- **AWR cap behavior**: Should AWR ever exceed 100? What happens if system corruption pushes it past the max?
-- **LOOP negative**: Can LOOP go negative? What happens if you overspend? (Narrative potential: negative LOOP = you're borrowing memories from FUTURE cycles that will never happen)
-- **SYNC floor**: Should SYNC have a minimum? Or can a character hit 0% and become completely unstable?
-- **Body targeting on magic**: Do magic attacks use the same body targeting system? Or is magic inherently "formless" and always hits Body?
-- **Low SYNC randomness**: How much stat fluctuation is fun vs frustrating? ±1 feels safe, ±3 might be too chaotic. Needs playtesting.
-- **Promoted class caps**: Unpromoted caps defined (20 for combat stats). Promoted caps TBD when promotion system is designed.
-- **Food system details**: How many meals per chapter? Individual or shared? Inventory limits? Purchase locations? (Deferred to battle-logic.md)
-- **Time-of-day shift triggers**: Fixed turn count per map or event-driven? What happens to bonuses mid-turn on shift?
-- **Enemy CHA/WIL/STA**: Do enemies use the same CHA aura, WIL checks, and STA system? Or simplified for AI?
+- **AWR cap behavior**: Should AWR ever exceed 100? What happens if system corruption pushes it past the max? *Recommendation: Hard cap at 100. Echo at 95 max is close enough.*
+- **LOOP negative**: Can LOOP go negative? What happens if you overspend? *Recommendation: No — minimum 0. Overspend is prevented by UI. Narrative potential (borrowing future memories) is cool but mechanically complex.*
+- **SYNC floor**: Should SYNC have a minimum? Or can a character hit 0%? *Recommendation: Minimum 5%. At 0% the unit would be unplayable.*
+- **Body targeting on magic**: Do magic attacks use body targeting? *Recommendation: No — magic hits Body always. Keeps physical vs magical distinct.*
+- **Low SYNC randomness**: ±1 feels safe, ±3 might be too chaotic. *Needs playtesting.*
+- ~~**Promoted class caps**: Unpromoted caps defined (20). Promoted caps TBD.~~ **RESOLVED**: See stat caps table above (Base 20, Promoted 30, Master 35/40).
+- **Time-of-day shift triggers**: Fixed turn count per map or event-driven? *Recommendation: Per-map config. Most maps are single time, some have scripted shifts.*
+- **Enemy CHA/WIL/STA**: Do enemies use the same systems? *Recommendation: Enemies use CHA (aggro targeting) and WIL (corruption resistance), but NOT STA. Enemy STA would add complexity without meaningful player interaction.*
+- **New character food preferences**: 14 new characters need taste/cuisine preferences defined. *Deferred to individual character files in specs/story/characters/.*

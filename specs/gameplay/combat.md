@@ -54,7 +54,7 @@ Clamped: 1% minimum, 99% maximum (nothing is ever guaranteed)
 | Empathy Aura (Lira adjacent) | +10 hit | Stacks with CHA |
 | Time of Day (Morning units at Dawn) | +2 hit | See stats.md |
 | Time of Day (Night units at Night) | +2 hit | |
-| STA Winded | -0 hit | (indirect: STR/SPD penalty affects derived) |
+| Support bonus (adjacent supported ally) | +5/+10/+15 hit (C/B/A rank) | See support-system.md |
 | SYNC Volatile (0-30%) | -20% hit | Applied multiplicatively |
 | SYNC Hardened (71-90%) | +5% hit | |
 | LOY Devoted (near Ren) | +5% hit | |
@@ -76,24 +76,83 @@ Clamped: 0% minimum, 100% maximum
 |--------|---------|
 | Killing Edge / Killer weapons | +30 crit |
 | Wrath skill (HP ≤ 50%) | +30 crit |
+| Support rank A/S (adjacent) | +5/+10 crit |
 
 ---
 
 ## Weapon Triangle
 
+### Physical Triangle
 ```
 Sword > Axe > Lance > Sword
-Fire  > Wind > Thunder > Fire
 ```
+
+### Anima Magic Triangle
+```
+Fire > Wind > Thunder > Fire
+```
+
+### Dark / Light Interaction
+```
+Dark: Outside the anima triangle. No advantage/disadvantage vs Fire/Thunder/Wind.
+Light: Effective vs Dark (×2 damage). No other triangle interactions.
+Dark vs Light: Light gets ×2 effectiveness bonus, Dark gets no advantage.
+```
+
+### Triangle Modifiers
 
 | Matchup | Hit Mod | Damage Mod |
 |---------|---------|------------|
-| Advantage | +15 | +1 |
+| Advantage (within triangle) | +15 | +1 |
 | Disadvantage | -15 | -1 |
 | Neutral / cross-type | 0 | 0 |
+| Light vs Dark (effectiveness) | 0 | ×2 might |
 
 - Physical vs Magic: no triangle interaction.
 - Staff: non-combat, no triangle.
+- Bow: no triangle interaction with melee weapons.
+- Knife: no triangle interaction.
+
+---
+
+## Weapon Type Special Rules
+
+### Bow
+
+- **Range**: 2 only (cannot attack at melee range 1)
+- **Counter**: Cannot counter melee attacks (range mismatch). Can counter other bows.
+- **Effective vs Flying**: All bows deal ×3 might vs Pegasus Knight, Wyvern Rider, and flying promoted/master classes
+- **Longbow**: Range 2-3 (unique extended range, cannot attack adjacent)
+
+### Knife / Dagger
+
+- **Range**: 1-2 (flexible, like Javelin)
+- **Might**: Low (3-7). Compensated by high crit and debuffs.
+- **Debuff on Hit**: Each knife weapon has a debuff effect that triggers on hit:
+  - Iron Knife: -2 SPD for 1 turn
+  - Steel Knife: -3 SPD for 1 turn
+  - Poison Dagger: Poison status (5 HP/turn)
+  - Silver Knife: -4 DEF for 1 turn
+  - Stiletto: -5 DEF for 1 turn (armor-piercing)
+- **Crit**: Higher base crit than other weapon types (+5-15)
+- See [weapons.md](weapons.md) for full knife list
+
+### Dark Magic
+
+- **Self-cost**: Some dark tomes cost HP to cast:
+  - Nosferatu: Drains HP equal to damage dealt (no self-cost, but low might)
+  - Eclipse: Costs 10 HP per cast (siege tome, 3-10 range)
+  - Fenrir: Costs 5 HP per cast (long range 1-3)
+- **Outside triangle**: No advantage/disadvantage vs anima magic
+- **Corruption risk**: Using dark magic gives caster +1 CRP per cast
+- **Effective bonus**: +50% damage vs units with CRP ≥ 30 (corruption feeds on corruption)
+
+### Light Magic
+
+- **Effective vs Dark**: ×2 might when attacking dark magic users or corrupted units (CRP ≥ 50)
+- **Heal on hit**: Light tomes heal caster for 20% of damage dealt (rounded down)
+- **Anti-corruption**: Attacking with light magic reduces target's CRP by 2 (if target is corrupted)
+- **No triangle**: Light magic has no advantage/disadvantage against anima magic
 
 ---
 
@@ -122,6 +181,8 @@ Can counter if: distance ≥ weapon minRange AND distance ≤ weapon maxRange
 - Staff: cannot counter (non-combat weapon).
 - Javelin/Hand Axe (range 1-2): can counter both melee and ranged.
 - Tomes (range 1-2): can counter both.
+- Bow (range 2): cannot counter melee attacks. Can counter other ranged.
+- Knife (range 1-2): can counter both.
 
 ---
 
@@ -153,8 +214,29 @@ Can counter if: distance ≥ weapon minRange AND distance ≤ weapon maxRange
 | Horseslayer | Cavalry |
 | Hammer | Armored |
 | Excalibur | Flying |
+| All Bows | Flying |
+| Light Magic | Dark magic users, corrupted (CRP ≥ 50) |
+| Stiletto | Armored (ignores DEF) |
 
 Effective bonus: weapon might ×3 (before adding STR/MAG).
+
+---
+
+## Flying Unit Rules
+
+- **Ignore terrain movement cost**: All terrain costs 1 MOV for flying units (except impassable)
+- **No terrain bonuses**: Flying units do NOT get DEF/Avoid bonuses from terrain (they're above it)
+- **Bow weakness**: Bows deal ×3 might vs flying
+- **Wind weakness**: Excalibur (and Excalibur-type wind magic) deals ×3 might vs flying
+- **Indoor dismount**: In indoor chapters, flying units dismount. They become foot units with -2 MOV, lose flight but gain terrain bonuses.
+
+---
+
+## Mounted Unit Rules
+
+- **Canto**: After acting, mounted units can use remaining MOV to reposition
+- **Indoor penalty**: In indoor/narrow chapters, mounted units have -2 MOV (can't gallop in hallways)
+- **Rescue**: Mounted units can carry an adjacent ally (see [battle-logic.md](battle-logic.md)). While carrying: STR and SPD halved, -2 MOV.
 
 ---
 
@@ -181,6 +263,8 @@ Unlocked Ch2+. Applied to attacker's hit rate and damage. See [stats.md](stats.m
 | **ATK Break** | 1 turn | ATK halved | Fades naturally |
 | **MOV Break** | 2 turns | MOV halved | Fades naturally |
 | **Panic** | 1 turn | Cannot act (WIL check to resist: base 30% - WIL×5%) | Restore staff |
+| **SPD Break** | 1-2 turns | SPD reduced by knife debuff value | Fades naturally |
+| **DEF Break** | 1 turn | DEF reduced by knife debuff value | Fades naturally |
 
 ---
 
@@ -200,6 +284,9 @@ Skills that activate during combat resolution:
 | **Counter** | After surviving melee | Reflect 50% damage |
 | **Wrath** | Passive | +30 crit when HP ≤ 50% |
 | **Adept** | On hit (20%) | Bonus follow-up attack |
+| **Quick Riposte** | On defend | Guaranteed follow-up if HP ≥ 70% |
+| **Nihil** | Passive | Negate all enemy skills |
+| **Aether** | On hit (SKL/2%) | Sol + Luna in one hit |
 
 Priority: Vantage resolves first → attacker skills → defender skills.
 
@@ -224,6 +311,7 @@ Priority: Vantage resolves first → attacker skills → defender skills.
 
 ## Open Questions
 
-- **True damage**: Should there be attacks that bypass DEF/RES entirely? Corruption damage?
-- **Minimum damage**: Currently 0. Should it be 1 minimum (like Kael's True Strike passive)?
-- **RNG system**: Single roll vs 2-roll average (FE uses 2RN for displayed hit rates). Current code uses single roll.
+- **True damage**: Should there be attacks that bypass DEF/RES entirely? *Recommendation: Only corruption damage (flat, ignores DEF/RES). Limited to System-spawned enemies in Arc 5.*
+- **Minimum damage**: Currently 0. Should it be 1 minimum? *Recommendation: Keep 0 for everyone except Kael (True Strike passive). Dealing 0 damage teaches weapon advantage.*
+- **RNG system**: Single roll vs 2-roll average (FE uses 2RN). Current code uses single roll. *Recommendation: Keep single — meta-aware characters comment on bad RNG.*
+- **Rescue combat**: Can a unit carrying an ally (Rescue) still attack? *Recommendation: No — must Drop first. Carrying halves STR/SPD anyway.*

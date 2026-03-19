@@ -1,155 +1,177 @@
 # Difficulty & Balance
 
-Per-chapter balance targets, enemy scaling, difficulty levers, and design philosophy.
+Per-arc balance targets, enemy scaling, difficulty levers, and design philosophy across 25 chapters.
 
 ---
 
 ## Design Philosophy
 
-This is a **4-chapter game**. There is no grinding — the player has limited battles to level up. Every chapter matters. The difficulty curve should feel like:
+This is a **25-chapter game** divided into 5 arcs. The player has limited battles — no grinding maps. The difficulty curve should feel like:
 
 ```
-Ch1: Learn the system (gentle)
-Ch2: Master the system (moderate, introduces complexity)
-Ch3: System breaks you (hard, emotional gut punch)
-Ch4: You break the system (hardest, but you have tools)
+Arc 1 (Ch1-5):   Learn the system (gentle ramp)
+Arc 2 (Ch6-10):  Master the system (promotions, full roster, Kael's death)
+Arc 3 (Ch11-15): Corruption pressure (mid-game challenge spike)
+Arc 4 (Ch16-20): Awakening power (hard but empowering, master classes)
+Arc 5 (Ch21-25): The final push (hardest, but you have all tools)
 ```
 
 ### Core Principles
 
-1. **No mandatory grinding** — the game must be beatable at expected levels
+1. **No mandatory grinding** — beatable at expected levels with good tactics
 2. **Permadeath is punishing, not unfair** — deaths should feel like player mistakes, not RNG
 3. **Meta-stats add depth, not difficulty** — AWR/LOOP/SYNC create choices, not barriers
-4. **The hardest chapter is Ch3** — losing Kael should feel devastating mechanically AND emotionally
-5. **Ch4 is hard but empowering** — the player has all the tools, they just need to use them well
+4. **Kael's death (Ch8) is the mid-game turning point** — mechanical + emotional devastation
+5. **Arc 5 is hard but empowering** — the player has all the tools, they need to use them well
+6. **Late joiners are viable** — catch-up EXP and appropriate base stats ensure new units aren't dead weight
 
 ---
 
-## Per-Chapter Balance Targets
+## Per-Arc Balance Targets
 
-### Chapter 1 — Awakening
-
-| Aspect | Target |
-|--------|--------|
-| **Player units** | 3-4 (Ren, Kael, Senna, + Bram or Lira) |
-| **Enemy count** | 6-8 |
-| **Enemy levels** | 1-3 |
-| **Expected player exit level** | 3-4 |
-| **Turns to complete** | 8-12 |
-| **Deaths expected** | 0 (tutorial — forgiving) |
-| **New mechanics introduced** | Basic movement, attack, weapon triangle, terrain |
-
-**Balance Notes:**
-- Enemies should be weaker than player units in 1v1
-- Position a clear weapon triangle lesson (axe enemy near Ren's sword)
-- Boss should be killable in 2-3 rounds by Ren alone
-- Fort healing demonstrated by placing one in the player's path
-- No reinforcements — predictable enemy count
-
-### Chapter 2 — Fractures
+### Arc 1 — The Script (Ch1-5)
 
 | Aspect | Target |
 |--------|--------|
-| **Player units** | 6 (full party: Ren, Kael, Senna, Bram, Lira, Voss) |
-| **Enemy count** | 10-14 (+ 2-3 reinforcements) |
-| **Enemy levels** | 3-6 |
-| **Expected player exit level** | 6-8 |
-| **Turns to complete** | 12-18 |
-| **Deaths expected** | 0-1 (possible if careless) |
-| **New mechanics introduced** | Body targeting, villages, items, weapon ranks, meta terrain (glitched tiles), CHA aggro |
+| **Deployment** | 3-4 (Ch1) → 6 (Ch5) |
+| **Enemy count** | 6-8 (Ch1) → 12-15 (Ch5) |
+| **Enemy levels** | 1-7 |
+| **Expected player exit level** | 7-8 |
+| **Turns per chapter** | 8-12 (Ch1) → 12-18 (Ch5) |
+| **Deaths expected** | 0 (tutorial arc — forgiving) |
+| **New mechanics** | Ch1: movement, attack, weapon triangle, terrain. Ch2: body targeting, villages, items, Voss joins. Ch3: archer recruitment (Nira). Ch4: thief recruitment (Coda). Ch5: Yuel (pegasus) |
 
 **Balance Notes:**
-- First chapter with full party — test all 6 unit synergies
-- Introduce knights (high DEF) to teach effective weapons (Armorslayer/Rapier)
-- Glitched tiles should be avoidable but placed on tempting shortcuts
-- Reinforcements arrive mid-chapter to punish slow play
-- Voss joins — demonstrate his tank role with a chokepoint
-- Village rewards should feel meaningful (good weapon or stat booster)
+- Ch1 is a true tutorial — enemies weaker than player units in 1v1
+- Position clear weapon triangle lessons (axe enemy near Ren's sword)
+- New recruits (Nira Ch3, Coda Ch4, Yuel Ch5) join at party-appropriate levels
+- No reinforcements in Ch1-2. Simple reinforcements in Ch3-5.
+- Villages and hidden chests teach exploration
 
-### Chapter 3 — Collapse
+### Arc 2 — Fractures (Ch6-10)
 
 | Aspect | Target |
 |--------|--------|
-| **Player units** | 6 → 5 (Kael dies mid-chapter or late) |
-| **Enemy count** | 14-18 (+ 3-4 reinforcements in waves) |
-| **Enemy levels** | 6-10 |
-| **Expected player exit level** | 9-12 |
-| **Turns to complete** | 15-22 |
-| **Deaths expected** | 1 mandatory (Kael), 0-1 additional |
-| **New mechanics introduced** | Dark mages (CRP on hit), corrupted terrain spreading, trauma skills, Kael's death event |
+| **Deployment** | 6-8 |
+| **Enemy count** | 12-16 per chapter (+ 3-5 reinforcements) |
+| **Enemy levels** | 7-14 |
+| **Expected player exit level** | 13-15 |
+| **Turns per chapter** | 14-20 |
+| **Deaths expected** | 1 mandatory (Kael, Ch8), 0-1 additional |
+| **New mechanics** | Promotions available (Ch7+), dark mages (CRP), support system, Orin (dancer, Ch9) |
 
 **Balance Notes:**
-- **Kael's death is scripted** — but should feel like it COULD have been prevented
-- Before Kael dies: make the player feel powerful with full party
-- After Kael dies: immediate difficulty spike — lose 7 MOV cavalry + dual weapons + Canto
-- Enemy composition should punish the hole Kael leaves (more mobile enemies, flanking)
-- Dark mages introduce CRP pressure — force the player to engage or avoid
-- This is the HARDEST chapter in terms of emotional + mechanical challenge
-- Grief trauma skill hits ALL party members: -3 all stats for 2 chapters
+- **Kael's death (Ch8) is the emotional/mechanical core of this arc**
+- Before Ch8: player feels powerful with full 8-unit roster
+- After Ch8: immediate difficulty spike — lose best cavalry + Stability Anchor
+- First promotions available (Hero Crest, Knight Crest at Ch7 shop)
+- Enemy dark mages introduce CRP pressure from Ch7
+- Ch10 is a "recovery" chapter — slightly easier, time to stabilize
 
-### Chapter 4 — Resolution
+### Arc 3 — Corruption (Ch11-15)
 
 | Aspect | Target |
 |--------|--------|
-| **Player units** | 5 (no Kael, possibly fewer from Ch3 deaths) |
-| **Enemy count** | 16-20 (+ continuous reinforcements) |
-| **Enemy levels** | 8-15 (boss: 15) |
-| **Expected player exit level** | 13-16 |
-| **Turns to complete** | 18-25 |
-| **Deaths expected** | 0-2 (high stakes, but player should have tools) |
-| **New mechanics introduced** | Debugger weapon, corrupted enemies (stat randomization), Data Voids, ???'s cycling weapon, endgame skills |
+| **Deployment** | 8-10 |
+| **Enemy count** | 15-22 per chapter |
+| **Enemy levels** | 14-20 |
+| **Expected player exit level** | 18-20 |
+| **Turns per chapter** | 16-25 |
+| **Deaths expected** | 0-1 (corruption losses possible) |
+| **New mechanics** | Corruption spreading, corrupted terrain zones, conditional recruits (Zael Ch13), monk healing (Elara Ch14), fog of war |
 
 **Balance Notes:**
-- Player has fewer units but they're higher level and better equipped
-- Ren should feel powerful — Debugger + high LOOP Memory Blade
-- Corrupted enemies add unpredictability (randomized stats each turn)
-- ???'s cycling weapon type means weapon triangle shifts every turn — requires adaptation
-- Continuous reinforcements from Data Voids create time pressure
-- Final boss should require strategic use of weapon triangle + body targeting + positioning
+- **This is the hardest arc relative to player power** — promoted enemies appear while some player units haven't promoted
+- Corruption is the primary threat — CRP gain is aggressive
+- Ward Stone (Ch12) provides limited CRP protection
+- Conditional recruit (Zael) adds strategic depth — recruit costs resources but gains a flier
+- First fog of war chapters test positioning without full information
+- Forging unlocked (Arc 3) helps close the power gap
+
+### Arc 4 — Awakening (Ch16-20)
+
+| Aspect | Target |
+|--------|--------|
+| **Deployment** | 10-12 |
+| **Enemy count** | 20-28 per chapter |
+| **Enemy levels** | 20-27 |
+| **Expected player exit level** | 25-28 |
+| **Turns per chapter** | 18-28 |
+| **Deaths expected** | 0-1 |
+| **New mechanics** | Master Crown (Ch18), System negotiation (Ch17), Ghael recruitment (Ch18), Echo joins (Ch20), silver/brave weapons |
+
+**Balance Notes:**
+- Player power spikes with master class promotions and brave weapons
+- Enemies also spike — promoted enemy classes appear in force
+- Ch18 Master Crown is a critical strategic choice (who gets it?)
+- Ghael (former boss) joins underleveled — requires investment
+- Echo (System construct) joins at Ch20 with unique capabilities
+- Large maps with multiple objectives test army management
+
+### Arc 5 — The Last Save File (Ch21-25)
+
+| Aspect | Target |
+|--------|--------|
+| **Deployment** | 12 |
+| **Enemy count** | 25-35 per chapter |
+| **Enemy levels** | 27-33 (Ch25 boss: 35) |
+| **Expected player exit level** | 32-35 |
+| **Turns per chapter** | 20-30+ |
+| **Deaths expected** | 0-2 (high stakes, tight margins) |
+| **New mechanics** | Legendary weapons, stat boosters in shop, ???_CORRUPTED (Ch24), final boss loop mechanic (Ch25) |
+
+**Balance Notes:**
+- Peak difficulty. Player has all tools but enemies are relentless.
+- Endgame weapons (Brave, S-rank, Legendary) make player units powerful but enemy counts are highest
+- Ch24: ???_CORRUPTED (Kael) is a devastating encounter — fighting your dead friend
+- Ch25: Final boss reads player's LOOP data. High remaining LOOP = harder fight.
 - Victory should feel earned — tight margins, smart play rewarded
+- 2-3 master class units are the backbone; rest are strong promoted units
 
 ---
 
 ## Difficulty Levers
 
-Tunable parameters for balancing during playtesting.
-
 ### Enemy Stat Scaling
 
 | Lever | Effect | Current Value |
 |-------|--------|---------------|
-| **Enemy level range** | Higher levels = more stats | Per chapter (see above) |
+| **Enemy level range** | Higher levels = more stats | Per arc (see above) |
 | **Enemy growth rate modifier** | Scale all enemy growths up/down | ×1.0 (same as player classes) |
-| **Boss stat bonus** | Flat stat boost above level-expected | +2-4 to key stats |
-| **Reinforcement levels** | Level of spawned reinforcements | Chapter enemies - 1 |
+| **Boss stat bonus** | Flat stat boost above level-expected | +2 (Arc 1) → +5 (Arc 5) |
+| **Reinforcement levels** | Level of spawned reinforcements | Chapter base enemies - 1 |
+| **Promoted enemy timing** | When promoted classes appear | Arc 3 (Ch11+) |
 
 ### Action Economy
 
 | Lever | Effect | Current Value |
 |-------|--------|---------------|
-| **Enemy count** | More enemies = harder | Per chapter |
-| **Reinforcement timing** | Earlier = harder, later = easier | Turn 4-5 (Ch2), Turn 3-4 (Ch3-4) |
-| **Reinforcement frequency** | One wave vs continuous | Single wave (Ch2-3), continuous (Ch4) |
-| **Enemy behavior distribution** | More aggressive = harder | See ai.md |
+| **Enemy count** | More enemies = harder | Scales 8 → 35 across 25 chapters |
+| **Player deployment** | More allies = easier | Scales 3 → 12 across 25 chapters |
+| **Reinforcement timing** | Earlier = harder | Turns 5-6 (Arc 1) → Turns 3-4 (Arc 5) |
+| **Reinforcement frequency** | One wave vs continuous | Single wave (Arc 1-2), multi-wave (Arc 3-4), continuous (Arc 5) |
+| **Enemy behavior distribution** | More aggressive = harder | See [ai.md](ai.md) |
 
 ### Economy
 
 | Lever | Effect | Current Value |
 |-------|--------|---------------|
-| **Gold income** | More gold = better gear access | TBD (shops not yet implemented) |
-| **Item availability** | More healing = more forgiving | 2 vulneraries per unit start |
-| **Weapon availability** | Better weapons earlier = easier | See weapons.md chapter availability |
-| **EXP base** | Higher base = faster leveling | 30 |
-| **Kill bonus EXP** | Higher = more reward for aggression | 50 |
+| **Gold income per arc** | More gold = better gear | 3000 (Arc 1) → 9000 (Arc 5). See [economy.md](economy.md) |
+| **Item availability** | More healing = forgiving | 2 vulneraries start → shops scale |
+| **Weapon availability** | Better weapons = easier | See [weapons.md](weapons.md) per-arc |
+| **EXP base** | Higher = faster leveling | 30 |
+| **Kill bonus EXP** | Rewards aggression | 50 |
+| **Catch-up EXP** | Helps late joiners | +20% if 3+ below average |
 
 ### Meta-Stat Tuning
 
 | Lever | Effect | Current Value |
 |-------|--------|---------------|
-| **CRP gain rate** | Higher = more corruption pressure | +1-3 per turn on terrain |
-| **STA thresholds** | Lower = exhaustion hits sooner | 15/30/45/60 |
-| **STA accumulation rate** | Higher = earlier fatigue | +1/tile, +3/attack |
-| **LOY impact** | Higher impact = more meaningful loyalty | ±5-15 per event |
+| **CRP gain rate** | Higher = more pressure | +2 per turn on terrain (Arc 1-2), +3 (Arc 3-5) |
+| **CRP passive decay** | Allows recovery | -1 per chapter if below 15 for 3+ chapters |
+| **STA thresholds** | Lower = earlier fatigue | 15/25/35/45 (Fresh/Winded/Fatigued/Exhausted/Collapsed) |
+| **LOOP arc regen** | Prevents LOOP bankruptcy | +10 per arc transition |
+| **LOY impact** | Higher = more meaningful | ±5-15 per event |
 | **AWR gain rate** | Faster = earlier UI unlocks | +3-5 per glitch witness |
 
 ---
@@ -160,38 +182,37 @@ Tunable parameters for balancing during playtesting.
 
 At expected levels, player units should survive:
 
-| Unit | Can Take (Ch1) | Can Take (Ch2) | Can Take (Ch3) | Can Take (Ch4) |
-|------|---------------|---------------|---------------|---------------|
-| Ren | 3-4 hits | 3-4 hits | 2-3 hits | 2-3 hits |
-| Kael | 3-4 hits | 3 hits | 2-3 hits | — |
-| Senna | 1-2 hits | 1-2 hits | 1 hit | 1-2 hits |
-| Bram | 4-5 hits | 3-4 hits | 3 hits | 3 hits |
-| Lira | 1-2 hits | 1 hit | 1 hit | 1 hit |
-| Voss | 4-5 hits | 4-5 hits | 4 hits | 3-4 hits |
+| Unit Role | Arc 1 | Arc 2 | Arc 3 | Arc 4 | Arc 5 |
+|-----------|-------|-------|-------|-------|-------|
+| **Tank** (Kael, Ghael, Voss) | 4-5 hits | 3-4 hits | 3-4 hits | 3 hits | 2-3 hits |
+| **Bruiser** (Ren, Bram, Rook) | 3-4 hits | 3 hits | 2-3 hits | 2-3 hits | 2 hits |
+| **Mage** (Senna, Kira) | 1-2 hits | 1-2 hits | 1-2 hits | 1-2 hits | 1 hit |
+| **Healer** (Lira, Faye, Elara) | 1-2 hits | 1 hit | 1 hit | 1 hit | 1 hit |
+| **Flier** (Yuel, Zael) | 2-3 hits | 2-3 hits | 2 hits | 2 hits | 1-2 hits |
+| **Speed** (Coda, Orin) | 2-3 hits | 2 hits | 2 hits | 1-2 hits | 1 hit |
 
-"Hit" = average enemy attack at that chapter's level. Senna and Lira should always be at risk — positioning is their defense.
+"Hit" = average enemy attack at that arc's level. Mages and healers should always be at risk.
 
 ### Player Damage Output
 
-At expected levels, player units should deal:
+At expected levels, player units should kill average enemies in:
 
-| Unit | vs Average Enemy (Ch1) | vs Average Enemy (Ch4) |
-|------|----------------------|----------------------|
-| Ren | 2-3 round kill | 2 round kill (with Debugger) |
-| Kael | 2 round kill | — |
-| Senna | 1-2 round kill (targets RES) | 1-2 round kill |
-| Bram | 1 round kill (if hits) | 1-2 round kill |
-| Lira | 0 (cannot attack) | 0 |
-| Voss | 3-4 round kill | 2-3 round kill |
+| Unit Role | Arc 1 | Arc 3 | Arc 5 |
+|-----------|-------|-------|-------|
+| **Physical DPS** | 2 rounds | 2 rounds | 1-2 rounds |
+| **Mage DPS** | 1-2 rounds | 1-2 rounds | 1 round |
+| **Tank** | 3-4 rounds | 3 rounds | 2-3 rounds |
+| **Healer** | N/A | N/A (unless promoted to attack class) | 3+ rounds |
 
 ### Boss Durability
 
-| Chapter | Boss HP | Expected Rounds to Kill | Notes |
-|---------|---------|------------------------|-------|
-| Ch1 | ~30 | 3-4 | Ren can solo with Rapier |
-| Ch2 | ~40 | 4-5 | Need 2-3 units |
-| Ch3 | ~50 | 5-7 | Need full team effort |
-| Ch4 | ~60+ | 6-8+ | Type cycling makes this variable |
+| Arc | Boss HP | Expected Rounds to Kill | Notes |
+|-----|---------|------------------------|-------|
+| Arc 1 | 30-40 | 3-5 | Ren can handle with support |
+| Arc 2 | 40-55 | 5-7 | Need team effort. Ch8 boss while losing Kael. |
+| Arc 3 | 50-65 | 6-8 | Promoted bosses. Need weapon advantage. |
+| Arc 4 | 60-80 | 7-10 | Multi-phase or reinforcing bosses. |
+| Arc 5 | 80-120 | 8-12+ | Ch25 boss has multiple phases + LOOP scaling. |
 
 ---
 
@@ -200,29 +221,49 @@ At expected levels, player units should deal:
 ### Prevent Softlocks
 
 - EXP minimum of 5 ensures underleveled units can still gain EXP
-- Vulneraries available at shops (future) prevent running out of healing
+- Catch-up EXP (+20%) prevents units from falling too far behind
+- Vulneraries always available at shops
 - Ren's Rapier is Prf (character-locked, strong) — always has a viable weapon
 - Voss's Garrison Lance has infinite durability — always has a weapon
+- Supply convoy stores all items not in inventories — nothing is lost
+- At least one Heal staff available at shops in every arc
 
 ### Prevent RNG Death Spirals
 
-- Hit rate clamped at 1% minimum (nothing is impossible) and 99% maximum (nothing is guaranteed)
+- Hit rate clamped at 1% min, 99% max
 - Critical hits exist but are rare without crit-focused builds
-- STA resets each chapter — bad STA in Ch2 doesn't carry into Ch3
+- STA resets each chapter
 - LOY can recover — low loyalty events can be offset by good decisions
+- CRP has passive decay below 15 and item-based cleansing
+- LOOP regens +10 between arcs
 
 ### Player Information
 
-- AWR system progressively reveals enemy information — by mid-game, player should see all stats
-- Combat Forecast shows exact damage, hit%, crit%, doubles BEFORE committing
+- AWR system progressively reveals enemy information
+- Combat Forecast shows exact damage, hit%, crit%, doubles before committing
 - Danger zone overlay shows all tiles enemies can reach
 - Weapon triangle is color-coded in UI (green = advantage, red = disadvantage)
+- Corruption Detector (Ch11+) shows CRP values on all units
+
+### Late Joiner Viability
+
+| Character | Join Chapter | Join Level | Notes |
+|-----------|------------|-----------|-------|
+| Nira | Ch3 | 3 | Slightly above party average |
+| Coda | Ch4 | 4 | At party average |
+| Yuel | Ch5 | 6 | Slightly above, prepromote stats |
+| Rook | Ch6 | 8 | At party average |
+| Faye | Ch6 | 7 | Slightly below but mounted |
+| Orin | Ch9 | 11 | At party average, cannot promote |
+| Kira | Ch11 | 14 | Above average, compensates for frailty |
+| Zael | Ch13 | 15 (conditional) | At promoted threshold |
+| Elara | Ch14 | 15 | At promoted threshold |
+| Ghael | Ch18 | 18 | Below average — former boss penalty |
+| Echo | Ch20 | 22 | At party average, unique class |
 
 ---
 
-## Difficulty Modes (Future Consideration)
-
-Not implemented. Design direction if added:
+## Difficulty Modes
 
 ### Classic Mode (Default)
 
@@ -232,7 +273,7 @@ Not implemented. Design direction if added:
 
 ### Casual Mode
 
-- No permadeath (defeated units return next chapter)
+- No permadeath (defeated units return next chapter at 1 HP)
 - Grief/trauma skills still trigger (narrative preserved)
 - Same enemy stats and difficulty
 - For players who want the story without the stress
@@ -242,18 +283,17 @@ Not implemented. Design direction if added:
 - Permadeath
 - Enemy stats +10% across the board
 - Reinforcements arrive 1 turn earlier
-- Enemy AI uses optimal behavior from Ch1
+- Enemy AI uses optimal behavior from Ch1 (no "learning" period)
 - STA thresholds reduced by 5 each
 - CRP gain rate +50%
+- Fewer stat boosters available (1 less per arc)
 - For experienced SRPG players
 
 ---
 
 ## Open Questions
 
-- **Dynamic difficulty**: Should the game adjust if the player is struggling (e.g., fewer reinforcements after multiple retries)?
-- **Turn ranking**: Should chapters grade performance (S/A/B/C) based on turns taken, deaths, etc.?
-- **New Game+**: LOOP carries over? Start with higher AWR? Keep learned skills?
-- **Chapter retry**: Can the player retry a chapter from the start, or only from the last save?
-- **Grinding prevention**: Should EXP be reduced if the player is over-leveled (anti-grind)? Or let them outlevel if they play well?
-- **Kael's death timing**: Should Kael die at a fixed story point, or when certain conditions are met (low LOY, high CRP, specific turn)?
+- **Dynamic difficulty**: Should the game adjust if the player is struggling? *Recommendation: No — undermine the meta-narrative. The System wouldn't make it easier.*
+- **Turn ranking**: Should chapters grade performance (S/A/B/C)? *Recommendation: Yes — ties into Bonus EXP system. Fast play = more Bonus EXP.*
+- **New Game+**: LOOP carries over? Start with higher AWR? *Recommendation: Yes, with narrative justification — Ren's 348th cycle. Enemies scale +15%.*
+- **Chapter retry**: Can the player retry from the start? *Recommendation: Yes, but with meta-narrative commentary from Ren: "Again? Fine. Let's try this differently."*

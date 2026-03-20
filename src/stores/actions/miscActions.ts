@@ -3,7 +3,7 @@ import { getDangerZone } from '../../core/pathfinding';
 import { getAttackTilesFrom } from '../../core/pathfinding';
 import type { Unit } from '../../core/types';
 import { EMPTY_SET } from '../helpers/constants';
-import { allPlayersDone } from '../helpers/mapHelpers';
+import { allPlayersDone, getClassFlags } from '../helpers/mapHelpers';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -19,7 +19,7 @@ export function toggleDangerZone(get: Get, set: Set) {
   for (const u of units.values()) {
     if (u.faction === 'enemy') enemies.push(u);
   }
-  const zone = getDangerZone(enemies, gameMap, units);
+  const zone = getDangerZone(enemies, gameMap, units, getClassFlags);
   set({ showDangerZone: true, dangerZone: zone });
 }
 

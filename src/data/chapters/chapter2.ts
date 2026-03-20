@@ -1,4 +1,4 @@
-import type { ChapterData, TerrainType, SupportConversation } from '../../core/types';
+import type { ChapterData, TerrainType } from '../../core/types';
 
 const P: TerrainType = 'plain';
 const F: TerrainType = 'forest';
@@ -32,10 +32,10 @@ export const CHAPTER_2: ChapterData = {
   mapHeight: 10,
   terrain,
   playerUnits: [
-    { unitId: 'eirik', position: { x: 6, y: 8 } },
-    { unitId: 'seth', position: { x: 10, y: 8 } },
-    { unitId: 'lute', position: { x: 7, y: 9 } },
-    { unitId: 'natasha', position: { x: 11, y: 9 } },
+    { unitId: 'ren', position: { x: 6, y: 8 } },
+    { unitId: 'kael', position: { x: 10, y: 8 } },
+    { unitId: 'senna', position: { x: 7, y: 9 } },
+    { unitId: 'lira', position: { x: 11, y: 9 } },
   ],
   enemyUnits: [
     { unitId: 'ch2_fighter_1', position: { x: 4, y: 5 } },
@@ -50,17 +50,17 @@ export const CHAPTER_2: ChapterData = {
   seizePosition: { x: 7, y: 0 },
   prologue: {
     lines: [
-      { speaker: 'Narrator', text: 'Having escaped the castle, Eirik and her companions follow the road north toward Frelia.' },
-      { speaker: 'Seth', text: 'Princess, enemy forces have set up a blockade at the river crossing ahead.', speakerFaction: 'player' },
-      { speaker: 'Eirik', text: 'Then we have no choice but to break through. We cannot turn back now.', speakerFaction: 'player' },
-      { speaker: 'Lute', text: 'The bridge is a natural chokepoint. We should use the terrain to our advantage.', speakerFaction: 'player' },
-      { speaker: 'Natasha', text: 'I will do my best to keep everyone safe.', speakerFaction: 'player' },
+      { speaker: 'Narrator', text: 'Having escaped the castle, Ren and her companions follow the road north toward Frelia.' },
+      { speaker: 'Kael', text: 'Princess, enemy forces have set up a blockade at the river crossing ahead.', speakerFaction: 'player' },
+      { speaker: 'Ren', text: 'Then we have no choice but to break through. We cannot turn back now.', speakerFaction: 'player' },
+      { speaker: 'Senna', text: 'The bridge is a natural chokepoint. We should use the terrain to our advantage.', speakerFaction: 'player' },
+      { speaker: 'Lira', text: 'I will do my best to keep everyone safe.', speakerFaction: 'player' },
     ],
   },
   epilogue: {
     lines: [
-      { speaker: 'Eirik', text: 'We made it across. Frelia cannot be far now.', speakerFaction: 'player' },
-      { speaker: 'Seth', text: 'We should rest at the next village. The soldiers need it.', speakerFaction: 'player' },
+      { speaker: 'Ren', text: 'We made it across. Frelia cannot be far now.', speakerFaction: 'player' },
+      { speaker: 'Kael', text: 'We should rest at the next village. The soldiers need it.', speakerFaction: 'player' },
       { speaker: 'Narrator', text: 'The company presses on, drawing ever closer to the safety of Frelia.' },
     ],
   },
@@ -86,24 +86,24 @@ export const CHAPTER_2: ChapterData = {
   ],
   supportConversations: [
     {
-      unitA: 'eirik',
-      unitB: 'lute',
+      unitA: 'ren',
+      unitB: 'senna',
       lines: [
-        { speaker: 'Eirik', text: 'Lute, your magic was instrumental in the last battle. Thank you.', speakerFaction: 'player' },
-        { speaker: 'Lute', text: 'Naturally. I am a prodigy, after all. But your swordplay was... not terrible.', speakerFaction: 'player' },
-        { speaker: 'Eirik', text: 'Ha! Coming from you, I will take that as a compliment.', speakerFaction: 'player' },
-        { speaker: 'Lute', text: 'I have been observing your combat style. Here — adjust your stance like this.', speakerFaction: 'player' },
+        { speaker: 'Ren', text: 'Senna, your magic was instrumental in the last battle. Thank you.', speakerFaction: 'player' },
+        { speaker: 'Senna', text: 'Naturally. I am a prodigy, after all. But your swordplay was... not terrible.', speakerFaction: 'player' },
+        { speaker: 'Ren', text: 'Ha! Coming from you, I will take that as a compliment.', speakerFaction: 'player' },
+        { speaker: 'Senna', text: 'I have been observing your combat style. Here — adjust your stance like this.', speakerFaction: 'player' },
       ],
-      reward: { type: 'stat', unitId: 'eirik', stat: 'skl', amount: 1 },
+      reward: { type: 'stat', unitId: 'ren', stat: 'skl', amount: 1 },
     },
     {
-      unitA: 'seth',
-      unitB: 'natasha',
+      unitA: 'kael',
+      unitB: 'lira',
       lines: [
-        { speaker: 'Seth', text: 'Sister Natasha, are you well? The march has been long.', speakerFaction: 'player' },
-        { speaker: 'Natasha', text: 'I am fine, thank you. But I worry about morale. The soldiers look exhausted.', speakerFaction: 'player' },
-        { speaker: 'Seth', text: 'Your healing has kept us all going. The troops speak highly of you.', speakerFaction: 'player' },
-        { speaker: 'Natasha', text: 'That gives me strength. Let us continue to support each other.', speakerFaction: 'player' },
+        { speaker: 'Kael', text: 'Sister Lira, are you well? The march has been long.', speakerFaction: 'player' },
+        { speaker: 'Lira', text: 'I am fine, thank you. But I worry about morale. The soldiers look exhausted.', speakerFaction: 'player' },
+        { speaker: 'Kael', text: 'Your healing has kept us all going. The troops speak highly of you.', speakerFaction: 'player' },
+        { speaker: 'Lira', text: 'That gives me strength. Let us continue to support each other.', speakerFaction: 'player' },
       ],
       reward: { type: 'exp_both', amount: 15 },
     },

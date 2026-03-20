@@ -37,7 +37,7 @@ function makeUnit(
     classId: 'test',
     faction: 'enemy',
     position: pos,
-    stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 2 },
+    stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 2, cha: 0, wil: 0 },
     currentHp: 20,
     level: 1,
     exp: 0,
@@ -62,7 +62,7 @@ describe('getDangerZone', () => {
     ]);
 
     const enemy = makeUnit('enemy1', { x: 2, y: 2 }, {
-      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 1 },
+      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 1, cha: 0, wil: 0 },
     });
     const allUnits = new Map([['enemy1', enemy]]);
     const dangerZone = getDangerZone([enemy], map, allUnits);
@@ -87,10 +87,10 @@ describe('getDangerZone', () => {
     ]);
 
     const enemy1 = makeUnit('enemy1', { x: 0, y: 0 }, {
-      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 1 },
+      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 1, cha: 0, wil: 0 },
     });
     const enemy2 = makeUnit('enemy2', { x: 6, y: 0 }, {
-      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 1 },
+      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 1, cha: 0, wil: 0 },
     });
     const allUnits = new Map([['enemy1', enemy1], ['enemy2', enemy2]]);
     const dangerZone = getDangerZone([enemy1, enemy2], map, allUnits);
@@ -113,7 +113,7 @@ describe('getDangerZone', () => {
     ]);
 
     const rangedEnemy = makeUnit('archer', { x: 0, y: 0 }, {
-      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 1 },
+      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 1, cha: 0, wil: 0 },
       equippedWeapon: makeWeapon('fire', { minRange: 1, maxRange: 2 }),
     });
     const allUnits = new Map([['archer', rangedEnemy]]);

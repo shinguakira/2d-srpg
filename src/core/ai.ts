@@ -3,6 +3,7 @@ import { posKey } from './types';
 import { getMovementRange, getAttackTilesFrom, getManhattanDistance } from './pathfinding';
 import { calculateCombatForecast } from './combat';
 import type { CombatForecast } from './combat';
+import type { ClassFlags } from './terrain';
 
 export type AIAction = {
   unitId: string;
@@ -23,6 +24,7 @@ export function decideAction(
   unit: Unit,
   gameMap: GameMap,
   allUnits: Map<string, Unit>,
+  classFlags?: ClassFlags,
 ): AIAction {
   const behavior = unit.aiBehavior?.type ?? 'aggressive';
 
@@ -32,7 +34,7 @@ export function decideAction(
     // Can only stay in place
     movablePositions = [{ ...unit.position }];
   } else {
-    const moveRange = getMovementRange(unit, gameMap, allUnits);
+    const moveRange = getMovementRange(unit, gameMap, allUnits, classFlags);
     movablePositions = Array.from(moveRange).map((key) => {
       const [x, y] = key.split(',').map(Number);
       return { x, y } as Position;

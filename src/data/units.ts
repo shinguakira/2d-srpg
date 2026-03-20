@@ -48,18 +48,37 @@ function createUnit(
 
 // Player units
 export const PLAYER_UNITS: Record<string, Unit> = {
-  eirik: createUnit('eirik', 'Eirik', 'lord', 'player', ['iron_sword', 'slim_sword'], 1, '', ['vulnerary'], {
+  ren: createUnit('ren', 'Ren', 'lord', 'player', ['iron_sword', 'slim_sword'], 1, '', ['vulnerary'], {
     isLord: true,
-    deathQuote: "No... I must not fall here...",
+    deathQuote: "Not again... not this time...",
   }),
-  seth: createUnit('seth', 'Seth', 'cavalier', 'player', ['iron_lance', 'iron_sword'], 3, '', ['vulnerary'], {
-    deathQuote: "Princess... forgive me...",
+  kael: createUnit('kael', 'Kael', 'cavalier', 'player', ['iron_lance', 'iron_sword'], 3, '', ['vulnerary'], {
+    deathQuote: "I... I don't understand what's happening...",
   }),
-  lute: createUnit('lute', 'Lute', 'mage', 'player', ['fire', 'thunder'], 1, '', [], {
-    deathQuote: "This is... unexpected...",
+  senna: createUnit('senna', 'Senna', 'mage', 'player', ['fire', 'thunder'], 1, '', [], {
+    deathQuote: "The data... it's fading...",
   }),
-  natasha: createUnit('natasha', 'Natasha', 'cleric', 'player', ['heal_staff'], 1, '', ['vulnerary'], {
-    deathQuote: "May the light... guide you...",
+  lira: createUnit('lira', 'Lira', 'cleric', 'player', ['heal_staff'], 1, '', ['vulnerary'], {
+    deathQuote: "This isn't... how the story ends...",
+  }),
+
+  // ===== Phase 0 — New player units =====
+
+  bram: createUnit('bram', 'Bram', 'fighter', 'player', ['iron_axe'], 1, '', ['vulnerary'], {
+    deathQuote: "Should've... hit harder...",
+    statOverrides: { hp: 26, str: 9, def: 5 },
+  }),
+  voss: createUnit('voss', 'Voss', 'soldier', 'player', ['iron_lance', 'garrison_lance'], 2, '', ['vulnerary'], {
+    deathQuote: "The garrison... will hold... without me...",
+    statOverrides: { hp: 22, def: 8, spd: 4 },
+  }),
+  nira: createUnit('nira', 'Nira', 'archer', 'player', ['iron_bow', 'sightbow'], 1, '', [], {
+    deathQuote: "I missed... the one shot that mattered...",
+    statOverrides: { skl: 8, spd: 7 },
+  }),
+  coda: createUnit('coda', 'Coda', 'thief', 'player', ['iron_knife', 'data_knife'], 1, '', [], {
+    deathQuote: "No more secrets... to find...",
+    statOverrides: { spd: 9, skl: 7, lck: 6 },
   }),
 };
 

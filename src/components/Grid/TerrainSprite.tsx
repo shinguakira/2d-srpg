@@ -51,6 +51,8 @@ function renderTerrain(terrain: TerrainType) {
       return <VillageTerrain />;
     case 'throne':
       return <ThroneTerrain />;
+    default:
+      return <rect width="48" height="48" fill="#7ec850" />;
   }
 }
 

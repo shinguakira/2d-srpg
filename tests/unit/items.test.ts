@@ -23,7 +23,7 @@ function makeUnit(id: string, overrides: Partial<Unit> = {}): Unit {
     classId: 'test',
     faction: 'player',
     position: { x: 0, y: 0 },
-    stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5 },
+    stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
     currentHp: 20,
     level: 1,
     exp: 0,
@@ -127,7 +127,7 @@ describe('useItem', () => {
   });
 
   it('successive uses deplete the item', () => {
-    let unit = makeUnit('hero', { currentHp: 5, stats: { hp: 50, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5 } });
+    let unit = makeUnit('hero', { currentHp: 5, stats: { hp: 50, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 } });
     let item: ConsumableItem | null = makeVulnerary(3);
 
     // Use 3 times

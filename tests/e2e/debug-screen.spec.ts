@@ -11,44 +11,44 @@ test.describe('Debug Screen Screenshots', () => {
     await page.screenshot({ path: 'screenshots/debug/01-characters-list.png' });
   });
 
-  test('02 - Player unit detail (Eirik)', async ({ page }) => {
+  test('02 - Player unit detail (Ren)', async ({ page }) => {
     await page.goto('/');
     await page.waitForSelector('[data-testid="title-screen"]', { timeout: 10000 });
     await page.click('[data-testid="debug-btn"]');
     await page.waitForSelector('[data-testid="debug-screen"]', { timeout: 5000 });
-    await page.click('[data-testid="debug-unit-eirik"]');
+    await page.click('[data-testid="debug-unit-ren"]');
     await page.waitForTimeout(200);
-    await page.screenshot({ path: 'screenshots/debug/02-eirik-detail.png' });
+    await page.screenshot({ path: 'screenshots/debug/02-ren-detail.png' });
   });
 
-  test('03 - Player unit detail (Seth - Cavalier)', async ({ page }) => {
+  test('03 - Player unit detail (Kael - Cavalier)', async ({ page }) => {
     await page.goto('/');
     await page.waitForSelector('[data-testid="title-screen"]', { timeout: 10000 });
     await page.click('[data-testid="debug-btn"]');
     await page.waitForSelector('[data-testid="debug-screen"]', { timeout: 5000 });
-    await page.click('[data-testid="debug-unit-seth"]');
+    await page.click('[data-testid="debug-unit-kael"]');
     await page.waitForTimeout(200);
-    await page.screenshot({ path: 'screenshots/debug/03-seth-detail.png' });
+    await page.screenshot({ path: 'screenshots/debug/03-kael-detail.png' });
   });
 
-  test('04 - Player unit detail (Lute - Mage)', async ({ page }) => {
+  test('04 - Player unit detail (Senna - Mage)', async ({ page }) => {
     await page.goto('/');
     await page.waitForSelector('[data-testid="title-screen"]', { timeout: 10000 });
     await page.click('[data-testid="debug-btn"]');
     await page.waitForSelector('[data-testid="debug-screen"]', { timeout: 5000 });
-    await page.click('[data-testid="debug-unit-lute"]');
+    await page.click('[data-testid="debug-unit-senna"]');
     await page.waitForTimeout(200);
-    await page.screenshot({ path: 'screenshots/debug/04-lute-detail.png' });
+    await page.screenshot({ path: 'screenshots/debug/04-senna-detail.png' });
   });
 
-  test('05 - Player unit detail (Natasha - Cleric)', async ({ page }) => {
+  test('05 - Player unit detail (Lira - Cleric)', async ({ page }) => {
     await page.goto('/');
     await page.waitForSelector('[data-testid="title-screen"]', { timeout: 10000 });
     await page.click('[data-testid="debug-btn"]');
     await page.waitForSelector('[data-testid="debug-screen"]', { timeout: 5000 });
-    await page.click('[data-testid="debug-unit-natasha"]');
+    await page.click('[data-testid="debug-unit-lira"]');
     await page.waitForTimeout(200);
-    await page.screenshot({ path: 'screenshots/debug/05-natasha-detail.png' });
+    await page.screenshot({ path: 'screenshots/debug/05-lira-detail.png' });
   });
 
   test('06 - Enemy unit detail (Bone - Boss)', async ({ page }) => {

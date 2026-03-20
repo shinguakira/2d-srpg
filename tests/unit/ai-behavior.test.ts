@@ -37,7 +37,7 @@ function makeUnit(
     classId: 'test',
     faction: 'enemy',
     position: pos,
-    stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 3 },
+    stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 3, cha: 0, wil: 0 },
     currentHp: 20,
     level: 1,
     exp: 0,
@@ -59,7 +59,7 @@ describe('AI behavior: stationary', () => {
 
     const enemy = makeUnit('enemy1', { x: 3, y: 0 }, {
       aiBehavior: { type: 'stationary' },
-      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5 },
+      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
     });
     const player = makeUnit('player1', { x: 5, y: 0 }, {
       faction: 'player',
@@ -108,7 +108,7 @@ describe('AI behavior: guard', () => {
     const enemy = makeUnit('guard1', { x: 2, y: 0 }, {
       aiBehavior: { type: 'guard', radius: 2 },
       startPosition: { x: 2, y: 0 },
-      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5 },
+      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
     });
     const player = makeUnit('player1', { x: 7, y: 0 }, {
       faction: 'player',
@@ -134,7 +134,7 @@ describe('AI behavior: guard', () => {
     const enemy = makeUnit('guard1', { x: 2, y: 0 }, {
       aiBehavior: { type: 'guard', radius: 2 },
       startPosition: { x: 2, y: 0 },
-      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5 },
+      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
     });
     const player = makeUnit('player1', { x: 4, y: 0 }, {
       faction: 'player',
@@ -161,7 +161,7 @@ describe('AI behavior: boss', () => {
 
     const boss = makeUnit('boss1', { x: 2, y: 1 }, {
       aiBehavior: { type: 'boss' },
-      stats: { hp: 30, str: 12, mag: 0, def: 8, res: 3, spd: 5, skl: 6, lck: 2, mov: 5 },
+      stats: { hp: 30, str: 12, mag: 0, def: 8, res: 3, spd: 5, skl: 6, lck: 2, mov: 5, cha: 0, wil: 0 },
     });
     const player = makeUnit('player1', { x: 4, y: 1 }, {
       faction: 'player',
@@ -207,18 +207,18 @@ describe('AI behavior: boss', () => {
 
     const boss = makeUnit('boss1', { x: 1, y: 1 }, {
       aiBehavior: { type: 'boss' },
-      stats: { hp: 30, str: 10, mag: 0, def: 8, res: 3, spd: 5, skl: 6, lck: 2, mov: 5 },
+      stats: { hp: 30, str: 10, mag: 0, def: 8, res: 3, spd: 5, skl: 6, lck: 2, mov: 5, cha: 0, wil: 0 },
     });
     const lord = makeUnit('lord1', { x: 2, y: 1 }, {
       faction: 'player',
       isLord: true,
       equippedWeapon: makeWeapon('sword'),
-      stats: { hp: 24, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5 },
+      stats: { hp: 24, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
     });
     const regular = makeUnit('regular1', { x: 0, y: 1 }, {
       faction: 'player',
       equippedWeapon: makeWeapon('sword'),
-      stats: { hp: 24, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5 },
+      stats: { hp: 24, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
     });
 
     const allUnits = new Map([['boss1', boss], ['lord1', lord], ['regular1', regular]]);

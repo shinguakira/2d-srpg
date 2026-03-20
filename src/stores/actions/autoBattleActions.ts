@@ -7,9 +7,9 @@ import { CLASSES } from '../../data/classes';
 import { decideAction } from '../../core/ai';
 import type { AIAction } from '../../core/ai';
 import type { GameState, GameActions } from '../gameStoreTypes';
-import { IDLE_RESET, EMPTY_SET } from '../helpers/constants';
+import { IDLE_RESET } from '../helpers/constants';
+import { getClassFlags } from '../helpers/mapHelpers';
 import { applyCombatResult } from '../helpers/combatResolution';
-import { allPlayersDone } from '../helpers/mapHelpers';
 import { refreshDangerZone } from '../helpers/dangerZoneHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
 
@@ -51,7 +51,7 @@ export function startAutoBattle(get: Get, set: Set) {
         }
       }
       const fakeUnit = swappedUnits.get(unit.id)!;
-      const action = decideAction(fakeUnit, gameMap, swappedUnits);
+      const action = decideAction(fakeUnit, gameMap, swappedUnits, getClassFlags(unit));
       // Update sim position for subsequent units
       simUnits.set(unit.id, { ...simUnits.get(unit.id)!, position: { ...action.moveTo } });
       actions.push(action);
@@ -67,7 +67,7 @@ export function startAutoBattle(get: Get, set: Set) {
 }
 
 export function executeNextAutoAction(get: Get, set: Set) {
-  const { autoBattleActions, autoBattleIndex, units, gameMap, rng, isAutoBattle } = get();
+  const { autoBattleActions, autoBattleIndex, units, gameMap, isAutoBattle } = get();
   if (!isAutoBattle) return;
 
   if (autoBattleIndex < 0 || autoBattleIndex >= autoBattleActions.length) {
@@ -113,7 +113,7 @@ export function executeNextAutoAction(get: Get, set: Set) {
 
   // Start walk animation if the unit actually moves
   if (needsMove && !shouldSkipWalkAnim()) {
-    const path = getPath(unit.position, destination, unit, gameMap, units);
+    const path = getPath(unit.position, destination, unit, gameMap, units, getClassFlags(unit));
     if (path.length > 1) {
       set({
         movingUnit: { unitId: unit.id, path, stepIndex: 0, onComplete: 'auto_action' },

@@ -368,8 +368,12 @@ function getRewardText(conv: SupportConversation): string {
 }
 
 const SPEAKER_PORTRAITS: Record<string, { classId: string; faction: 'player' | 'enemy' }> = {
-  Eirik: { classId: 'lord', faction: 'player' },
-  Seth: { classId: 'cavalier', faction: 'player' },
-  Lute: { classId: 'mage', faction: 'player' },
-  Natasha: { classId: 'cleric', faction: 'player' },
+  Ren: { classId: 'lord', faction: 'player' },
+  Kael: { classId: 'cavalier', faction: 'player' },
+  Senna: { classId: 'mage', faction: 'player' },
+  Lira: { classId: 'cleric', faction: 'player' },
+  Bram: { classId: 'fighter', faction: 'player' },
+  Voss: { classId: 'soldier', faction: 'player' },
+  Nira: { classId: 'archer', faction: 'player' },
+  Coda: { classId: 'thief', faction: 'player' },
 };

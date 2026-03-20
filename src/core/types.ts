@@ -24,7 +24,21 @@ export type TerrainType =
   | 'wall'
   | 'fort'
   | 'village'
-  | 'throne';
+  | 'throne'
+  | 'sand'
+  | 'ice'
+  | 'lava'
+  | 'ruins'
+  | 'indoor'
+  | 'door'
+  | 'chest'
+  | 'armory'
+  | 'bridge'
+  | 'glitched'
+  | 'data_void'
+  | 'memory'
+  | 'corrupted_fort'
+  | 'broken_throne';
 
 export type TerrainData = {
   readonly name: string;
@@ -49,7 +63,9 @@ export type GameMap = {
 
 // ===== Weapons =====
 
-export type WeaponType = 'sword' | 'axe' | 'lance' | 'fire' | 'thunder' | 'wind' | 'staff';
+export type WeaponType = 'sword' | 'axe' | 'lance' | 'fire' | 'thunder' | 'wind' | 'staff' | 'bow' | 'knife' | 'dark' | 'light';
+
+export type WeaponRank = 'E' | 'D' | 'C' | 'B' | 'A' | 'S' | 'Prf';
 
 export type Weapon = {
   readonly id: string;
@@ -61,6 +77,11 @@ export type Weapon = {
   readonly weight: number;
   readonly minRange: number;
   readonly maxRange: number;
+  readonly effectiveAgainst?: string[];
+  readonly rank?: WeaponRank;
+  readonly durability?: number | null;
+  readonly brave?: boolean;
+  readonly prf?: string;
 };
 
 // ===== Items =====
@@ -89,6 +110,8 @@ export type UnitStats = {
   skl: number;
   lck: number;
   mov: number;
+  cha: number;
+  wil: number;
 };
 
 export type GrowthRates = {
@@ -100,6 +123,8 @@ export type GrowthRates = {
   readonly spd: number;
   readonly skl: number;
   readonly lck: number;
+  readonly cha: number;
+  readonly wil: number;
 };
 
 export type UnitClass = {
@@ -107,6 +132,9 @@ export type UnitClass = {
   readonly name: string;
   readonly baseStats: UnitStats;
   readonly growthRates: GrowthRates;
+  readonly flying?: boolean;
+  readonly mounted?: boolean;
+  readonly armored?: boolean;
 };
 
 // ===== AI Behavior =====
@@ -115,7 +143,13 @@ export type AIBehavior =
   | { readonly type: 'aggressive' }
   | { readonly type: 'stationary' }
   | { readonly type: 'guard'; readonly radius: number }
-  | { readonly type: 'boss' };
+  | { readonly type: 'boss' }
+  | { readonly type: 'survival' }
+  | { readonly type: 'thief'; readonly targetPosition?: Position }
+  | { readonly type: 'healer' }
+  | { readonly type: 'escort'; readonly targetUnitId: string }
+  | { readonly type: 'coordinated'; readonly groupId: string }
+  | { readonly type: 'ambush'; readonly triggerRadius: number };
 
 export type Faction = 'player' | 'enemy' | 'ally';
 
@@ -157,7 +191,7 @@ export type PlayerAction =
 
 // ===== Chapter =====
 
-export type ObjectiveType = 'rout' | 'seize' | 'survive';
+export type ObjectiveType = 'rout' | 'seize' | 'survive' | 'boss_kill' | 'escape' | 'protect' | 'capture' | 'dual';
 
 export type ChapterObjective = {
   readonly type: ObjectiveType;

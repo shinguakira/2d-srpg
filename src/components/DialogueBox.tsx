@@ -11,10 +11,14 @@ const NARRATOR_COLOR = '#fbbf24';
 
 /** Map character names to their class/faction for portrait display */
 const SPEAKER_PORTRAITS: Record<string, { classId: string; faction: Faction }> = {
-  Eirik: { classId: 'lord', faction: 'player' },
-  Seth: { classId: 'cavalier', faction: 'player' },
-  Lute: { classId: 'mage', faction: 'player' },
-  Natasha: { classId: 'cleric', faction: 'player' },
+  Ren: { classId: 'lord', faction: 'player' },
+  Kael: { classId: 'cavalier', faction: 'player' },
+  Senna: { classId: 'mage', faction: 'player' },
+  Lira: { classId: 'cleric', faction: 'player' },
+  Bram: { classId: 'fighter', faction: 'player' },
+  Voss: { classId: 'soldier', faction: 'player' },
+  Nira: { classId: 'archer', faction: 'player' },
+  Coda: { classId: 'thief', faction: 'player' },
   Bone: { classId: 'fighter', faction: 'enemy' },
   Zonta: { classId: 'soldier', faction: 'enemy' },
   Bazba: { classId: 'fighter', faction: 'enemy' },

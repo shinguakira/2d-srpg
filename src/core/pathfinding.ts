@@ -1,6 +1,6 @@
 import type { Position, GameMap, Unit, Weapon } from './types';
 import { posKey } from './types';
-import { getMovementCost, isPassable } from './terrain';
+import { getClassMovementCost, isPassableForClass, type ClassFlags } from './terrain';
 
 export function getManhattanDistance(a: Position, b: Position): number {
   return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
@@ -24,9 +24,11 @@ export function getMovementRange(
   unit: Unit,
   map: GameMap,
   allUnits: Map<string, Unit>,
+  classFlags?: ClassFlags,
 ): Set<string> {
   const startKey = posKey(unit.position);
   const mov = unit.stats.mov;
+  const flags = classFlags ?? {};
 
   // occupant lookup
   const occupantFaction = new Map<string, string>();
@@ -52,9 +54,9 @@ export function getMovementRange(
       if (next.x < 0 || next.x >= map.width || next.y < 0 || next.y >= map.height) continue;
 
       const terrain = map.tiles[next.y][next.x].terrain;
-      if (!isPassable(terrain)) continue;
+      if (!isPassableForClass(terrain, flags)) continue;
 
-      const cost = getMovementCost(terrain);
+      const cost = getClassMovementCost(terrain, flags);
       const nextRemaining = remaining - cost;
       if (nextRemaining < 0) continue;
 
@@ -98,12 +100,14 @@ export function getPath(
   unit: Unit,
   map: GameMap,
   allUnits: Map<string, Unit>,
+  classFlags?: ClassFlags,
 ): Position[] {
   const startKey = posKey(from);
   const endKey = posKey(to);
   if (startKey === endKey) return [from];
 
   const mov = unit.stats.mov;
+  const flags = classFlags ?? {};
 
   const occupantFaction = new Map<string, string>();
   for (const u of allUnits.values()) {
@@ -130,9 +134,9 @@ export function getPath(
       if (next.x < 0 || next.x >= map.width || next.y < 0 || next.y >= map.height) continue;
 
       const terrain = map.tiles[next.y][next.x].terrain;
-      if (!isPassable(terrain)) continue;
+      if (!isPassableForClass(terrain, flags)) continue;
 
-      const cost = getMovementCost(terrain);
+      const cost = getClassMovementCost(terrain, flags);
       const nextRemaining = remaining - cost;
       if (nextRemaining < 0) continue;
 
@@ -194,10 +198,12 @@ export function getDangerZone(
   enemies: Unit[],
   map: GameMap,
   allUnits: Map<string, Unit>,
+  classFlagsLookup?: (unit: Unit) => ClassFlags,
 ): Set<string> {
   const dangerZone = new Set<string>();
   for (const enemy of enemies) {
-    const moveRange = getMovementRange(enemy, map, allUnits);
+    const flags = classFlagsLookup?.(enemy);
+    const moveRange = getMovementRange(enemy, map, allUnits, flags);
     for (const moveKey of moveRange) {
       dangerZone.add(moveKey); // enemy can occupy this tile
       const [x, y] = moveKey.split(',').map(Number);

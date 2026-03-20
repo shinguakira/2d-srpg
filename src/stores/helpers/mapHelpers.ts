@@ -1,7 +1,16 @@
 import type { GameMap, Unit, Tile, ChapterData, UnitProgress, Weapon, ConsumableItem } from '../../core/types';
+import type { ClassFlags } from '../../core/terrain';
 import { PLAYER_UNITS, ENEMY_UNITS } from '../../data/units';
 import { WEAPONS } from '../../data/weapons';
 import { ITEMS } from '../../data/items';
+import { CLASSES } from '../../data/classes';
+
+/** Extract flying/mounted/armored flags from a unit's class. */
+export function getClassFlags(unit: Unit): ClassFlags {
+  const cls = CLASSES[unit.classId];
+  if (!cls) return {};
+  return { flying: cls.flying, mounted: cls.mounted, armored: cls.armored };
+}
 
 export function buildMap(chapter: ChapterData): GameMap {
   const tiles: Tile[][] = [];

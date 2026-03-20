@@ -8,7 +8,7 @@ const SAMPLE_SAVE: SaveData = {
   currentChapterId: 'ch2',
   completedChapters: ['ch1'],
   unitProgress: {
-    eirik: { level: 3, exp: 45, stats: { hp: 22, str: 7, mag: 1, def: 6, res: 2, spd: 8, skl: 6, lck: 8, mov: 5 } },
+    ren: { level: 3, exp: 45, stats: { hp: 22, str: 7, mag: 1, def: 6, res: 2, spd: 8, skl: 6, lck: 8, mov: 5, cha: 0, wil: 0 } },
   },
 };
 

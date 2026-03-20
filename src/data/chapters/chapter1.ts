@@ -1,4 +1,4 @@
-import type { ChapterData, TerrainType, SupportConversation } from '../../core/types';
+import type { ChapterData, TerrainType } from '../../core/types';
 
 // Shorthand aliases for readability
 const P: TerrainType = 'plain';
@@ -35,10 +35,10 @@ export const CHAPTER_1: ChapterData = {
   mapHeight: 12,
   terrain,
   playerUnits: [
-    { unitId: 'eirik', position: { x: 10, y: 10 } },
-    { unitId: 'seth', position: { x: 13, y: 10 } },
-    { unitId: 'lute', position: { x: 9, y: 11 } },
-    { unitId: 'natasha', position: { x: 14, y: 11 } },
+    { unitId: 'ren', position: { x: 10, y: 10 } },
+    { unitId: 'kael', position: { x: 13, y: 10 } },
+    { unitId: 'senna', position: { x: 9, y: 11 } },
+    { unitId: 'lira', position: { x: 14, y: 11 } },
   ],
   enemyUnits: [
     { unitId: 'fighter_1', position: { x: 8, y: 2 } },
@@ -54,12 +54,12 @@ export const CHAPTER_1: ChapterData = {
   prologue: {
     lines: [
       { speaker: 'Narrator', text: 'The kingdom of Renais has fallen. The Grado Empire struck without warning, shattering a century of peace.' },
-      { speaker: 'Eirik', text: 'Father... The castle is lost. We must retreat while we still can.', speakerFaction: 'player' },
-      { speaker: 'Seth', text: 'Princess, I will protect you with my life. Stay close to me.', speakerFaction: 'player' },
-      { speaker: 'Eirik', text: 'Seth, we cannot abandon our people. There must be something we can do.', speakerFaction: 'player' },
-      { speaker: 'Lute', text: 'I have studied the enemy formations. Their vanguard is small — we can break through.', speakerFaction: 'player' },
-      { speaker: 'Seth', text: 'Then we fight. Defeat their leader and seize the throne to secure our escape route.', speakerFaction: 'player' },
-      { speaker: 'Narrator', text: 'With no choice but to fight, Eirik and her companions prepare for battle.' },
+      { speaker: 'Ren', text: 'Father... The castle is lost. We must retreat while we still can.', speakerFaction: 'player' },
+      { speaker: 'Kael', text: 'Princess, I will protect you with my life. Stay close to me.', speakerFaction: 'player' },
+      { speaker: 'Ren', text: 'Kael, we cannot abandon our people. There must be something we can do.', speakerFaction: 'player' },
+      { speaker: 'Senna', text: 'I have studied the enemy formations. Their vanguard is small — we can break through.', speakerFaction: 'player' },
+      { speaker: 'Kael', text: 'Then we fight. Defeat their leader and seize the throne to secure our escape route.', speakerFaction: 'player' },
+      { speaker: 'Narrator', text: 'With no choice but to fight, Ren and her companions prepare for battle.' },
     ],
   },
   villages: [
@@ -84,34 +84,34 @@ export const CHAPTER_1: ChapterData = {
   ],
   epilogue: {
     lines: [
-      { speaker: 'Eirik', text: 'We made it through... but the road ahead will only grow harder.', speakerFaction: 'player' },
-      { speaker: 'Seth', text: 'We should make for Frelia. King Hayden will grant us sanctuary.', speakerFaction: 'player' },
-      { speaker: 'Lute', text: 'I calculate a 73% chance of encountering more resistance along the way.', speakerFaction: 'player' },
+      { speaker: 'Ren', text: 'We made it through... but the road ahead will only grow harder.', speakerFaction: 'player' },
+      { speaker: 'Kael', text: 'We should make for Frelia. King Hayden will grant us sanctuary.', speakerFaction: 'player' },
+      { speaker: 'Senna', text: 'I calculate a 73% chance of encountering more resistance along the way.', speakerFaction: 'player' },
       { speaker: 'Narrator', text: 'The survivors press onward, leaving the ruins of Renais behind them.' },
     ],
   },
   supportConversations: [
     {
-      unitA: 'eirik',
-      unitB: 'seth',
+      unitA: 'ren',
+      unitB: 'kael',
       lines: [
-        { speaker: 'Eirik', text: 'Seth, you fought bravely today. I feel safer with you by my side.', speakerFaction: 'player' },
-        { speaker: 'Seth', text: 'It is my honor, Princess. I swear I will not let harm befall you.', speakerFaction: 'player' },
-        { speaker: 'Eirik', text: 'Please, just call me Eirik. We are companions now, not just knight and princess.', speakerFaction: 'player' },
-        { speaker: 'Seth', text: '...Very well, Eirik. Then let us face what comes together.', speakerFaction: 'player' },
+        { speaker: 'Ren', text: 'Kael, you fought bravely today. I feel safer with you by my side.', speakerFaction: 'player' },
+        { speaker: 'Kael', text: 'It is my honor, Princess. I swear I will not let harm befall you.', speakerFaction: 'player' },
+        { speaker: 'Ren', text: 'Please, just call me Ren. We are companions now, not just knight and princess.', speakerFaction: 'player' },
+        { speaker: 'Kael', text: '...Very well, Ren. Then let us face what comes together.', speakerFaction: 'player' },
       ],
       reward: { type: 'exp_both', amount: 20 },
     },
     {
-      unitA: 'lute',
-      unitB: 'natasha',
+      unitA: 'senna',
+      unitB: 'lira',
       lines: [
-        { speaker: 'Lute', text: 'Natasha, I have been studying healing magic. Your technique is... adequate.', speakerFaction: 'player' },
-        { speaker: 'Natasha', text: 'Oh? That is high praise coming from you, Lute.', speakerFaction: 'player' },
-        { speaker: 'Lute', text: 'I could teach you a focus technique that amplifies magical energy. Interested?', speakerFaction: 'player' },
-        { speaker: 'Natasha', text: 'I would be grateful. Every bit of knowledge helps protect our friends.', speakerFaction: 'player' },
+        { speaker: 'Senna', text: 'Lira, I have been studying healing magic. Your technique is... adequate.', speakerFaction: 'player' },
+        { speaker: 'Lira', text: 'Oh? That is high praise coming from you, Senna.', speakerFaction: 'player' },
+        { speaker: 'Senna', text: 'I could teach you a focus technique that amplifies magical energy. Interested?', speakerFaction: 'player' },
+        { speaker: 'Lira', text: 'I would be grateful. Every bit of knowledge helps protect our friends.', speakerFaction: 'player' },
       ],
-      reward: { type: 'stat', unitId: 'natasha', stat: 'mag', amount: 1 },
+      reward: { type: 'stat', unitId: 'lira', stat: 'mag', amount: 1 },
     },
   ],
 };

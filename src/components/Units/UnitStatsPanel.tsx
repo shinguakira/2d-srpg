@@ -42,6 +42,8 @@ export function UnitStatsPanel() {
             <span>SKL {unit.stats.skl}</span>
             <span>LCK {unit.stats.lck}</span>
             <span>MOV {unit.stats.mov}</span>
+            <span>CHA {unit.stats.cha}</span>
+            <span>WIL {unit.stats.wil}</span>
           </div>
           <div className="unit-stats-panel__weapon">
             {unit.equippedWeapon.name} (Mt {unit.equippedWeapon.might})

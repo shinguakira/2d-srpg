@@ -1,4 +1,4 @@
-import type { ChapterData, TerrainType, SupportConversation } from '../../core/types';
+import type { ChapterData, TerrainType } from '../../core/types';
 
 const P: TerrainType = 'plain';
 const F: TerrainType = 'forest';
@@ -32,10 +32,10 @@ export const CHAPTER_3: ChapterData = {
   mapHeight: 12,
   terrain,
   playerUnits: [
-    { unitId: 'eirik', position: { x: 9, y: 10 } },
-    { unitId: 'seth', position: { x: 14, y: 10 } },
-    { unitId: 'lute', position: { x: 10, y: 11 } },
-    { unitId: 'natasha', position: { x: 15, y: 11 } },
+    { unitId: 'ren', position: { x: 9, y: 10 } },
+    { unitId: 'kael', position: { x: 14, y: 10 } },
+    { unitId: 'senna', position: { x: 10, y: 11 } },
+    { unitId: 'lira', position: { x: 15, y: 11 } },
   ],
   enemyUnits: [
     { unitId: 'ch3_fighter_1', position: { x: 8, y: 5 } },
@@ -54,21 +54,21 @@ export const CHAPTER_3: ChapterData = {
   },
   prologue: {
     lines: [
-      { speaker: 'Narrator', text: 'Following the road north, Eirik\'s company reaches the village of Borgo — only to find it overrun by bandits.' },
-      { speaker: 'Seth', text: 'Princess, these brigands have taken the village hostage. We cannot simply pass through.', speakerFaction: 'player' },
-      { speaker: 'Eirik', text: 'Then we free them. These people need our help more than we need haste.', speakerFaction: 'player' },
-      { speaker: 'Lute', text: 'I count at least eight hostiles. They\'ve positioned themselves in the forest for ambush.', speakerFaction: 'player' },
-      { speaker: 'Natasha', text: 'Those poor villagers... We must drive the bandits out.', speakerFaction: 'player' },
-      { speaker: 'Narrator', text: 'Eirik rallies her companions. Every last bandit must be defeated to liberate Borgo.' },
+      { speaker: 'Narrator', text: 'Following the road north, Ren\'s company reaches the village of Borgo — only to find it overrun by bandits.' },
+      { speaker: 'Kael', text: 'Princess, these brigands have taken the village hostage. We cannot simply pass through.', speakerFaction: 'player' },
+      { speaker: 'Ren', text: 'Then we free them. These people need our help more than we need haste.', speakerFaction: 'player' },
+      { speaker: 'Senna', text: 'I count at least eight hostiles. They\'ve positioned themselves in the forest for ambush.', speakerFaction: 'player' },
+      { speaker: 'Lira', text: 'Those poor villagers... We must drive the bandits out.', speakerFaction: 'player' },
+      { speaker: 'Narrator', text: 'Ren rallies her companions. Every last bandit must be defeated to liberate Borgo.' },
     ],
   },
   epilogue: {
     lines: [
-      { speaker: 'Eirik', text: 'The village is safe. Is everyone all right?', speakerFaction: 'player' },
+      { speaker: 'Ren', text: 'The village is safe. Is everyone all right?', speakerFaction: 'player' },
       { speaker: 'Narrator', text: 'The grateful villagers of Borgo tend to the company\'s wounds and share what supplies they can spare.' },
-      { speaker: 'Seth', text: 'Princess, the villagers mention ancient ruins to the north. Grado scouts have been seen near them.', speakerFaction: 'player' },
-      { speaker: 'Lute', text: 'Ancient ruins? How fascinating. There could be valuable artifacts inside.', speakerFaction: 'player' },
-      { speaker: 'Eirik', text: 'If Grado is interested in those ruins, we should investigate before they can use whatever is inside.', speakerFaction: 'player' },
+      { speaker: 'Kael', text: 'Princess, the villagers mention ancient ruins to the north. Grado scouts have been seen near them.', speakerFaction: 'player' },
+      { speaker: 'Senna', text: 'Ancient ruins? How fascinating. There could be valuable artifacts inside.', speakerFaction: 'player' },
+      { speaker: 'Ren', text: 'If Grado is interested in those ruins, we should investigate before they can use whatever is inside.', speakerFaction: 'player' },
       { speaker: 'Narrator', text: 'With Borgo liberated, the company sets their sights on the mysterious ruins ahead.' },
     ],
   },
@@ -104,26 +104,26 @@ export const CHAPTER_3: ChapterData = {
   ],
   supportConversations: [
     {
-      unitA: 'eirik',
-      unitB: 'natasha',
+      unitA: 'ren',
+      unitB: 'lira',
       lines: [
-        { speaker: 'Eirik', text: 'Natasha, you seem troubled. Is something on your mind?', speakerFaction: 'player' },
-        { speaker: 'Natasha', text: 'These bandits... they prey on the innocent. It fills me with resolve.', speakerFaction: 'player' },
-        { speaker: 'Eirik', text: 'Then let us fight together to protect those who cannot protect themselves.', speakerFaction: 'player' },
-        { speaker: 'Natasha', text: 'Yes. Your determination gives me courage, Eirik. I feel my faith growing stronger.', speakerFaction: 'player' },
+        { speaker: 'Ren', text: 'Lira, you seem troubled. Is something on your mind?', speakerFaction: 'player' },
+        { speaker: 'Lira', text: 'These bandits... they prey on the innocent. It fills me with resolve.', speakerFaction: 'player' },
+        { speaker: 'Ren', text: 'Then let us fight together to protect those who cannot protect themselves.', speakerFaction: 'player' },
+        { speaker: 'Lira', text: 'Yes. Your determination gives me courage, Ren. I feel my faith growing stronger.', speakerFaction: 'player' },
       ],
-      reward: { type: 'stat', unitId: 'natasha', stat: 'res', amount: 1 },
+      reward: { type: 'stat', unitId: 'lira', stat: 'res', amount: 1 },
     },
     {
-      unitA: 'seth',
-      unitB: 'lute',
+      unitA: 'kael',
+      unitB: 'senna',
       lines: [
-        { speaker: 'Seth', text: 'Lute, I have noticed you studying the enemy formations before each battle.', speakerFaction: 'player' },
-        { speaker: 'Lute', text: 'Obviously. Knowledge is the ultimate weapon. I have identified three weaknesses in their strategy.', speakerFaction: 'player' },
-        { speaker: 'Seth', text: 'Impressive. Perhaps you could brief me before we engage? Your insights could save lives.', speakerFaction: 'player' },
-        { speaker: 'Lute', text: 'Hmm. Very well. I suppose even a genius needs someone to execute the plan.', speakerFaction: 'player' },
+        { speaker: 'Kael', text: 'Senna, I have noticed you studying the enemy formations before each battle.', speakerFaction: 'player' },
+        { speaker: 'Senna', text: 'Obviously. Knowledge is the ultimate weapon. I have identified three weaknesses in their strategy.', speakerFaction: 'player' },
+        { speaker: 'Kael', text: 'Impressive. Perhaps you could brief me before we engage? Your insights could save lives.', speakerFaction: 'player' },
+        { speaker: 'Senna', text: 'Hmm. Very well. I suppose even a genius needs someone to execute the plan.', speakerFaction: 'player' },
       ],
-      reward: { type: 'stat', unitId: 'seth', stat: 'spd', amount: 1 },
+      reward: { type: 'stat', unitId: 'kael', stat: 'spd', amount: 1 },
     },
   ],
 };

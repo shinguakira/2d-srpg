@@ -10,9 +10,11 @@ export type StatGains = {
   spd: number;
   skl: number;
   lck: number;
+  cha: number;
+  wil: number;
 };
 
-const EMPTY_GAINS: StatGains = { hp: 0, str: 0, mag: 0, def: 0, res: 0, spd: 0, skl: 0, lck: 0 };
+const EMPTY_GAINS: StatGains = { hp: 0, str: 0, mag: 0, def: 0, res: 0, spd: 0, skl: 0, lck: 0, cha: 0, wil: 0 };
 
 /**
  * Calculate EXP gain from combat.
@@ -40,6 +42,8 @@ export function rollLevelUp(growthRates: GrowthRates, rng: SeededRandom): StatGa
     spd: rng.roll(growthRates.spd) ? 1 : 0,
     skl: rng.roll(growthRates.skl) ? 1 : 0,
     lck: rng.roll(growthRates.lck) ? 1 : 0,
+    cha: rng.roll(growthRates.cha) ? 1 : 0,
+    wil: rng.roll(growthRates.wil) ? 1 : 0,
   };
 }
 
@@ -57,6 +61,8 @@ export function applyStatGains(stats: UnitStats, gains: StatGains): UnitStats {
     skl: stats.skl + gains.skl,
     lck: stats.lck + gains.lck,
     mov: stats.mov, // MOV doesn't grow on level up
+    cha: stats.cha + gains.cha,
+    wil: stats.wil + gains.wil,
   };
 }
 

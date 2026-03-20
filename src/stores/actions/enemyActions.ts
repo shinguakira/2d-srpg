@@ -6,7 +6,7 @@ import type { AIAction } from '../../core/ai';
 import type { GameState, GameActions } from '../gameStoreTypes';
 import { IDLE_RESET } from '../helpers/constants';
 import { applyCombatResult } from '../helpers/combatResolution';
-import { checkVictory } from '../helpers/mapHelpers';
+import { checkVictory, getClassFlags } from '../helpers/mapHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
 
 /** Check if walk animation should be skipped (for E2E tests) */
@@ -30,7 +30,7 @@ export function computeEnemyActions(get: Get, set: Set) {
 
   for (const unit of units.values()) {
     if (unit.faction === 'enemy' && !unit.hasActed) {
-      const action = decideAction(simUnits.get(unit.id)!, gameMap, simUnits);
+      const action = decideAction(simUnits.get(unit.id)!, gameMap, simUnits, getClassFlags(unit));
       actions.push(action);
 
       // Simulate the move so the next enemy sees the updated position
@@ -43,7 +43,7 @@ export function computeEnemyActions(get: Get, set: Set) {
 }
 
 export function executeNextEnemyAction(get: Get, set: Set) {
-  const { enemyActions, enemyActionIndex, units, gameMap, rng } = get();
+  const { enemyActions, enemyActionIndex, units, gameMap } = get();
 
   if (enemyActionIndex < 0 || enemyActionIndex >= enemyActions.length) {
     // All enemies done — end enemy turn
@@ -70,7 +70,7 @@ export function executeNextEnemyAction(get: Get, set: Set) {
 
   // Start walk animation if the unit actually moves
   if (needsMove && !shouldSkipWalkAnim()) {
-    const path = getPath(unit.position, destination, unit, gameMap, units);
+    const path = getPath(unit.position, destination, unit, gameMap, units, getClassFlags(unit));
     if (path.length > 1) {
       set({
         movingUnit: { unitId: unit.id, path, stepIndex: 0, onComplete: 'enemy_action' },

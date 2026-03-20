@@ -4,6 +4,7 @@ import { getMovementRange, getFullAttackRange, getPath, getAttackTilesFrom, getM
 import { calculateCombatForecast } from '../../core/combat';
 import type { GameState, GameActions } from '../gameStoreTypes';
 import { EMPTY_SET, IDLE_RESET } from '../helpers/constants';
+import { getClassFlags } from '../helpers/mapHelpers';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -15,7 +16,8 @@ export function selectUnit(get: Get, set: Set, unitId: string) {
   if (unit.faction !== 'player') return;
   if (unit.hasActed) return;
 
-  const moveRange = getMovementRange(unit, gameMap, units);
+  const flags = getClassFlags(unit);
+  const moveRange = getMovementRange(unit, gameMap, units, flags);
   const atkRange = getFullAttackRange(unit, moveRange, gameMap);
 
   set({
@@ -44,7 +46,8 @@ export function hoverTile(get: Get, set: Set, pos: Position | null) {
     const key = posKey(pos);
     if (movementRange.has(key)) {
       const unit = units.get(selectedUnitId)!;
-      const path = getPath(unit.position, pos, unit, gameMap, units);
+      const flags = getClassFlags(unit);
+      const path = getPath(unit.position, pos, unit, gameMap, units, flags);
       set({ hoveredTile: pos, movePath: path });
       return;
     }
@@ -104,7 +107,8 @@ export function clickTile(get: Get, set: Set, pos: Position) {
 
     if (movementRange.has(key)) {
       const unit = units.get(selectedUnitId)!;
-      const path = getPath(unit.position, pos, unit, gameMap, units);
+      const flags = getClassFlags(unit);
+      const path = getPath(unit.position, pos, unit, gameMap, units, flags);
       const weapon = unit.inventory[0] ?? unit.equippedWeapon;
       const atkTiles = getAttackTilesFrom(pos, weapon, gameMap);
 

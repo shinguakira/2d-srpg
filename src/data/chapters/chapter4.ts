@@ -1,4 +1,4 @@
-import type { ChapterData, TerrainType, SupportConversation } from '../../core/types';
+import type { ChapterData, TerrainType } from '../../core/types';
 
 const P: TerrainType = 'plain';
 const F: TerrainType = 'forest';
@@ -31,10 +31,10 @@ export const CHAPTER_4: ChapterData = {
   mapHeight: 10,
   terrain,
   playerUnits: [
-    { unitId: 'eirik', position: { x: 7, y: 9 } },
-    { unitId: 'seth', position: { x: 10, y: 9 } },
-    { unitId: 'lute', position: { x: 6, y: 9 } },
-    { unitId: 'natasha', position: { x: 11, y: 9 } },
+    { unitId: 'ren', position: { x: 7, y: 9 } },
+    { unitId: 'kael', position: { x: 10, y: 9 } },
+    { unitId: 'senna', position: { x: 6, y: 9 } },
+    { unitId: 'lira', position: { x: 11, y: 9 } },
   ],
   enemyUnits: [
     { unitId: 'ch4_soldier_1', position: { x: 4, y: 7 } },
@@ -56,22 +56,22 @@ export const CHAPTER_4: ChapterData = {
   seizePosition: { x: 8, y: 0 },
   prologue: {
     lines: [
-      { speaker: 'Narrator', text: 'North of Borgo, the ancient ruins loom before Eirik\'s company. Strange sounds echo from within.' },
-      { speaker: 'Eirik', text: 'These ruins... something feels wrong. The air itself seems hostile.', speakerFaction: 'player' },
-      { speaker: 'Seth', text: 'Stay alert. The villagers spoke of monsters dwelling within these walls.', speakerFaction: 'player' },
-      { speaker: 'Lute', text: 'Fascinating. These ruins predate the founding of Renais. The magical residue here is immense.', speakerFaction: 'player' },
-      { speaker: 'Natasha', text: 'I sense a dark presence deep inside. We must be careful.', speakerFaction: 'player' },
-      { speaker: 'Eirik', text: 'We press forward. If Grado seeks something in these ruins, we must reach it first.', speakerFaction: 'player' },
+      { speaker: 'Narrator', text: 'North of Borgo, the ancient ruins loom before Ren\'s company. Strange sounds echo from within.' },
+      { speaker: 'Ren', text: 'These ruins... something feels wrong. The air itself seems hostile.', speakerFaction: 'player' },
+      { speaker: 'Kael', text: 'Stay alert. The villagers spoke of monsters dwelling within these walls.', speakerFaction: 'player' },
+      { speaker: 'Senna', text: 'Fascinating. These ruins predate the founding of Renais. The magical residue here is immense.', speakerFaction: 'player' },
+      { speaker: 'Lira', text: 'I sense a dark presence deep inside. We must be careful.', speakerFaction: 'player' },
+      { speaker: 'Ren', text: 'We press forward. If Grado seeks something in these ruins, we must reach it first.', speakerFaction: 'player' },
       { speaker: 'Narrator', text: 'The company enters the ancient temple, weapons drawn against the horrors that lurk within.' },
     ],
   },
   epilogue: {
     lines: [
-      { speaker: 'Eirik', text: 'It\'s over. Whatever dark power animated those creatures has been dispelled.', speakerFaction: 'player' },
-      { speaker: 'Lute', text: 'The magical energy here has dissipated. These ruins are inert now.', speakerFaction: 'player' },
-      { speaker: 'Seth', text: 'Princess, we should not linger. The road to Frelia lies just beyond these mountains.', speakerFaction: 'player' },
-      { speaker: 'Natasha', text: 'I\'m glad we could put those poor souls to rest.', speakerFaction: 'player' },
-      { speaker: 'Narrator', text: 'Having braved the ancient horrors, Eirik\'s company emerges from the ruins. The borders of Frelia draw near, and with them, the promise of sanctuary.' },
+      { speaker: 'Ren', text: 'It\'s over. Whatever dark power animated those creatures has been dispelled.', speakerFaction: 'player' },
+      { speaker: 'Senna', text: 'The magical energy here has dissipated. These ruins are inert now.', speakerFaction: 'player' },
+      { speaker: 'Kael', text: 'Princess, we should not linger. The road to Frelia lies just beyond these mountains.', speakerFaction: 'player' },
+      { speaker: 'Lira', text: 'I\'m glad we could put those poor souls to rest.', speakerFaction: 'player' },
+      { speaker: 'Narrator', text: 'Having braved the ancient horrors, Ren\'s company emerges from the ruins. The borders of Frelia draw near, and with them, the promise of sanctuary.' },
     ],
   },
   villages: [
@@ -98,24 +98,24 @@ export const CHAPTER_4: ChapterData = {
   ],
   supportConversations: [
     {
-      unitA: 'eirik',
-      unitB: 'seth',
+      unitA: 'ren',
+      unitB: 'kael',
       lines: [
-        { speaker: 'Eirik', text: 'Seth, these ruins... I can feel an ancient darkness within them.', speakerFaction: 'player' },
-        { speaker: 'Seth', text: 'Stay close to me. Whatever lurks here, we will face it together.', speakerFaction: 'player' },
-        { speaker: 'Eirik', text: 'You know, Seth... I have grown so much since we fled Renais. I feel stronger.', speakerFaction: 'player' },
-        { speaker: 'Seth', text: 'You have, Eirik. You are no longer just a princess. You are a warrior.', speakerFaction: 'player' },
+        { speaker: 'Ren', text: 'Kael, these ruins... I can feel an ancient darkness within them.', speakerFaction: 'player' },
+        { speaker: 'Kael', text: 'Stay close to me. Whatever lurks here, we will face it together.', speakerFaction: 'player' },
+        { speaker: 'Ren', text: 'You know, Kael... I have grown so much since we fled Renais. I feel stronger.', speakerFaction: 'player' },
+        { speaker: 'Kael', text: 'You have, Ren. You are no longer just a princess. You are a warrior.', speakerFaction: 'player' },
       ],
-      reward: { type: 'stat', unitId: 'eirik', stat: 'str', amount: 1 },
+      reward: { type: 'stat', unitId: 'ren', stat: 'str', amount: 1 },
     },
     {
-      unitA: 'lute',
-      unitB: 'natasha',
+      unitA: 'senna',
+      unitB: 'lira',
       lines: [
-        { speaker: 'Lute', text: 'These undead creatures are fascinating. Their magic is primitive but powerful.', speakerFaction: 'player' },
-        { speaker: 'Natasha', text: 'Lute! They are dangerous! Please do not get too close.', speakerFaction: 'player' },
-        { speaker: 'Lute', text: 'Relax. I have already devised a counter-spell. Here, I will teach you the incantation.', speakerFaction: 'player' },
-        { speaker: 'Natasha', text: 'That is... actually quite brilliant. Thank you, Lute.', speakerFaction: 'player' },
+        { speaker: 'Senna', text: 'These undead creatures are fascinating. Their magic is primitive but powerful.', speakerFaction: 'player' },
+        { speaker: 'Lira', text: 'Senna! They are dangerous! Please do not get too close.', speakerFaction: 'player' },
+        { speaker: 'Senna', text: 'Relax. I have already devised a counter-spell. Here, I will teach you the incantation.', speakerFaction: 'player' },
+        { speaker: 'Lira', text: 'That is... actually quite brilliant. Thank you, Senna.', speakerFaction: 'player' },
       ],
       reward: { type: 'exp_both', amount: 25 },
     },

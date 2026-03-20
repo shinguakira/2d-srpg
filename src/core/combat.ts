@@ -13,6 +13,8 @@ const WEAPON_ADVANTAGE: Partial<Record<WeaponType, WeaponType>> = {
   fire: 'wind',
   wind: 'thunder',
   thunder: 'fire',
+  light: 'dark',
+  dark: 'light',
 };
 
 export function getWeaponTriangle(attacker: WeaponType, defender: WeaponType): TriangleResult {
@@ -50,7 +52,8 @@ export type CombatForecast = {
 };
 
 function isMagicWeapon(weapon: Weapon): boolean {
-  return weapon.type === 'fire' || weapon.type === 'thunder' || weapon.type === 'wind';
+  return weapon.type === 'fire' || weapon.type === 'thunder' || weapon.type === 'wind'
+    || weapon.type === 'dark' || weapon.type === 'light';
 }
 
 function calcDamage(attacker: Unit, defender: Unit, defenderTerrain: TerrainType): number {

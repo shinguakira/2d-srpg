@@ -33,9 +33,9 @@ test.describe('Chapter 1 — Full Game Flow', () => {
     await expect(grid).toHaveAttribute('data-grid-height', '12');
 
     // Player units present
-    await expect(page.locator('[data-testid="unit-eirik"]')).toBeVisible();
-    await expect(page.locator('[data-testid="unit-seth"]')).toBeVisible();
-    await expect(page.locator('[data-testid="unit-lute"]')).toBeVisible();
+    await expect(page.locator('[data-testid="unit-ren"]')).toBeVisible();
+    await expect(page.locator('[data-testid="unit-kael"]')).toBeVisible();
+    await expect(page.locator('[data-testid="unit-senna"]')).toBeVisible();
 
     // Enemy units present
     await expect(page.locator('[data-testid="unit-fighter_1"]')).toBeVisible();
@@ -51,12 +51,12 @@ test.describe('Chapter 1 — Full Game Flow', () => {
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
     await page.waitForTimeout(300);
 
-    // Eirik at (10, 10)
-    await expect(page.locator('[data-testid="tile-10-10"] [data-testid="unit-eirik"]')).toBeVisible();
-    // Seth at (13, 10)
-    await expect(page.locator('[data-testid="tile-13-10"] [data-testid="unit-seth"]')).toBeVisible();
-    // Lute at (9, 11)
-    await expect(page.locator('[data-testid="tile-9-11"] [data-testid="unit-lute"]')).toBeVisible();
+    // Ren at (10, 10)
+    await expect(page.locator('[data-testid="tile-10-10"] [data-testid="unit-ren"]')).toBeVisible();
+    // Kael at (13, 10)
+    await expect(page.locator('[data-testid="tile-13-10"] [data-testid="unit-kael"]')).toBeVisible();
+    // Senna at (9, 11)
+    await expect(page.locator('[data-testid="tile-9-11"] [data-testid="unit-senna"]')).toBeVisible();
 
     // fighter_3 at (11, 4)
     await expect(page.locator('[data-testid="tile-11-4"] [data-testid="unit-fighter_3"]')).toBeVisible();
@@ -86,7 +86,7 @@ test.describe('Chapter 1 — Full Game Flow', () => {
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
     await page.waitForTimeout(300);
 
-    // Move Seth to attack fighter_3
+    // Move Kael to attack fighter_3
     await page.click('[data-testid="tile-13-10"]');
     await page.waitForTimeout(200);
     await page.click('[data-testid="tile-11-5"]');
@@ -101,8 +101,8 @@ test.describe('Chapter 1 — Full Game Flow', () => {
     await page.waitForTimeout(6000);
     await expect(page.locator('[data-testid="combat-animation"]')).not.toBeVisible({ timeout: 10000 });
 
-    // Capture Seth's HP after combat
-    const sethHp1 = await page.locator('[data-testid="unit-seth"]').getAttribute('data-hp');
+    // Capture Kael's HP after combat
+    const kaelHp1 = await page.locator('[data-testid="unit-kael"]').getAttribute('data-hp');
 
     // Now reload with same seed
     await page.goto('/?seed=99999&skipWalkAnim=true');
@@ -123,9 +123,9 @@ test.describe('Chapter 1 — Full Game Flow', () => {
     await page.waitForTimeout(6000);
     await expect(page.locator('[data-testid="combat-animation"]')).not.toBeVisible({ timeout: 10000 });
 
-    const sethHp2 = await page.locator('[data-testid="unit-seth"]').getAttribute('data-hp');
+    const kaelHp2 = await page.locator('[data-testid="unit-kael"]').getAttribute('data-hp');
 
     // Same seed, same moves = same result
-    expect(sethHp1).toBe(sethHp2);
+    expect(kaelHp1).toBe(kaelHp2);
   });
 });

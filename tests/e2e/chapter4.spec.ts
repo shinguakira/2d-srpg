@@ -16,10 +16,10 @@ test.describe('Chapter 4 — Ancient Horrors', () => {
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
     await page.waitForTimeout(300);
 
-    await expect(page.locator('[data-testid="tile-7-9"] [data-testid="unit-eirik"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-10-9"] [data-testid="unit-seth"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-6-9"] [data-testid="unit-lute"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-11-9"] [data-testid="unit-natasha"]')).toBeVisible();
+    await expect(page.locator('[data-testid="tile-7-9"] [data-testid="unit-ren"]')).toBeVisible();
+    await expect(page.locator('[data-testid="tile-10-9"] [data-testid="unit-kael"]')).toBeVisible();
+    await expect(page.locator('[data-testid="tile-6-9"] [data-testid="unit-senna"]')).toBeVisible();
+    await expect(page.locator('[data-testid="tile-11-9"] [data-testid="unit-lira"]')).toBeVisible();
   });
 
   test('enemy units are present and at correct positions', async ({ page }) => {

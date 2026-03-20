@@ -6,6 +6,10 @@ export function canUseItem(unit: Unit, item: ConsumableItem): boolean {
   if (item.effect.kind === 'heal') {
     return unit.currentHp < unit.stats.hp;
   }
+  if (item.effect.kind === 'promote') {
+    // Promotion items handled separately by PromotionScreen flow
+    return false;
+  }
   return false;
 }
 

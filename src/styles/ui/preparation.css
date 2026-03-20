@@ -382,3 +382,103 @@
   letter-spacing: 1px;
   flex-shrink: 0;
 }
+
+.prep-screen__promote-btn {
+  background: #fbbf24;
+  color: #1a1a2e;
+  border: none;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.prep-screen__promote-btn:hover {
+  background: #f59e0b;
+}
+
+/* ===== Skills Tab ===== */
+.prep-screen__skills-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 700px;
+}
+
+.prep-screen__skill-unit {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+
+.prep-screen__skill-unit-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.prep-screen__skill-unit-name {
+  font-weight: bold;
+  color: #f1f5f9;
+  flex: 1;
+}
+
+.prep-screen__skill-slot-count {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.prep-screen__skill-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+}
+
+.prep-screen__skill-card {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 3px;
+  border: 1px solid #475569;
+  background: #1e293b;
+  color: #e2e8f0;
+  cursor: pointer;
+}
+
+.prep-screen__skill-card--equipped {
+  background: #1e3a5f;
+  border-color: #3b82f6;
+  color: #93c5fd;
+}
+
+.prep-screen__skill-card--innate {
+  background: #1a1a2e;
+  border-color: #4b5563;
+  color: #9ca3af;
+  cursor: default;
+}
+
+.prep-screen__skill-innate-label {
+  font-size: 0.6rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.prep-screen__skill-card--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.prep-screen__skill-empty {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-style: italic;
+}

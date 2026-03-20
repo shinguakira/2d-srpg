@@ -4,9 +4,27 @@ import { PLAYER_UNITS } from '../data/units';
 import { WEAPONS } from '../data/weapons';
 import { ITEMS } from '../data/items';
 import { BattleSprite } from './Combat/BattleSprite';
+import { PromotionScreen } from './UI/PromotionScreen';
+import { canPromote, getPromotionOptions, getMatchingPromotionItem, applyPromotion, calculateSkillSlots } from '../core/promotion';
+import { canTeach, getTeachingCost } from '../core/teaching';
+import { SKILLS } from '../data/skills';
+import { ALL_CLASSES } from '../data/promotedClasses';
 import type { Unit, Weapon, ConsumableItem, SupportConversation } from '../core/types';
 
-type Tab = 'units' | 'storage' | 'support';
+type Tab = 'units' | 'storage' | 'support' | 'skills' | 'teaching';
+
+/** Build a minimal Unit-like object from PrepUnit for promotion functions */
+function prepToUnit(u: PrepUnit): Unit {
+  return {
+    id: u.id, name: u.name, classId: u.classId,
+    level: u.level, exp: u.exp, stats: u.stats,
+    currentHp: u.stats.hp, inventory: u.weapons,
+    items: u.items, skills: u.skills, learnedSkills: u.learnedSkills,
+    faction: 'player', ai: 'stationary',
+    position: { x: 0, y: 0 }, equippedWeapon: u.weapons[0] ?? null,
+    hasActed: false, facing: 'down', sprite: '',
+  } as Unit;
+}
 
 type PrepUnit = {
   id: string;
@@ -17,6 +35,8 @@ type PrepUnit = {
   stats: Unit['stats'];
   weapons: Weapon[];
   items: ConsumableItem[];
+  skills: string[];
+  learnedSkills: string[];
 };
 
 export function PreparationScreen() {
@@ -45,6 +65,7 @@ export function PreparationScreen() {
     // Auto-deploy force-deploy units
     return [...forceDeploy];
   });
+  const [promotingUnit, setPromotingUnit] = useState<PrepUnit | null>(null);
 
   function buildPrepUnit(unitId: string): PrepUnit | null {
     const template = PLAYER_UNITS[unitId];
@@ -59,12 +80,14 @@ export function PreparationScreen() {
     return {
       id: template.id,
       name: template.name,
-      classId: template.classId,
+      classId: progress?.classId ?? template.classId,
       level: progress?.level ?? template.level,
       exp: progress?.exp ?? template.exp,
       stats: progress ? { ...progress.stats } : { ...template.stats },
       weapons,
       items,
+      skills: progress?.skillIds ?? template.skills ?? [],
+      learnedSkills: progress?.learnedSkillIds ?? template.learnedSkills ?? [],
     };
   }
 
@@ -180,6 +203,29 @@ export function PreparationScreen() {
     });
   }, [forceDeploy, maxDeploy]);
 
+  // Promotion confirm: apply promotion, remove item, update unit
+  const handlePromotionConfirm = useCallback((classId: string) => {
+    if (!promotingUnit) return;
+    setUnits((prev) =>
+      prev.map((u) => {
+        if (u.id !== promotingUnit.id) return u;
+        const unitLike = prepToUnit(u);
+        const promoted = applyPromotion(unitLike, classId);
+        const itemIdx = getMatchingPromotionItem(unitLike);
+        const newItems = itemIdx >= 0 ? u.items.filter((_, i) => i !== itemIdx) : u.items;
+        return {
+          ...u,
+          classId: promoted.classId,
+          stats: promoted.stats,
+          items: newItems,
+          skills: u.skills,
+          learnedSkills: u.learnedSkills,
+        };
+      })
+    );
+    setPromotingUnit(null);
+  }, [promotingUnit]);
+
   // Start battle — persist changes to campaign store
   const handleStartBattle = useCallback(() => {
     // Save unit changes back to unitProgress
@@ -191,6 +237,9 @@ export function PreparationScreen() {
         stats: { ...u.stats },
         weaponIds: u.weapons.map((w) => w.id),
         itemIds: u.items.map((i) => i.id),
+        classId: u.classId,
+        skillIds: u.skills,
+        learnedSkillIds: u.learnedSkills,
       };
     }
     const allViewed = [...viewedSupports, ...completedSupports];
@@ -255,6 +304,14 @@ export function PreparationScreen() {
         <button className={`prep-screen__tab ${tab === 'support' ? 'prep-screen__tab--active' : ''}`} onClick={() => setTab('support')}>
           Support {availableSupports.length > 0 && <span className="prep-screen__tab-badge">{availableSupports.length}</span>}
         </button>
+        <button className={`prep-screen__tab ${tab === 'skills' ? 'prep-screen__tab--active' : ''}`} data-testid="skill-tab" onClick={() => setTab('skills')}>
+          Skills
+        </button>
+        {roster.includes('ren') && (
+          <button className={`prep-screen__tab ${tab === 'teaching' ? 'prep-screen__tab--active' : ''}`} data-testid="teaching-tab" onClick={() => setTab('teaching')}>
+            Teaching
+          </button>
+        )}
       </div>
 
       {hasDeploymentSlots && (
@@ -287,6 +344,20 @@ export function PreparationScreen() {
                   </button>
                 )}
                 {isDead && <div className="prep-screen__dead-label">Fallen</div>}
+                {!isDead && (() => {
+                  const unitLike = prepToUnit(unit);
+                  const eligible = canPromote(unitLike) && getMatchingPromotionItem(unitLike) >= 0;
+                  if (!eligible) return null;
+                  return (
+                    <button
+                      className="prep-screen__promote-btn"
+                      data-testid={`promote-btn-${unit.id}`}
+                      onClick={(e) => { e.stopPropagation(); setPromotingUnit(unit); }}
+                    >
+                      Promote
+                    </button>
+                  );
+                })()}
                 <div className="prep-screen__unit-sprite">
                   <BattleSprite classId={unit.classId} faction="player" />
                 </div>
@@ -400,6 +471,187 @@ export function PreparationScreen() {
             )}
           </div>
         )}
+
+        {tab === 'skills' && (
+          <div className="prep-screen__skills-tab">
+            {units.map((unit) => {
+              const maxSlots = calculateSkillSlots(unit.level);
+              const cls = ALL_CLASSES[unit.classId];
+              const innateSkills = cls?.innateSkills ?? [];
+              return (
+                <div key={unit.id} className="prep-screen__skill-unit" data-testid={`skill-unit-${unit.id}`}>
+                  <div className="prep-screen__skill-unit-header">
+                    <BattleSprite classId={unit.classId} faction="player" />
+                    <span className="prep-screen__skill-unit-name">{unit.name}</span>
+                    <span className="prep-screen__skill-slot-count" data-testid={`skill-slot-count-${unit.id}`}>
+                      {unit.skills.length}/{maxSlots} slots
+                    </span>
+                  </div>
+
+                  {/* Innate class skills */}
+                  {innateSkills.length > 0 && (
+                    <div className="prep-screen__skill-section">
+                      {innateSkills.map((sid) => {
+                        const skill = SKILLS[sid];
+                        if (!skill) return null;
+                        return (
+                          <span key={sid} className="prep-screen__skill-card prep-screen__skill-card--innate">
+                            {skill.name} <span className="prep-screen__skill-innate-label">Innate</span>
+                          </span>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {/* Equipped skills (click to unequip) */}
+                  {unit.skills.length > 0 && (
+                    <div className="prep-screen__skill-section">
+                      {unit.skills.map((sid) => {
+                        const skill = SKILLS[sid];
+                        if (!skill) return null;
+                        return (
+                          <button
+                            key={sid}
+                            className="prep-screen__skill-card prep-screen__skill-card--equipped"
+                            data-testid={`skill-unequip-${sid}`}
+                            onClick={() => {
+                              setUnits((prev) =>
+                                prev.map((u) =>
+                                  u.id === unit.id
+                                    ? { ...u, skills: u.skills.filter((s) => s !== sid) }
+                                    : u
+                                )
+                              );
+                            }}
+                          >
+                            {skill.name} ✕
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {/* Learned skills not yet equipped (click to equip) */}
+                  {unit.learnedSkills.filter((s) => !unit.skills.includes(s)).length > 0 && (
+                    <div className="prep-screen__skill-section">
+                      {unit.learnedSkills.filter((s) => !unit.skills.includes(s)).map((sid) => {
+                        const skill = SKILLS[sid];
+                        if (!skill) return null;
+                        const atCapacity = unit.skills.length >= maxSlots;
+                        return (
+                          <button
+                            key={sid}
+                            className={`prep-screen__skill-card ${atCapacity ? 'prep-screen__skill-card--disabled' : ''}`}
+                            data-testid={`skill-equip-${sid}`}
+                            disabled={atCapacity}
+                            onClick={() => {
+                              if (atCapacity) return;
+                              setUnits((prev) =>
+                                prev.map((u) =>
+                                  u.id === unit.id
+                                    ? { ...u, skills: [...u.skills, sid] }
+                                    : u
+                                )
+                              );
+                            }}
+                          >
+                            + {skill.name}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {unit.learnedSkills.length === 0 && innateSkills.length === 0 && unit.skills.length === 0 && (
+                    <div className="prep-screen__skill-empty">No skills learned</div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {tab === 'teaching' && (() => {
+          const ren = units.find((u) => u.id === 'ren');
+          if (!ren) return <div className="prep-screen__empty">Ren is not in your roster.</div>;
+
+          // All skills Ren knows (equipped + learned)
+          const renSkills = [...new Set([...ren.skills, ...ren.learnedSkills])];
+          const otherUnits = units.filter((u) => u.id !== 'ren');
+
+          return (
+            <div className="prep-screen__skills-tab">
+              <div className="prep-screen__skill-unit">
+                <div className="prep-screen__skill-unit-header">
+                  <BattleSprite classId={ren.classId} faction="player" />
+                  <span className="prep-screen__skill-unit-name">Ren&apos;s Teachable Skills</span>
+                </div>
+                {renSkills.length === 0 ? (
+                  <div className="prep-screen__skill-empty">Ren has no skills to teach</div>
+                ) : (
+                  <div className="prep-screen__skill-section">
+                    {renSkills.map((sid) => {
+                      const skill = SKILLS[sid];
+                      if (!skill) return null;
+                      const cost = getTeachingCost(sid);
+                      return (
+                        <span key={sid} className="prep-screen__skill-card prep-screen__skill-card--equipped">
+                          {skill.name} <span style={{ fontSize: '0.6rem', opacity: 0.6 }}>({cost.loop} LOOP)</span>
+                        </span>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              {otherUnits.map((student) => {
+                const teachable = renSkills.filter((sid) => {
+                  const studentUnit = prepToUnit(student);
+                  const renUnit = prepToUnit(ren);
+                  return canTeach(renUnit, studentUnit, sid).eligible;
+                });
+                // Check why teaching is blocked (show message)
+                const anyBlocked = renSkills.some((sid) => {
+                  const renUnit = prepToUnit(ren);
+                  const studentUnit = prepToUnit(student);
+                  const result = canTeach(renUnit, studentUnit, sid);
+                  return !result.eligible && result.reason?.includes('LOOP');
+                });
+
+                return (
+                  <div key={student.id} className="prep-screen__skill-unit" data-testid={`teach-student-${student.id}`}>
+                    <div className="prep-screen__skill-unit-header">
+                      <BattleSprite classId={student.classId} faction="player" />
+                      <span className="prep-screen__skill-unit-name">{student.name}</span>
+                    </div>
+                    {teachable.length > 0 ? (
+                      <div className="prep-screen__skill-section">
+                        {teachable.map((sid) => {
+                          const skill = SKILLS[sid];
+                          if (!skill) return null;
+                          return (
+                            <button
+                              key={sid}
+                              className="prep-screen__skill-card"
+                              data-testid={`teach-skill-${sid}`}
+                              disabled
+                            >
+                              + {skill.name}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <div className="prep-screen__skill-empty">
+                        {anyBlocked ? 'Teaching requires LOOP (available in later chapters)' : 'No new skills to teach'}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })()}
       </div>
 
       <div className="prep-screen__actions">
@@ -412,6 +664,15 @@ export function PreparationScreen() {
           Start Battle{hasDeploymentSlots ? ` (${deployedIds.length}/${maxDeploy})` : ''}
         </button>
       </div>
+
+      {promotingUnit && (
+        <PromotionScreen
+          unitName={promotingUnit.name}
+          options={getPromotionOptions(prepToUnit(promotingUnit))}
+          onConfirm={handlePromotionConfirm}
+          onCancel={() => setPromotingUnit(null)}
+        />
+      )}
     </div>
   );
 }

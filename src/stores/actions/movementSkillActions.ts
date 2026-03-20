@@ -103,6 +103,8 @@ export function executeSwap(get: Get, set: Set) {
     newUnits.set(ally.id, { ...ally, position: { ...pendingPosition } });
 
     const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
+    // Clear unit's original tile before setting new positions
+    newTiles[unit.position.y][unit.position.x].occupantId = null;
     newTiles[pendingPosition.y][pendingPosition.x].occupantId = ally.id;
     newTiles[adjPos.y][adjPos.x].occupantId = unit.id;
 

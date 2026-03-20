@@ -1,0 +1,136 @@
+/* ===== Trade UI ===== */
+.trade-ui {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+  min-width: 400px;
+  z-index: 100;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  color: #e2e8f0;
+  font-family: monospace;
+}
+
+.trade-ui__header {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #fbbf24;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.trade-ui__columns {
+  display: flex;
+  gap: 0;
+  align-items: flex-start;
+}
+
+.trade-ui__column {
+  flex: 1;
+  min-width: 160px;
+}
+
+.trade-ui__divider {
+  width: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  align-self: stretch;
+  margin: 0 8px;
+}
+
+.trade-ui__unit-name {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 8px;
+  color: #93c5fd;
+}
+
+.trade-ui__items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.trade-ui__empty {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 12px;
+  text-align: center;
+  padding: 8px;
+}
+
+.trade-ui__item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  color: #e2e8f0;
+  font-family: monospace;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.trade-ui__item:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #fbbf24;
+}
+
+.trade-ui__uses {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 11px;
+  margin-left: auto;
+}
+
+.trade-ui__arrow {
+  color: #fbbf24;
+  font-size: 14px;
+}
+
+.trade-ui__actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.trade-ui__btn {
+  padding: 6px 18px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 13px;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: background 0.15s;
+}
+
+.trade-ui__btn--confirm {
+  background: #166534;
+  color: #e2e8f0;
+}
+
+.trade-ui__btn--confirm:hover:not(:disabled) {
+  background: #15803d;
+}
+
+.trade-ui__btn--confirm:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.trade-ui__btn--cancel {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e2e8f0;
+}
+
+.trade-ui__btn--cancel:hover {
+  background: rgba(255, 255, 255, 0.15);
+}

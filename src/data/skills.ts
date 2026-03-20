@@ -127,4 +127,24 @@ export const SKILLS: Record<string, Skill> = {
     description: 'Move an adjacent ally to the opposite side of this unit.',
     activation: { type: 'passive' },
   },
+
+  // --- Support Skills ---
+  dance: {
+    id: 'dance', name: 'Dance', category: 'support',
+    description: 'Refresh an adjacent ally so they can act again.',
+    activation: { type: 'passive' },
+    isInnate: true,
+  },
+  steal: {
+    id: 'steal', name: 'Steal', category: 'support',
+    description: 'Take a non-equipped item from adjacent enemy.',
+    activation: { type: 'passive' },
+    isInnate: true,
+  },
+  lockpick_skill: {
+    id: 'lockpick_skill', name: 'Lockpick', category: 'support',
+    description: 'Open chests and doors without a key.',
+    activation: { type: 'passive' },
+    isInnate: true,
+  },
 };

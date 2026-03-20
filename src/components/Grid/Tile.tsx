@@ -12,6 +12,7 @@ type TileProps = {
   isTerrainChanging?: boolean;
   isUnitSpawning?: boolean;
   isUnitRemoving?: boolean;
+  isUnitRefreshed?: boolean;
   onClick: () => void;
   onMouseEnter: () => void;
 };
@@ -25,6 +26,7 @@ export const Tile = memo(function Tile({
   isTerrainChanging,
   isUnitSpawning,
   isUnitRemoving,
+  isUnitRefreshed,
   onClick,
   onMouseEnter,
 }: TileProps) {
@@ -43,7 +45,7 @@ export const Tile = memo(function Tile({
       onMouseEnter={onMouseEnter}
     >
       <TerrainSprite terrain={tile.terrain} size={tileSize} visited={visited} />
-      {unit && <UnitSprite unit={unit} tileSize={tileSize} isSelected={isSelected} isSpawning={isUnitSpawning} isRemoving={isUnitRemoving} />}
+      {unit && <UnitSprite unit={unit} tileSize={tileSize} isSelected={isSelected} isSpawning={isUnitSpawning} isRemoving={isUnitRemoving} isRefreshed={isUnitRefreshed} />}
     </div>
   );
 });

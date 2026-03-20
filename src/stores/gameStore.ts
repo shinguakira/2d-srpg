@@ -23,6 +23,11 @@ import { advanceEventDialogue, dismissEventDialogue } from './actions/eventActio
 import { startTalk } from './actions/recruitActions';
 import { executeShove, executeSwap, executeReposition } from './actions/movementSkillActions';
 import { confirmCantoMove } from './actions/cantoActions';
+import { startDanceTargeting, confirmDance } from './actions/danceActions';
+import { startStealTargeting, confirmSteal } from './actions/stealActions';
+import { startRescueTargeting, confirmRescue, startDropTargeting, confirmDrop } from './actions/rescueActions';
+import { executeLockpick } from './actions/lockpickActions';
+import { startTradeTargeting, confirmTrade } from './actions/tradeActions';
 
 export const useGameStore = create<GameState & GameActions>((set, get) => ({
   gameMap: EMPTY_MAP,
@@ -81,6 +86,16 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   cantoRemainingMov: 0,
   allyActions: [],
   allyActionIndex: -1,
+  openedChests: new Set(),
+  danceableTiles: EMPTY_SET,
+  stealableTiles: EMPTY_SET,
+  rescuableTiles: EMPTY_SET,
+  droppableTiles: EMPTY_SET,
+  tradableTiles: EMPTY_SET,
+  tradePartnerId: null,
+  refreshedUnitIds: new Set(),
+  stealAnimationData: null,
+  rescueAnimationData: null,
 
   // Init
   initChapter: (chapter, seed = 12345, unitProgress?, deployedUnitIds?) => initChapter(get, set, chapter, seed, unitProgress, deployedUnitIds),
@@ -160,6 +175,27 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   shove: () => executeShove(get, set),
   swap: () => executeSwap(get, set),
   reposition: () => executeReposition(get, set),
+
+  // Dance
+  startDanceTargeting: () => startDanceTargeting(get, set),
+  confirmDance: (targetId) => confirmDance(get, set, targetId),
+
+  // Steal
+  startStealTargeting: () => startStealTargeting(get, set),
+  confirmSteal: (targetId) => confirmSteal(get, set, targetId),
+
+  // Rescue / Drop
+  startRescueTargeting: () => startRescueTargeting(get, set),
+  confirmRescue: (targetId) => confirmRescue(get, set, targetId),
+  startDropTargeting: () => startDropTargeting(get, set),
+  confirmDrop: (pos) => confirmDrop(get, set, pos),
+
+  // Lockpick
+  lockpick: () => executeLockpick(get, set),
+
+  // Trade
+  startTradeTargeting: () => startTradeTargeting(get, set),
+  confirmTrade: (targetId, swaps) => confirmTrade(get, set, targetId, swaps),
 
   // Canto
   confirmCantoMove: (pos) => confirmCantoMove(get, set, pos),

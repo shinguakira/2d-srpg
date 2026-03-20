@@ -10,7 +10,7 @@ export function refreshDangerZone(get: () => GameState & GameActions, set: (s: P
   const { units, gameMap } = get();
   const enemies: Unit[] = [];
   for (const u of units.values()) {
-    if (u.faction === 'enemy') enemies.push(u);
+    if (u.faction === 'enemy' && !u.isHidden) enemies.push(u);
   }
   if (enemies.length === 0) {
     set({ dangerZone: EMPTY_SET, showDangerZone: false });

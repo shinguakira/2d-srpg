@@ -44,6 +44,7 @@ export function checkSkillActivation(unit: Unit, skillId: string, rng: RNG): boo
       const hpPct = (unit.currentHp / unit.stats.hp) * 100;
       return hpPct <= act.threshold;
     }
+    default: return false;
   }
 }
 

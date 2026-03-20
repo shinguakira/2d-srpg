@@ -15,13 +15,15 @@ type Tab = 'units' | 'storage' | 'support' | 'skills' | 'teaching';
 
 /** Build a minimal Unit-like object from PrepUnit for promotion functions */
 function prepToUnit(u: PrepUnit): Unit {
+  const weapon = u.weapons[0];
+  if (!weapon) throw new Error(`Unit ${u.name} has no weapons equipped`);
   return {
     id: u.id, name: u.name, classId: u.classId,
     level: u.level, exp: u.exp, stats: u.stats,
     currentHp: u.stats.hp, inventory: u.weapons,
     items: u.items, skills: u.skills, learnedSkills: u.learnedSkills,
-    faction: 'player', ai: 'stationary',
-    position: { x: 0, y: 0 }, equippedWeapon: u.weapons[0] ?? null,
+    faction: 'player',
+    position: { x: 0, y: 0 }, equippedWeapon: weapon,
     hasActed: false, facing: 'down', sprite: '',
   } as Unit;
 }

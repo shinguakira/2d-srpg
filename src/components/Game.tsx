@@ -16,6 +16,7 @@ import { LevelUpPopup } from './Combat/LevelUpPopup';
 import { ExpBar } from './Combat/ExpBar';
 import { EventDialogue } from './UI/EventDialogue';
 import { UnitDetailScreen } from './UI/UnitDetailScreen';
+import { TradeUI } from './UI/TradeUI';
 import { useGameStore } from '../stores/gameStore';
 import { useUIStore } from '../stores/uiStore';
 import { useCampaignStore } from '../stores/campaignStore';
@@ -114,6 +115,7 @@ export function Game() {
       <LevelUpPopup />
       <ReinforcementBanner />
       <UnitDetailScreen />
+      <TradeUI />
       <PhaseBanner />
 
       {/* Game Over overlay */}

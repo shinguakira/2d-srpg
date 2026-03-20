@@ -68,4 +68,23 @@ export const ITEMS: Record<string, ConsumableItem> = {
     maxUses: 1,
     effect: { kind: 'promote', eligibleClasses: [] }, // universal promoted → master
   },
+
+  // ===== Keys =====
+
+  door_key: {
+    id: 'door_key',
+    name: 'Door Key',
+    type: 'consumable',
+    uses: 1,
+    maxUses: 1,
+    effect: { kind: 'unlock', targetTerrain: 'door' },
+  },
+  chest_key: {
+    id: 'chest_key',
+    name: 'Chest Key',
+    type: 'consumable',
+    uses: 1,
+    maxUses: 1,
+    effect: { kind: 'unlock', targetTerrain: 'chest' },
+  },
 };

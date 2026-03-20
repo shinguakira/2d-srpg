@@ -45,6 +45,17 @@ export function applyCombatResult(
     }
     newUnits.delete(defenderId);
     newTiles[defender.position.y][defender.position.x].occupantId = null;
+    // Carrier death: carried unit also dies
+    if (defender.carriedUnitId) {
+      const carried = newUnits.get(defender.carriedUnitId);
+      if (carried) {
+        if (carried.faction === 'player' && carried.deathQuote && !deathQuote) {
+          deathQuote = { unitName: carried.name, quote: carried.deathQuote };
+        }
+        if (carried.faction === 'player' && carried.isLord) lordDied = true;
+        newUnits.delete(defender.carriedUnitId);
+      }
+    }
   }
   if (combatResult.attackerDied) {
     if (attacker.faction === 'player' && attacker.deathQuote) {
@@ -55,6 +66,17 @@ export function applyCombatResult(
     }
     newUnits.delete(attackerId);
     newTiles[attacker.position.y][attacker.position.x].occupantId = null;
+    // Carrier death: carried unit also dies
+    if (attacker.carriedUnitId) {
+      const carried = newUnits.get(attacker.carriedUnitId);
+      if (carried) {
+        if (carried.faction === 'player' && carried.deathQuote && !deathQuote) {
+          deathQuote = { unitName: carried.name, quote: carried.deathQuote };
+        }
+        if (carried.faction === 'player' && carried.isLord) lordDied = true;
+        newUnits.delete(attacker.carriedUnitId);
+      }
+    }
   }
 
   // Generate floating damage numbers

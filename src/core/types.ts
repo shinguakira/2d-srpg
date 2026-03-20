@@ -88,7 +88,8 @@ export type Weapon = {
 
 export type ItemEffect =
   | { readonly kind: 'heal'; readonly amount: number }
-  | { readonly kind: 'promote'; readonly eligibleClasses: string[] };
+  | { readonly kind: 'promote'; readonly eligibleClasses: string[] }
+  | { readonly kind: 'unlock'; readonly targetTerrain: 'door' | 'chest' };
 
 export type ConsumableItem = {
   readonly id: string;
@@ -152,7 +153,7 @@ export type UnitClass = {
 export type AIBehavior =
   | { readonly type: 'aggressive' }
   | { readonly type: 'stationary' }
-  | { readonly type: 'guard'; readonly radius: number }
+  | { readonly type: 'guard'; readonly radius: number; readonly patrolPath?: readonly Position[] }
   | { readonly type: 'boss' }
   | { readonly type: 'survival' }
   | { readonly type: 'thief'; readonly targetPosition?: Position }
@@ -187,6 +188,10 @@ export type Unit = {
   recruitCondition?: 'talk' | 'visit_village' | 'event' | 'defection';
   skills: string[];
   learnedSkills: string[];
+  isHidden?: boolean;
+  carriedUnitId?: string;
+  isCarried?: boolean;
+  originalStats?: UnitStats;
 };
 
 // ===== Game State =====
@@ -203,7 +208,12 @@ export type PlayerAction =
   | 'confirm'
   | 'village_visit'
   | 'talk_target'
-  | 'canto_move';
+  | 'canto_move'
+  | 'dance_target'
+  | 'steal_target'
+  | 'rescue_target'
+  | 'drop_target'
+  | 'trade_target';
 
 // ===== Chapter =====
 
@@ -248,6 +258,11 @@ export type SupportReward =
   | { readonly type: 'stat'; readonly unitId: string; readonly stat: keyof Omit<UnitStats, 'mov'>; readonly amount: number }
   | { readonly type: 'exp_both'; readonly amount: number };
 
+export type ChestData = {
+  readonly position: Position;
+  readonly reward: VillageReward;
+};
+
 export type ChapterData = {
   readonly id: string;
   readonly name: string;
@@ -261,6 +276,7 @@ export type ChapterData = {
   readonly prologue?: DialogueScene;
   readonly epilogue?: DialogueScene;
   readonly villages?: VillageData[];
+  readonly chests?: ChestData[];
   readonly seizePosition?: Position;
   readonly reinforcements?: ReinforcementWave[];
   readonly supportConversations?: SupportConversation[];

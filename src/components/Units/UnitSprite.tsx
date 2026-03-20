@@ -8,14 +8,16 @@ type UnitSpriteProps = {
   isSelected?: boolean;
   isSpawning?: boolean;
   isRemoving?: boolean;
+  isRefreshed?: boolean;
 };
 
-export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected, isSpawning, isRemoving }: UnitSpriteProps) {
+export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected, isSpawning, isRemoving, isRefreshed }: UnitSpriteProps) {
   const hpPercent = Math.max(0, (unit.currentHp / unit.stats.hp) * 100);
   const hpColor = hpPercent > 50 ? '#22c55e' : hpPercent > 25 ? '#eab308' : '#ef4444';
   const c = FACTION_COLORS[unit.faction];
   const animClass = isSpawning ? 'unit-sprite--spawning'
     : isRemoving ? 'unit-sprite--removing'
+    : isRefreshed ? 'unit-sprite--refreshed'
     : isSelected ? 'unit-sprite--selected'
     : !unit.hasActed ? 'unit-sprite--idle' : '';
 
@@ -83,6 +85,18 @@ export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected,
           }}
         />
       </div>
+
+      {/* Carry badge — small person icon when rescuing */}
+      {unit.carriedUnitId && (
+        <svg
+          className="unit-sprite__carry-badge"
+          viewBox="0 0 10 10"
+          data-testid={`carry-badge-${unit.id}`}
+        >
+          <circle cx="5" cy="2.5" r="1.8" fill="#60a5fa" stroke="#1e3a5f" strokeWidth="0.5" />
+          <path d="M5 4.5 L5 7.5 M3 5.5 L7 5.5 M3.5 10 L5 7.5 L6.5 10" stroke="#60a5fa" strokeWidth="0.8" fill="none" strokeLinecap="round" />
+        </svg>
+      )}
     </div>
   );
 });

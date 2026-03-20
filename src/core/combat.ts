@@ -245,18 +245,40 @@ export function resolveCombat(
             baseDamage = defHp; // kill
           }
 
-          // Extra hits from Astra/Adept
+          // Extra hits from Astra/Adept — each goes through defense skills
           if (skillResult.bonusHits > 0) {
-            // Process bonus hits inline
+            const isMagic = isMagicWeapon(attackerUnit.equippedWeapon);
             for (let i = 0; i < skillResult.bonusHits; i++) {
-              defHp = Math.max(0, defHp - baseDamage);
               if (defHp <= 0) break;
+              let bonusDmg = baseDamage;
+              let bonusMiracled = false;
+
+              // Defense skills on each bonus hit
+              if (defenderUnit && !atkNihil) {
+                const bonusDefResult = resolveDefenseSkills(
+                  { ...defenderUnit, currentHp: defHp } as Unit,
+                  bonusDmg, isMagic, rng,
+                );
+                if (bonusDefResult.skillId) {
+                  bonusDmg = bonusDefResult.reducedDamage;
+                  bonusMiracled = bonusDefResult.miracleSaved;
+                }
+              }
+
+              defHp = Math.max(0, defHp - bonusDmg);
+              hits.push({
+                attackerIsInitiator: true, hit: true, crit: false,
+                damage: bonusDmg, targetHpAfter: defHp,
+                targetKilled: defHp <= 0,
+                activatedSkill: skillResult.skillId,
+                healedAmount: 0, miracleSaved: bonusMiracled,
+              });
             }
           }
         }
       }
 
-      // Defense skills on defender (disabled if attacker has Nihil)
+      // Defense skills on main hit (disabled if attacker has Nihil)
       if (didHit && baseDamage > 0 && defenderUnit && !atkNihil) {
         const defResult = resolveDefenseSkills(
           { ...defenderUnit, currentHp: defHp } as Unit,
@@ -269,6 +291,11 @@ export function resolveCombat(
           baseDamage = defResult.reducedDamage;
           miracleSaved = defResult.miracleSaved;
         }
+      }
+
+      // Sol heals based on post-defense-skill damage (not pre-reduction)
+      if (healedAmount > 0) {
+        healedAmount = baseDamage;
       }
 
       defHp = Math.max(0, defHp - baseDamage);
@@ -304,16 +331,40 @@ export function resolveCombat(
             baseDamage = atkHp;
           }
 
+          // Extra hits from Astra/Adept — each goes through defense skills
           if (skillResult.bonusHits > 0) {
+            const isMagic = isMagicWeapon(defenderUnit.equippedWeapon);
             for (let i = 0; i < skillResult.bonusHits; i++) {
-              atkHp = Math.max(0, atkHp - baseDamage);
               if (atkHp <= 0) break;
+              let bonusDmg = baseDamage;
+              let bonusMiracled = false;
+
+              // Defense skills on each bonus hit
+              if (attackerUnit && !defNihil) {
+                const bonusDefResult = resolveDefenseSkills(
+                  { ...attackerUnit, currentHp: atkHp } as Unit,
+                  bonusDmg, isMagic, rng,
+                );
+                if (bonusDefResult.skillId) {
+                  bonusDmg = bonusDefResult.reducedDamage;
+                  bonusMiracled = bonusDefResult.miracleSaved;
+                }
+              }
+
+              atkHp = Math.max(0, atkHp - bonusDmg);
+              hits.push({
+                attackerIsInitiator: false, hit: true, crit: false,
+                damage: bonusDmg, targetHpAfter: atkHp,
+                targetKilled: atkHp <= 0,
+                activatedSkill: skillResult.skillId,
+                healedAmount: 0, miracleSaved: bonusMiracled,
+              });
             }
           }
         }
       }
 
-      // Defense skills on attacker (disabled if defender has Nihil)
+      // Defense skills on main hit (disabled if defender has Nihil)
       if (didHit && baseDamage > 0 && attackerUnit && !defNihil) {
         const defResult = resolveDefenseSkills(
           { ...attackerUnit, currentHp: atkHp } as Unit,
@@ -326,6 +377,11 @@ export function resolveCombat(
           baseDamage = defResult.reducedDamage;
           miracleSaved = defResult.miracleSaved;
         }
+      }
+
+      // Sol heals based on post-defense-skill damage (not pre-reduction)
+      if (healedAmount > 0) {
+        healedAmount = baseDamage;
       }
 
       atkHp = Math.max(0, atkHp - baseDamage);

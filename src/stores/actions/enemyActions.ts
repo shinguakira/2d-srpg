@@ -1,8 +1,8 @@
 import { posKey } from '../../core/types';
 import { getManhattanDistance, getPath } from '../../core/pathfinding';
-import { calculateCombatForecast, resolveCombat } from '../../core/combat';
+import { calculateCombatForecast, resolveCombat, resolveHealing } from '../../core/combat';
 import { decideAction } from '../../core/ai';
-import type { AIAction } from '../../core/ai';
+import type { AIAction, AIContext } from '../../core/ai';
 import type { GameState, GameActions } from '../gameStoreTypes';
 import { IDLE_RESET } from '../helpers/constants';
 import { applyCombatResult } from '../helpers/combatResolution';
@@ -20,8 +20,10 @@ type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
 
 export function computeEnemyActions(get: Get, set: Set) {
-  const { units, gameMap } = get();
+  const { units, gameMap, visitedVillages, openedChests } = get();
   const actions: AIAction[] = [];
+
+  const ctx: AIContext = { visitedVillages, openedChests };
 
   // Use a mutable copy of units so each enemy sees previous enemies' planned positions
   const simUnits = new Map(units);
@@ -31,7 +33,7 @@ export function computeEnemyActions(get: Get, set: Set) {
 
   for (const unit of units.values()) {
     if (unit.faction === 'enemy' && !unit.hasActed) {
-      const action = decideAction(simUnits.get(unit.id)!, gameMap, simUnits, getClassFlags(unit));
+      const action = decideAction(simUnits.get(unit.id)!, gameMap, simUnits, getClassFlags(unit), ctx);
       actions.push(action);
 
       // Simulate the move so the next enemy sees the updated position
@@ -98,8 +100,78 @@ function finalizeEnemyAction(
     newTiles[destination.y][destination.x].occupantId = unit.id;
   }
   const moveFacing = deriveFacing(unit.position, destination);
-  const movedUnit = { ...unit, position: { ...destination }, facing: moveFacing };
+  let movedUnit = { ...unit, position: { ...destination }, facing: moveFacing };
+
+  // Handle ambush reveal
+  if (action.reveal && movedUnit.isHidden) {
+    movedUnit = { ...movedUnit, isHidden: false };
+  }
+
   newUnits.set(unit.id, movedUnit);
+
+  // Handle healer AI staff healing
+  if (action.healTargetId) {
+    const healTarget = newUnits.get(action.healTargetId);
+    if (healTarget) {
+      const result = resolveHealing(movedUnit, healTarget);
+      newUnits.set(action.healTargetId, { ...healTarget, currentHp: result.targetHpAfter });
+    }
+    newUnits.set(unit.id, { ...movedUnit, hasActed: true });
+    set({
+      units: newUnits,
+      gameMap: { ...gameMap, tiles: newTiles },
+      enemyActionIndex: enemyActionIndex + 1,
+    });
+    return;
+  }
+
+  // Handle AI item usage (survival AI self-heal)
+  if (action.useItemIndex != null && action.useItemIndex >= 0) {
+    const item = movedUnit.items[action.useItemIndex];
+    if (item && item.effect.kind === 'heal') {
+      const healAmount = Math.min(item.effect.amount, movedUnit.stats.hp - movedUnit.currentHp);
+      const newItems = [...movedUnit.items];
+      newItems[action.useItemIndex] = { ...item, uses: item.uses - 1 };
+      if (newItems[action.useItemIndex].uses <= 0) newItems.splice(action.useItemIndex, 1);
+      newUnits.set(unit.id, { ...movedUnit, currentHp: movedUnit.currentHp + healAmount, items: newItems, hasActed: true });
+    } else {
+      newUnits.set(unit.id, { ...movedUnit, hasActed: true });
+    }
+    set({
+      units: newUnits,
+      gameMap: { ...gameMap, tiles: newTiles },
+      enemyActionIndex: enemyActionIndex + 1,
+    });
+    return;
+  }
+
+  // Handle thief AI interactions (chest/village)
+  if (action.interactType) {
+    if (action.interactType === 'chest') {
+      const chestKey = posKey(destination);
+      const newOpenedChests = new Set(get().openedChests);
+      newOpenedChests.add(chestKey);
+      newUnits.set(unit.id, { ...movedUnit, hasActed: true });
+      set({
+        units: newUnits,
+        gameMap: { ...gameMap, tiles: newTiles },
+        enemyActionIndex: enemyActionIndex + 1,
+        openedChests: newOpenedChests,
+      });
+    } else if (action.interactType === 'village') {
+      const villageKey = posKey(destination);
+      const newVisited = new Set(get().visitedVillages);
+      newVisited.add(villageKey);
+      newUnits.set(unit.id, { ...movedUnit, hasActed: true });
+      set({
+        units: newUnits,
+        gameMap: { ...gameMap, tiles: newTiles },
+        enemyActionIndex: enemyActionIndex + 1,
+        visitedVillages: newVisited,
+      });
+    }
+    return;
+  }
 
   if (action.attackTargetId && action.forecast) {
     const target = newUnits.get(action.attackTargetId);

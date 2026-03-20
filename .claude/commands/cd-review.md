@@ -33,4 +33,6 @@ Review the current changes against the project specs and task definitions.
    [1-2 sentence overall assessment]
    ```
 
-If no matching task is found in specs, skip the coverage check and perform only the code review (steps 4-5).
+6. **Update task checkboxes**: After the review, check off (`- [x]`) all completed requirements in the matched task file(s). Do this as a batch at the end — do not modify the task files during the review itself.
+
+If no matching task is found in specs, skip the coverage check and checkbox update, and perform only the code review (steps 4-5).

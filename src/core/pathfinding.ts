@@ -39,10 +39,10 @@ export function getMovementRange(
   const mov = unit.stats.mov;
   const flags = classFlags ?? {};
 
-  // occupant lookup
+  // occupant lookup (hidden/carried units don't block movement)
   const occupantFaction = new Map<string, Faction>();
   for (const u of allUnits.values()) {
-    if (u.id !== unit.id) {
+    if (u.id !== unit.id && !u.isHidden && !u.isCarried) {
       occupantFaction.set(posKey(u.position), u.faction);
     }
   }

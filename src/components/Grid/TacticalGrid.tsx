@@ -14,6 +14,7 @@ export function TacticalGrid() {
   const visitedVillages = useGameStore((s) => s.visitedVillages);
   const spawningUnitIds = useGameStore((s) => s.spawningUnitIds);
   const removingUnitIds = useGameStore((s) => s.removingUnitIds);
+  const refreshedUnitIds = useGameStore((s) => s.refreshedUnitIds);
   const terrainChangePositions = useGameStore((s) => s.terrainChangePositions);
   const tileSize = useUIStore((s) => s.tileSize);
   const cursorPosition = useUIStore((s) => s.cursorPosition);
@@ -21,9 +22,10 @@ export function TacticalGrid() {
 
   if (gameMap.width === 0) return null;
 
-  // Build lookup: posKey -> unit
+  // Build lookup: posKey -> unit (skip hidden and carried units)
   const unitsByPos = new Map<string, (typeof units extends Map<string, infer U> ? U : never)>();
   for (const unit of units.values()) {
+    if (unit.isHidden || unit.isCarried) continue;
     unitsByPos.set(posKey(unit.position), unit);
   }
 
@@ -57,6 +59,7 @@ export function TacticalGrid() {
             isTerrainChanging={terrainChangePositions.has(key)}
             isUnitSpawning={unit ? spawningUnitIds.has(unit.id) : false}
             isUnitRemoving={unit ? removingUnitIds.has(unit.id) : false}
+            isUnitRefreshed={unit ? refreshedUnitIds.has(unit.id) : false}
             onClick={() => clickTile(tile.position)}
             onMouseEnter={() => hoverTile(tile.position)}
           />

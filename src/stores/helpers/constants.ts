@@ -22,4 +22,10 @@ export const IDLE_RESET: Partial<GameState> = {
   movingUnit: null,
   cantoRange: EMPTY_SET,
   cantoRemainingMov: 0,
+  danceableTiles: EMPTY_SET,
+  stealableTiles: EMPTY_SET,
+  rescuableTiles: EMPTY_SET,
+  droppableTiles: EMPTY_SET,
+  tradableTiles: EMPTY_SET,
+  tradePartnerId: null,
 };

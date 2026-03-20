@@ -5,6 +5,7 @@ import { posKey } from '../../core/types';
 import { canUseItem } from '../../core/items';
 import { getManhattanDistance } from '../../core/pathfinding';
 import { hasSkill } from '../../core/skills';
+import { canRescueUnit } from '../../core/rescue';
 
 export function ActionMenu() {
   const playerAction = useGameStore((s) => s.playerAction);
@@ -30,6 +31,13 @@ export function ActionMenu() {
   const shoveAction = useGameStore((s) => s.shove);
   const swapAction = useGameStore((s) => s.swap);
   const repositionAction = useGameStore((s) => s.reposition);
+  const startDanceTargeting = useGameStore((s) => s.startDanceTargeting);
+  const startStealTargeting = useGameStore((s) => s.startStealTargeting);
+  const startRescueTargeting = useGameStore((s) => s.startRescueTargeting);
+  const startDropTargeting = useGameStore((s) => s.startDropTargeting);
+  const lockpickAction = useGameStore((s) => s.lockpick);
+  const openedChests = useGameStore((s) => s.openedChests);
+  const startTradeTargeting = useGameStore((s) => s.startTradeTargeting);
   const cameraOffset = useUIStore((s) => s.cameraOffset);
   const tileSize = useUIStore((s) => s.tileSize);
 
@@ -83,11 +91,12 @@ export function ActionMenu() {
     return false;
   })();
 
-  // Check if unit has usable items
+  // Check if unit has usable items (pass context for key items that need adjacency check)
+  const itemContext = selectedUnit && pendingPosition ? { gameMap, position: pendingPosition, openedChests } : undefined;
   const usableItems = selectedUnit
     ? selectedUnit.items
         .map((item, index) => ({ item, index }))
-        .filter(({ item }) => canUseItem(selectedUnit, item))
+        .filter(({ item }) => canUseItem(selectedUnit, item, itemContext))
     : [];
   const hasUsableItems = usableItems.length > 0;
 
@@ -161,6 +170,89 @@ export function ActionMenu() {
         const tgt = gameMap.tiles[target.y]?.[target.x];
         if (tgt && !tgt.occupantId && tgt.terrain !== 'wall' && tgt.terrain !== 'water') return true;
       }
+    }
+    return false;
+  })();
+
+  // Check dance skill — adjacent acted ally
+  const canDance = (() => {
+    if (!selectedUnit || !hasSkill(selectedUnit, 'dance')) return false;
+    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    for (const d of dirs) {
+      const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
+      const tile = gameMap.tiles[adj.y]?.[adj.x];
+      if (!tile?.occupantId) continue;
+      const ally = units.get(tile.occupantId);
+      if (ally && ally.faction === 'player' && ally.id !== selectedUnitId && ally.hasActed) return true;
+    }
+    return false;
+  })();
+
+  // Check steal skill — adjacent enemy with items and SPD < thief's SPD
+  const canSteal = (() => {
+    if (!selectedUnit || !hasSkill(selectedUnit, 'steal')) return false;
+    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    for (const d of dirs) {
+      const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
+      const tile = gameMap.tiles[adj.y]?.[adj.x];
+      if (!tile?.occupantId) continue;
+      const enemy = units.get(tile.occupantId);
+      if (enemy && enemy.faction === 'enemy' && enemy.items.length > 0 && selectedUnit.stats.spd > enemy.stats.spd) return true;
+    }
+    return false;
+  })();
+
+  // Check rescue — adjacent player ally that we can carry, not already carrying
+  const canRescue = (() => {
+    if (!selectedUnit || selectedUnit.carriedUnitId) return false;
+    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    for (const d of dirs) {
+      const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
+      const tile = gameMap.tiles[adj.y]?.[adj.x];
+      if (!tile?.occupantId) continue;
+      const ally = units.get(tile.occupantId);
+      if (ally && ally.faction === 'player' && ally.id !== selectedUnitId && !ally.isCarried && canRescueUnit(selectedUnit, ally)) return true;
+    }
+    return false;
+  })();
+
+  // Check drop — unit is carrying someone + adjacent empty passable tile
+  const canDrop = (() => {
+    if (!selectedUnit || !selectedUnit.carriedUnitId) return false;
+    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    for (const d of dirs) {
+      const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
+      if (adj.x < 0 || adj.y < 0 || adj.x >= gameMap.width || adj.y >= gameMap.height) continue;
+      const tile = gameMap.tiles[adj.y][adj.x];
+      if (!tile.occupantId && tile.terrain !== 'wall' && tile.terrain !== 'water') return true;
+    }
+    return false;
+  })();
+
+  // Check lockpick — unit has lockpick_skill + adjacent unopened chest or closed door
+  const canLockpick = (() => {
+    if (!selectedUnit || !hasSkill(selectedUnit, 'lockpick_skill')) return false;
+    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    for (const d of dirs) {
+      const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
+      if (adj.x < 0 || adj.y < 0 || adj.x >= gameMap.width || adj.y >= gameMap.height) continue;
+      const tile = gameMap.tiles[adj.y][adj.x];
+      if (tile.terrain === 'chest' && !openedChests.has(posKey(adj))) return true;
+      if (tile.terrain === 'door') return true;
+    }
+    return false;
+  })();
+
+  // Check trade — any adjacent player ally
+  const canTrade = (() => {
+    if (!selectedUnit) return false;
+    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    for (const d of dirs) {
+      const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
+      const tile = gameMap.tiles[adj.y]?.[adj.x];
+      if (!tile?.occupantId) continue;
+      const ally = units.get(tile.occupantId);
+      if (ally && ally.faction === 'player' && ally.id !== selectedUnitId && !ally.isCarried) return true;
     }
     return false;
   })();
@@ -308,6 +400,60 @@ export function ActionMenu() {
               onClick={repositionAction}
             >
               Reposition
+            </button>
+          )}
+          {canDance && (
+            <button
+              className="action-menu__btn action-menu__btn--visit"
+              data-testid="action-dance"
+              onClick={startDanceTargeting}
+            >
+              Dance
+            </button>
+          )}
+          {canSteal && (
+            <button
+              className="action-menu__btn action-menu__btn--visit"
+              data-testid="action-steal"
+              onClick={startStealTargeting}
+            >
+              Steal
+            </button>
+          )}
+          {canRescue && (
+            <button
+              className="action-menu__btn action-menu__btn--visit"
+              data-testid="action-rescue"
+              onClick={startRescueTargeting}
+            >
+              Rescue
+            </button>
+          )}
+          {canDrop && (
+            <button
+              className="action-menu__btn action-menu__btn--visit"
+              data-testid="action-drop"
+              onClick={startDropTargeting}
+            >
+              Drop
+            </button>
+          )}
+          {canLockpick && (
+            <button
+              className="action-menu__btn action-menu__btn--visit"
+              data-testid="action-lockpick"
+              onClick={lockpickAction}
+            >
+              Lockpick
+            </button>
+          )}
+          {canTrade && (
+            <button
+              className="action-menu__btn action-menu__btn--visit"
+              data-testid="action-trade"
+              onClick={startTradeTargeting}
+            >
+              Trade
             </button>
           )}
           <button

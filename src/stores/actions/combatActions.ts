@@ -1,16 +1,15 @@
 import type { GamePhase } from '../../core/types';
 import { posKey } from '../../core/types';
-import { getManhattanDistance, getMovementRange } from '../../core/pathfinding';
+import { getManhattanDistance } from '../../core/pathfinding';
 import { calculateCombatForecast, resolveCombat } from '../../core/combat';
 import { calculateExpGain, checkLevelUp, rollLevelUp, applyStatGains } from '../../core/experience';
 import type { StatGains } from '../../core/experience';
 import { ALL_CLASSES } from '../../data/promotedClasses';
 import { getStatCaps, clampStats } from '../../core/promotion';
-import { hasSkill } from '../../core/skills';
 import type { GameState, GameActions } from '../gameStoreTypes';
 import { EMPTY_SET, IDLE_RESET } from '../helpers/constants';
 import { applyCombatResult } from '../helpers/combatResolution';
-import { allPlayersDone, getClassFlags } from '../helpers/mapHelpers';
+import { allPlayersDone } from '../helpers/mapHelpers';
 import { refreshDangerZone } from '../helpers/dangerZoneHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
 import { checkAndFireEvents } from './eventActions';
@@ -182,18 +181,49 @@ export function finishCombat(get: Get, set: Set) {
 
   const nextPhase: GamePhase = resolution.victoryResult ? 'game_over' : 'player_phase';
 
-  set({
-    ...IDLE_RESET,
-    units: resolution.newUnits,
-    gameMap: { ...gameMap, tiles: resolution.newTiles },
-    currentPhase: nextPhase,
-    // Defer level-up display until after EXP bar — store gains but don't show popup yet
-    levelUpGains: gains,
-    levelUpUnitId: levelUpUnit,
-    deathQuote: resolution.deathQuote,
-    floatingNumbers: resolution.floatingNumbers,
-    expBarData,
-  });
+  if (expBarData) {
+    // Preserve selectedUnitId and pendingPosition through EXP/level-up flow
+    // so Canto can be checked in dismissExpBar/dismissLevelUp
+    set({
+      units: resolution.newUnits,
+      gameMap: { ...gameMap, tiles: resolution.newTiles },
+      currentPhase: nextPhase,
+      playerAction: 'idle',
+      movementRange: EMPTY_SET,
+      attackRange: EMPTY_SET,
+      movePath: [],
+      pendingAttackTiles: EMPTY_SET,
+      combatForecast: null,
+      combatResult: null,
+      combatAnimationStep: -1,
+      attackTargetId: null,
+      selectedWeaponIndex: 0,
+      healableTiles: EMPTY_SET,
+      movingUnit: null,
+      cantoRange: EMPTY_SET,
+      cantoRemainingMov: 0,
+      danceableTiles: EMPTY_SET,
+      stealableTiles: EMPTY_SET,
+      rescuableTiles: EMPTY_SET,
+      droppableTiles: EMPTY_SET,
+      tradableTiles: EMPTY_SET,
+      tradePartnerId: null,
+      levelUpGains: gains,
+      levelUpUnitId: levelUpUnit,
+      deathQuote: resolution.deathQuote,
+      floatingNumbers: resolution.floatingNumbers,
+      expBarData,
+    });
+  } else {
+    set({
+      ...IDLE_RESET,
+      units: resolution.newUnits,
+      gameMap: { ...gameMap, tiles: resolution.newTiles },
+      currentPhase: nextPhase,
+      deathQuote: resolution.deathQuote,
+      floatingNumbers: resolution.floatingNumbers,
+    });
+  }
 
   refreshDangerZone(get, set);
 
@@ -204,35 +234,8 @@ export function finishCombat(get: Get, set: Set) {
     });
   }
 
-  // Check for Canto: if attacker survived and has Canto, enter canto_move state
-  const postAttacker = resolution.newUnits.get(selectedUnitId);
-  if (
-    nextPhase === 'player_phase' &&
-    !combatResult.attackerDied &&
-    postAttacker &&
-    postAttacker.faction === 'player' &&
-    hasSkill(postAttacker, 'canto') &&
-    !expBarData &&
-    !gains &&
-    !resolution.deathQuote &&
-    !get().eventDialogue
-  ) {
-    // Calculate remaining MOV for canto (use half MOV rounded down, min 1)
-    const remainingMov = Math.max(1, Math.floor(postAttacker.stats.mov / 2));
-    const cantoUnit = { ...postAttacker, stats: { ...postAttacker.stats, mov: remainingMov } };
-    const flags = getClassFlags(cantoUnit);
-    const cantoRange = getMovementRange(cantoUnit, { ...gameMap, tiles: resolution.newTiles }, resolution.newUnits, flags);
-    set({
-      selectedUnitId,
-      playerAction: 'canto_move',
-      cantoRange,
-      cantoRemainingMov: remainingMov,
-    });
-    return;
-  }
-
-  // Only auto-end turn if no overlays showing
-  if (nextPhase === 'player_phase' && !expBarData && !gains && !resolution.deathQuote && !get().eventDialogue && allPlayersDone(get().units)) {
+  // Auto-end turn only when no EXP bar (Canto + auto-end deferred to dismissExpBar/dismissLevelUp)
+  if (!expBarData && nextPhase === 'player_phase' && !resolution.deathQuote && !get().eventDialogue && allPlayersDone(get().units)) {
     get().endPlayerTurn();
   }
 }

@@ -128,12 +128,14 @@ const PROMOTED_CLASSES: Record<string, UnitClass> = {
     growthRates: { hp: 55, str: 35, mag: 5, def: 15, res: 10, spd: 60, skl: 55, lck: 45, cha: 0, wil: 0 },
     weaponTypes: ['knife'],
     promotesTo: ['phantom'],
+    innateSkills: ['steal', 'lockpick_skill'],
   },
   rogue: {
     id: 'rogue', name: 'Rogue', tier: 'promoted', promotesFrom: 'thief',
     baseStats: { hp: 20, str: 5, mag: 0, def: 3, res: 1, spd: 10, skl: 6, lck: 7, mov: 7, cha: 0, wil: 0 },
     growthRates: { hp: 55, str: 30, mag: 5, def: 15, res: 10, spd: 55, skl: 50, lck: 50, cha: 0, wil: 0 },
     weaponTypes: ['knife', 'sword'],
+    innateSkills: ['steal', 'lockpick_skill'],
   },
 
   // --- From Pegasus Knight ---

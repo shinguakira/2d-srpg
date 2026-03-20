@@ -1,3 +1,4 @@
+import { posKey } from '../../core/types';
 import type { GameState, GameActions } from '../gameStoreTypes';
 import { IDLE_RESET } from '../helpers/constants';
 import { allPlayersDone } from '../helpers/mapHelpers';
@@ -7,7 +8,7 @@ type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
 
 export function useItem(get: Get, set: Set, itemIndex: number) {
-  const { selectedUnitId, pendingPosition, units, gameMap } = get();
+  const { selectedUnitId, pendingPosition, units, gameMap, chapterData, openedChests } = get();
   if (!selectedUnitId || !pendingPosition) return;
 
   const newUnits = new Map(units);
@@ -37,10 +38,38 @@ export function useItem(get: Get, set: Set, itemIndex: number) {
 
   newUnits.set(selectedUnitId, updatedUnit);
 
+  // Handle unlock effect (Door Key / Chest Key)
+  let villageReward = null;
+  let newOpenedChests = openedChests;
+  if (item.effect.kind === 'unlock') {
+    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    for (const d of dirs) {
+      const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
+      if (adj.x < 0 || adj.y < 0 || adj.x >= gameMap.width || adj.y >= gameMap.height) continue;
+      const tile = newTiles[adj.y][adj.x];
+
+      if (item.effect.targetTerrain === 'door' && tile.terrain === 'door') {
+        newTiles[adj.y][adj.x] = { ...tile, terrain: 'indoor' };
+        break;
+      }
+      if (item.effect.targetTerrain === 'chest' && tile.terrain === 'chest' && !openedChests.has(posKey(adj))) {
+        newOpenedChests = new Set(openedChests);
+        newOpenedChests.add(posKey(adj));
+        const chestData = chapterData?.chests?.find(
+          (c) => c.position.x === adj.x && c.position.y === adj.y
+        );
+        villageReward = chestData?.reward ?? null;
+        break;
+      }
+    }
+  }
+
   set({
     ...IDLE_RESET,
     units: newUnits,
     gameMap: { ...gameMap, tiles: newTiles },
+    openedChests: newOpenedChests,
+    villageReward,
   });
 
   // Auto end turn if all player units have acted

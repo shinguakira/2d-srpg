@@ -128,9 +128,29 @@ export type GameState = {
   // Escape
   escapedUnitIds: Set<string>; // units that have escaped the map
 
+  // Chests
+  openedChests: Set<string>; // chest positions that have been opened
+
   // Canto (post-combat movement for cavalry)
   cantoRange: Set<string>;
   cantoRemainingMov: number;
+
+  // Dance / Steal targeting
+  danceableTiles: Set<string>;
+  stealableTiles: Set<string>;
+
+  // Rescue / Drop targeting
+  rescuableTiles: Set<string>;
+  droppableTiles: Set<string>;
+
+  // Trade
+  tradableTiles: Set<string>;
+  tradePartnerId: string | null;
+
+  // Visual effects
+  refreshedUnitIds: Set<string>; // units just danced — sparkle effect
+  stealAnimationData: { position: Position; itemName: string } | null;
+  rescueAnimationData: { position: Position; type: 'rescue' | 'drop' } | null;
 };
 
 export type GameActions = {
@@ -216,4 +236,25 @@ export type GameActions = {
 
   // Canto
   confirmCantoMove: (pos: Position) => void;
+
+  // Dance
+  startDanceTargeting: () => void;
+  confirmDance: (targetId: string) => void;
+
+  // Steal
+  startStealTargeting: () => void;
+  confirmSteal: (targetId: string) => void;
+
+  // Rescue / Drop
+  startRescueTargeting: () => void;
+  confirmRescue: (targetId: string) => void;
+  startDropTargeting: () => void;
+  confirmDrop: (pos: Position) => void;
+
+  // Lockpick
+  lockpick: () => void;
+
+  // Trade
+  startTradeTargeting: () => void;
+  confirmTrade: (targetId: string, swaps: Array<{ from: 'a' | 'b'; index: number }>) => void;
 };

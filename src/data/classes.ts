@@ -77,6 +77,7 @@ export const CLASSES: Record<string, UnitClass> = {
     growthRates: { hp: 55, str: 30, mag: 5, def: 15, res: 10, spd: 55, skl: 50, lck: 45, cha: 0, wil: 0 },
     promotesTo: ['assassin', 'rogue'],
     weaponTypes: ['knife'],
+    innateSkills: ['steal', 'lockpick_skill'],
   },
   pegasus_knight: {
     id: 'pegasus_knight',
@@ -154,5 +155,6 @@ export const CLASSES: Record<string, UnitClass> = {
     growthRates: { hp: 45, str: 20, mag: 10, def: 10, res: 20, spd: 55, skl: 25, lck: 60, cha: 0, wil: 0 },
     // Dancer CANNOT promote
     weaponTypes: [],
+    innateSkills: ['dance'],
   },
 };

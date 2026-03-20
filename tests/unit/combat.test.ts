@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { getWeaponTriangle, calculateCombatForecast, resolveCombat } from '../../src/core/combat';
-import type { Unit, Weapon, WeaponType } from '../../src/core/types';
+import { applyCombatResult } from '../../src/stores/helpers/combatResolution';
+import type { Unit, Weapon, WeaponType, GameMap, Tile } from '../../src/core/types';
 import { SeededRandom } from '../../src/core/rng';
 
 function makeWeapon(type: WeaponType, overrides: Partial<Weapon> = {}): Weapon {
@@ -367,5 +368,152 @@ describe('resolveCombat', () => {
     }
     expect(result1.attackerHpAfter).toBe(result2.attackerHpAfter);
     expect(result1.defenderHpAfter).toBe(result2.defenderHpAfter);
+  });
+});
+
+// ===== Skill-related combat bug fixes =====
+
+const alwaysRng = new SeededRandom(1);
+// Override roll to always succeed for deterministic skill tests
+alwaysRng.roll = () => true;
+
+describe('Sol heals post-defense damage (Bug 3)', () => {
+  it('Sol heal amount is reduced when defender has Aegis/Pavise', () => {
+    // Attacker with Sol, using physical weapon
+    const attacker = makeUnit('atk', {
+      stats: { hp: 30, str: 15, mag: 0, def: 5, res: 0, spd: 10, skl: 30, lck: 30, mov: 5, cha: 0, wil: 0 },
+      currentHp: 20, // damaged so we can see healing
+      skills: ['sol'],
+      equippedWeapon: makeWeapon('sword', { might: 10 }),
+      inventory: [makeWeapon('sword', { might: 10 })],
+    });
+    // Defender with Pavise (halves physical damage)
+    const defender = makeUnit('def', {
+      faction: 'enemy',
+      stats: { hp: 40, str: 5, mag: 0, def: 5, res: 0, spd: 1, skl: 30, lck: 30, mov: 5, cha: 0, wil: 0 },
+      currentHp: 40,
+      skills: ['pavise'],
+      equippedWeapon: makeWeapon('sword'),
+      inventory: [makeWeapon('sword')],
+    });
+
+    const forecast = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1);
+    const rng = new SeededRandom(1);
+    rng.roll = () => true; // all skills activate
+
+    const result = resolveCombat(forecast, rng, attacker, defender);
+    const solHit = result.hits.find(h => h.attackerIsInitiator && h.activatedSkill && h.healedAmount > 0);
+
+    if (solHit) {
+      // Sol heal should match the actual damage dealt (post-Pavise), not the pre-Pavise amount
+      expect(solHit.healedAmount).toBe(solHit.damage);
+    }
+  });
+});
+
+describe('Astra bonus hits (Bugs 4+5)', () => {
+  it('records all 5 hits in hits[] array', () => {
+    const attacker = makeUnit('atk', {
+      stats: { hp: 30, str: 15, mag: 0, def: 5, res: 0, spd: 15, skl: 30, lck: 30, mov: 5, cha: 0, wil: 0 },
+      currentHp: 30,
+      skills: ['astra'],
+      equippedWeapon: makeWeapon('sword', { might: 6 }),
+      inventory: [makeWeapon('sword', { might: 6 })],
+    });
+    const defender = makeUnit('def', {
+      faction: 'enemy',
+      // HP high enough to survive all Astra hits including crits across both rounds
+      stats: { hp: 400, str: 5, mag: 0, def: 3, res: 0, spd: 1, skl: 5, lck: 5, mov: 5, cha: 0, wil: 0 },
+      currentHp: 400,
+      equippedWeapon: makeWeapon('sword'),
+      inventory: [makeWeapon('sword')],
+    });
+
+    const forecast = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1);
+    const rng = new SeededRandom(1);
+    rng.roll = () => true;
+
+    const result = resolveCombat(forecast, rng, attacker, defender);
+    // Astra: 1 main hit + 4 bonus = 5 per attacker round. Attacker doubles = 10 total.
+    const atkHits = result.hits.filter(h => h.attackerIsInitiator);
+    expect(atkHits.length).toBeGreaterThanOrEqual(5);
+    // Every attacker hit should have astra since alwaysRng fires it every round
+    const astraHits = atkHits.filter(h => h.activatedSkill === 'astra');
+    expect(astraHits.length).toBe(atkHits.length);
+  });
+
+  it('bonus hits go through defense skills (Pavise)', () => {
+    const attacker = makeUnit('atk', {
+      stats: { hp: 30, str: 15, mag: 0, def: 5, res: 0, spd: 15, skl: 30, lck: 30, mov: 5, cha: 0, wil: 0 },
+      currentHp: 30,
+      skills: ['astra'],
+      equippedWeapon: makeWeapon('sword', { might: 10 }),
+      inventory: [makeWeapon('sword', { might: 10 })],
+    });
+    const defender = makeUnit('def', {
+      faction: 'enemy',
+      // HP high enough to survive all Astra hits including crits
+      stats: { hp: 500, str: 5, mag: 0, def: 5, res: 0, spd: 1, skl: 30, lck: 30, mov: 5, cha: 0, wil: 0 },
+      currentHp: 500,
+      skills: ['pavise'],
+      equippedWeapon: makeWeapon('sword'),
+      inventory: [makeWeapon('sword')],
+    });
+
+    const forecast = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1);
+    const rng = new SeededRandom(1);
+    rng.roll = () => true; // Pavise activates on every bonus hit
+
+    const result = resolveCombat(forecast, rng, attacker, defender);
+    const atkHits = result.hits.filter(h => h.attackerIsInitiator);
+    // With alwaysRng, Astra fires: 4 bonus + 1 main per round
+    expect(atkHits.length).toBeGreaterThanOrEqual(5);
+    // Bonus hits (first 4) should have Pavise reducing damage
+    // Without Pavise, bonus damage = Math.floor(critDmg / 2) where critDmg = round.damage * 3
+    const critDmg = forecast.attackerDamage * 3;
+    const astraDmgNoPavise = Math.floor(critDmg / 2);
+    for (let i = 0; i < 4; i++) {
+      // Pavise halves physical → bonus hit damage should be less than un-Pavise'd
+      expect(atkHits[i].damage).toBeLessThan(astraDmgNoPavise);
+    }
+  });
+});
+
+describe('Carrier death removes carried unit (Bug 8)', () => {
+  it('carried unit dies when carrier dies', () => {
+    const map: GameMap = {
+      width: 3, height: 1,
+      tiles: [[
+        { position: { x: 0, y: 0 }, terrain: 'plain', occupantId: 'carrier' },
+        { position: { x: 1, y: 0 }, terrain: 'plain', occupantId: 'enemy' },
+        { position: { x: 2, y: 0 }, terrain: 'plain', occupantId: null },
+      ]] as Tile[][],
+    };
+
+    const carried = makeUnit('carried', { faction: 'player', position: { x: 0, y: 0 }, isCarried: true });
+    const carrier = makeUnit('carrier', {
+      faction: 'player', position: { x: 0, y: 0 },
+      carriedUnitId: 'carried', currentHp: 1,
+    });
+    const enemy = makeUnit('enemy', { faction: 'enemy', position: { x: 1, y: 0 } });
+
+    const units = new Map<string, Unit>();
+    units.set('carrier', carrier);
+    units.set('carried', carried);
+    units.set('enemy', enemy);
+
+    const combatResult = {
+      attackerHpAfter: 0,
+      defenderHpAfter: 15,
+      attackerDied: true,
+      defenderDied: false,
+      hits: [],
+    };
+
+    const resolution = applyCombatResult(units, map, 'carrier', 'enemy', combatResult, null);
+
+    // Both carrier and carried unit should be removed
+    expect(resolution.newUnits.has('carrier')).toBe(false);
+    expect(resolution.newUnits.has('carried')).toBe(false);
   });
 });

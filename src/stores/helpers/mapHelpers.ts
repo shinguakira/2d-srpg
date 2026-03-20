@@ -101,7 +101,7 @@ export function placeUnits(chapter: ChapterData, map: GameMap, unitProgress?: Re
 
 export function allPlayersDone(units: Map<string, Unit>): boolean {
   for (const u of units.values()) {
-    if (u.faction === 'player' && !u.hasActed) return false;
+    if (u.faction === 'player' && !u.hasActed && !u.isCarried) return false;
   }
   return true;
 }

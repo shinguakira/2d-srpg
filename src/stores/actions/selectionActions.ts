@@ -16,6 +16,7 @@ export function selectUnit(get: Get, set: Set, unitId: string) {
   if (!unit) return;
   if (unit.faction !== 'player') return;
   if (unit.hasActed) return;
+  if (unit.isCarried) return;
 
   const flags = getClassFlags(unit);
   const canPass = hasSkill(unit, 'pass');
@@ -117,7 +118,7 @@ export function clickTile(get: Get, set: Set, pos: Position) {
 
     // Clicking another available player unit switches selection
     for (const unit of units.values()) {
-      if (posKey(unit.position) === key && unit.faction === 'player' && !unit.hasActed && unit.id !== selectedUnitId) {
+      if (posKey(unit.position) === key && unit.faction === 'player' && !unit.hasActed && unit.id !== selectedUnitId && !unit.isCarried) {
         get().selectUnit(unit.id);
         return;
       }
@@ -177,6 +178,78 @@ export function clickTile(get: Get, set: Set, pos: Position) {
     return;
   }
 
+  if (playerAction === 'dance_target' && selectedUnitId && pendingPosition) {
+    const key = posKey(pos);
+    const { danceableTiles } = get();
+    if (danceableTiles.has(key)) {
+      for (const unit of units.values()) {
+        if (posKey(unit.position) === key && unit.faction === 'player' && unit.id !== selectedUnitId) {
+          get().confirmDance(unit.id);
+          return;
+        }
+      }
+    }
+    set({ playerAction: 'action_menu', danceableTiles: EMPTY_SET });
+    return;
+  }
+
+  if (playerAction === 'steal_target' && selectedUnitId && pendingPosition) {
+    const key = posKey(pos);
+    const { stealableTiles } = get();
+    if (stealableTiles.has(key)) {
+      for (const unit of units.values()) {
+        if (posKey(unit.position) === key && unit.faction === 'enemy') {
+          get().confirmSteal(unit.id);
+          return;
+        }
+      }
+    }
+    set({ playerAction: 'action_menu', stealableTiles: EMPTY_SET });
+    return;
+  }
+
+  if (playerAction === 'trade_target' && selectedUnitId && pendingPosition) {
+    const key = posKey(pos);
+    const { tradableTiles } = get();
+    if (tradableTiles.has(key)) {
+      for (const unit of units.values()) {
+        if (posKey(unit.position) === key && unit.faction === 'player' && unit.id !== selectedUnitId) {
+          // For now, do a simple "swap all items" trade. UI can be enhanced later.
+          set({ tradePartnerId: unit.id });
+          return;
+        }
+      }
+    }
+    set({ playerAction: 'action_menu', tradableTiles: EMPTY_SET, tradePartnerId: null });
+    return;
+  }
+
+  if (playerAction === 'rescue_target' && selectedUnitId && pendingPosition) {
+    const key = posKey(pos);
+    const { rescuableTiles } = get();
+    if (rescuableTiles.has(key)) {
+      for (const unit of units.values()) {
+        if (posKey(unit.position) === key && unit.faction === 'player' && unit.id !== selectedUnitId) {
+          get().confirmRescue(unit.id);
+          return;
+        }
+      }
+    }
+    set({ playerAction: 'action_menu', rescuableTiles: EMPTY_SET });
+    return;
+  }
+
+  if (playerAction === 'drop_target' && selectedUnitId && pendingPosition) {
+    const key = posKey(pos);
+    const { droppableTiles } = get();
+    if (droppableTiles.has(key)) {
+      get().confirmDrop(pos);
+      return;
+    }
+    set({ playerAction: 'action_menu', droppableTiles: EMPTY_SET });
+    return;
+  }
+
   if (playerAction === 'action_menu' && selectedUnitId && pendingPosition) {
     // Clicking an enemy in attack range — auto-attack
     const key = posKey(pos);
@@ -205,6 +278,31 @@ export function cancelAction(get: Get, set: Set) {
 
   if (playerAction === 'heal_target' && selectedUnitId) {
     set({ playerAction: 'action_menu', healableTiles: EMPTY_SET });
+    return;
+  }
+
+  if (playerAction === 'dance_target' && selectedUnitId) {
+    set({ playerAction: 'action_menu', danceableTiles: EMPTY_SET });
+    return;
+  }
+
+  if (playerAction === 'steal_target' && selectedUnitId) {
+    set({ playerAction: 'action_menu', stealableTiles: EMPTY_SET });
+    return;
+  }
+
+  if (playerAction === 'trade_target' && selectedUnitId) {
+    set({ playerAction: 'action_menu', tradableTiles: EMPTY_SET, tradePartnerId: null });
+    return;
+  }
+
+  if (playerAction === 'rescue_target' && selectedUnitId) {
+    set({ playerAction: 'action_menu', rescuableTiles: EMPTY_SET });
+    return;
+  }
+
+  if (playerAction === 'drop_target' && selectedUnitId) {
+    set({ playerAction: 'action_menu', droppableTiles: EMPTY_SET });
     return;
   }
 

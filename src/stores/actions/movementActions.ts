@@ -2,6 +2,7 @@ import type { GameState, GameActions } from '../gameStoreTypes';
 import { IDLE_RESET } from '../helpers/constants';
 import { allPlayersDone } from '../helpers/mapHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
+import { checkAndFireEvents } from './eventActions';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -115,7 +116,16 @@ function teleportUnit(
     gameMap: { ...gameMap, tiles: newTiles },
   });
 
-  if (allPlayersDone(newUnits)) {
+  // Fire events for unit movement
+  checkAndFireEvents(get, set, {
+    lastMovedUnitId: unitId,
+    lastMovedPosition: destination,
+  });
+
+  // Don't auto-end turn if event dialogue is showing
+  if (get().eventDialogue) return;
+
+  if (allPlayersDone(get().units)) {
     get().endPlayerTurn();
   }
 }

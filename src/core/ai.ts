@@ -65,7 +65,8 @@ export function decideAction(
     const atkTiles = getAttackTilesFrom(pos, unit.equippedWeapon, gameMap);
 
     for (const target of allUnits.values()) {
-      if (target.faction === 'enemy') continue; // don't attack allies
+      if (target.faction === unit.faction) continue; // don't attack own faction
+      if (target.faction === 'neutral') continue; // don't attack neutrals
       if (!atkTiles.has(posKey(target.position))) continue;
 
       const attackerTerrain = gameMap.tiles[pos.y][pos.x].terrain;
@@ -168,10 +169,10 @@ function findMoveTowardNearestPlayer(
   movablePositions: Position[],
   allUnits: Map<string, Unit>,
 ): Position {
-  // Find all player units
+  // Find all hostile units (player + ally for enemy AI)
   const playerUnits: Unit[] = [];
   for (const u of allUnits.values()) {
-    if (u.faction === 'player') playerUnits.push(u);
+    if (u.faction === 'player' || u.faction === 'ally') playerUnits.push(u);
   }
 
   if (playerUnits.length === 0) return unit.position;

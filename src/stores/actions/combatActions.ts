@@ -11,6 +11,7 @@ import { applyCombatResult } from '../helpers/combatResolution';
 import { allPlayersDone } from '../helpers/mapHelpers';
 import { refreshDangerZone } from '../helpers/dangerZoneHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
+import { checkAndFireEvents } from './eventActions';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -22,7 +23,7 @@ export function startAttackTargeting(get: Get, set: Set) {
   // Check if there are any enemies in attack range
   let hasTarget = false;
   for (const unit of units.values()) {
-    if (unit.faction !== 'player' && pendingAttackTiles.has(posKey(unit.position))) {
+    if (unit.faction === 'enemy' && pendingAttackTiles.has(posKey(unit.position))) {
       hasTarget = true;
       break;
     }
@@ -193,8 +194,15 @@ export function finishCombat(get: Get, set: Set) {
 
   refreshDangerZone(get, set);
 
-  // Only auto-end turn if no EXP bar to show
-  if (nextPhase === 'player_phase' && !expBarData && !gains && !resolution.deathQuote && allPlayersDone(get().units)) {
+  // Fire events after combat (e.g., unit_killed triggers)
+  if (nextPhase !== 'game_over') {
+    checkAndFireEvents(get, set, {
+      lastKilledUnitId: combatResult.defenderDied ? attackTargetId : (combatResult.attackerDied ? selectedUnitId : undefined),
+    });
+  }
+
+  // Only auto-end turn if no overlays showing
+  if (nextPhase === 'player_phase' && !expBarData && !gains && !resolution.deathQuote && !get().eventDialogue && allPlayersDone(get().units)) {
     get().endPlayerTurn();
   }
 }

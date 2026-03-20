@@ -22,6 +22,7 @@ export function ActionMenu() {
   const chapterVillages = useGameStore((s) => s.chapterVillages);
   const useItemAction = useGameStore((s) => s.useItem);
   const seizeAction = useGameStore((s) => s.seize);
+  const startTalkAction = useGameStore((s) => s.startTalk);
   const chapterData = useGameStore((s) => s.chapterData);
   const cameraOffset = useUIStore((s) => s.cameraOffset);
   const tileSize = useUIStore((s) => s.tileSize);
@@ -37,7 +38,7 @@ export function ActionMenu() {
   let hasEnemyInRange = false;
   if (hasNonStaffWeapon) {
     for (const unit of units.values()) {
-      if (unit.faction !== 'player' && pendingAttackTiles.has(posKey(unit.position))) {
+      if (unit.faction === 'enemy' && pendingAttackTiles.has(posKey(unit.position))) {
         hasEnemyInRange = true;
         break;
       }
@@ -57,6 +58,17 @@ export function ActionMenu() {
       if (ally.currentHp >= ally.stats.hp) continue;
       const dist = getManhattanDistance(pendingPosition, ally.position);
       if (dist >= staff.minRange && dist <= staff.maxRange) return true;
+    }
+    return false;
+  })();
+
+  // Check if adjacent to a recruitable unit
+  const canTalk = (() => {
+    if (!selectedUnit || !pendingPosition) return false;
+    for (const unit of units.values()) {
+      if (unit.recruitableBy === selectedUnitId && getManhattanDistance(pendingPosition, unit.position) === 1) {
+        return true;
+      }
     }
     return false;
   })();
@@ -156,6 +168,15 @@ export function ActionMenu() {
               onClick={startHealTargeting}
             >
               Heal
+            </button>
+          )}
+          {canTalk && (
+            <button
+              className="action-menu__btn action-menu__btn--talk"
+              data-testid="action-talk"
+              onClick={startTalkAction}
+            >
+              Talk
             </button>
           )}
           {hasUsableItems && (

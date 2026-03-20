@@ -1,4 +1,4 @@
-import type { Unit, ConsumableItem, AIBehavior } from '../core/types';
+import type { Unit, ConsumableItem, AIBehavior, Faction } from '../core/types';
 import { WEAPONS } from './weapons';
 import { CLASSES } from './classes';
 import { ITEMS } from './items';
@@ -8,7 +8,7 @@ function createUnit(
   id: string,
   name: string,
   classId: string,
-  faction: 'player' | 'enemy' | 'ally',
+  faction: Faction,
   weaponIds: string[],
   level: number = 1,
   sprite: string = '',

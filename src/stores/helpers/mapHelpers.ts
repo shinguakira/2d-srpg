@@ -28,10 +28,19 @@ export function buildMap(chapter: ChapterData): GameMap {
   return { width: chapter.mapWidth, height: chapter.mapHeight, tiles };
 }
 
-export function placeUnits(chapter: ChapterData, map: GameMap, unitProgress?: Record<string, UnitProgress>): Map<string, Unit> {
+export function placeUnits(chapter: ChapterData, map: GameMap, unitProgress?: Record<string, UnitProgress>, deployedUnitIds?: string[]): Map<string, Unit> {
   const units = new Map<string, Unit>();
 
-  for (const placement of chapter.playerUnits) {
+  // Determine player placements: roster deployment or chapter-defined
+  const maxSpawnSlots = chapter.playerUnits.length;
+  const placements = deployedUnitIds && deployedUnitIds.length > 0
+    ? deployedUnitIds.slice(0, maxSpawnSlots).map((unitId, i) => ({
+        unitId,
+        position: chapter.playerUnits[i].position,
+      }))
+    : chapter.playerUnits;
+
+  for (const placement of placements) {
     const template = PLAYER_UNITS[placement.unitId];
     if (!template) continue;
     const progress = unitProgress?.[placement.unitId];
@@ -102,23 +111,38 @@ export function isBossDefeated(units: Map<string, Unit>): boolean {
 export function checkVictory(units: Map<string, Unit>, chapterData: ChapterData | null): 'victory' | 'defeat' | null {
   let hasPlayer = false;
   let hasEnemy = false;
+  let hasLord = false;
   for (const u of units.values()) {
-    if (u.faction === 'player') hasPlayer = true;
+    if (u.faction === 'player') {
+      hasPlayer = true;
+      if (u.isLord) hasLord = true;
+    }
     if (u.faction === 'enemy') hasEnemy = true;
   }
 
   if (!hasPlayer) return 'defeat';
 
-  // For rout objective, win when all enemies dead
-  if (!chapterData || chapterData.objective.type === 'rout') {
-    if (!hasEnemy) return 'victory';
+  const objType = chapterData?.objective.type ?? 'rout';
+
+  // Lord death = defeat for most objectives
+  if (!hasLord && objType !== 'rout') return 'defeat';
+
+  // Protect: defeat if protected unit dies
+  if (objType === 'protect' && chapterData?.objective.protectUnitId) {
+    if (!units.has(chapterData.objective.protectUnitId)) return 'defeat';
   }
 
-  // For seize, victory is triggered by the seize action, not by kills
-  // But rout still triggers if all enemies die even in seize maps
-  if (chapterData?.objective.type === 'seize' && !hasEnemy) {
-    return 'victory';
-  }
+  // Rout: win when all enemies dead
+  if (objType === 'rout' && !hasEnemy) return 'victory';
+
+  // Boss kill: win when no boss AI enemy remains
+  if (objType === 'boss_kill' && isBossDefeated(units)) return 'victory';
+
+  // Seize: victory triggered by seize action, but rout also wins
+  if (objType === 'seize' && !hasEnemy) return 'victory';
+
+  // Survive/protect: turn-based victory checked in turnActions
+  // Escape: victory triggered by escape action (like seize without boss req)
 
   return null;
 }

@@ -58,7 +58,7 @@ export function hoverTile(get: Get, set: Set, pos: Position | null) {
     const key = posKey(pos);
     if (pendingAttackTiles.has(key)) {
       for (const unit of units.values()) {
-        if (posKey(unit.position) === key && unit.faction !== 'player') {
+        if (posKey(unit.position) === key && unit.faction === 'enemy') {
           const attacker = units.get(selectedUnitId)!;
           const { selectedWeaponIndex } = get();
           const weapon = attacker.inventory[selectedWeaponIndex] ?? attacker.equippedWeapon;
@@ -132,7 +132,7 @@ export function clickTile(get: Get, set: Set, pos: Position) {
     const key = posKey(pos);
     if (pendingAttackTiles.has(key)) {
       for (const unit of units.values()) {
-        if (posKey(unit.position) === key && unit.faction !== 'player') {
+        if (posKey(unit.position) === key && unit.faction === 'enemy') {
           get().selectAttackTarget(unit.id);
           return;
         }
@@ -165,7 +165,7 @@ export function clickTile(get: Get, set: Set, pos: Position) {
     const atkTiles = get().pendingAttackTiles;
     if (atkTiles.has(key)) {
       for (const unit of units.values()) {
-        if (posKey(unit.position) === key && unit.faction !== 'player') {
+        if (posKey(unit.position) === key && unit.faction === 'enemy') {
           get().selectAttackTarget(unit.id);
           return;
         }

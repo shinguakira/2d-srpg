@@ -75,6 +75,24 @@ export const CHAPTER_2: ChapterData = {
       },
     },
   ],
+  events: [
+    {
+      id: 'ch2_turn2_hint',
+      trigger: { type: 'turn_start' as const, turn: 2 },
+      effects: [
+        {
+          type: 'show_dialogue' as const,
+          scene: {
+            lines: [
+              { speaker: 'Senna', text: 'The fort up ahead provides cover. We should use it to hold our position.', speakerFaction: 'player' as const },
+              { speaker: 'Kael', text: 'Good eye. I will advance to the bridge and draw their attention.', speakerFaction: 'player' as const },
+            ],
+          },
+        },
+      ],
+      once: true,
+    },
+  ],
   reinforcements: [
     {
       turn: 6,

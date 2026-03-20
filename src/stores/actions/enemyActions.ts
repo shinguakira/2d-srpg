@@ -8,6 +8,7 @@ import { IDLE_RESET } from '../helpers/constants';
 import { applyCombatResult } from '../helpers/combatResolution';
 import { checkVictory, getClassFlags } from '../helpers/mapHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
+import { checkAndFireEvents } from './eventActions';
 
 /** Check if walk animation should be skipped (for E2E tests) */
 function shouldSkipWalkAnim(): boolean {
@@ -184,6 +185,11 @@ export function finishEnemyCombat(get: Get, set: Set) {
     enemyActionIndex: enemyActionIndex + 1,
     deathQuote: resolution.deathQuote,
     floatingNumbers: resolution.floatingNumbers,
+  });
+
+  // Fire events after enemy combat (e.g., unit_killed)
+  checkAndFireEvents(get, set, {
+    lastKilledUnitId: combatResult.defenderDied ? attackTargetId : (combatResult.attackerDied ? selectedUnitId : undefined),
   });
 }
 

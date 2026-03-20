@@ -19,6 +19,7 @@ export function useGameLoop() {
   const levelUpGains = useGameStore((s) => s.levelUpGains);
   const deathQuote = useGameStore((s) => s.deathQuote);
   const movingUnit = useGameStore((s) => s.movingUnit);
+  const eventDialogue = useGameStore((s) => s.eventDialogue);
 
   // Execute enemy actions sequentially
   useEffect(() => {
@@ -27,6 +28,7 @@ export function useGameLoop() {
     if (combatResult) return; // combat animation in progress
     if (deathQuote) return; // death quote showing — pause everything
     if (movingUnit) return; // walking animation in progress
+    if (eventDialogue) return; // event dialogue showing — pause everything
 
     if (enemyActionIndex >= enemyActions.length) {
       executeNextEnemyAction();
@@ -39,7 +41,7 @@ export function useGameLoop() {
     }, 400);
 
     return () => clearTimeout(timer);
-  }, [currentPhase, enemyActionIndex, enemyActions.length, combatResult, deathQuote, movingUnit, executeNextEnemyAction]);
+  }, [currentPhase, enemyActionIndex, enemyActions.length, combatResult, deathQuote, movingUnit, eventDialogue, executeNextEnemyAction]);
 
   // Execute auto-battle actions sequentially
   useEffect(() => {
@@ -51,6 +53,7 @@ export function useGameLoop() {
     if (levelUpGains) return;
     if (deathQuote) return;
     if (movingUnit) return; // walking animation in progress
+    if (eventDialogue) return; // event dialogue showing — pause everything
 
     if (autoBattleIndex >= autoBattleActions.length) {
       executeNextAutoAction();
@@ -62,5 +65,5 @@ export function useGameLoop() {
     }, 400);
 
     return () => clearTimeout(timer);
-  }, [isAutoBattle, currentPhase, autoBattleIndex, autoBattleActions.length, combatResult, expBarData, levelUpGains, deathQuote, movingUnit, executeNextAutoAction]);
+  }, [isAutoBattle, currentPhase, autoBattleIndex, autoBattleActions.length, combatResult, expBarData, levelUpGains, deathQuote, movingUnit, eventDialogue, executeNextAutoAction]);
 }

@@ -4,9 +4,10 @@ import { renderClassSpriteBack } from './classSpritesBack';
 export type Palette = { primary: string; dark: string; light: string; outline: string };
 
 export const FACTION_COLORS: Record<Faction, Palette> = {
-  player: { primary: '#3b82f6', dark: '#1e40af', light: '#93c5fd', outline: '#1d4ed8' },
-  enemy:  { primary: '#ef4444', dark: '#991b1b', light: '#fca5a5', outline: '#b91c1c' },
-  ally:   { primary: '#22c55e', dark: '#166534', light: '#86efac', outline: '#15803d' },
+  player:  { primary: '#3b82f6', dark: '#1e40af', light: '#93c5fd', outline: '#1d4ed8' },
+  enemy:   { primary: '#ef4444', dark: '#991b1b', light: '#fca5a5', outline: '#b91c1c' },
+  ally:    { primary: '#22c55e', dark: '#166534', light: '#86efac', outline: '#15803d' },
+  neutral: { primary: '#a78bfa', dark: '#5b21b6', light: '#c4b5fd', outline: '#7c3aed' },
 };
 
 export function renderClassSprite(classId: string, c: Palette, facing: 'front' | 'back' = 'front') {

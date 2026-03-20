@@ -90,6 +90,24 @@ export const CHAPTER_1: ChapterData = {
       { speaker: 'Narrator', text: 'The survivors press onward, leaving the ruins of Renais behind them.' },
     ],
   },
+  events: [
+    {
+      id: 'ch1_turn2_dialogue',
+      trigger: { type: 'turn_start' as const, turn: 2 },
+      effects: [
+        {
+          type: 'show_dialogue' as const,
+          scene: {
+            lines: [
+              { speaker: 'Kael', text: 'More enemies ahead. Stay alert, everyone.', speakerFaction: 'player' as const },
+              { speaker: 'Ren', text: 'We push through together. No one gets left behind.', speakerFaction: 'player' as const },
+            ],
+          },
+        },
+      ],
+      once: true,
+    },
+  ],
   supportConversations: [
     {
       unitA: 'ren',

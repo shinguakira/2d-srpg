@@ -1,0 +1,70 @@
+.event-dialogue {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 40px;
+  cursor: pointer;
+}
+
+.event-dialogue__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.event-dialogue__panel {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border: 2px solid #334155;
+  border-radius: 8px;
+  padding: 16px 24px;
+  max-width: 720px;
+  width: 90%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.event-dialogue__portrait {
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.event-dialogue__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.event-dialogue__speaker {
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.event-dialogue__text {
+  color: #e2e8f0;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.event-dialogue__hint {
+  position: relative;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 12px;
+  margin-top: 8px;
+  animation: event-dialogue-pulse 2s ease-in-out infinite;
+}
+
+@keyframes event-dialogue-pulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.7; }
+}

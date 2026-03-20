@@ -1,6 +1,14 @@
-import type { Position, GameMap, Unit, Weapon } from './types';
+import type { Position, GameMap, Unit, Weapon, Faction } from './types';
 import { posKey } from './types';
 import { getClassMovementCost, isPassableForClass, type ClassFlags } from './terrain';
+
+/** Returns true if faction `a` considers faction `b` hostile (cannot pass through). */
+export function isHostileFaction(a: Faction, b: Faction): boolean {
+  if (a === 'neutral' || b === 'neutral') return true;
+  if (a === 'player' || a === 'ally') return b === 'enemy';
+  if (a === 'enemy') return b === 'player' || b === 'ally';
+  return false;
+}
 
 export function getManhattanDistance(a: Position, b: Position): number {
   return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
@@ -31,7 +39,7 @@ export function getMovementRange(
   const flags = classFlags ?? {};
 
   // occupant lookup
-  const occupantFaction = new Map<string, string>();
+  const occupantFaction = new Map<string, Faction>();
   for (const u of allUnits.values()) {
     if (u.id !== unit.id) {
       occupantFaction.set(posKey(u.position), u.faction);
@@ -62,9 +70,9 @@ export function getMovementRange(
 
       const nextKey = posKey(next);
 
-      // Cannot pass through enemy units
+      // Cannot pass through hostile units
       const occupant = occupantFaction.get(nextKey);
-      if (occupant && occupant !== unit.faction) continue;
+      if (occupant && isHostileFaction(unit.faction, occupant)) continue;
 
       // Only enqueue if this is a better path
       if (best.has(nextKey) && best.get(nextKey)! >= nextRemaining) continue;
@@ -73,7 +81,7 @@ export function getMovementRange(
     }
   }
 
-  // Build result: all reachable tiles except those occupied by allies
+  // Build result: all reachable tiles except those occupied by friendlies
   const result = new Set<string>();
   for (const [key] of best) {
     if (key === startKey) {
@@ -81,8 +89,8 @@ export function getMovementRange(
       continue;
     }
     const occupant = occupantFaction.get(key);
-    // Can't stop on a tile occupied by an ally
-    if (occupant && occupant === unit.faction) continue;
+    // Can't stop on a tile occupied by a friendly unit
+    if (occupant && !isHostileFaction(unit.faction, occupant)) continue;
     result.add(key);
   }
 
@@ -109,7 +117,7 @@ export function getPath(
   const mov = unit.stats.mov;
   const flags = classFlags ?? {};
 
-  const occupantFaction = new Map<string, string>();
+  const occupantFaction = new Map<string, Faction>();
   for (const u of allUnits.values()) {
     if (u.id !== unit.id) {
       occupantFaction.set(posKey(u.position), u.faction);
@@ -142,7 +150,7 @@ export function getPath(
 
       const nextKey = posKey(next);
       const occupant = occupantFaction.get(nextKey);
-      if (occupant && occupant !== unit.faction) continue;
+      if (occupant && isHostileFaction(unit.faction, occupant)) continue;
 
       if (best.has(nextKey) && best.get(nextKey)! >= nextRemaining) continue;
       best.set(nextKey, nextRemaining);

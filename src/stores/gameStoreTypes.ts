@@ -9,6 +9,10 @@ import type {
   UnitProgress,
   VillageReward,
   VillageData,
+  Faction,
+  ChapterEvent,
+  DialogueScene,
+  EventEffect,
 } from '../core/types';
 import type { SeededRandom } from '../core/rng';
 import type { CombatForecast, CombatResult } from '../core/combat';
@@ -82,7 +86,7 @@ export type GameState = {
     healerClassId: string;
     targetName: string;
     targetClassId: string;
-    targetFaction: 'player' | 'enemy' | 'ally';
+    targetFaction: Faction;
     healAmount: number;
     targetHpBefore: number;
     targetHpAfter: number;
@@ -103,10 +107,18 @@ export type GameState = {
 
   // Walking animation
   movingUnit: { unitId: string; path: Position[]; stepIndex: number; onComplete: 'wait' | 'combat' | 'heal' | 'item' | 'seize' | 'village' | 'enemy_action' | 'auto_action' } | null;
+
+  // Events
+  chapterEvents: ChapterEvent[];
+  firedEventIds: Set<string>;
+  eventFlags: Map<string, string>;
+  pendingEffects: EventEffect[][];
+  eventDialogue: DialogueScene | null;
+  eventDialogueLineIndex: number;
 };
 
 export type GameActions = {
-  initChapter: (chapter: ChapterData, seed?: number, unitProgress?: Record<string, UnitProgress>) => void;
+  initChapter: (chapter: ChapterData, seed?: number, unitProgress?: Record<string, UnitProgress>, deployedUnitIds?: string[]) => void;
   selectUnit: (unitId: string) => void;
   deselectUnit: () => void;
   hoverTile: (pos: Position | null) => void;
@@ -155,6 +167,13 @@ export type GameActions = {
 
   // Walking animation
   advanceMovement: () => void;
+
+  // Recruitment
+  startTalk: () => void;
+
+  // Events
+  advanceEventDialogue: () => void;
+  dismissEventDialogue: () => void;
 
   // Turn system
   endPlayerTurn: () => void;

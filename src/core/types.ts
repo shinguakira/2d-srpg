@@ -151,7 +151,7 @@ export type AIBehavior =
   | { readonly type: 'coordinated'; readonly groupId: string }
   | { readonly type: 'ambush'; readonly triggerRadius: number };
 
-export type Faction = 'player' | 'enemy' | 'ally';
+export type Faction = 'player' | 'enemy' | 'ally' | 'neutral';
 
 export type Unit = {
   readonly id: string;
@@ -173,6 +173,8 @@ export type Unit = {
   startPosition?: Position;
   isLord?: boolean;
   deathQuote?: string;
+  recruitableBy?: string;
+  recruitCondition?: 'talk' | 'visit_village' | 'event' | 'defection';
 };
 
 // ===== Game State =====
@@ -187,7 +189,8 @@ export type PlayerAction =
   | 'attack_target'
   | 'heal_target'
   | 'confirm'
-  | 'village_visit';
+  | 'village_visit'
+  | 'talk_target';
 
 // ===== Chapter =====
 
@@ -195,13 +198,17 @@ export type ObjectiveType = 'rout' | 'seize' | 'survive' | 'boss_kill' | 'escape
 
 export type ChapterObjective = {
   readonly type: ObjectiveType;
-  readonly turns?: number; // for survive
+  readonly turns?: number; // for survive/protect
+  readonly escapePosition?: Position; // for escape
+  readonly protectUnitId?: string; // for protect
   readonly description: string;
 };
 
 export type UnitPlacement = {
   readonly unitId: string;
   readonly position: Position;
+  readonly faction?: Faction;
+  readonly aiBehavior?: AIBehavior;
 };
 
 export type VillageReward = {
@@ -244,12 +251,44 @@ export type ChapterData = {
   readonly seizePosition?: Position;
   readonly reinforcements?: ReinforcementWave[];
   readonly supportConversations?: SupportConversation[];
+  readonly events?: ChapterEvent[];
+  readonly deploymentSlots?: number;
+  readonly forceDeploy?: string[];
+  readonly parTurns?: number;
 };
 
 export type ReinforcementWave = {
   readonly turn: number;
   readonly units: UnitPlacement[];
   readonly message?: string;
+};
+
+// ===== Events =====
+
+export type EventTrigger =
+  | { readonly type: 'turn_start'; readonly turn: number }
+  | { readonly type: 'turn_end'; readonly turn: number }
+  | { readonly type: 'phase_start'; readonly faction: Faction }
+  | { readonly type: 'unit_at'; readonly unitId: string; readonly position: Position }
+  | { readonly type: 'unit_killed'; readonly unitId: string }
+  | { readonly type: 'unit_hp_below'; readonly unitId: string; readonly percent: number }
+  | { readonly type: 'tile_visited'; readonly position: Position };
+
+export type EventEffect =
+  | { readonly type: 'show_dialogue'; readonly scene: DialogueScene }
+  | { readonly type: 'spawn_units'; readonly units: UnitPlacement[]; readonly faction: Faction }
+  | { readonly type: 'recruit_unit'; readonly unitId: string }
+  | { readonly type: 'change_ai'; readonly unitId: string; readonly newBehavior: AIBehavior }
+  | { readonly type: 'remove_unit'; readonly unitId: string }
+  | { readonly type: 'change_terrain'; readonly position: Position; readonly terrain: TerrainType }
+  | { readonly type: 'set_flag'; readonly key: string; readonly value: string }
+  | { readonly type: 'chain'; readonly effects: EventEffect[] };
+
+export type ChapterEvent = {
+  readonly id: string;
+  readonly trigger: EventTrigger;
+  readonly effects: EventEffect[];
+  readonly once: boolean;
 };
 
 // ===== Dialogue =====
@@ -275,11 +314,13 @@ export type UnitProgress = {
 };
 
 export type SaveData = {
-  readonly version: 1;
+  readonly version: 2;
   readonly timestamp: number;
   readonly currentChapterId: string;
   readonly completedChapters: string[];
   readonly unitProgress: Record<string, UnitProgress>;
+  readonly roster: string[];
+  readonly deadUnitIds: string[];
 };
 
 // ===== App Screens =====

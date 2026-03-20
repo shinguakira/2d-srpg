@@ -3,6 +3,7 @@ import type { GameState, GameActions } from '../gameStoreTypes';
 import { IDLE_RESET } from '../helpers/constants';
 import { ENEMY_UNITS } from '../../data/units';
 import { refreshDangerZone } from '../helpers/dangerZoneHelpers';
+import { checkAndFireEvents } from './eventActions';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -79,7 +80,14 @@ export function dismissPhaseBanner(get: Get, set: Set) {
         gameMap: { ...gameMap, tiles: newTiles },
         reinforcementMessage,
       });
-      get().computeEnemyActions();
+
+      // Fire turn-start events (enemy phase = end of player's turn)
+      checkAndFireEvents(get, set, { justStartedPhase: 'enemy' });
+
+      // Don't compute enemy actions if event dialogue is showing — useGameLoop will resume
+      if (!get().eventDialogue) {
+        get().computeEnemyActions();
+      }
     } else {
       set({ phaseBanner: null, currentPhase: 'game_over', units: newEnemyUnits, gameMap: { ...gameMap, tiles: newTiles } });
     }
@@ -111,6 +119,22 @@ export function dismissPhaseBanner(get: Get, set: Set) {
       currentPhase: 'player_phase',
       units: newUnits,
     });
+
+    // Check survive/protect turn-based victory at start of new player phase
+    // currentTurn was already incremented in endEnemyTurn, so check if prev turn met the objective
+    const { currentTurn, chapterData: cd } = get();
+    const objType = cd?.objective.type;
+    if ((objType === 'survive' || objType === 'protect') && cd?.objective.turns) {
+      // Turn N+1 means N full enemy phases survived
+      if (currentTurn > cd.objective.turns) {
+        set({ currentPhase: 'game_over' });
+        return;
+      }
+    }
+
+    // Fire turn-start events for player phase
+    checkAndFireEvents(get, set, { justStartedPhase: 'player' });
+
     // Refresh danger zone after enemy turn (enemies may have moved)
     refreshDangerZone(get, set);
   }

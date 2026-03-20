@@ -14,6 +14,7 @@ import { HealingAnimation } from './Combat/HealingAnimation';
 import { ReinforcementBanner } from './UI/ReinforcementBanner';
 import { LevelUpPopup } from './Combat/LevelUpPopup';
 import { ExpBar } from './Combat/ExpBar';
+import { EventDialogue } from './UI/EventDialogue';
 import { UnitDetailScreen } from './UI/UnitDetailScreen';
 import { useGameStore } from '../stores/gameStore';
 import { useUIStore } from '../stores/uiStore';
@@ -37,12 +38,15 @@ export function Game() {
 
   const chapterData = useCampaignStore((s) => s.currentChapterData);
   const unitProgress = useCampaignStore((s) => s.unitProgress);
+  const deployedUnitIds = useCampaignStore((s) => s.deployedUnitIds);
 
   useEffect(() => {
     if (!chapterData) return;
     const params = new URLSearchParams(window.location.search);
     const seed = Number(params.get('seed')) || Date.now();
-    initChapter(chapterData, seed, Object.keys(unitProgress).length > 0 ? unitProgress : undefined);
+    const progress = Object.keys(unitProgress).length > 0 ? unitProgress : undefined;
+    const deployed = deployedUnitIds.length > 0 ? deployedUnitIds : undefined;
+    initChapter(chapterData, seed, progress, deployed);
   }, [chapterData, initChapter]);
 
   // Compute tile size to fill viewport
@@ -105,6 +109,7 @@ export function Game() {
       <VillageDialogue />
       <HealNotification />
       <DeathQuoteOverlay />
+      <EventDialogue />
       <ExpBar />
       <LevelUpPopup />
       <ReinforcementBanner />
@@ -120,6 +125,7 @@ export function Game() {
 function GameOverOverlay() {
   const units = useGameStore((s) => s.units);
   const chapterData = useGameStore((s) => s.chapterData);
+  const currentTurn = useGameStore((s) => s.currentTurn);
   const onChapterVictory = useCampaignStore((s) => s.onChapterVictory);
   const goToTitle = useCampaignStore((s) => s.goToTitle);
 
@@ -159,8 +165,8 @@ function GameOverOverlay() {
         };
       }
     }
-    onChapterVictory(progress);
-  }, [units, onChapterVictory]);
+    onChapterVictory(progress, currentTurn);
+  }, [units, onChapterVictory, currentTurn]);
 
   return (
     <div

@@ -3,13 +3,15 @@ import { writeSave, readSave, deleteSave, hasSave, hasAnySave, getSlotSummary } 
 import type { SaveData } from '../../src/core/types';
 
 const SAMPLE_SAVE: SaveData = {
-  version: 1,
+  version: 2,
   timestamp: 1700000000000,
   currentChapterId: 'ch2',
   completedChapters: ['ch1'],
   unitProgress: {
     ren: { level: 3, exp: 45, stats: { hp: 22, str: 7, mag: 1, def: 6, res: 2, spd: 8, skl: 6, lck: 8, mov: 5, cha: 0, wil: 0 } },
   },
+  roster: ['ren', 'kael'],
+  deadUnitIds: [],
 };
 
 describe('saveManager', () => {
@@ -63,5 +65,24 @@ describe('saveManager', () => {
 
   it('getSlotSummary returns null for empty slot', () => {
     expect(getSlotSummary(0)).toBeNull();
+  });
+
+  it('migrates v1 save to v2 on read', () => {
+    const v1Save = {
+      version: 1,
+      timestamp: 1700000000000,
+      currentChapterId: 'ch2',
+      completedChapters: ['ch1'],
+      unitProgress: {
+        ren: { level: 3, exp: 45, stats: { hp: 22, str: 7, mag: 1, def: 6, res: 2, spd: 8, skl: 6, lck: 8, mov: 5, cha: 0, wil: 0 } },
+      },
+    };
+    localStorage.setItem('srpg_save_slot_0', JSON.stringify(v1Save));
+    const loaded = readSave(0);
+    expect(loaded).not.toBeNull();
+    expect(loaded!.version).toBe(2);
+    expect(loaded!.roster).toEqual(['ren']);
+    expect(loaded!.deadUnitIds).toEqual([]);
+    expect(loaded!.currentChapterId).toBe('ch2');
   });
 });

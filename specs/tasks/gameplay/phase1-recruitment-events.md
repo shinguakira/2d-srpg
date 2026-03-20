@@ -9,81 +9,87 @@
 
 > **Ref:** [`specs/gameplay/battle-logic.md`](specs/gameplay/battle-logic.md), [`specs/gameplay/objectives.md`](specs/gameplay/objectives.md)
 
-- [ ] Define `ChapterEvent` type in `types.ts`:
+- [x] Define `ChapterEvent` type in `types.ts`:
   - `id`, `trigger` (condition), `effect` (action), `once` (boolean), `fired` (boolean)
-- [ ] Define trigger types: `turn_start(n)`, `turn_end(n)`, `unit_at(unitId, row, col)`, `unit_hp_below(unitId, pct)`, `unit_killed(unitId)`, `tile_visited(row, col)`, `phase_start(faction)`, `custom(fn)`
-- [ ] Define effect types: `spawn_units(units[])`, `change_terrain(pos, newType)`, `show_dialogue(scene)`, `change_ai(unitId, newBehavior)`, `remove_unit(unitId)`, `recruit_unit(unitId)`, `set_flag(key, value)`, `chain(effects[])`
-- [ ] Create `src/core/events.ts` — pure event evaluation logic
-- [ ] Add `chapterEvents: ChapterEvent[]` to GameState in `gameStoreTypes.ts`
-- [ ] Add `firedEventIds: Set<string>` to GameState for one-shot tracking
-- [ ] Create `src/stores/actions/eventActions.ts` — evaluate events on phase transitions
-- [ ] Hook event evaluation into `turnActions.ts` at phase start/end
-- [ ] Hook event evaluation into `movementActions.ts` after unit moves
-- [ ] Hook event evaluation into `combatActions.ts` after combat resolves
-- [ ] Unit tests: event trigger matching, effect application, once-only firing
+- [x] Define trigger types: `turn_start(n)`, `turn_end(n)`, `unit_at(unitId, row, col)`, `unit_hp_below(unitId, pct)`, `unit_killed(unitId)`, `tile_visited(row, col)`, `phase_start(faction)`
+- [x] Define effect types: `spawn_units(units[])`, `change_terrain(pos, newType)`, `show_dialogue(scene)`, `change_ai(unitId, newBehavior)`, `remove_unit(unitId)`, `recruit_unit(unitId)`, `set_flag(key, value)`, `chain(effects[])`
+- [x] Create `src/core/events.ts` — pure event evaluation logic
+- [x] Add `chapterEvents: ChapterEvent[]` to GameState in `gameStoreTypes.ts`
+- [x] Add `firedEventIds: Set<string>` to GameState for one-shot tracking
+- [x] Create `src/stores/actions/eventActions.ts` — evaluate events on phase transitions
+- [x] Hook event evaluation into `turnActions.ts` at phase start/end
+- [x] Hook event evaluation into `movementActions.ts` after unit moves
+- [x] Hook event evaluation into `combatActions.ts` after combat resolves
+- [x] Unit tests: event trigger matching, effect application, once-only firing (17 tests)
+- [ ] `custom(fn)` trigger type (deferred — no chapters use it yet)
 
 ## Event System — Visual Effects
 
 > **Ref:** [`specs/ui/animations.md`](specs/ui/animations.md)
 
-- [ ] Mid-battle dialogue overlay component (reuse DialogueBox with battle still visible)
-- [ ] Terrain change animation (tile flicker + swap)
-- [ ] Unit spawn animation (fade in on tile)
-- [ ] Unit removal animation (fade out)
-- [ ] Event queue processing — sequential, wait for dialogue dismiss before next
-- [ ] Pause enemy AI execution during event dialogue
+- [x] Mid-battle dialogue overlay component (`EventDialogue.tsx`)
+- [ ] Terrain change animation (tile flicker + swap) — deferred
+- [ ] Unit spawn animation (fade in on tile) — deferred
+- [ ] Unit removal animation (fade out) — deferred
+- [x] Event queue processing — sequential via `pendingEffects`, wait for dialogue dismiss
+- [x] Pause enemy AI execution during event dialogue (`useGameLoop.ts`)
 
 ## Recruitment System — Core
 
 > **Ref:** [`specs/story/roster.md`](specs/story/roster.md), [`specs/story/characters.md`](specs/story/characters.md)
 
-- [ ] Add `faction` field expansion: `'player' | 'enemy' | 'ally' | 'neutral'`
-- [ ] Add ally faction AI: moves independently, does not block player tiles
-- [ ] Ally units render with green tint (distinct from blue player, red enemy)
-- [ ] Add `recruitableBy` field to Unit type (which unit ID can recruit via Talk)
-- [ ] Add `recruitCondition` field: `'talk' | 'visit_village' | 'event' | 'defection'`
-- [ ] Add `Talk` action to action menu (shows when adjacent to recruitable unit)
-- [ ] Talk action resolution: change unit faction from enemy/ally → player
-- [ ] Enemy defection: event-triggered faction swap (Voss-style, ch2)
-- [ ] Village recruitment: visit village tile triggers unit join (Nira-style, ch3)
-- [ ] Conditional recruitment: unit joins only if specific conditions met (Coda-style, ch4)
-- [ ] Recruited unit inherits current HP/stats (not reset)
-- [ ] Unit tests: faction swap, Talk action availability, recruitment conditions
+- [x] Add `faction` field expansion: `'player' | 'enemy' | 'ally' | 'neutral'`
+- [x] Ally units render with green tint, neutral with purple
+- [x] `isHostileFaction()` helper for faction-aware pathfinding/targeting
+- [x] Add `recruitableBy` field to Unit type
+- [x] Add `recruitCondition` field: `'talk' | 'visit_village' | 'event' | 'defection'`
+- [x] Add `Talk` action to action menu (shows when adjacent to recruitable unit)
+- [x] Talk action resolution: change unit faction from enemy/ally → player
+- [x] Recruited unit inherits current HP/stats (not reset)
+- [x] Unit tests: faction swap, Talk action availability (5 tests)
+- [ ] Ally faction independent AI movement — deferred (no ally units in current chapters)
+- [ ] Enemy defection: event-triggered faction swap — `recruit_unit` effect exists but no chapter wires it yet
+- [ ] Village recruitment: `visit_village` condition defined but not wired in village action
+- [ ] Conditional recruitment: conditions defined but runtime check deferred
 
 ## Roster & Deployment System
 
 > **Ref:** [`specs/progression/preparation.md`](specs/progression/preparation.md), [`specs/progression/campaign.md`](specs/progression/campaign.md)
 
-- [ ] Add `roster: Unit[]` to campaign state (all recruited units across chapters)
-- [ ] Persist roster in save data (campaignStore)
-- [ ] Add `deploymentSlots` per chapter config (max units deployable)
-- [ ] Add `forceDeploy` per chapter config (units that must be deployed, e.g., Ren)
-- [ ] Preparation screen: show roster, allow drag/select to deploy up to slot limit
-- [ ] Grayed-out units not selected for deployment
-- [ ] Unit order in deployment maps to spawn tile order (row-by-row)
-- [ ] Deployment slot limits per arc: Arc1=3→6, Arc2=6→8, Arc3=8→10, Arc4=10→12, Arc5=12
-- [ ] Add roster carry-over between chapters (persist level, stats, inventory)
-- [ ] Update chapter init to use roster + deployment selection instead of hardcoded units
+- [x] Add `roster: string[]` to campaign state (unit IDs across chapters)
+- [x] Persist roster in save data (SaveData v2 with v1→v2 migration)
+- [x] Add `deploymentSlots` per chapter config
+- [x] Add `forceDeploy` per chapter config (units that must be deployed)
+- [x] Preparation screen: show roster with deploy/bench toggle, counter, forced indicators
+- [x] Grayed-out dead units (classic mode)
+- [x] Deployment position mapping: deployed IDs → chapter spawn positions (capped to available slots)
+- [x] Add roster carry-over between chapters (merge recruited units on victory)
+- [x] Update chapter init to accept `deployedUnitIds` for roster-based deployment
+- [ ] Deployment slot limits per arc — type exists but no chapter data uses it yet
 
 ## Chapter Configuration Expansion
 
 > **Ref:** [`specs/gameplay/objectives.md`](specs/gameplay/objectives.md), [`specs/gameplay/experience.md`](specs/gameplay/experience.md), [`specs/maps/overview.md`](specs/maps/overview.md)
 
-- [ ] Add `events` array to chapter config type
-- [ ] Add `recruitableUnits` to chapter config
-- [ ] Add `deploymentSlots` to chapter config
-- [ ] Add `forceDeploy` to chapter config
-- [ ] Add `objectiveType` to chapter config (beyond just rout/seize)
-- [ ] Add `parTurns` to chapter config (for bonus EXP calculation)
-- [ ] Add `bonusEXP` calculation: `(parTurns - actualTurns) × 50`, max 300
-- [ ] Update chapter victory check to support boss_kill, protect, escape, survive objectives
-- [ ] Add survive objective: victory after N turns if Ren alive
-- [ ] Add boss_kill objective: victory when specific unit defeated
+- [x] Add `events` array to chapter config type
+- [x] Add `deploymentSlots` to chapter config
+- [x] Add `forceDeploy` to chapter config
+- [x] Add `objectiveType` expansion: rout, seize, boss_kill, protect, escape, survive, capture, dual
+- [x] Add `parTurns` to chapter config
+- [x] Add bonus EXP calculation: `(parTurns - actualTurns) × 50`, max 300, capped at 99 per unit
+- [x] Victory check for boss_kill (no boss AI enemy remains)
+- [x] Victory check for protect (protected unit dies → defeat)
+- [x] Survive objective: victory at start of player phase after N enemy phases
+- [x] Lord death → defeat for non-rout objectives
+- [x] Sample events wired into ch1 (turn 2 dialogue) and ch2 (turn 2 hint)
+- [ ] `recruitableUnits` as separate chapter field — recruitment via unit `recruitableBy` field instead
+- [ ] Escape objective action/resolution logic — deferred
 
 ## Validation
 
-- [ ] Unit tests for event system (trigger evaluation, effect application)
-- [ ] Unit tests for recruitment (faction swap, Talk action, conditions)
-- [ ] Integration: create test chapter with mid-battle event + recruitment
-- [ ] `npm run build` — zero errors
-- [ ] `npx vitest run` — all tests pass
+- [x] Unit tests for event system (17 tests — trigger evaluation, effect application, once-only firing)
+- [x] Unit tests for recruitment (5 tests — faction swap, Talk action)
+- [x] Unit tests for save migration (v1→v2)
+- [x] `npm run build` — zero errors
+- [x] `npx vitest run` — 125 tests pass (12 files)
+- [ ] Integration: create test chapter with mid-battle event + recruitment — deferred

@@ -14,6 +14,8 @@ type CampaignState = {
   unitProgress: Record<string, UnitProgress>;
   gameMode: GameMode;
   deadUnitIds: string[];
+  roster: string[]; // ordered list of recruited unit IDs
+  deployedUnitIds: string[]; // unit IDs selected for current chapter deployment
   storage: string[]; // weapon/item IDs in shared storage
   viewedSupports: string[]; // "chapterId:unitA:unitB" keys of viewed conversations
 
@@ -32,7 +34,7 @@ type CampaignState = {
   startBattle: () => void;
   startDialogue: (scene: DialogueScene, phase: DialoguePhase) => void;
   advanceDialogue: () => void;
-  onChapterVictory: (unitProgress: Record<string, UnitProgress>) => void;
+  onChapterVictory: (unitProgress: Record<string, UnitProgress>, actualTurns?: number) => void;
 
   // Save/Load
   saveToSlot: (slot: number) => void;
@@ -53,6 +55,8 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
   dialogueScene: null,
   dialogueLineIndex: 0,
   dialoguePhase: null,
+  roster: [],
+  deployedUnitIds: [],
   storage: [],
   viewedSupports: [],
 
@@ -68,7 +72,9 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
   setGameMode: (mode: GameMode) => set({ gameMode: mode }),
 
   startNewGame: () => {
-    set({ completedChapters: [], unitProgress: {}, deadUnitIds: [], storage: [], viewedSupports: [] });
+    const ch1 = CHAPTERS['ch1'];
+    const initialRoster = ch1 ? ch1.playerUnits.map((p) => p.unitId) : [];
+    set({ completedChapters: [], unitProgress: {}, deadUnitIds: [], roster: initialRoster, deployedUnitIds: [], storage: [], viewedSupports: [] });
     get().startChapter('ch1');
   },
 
@@ -134,15 +140,41 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
     }
   },
 
-  onChapterVictory: (progress: Record<string, UnitProgress>) => {
-    const { currentChapterId, completedChapters, currentChapterData } = get();
+  onChapterVictory: (progress: Record<string, UnitProgress>, actualTurns?: number) => {
+    const { currentChapterId, completedChapters, currentChapterData, roster } = get();
     if (!currentChapterId) return;
 
     const newCompleted = completedChapters.includes(currentChapterId)
       ? completedChapters
       : [...completedChapters, currentChapterId];
 
-    set({ completedChapters: newCompleted, unitProgress: progress });
+    // Merge newly recruited units into roster
+    const newRoster = [...roster];
+    for (const unitId of Object.keys(progress)) {
+      if (!newRoster.includes(unitId)) {
+        newRoster.push(unitId);
+      }
+    }
+
+    // Bonus EXP for completing under par turns (capped so unit EXP doesn't exceed 99)
+    if (currentChapterData?.parTurns && actualTurns) {
+      const bonusPool = Math.min(300, Math.max(0, (currentChapterData.parTurns - actualTurns) * 50));
+      if (bonusPool > 0) {
+        const unitIds = Object.keys(progress);
+        const perUnit = Math.floor(bonusPool / unitIds.length);
+        if (perUnit > 0) {
+          for (const uid of unitIds) {
+            const current = progress[uid].exp;
+            const capped = Math.min(perUnit, 99 - current);
+            if (capped > 0) {
+              progress[uid] = { ...progress[uid], exp: current + capped };
+            }
+          }
+        }
+      }
+    }
+
+    set({ completedChapters: newCompleted, unitProgress: progress, roster: newRoster });
 
     if (currentChapterData?.epilogue) {
       get().startDialogue(currentChapterData.epilogue, 'epilogue');
@@ -159,15 +191,16 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
   },
 
   saveToSlot: (slot: number) => {
-    const { currentChapterId, completedChapters, unitProgress } = get();
-    // Determine next chapter for the save
+    const { currentChapterId, completedChapters, unitProgress, roster, deadUnitIds } = get();
     const nextChapterId = getNextChapterId(currentChapterId, completedChapters);
     writeSave(slot, {
-      version: 1,
+      version: 2,
       timestamp: Date.now(),
       currentChapterId: nextChapterId,
       completedChapters,
       unitProgress,
+      roster,
+      deadUnitIds,
     });
   },
 
@@ -177,6 +210,8 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
     set({
       completedChapters: data.completedChapters,
       unitProgress: data.unitProgress,
+      roster: data.roster,
+      deadUnitIds: data.deadUnitIds,
     });
     get().startChapter(data.currentChapterId);
     return true;

@@ -18,6 +18,8 @@ import { endPlayerTurn, dismissPhaseBanner } from './actions/turnActions';
 import { startAttackTargeting, selectAttackTarget, confirmAttack, advanceCombatAnimation, finishCombat } from './actions/combatActions';
 import { computeEnemyActions, executeNextEnemyAction, finishEnemyCombat, endEnemyTurn } from './actions/enemyActions';
 import { startAutoBattle, executeNextAutoAction, finishAutoCombat } from './actions/autoBattleActions';
+import { advanceEventDialogue, dismissEventDialogue } from './actions/eventActions';
+import { startTalk } from './actions/recruitActions';
 
 export const useGameStore = create<GameState & GameActions>((set, get) => ({
   gameMap: EMPTY_MAP,
@@ -62,9 +64,15 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   deathQuote: null,
   floatingNumbers: [],
   movingUnit: null,
+  chapterEvents: [],
+  firedEventIds: new Set(),
+  eventFlags: new Map(),
+  pendingEffects: [],
+  eventDialogue: null,
+  eventDialogueLineIndex: 0,
 
   // Init
-  initChapter: (chapter, seed = 12345, unitProgress?) => initChapter(get, set, chapter, seed, unitProgress),
+  initChapter: (chapter, seed = 12345, unitProgress?, deployedUnitIds?) => initChapter(get, set, chapter, seed, unitProgress, deployedUnitIds),
 
   // Selection & navigation
   selectUnit: (unitId) => selectUnit(get, set, unitId),
@@ -100,6 +108,13 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   startHealTargeting: () => startHealTargeting(get, set),
   confirmHeal: (targetId) => confirmHeal(get, set, targetId),
   finishHealAnimation: () => finishHealAnimation(get, set),
+
+  // Recruitment
+  startTalk: () => startTalk(get, set),
+
+  // Events
+  advanceEventDialogue: () => advanceEventDialogue(get, set),
+  dismissEventDialogue: () => dismissEventDialogue(get, set),
 
   // Turn system
   endPlayerTurn: () => endPlayerTurn(get, set),

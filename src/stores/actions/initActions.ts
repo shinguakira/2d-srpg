@@ -7,9 +7,9 @@ import { buildMap, placeUnits } from '../helpers/mapHelpers';
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
 
-export function initChapter(_get: Get, set: Set, chapter: ChapterData, seed: number = 12345, unitProgress?: Record<string, UnitProgress>) {
+export function initChapter(_get: Get, set: Set, chapter: ChapterData, seed: number = 12345, unitProgress?: Record<string, UnitProgress>, deployedUnitIds?: string[]) {
   const map = buildMap(chapter);
-  const units = placeUnits(chapter, map, unitProgress);
+  const units = placeUnits(chapter, map, unitProgress, deployedUnitIds);
   set({
     gameMap: map,
     units,
@@ -48,5 +48,11 @@ export function initChapter(_get: Get, set: Set, chapter: ChapterData, seed: num
     healAnimationData: null,
     reinforcementMessage: null,
     floatingNumbers: [],
+    chapterEvents: chapter.events ?? [],
+    firedEventIds: new Set<string>(),
+    eventFlags: new Map<string, string>(),
+    pendingEffects: [],
+    eventDialogue: null,
+    eventDialogueLineIndex: 0,
   });
 }

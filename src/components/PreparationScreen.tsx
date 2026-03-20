@@ -25,6 +25,13 @@ export function PreparationScreen() {
   const startBattle = useCampaignStore((s) => s.startBattle);
   const storage = useCampaignStore((s) => s.storage);
   const viewedSupports = useCampaignStore((s) => s.viewedSupports);
+  const roster = useCampaignStore((s) => s.roster);
+  const deadUnitIds = useCampaignStore((s) => s.deadUnitIds);
+  const gameMode = useCampaignStore((s) => s.gameMode);
+
+  const hasDeploymentSlots = !!chapterData?.deploymentSlots;
+  const maxDeploy = chapterData?.deploymentSlots ?? 0;
+  const forceDeploy = chapterData?.forceDeploy ?? [];
 
   const [tab, setTab] = useState<Tab>('units');
   const [units, setUnits] = useState<PrepUnit[]>(() => buildUnits());
@@ -33,30 +40,45 @@ export function PreparationScreen() {
   const [supportScene, setSupportScene] = useState<SupportConversation | null>(null);
   const [supportLineIdx, setSupportLineIdx] = useState(0);
   const [completedSupports, setCompletedSupports] = useState<string[]>([]);
+  const [deployedIds, setDeployedIds] = useState<string[]>(() => {
+    if (!hasDeploymentSlots) return [];
+    // Auto-deploy force-deploy units
+    return [...forceDeploy];
+  });
+
+  function buildPrepUnit(unitId: string): PrepUnit | null {
+    const template = PLAYER_UNITS[unitId];
+    if (!template) return null;
+    const progress = unitProgress[unitId];
+    const weapons = progress?.weaponIds?.length
+      ? progress.weaponIds.map((wid) => ({ ...WEAPONS[wid] })).filter(Boolean)
+      : template.inventory.map((w) => ({ ...w }));
+    const items = progress?.itemIds?.length
+      ? progress.itemIds.map((iid) => ({ ...ITEMS[iid] })).filter(Boolean)
+      : template.items.map((i) => ({ ...i, effect: { ...i.effect } }));
+    return {
+      id: template.id,
+      name: template.name,
+      classId: template.classId,
+      level: progress?.level ?? template.level,
+      exp: progress?.exp ?? template.exp,
+      stats: progress ? { ...progress.stats } : { ...template.stats },
+      weapons,
+      items,
+    };
+  }
 
   function buildUnits(): PrepUnit[] {
     if (!chapterData) return [];
-    return chapterData.playerUnits.map((placement) => {
-      const template = PLAYER_UNITS[placement.unitId];
-      if (!template) return null;
-      const progress = unitProgress[placement.unitId];
-      const weapons = progress?.weaponIds?.length
-        ? progress.weaponIds.map((wid) => ({ ...WEAPONS[wid] })).filter(Boolean)
-        : template.inventory.map((w) => ({ ...w }));
-      const items = progress?.itemIds?.length
-        ? progress.itemIds.map((iid) => ({ ...ITEMS[iid] })).filter(Boolean)
-        : template.items.map((i) => ({ ...i, effect: { ...i.effect } }));
-      return {
-        id: template.id,
-        name: template.name,
-        classId: template.classId,
-        level: progress?.level ?? template.level,
-        exp: progress?.exp ?? template.exp,
-        stats: progress ? { ...progress.stats } : { ...template.stats },
-        weapons,
-        items,
-      };
-    }).filter(Boolean) as PrepUnit[];
+    if (hasDeploymentSlots && roster.length > 0) {
+      // Roster mode: show all alive roster units
+      return roster
+        .filter((id) => gameMode !== 'classic' || !deadUnitIds.includes(id))
+        .map(buildPrepUnit)
+        .filter(Boolean) as PrepUnit[];
+    }
+    // Legacy mode: use chapter playerUnits
+    return chapterData.playerUnits.map((placement) => buildPrepUnit(placement.unitId)).filter(Boolean) as PrepUnit[];
   }
 
   // Weapon/item transfer: unit → storage
@@ -146,6 +168,18 @@ export function PreparationScreen() {
     }
   }, [supportScene, supportLineIdx, chapterData]);
 
+  // Toggle deploy status for a unit
+  const toggleDeploy = useCallback((unitId: string) => {
+    if (forceDeploy.includes(unitId)) return; // locked
+    setDeployedIds((prev) => {
+      if (prev.includes(unitId)) {
+        return prev.filter((id) => id !== unitId);
+      }
+      if (prev.length >= maxDeploy) return prev; // at capacity
+      return [...prev, unitId];
+    });
+  }, [forceDeploy, maxDeploy]);
+
   // Start battle — persist changes to campaign store
   const handleStartBattle = useCallback(() => {
     // Save unit changes back to unitProgress
@@ -164,9 +198,10 @@ export function PreparationScreen() {
       unitProgress: newProgress,
       storage: storageItems,
       viewedSupports: allViewed,
+      deployedUnitIds: hasDeploymentSlots ? deployedIds : [],
     });
     startBattle();
-  }, [units, storageItems, unitProgress, viewedSupports, completedSupports, startBattle]);
+  }, [units, storageItems, unitProgress, viewedSupports, completedSupports, startBattle, hasDeploymentSlots, deployedIds]);
 
   if (!chapterData) return null;
 
@@ -222,15 +257,36 @@ export function PreparationScreen() {
         </button>
       </div>
 
+      {hasDeploymentSlots && (
+        <div className="prep-screen__deploy-counter" data-testid="deploy-counter">
+          {deployedIds.length}/{maxDeploy} deployed
+        </div>
+      )}
+
       <div className="prep-screen__content">
         {tab === 'units' && (
           <div className="prep-screen__unit-list">
-            {units.map((unit) => (
+            {units.map((unit) => {
+              const isDeployed = deployedIds.includes(unit.id);
+              const isForced = forceDeploy.includes(unit.id);
+              const isDead = deadUnitIds.includes(unit.id);
+              return (
               <div
                 key={unit.id}
-                className={`prep-screen__unit-card ${selectedUnit === unit.id ? 'prep-screen__unit-card--selected' : ''}`}
-                onClick={() => setSelectedUnit(selectedUnit === unit.id ? null : unit.id)}
+                className={`prep-screen__unit-card ${selectedUnit === unit.id ? 'prep-screen__unit-card--selected' : ''}${isDead ? ' prep-screen__unit-card--dead' : ''}${hasDeploymentSlots && isDeployed ? ' prep-screen__unit-card--deployed' : ''}`}
+                onClick={() => !isDead && setSelectedUnit(selectedUnit === unit.id ? null : unit.id)}
               >
+                {hasDeploymentSlots && !isDead && (
+                  <button
+                    className={`prep-screen__deploy-toggle ${isDeployed ? 'prep-screen__deploy-toggle--active' : ''} ${isForced ? 'prep-screen__deploy-toggle--locked' : ''}`}
+                    data-testid={`deploy-toggle-${unit.id}`}
+                    onClick={(e) => { e.stopPropagation(); toggleDeploy(unit.id); }}
+                    disabled={isForced}
+                  >
+                    {isForced ? 'Required' : isDeployed ? 'Deploy' : 'Bench'}
+                  </button>
+                )}
+                {isDead && <div className="prep-screen__dead-label">Fallen</div>}
                 <div className="prep-screen__unit-sprite">
                   <BattleSprite classId={unit.classId} faction="player" />
                 </div>
@@ -271,7 +327,7 @@ export function PreparationScreen() {
                   </div>
                 </div>
               </div>
-            ))}
+              ); })}
           </div>
         )}
 
@@ -351,8 +407,9 @@ export function PreparationScreen() {
           className="prep-screen__start-btn"
           data-testid="prep-start-battle"
           onClick={handleStartBattle}
+          disabled={hasDeploymentSlots && deployedIds.length === 0}
         >
-          Start Battle
+          Start Battle{hasDeploymentSlots ? ` (${deployedIds.length}/${maxDeploy})` : ''}
         </button>
       </div>
     </div>

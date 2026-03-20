@@ -118,3 +118,36 @@
   align-self: center;
   padding: 0 2px;
 }
+
+/* Skills section */
+.combat-forecast__skills {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 11px;
+}
+
+.combat-forecast__skill-warning {
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.combat-forecast__skill-list {
+  color: #94a3b8;
+  margin-bottom: 2px;
+}
+
+.combat-forecast__skill-label {
+  color: #64748b;
+  margin-right: 4px;
+}
+
+.combat-forecast__skill-name {
+  color: #fbbf24;
+  margin-right: 4px;
+}
+
+.combat-forecast__skill-name::before {
+  content: '• ';
+  color: #475569;
+}

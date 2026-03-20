@@ -167,6 +167,9 @@ function GameOverOverlay() {
           stats: { ...u.stats },
           weaponIds: u.inventory.map((w) => w.id),
           itemIds: u.items.map((i) => i.id),
+          classId: u.classId,
+          skillIds: u.skills ?? [],
+          learnedSkillIds: u.learnedSkills ?? [],
         };
       }
     }

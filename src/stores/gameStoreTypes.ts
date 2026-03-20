@@ -127,6 +127,10 @@ export type GameState = {
 
   // Escape
   escapedUnitIds: Set<string>; // units that have escaped the map
+
+  // Canto (post-combat movement for cavalry)
+  cantoRange: Set<string>;
+  cantoRemainingMov: number;
 };
 
 export type GameActions = {
@@ -204,4 +208,12 @@ export type GameActions = {
   executeNextAllyAction: () => void;
   finishAllyCombat: () => void;
   endAllyTurn: () => void;
+
+  // Movement skills
+  shove: () => void;
+  swap: () => void;
+  reposition: () => void;
+
+  // Canto
+  confirmCantoMove: (pos: Position) => void;
 };

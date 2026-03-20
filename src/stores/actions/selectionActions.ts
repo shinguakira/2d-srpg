@@ -5,6 +5,7 @@ import { calculateCombatForecast } from '../../core/combat';
 import type { GameState, GameActions } from '../gameStoreTypes';
 import { EMPTY_SET, IDLE_RESET } from '../helpers/constants';
 import { getClassFlags } from '../helpers/mapHelpers';
+import { hasSkill } from '../../core/skills';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -17,7 +18,8 @@ export function selectUnit(get: Get, set: Set, unitId: string) {
   if (unit.hasActed) return;
 
   const flags = getClassFlags(unit);
-  const moveRange = getMovementRange(unit, gameMap, units, flags);
+  const canPass = hasSkill(unit, 'pass');
+  const moveRange = getMovementRange(unit, gameMap, units, flags, canPass);
   const atkRange = getFullAttackRange(unit, moveRange, gameMap);
 
   set({
@@ -90,6 +92,22 @@ export function clickTile(get: Get, set: Set, pos: Position) {
         get().selectUnit(unit.id);
         return;
       }
+    }
+    return;
+  }
+
+  // Canto: click a tile in canto range to move there
+  if (playerAction === 'canto_move' && selectedUnitId) {
+    const key = posKey(pos);
+    const { cantoRange } = get();
+    if (cantoRange.has(key)) {
+      get().confirmCantoMove(pos);
+      return;
+    }
+    // Clicking outside canto range: stay in place (mark hasActed)
+    const unit = units.get(selectedUnitId);
+    if (unit) {
+      get().confirmCantoMove(unit.position);
     }
     return;
   }

@@ -130,6 +130,43 @@ export function CombatPreview() {
           {triangle.text}
         </div>
       )}
+
+      {/* Skills info */}
+      {(forecast.attackerSkills.length > 0 || forecast.defenderSkills.length > 0 || forecast.vantageActive) && (
+        <div className="combat-forecast__skills">
+          {forecast.vantageActive && (
+            <div className="combat-forecast__skill-warning" style={{ color: '#ef4444' }}>
+              Vantage — Defender attacks first!
+            </div>
+          )}
+          {attackerIsPlayer && forecast.defenderSkills.includes('nihil') && (
+            <div className="combat-forecast__skill-warning" style={{ color: '#ef4444' }}>
+              Nihil — Your skills disabled
+            </div>
+          )}
+          {!attackerIsPlayer && forecast.attackerSkills.includes('nihil') && (
+            <div className="combat-forecast__skill-warning" style={{ color: '#ef4444' }}>
+              Nihil — Your skills disabled
+            </div>
+          )}
+          {forecast.attackerSkills.length > 0 && (
+            <div className="combat-forecast__skill-list">
+              <span className="combat-forecast__skill-label">{attackerIsPlayer ? 'You' : 'Foe'}:</span>
+              {forecast.attackerSkills.map((s) => (
+                <span key={s} className="combat-forecast__skill-name">{s}</span>
+              ))}
+            </div>
+          )}
+          {forecast.defenderSkills.length > 0 && (
+            <div className="combat-forecast__skill-list">
+              <span className="combat-forecast__skill-label">{attackerIsPlayer ? 'Foe' : 'You'}:</span>
+              {forecast.defenderSkills.map((s) => (
+                <span key={s} className="combat-forecast__skill-name">{s}</span>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

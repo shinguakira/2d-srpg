@@ -385,6 +385,35 @@
   margin-top: 2px;
 }
 
+/* Skill activation text */
+.combat-animation__skill-text {
+  position: absolute;
+  top: 20%;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fbbf24;
+  text-shadow: 0 0 10px rgba(251, 191, 36, 0.6), 0 2px 4px rgba(0, 0, 0, 0.8);
+  letter-spacing: 2px;
+  animation: skill-flash 0.8s ease-out forwards;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.combat-animation__skill-text--left {
+  left: 15%;
+}
+
+.combat-animation__skill-text--right {
+  right: 15%;
+}
+
+@keyframes skill-flash {
+  0% { opacity: 0; transform: scale(0.5); }
+  20% { opacity: 1; transform: scale(1.2); }
+  40% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
 @keyframes dmg-float-up {
   0% { transform: translateY(0) scale(0.5); opacity: 0; }
   30% { transform: translateY(-10px) scale(1.3); opacity: 1; }

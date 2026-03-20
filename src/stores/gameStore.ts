@@ -21,6 +21,8 @@ import { computeAllyActions, executeNextAllyAction, finishAllyCombat, endAllyTur
 import { startAutoBattle, executeNextAutoAction, finishAutoCombat } from './actions/autoBattleActions';
 import { advanceEventDialogue, dismissEventDialogue } from './actions/eventActions';
 import { startTalk } from './actions/recruitActions';
+import { executeShove, executeSwap, executeReposition } from './actions/movementSkillActions';
+import { confirmCantoMove } from './actions/cantoActions';
 
 export const useGameStore = create<GameState & GameActions>((set, get) => ({
   gameMap: EMPTY_MAP,
@@ -75,6 +77,8 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   removingUnitIds: new Set(),
   terrainChangePositions: new Set(),
   escapedUnitIds: new Set(),
+  cantoRange: EMPTY_SET,
+  cantoRemainingMov: 0,
   allyActions: [],
   allyActionIndex: -1,
 
@@ -151,6 +155,14 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   executeNextAllyAction: () => executeNextAllyAction(get, set),
   finishAllyCombat: () => finishAllyCombat(get, set),
   endAllyTurn: () => endAllyTurn(get, set),
+
+  // Movement skills
+  shove: () => executeShove(get, set),
+  swap: () => executeSwap(get, set),
+  reposition: () => executeReposition(get, set),
+
+  // Canto
+  confirmCantoMove: (pos) => confirmCantoMove(get, set, pos),
 
   // Simple getters — kept inline
   getUnitAt: (pos) => {

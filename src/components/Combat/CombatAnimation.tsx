@@ -317,6 +317,26 @@ export function CombatAnimation() {
             </div>
           )}
 
+          {/* Skill activation text */}
+          {damageVisible && currentHit?.activatedSkill && currentHit.hit && (
+            <div
+              className={`combat-animation__skill-text combat-animation__skill-text--${playerIsAttacking ? 'right' : 'left'}`}
+              key={`skill-${combatAnimationStep}`}
+            >
+              {currentHit.activatedSkill.toUpperCase()}!
+            </div>
+          )}
+
+          {/* Miracle text */}
+          {damageVisible && currentHit?.miracleSaved && (
+            <div
+              className={`combat-animation__skill-text combat-animation__skill-text--${playerIsAttacking ? 'right' : 'left'}`}
+              key={`miracle-${combatAnimationStep}`}
+            >
+              MIRACLE!
+            </div>
+          )}
+
           {/* Damage number — floats near defender */}
           {damageVisible && currentHit && (
             <div

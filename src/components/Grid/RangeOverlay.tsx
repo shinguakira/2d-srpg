@@ -13,13 +13,15 @@ export const RangeOverlay = memo(function RangeOverlay() {
   const dangerZone = useGameStore((s) => s.dangerZone);
   const showDangerZone = useGameStore((s) => s.showDangerZone);
   const healableTiles = useGameStore((s) => s.healableTiles);
+  const cantoRange = useGameStore((s) => s.cantoRange);
   const tileSize = useUIStore((s) => s.tileSize);
 
   const showMoveRange = playerAction === 'move_target' || playerAction === 'action_menu';
   const showAttackTargets = playerAction === 'attack_target' || playerAction === 'confirm';
   const showHealTargets = playerAction === 'heal_target';
+  const showCantoRange = playerAction === 'canto_move' && cantoRange.size > 0;
 
-  if (!showMoveRange && !showAttackTargets && !showHealTargets && !showDangerZone) return null;
+  if (!showMoveRange && !showAttackTargets && !showHealTargets && !showDangerZone && !showCantoRange) return null;
 
   return (
     <div className="range-overlay" data-testid="range-overlay" style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }}>
@@ -166,6 +168,31 @@ export const RangeOverlay = memo(function RangeOverlay() {
                   height: tileSize,
                   backgroundColor: 'rgba(34, 197, 94, 0.35)',
                   border: '1px solid rgba(34, 197, 94, 0.6)',
+                  boxSizing: 'border-box',
+                  pointerEvents: 'none',
+                }}
+              />
+            );
+          })}
+        </>
+      )}
+
+      {showCantoRange && (
+        <>
+          {Array.from(cantoRange).map((key) => {
+            const pos = parsePos(key);
+            return (
+              <div
+                key={`canto-${key}`}
+                data-testid={`canto-range-${pos.x}-${pos.y}`}
+                style={{
+                  position: 'absolute',
+                  left: pos.x * tileSize,
+                  top: pos.y * tileSize,
+                  width: tileSize,
+                  height: tileSize,
+                  backgroundColor: 'rgba(251, 191, 36, 0.3)',
+                  border: '1px solid rgba(251, 191, 36, 0.5)',
                   boxSizing: 'border-box',
                   pointerEvents: 'none',
                 }}

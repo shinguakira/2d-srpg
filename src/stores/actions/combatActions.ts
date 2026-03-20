@@ -1,14 +1,16 @@
 import type { GamePhase } from '../../core/types';
 import { posKey } from '../../core/types';
-import { getManhattanDistance } from '../../core/pathfinding';
+import { getManhattanDistance, getMovementRange } from '../../core/pathfinding';
 import { calculateCombatForecast, resolveCombat } from '../../core/combat';
 import { calculateExpGain, checkLevelUp, rollLevelUp, applyStatGains } from '../../core/experience';
 import type { StatGains } from '../../core/experience';
-import { CLASSES } from '../../data/classes';
+import { ALL_CLASSES } from '../../data/promotedClasses';
+import { getStatCaps, clampStats } from '../../core/promotion';
+import { hasSkill } from '../../core/skills';
 import type { GameState, GameActions } from '../gameStoreTypes';
 import { EMPTY_SET, IDLE_RESET } from '../helpers/constants';
 import { applyCombatResult } from '../helpers/combatResolution';
-import { allPlayersDone } from '../helpers/mapHelpers';
+import { allPlayersDone, getClassFlags } from '../helpers/mapHelpers';
 import { refreshDangerZone } from '../helpers/dangerZoneHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
 import { checkAndFireEvents } from './eventActions';
@@ -80,8 +82,8 @@ export function confirmAttack(get: Get, set: Set) {
   newTiles[attacker.position.y][attacker.position.x].occupantId = null;
   newTiles[pendingPosition.y][pendingPosition.x].occupantId = selectedUnitId;
 
-  // Resolve combat
-  const result = resolveCombat(combatForecast, rng);
+  // Resolve combat (pass units so skills activate)
+  const result = resolveCombat(combatForecast, rng, movedAttacker, defender);
 
   set({
     units: newUnits,
@@ -150,16 +152,17 @@ export function finishCombat(get: Get, set: Set) {
     const updated = resolution.newUnits.get(selectedUnitId)!;
 
     if (levelCheck.leveled) {
-      const cls = CLASSES[attacker.classId];
+      const cls = ALL_CLASSES[attacker.classId];
       if (cls) {
         gains = rollLevelUp(cls.growthRates, rng);
-        const newStats = applyStatGains(updated.stats, gains);
+        const caps = getStatCaps(attacker.classId);
+        const newStats = clampStats(applyStatGains(updated.stats, gains), caps);
         resolution.newUnits.set(selectedUnitId, {
           ...updated,
           exp: levelCheck.newExp,
           level: updated.level + 1,
           stats: newStats,
-          currentHp: updated.currentHp + gains.hp,
+          currentHp: Math.min(updated.currentHp + gains.hp, newStats.hp),
         });
         levelUpUnit = selectedUnitId;
       }
@@ -199,6 +202,33 @@ export function finishCombat(get: Get, set: Set) {
     checkAndFireEvents(get, set, {
       lastKilledUnitId: combatResult.defenderDied ? attackTargetId : (combatResult.attackerDied ? selectedUnitId : undefined),
     });
+  }
+
+  // Check for Canto: if attacker survived and has Canto, enter canto_move state
+  const postAttacker = resolution.newUnits.get(selectedUnitId);
+  if (
+    nextPhase === 'player_phase' &&
+    !combatResult.attackerDied &&
+    postAttacker &&
+    postAttacker.faction === 'player' &&
+    hasSkill(postAttacker, 'canto') &&
+    !expBarData &&
+    !gains &&
+    !resolution.deathQuote &&
+    !get().eventDialogue
+  ) {
+    // Calculate remaining MOV for canto (use half MOV rounded down, min 1)
+    const remainingMov = Math.max(1, Math.floor(postAttacker.stats.mov / 2));
+    const cantoUnit = { ...postAttacker, stats: { ...postAttacker.stats, mov: remainingMov } };
+    const flags = getClassFlags(cantoUnit);
+    const cantoRange = getMovementRange(cantoUnit, { ...gameMap, tiles: resolution.newTiles }, resolution.newUnits, flags);
+    set({
+      selectedUnitId,
+      playerAction: 'canto_move',
+      cantoRange,
+      cantoRemainingMov: remainingMov,
+    });
+    return;
   }
 
   // Only auto-end turn if no overlays showing

@@ -4,6 +4,7 @@ import { useUIStore } from '../../stores/uiStore';
 import { posKey } from '../../core/types';
 import { canUseItem } from '../../core/items';
 import { getManhattanDistance } from '../../core/pathfinding';
+import { hasSkill } from '../../core/skills';
 
 export function ActionMenu() {
   const playerAction = useGameStore((s) => s.playerAction);
@@ -25,6 +26,10 @@ export function ActionMenu() {
   const startTalkAction = useGameStore((s) => s.startTalk);
   const escapeAction = useGameStore((s) => s.escape);
   const chapterData = useGameStore((s) => s.chapterData);
+  const gameMap = useGameStore((s) => s.gameMap);
+  const shoveAction = useGameStore((s) => s.shove);
+  const swapAction = useGameStore((s) => s.swap);
+  const repositionAction = useGameStore((s) => s.reposition);
   const cameraOffset = useUIStore((s) => s.cameraOffset);
   const tileSize = useUIStore((s) => s.tileSize);
 
@@ -108,6 +113,56 @@ export function ActionMenu() {
     if (chapterData?.objective.type !== 'escape' || !chapterData.objective.escapePosition) return false;
     const escPos = chapterData.objective.escapePosition;
     return pendingPosition.x === escPos.x && pendingPosition.y === escPos.y;
+  })();
+
+  // Check movement skills (Shove, Swap, Reposition)
+  const canShove = (() => {
+    if (!selectedUnit || !hasSkill(selectedUnit, 'shove')) return false;
+    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    for (const d of dirs) {
+      const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
+      const tile = gameMap.tiles[adj.y]?.[adj.x];
+      if (!tile?.occupantId) continue;
+      const ally = units.get(tile.occupantId);
+      if (!ally || ally.faction !== 'player' || ally.id === selectedUnitId) continue;
+      const target = { x: adj.x + d.x, y: adj.y + d.y };
+      if (target.x >= 0 && target.y >= 0 && target.x < gameMap.width && target.y < gameMap.height) {
+        const tgt = gameMap.tiles[target.y]?.[target.x];
+        if (tgt && !tgt.occupantId && tgt.terrain !== 'wall' && tgt.terrain !== 'water') return true;
+      }
+    }
+    return false;
+  })();
+
+  const canSwap = (() => {
+    if (!selectedUnit || !hasSkill(selectedUnit, 'swap')) return false;
+    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    for (const d of dirs) {
+      const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
+      const tile = gameMap.tiles[adj.y]?.[adj.x];
+      if (!tile?.occupantId) continue;
+      const ally = units.get(tile.occupantId);
+      if (ally && ally.faction === 'player' && ally.id !== selectedUnitId) return true;
+    }
+    return false;
+  })();
+
+  const canReposition = (() => {
+    if (!selectedUnit || !hasSkill(selectedUnit, 'reposition')) return false;
+    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    for (const d of dirs) {
+      const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
+      const tile = gameMap.tiles[adj.y]?.[adj.x];
+      if (!tile?.occupantId) continue;
+      const ally = units.get(tile.occupantId);
+      if (!ally || ally.faction !== 'player' || ally.id === selectedUnitId) continue;
+      const target = { x: pendingPosition.x - d.x, y: pendingPosition.y - d.y };
+      if (target.x >= 0 && target.y >= 0 && target.x < gameMap.width && target.y < gameMap.height) {
+        const tgt = gameMap.tiles[target.y]?.[target.x];
+        if (tgt && !tgt.occupantId && tgt.terrain !== 'wall' && tgt.terrain !== 'water') return true;
+      }
+    }
+    return false;
   })();
 
   // Position menu next to the pending tile
@@ -226,6 +281,33 @@ export function ActionMenu() {
               onClick={visitVillage}
             >
               Visit
+            </button>
+          )}
+          {canShove && (
+            <button
+              className="action-menu__btn action-menu__btn--visit"
+              data-testid="action-shove"
+              onClick={shoveAction}
+            >
+              Shove
+            </button>
+          )}
+          {canSwap && (
+            <button
+              className="action-menu__btn action-menu__btn--visit"
+              data-testid="action-swap"
+              onClick={swapAction}
+            >
+              Swap
+            </button>
+          )}
+          {canReposition && (
+            <button
+              className="action-menu__btn action-menu__btn--visit"
+              data-testid="action-reposition"
+              onClick={repositionAction}
+            >
+              Reposition
             </button>
           )}
           <button

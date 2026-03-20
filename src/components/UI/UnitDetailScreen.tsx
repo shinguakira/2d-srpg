@@ -1,7 +1,8 @@
 import { useEffect, useCallback } from 'react';
 import { useGameStore } from '../../stores/gameStore';
 import { useUIStore } from '../../stores/uiStore';
-import { CLASSES } from '../../data/classes';
+import { ALL_CLASSES } from '../../data/promotedClasses';
+import { SKILLS } from '../../data/skills';
 import { getTerrainData } from '../../core/terrain';
 import { BattleSprite } from '../Combat/BattleSprite';
 
@@ -47,7 +48,7 @@ export function UnitDetailScreen() {
   const unit = units.get(detailUnitId);
   if (!unit) return null;
 
-  const cls = CLASSES[unit.classId];
+  const cls = ALL_CLASSES[unit.classId];
   const tile = getTileAt(unit.position);
   const terrain = tile ? getTerrainData(tile.terrain) : null;
 
@@ -104,6 +105,11 @@ export function UnitDetailScreen() {
             </div>
             <div style={{ fontSize: 14, opacity: 0.6 }}>
               {cls?.name ?? unit.classId} Lv.{unit.level}
+              {cls?.tier && (
+                <span style={{ marginLeft: 6, fontSize: 10, background: cls.tier === 'master' ? 'rgba(168,85,247,0.2)' : cls.tier === 'promoted' ? 'rgba(59,130,246,0.2)' : 'rgba(255,255,255,0.1)', color: cls.tier === 'master' ? '#a855f7' : cls.tier === 'promoted' ? '#60a5fa' : '#94a3b8', padding: '1px 5px', borderRadius: 3, textTransform: 'capitalize' }}>
+                  {cls.tier}
+                </span>
+              )}
             </div>
             {/* HP bar */}
             <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -170,6 +176,33 @@ export function UnitDetailScreen() {
             ))}
           </div>
         </div>
+
+        {/* Skills section */}
+        {(unit.skills?.length > 0 || (cls?.innateSkills?.length ?? 0) > 0) && (
+          <div style={{ marginBottom: 16 }}>
+            <div style={{ fontSize: 12, fontWeight: 700, color: '#fbbf24', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>Skills</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+              {cls?.innateSkills?.map((sid) => {
+                const skill = SKILLS[sid];
+                if (!skill) return null;
+                return (
+                  <span key={sid} style={{ fontSize: 12, padding: '2px 8px', borderRadius: 3, border: '1px solid #4b5563', background: '#1a1a2e', color: '#9ca3af' }}>
+                    {skill.name} <span style={{ fontSize: 10, color: '#6b7280' }}>Innate</span>
+                  </span>
+                );
+              })}
+              {unit.skills?.map((sid) => {
+                const skill = SKILLS[sid];
+                if (!skill) return null;
+                return (
+                  <span key={sid} style={{ fontSize: 12, padding: '2px 8px', borderRadius: 3, border: '1px solid #3b82f6', background: '#1e3a5f', color: '#93c5fd' }}>
+                    {skill.name}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Terrain section */}
         {terrain && (

@@ -12,6 +12,9 @@ export function TacticalGrid() {
   const clickTile = useGameStore((s) => s.clickTile);
   const hoverTile = useGameStore((s) => s.hoverTile);
   const visitedVillages = useGameStore((s) => s.visitedVillages);
+  const spawningUnitIds = useGameStore((s) => s.spawningUnitIds);
+  const removingUnitIds = useGameStore((s) => s.removingUnitIds);
+  const terrainChangePositions = useGameStore((s) => s.terrainChangePositions);
   const tileSize = useUIStore((s) => s.tileSize);
   const cursorPosition = useUIStore((s) => s.cursorPosition);
   const keyboardMode = useUIStore((s) => s.keyboardMode);
@@ -51,6 +54,9 @@ export function TacticalGrid() {
             isSelected={isSelected}
             tileSize={tileSize}
             visited={visited}
+            isTerrainChanging={terrainChangePositions.has(key)}
+            isUnitSpawning={unit ? spawningUnitIds.has(unit.id) : false}
+            isUnitRemoving={unit ? removingUnitIds.has(unit.id) : false}
             onClick={() => clickTile(tile.position)}
             onMouseEnter={() => hoverTile(tile.position)}
           />

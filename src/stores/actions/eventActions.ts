@@ -1,4 +1,5 @@
 import type { Faction } from '../../core/types';
+import { posKey } from '../../core/types';
 import { evaluateEvents, resolveEffects, type EventContext, type EffectResult } from '../../core/events';
 import type { GameState, GameActions } from '../gameStoreTypes';
 import { refreshDangerZone } from '../helpers/dangerZoneHelpers';
@@ -69,6 +70,9 @@ function applyEffectResult(get: Get, set: Set, result: EffectResult) {
   const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
   let flagsChanged = false;
   const newFlags = new Map(eventFlags);
+  const newSpawning = new Set<string>();
+  const newRemoving = new Set<string>();
+  const newTerrainChanges = new Set<string>();
 
   // Spawn units
   for (const spawn of result.unitsToSpawn) {
@@ -87,14 +91,16 @@ function applyEffectResult(get: Get, set: Set, result: EffectResult) {
     };
     newUnits.set(spawnedUnit.id, spawnedUnit);
     newTiles[spawn.position.y][spawn.position.x].occupantId = spawnedUnit.id;
+    newSpawning.add(spawnedUnit.id);
   }
 
-  // Remove units
+  // Remove units (mark for fade-out, actual removal after animation)
   for (const unitId of result.unitsToRemove) {
     const unit = newUnits.get(unitId);
     if (unit) {
       newTiles[unit.position.y][unit.position.x].occupantId = null;
       newUnits.delete(unitId);
+      newRemoving.add(unitId);
     }
   }
 
@@ -126,6 +132,7 @@ function applyEffectResult(get: Get, set: Set, result: EffectResult) {
     const tile = newTiles[change.position.y]?.[change.position.x];
     if (tile) {
       newTiles[change.position.y][change.position.x] = { ...tile, terrain: change.terrain };
+      newTerrainChanges.add(posKey(change.position));
     }
   }
 
@@ -143,6 +150,11 @@ function applyEffectResult(get: Get, set: Set, result: EffectResult) {
     stateUpdate.eventFlags = newFlags;
   }
 
+  // Track animations
+  if (newSpawning.size > 0) stateUpdate.spawningUnitIds = newSpawning;
+  if (newRemoving.size > 0) stateUpdate.removingUnitIds = newRemoving;
+  if (newTerrainChanges.size > 0) stateUpdate.terrainChangePositions = newTerrainChanges;
+
   // Show dialogue if present — pauses game loop
   if (result.dialogueToShow) {
     stateUpdate.eventDialogue = result.dialogueToShow;
@@ -150,6 +162,17 @@ function applyEffectResult(get: Get, set: Set, result: EffectResult) {
   }
 
   set(stateUpdate);
+
+  // Clear animation sets after animation duration (500ms)
+  if (newSpawning.size > 0 || newRemoving.size > 0 || newTerrainChanges.size > 0) {
+    setTimeout(() => {
+      set({
+        spawningUnitIds: new Set<string>(),
+        removingUnitIds: new Set<string>(),
+        terrainChangePositions: new Set<string>(),
+      });
+    }, 500);
+  }
 
   // If no dialogue, continue processing remaining batches
   if (!result.dialogueToShow) {

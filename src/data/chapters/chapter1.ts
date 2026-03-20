@@ -90,6 +90,9 @@ export const CHAPTER_1: ChapterData = {
       { speaker: 'Narrator', text: 'The survivors press onward, leaving the ruins of Renais behind them.' },
     ],
   },
+  deploymentSlots: 4,
+  forceDeploy: ['ren'],
+  parTurns: 8,
   events: [
     {
       id: 'ch1_turn2_dialogue',

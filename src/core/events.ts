@@ -73,6 +73,13 @@ export function matchesTrigger(trigger: EventTrigger, ctx: EventContext): boolea
     case 'tile_visited':
       if (!ctx.lastMovedPosition) return false;
       return ctx.lastMovedPosition.x === trigger.position.x && ctx.lastMovedPosition.y === trigger.position.y;
+    case 'custom':
+      return trigger.fn({
+        currentTurn: ctx.currentTurn,
+        currentPhase: ctx.currentPhase,
+        units: ctx.units,
+        flags: ctx.flags,
+      });
     default:
       return false;
   }

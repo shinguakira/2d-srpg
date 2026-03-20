@@ -23,6 +23,7 @@ export function ActionMenu() {
   const useItemAction = useGameStore((s) => s.useItem);
   const seizeAction = useGameStore((s) => s.seize);
   const startTalkAction = useGameStore((s) => s.startTalk);
+  const escapeAction = useGameStore((s) => s.escape);
   const chapterData = useGameStore((s) => s.chapterData);
   const cameraOffset = useUIStore((s) => s.cameraOffset);
   const tileSize = useUIStore((s) => s.tileSize);
@@ -62,11 +63,15 @@ export function ActionMenu() {
     return false;
   })();
 
-  // Check if adjacent to a recruitable unit
+  // Check if adjacent to a recruitable unit (only for 'talk' recruitment, not event/defection)
   const canTalk = (() => {
     if (!selectedUnit || !pendingPosition) return false;
     for (const unit of units.values()) {
-      if (unit.recruitableBy === selectedUnitId && getManhattanDistance(pendingPosition, unit.position) === 1) {
+      if (
+        unit.recruitableBy === selectedUnitId &&
+        (!unit.recruitCondition || unit.recruitCondition === 'talk') &&
+        getManhattanDistance(pendingPosition, unit.position) === 1
+      ) {
         return true;
       }
     }
@@ -95,6 +100,14 @@ export function ActionMenu() {
       if (u.faction === 'enemy' && u.aiBehavior?.type === 'boss') return false;
     }
     return true;
+  })();
+
+  // Check if unit can escape (on escape position, escape objective)
+  const canEscape = (() => {
+    if (!selectedUnit || selectedUnit.faction !== 'player') return false;
+    if (chapterData?.objective.type !== 'escape' || !chapterData.objective.escapePosition) return false;
+    const escPos = chapterData.objective.escapePosition;
+    return pendingPosition.x === escPos.x && pendingPosition.y === escPos.y;
   })();
 
   // Position menu next to the pending tile
@@ -195,6 +208,15 @@ export function ActionMenu() {
               onClick={seizeAction}
             >
               Seize
+            </button>
+          )}
+          {canEscape && (
+            <button
+              className="action-menu__btn action-menu__btn--seize"
+              data-testid="action-escape"
+              onClick={escapeAction}
+            >
+              Escape
             </button>
           )}
           {isUnvisitedVillage && (

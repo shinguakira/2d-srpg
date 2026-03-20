@@ -28,6 +28,17 @@
   user-select: none;
 }
 
+/* ===== Terrain Change Animation ===== */
+.tile--terrain-change {
+  animation: terrain-flicker 0.5s ease-out;
+}
+
+@keyframes terrain-flicker {
+  0% { filter: brightness(2) saturate(0); }
+  30% { filter: brightness(1.5) saturate(0.5); }
+  100% { filter: brightness(1) saturate(1); }
+}
+
 /* ===== Keyboard Cursor ===== */
 @keyframes cursor-pulse {
   0%, 100% { opacity: 1; }

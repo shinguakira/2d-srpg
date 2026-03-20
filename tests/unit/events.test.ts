@@ -87,6 +87,23 @@ describe('matchesTrigger', () => {
     expect(matchesTrigger(trigger, makeContext({ lastMovedPosition: { x: 5, y: 6 } }))).toBe(false);
     expect(matchesTrigger(trigger, makeContext())).toBe(false);
   });
+
+  it('matches custom trigger function', () => {
+    const trigger = { type: 'custom' as const, fn: (ctx: { currentTurn: number }) => ctx.currentTurn >= 3 };
+    expect(matchesTrigger(trigger, makeContext({ currentTurn: 3 }))).toBe(true);
+    expect(matchesTrigger(trigger, makeContext({ currentTurn: 2 }))).toBe(false);
+    expect(matchesTrigger(trigger, makeContext({ currentTurn: 5 }))).toBe(true);
+  });
+
+  it('custom trigger can check flags', () => {
+    const trigger = {
+      type: 'custom' as const,
+      fn: (ctx: { flags: ReadonlyMap<string, string> }) => ctx.flags.get('boss_angry') === 'true',
+    };
+    const flags = new Map([['boss_angry', 'true']]);
+    expect(matchesTrigger(trigger, makeContext({ flags }))).toBe(true);
+    expect(matchesTrigger(trigger, makeContext())).toBe(false);
+  });
 });
 
 describe('evaluateEvents', () => {

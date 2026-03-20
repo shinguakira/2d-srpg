@@ -8,7 +8,6 @@ import { IDLE_RESET } from '../helpers/constants';
 import { applyCombatResult } from '../helpers/combatResolution';
 import { checkVictory, getClassFlags } from '../helpers/mapHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
-import { checkAndFireEvents } from './eventActions';
 
 /** Check if walk animation should be skipped (for E2E tests) */
 function shouldSkipWalkAnim(): boolean {
@@ -19,48 +18,55 @@ function shouldSkipWalkAnim(): boolean {
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
 
-export function computeEnemyActions(get: Get, set: Set) {
+/**
+ * Compute AI actions for ally units.
+ * Ally units target enemies using aggressive AI.
+ */
+export function computeAllyActions(get: Get, set: Set) {
   const { units, gameMap } = get();
   const actions: AIAction[] = [];
 
-  // Use a mutable copy of units so each enemy sees previous enemies' planned positions
   const simUnits = new Map(units);
   for (const [id, u] of simUnits) {
     simUnits.set(id, { ...u });
   }
 
   for (const unit of units.values()) {
-    if (unit.faction === 'enemy' && !unit.hasActed) {
-      const action = decideAction(simUnits.get(unit.id)!, gameMap, simUnits, getClassFlags(unit));
+    if (unit.faction === 'ally' && !unit.hasActed) {
+      // Ally units use aggressive AI by default, targeting enemies
+      const allyUnit = { ...unit, aiBehavior: unit.aiBehavior ?? { type: 'aggressive' as const } };
+      const action = decideAction(allyUnit, gameMap, simUnits, getClassFlags(unit));
       actions.push(action);
 
-      // Simulate the move so the next enemy sees the updated position
       const simUnit = simUnits.get(unit.id)!;
       simUnits.set(unit.id, { ...simUnit, position: { ...action.moveTo } });
     }
   }
 
-  set({ enemyActions: actions, enemyActionIndex: 0 });
+  if (actions.length === 0) {
+    // No ally units to act — skip ally phase
+    endAllyTurn(get, set);
+    return;
+  }
+
+  set({ allyActions: actions, allyActionIndex: 0 });
 }
 
-export function executeNextEnemyAction(get: Get, set: Set) {
-  const { enemyActions, enemyActionIndex, units, gameMap } = get();
+export function executeNextAllyAction(get: Get, set: Set) {
+  const { allyActions, allyActionIndex, units, gameMap } = get();
 
-  if (enemyActionIndex < 0 || enemyActionIndex >= enemyActions.length) {
-    // All enemies done — end enemy turn
-    get().endEnemyTurn();
+  if (allyActionIndex < 0 || allyActionIndex >= allyActions.length) {
+    endAllyTurn(get, set);
     return;
   }
 
-  const action = enemyActions[enemyActionIndex];
+  const action = allyActions[allyActionIndex];
   const unit = units.get(action.unitId);
   if (!unit) {
-    // Unit died during earlier combat, skip
-    set({ enemyActionIndex: enemyActionIndex + 1 });
+    set({ allyActionIndex: allyActionIndex + 1 });
     return;
   }
 
-  // Check destination isn't already occupied
   let destination = action.moveTo;
   const destOccupant = gameMap.tiles[destination.y]?.[destination.x]?.occupantId;
   if (destOccupant && destOccupant !== unit.id) {
@@ -69,26 +75,23 @@ export function executeNextEnemyAction(get: Get, set: Set) {
 
   const needsMove = posKey(unit.position) !== posKey(destination);
 
-  // Start walk animation if the unit actually moves
   if (needsMove && !shouldSkipWalkAnim()) {
     const path = getPath(unit.position, destination, unit, gameMap, units, getClassFlags(unit));
     if (path.length > 1) {
       set({
         movingUnit: { unitId: unit.id, path, stepIndex: 0, onComplete: 'enemy_action' },
       });
-      return; // useGameLoop will wait for movingUnit to be null, then re-trigger
+      return;
     }
   }
 
-  // Walk done or no walk needed — finalize move + combat
-  finalizeEnemyAction(get, set, action, unit, destination);
+  finalizeAllyAction(get, set, action, unit, destination);
 }
 
-/** Finalize enemy action after walk animation completes (or was skipped) */
-function finalizeEnemyAction(
+function finalizeAllyAction(
   get: Get, set: Set, action: AIAction, unit: ReturnType<Get>['units'] extends Map<string, infer U> ? U : never, destination: { x: number; y: number }
 ) {
-  const { units, gameMap, rng, enemyActionIndex } = get();
+  const { units, gameMap, rng, allyActionIndex } = get();
 
   const newUnits = new Map(units);
   const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
@@ -108,7 +111,7 @@ function finalizeEnemyAction(
       set({
         units: newUnits,
         gameMap: { ...gameMap, tiles: newTiles },
-        enemyActionIndex: enemyActionIndex + 1,
+        allyActionIndex: allyActionIndex + 1,
       });
       return;
     }
@@ -122,7 +125,7 @@ function finalizeEnemyAction(
       set({
         units: newUnits,
         gameMap: { ...gameMap, tiles: newTiles },
-        enemyActionIndex: enemyActionIndex + 1,
+        allyActionIndex: allyActionIndex + 1,
       });
       return;
     }
@@ -149,13 +152,13 @@ function finalizeEnemyAction(
     set({
       units: newUnits,
       gameMap: { ...gameMap, tiles: newTiles },
-      enemyActionIndex: enemyActionIndex + 1,
+      allyActionIndex: allyActionIndex + 1,
     });
   }
 }
 
-export function finishEnemyCombat(get: Get, set: Set) {
-  const { selectedUnitId, attackTargetId, combatResult, units, gameMap, enemyActionIndex } = get();
+export function finishAllyCombat(get: Get, set: Set) {
+  const { selectedUnitId, attackTargetId, combatResult, units, gameMap, allyActionIndex } = get();
   if (!selectedUnitId || !attackTargetId || !combatResult) return;
 
   const { chapterData } = get();
@@ -176,64 +179,43 @@ export function finishEnemyCombat(get: Get, set: Set) {
   set({
     units: resolution.newUnits,
     gameMap: { ...gameMap, tiles: resolution.newTiles },
-    currentPhase: 'enemy_phase',
+    currentPhase: 'ally_phase',
     combatForecast: null,
     combatResult: null,
     combatAnimationStep: -1,
     selectedUnitId: null,
     attackTargetId: null,
-    enemyActionIndex: enemyActionIndex + 1,
+    allyActionIndex: allyActionIndex + 1,
     deathQuote: resolution.deathQuote,
     floatingNumbers: resolution.floatingNumbers,
   });
-
-  // Fire events after enemy combat (e.g., unit_killed)
-  checkAndFireEvents(get, set, {
-    lastKilledUnitId: combatResult.defenderDied ? attackTargetId : (combatResult.attackerDied ? selectedUnitId : undefined),
-  });
 }
 
-export function endEnemyTurn(get: Get, set: Set) {
-  // Check win/lose before transitioning
+export function endAllyTurn(get: Get, set: Set) {
   const { units, chapterData } = get();
   const endResult = checkVictory(units, chapterData);
 
   if (endResult) {
-    set({ currentPhase: 'game_over', enemyActions: [], enemyActionIndex: -1 });
+    set({ currentPhase: 'game_over', allyActions: [], allyActionIndex: -1 });
     return;
   }
 
-  // Reset all enemy hasActed
+  // Reset ally hasActed
   const newUnits = new Map(units);
   for (const [id, unit] of newUnits) {
-    if (unit.faction === 'enemy' && unit.hasActed) {
+    if (unit.faction === 'ally' && unit.hasActed) {
       newUnits.set(id, { ...unit, hasActed: false });
     }
   }
 
-  // Check if there are ally units — if so, start ally phase
-  let hasAlly = false;
-  for (const u of newUnits.values()) {
-    if (u.faction === 'ally') { hasAlly = true; break; }
-  }
-
-  if (hasAlly) {
-    set({
-      units: newUnits,
-      currentPhase: 'ally_phase',
-      enemyActions: [],
-      enemyActionIndex: -1,
-    });
-    get().computeAllyActions();
-  } else {
-    set({
-      units: newUnits,
-      currentPhase: 'player_phase',
-      currentTurn: get().currentTurn + 1,
-      playerAction: 'idle',
-      enemyActions: [],
-      enemyActionIndex: -1,
-      phaseBanner: 'player_phase',
-    });
-  }
+  // Transition to player phase
+  set({
+    units: newUnits,
+    currentPhase: 'player_phase',
+    currentTurn: get().currentTurn + 1,
+    playerAction: 'idle',
+    allyActions: [],
+    allyActionIndex: -1,
+    phaseBanner: 'player_phase',
+  });
 }

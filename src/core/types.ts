@@ -179,7 +179,7 @@ export type Unit = {
 
 // ===== Game State =====
 
-export type GamePhase = 'player_phase' | 'enemy_phase' | 'combat_animation' | 'heal_animation' | 'game_over';
+export type GamePhase = 'player_phase' | 'enemy_phase' | 'ally_phase' | 'combat_animation' | 'heal_animation' | 'game_over';
 
 export type PlayerAction =
   | 'idle'
@@ -255,6 +255,7 @@ export type ChapterData = {
   readonly deploymentSlots?: number;
   readonly forceDeploy?: string[];
   readonly parTurns?: number;
+  readonly recruitableUnits?: string[]; // unit IDs recruitable in this chapter (cross-ref with unit.recruitableBy)
 };
 
 export type ReinforcementWave = {
@@ -265,6 +266,13 @@ export type ReinforcementWave = {
 
 // ===== Events =====
 
+export type CustomTriggerFn = (ctx: {
+  readonly currentTurn: number;
+  readonly currentPhase: GamePhase;
+  readonly units: ReadonlyMap<string, Unit>;
+  readonly flags: ReadonlyMap<string, string>;
+}) => boolean;
+
 export type EventTrigger =
   | { readonly type: 'turn_start'; readonly turn: number }
   | { readonly type: 'turn_end'; readonly turn: number }
@@ -272,7 +280,8 @@ export type EventTrigger =
   | { readonly type: 'unit_at'; readonly unitId: string; readonly position: Position }
   | { readonly type: 'unit_killed'; readonly unitId: string }
   | { readonly type: 'unit_hp_below'; readonly unitId: string; readonly percent: number }
-  | { readonly type: 'tile_visited'; readonly position: Position };
+  | { readonly type: 'tile_visited'; readonly position: Position }
+  | { readonly type: 'custom'; readonly fn: CustomTriggerFn };
 
 export type EventEffect =
   | { readonly type: 'show_dialogue'; readonly scene: DialogueScene }

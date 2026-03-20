@@ -9,6 +9,9 @@ type TileProps = {
   isSelected: boolean;
   tileSize: number;
   visited?: boolean;
+  isTerrainChanging?: boolean;
+  isUnitSpawning?: boolean;
+  isUnitRemoving?: boolean;
   onClick: () => void;
   onMouseEnter: () => void;
 };
@@ -19,12 +22,16 @@ export const Tile = memo(function Tile({
   isSelected,
   tileSize,
   visited,
+  isTerrainChanging,
+  isUnitSpawning,
+  isUnitRemoving,
   onClick,
   onMouseEnter,
 }: TileProps) {
+  const tileClasses = `tile ${isSelected ? 'tile--selected' : ''} ${isTerrainChanging ? 'tile--terrain-change' : ''}`;
   return (
     <div
-      className={`tile ${isSelected ? 'tile--selected' : ''}`}
+      className={tileClasses}
       data-testid={`tile-${tile.position.x}-${tile.position.y}`}
       data-terrain={tile.terrain}
       data-occupied={tile.occupantId ?? undefined}
@@ -36,7 +43,7 @@ export const Tile = memo(function Tile({
       onMouseEnter={onMouseEnter}
     >
       <TerrainSprite terrain={tile.terrain} size={tileSize} visited={visited} />
-      {unit && <UnitSprite unit={unit} tileSize={tileSize} isSelected={isSelected} />}
+      {unit && <UnitSprite unit={unit} tileSize={tileSize} isSelected={isSelected} isSpawning={isUnitSpawning} isRemoving={isUnitRemoving} />}
     </div>
   );
 });

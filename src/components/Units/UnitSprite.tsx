@@ -6,13 +6,18 @@ type UnitSpriteProps = {
   unit: Unit;
   tileSize: number;
   isSelected?: boolean;
+  isSpawning?: boolean;
+  isRemoving?: boolean;
 };
 
-export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected }: UnitSpriteProps) {
+export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected, isSpawning, isRemoving }: UnitSpriteProps) {
   const hpPercent = Math.max(0, (unit.currentHp / unit.stats.hp) * 100);
   const hpColor = hpPercent > 50 ? '#22c55e' : hpPercent > 25 ? '#eab308' : '#ef4444';
   const c = FACTION_COLORS[unit.faction];
-  const animClass = isSelected ? 'unit-sprite--selected' : !unit.hasActed ? 'unit-sprite--idle' : '';
+  const animClass = isSpawning ? 'unit-sprite--spawning'
+    : isRemoving ? 'unit-sprite--removing'
+    : isSelected ? 'unit-sprite--selected'
+    : !unit.hasActed ? 'unit-sprite--idle' : '';
 
   return (
     <div

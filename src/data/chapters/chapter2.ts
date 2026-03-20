@@ -42,6 +42,8 @@ export const CHAPTER_2: ChapterData = {
     { unitId: 'ch2_soldier_1', position: { x: 7, y: 3 } },
     { unitId: 'ch2_guard_1', position: { x: 6, y: 1 } },
     { unitId: 'zonta', position: { x: 7, y: 0 } },
+    // Voss: player template placed as enemy, defects turn 3 via event
+    { unitId: 'voss', position: { x: 8, y: 1 }, faction: 'enemy', aiBehavior: { type: 'stationary' } },
   ],
   objective: {
     type: 'seize',
@@ -75,6 +77,10 @@ export const CHAPTER_2: ChapterData = {
       },
     },
   ],
+  deploymentSlots: 4,
+  forceDeploy: ['ren'],
+  parTurns: 10,
+  recruitableUnits: ['voss'],
   events: [
     {
       id: 'ch2_turn2_hint',
@@ -89,6 +95,34 @@ export const CHAPTER_2: ChapterData = {
             ],
           },
         },
+      ],
+      once: true,
+    },
+    // Voss defection — dialogue fires first, recruitment in next batch
+    {
+      id: 'ch2_voss_defection_dialogue',
+      trigger: { type: 'turn_start' as const, turn: 3 },
+      effects: [
+        {
+          type: 'show_dialogue' as const,
+          scene: {
+            lines: [
+              { speaker: 'Voss', text: "I'm done. I've been standing on that wall for... I don't know how long. Days? Years?", speakerFaction: 'enemy' as const },
+              { speaker: 'Voss', text: "The stationary AI. Fifteen turns. Standing. Watching. While my commander fights and I just STAND THERE.", speakerFaction: 'enemy' as const },
+              { speaker: 'Ren', text: 'Welcome aboard, Voss.', speakerFaction: 'player' as const },
+              { speaker: 'Voss', text: "You're not even surprised.", speakerFaction: 'player' as const },
+              { speaker: 'Ren', text: 'Call it intuition.', speakerFaction: 'player' as const },
+            ],
+          },
+        },
+      ],
+      once: true,
+    },
+    {
+      id: 'ch2_voss_defection_recruit',
+      trigger: { type: 'turn_start' as const, turn: 3 },
+      effects: [
+        { type: 'recruit_unit' as const, unitId: 'voss' },
       ],
       once: true,
     },

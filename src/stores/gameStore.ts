@@ -10,13 +10,14 @@ import { initChapter } from './actions/initActions';
 import { selectUnit, deselectUnit, hoverTile, clickTile, cancelAction } from './actions/selectionActions';
 import { confirmMove, advanceMovement } from './actions/movementActions';
 import { toggleDangerZone, dismissDeathQuote, dismissReinforcementMessage, selectWeapon, dismissLevelUp, dismissHealResult, dismissExpBar } from './actions/miscActions';
-import { seize } from './actions/seizeActions';
+import { seize, escape } from './actions/seizeActions';
 import { useItem } from './actions/itemActions';
 import { visitVillage, dismissVillageReward } from './actions/villageActions';
 import { startHealTargeting, confirmHeal, finishHealAnimation } from './actions/healActions';
 import { endPlayerTurn, dismissPhaseBanner } from './actions/turnActions';
 import { startAttackTargeting, selectAttackTarget, confirmAttack, advanceCombatAnimation, finishCombat } from './actions/combatActions';
 import { computeEnemyActions, executeNextEnemyAction, finishEnemyCombat, endEnemyTurn } from './actions/enemyActions';
+import { computeAllyActions, executeNextAllyAction, finishAllyCombat, endAllyTurn } from './actions/allyActions';
 import { startAutoBattle, executeNextAutoAction, finishAutoCombat } from './actions/autoBattleActions';
 import { advanceEventDialogue, dismissEventDialogue } from './actions/eventActions';
 import { startTalk } from './actions/recruitActions';
@@ -70,6 +71,12 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   pendingEffects: [],
   eventDialogue: null,
   eventDialogueLineIndex: 0,
+  spawningUnitIds: new Set(),
+  removingUnitIds: new Set(),
+  terrainChangePositions: new Set(),
+  escapedUnitIds: new Set(),
+  allyActions: [],
+  allyActionIndex: -1,
 
   // Init
   initChapter: (chapter, seed = 12345, unitProgress?, deployedUnitIds?) => initChapter(get, set, chapter, seed, unitProgress, deployedUnitIds),
@@ -94,8 +101,9 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   dismissExpBar: () => dismissExpBar(get, set),
   dismissHealResult: () => dismissHealResult(get, set),
 
-  // Seize
+  // Seize / Escape
   seize: () => seize(get, set),
+  escape: () => escape(get, set),
 
   // Items
   useItem: (itemIndex) => useItem(get, set, itemIndex),
@@ -137,6 +145,12 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   executeNextEnemyAction: () => executeNextEnemyAction(get, set),
   finishEnemyCombat: () => finishEnemyCombat(get, set),
   endEnemyTurn: () => endEnemyTurn(get, set),
+
+  // Ally actions
+  computeAllyActions: () => computeAllyActions(get, set),
+  executeNextAllyAction: () => executeNextAllyAction(get, set),
+  finishAllyCombat: () => finishAllyCombat(get, set),
+  endAllyTurn: () => endAllyTurn(get, set),
 
   // Simple getters — kept inline
   getUnitAt: (pos) => {

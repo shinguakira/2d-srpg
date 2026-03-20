@@ -20,17 +20,17 @@
 - [x] Hook event evaluation into `turnActions.ts` at phase start/end
 - [x] Hook event evaluation into `movementActions.ts` after unit moves
 - [x] Hook event evaluation into `combatActions.ts` after combat resolves
-- [x] Unit tests: event trigger matching, effect application, once-only firing (17 tests)
-- [ ] `custom(fn)` trigger type (deferred — no chapters use it yet)
+- [x] Unit tests: event trigger matching, effect application, once-only firing (19 tests)
+- [x] `custom(fn)` trigger type — `CustomTriggerFn` in types.ts, handled in `matchesTrigger`
 
 ## Event System — Visual Effects
 
 > **Ref:** [`specs/ui/animations.md`](specs/ui/animations.md)
 
 - [x] Mid-battle dialogue overlay component (`EventDialogue.tsx`)
-- [ ] Terrain change animation (tile flicker + swap) — deferred
-- [ ] Unit spawn animation (fade in on tile) — deferred
-- [ ] Unit removal animation (fade out) — deferred
+- [x] Terrain change animation (tile flicker + swap) — `tile--terrain-change` CSS class, `terrainChangePositions` state
+- [x] Unit spawn animation (fade in on tile) — `unit-sprite--spawning` CSS class, `spawningUnitIds` state
+- [x] Unit removal animation (fade out) — `unit-sprite--removing` CSS class, `removingUnitIds` state
 - [x] Event queue processing — sequential via `pendingEffects`, wait for dialogue dismiss
 - [x] Pause enemy AI execution during event dialogue (`useGameLoop.ts`)
 
@@ -43,14 +43,14 @@
 - [x] `isHostileFaction()` helper for faction-aware pathfinding/targeting
 - [x] Add `recruitableBy` field to Unit type
 - [x] Add `recruitCondition` field: `'talk' | 'visit_village' | 'event' | 'defection'`
-- [x] Add `Talk` action to action menu (shows when adjacent to recruitable unit)
+- [x] Add `Talk` action to action menu (shows when adjacent to recruitable unit with `recruitCondition === 'talk'`)
 - [x] Talk action resolution: change unit faction from enemy/ally → player
 - [x] Recruited unit inherits current HP/stats (not reset)
 - [x] Unit tests: faction swap, Talk action availability (5 tests)
-- [ ] Ally faction independent AI movement — deferred (no ally units in current chapters)
-- [ ] Enemy defection: event-triggered faction swap — `recruit_unit` effect exists but no chapter wires it yet
-- [ ] Village recruitment: `visit_village` condition defined but not wired in village action
-- [ ] Conditional recruitment: conditions defined but runtime check deferred
+- [x] Ally faction independent AI movement — `allyActions.ts`, ally_phase after enemy turn, aggressive AI targeting enemies
+- [x] Enemy defection: Voss defects turn 3 in ch2 via `recruit_unit` event effect
+- [x] Village recruitment: village action fires `checkAndFireEvents` with `tile_visited` trigger
+- [x] Conditional recruitment: Talk button only shows for `recruitCondition === 'talk'` (event/defection handled by event system)
 
 ## Roster & Deployment System
 
@@ -65,7 +65,7 @@
 - [x] Deployment position mapping: deployed IDs → chapter spawn positions (capped to available slots)
 - [x] Add roster carry-over between chapters (merge recruited units on victory)
 - [x] Update chapter init to accept `deployedUnitIds` for roster-based deployment
-- [ ] Deployment slot limits per arc — type exists but no chapter data uses it yet
+- [x] Deployment slot limits per arc — ch1 (4 slots), ch2 (4 slots) with `deploymentSlots` + `forceDeploy` wired
 
 ## Chapter Configuration Expansion
 
@@ -81,15 +81,15 @@
 - [x] Victory check for protect (protected unit dies → defeat)
 - [x] Survive objective: victory at start of player phase after N enemy phases
 - [x] Lord death → defeat for non-rout objectives
-- [x] Sample events wired into ch1 (turn 2 dialogue) and ch2 (turn 2 hint)
-- [ ] `recruitableUnits` as separate chapter field — recruitment via unit `recruitableBy` field instead
-- [ ] Escape objective action/resolution logic — deferred
+- [x] Sample events wired into ch1 (turn 2 dialogue) and ch2 (turn 2 hint + Voss defection turn 3)
+- [x] `recruitableUnits` field on ChapterData — optional cross-reference for chapter-defined recruitable units
+- [x] Escape objective action/resolution logic — Escape button in action menu, Lord escape triggers victory, remaining units auto-escape
 
 ## Validation
 
-- [x] Unit tests for event system (17 tests — trigger evaluation, effect application, once-only firing)
+- [x] Unit tests for event system (19 tests — trigger evaluation incl. custom, effect application, once-only firing)
 - [x] Unit tests for recruitment (5 tests — faction swap, Talk action)
 - [x] Unit tests for save migration (v1→v2)
+- [x] Integration test: test chapter with mid-battle events + recruitment (7 tests)
 - [x] `npm run build` — zero errors
-- [x] `npx vitest run` — 125 tests pass (12 files)
-- [ ] Integration: create test chapter with mid-battle event + recruitment — deferred
+- [x] `npx vitest run` — 134 tests pass (13 files)

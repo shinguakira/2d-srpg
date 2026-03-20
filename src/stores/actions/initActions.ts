@@ -54,5 +54,11 @@ export function initChapter(_get: Get, set: Set, chapter: ChapterData, seed: num
     pendingEffects: [],
     eventDialogue: null,
     eventDialogueLineIndex: 0,
+    spawningUnitIds: new Set<string>(),
+    removingUnitIds: new Set<string>(),
+    terrainChangePositions: new Set<string>(),
+    escapedUnitIds: new Set<string>(),
+    allyActions: [],
+    allyActionIndex: -1,
   });
 }

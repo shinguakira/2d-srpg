@@ -129,6 +129,8 @@ function GameOverOverlay() {
   const onChapterVictory = useCampaignStore((s) => s.onChapterVictory);
   const goToTitle = useCampaignStore((s) => s.goToTitle);
 
+  const escapedUnitIds = useGameStore((s) => s.escapedUnitIds);
+
   let hasPlayer = false;
   let hasEnemy = false;
   for (const u of units.values()) {
@@ -136,9 +138,12 @@ function GameOverOverlay() {
     if (u.faction === 'enemy') hasEnemy = true;
   }
 
+  // Escape victory: Lord escaped (escape action triggers game_over only when Lord escapes)
+  const escapeVictory = chapterData?.objective.type === 'escape' && escapedUnitIds.size > 0;
+
   // Victory: for rout, all enemies dead. For seize, Lord on throne (boss dead, enemies may remain).
   // Defeat: no player units remaining.
-  const victory = hasPlayer && (
+  const victory = escapeVictory || (hasPlayer && (
     !hasEnemy || // rout win or all enemies killed
     (chapterData?.objective.type === 'seize' && (() => {
       // Check if Lord is on seize position (meaning seize action was used)
@@ -150,7 +155,7 @@ function GameOverOverlay() {
       }
       return false;
     })())
-  );
+  ));
 
   const handleVictoryContinue = useCallback(() => {
     const progress: Record<string, UnitProgress> = {};
@@ -179,7 +184,9 @@ function GameOverOverlay() {
         </div>
         <div className="game-over__subtitle">
           {victory
-            ? (chapterData?.objective.type === 'seize' ? 'The throne has been seized!' : 'All enemies have been defeated.')
+            ? (chapterData?.objective.type === 'seize' ? 'The throne has been seized!'
+              : chapterData?.objective.type === 'escape' ? 'Your army has escaped safely!'
+              : 'All enemies have been defeated.')
             : 'Your army has fallen.'}
         </div>
         <div className="game-over__actions">

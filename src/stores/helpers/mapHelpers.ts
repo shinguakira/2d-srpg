@@ -74,7 +74,8 @@ export function placeUnits(chapter: ChapterData, map: GameMap, unitProgress?: Re
   }
 
   for (const placement of chapter.enemyUnits) {
-    const template = ENEMY_UNITS[placement.unitId];
+    // Look up from ENEMY_UNITS first, fall back to PLAYER_UNITS (for recruitable units placed as enemies)
+    const template = ENEMY_UNITS[placement.unitId] ?? PLAYER_UNITS[placement.unitId];
     if (!template) continue;
     const unit: Unit = {
       ...template,
@@ -84,6 +85,9 @@ export function placeUnits(chapter: ChapterData, map: GameMap, unitProgress?: Re
       equippedWeapon: { ...template.equippedWeapon },
       inventory: template.inventory.map((w) => ({ ...w })),
       items: template.items.map((i) => ({ ...i, effect: { ...i.effect } })),
+      // Apply placement overrides (faction, AI behavior)
+      ...(placement.faction ? { faction: placement.faction } : {}),
+      ...(placement.aiBehavior ? { aiBehavior: placement.aiBehavior } : {}),
     };
     units.set(unit.id, unit);
     map.tiles[placement.position.y][placement.position.x].occupantId = unit.id;
@@ -142,7 +146,7 @@ export function checkVictory(units: Map<string, Unit>, chapterData: ChapterData 
   if (objType === 'seize' && !hasEnemy) return 'victory';
 
   // Survive/protect: turn-based victory checked in turnActions
-  // Escape: victory triggered by escape action (like seize without boss req)
+  // Escape: victory triggered by escape action (Lord escaping triggers game_over directly)
 
   return null;
 }

@@ -20,6 +20,9 @@ export function useGameLoop() {
   const deathQuote = useGameStore((s) => s.deathQuote);
   const movingUnit = useGameStore((s) => s.movingUnit);
   const eventDialogue = useGameStore((s) => s.eventDialogue);
+  const allyActions = useGameStore((s) => s.allyActions);
+  const allyActionIndex = useGameStore((s) => s.allyActionIndex);
+  const executeNextAllyAction = useGameStore((s) => s.executeNextAllyAction);
 
   // Execute enemy actions sequentially
   useEffect(() => {
@@ -66,4 +69,25 @@ export function useGameLoop() {
 
     return () => clearTimeout(timer);
   }, [isAutoBattle, currentPhase, autoBattleIndex, autoBattleActions.length, combatResult, expBarData, levelUpGains, deathQuote, movingUnit, eventDialogue, executeNextAutoAction]);
+
+  // Execute ally actions sequentially
+  useEffect(() => {
+    if (currentPhase !== 'ally_phase') return;
+    if (allyActionIndex < 0) return;
+    if (combatResult) return;
+    if (deathQuote) return;
+    if (movingUnit) return;
+    if (eventDialogue) return;
+
+    if (allyActionIndex >= allyActions.length) {
+      executeNextAllyAction();
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      executeNextAllyAction();
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, [currentPhase, allyActionIndex, allyActions.length, combatResult, deathQuote, movingUnit, eventDialogue, executeNextAllyAction]);
 }

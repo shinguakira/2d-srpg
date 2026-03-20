@@ -60,6 +60,10 @@ export type GameState = {
   autoBattleIndex: number;
   isAutoBattle: boolean;
 
+  // Ally AI
+  allyActions: AIAction[];
+  allyActionIndex: number;
+
   chapterName: string;
   objectiveDescription: string;
 
@@ -115,6 +119,14 @@ export type GameState = {
   pendingEffects: EventEffect[][];
   eventDialogue: DialogueScene | null;
   eventDialogueLineIndex: number;
+
+  // Event animations
+  spawningUnitIds: Set<string>; // units currently fading in
+  removingUnitIds: Set<string>; // units currently fading out
+  terrainChangePositions: Set<string>; // tiles currently flashing
+
+  // Escape
+  escapedUnitIds: Set<string>; // units that have escaped the map
 };
 
 export type GameActions = {
@@ -159,8 +171,9 @@ export type GameActions = {
   // Death quote
   dismissDeathQuote: () => void;
 
-  // Seize
+  // Seize / Escape
   seize: () => void;
+  escape: () => void;
 
   // Danger zone
   toggleDangerZone: () => void;
@@ -185,4 +198,10 @@ export type GameActions = {
   executeNextEnemyAction: () => void;
   finishEnemyCombat: () => void;
   endEnemyTurn: () => void;
+
+  // Ally AI
+  computeAllyActions: () => void;
+  executeNextAllyAction: () => void;
+  finishAllyCombat: () => void;
+  endAllyTurn: () => void;
 };

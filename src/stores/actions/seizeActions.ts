@@ -1,7 +1,7 @@
 import type { GameState, GameActions } from '../gameStoreTypes';
 import { IDLE_RESET } from '../helpers/constants';
 import { deriveFacing } from '../helpers/facingHelpers';
-import { isBossDefeated } from '../helpers/mapHelpers';
+import { isBossDefeated, allPlayersDone } from '../helpers/mapHelpers';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -35,4 +35,61 @@ export function seize(get: Get, set: Set) {
     gameMap: { ...gameMap, tiles: newTiles },
     currentPhase: 'game_over',
   });
+}
+
+/**
+ * Escape action: Lord or any unit on the escape tile is removed from the map (safe).
+ * If Ren (Lord) escapes, chapter ends in victory — all remaining units auto-escape.
+ */
+export function escape(get: Get, set: Set) {
+  const { selectedUnitId, pendingPosition, units, gameMap, chapterData, escapedUnitIds } = get();
+  if (!selectedUnitId || !pendingPosition || !chapterData) return;
+  if (chapterData.objective.type !== 'escape' || !chapterData.objective.escapePosition) return;
+
+  const escPos = chapterData.objective.escapePosition;
+  if (pendingPosition.x !== escPos.x || pendingPosition.y !== escPos.y) return;
+
+  const unit = units.get(selectedUnitId);
+  if (!unit || unit.faction !== 'player') return;
+
+  // Remove unit from map
+  const newUnits = new Map(units);
+  const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
+  newTiles[unit.position.y][unit.position.x].occupantId = null;
+  newTiles[pendingPosition.y][pendingPosition.x].occupantId = null;
+  newUnits.delete(selectedUnitId);
+
+  const newEscaped = new Set(escapedUnitIds);
+  newEscaped.add(selectedUnitId);
+
+  // If Lord escapes, chapter ends — all remaining player units auto-escape
+  if (unit.isLord) {
+    for (const [id, u] of newUnits) {
+      if (u.faction === 'player') {
+        newEscaped.add(id);
+        newTiles[u.position.y][u.position.x].occupantId = null;
+        newUnits.delete(id);
+      }
+    }
+    set({
+      ...IDLE_RESET,
+      units: newUnits,
+      gameMap: { ...gameMap, tiles: newTiles },
+      escapedUnitIds: newEscaped,
+      currentPhase: 'game_over',
+    });
+    return;
+  }
+
+  set({
+    ...IDLE_RESET,
+    units: newUnits,
+    gameMap: { ...gameMap, tiles: newTiles },
+    escapedUnitIds: newEscaped,
+  });
+
+  // Auto end turn if all remaining player units have acted
+  if (allPlayersDone(newUnits)) {
+    get().endPlayerTurn();
+  }
 }

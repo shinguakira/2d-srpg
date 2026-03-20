@@ -8,6 +8,8 @@
 
 ## Chapter 6: "New Alliances" (16×18)
 
+> **Ref:** [`specs/maps/ch6.md`](specs/maps/ch6.md), [`specs/story/chapters/ch6.md`](specs/story/chapters/ch6.md), [`specs/story/characters/rook.md`](specs/story/characters/rook.md), [`specs/story/characters/faye.md`](specs/story/characters/faye.md)
+
 ### Config
 - [ ] Create chapter6.ts — 16×18 grid, objective: Boss Kill (Sera) + Escape south
 - [ ] Par turns: 16, deployment slots: 7, force deploy: Ren
@@ -45,6 +47,8 @@
 
 ## Chapter 7: "The Seed Breaks" (16×16)
 
+> **Ref:** [`specs/maps/ch7.md`](specs/maps/ch7.md), [`specs/story/chapters/ch7.md`](specs/story/chapters/ch7.md)
+
 ### Config
 - [ ] Create chapter7.ts — 16×16 grid, objective: Survive 12 turns
 - [ ] Par turns: 12 (survive = par), deployment slots: 7, force deploy: Ren
@@ -73,6 +77,8 @@
 ---
 
 ## Chapter 8: "The Last Ride" (18×20) — KAEL'S DEATH
+
+> **Ref:** [`specs/maps/ch8.md`](specs/maps/ch8.md), [`specs/story/chapters/ch8.md`](specs/story/chapters/ch8.md), [`specs/story/characters/kael.md`](specs/story/characters/kael.md)
 
 ### Config
 - [ ] Create chapter8.ts — 18×20 grid, objective: Seize throne
@@ -110,6 +116,8 @@
 
 ## Chapter 9: "The Void Left Behind" (14×14)
 
+> **Ref:** [`specs/maps/ch9.md`](specs/maps/ch9.md), [`specs/story/chapters/ch9.md`](specs/story/chapters/ch9.md), [`specs/story/characters/orin.md`](specs/story/characters/orin.md)
+
 ### Config
 - [ ] Create chapter9.ts — 14×14 grid, objective: Rout
 - [ ] Par turns: 18, deployment slots: 7, force deploy: Ren
@@ -142,6 +150,8 @@
 ---
 
 ## Chapter 10: "What We Carry" (16×18)
+
+> **Ref:** [`specs/maps/ch10.md`](specs/maps/ch10.md), [`specs/story/chapters/ch10.md`](specs/story/chapters/ch10.md)
 
 ### Config
 - [ ] Create chapter10.ts — 16×18 grid, objective: Dual (Boss Kill + Protect NPC)

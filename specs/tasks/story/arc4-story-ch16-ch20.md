@@ -9,6 +9,8 @@
 
 ## Chapter 16: "Through Its Eyes"
 
+> **Ref:** [`specs/story/chapters/ch16.md`](specs/story/chapters/ch16.md)
+
 ### Prologue
 - [ ] Perspective shift: System narrates the chapter opening (unique narrator)
 - [ ] System's voice: clinical but emotional, like a parent watching children
@@ -31,6 +33,8 @@
 - [ ] System Fragment acquired: partial insight into System's architecture
 
 ## Chapter 17: "Data Recovery"
+
+> **Ref:** [`specs/story/chapters/ch17.md`](specs/story/chapters/ch17.md), [`specs/story/world.md`](specs/story/world.md)
 
 ### Prologue
 - [ ] Archive dungeon briefing: three data nodes contain System's history
@@ -60,6 +64,8 @@
 
 ## Chapter 18: "Legacy Weapons"
 
+> **Ref:** [`specs/story/chapters/ch18.md`](specs/story/chapters/ch18.md), [`specs/story/characters/ghael.md`](specs/story/characters/ghael.md)
+
 ### Prologue
 - [ ] Mountain fortress: legendary weapons sealed inside
 - [ ] Intel on Ghael: "He's a general who defected from the System"
@@ -81,6 +87,8 @@
 - [ ] Master Crown #1 acquired: promotion discussion, who deserves master class
 
 ## Chapter 19: "The Offer" — THE CHOICE
+
+> **Ref:** [`specs/story/chapters/ch19.md`](specs/story/chapters/ch19.md), [`specs/story/arc-structure.md`](specs/story/arc-structure.md)
 
 ### Prologue
 - [ ] System inner sanctum: final approach
@@ -114,6 +122,8 @@
 - [ ] Arc transition
 
 ## Chapter 20: "Point of No Return"
+
+> **Ref:** [`specs/story/chapters/ch20.md`](specs/story/chapters/ch20.md), [`specs/story/characters/echo.md`](specs/story/characters/echo.md)
 
 ### Prologue
 - [ ] System withdraws cooperation: world begins unraveling

@@ -9,6 +9,8 @@
 
 ## Chapter 16: "Through Its Eyes" (16×18)
 
+> **Ref:** [`specs/maps/ch16.md`](specs/maps/ch16.md), [`specs/story/chapters/ch16.md`](specs/story/chapters/ch16.md)
+
 ### Config
 - [ ] Create chapter16.ts — 16×18 grid, objective: Survive 12 turns → Defeat Sentinel Alpha
 - [ ] Par turns: 25, deployment slots: 10, force deploy: Ren
@@ -48,6 +50,8 @@
 ---
 
 ## Chapter 17: "Data Recovery" (18×20, Fog of War)
+
+> **Ref:** [`specs/maps/ch17.md`](specs/maps/ch17.md), [`specs/story/chapters/ch17.md`](specs/story/chapters/ch17.md)
 
 ### Config
 - [ ] Create chapter17.ts — 18×20 grid, objective: Capture 3 data nodes + Boss Kill/Negotiate
@@ -89,6 +93,8 @@
 
 ## Chapter 18: "Legacy Weapons" (18×20)
 
+> **Ref:** [`specs/maps/ch18.md`](specs/maps/ch18.md), [`specs/story/chapters/ch18.md`](specs/story/chapters/ch18.md), [`specs/story/characters/ghael.md`](specs/story/characters/ghael.md)
+
 ### Config
 - [ ] Create chapter18.ts — 18×20 grid, objective: Boss Kill / Recruit Ghael
 - [ ] Par turns: 28, deployment slots: 11, force deploy: Ren
@@ -126,6 +132,8 @@
 
 ## Chapter 19: "The Offer" (16×20)
 
+> **Ref:** [`specs/maps/ch19.md`](specs/maps/ch19.md), [`specs/story/chapters/ch19.md`](specs/story/chapters/ch19.md)
+
 ### Config
 - [ ] Create chapter19.ts — 16×20 grid, objective: Seize System terminal
 - [ ] Par turns: 15 (survive-style pacing), deployment slots: 11, force deploy: Ren
@@ -161,6 +169,8 @@
 ---
 
 ## Chapter 20: "Point of No Return" (20×22)
+
+> **Ref:** [`specs/maps/ch20.md`](specs/maps/ch20.md), [`specs/story/chapters/ch20.md`](specs/story/chapters/ch20.md), [`specs/story/characters/echo.md`](specs/story/characters/echo.md)
 
 ### Config
 - [ ] Create chapter20.ts — 20×22 grid, objective: Boss Kill (Sentinel Omega)

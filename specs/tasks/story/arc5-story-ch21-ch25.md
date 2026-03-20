@@ -9,6 +9,8 @@
 
 ## Chapter 21: "The Long March"
 
+> **Ref:** [`specs/story/chapters/ch21.md`](specs/story/chapters/ch21.md)
+
 ### Prologue
 - [ ] System's core territory: landscape unstable, terrain shifting
 - [ ] Ren leads final push: "Everything we've done leads here."
@@ -29,6 +31,8 @@
 - [ ] Ren's internal: cycle count awareness, knowing this is the last push
 
 ## Chapter 22: "Ghosts of Cycles Past"
+
+> **Ref:** [`specs/story/chapters/ch22.md`](specs/story/chapters/ch22.md), [`specs/story/characters/kael.md`](specs/story/characters/kael.md)
 
 ### Prologue
 - [ ] Library mirrors ch1: "This looks familiar..."
@@ -64,6 +68,8 @@
 
 ## Chapter 23: "The Penultimate"
 
+> **Ref:** [`specs/story/chapters/ch23.md`](specs/story/chapters/ch23.md)
+
 ### Prologue
 - [ ] Split party preparation: player chooses teams
 - [ ] Ren's briefing: "We can't communicate once we split. Trust each other."
@@ -88,6 +94,8 @@
 - [ ] Ren senses something familiar ahead: "There's... someone in the next chamber."
 
 ## Chapter 24: "???_CORRUPTED" — KAEL REVELATION
+
+> **Ref:** [`specs/story/chapters/ch24.md`](specs/story/chapters/ch24.md), [`specs/story/characters/kael.md`](specs/story/characters/kael.md), [`specs/story/bosses.md`](specs/story/bosses.md)
 
 ### Prologue
 - [ ] Arena entrance: corrupted entity detected
@@ -133,6 +141,8 @@ ize him."
 - [ ] Ren: "One more battle. For Kael. For everyone."
 
 ## Chapter 25: "The Last Save File" — FINAL CHAPTER
+
+> **Ref:** [`specs/story/chapters/ch25.md`](specs/story/chapters/ch25.md), [`specs/story/arc-structure.md`](specs/story/arc-structure.md), [`specs/story/world.md`](specs/story/world.md)
 
 ### Prologue
 - [ ] Largest deployment: every available party member

@@ -7,6 +7,8 @@
 
 ## Promotion System — Data
 
+> **Ref:** [`specs/gameplay/promotion.md`](specs/gameplay/promotion.md), [`specs/gameplay/classes-expanded.md`](specs/gameplay/classes-expanded.md)
+
 - [ ] Define `ClassTier` type: `'base' | 'promoted' | 'master'`
 - [ ] Add `tier` field to class definitions
 - [ ] Add `promotesTo` field: array of promoted class IDs per base class
@@ -30,6 +32,8 @@
 
 ## Promotion System — Logic
 
+> **Ref:** [`specs/gameplay/promotion.md`](specs/gameplay/promotion.md)
+
 - [ ] Create `src/core/promotion.ts` — pure promotion logic
 - [ ] `canPromote(unit)`: level >= 15, has correct item, not already promoted
 - [ ] `getPromotionOptions(unit)`: returns available promoted classes
@@ -40,6 +44,8 @@
 - [ ] Consume promotion item on use
 
 ## Promotion System — UI
+
+> **Ref:** [`specs/gameplay/promotion.md`](specs/gameplay/promotion.md), [`specs/gameplay/items.md`](specs/gameplay/items.md)
 
 - [ ] Add promotion items to item data: Hero Crest, Knight Crest, Guiding Ring, Elysian Whip, Master Seal
 - [ ] Master Seal promotes any class (universal)
@@ -52,6 +58,8 @@
 
 ## Skills Framework — Data
 
+> **Ref:** [`specs/gameplay/skills.md`](specs/gameplay/skills.md)
+
 - [ ] Define `Skill` type: `id`, `name`, `category`, `description`, `activationRate`, `effect`
 - [ ] Skill categories: `combat`, `movement`, `support`, `meta`, `passive`
 - [ ] Add `skills: string[]` to Unit type (equipped skill IDs)
@@ -60,6 +68,8 @@
 - [ ] Create `src/data/skills.ts` — all skill definitions
 
 ## Skills — Priority Combat Skills (15)
+
+> **Ref:** [`specs/gameplay/skills.md`](specs/gameplay/skills.md), [`specs/gameplay/combat.md`](specs/gameplay/combat.md)
 
 - [ ] Vantage: if HP ≤ 50%, attack first (activation: SKL%) — **priority 1** (resolves before all other skills)
 - [ ] Wrath: if HP ≤ 50%, +20 crit (passive) — stacks with Vantage (both trigger at ≤50% but Vantage is order, Wrath is stat)
@@ -79,6 +89,8 @@
 
 ## Skills — Movement Skills (5)
 
+> **Ref:** [`specs/gameplay/skills.md`](specs/gameplay/skills.md)
+
 - [ ] Canto: after combat/action, spend remaining MOV (cavalier innate)
 - [ ] Pass: move through enemy units (passive)
 - [ ] Shove: push adjacent ally 1 tile in facing direction (action)
@@ -86,6 +98,8 @@
 - [ ] Reposition: move ally to opposite side of self (action)
 
 ## Skill Activation Precedence (Combat Resolution Order)
+
+> **Ref:** [`specs/gameplay/skills.md`](specs/gameplay/skills.md), [`specs/gameplay/battle-logic.md`](specs/gameplay/battle-logic.md)
 
 1. **Nihil check** — if either combatant has Nihil, opponent's skills are disabled
 2. **Vantage** — if defender HP ≤ 50% and SKL% activates, defender attacks first
@@ -105,6 +119,8 @@
 
 ## Skills — Integration
 
+> **Ref:** [`specs/gameplay/skills.md`](specs/gameplay/skills.md), [`specs/gameplay/combat.md`](specs/gameplay/combat.md)
+
 - [ ] Create `src/core/skills.ts` — skill activation logic with precedence order above
 - [ ] Hook skill checks into combat resolution (`combatActions.ts`)
 - [ ] Implement precedence chain: Nihil → Vantage → per-hit skills → defense skills → passives
@@ -120,6 +136,8 @@
 - [ ] Class innate skills auto-equipped, don't use slots
 
 ## Ren's Teaching (LOOP Expenditure)
+
+> **Ref:** [`specs/gameplay/skills.md`](specs/gameplay/skills.md), [`specs/gameplay/stats.md`](specs/gameplay/stats.md)
 
 > Teaching costs LOOP and inflicts CRP on both Ren and the student.
 > See `specs/tasks/campaign-flags.md` for exact LOOP costs.

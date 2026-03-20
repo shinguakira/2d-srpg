@@ -7,6 +7,8 @@
 
 ## Fog of War
 
+> **Ref:** [`specs/gameplay/terrain.md`](specs/gameplay/terrain.md), [`specs/gameplay/items.md`](specs/gameplay/items.md)
+
 - [ ] Add `fogOfWar: boolean` to chapter config
 - [ ] Add `visionRange` to unit type (default 3, thief 5)
 - [ ] Calculate visible tiles: BFS from all player units up to vision range
@@ -25,6 +27,8 @@
 
 ## Weather System
 
+> **Ref:** [`specs/gameplay/terrain.md`](specs/gameplay/terrain.md)
+
 - [ ] Add `weather` to chapter config: `'clear' | 'rain' | 'fog' | 'snow' | 'sandstorm' | 'corruption_storm'`
 - [ ] Add `weatherChanges` to chapter events (weather can shift mid-battle)
 - [ ] Rain effects: -15 hit for bows/fire magic, -1 MOV mounted, fire magic -2 might
@@ -41,6 +45,8 @@
 
 ## Destructible Terrain
 
+> **Ref:** [`specs/gameplay/terrain.md`](specs/gameplay/terrain.md)
+
 - [ ] Add `hp` field to terrain tiles (null = indestructible)
 - [ ] Wall tiles: HP 30, destroyed → rubble (passable, 0 bonuses)
 - [ ] Bridge tiles: HP 20, destroyed → water (impassable, units fall!)
@@ -56,6 +62,8 @@
 - [ ] Destruction animation: crumble/break effect
 
 ## Support Conversations
+
+> **Ref:** [`specs/gameplay/support-system.md`](specs/gameplay/support-system.md)
 
 - [ ] Add `supportPoints: Record<string, number>` per unit pair
 - [ ] Point gain: +2 adjacent at turn end
@@ -79,6 +87,8 @@
 
 ## Bonus EXP Distribution
 
+> **Ref:** [`specs/gameplay/experience.md`](specs/gameplay/experience.md)
+
 - [ ] Calculate bonus EXP per chapter: `(parTurns - actualTurns) × 50`, max 300
 - [ ] Store accumulated bonus EXP in campaign state
 - [ ] Bonus EXP distribution UI in preparation screen
@@ -88,6 +98,8 @@
 - [ ] Catch-up bonus: +20% EXP if unit 3+ levels below party average
 
 ## Forging System (Arc 3+)
+
+> **Ref:** [`specs/gameplay/economy.md`](specs/gameplay/economy.md), [`specs/gameplay/weapons.md`](specs/gameplay/weapons.md)
 
 - [ ] Add `forgeLevel` to weapon instances (0, +1, +2, +3)
 - [ ] Forge materials: Adamant (+1/+2), Mithril (+3)

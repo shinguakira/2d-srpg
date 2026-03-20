@@ -9,6 +9,8 @@
 
 ## Chapter 6: "New Alliances"
 
+> **Ref:** [`specs/story/chapters/ch6.md`](specs/story/chapters/ch6.md), [`specs/story/characters/rook.md`](specs/story/characters/rook.md), [`specs/story/characters/faye.md`](specs/story/characters/faye.md)
+
 ### Prologue
 - [ ] Rook introduction: mercenary, joins for coin, skeptical of party dynamics
 - [ ] Party reacts to ch5 anomalies — Senna confirms spreading
@@ -29,6 +31,8 @@
 - [ ] Senna reports anomalies spreading geographically
 
 ## Chapter 7: "The Seed Breaks" — SENNA'S CRISIS
+
+> **Ref:** [`specs/story/chapters/ch7.md`](specs/story/chapters/ch7.md), [`specs/story/characters/senna.md`](specs/story/characters/senna.md)
 
 ### Prologue
 - [ ] Senna's obsessive analysis: tracking every RNG outcome
@@ -51,6 +55,8 @@
 - [ ] Ren admits more about cycles (partial truth)
 
 ## Chapter 8: "The Last Ride" — KAEL'S DEATH
+
+> **Ref:** [`specs/story/chapters/ch8.md`](specs/story/chapters/ch8.md), [`specs/story/characters/kael.md`](specs/story/characters/kael.md)
 
 ### Prologue
 - [ ] Kael learns about the 347 cycles (Ren finally tells truth)
@@ -92,6 +98,8 @@
 
 ## Chapter 9: "The Void Left Behind"
 
+> **Ref:** [`specs/story/chapters/ch9.md`](specs/story/chapters/ch9.md), [`specs/story/characters/orin.md`](specs/story/characters/orin.md)
+
 ### Prologue
 - [ ] First chapter without Kael — his absence felt immediately
 - [ ] Party is broken: short exchanges, no banter
@@ -111,6 +119,8 @@
 - [ ] Grief trauma still weighing on everyone
 
 ## Chapter 10: "What We Carry"
+
+> **Ref:** [`specs/story/chapters/ch10.md`](specs/story/chapters/ch10.md)
 
 ### Prologue
 - [ ] Mission briefing: village defense + hill assault

@@ -7,6 +7,8 @@
 
 ## Advanced AI Behaviors
 
+> **Ref:** [`specs/gameplay/ai.md`](specs/gameplay/ai.md)
+
 - [ ] Survival AI: flee to nearest fort when HP ≤ 30%, use healing items, attack when healthy
 - [ ] Thief AI: pathfind to nearest chest/village tile, ignore combat, flee if blocked
 - [ ] Healer AI: stay behind frontline (2+ tiles from nearest enemy), heal lowest-HP ally in staff range
@@ -19,6 +21,8 @@
 
 ## AI Target Scoring Improvements
 
+> **Ref:** [`specs/gameplay/ai.md`](specs/gameplay/ai.md), [`specs/gameplay/combat.md`](specs/gameplay/combat.md)
+
 - [ ] Add weapon triangle awareness to score: +10 if advantage, -10 if disadvantage
 - [ ] Add kill potential bonus: +100 if attack would kill target
 - [ ] Add counter-death penalty: -50 if target's counter would kill attacker
@@ -28,6 +32,8 @@
 - [ ] Healer priority: +80 for healing allies ≤ 30% HP
 
 ## Dance Action (Orin)
+
+> **Ref:** [`specs/gameplay/battle-logic.md`](specs/gameplay/battle-logic.md), [`specs/story/characters/orin.md`](specs/story/characters/orin.md)
 
 - [ ] Add `dance` to ActionType union
 - [ ] Dance action: select adjacent ally who has already acted
@@ -41,6 +47,8 @@
 
 ## Steal Action (Coda/Thief)
 
+> **Ref:** [`specs/gameplay/battle-logic.md`](specs/gameplay/battle-logic.md), [`specs/story/characters/coda.md`](specs/story/characters/coda.md)
+
 - [ ] Add `steal` to ActionType union
 - [ ] Steal action: select adjacent enemy with stealable item
 - [ ] Steal condition: attacker SPD > defender SPD
@@ -52,6 +60,8 @@
 - [ ] Steal EXP: thief gains 20 EXP per successful steal
 
 ## Rescue/Drop Actions
+
+> **Ref:** [`specs/gameplay/battle-logic.md`](specs/gameplay/battle-logic.md)
 
 - [ ] Add `rescue` and `drop` to ActionType union
 - [ ] Rescue action: pick up adjacent ally (must have STR ≥ ally's weight)
@@ -67,6 +77,8 @@
 
 ## Lockpick Action
 
+> **Ref:** [`specs/gameplay/battle-logic.md`](specs/gameplay/battle-logic.md), [`specs/gameplay/items.md`](specs/gameplay/items.md)
+
 - [ ] Add `lockpick` to ActionType union
 - [ ] Lockpick: thief can open chest/door tiles without key item
 - [ ] Lockpick action on chest: receive chest contents
@@ -75,6 +87,8 @@
 - [ ] Add Lockpick to action menu (thief class on adjacent chest/door)
 
 ## Trade Action
+
+> **Ref:** [`specs/gameplay/battle-logic.md`](specs/gameplay/battle-logic.md)
 
 - [ ] Add `trade` to ActionType union
 - [ ] Trade: swap items between two adjacent player units

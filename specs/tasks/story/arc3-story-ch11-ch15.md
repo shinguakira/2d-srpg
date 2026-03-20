@@ -9,6 +9,8 @@
 
 ## Chapter 11: "Spreading Plague"
 
+> **Ref:** [`specs/story/chapters/ch11.md`](specs/story/chapters/ch11.md), [`specs/story/characters/kira.md`](specs/story/characters/kira.md)
+
 ### Prologue
 - [ ] CRP introduction: dark terrain spreading, civilians fleeing
 - [ ] Senna explains corruption mechanics to party (tutorial dialogue)
@@ -33,6 +35,8 @@
 - [ ] CRP management tutorial: how to reduce/avoid corruption
 
 ## Chapter 12: "The Turning" — CORRUPTION LOSS
+
+> **Ref:** [`specs/story/chapters/ch12.md`](specs/story/chapters/ch12.md)
 
 ### Prologue
 - [ ] Monastery approach: seeking light magic as counter to corruption
@@ -66,6 +70,8 @@
 
 ## Chapter 13: "Second Chances"
 
+> **Ref:** [`specs/story/chapters/ch13.md`](specs/story/chapters/ch13.md), [`specs/story/characters/zael.md`](specs/story/characters/zael.md)
+
 ### Prologue
 - [ ] Fortress approach: intel on Zael (corrupted wyvern rider)
 - [ ] Ren knows Zael can be saved (from past cycles)
@@ -89,6 +95,8 @@
 
 ## Chapter 14: "The Monastery"
 
+> **Ref:** [`specs/story/chapters/ch14.md`](specs/story/chapters/ch14.md), [`specs/story/characters/elara.md`](specs/story/characters/elara.md)
+
 ### Prologue
 - [ ] Monastery arrival: seeking answers about corruption origin
 - [ ] Elara introduction (Monk at chapel): has been studying anomalies independently
@@ -111,6 +119,8 @@
 - [ ] Master Seal reward: promotion discussion
 
 ## Chapter 15: "The Rally"
+
+> **Ref:** [`specs/story/chapters/ch15.md`](specs/story/chapters/ch15.md)
 
 ### Prologue
 - [ ] Fortress assault planning: three-pronged approach

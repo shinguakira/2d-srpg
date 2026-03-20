@@ -9,6 +9,8 @@
 
 ## Chapter 11: "Spreading Plague" (18×18)
 
+> **Ref:** [`specs/maps/ch11.md`](specs/maps/ch11.md), [`specs/story/chapters/ch11.md`](specs/story/chapters/ch11.md), [`specs/story/characters/kira.md`](specs/story/characters/kira.md)
+
 ### Config
 - [ ] Create chapter11.ts — 18×18 grid, objective: Dual (Boss Kill + Protect 3/5 NPCs)
 - [ ] Par turns: 22, deployment slots: 8, force deploy: Ren
@@ -48,6 +50,8 @@
 ---
 
 ## Chapter 12: "The Turning" (16×18) — CORRUPTION LOSS
+
+> **Ref:** [`specs/maps/ch12.md`](specs/maps/ch12.md), [`specs/story/chapters/ch12.md`](specs/story/chapters/ch12.md)
 
 ### Config
 - [ ] Create chapter12.ts — 16×18 grid, objective: Boss Kill (Seras)
@@ -91,6 +95,8 @@
 
 ## Chapter 13: "Second Chances" (18×20)
 
+> **Ref:** [`specs/maps/ch13.md`](specs/maps/ch13.md), [`specs/story/chapters/ch13.md`](specs/story/chapters/ch13.md), [`specs/story/characters/zael.md`](specs/story/characters/zael.md)
+
 ### Config
 - [ ] Create chapter13.ts — 18×20 grid, objective: Boss Kill (Fortress Warden)
 - [ ] Par turns: 22, deployment slots: 9, force deploy: Ren
@@ -130,6 +136,8 @@
 ---
 
 ## Chapter 14: "The Monastery" (16×16)
+
+> **Ref:** [`specs/maps/ch14.md`](specs/maps/ch14.md), [`specs/story/chapters/ch14.md`](specs/story/chapters/ch14.md), [`specs/story/characters/elara.md`](specs/story/characters/elara.md)
 
 ### Config
 - [ ] Create chapter14.ts — 16×16 grid, objective: Boss Kill
@@ -174,6 +182,8 @@
 ---
 
 ## Chapter 15: "The Rally" (20×22)
+
+> **Ref:** [`specs/maps/ch15.md`](specs/maps/ch15.md), [`specs/story/chapters/ch15.md`](specs/story/chapters/ch15.md)
 
 ### Config
 - [ ] Create chapter15.ts — 20×22 grid, objective: Rout (all enemies)

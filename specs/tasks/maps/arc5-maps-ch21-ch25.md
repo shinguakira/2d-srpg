@@ -9,6 +9,8 @@
 
 ## Chapter 21: "The Long March" (20×24, Dynamic Terrain)
 
+> **Ref:** [`specs/maps/ch21.md`](specs/maps/ch21.md), [`specs/story/chapters/ch21.md`](specs/story/chapters/ch21.md)
+
 ### Config
 - [ ] Create chapter21.ts — 20×24 grid, objective: Escape to (0, 19)
 - [ ] Par turns: 28, deployment slots: 12, force deploy: Ren
@@ -39,6 +41,8 @@
 ---
 
 ## Chapter 22: "Ghosts of Cycles Past" (20×24, Nostalgia)
+
+> **Ref:** [`specs/maps/ch22.md`](specs/maps/ch22.md), [`specs/story/chapters/ch22.md`](specs/story/chapters/ch22.md)
 
 ### Config
 - [ ] Create chapter22.ts — 20×24 grid, objective: Boss Kill (The Archivist)
@@ -78,6 +82,8 @@
 ---
 
 ## Chapter 23: "The Penultimate" (2× 14×16, Split Map)
+
+> **Ref:** [`specs/maps/ch23.md`](specs/maps/ch23.md), [`specs/story/chapters/ch23.md`](specs/story/chapters/ch23.md)
 
 ### Config
 - [ ] Create chapter23.ts — split map config (two 14×16 grids)
@@ -122,6 +128,8 @@
 ---
 
 ## Chapter 24: "???_CORRUPTED" (16×16, Arena) — KAEL REVELATION
+
+> **Ref:** [`specs/maps/ch24.md`](specs/maps/ch24.md), [`specs/story/chapters/ch24.md`](specs/story/chapters/ch24.md), [`specs/story/characters/kael.md`](specs/story/characters/kael.md)
 
 ### Config
 - [ ] Create chapter24.ts — 16×16 circular arena grid, objective: Strip 3 corruption layers
@@ -178,6 +186,8 @@
 ---
 
 ## Chapter 25: "The Last Save File" (24×28) — FINAL CHAPTER
+
+> **Ref:** [`specs/maps/ch25.md`](specs/maps/ch25.md), [`specs/story/chapters/ch25.md`](specs/story/chapters/ch25.md), [`specs/story/arc-structure.md`](specs/story/arc-structure.md)
 
 ### Config
 - [ ] Create chapter25.ts — 24×28 grid, objective: Ren seizes center with Final Save Crystal

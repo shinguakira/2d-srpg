@@ -7,6 +7,8 @@
 
 ## Event System — Core Engine
 
+> **Ref:** [`specs/gameplay/battle-logic.md`](specs/gameplay/battle-logic.md), [`specs/gameplay/objectives.md`](specs/gameplay/objectives.md)
+
 - [ ] Define `ChapterEvent` type in `types.ts`:
   - `id`, `trigger` (condition), `effect` (action), `once` (boolean), `fired` (boolean)
 - [ ] Define trigger types: `turn_start(n)`, `turn_end(n)`, `unit_at(unitId, row, col)`, `unit_hp_below(unitId, pct)`, `unit_killed(unitId)`, `tile_visited(row, col)`, `phase_start(faction)`, `custom(fn)`
@@ -22,6 +24,8 @@
 
 ## Event System — Visual Effects
 
+> **Ref:** [`specs/ui/animations.md`](specs/ui/animations.md)
+
 - [ ] Mid-battle dialogue overlay component (reuse DialogueBox with battle still visible)
 - [ ] Terrain change animation (tile flicker + swap)
 - [ ] Unit spawn animation (fade in on tile)
@@ -30,6 +34,8 @@
 - [ ] Pause enemy AI execution during event dialogue
 
 ## Recruitment System — Core
+
+> **Ref:** [`specs/story/roster.md`](specs/story/roster.md), [`specs/story/characters.md`](specs/story/characters.md)
 
 - [ ] Add `faction` field expansion: `'player' | 'enemy' | 'ally' | 'neutral'`
 - [ ] Add ally faction AI: moves independently, does not block player tiles
@@ -46,6 +52,8 @@
 
 ## Roster & Deployment System
 
+> **Ref:** [`specs/progression/preparation.md`](specs/progression/preparation.md), [`specs/progression/campaign.md`](specs/progression/campaign.md)
+
 - [ ] Add `roster: Unit[]` to campaign state (all recruited units across chapters)
 - [ ] Persist roster in save data (campaignStore)
 - [ ] Add `deploymentSlots` per chapter config (max units deployable)
@@ -58,6 +66,8 @@
 - [ ] Update chapter init to use roster + deployment selection instead of hardcoded units
 
 ## Chapter Configuration Expansion
+
+> **Ref:** [`specs/gameplay/objectives.md`](specs/gameplay/objectives.md), [`specs/gameplay/experience.md`](specs/gameplay/experience.md), [`specs/maps/overview.md`](specs/maps/overview.md)
 
 - [ ] Add `events` array to chapter config type
 - [ ] Add `recruitableUnits` to chapter config

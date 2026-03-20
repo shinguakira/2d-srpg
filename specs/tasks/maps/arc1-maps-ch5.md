@@ -6,6 +6,8 @@
 
 ## Chapter 5 Config (`src/data/chapters/chapter5.ts`)
 
+> **Ref:** [`specs/maps/ch5.md`](specs/maps/ch5.md)
+
 - [ ] Create chapter5.ts file
 - [ ] Set grid size: 14×16 (14 cols, 16 rows)
 - [ ] Set objective: Seize (throne at row 1, center)
@@ -16,6 +18,8 @@
 - [ ] Set arc: 1
 
 ## Terrain Grid
+
+> **Ref:** [`specs/maps/ch5.md`](specs/maps/ch5.md), [`specs/gameplay/terrain.md`](specs/gameplay/terrain.md)
 
 - [ ] Design 14×16 terrain grid per spec: mountain fortress vertical assault
 - [ ] Bottom rows (14-15): plains with player spawn tiles (6 positions)
@@ -29,6 +33,8 @@
 - [ ] Add fort tiles at strategic defense points
 
 ## Enemy Placements
+
+> **Ref:** [`specs/maps/ch5.md`](specs/maps/ch5.md), [`specs/gameplay/ai.md`](specs/gameplay/ai.md)
 
 - [ ] Boss: General Aldric — soldier class, Lv7, steel_lance + javelin, boss AI
   - Position: (1, 7) on throne
@@ -44,6 +50,8 @@
 
 ## Player Units
 
+> **Ref:** [`specs/story/characters/yuel.md`](specs/story/characters/yuel.md), [`specs/story/roster.md`](specs/story/roster.md)
+
 - [ ] Yuel (Pegasus Knight) joins at chapter start — add to chapter roster
 - [ ] Create Yuel unit data: Lv3, iron_lance, Pegasus Knight class, flying
 - [ ] Yuel growth rates: SPD/RES focused per spec
@@ -51,6 +59,8 @@
 - [ ] Deploy up to 6 from roster
 
 ## Mid-Battle Events
+
+> **Ref:** [`specs/story/chapters/ch5.md`](specs/story/chapters/ch5.md), [`specs/maps/ch5.md`](specs/maps/ch5.md)
 
 - [ ] Turn 3: Terrain shift event — 2 forest tiles become plains (flicker animation)
   - Dialogue: Senna notices terrain data stutter
@@ -63,6 +73,8 @@
 - [ ] Throne seize: Arc 1 conclusion event — "The script isn't safe anymore"
 
 ## Rewards & Items
+
+> **Ref:** [`specs/gameplay/economy.md`](specs/gameplay/economy.md), [`specs/gameplay/items.md`](specs/gameplay/items.md)
 
 - [ ] Village 1 reward: Steel Sword
 - [ ] Village 2 reward: Vulnerary ×2

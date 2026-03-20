@@ -7,6 +7,8 @@
 
 ## Meta-Stat Types
 
+> **Ref:** [`specs/gameplay/stats.md`](specs/gameplay/stats.md)
+
 - [ ] Add meta-stats to Unit type: `awr`, `loop`, `sync`, `loy`, `crp`, `sta`
 - [ ] AWR (Awareness): 0-100, how much unit understands the meta-narrative
 - [ ] LOOP (Memory): Ren-only, starts at 347, spendable resource
@@ -19,6 +21,8 @@
 
 ## Meta-Stat Display
 
+> **Ref:** [`specs/ui/hud.md`](specs/ui/hud.md), [`specs/gameplay/stats.md`](specs/gameplay/stats.md)
+
 - [ ] Add meta-stat section to UnitStatsPanel (collapsible, below combat stats)
 - [ ] Show AWR as percentage bar (blue)
 - [ ] Show LOOP as number (Ren only, gold)
@@ -29,6 +33,8 @@
 - [ ] Floating numbers for meta-stat changes during gameplay
 
 ## Corruption (CRP) System
+
+> **Ref:** [`specs/gameplay/stats.md`](specs/gameplay/stats.md), [`specs/gameplay/terrain.md`](specs/gameplay/terrain.md)
 
 - [ ] CRP gain: +2/turn on glitched terrain tiles
 - [ ] CRP gain: +3/turn on data void tiles
@@ -49,6 +55,8 @@
 
 ## Stamina (STA) System
 
+> **Ref:** [`specs/gameplay/stats.md`](specs/gameplay/stats.md)
+
 - [ ] STA gain: +1 per tile moved
 - [ ] STA gain: +3 per attack made
 - [ ] STA gain: +5 per skill activation
@@ -64,6 +72,8 @@
 
 ## AWR (Awareness) System
 
+> **Ref:** [`specs/gameplay/stats.md`](specs/gameplay/stats.md)
+
 - [ ] AWR gain: +3-5 when witnessing glitch events
 - [ ] AWR gain: +2 when adjacent to glitched tile at turn end
 - [ ] AWR gain: +1 per chapter completed
@@ -73,6 +83,8 @@
 - [ ] AWR affects dialogue options (higher AWR = more aware dialogue)
 
 ## LOY (Loyalty) System
+
+> **Ref:** [`specs/gameplay/stats.md`](specs/gameplay/stats.md), [`specs/gameplay/support-system.md`](specs/gameplay/support-system.md)
 
 - [ ] LOY gain: +2 when adjacent to Ren at turn end
 - [ ] LOY gain: +3/+5/+8/+12 on support rank C/B/A/S reached
@@ -84,6 +96,8 @@
 
 ## SYNC (Stability) System
 
+> **Ref:** [`specs/gameplay/stats.md`](specs/gameplay/stats.md), [`specs/gameplay/terrain.md`](specs/gameplay/terrain.md)
+
 - [ ] SYNC decrease: -1/turn on glitched terrain
 - [ ] SYNC decrease: -3 on data void terrain
 - [ ] SYNC increase: +2/turn on fort tiles
@@ -92,6 +106,8 @@
 - [ ] High SYNC (> 80): stat consistency, +5 hit rate
 
 ## LOOP (Ren Only)
+
+> **Ref:** [`specs/gameplay/stats.md`](specs/gameplay/stats.md), [`specs/gameplay/weapons.md`](specs/gameplay/weapons.md), [`specs/story/characters/ren.md`](specs/story/characters/ren.md)
 
 > Teaching mechanic is defined in Phase 2 (`phase2-promotion-skills.md`).
 > LOOP costs and calculations are defined in `campaign-flags.md`.

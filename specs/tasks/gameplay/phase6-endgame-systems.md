@@ -7,6 +7,8 @@
 
 ## Master Classes (Tier 3)
 
+> **Ref:** [`specs/gameplay/classes-expanded.md`](specs/gameplay/classes-expanded.md), [`specs/gameplay/promotion.md`](specs/gameplay/promotion.md), [`specs/gameplay/skills.md`](specs/gameplay/skills.md)
+
 - [ ] Define 8 master class definitions:
   - Vanguard → Exalted Lord (Ren only)
   - Sage → Archsage
@@ -33,6 +35,8 @@
 
 ## Multi-Phase Boss System
 
+> **Ref:** [`specs/story/bosses.md`](specs/story/bosses.md), [`specs/gameplay/combat.md`](specs/gameplay/combat.md)
+
 - [ ] Add `phases` array to boss unit config:
   - Each phase: HP threshold, stat changes, weapon change, dialogue, terrain effects
 - [ ] Phase transition trigger: boss HP crosses threshold
@@ -47,6 +51,8 @@
 
 ## Weapon Cycling Boss (Ch24 ???_CORRUPTED)
 
+> **Ref:** [`specs/maps/ch24.md`](specs/maps/ch24.md), [`specs/story/bosses.md`](specs/story/bosses.md)
+
 - [ ] Weapon cycle: boss changes weapon type each turn on fixed rotation
 - [ ] Cycle order configurable per boss (array of weapon types)
 - [ ] Weapon triangle exploit: correct advantage hit strips corruption layer
@@ -56,6 +62,8 @@
 - [ ] Combat forecast shows cycle hint
 
 ## Map-as-Boss (Ch25 System)
+
+> **Ref:** [`specs/maps/ch25.md`](specs/maps/ch25.md), [`specs/gameplay/objectives.md`](specs/gameplay/objectives.md)
 
 - [ ] Boss is not a unit — the map itself has HP and phases
 - [ ] Map HP bar displayed at top of screen
@@ -68,6 +76,8 @@
 
 ## Split Party System (Ch23)
 
+> **Ref:** [`specs/maps/ch23.md`](specs/maps/ch23.md), [`specs/progression/preparation.md`](specs/progression/preparation.md)
+
 - [ ] Pre-chapter: player divides roster into 2 teams
 - [ ] Team selection UI: drag units between Team A and Team B
 - [ ] Two separate maps rendered (or sequential with turn interleaving)
@@ -78,6 +88,8 @@
 
 ## Negotiate Action (Ch17)
 
+> **Ref:** [`specs/maps/ch17.md`](specs/maps/ch17.md), [`specs/gameplay/stats.md`](specs/gameplay/stats.md)
+
 - [ ] Add `negotiate` to ActionType union
 - [ ] Negotiate condition: Ren adjacent to boss, boss HP ≤ 50%, party AWR average ≥ 70
 - [ ] Negotiate effect: boss stands down, chapter ends peacefully
@@ -86,6 +98,8 @@
 - [ ] Negotiate dialogue scene (multiple lines)
 
 ## Trauma Skills
+
+> **Ref:** [`specs/gameplay/skills.md`](specs/gameplay/skills.md)
 
 - [ ] Auto-learned when specific ally dies (not equippable, always active)
 - [ ] Survivor's Guilt: -2 STR, +2 DEF (learned by closest ally to dead unit)
@@ -96,6 +110,8 @@
 
 ## Key Items — Late Game
 
+> **Ref:** [`specs/gameplay/items.md`](specs/gameplay/items.md), [`specs/gameplay/weapons.md`](specs/gameplay/weapons.md)
+
 - [ ] Add Final Save Crystal to item data: key item, acquired ch25 pre-battle, must be equipped to Ren for True ending
 - [ ] Final Save Crystal: no combat effect, equippable in weapon/item slot, used on seize
 - [ ] Add Memory Blade to weapon data (if not added in Phase 4): Prf Ren, sword, might = `1 + floor(LOOP/30)`, range 1
@@ -103,6 +119,8 @@
 - [ ] Add Echo's Interface (Prf): tome, might = varies by target CRP level
 
 ## Multiple Endings
+
+> **Ref:** [`specs/story/arc-structure.md`](specs/story/arc-structure.md), [`specs/progression/campaign.md`](specs/progression/campaign.md)
 
 > See `specs/tasks/campaign-flags.md` for the full ending decision matrix and flag definitions.
 
@@ -115,6 +133,8 @@
 - [ ] New Game+ unlock after any ending (cycle 347 → 348)
 
 ## Difficulty Modes
+
+> **Ref:** [`specs/gameplay/difficulty.md`](specs/gameplay/difficulty.md)
 
 - [ ] Add difficulty selection to campaign start: Classic / Casual / Hard
 - [ ] Classic: permadeath, base enemy stats (×1.0), normal reinforcement timing

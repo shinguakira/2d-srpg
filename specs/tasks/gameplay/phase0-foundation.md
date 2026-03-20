@@ -7,6 +7,8 @@
 
 ## Rename Player Units (Eirik→Ren, Seth→Kael, Lute→Senna, Natasha→Lira)
 
+> **Ref:** [`specs/story/characters/ren.md`](specs/story/characters/ren.md), [`specs/story/characters/kael.md`](specs/story/characters/kael.md), [`specs/story/characters/senna.md`](specs/story/characters/senna.md), [`specs/story/characters/lira.md`](specs/story/characters/lira.md)
+
 - [ ] Rename `eirik` → `ren` in `src/data/units.ts` (id, name, key)
 - [ ] Rename `seth` → `kael` in `src/data/units.ts`
 - [ ] Rename `lute` → `senna` in `src/data/units.ts`
@@ -21,6 +23,8 @@
 
 ## Add Missing Player Units
 
+> **Ref:** [`specs/story/characters/bram.md`](specs/story/characters/bram.md), [`specs/story/characters/voss.md`](specs/story/characters/voss.md), [`specs/story/characters/nira.md`](specs/story/characters/nira.md), [`specs/story/characters/coda.md`](specs/story/characters/coda.md), [`specs/story/roster.md`](specs/story/roster.md)
+
 - [ ] Add Bram (fighter, player) to `PLAYER_UNITS` — Lv1, iron_axe, STR-focused growth
 - [ ] Add Voss (soldier, player) to `PLAYER_UNITS` — Lv2, iron_lance, DEF-focused growth
 - [ ] Add Nira (archer, player) to `PLAYER_UNITS` — Lv1, iron_bow, SKL/SPD growth
@@ -33,6 +37,8 @@
 - [ ] Wire Coda into ch4 as conditional join (update chapter4.ts)
 
 ## Expand Type System
+
+> **Ref:** [`specs/gameplay/weapons.md`](specs/gameplay/weapons.md), [`specs/gameplay/classes.md`](specs/gameplay/classes.md), [`specs/gameplay/terrain.md`](specs/gameplay/terrain.md), [`specs/gameplay/stats.md`](specs/gameplay/stats.md), [`specs/gameplay/objectives.md`](specs/gameplay/objectives.md)
 
 - [ ] Add `bow`, `knife`, `dark`, `light` to WeaponType union in `types.ts`
 - [ ] Add weapon range types: melee (1), ranged (2), mixed (1-2), siege (3-10)
@@ -49,6 +55,8 @@
 
 ## Expand Weapon Data
 
+> **Ref:** [`specs/gameplay/weapons.md`](specs/gameplay/weapons.md)
+
 - [ ] Add Arc 1 weapons: Slim Sword, Rapier (Prf Ren), Iron Bow, Iron Knife
 - [ ] Add Arc 1 Prf weapons: Voss's Garrison Lance, Nira's Sightbow, Coda's Data Knife
 - [ ] Add Arc 2 weapons: Steel Sword/Lance/Axe, Javelin, Hand Axe, Longbow
@@ -60,6 +68,8 @@
 - [ ] Verify all 15 existing weapons have correct stats per spec
 
 ## Expand Class Data
+
+> **Ref:** [`specs/gameplay/classes.md`](specs/gameplay/classes.md), [`specs/gameplay/classes-expanded.md`](specs/gameplay/classes-expanded.md)
 
 - [ ] Add Archer class (bow, MOV 5, SKL/SPD growth)
 - [ ] Add Thief class (knife, MOV 6, SPD/SKL growth, locktouch innate)
@@ -76,6 +86,8 @@
 - [ ] Update movement cost calculations for armored (mountain impassable, forest +1)
 
 ## Terrain Data Expansion
+
+> **Ref:** [`specs/gameplay/terrain.md`](specs/gameplay/terrain.md)
 
 - [ ] Add Sand terrain: cost 2 foot/3 mounted, 0 DEF/avoid, +1 STA drain
 - [ ] Add Ice terrain: cost 1, -10 avoid, 50% slide chance

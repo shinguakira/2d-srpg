@@ -9,6 +9,8 @@
 
 ## Chapter 4: Rename Pass + Story Polish
 
+> **Ref:** [`specs/story/chapters/ch4.md`](specs/story/chapters/ch4.md), [`specs/story/characters/coda.md`](specs/story/characters/coda.md)
+
 - [ ] Update ch4 speaker names: Eirik→Ren, Seth→Kael, Lute→Senna, Natasha→Lira
 - [ ] Update ch4 prologue dialogue to match spec character voices
 - [ ] Update ch4 epilogue dialogue
@@ -20,6 +22,8 @@
 - [ ] Verify ch4 dialogue plays through without errors after rename
 
 ## Chapter 5: Full Story Implementation
+
+> **Ref:** [`specs/story/chapters/ch5.md`](specs/story/chapters/ch5.md), [`specs/story/characters/yuel.md`](specs/story/characters/yuel.md), [`specs/story/characters/ren.md`](specs/story/characters/ren.md), [`specs/story/characters/kael.md`](specs/story/characters/kael.md), [`specs/story/characters/senna.md`](specs/story/characters/senna.md)
 
 ### Prologue (Pre-Battle)
 - [ ] Yuel arrival scene: "The sky was loading in SQUARES"

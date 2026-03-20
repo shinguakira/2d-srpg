@@ -87,7 +87,8 @@ export type Weapon = {
 // ===== Items =====
 
 export type ItemEffect =
-  | { readonly kind: 'heal'; readonly amount: number };
+  | { readonly kind: 'heal'; readonly amount: number }
+  | { readonly kind: 'promote'; readonly eligibleClasses: string[] };
 
 export type ConsumableItem = {
   readonly id: string;
@@ -127,14 +128,23 @@ export type GrowthRates = {
   readonly wil: number;
 };
 
+export type ClassTier = 'base' | 'promoted' | 'master';
+
 export type UnitClass = {
   readonly id: string;
   readonly name: string;
+  readonly tier: ClassTier;
   readonly baseStats: UnitStats;
   readonly growthRates: GrowthRates;
   readonly flying?: boolean;
   readonly mounted?: boolean;
   readonly armored?: boolean;
+  readonly promotesTo?: string[];
+  readonly promotesFrom?: string;
+  readonly weaponTypes?: WeaponType[];
+  readonly statCaps?: Partial<UnitStats>;
+  readonly bonusCrit?: number;
+  readonly innateSkills?: string[];
 };
 
 // ===== AI Behavior =====
@@ -175,6 +185,8 @@ export type Unit = {
   deathQuote?: string;
   recruitableBy?: string;
   recruitCondition?: 'talk' | 'visit_village' | 'event' | 'defection';
+  skills: string[];
+  learnedSkills: string[];
 };
 
 // ===== Game State =====
@@ -190,7 +202,8 @@ export type PlayerAction =
   | 'heal_target'
   | 'confirm'
   | 'village_visit'
-  | 'talk_target';
+  | 'talk_target'
+  | 'canto_move';
 
 // ===== Chapter =====
 
@@ -320,10 +333,13 @@ export type UnitProgress = {
   readonly stats: UnitStats;
   readonly weaponIds: string[];
   readonly itemIds: string[];
+  readonly classId?: string;
+  readonly skillIds?: string[];
+  readonly learnedSkillIds?: string[];
 };
 
 export type SaveData = {
-  readonly version: 2;
+  readonly version: 3;
   readonly timestamp: number;
   readonly currentChapterId: string;
   readonly completedChapters: string[];

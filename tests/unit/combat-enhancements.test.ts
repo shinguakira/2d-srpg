@@ -36,6 +36,8 @@ function makeUnit(id: string, overrides: Partial<Unit> = {}): Unit {
     inventory: [],
     items: [],
     hasActed: false,
+    skills: [],
+    learnedSkills: [],
     sprite: '',
     ...overrides,
   };

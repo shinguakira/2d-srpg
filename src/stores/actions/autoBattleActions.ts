@@ -166,7 +166,7 @@ function finalizeAutoAction(
     newUnits.set(unit.id, combatUnit);
 
     const forecast = calculateCombatForecast(combatUnit, target, attackerTerrain, defenderTerrain, distance);
-    const result = resolveCombat(forecast, rng);
+    const result = resolveCombat(forecast, rng, combatUnit, target);
 
     set({
       units: newUnits,

@@ -43,6 +43,8 @@ function createUnit(
     isLord: opts?.isLord,
     deathQuote: opts?.deathQuote,
     aiBehavior: opts?.aiBehavior,
+    skills: [],
+    learnedSkills: [],
   };
 }
 

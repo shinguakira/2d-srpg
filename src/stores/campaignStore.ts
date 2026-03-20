@@ -194,7 +194,7 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
     const { currentChapterId, completedChapters, unitProgress, roster, deadUnitIds } = get();
     const nextChapterId = getNextChapterId(currentChapterId, completedChapters);
     writeSave(slot, {
-      version: 2,
+      version: 3,
       timestamp: Date.now(),
       currentChapterId: nextChapterId,
       completedChapters,

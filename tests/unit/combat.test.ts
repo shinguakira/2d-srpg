@@ -32,6 +32,8 @@ function makeUnit(id: string, overrides: Partial<Unit> = {}): Unit {
     equippedWeapon: makeWeapon('sword'),
     inventory: [],
     hasActed: false,
+    skills: [],
+    learnedSkills: [],
     sprite: '',
     ...overrides,
   };

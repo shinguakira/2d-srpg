@@ -3,11 +3,11 @@ import type { ClassFlags } from '../../core/terrain';
 import { PLAYER_UNITS, ENEMY_UNITS } from '../../data/units';
 import { WEAPONS } from '../../data/weapons';
 import { ITEMS } from '../../data/items';
-import { CLASSES } from '../../data/classes';
+import { ALL_CLASSES } from '../../data/promotedClasses';
 
 /** Extract flying/mounted/armored flags from a unit's class. */
 export function getClassFlags(unit: Unit): ClassFlags {
-  const cls = CLASSES[unit.classId];
+  const cls = ALL_CLASSES[unit.classId];
   if (!cls) return {};
   return { flying: cls.flying, mounted: cls.mounted, armored: cls.armored };
 }
@@ -61,6 +61,7 @@ export function placeUnits(chapter: ChapterData, map: GameMap, unitProgress?: Re
     const unit: Unit = {
       ...template,
       position: { ...placement.position },
+      classId: progress?.classId ?? template.classId,
       stats: progress ? { ...progress.stats } : { ...template.stats },
       currentHp: progress ? progress.stats.hp : template.currentHp,
       level: progress ? progress.level : template.level,
@@ -68,6 +69,8 @@ export function placeUnits(chapter: ChapterData, map: GameMap, unitProgress?: Re
       equippedWeapon: inventory.length > 0 ? { ...inventory[0] } : { ...template.equippedWeapon },
       inventory,
       items,
+      skills: progress?.skillIds ?? template.skills ?? [],
+      learnedSkills: progress?.learnedSkillIds ?? template.learnedSkills ?? [],
     };
     units.set(unit.id, unit);
     map.tiles[placement.position.y][placement.position.x].occupantId = unit.id;

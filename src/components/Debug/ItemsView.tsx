@@ -210,7 +210,7 @@ function ConsumableDetail({ item }: { item: ConsumableItem }) {
           <div className="debug-screen__stat-row">
             <span className="debug-screen__stat-label">Effect</span>
             <span className="debug-screen__stat-value" style={{ color: '#22c55e' }}>
-              Heal {item.effect.amount} HP
+              {item.effect.kind === 'heal' ? `Heal ${item.effect.amount} HP` : 'Promotion Item'}
             </span>
           </div>
         </div>

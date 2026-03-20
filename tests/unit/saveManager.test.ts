@@ -3,12 +3,12 @@ import { writeSave, readSave, deleteSave, hasSave, hasAnySave, getSlotSummary } 
 import type { SaveData } from '../../src/core/types';
 
 const SAMPLE_SAVE: SaveData = {
-  version: 2,
+  version: 3,
   timestamp: 1700000000000,
   currentChapterId: 'ch2',
   completedChapters: ['ch1'],
   unitProgress: {
-    ren: { level: 3, exp: 45, stats: { hp: 22, str: 7, mag: 1, def: 6, res: 2, spd: 8, skl: 6, lck: 8, mov: 5, cha: 0, wil: 0 } },
+    ren: { level: 3, exp: 45, stats: { hp: 22, str: 7, mag: 1, def: 6, res: 2, spd: 8, skl: 6, lck: 8, mov: 5, cha: 0, wil: 0 }, weaponIds: [], itemIds: [] },
   },
   roster: ['ren', 'kael'],
   deadUnitIds: [],
@@ -67,7 +67,7 @@ describe('saveManager', () => {
     expect(getSlotSummary(0)).toBeNull();
   });
 
-  it('migrates v1 save to v2 on read', () => {
+  it('migrates v1 save to current version on read', () => {
     const v1Save = {
       version: 1,
       timestamp: 1700000000000,
@@ -80,9 +80,31 @@ describe('saveManager', () => {
     localStorage.setItem('srpg_save_slot_0', JSON.stringify(v1Save));
     const loaded = readSave(0);
     expect(loaded).not.toBeNull();
-    expect(loaded!.version).toBe(2);
+    expect(loaded!.version).toBe(3);
     expect(loaded!.roster).toEqual(['ren']);
     expect(loaded!.deadUnitIds).toEqual([]);
     expect(loaded!.currentChapterId).toBe('ch2');
+  });
+
+  it('migrates v2 save to v3 on read', () => {
+    const v2Save = {
+      version: 2,
+      timestamp: 1700000000000,
+      currentChapterId: 'ch2',
+      completedChapters: ['ch1'],
+      unitProgress: {
+        ren: { level: 3, exp: 45, stats: { hp: 22, str: 7, mag: 1, def: 6, res: 2, spd: 8, skl: 6, lck: 8, mov: 5, cha: 0, wil: 0 } },
+      },
+      roster: ['ren'],
+      deadUnitIds: [],
+    };
+    localStorage.setItem('srpg_save_slot_0', JSON.stringify(v2Save));
+    const loaded = readSave(0);
+    expect(loaded).not.toBeNull();
+    expect(loaded!.version).toBe(3);
+    // v2→v3 adds skillIds and learnedSkillIds to unitProgress
+    const renProgress = loaded!.unitProgress.ren;
+    expect(renProgress.skillIds).toEqual([]);
+    expect(renProgress.learnedSkillIds).toEqual([]);
   });
 });

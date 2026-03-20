@@ -28,6 +28,8 @@ function makeUnit(id: string, pos: Position, mov: number, faction: 'player' | 'e
     equippedWeapon: { id: 'sword', name: 'Sword', type: 'sword', might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1 },
     inventory: [],
     hasActed: false,
+    skills: [],
+    learnedSkills: [],
     sprite: '',
   };
 }

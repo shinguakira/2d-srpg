@@ -20,4 +20,6 @@ export const IDLE_RESET: Partial<GameState> = {
   selectedWeaponIndex: 0,
   healableTiles: EMPTY_SET,
   movingUnit: null,
+  cantoRange: EMPTY_SET,
+  cantoRemainingMov: 0,
 };

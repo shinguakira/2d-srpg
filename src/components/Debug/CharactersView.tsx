@@ -185,7 +185,7 @@ function UnitDetail({ unit }: { unit: Unit }) {
                 ({item.uses}/{item.maxUses})
               </span>
               <span className="debug-screen__inv-stats">
-                Heals {item.effect.amount} HP
+                {item.effect.kind === 'heal' ? `Heals ${item.effect.amount} HP` : 'Promotion Item'}
               </span>
             </div>
           ))}

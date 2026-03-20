@@ -50,19 +50,22 @@ export function rollLevelUp(growthRates: GrowthRates, rng: SeededRandom): StatGa
 /**
  * Apply stat gains to a unit's stats.
  */
-export function applyStatGains(stats: UnitStats, gains: StatGains): UnitStats {
+export function applyStatGains(stats: UnitStats, gains: StatGains, caps?: Partial<UnitStats>): UnitStats {
+  const clamp = (val: number, key: keyof UnitStats) =>
+    caps?.[key] != null ? Math.min(val, caps[key]) : val;
+
   return {
-    hp: stats.hp + gains.hp,
-    str: stats.str + gains.str,
-    mag: stats.mag + gains.mag,
-    def: stats.def + gains.def,
-    res: stats.res + gains.res,
-    spd: stats.spd + gains.spd,
-    skl: stats.skl + gains.skl,
-    lck: stats.lck + gains.lck,
+    hp: clamp(stats.hp + gains.hp, 'hp'),
+    str: clamp(stats.str + gains.str, 'str'),
+    mag: clamp(stats.mag + gains.mag, 'mag'),
+    def: clamp(stats.def + gains.def, 'def'),
+    res: clamp(stats.res + gains.res, 'res'),
+    spd: clamp(stats.spd + gains.spd, 'spd'),
+    skl: clamp(stats.skl + gains.skl, 'skl'),
+    lck: clamp(stats.lck + gains.lck, 'lck'),
     mov: stats.mov, // MOV doesn't grow on level up
-    cha: stats.cha + gains.cha,
-    wil: stats.wil + gains.wil,
+    cha: clamp(stats.cha + gains.cha, 'cha'),
+    wil: clamp(stats.wil + gains.wil, 'wil'),
   };
 }
 

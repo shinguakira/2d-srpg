@@ -33,6 +33,7 @@ export function getMovementRange(
   map: GameMap,
   allUnits: Map<string, Unit>,
   classFlags?: ClassFlags,
+  canPass?: boolean,
 ): Set<string> {
   const startKey = posKey(unit.position);
   const mov = unit.stats.mov;
@@ -70,9 +71,9 @@ export function getMovementRange(
 
       const nextKey = posKey(next);
 
-      // Cannot pass through hostile units
+      // Cannot pass through hostile units (unless unit has Pass skill)
       const occupant = occupantFaction.get(nextKey);
-      if (occupant && isHostileFaction(unit.faction, occupant)) continue;
+      if (occupant && isHostileFaction(unit.faction, occupant) && !canPass) continue;
 
       // Only enqueue if this is a better path
       if (best.has(nextKey) && best.get(nextKey)! >= nextRemaining) continue;
@@ -81,7 +82,7 @@ export function getMovementRange(
     }
   }
 
-  // Build result: all reachable tiles except those occupied by friendlies
+  // Build result: all reachable tiles except those occupied by other units
   const result = new Set<string>();
   for (const [key] of best) {
     if (key === startKey) {
@@ -89,8 +90,8 @@ export function getMovementRange(
       continue;
     }
     const occupant = occupantFaction.get(key);
-    // Can't stop on a tile occupied by a friendly unit
-    if (occupant && !isHostileFaction(unit.faction, occupant)) continue;
+    // Can't stop on a tile occupied by any other unit
+    if (occupant) continue;
     result.add(key);
   }
 

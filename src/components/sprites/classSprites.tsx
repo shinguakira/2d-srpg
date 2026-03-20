@@ -25,6 +25,27 @@ export function renderClassSprite(classId: string, c: Palette, facing: 'front' |
       return <SoldierSprite c={c} />;
     case 'cleric':
       return <ClericSprite c={c} />;
+    // Promoted classes → reuse base class sprites temporarily
+    case 'great_lord': case 'conqueror': case 'overlord':
+      return <LordSprite c={c} />;
+    case 'paladin': case 'great_knight': case 'mage_knight': case 'nomad_trooper':
+    case 'valkyrie_cleric': case 'valkyrie_troubadour': case 'maid': case 'great_knight_armor':
+    case 'marshal':
+      return <CavalierSprite c={c} />;
+    case 'sage': case 'dark_flier': case 'druid': case 'summoner': case 'archsage':
+    case 'oracle':
+      return <MageSprite c={c} />;
+    case 'warrior': case 'berserker': case 'hero': case 'war_monk': case 'reaver':
+      return <FighterSprite c={c} />;
+    case 'general_soldier': case 'halberdier': case 'general_knight':
+      return <SoldierSprite c={c} />;
+    case 'bishop': case 'saint':
+      return <ClericSprite c={c} />;
+    case 'sniper': case 'assassin': case 'rogue': case 'swordmaster': case 'phantom':
+      return <GenericSprite c={c} />;
+    case 'falcon_knight': case 'wyvern_lord': case 'malig_knight': case 'seraph':
+    case 'dragon_lord':
+      return <GenericSprite c={c} />;
     default:
       return <GenericSprite c={c} />;
   }

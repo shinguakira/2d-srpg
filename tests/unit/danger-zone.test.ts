@@ -45,6 +45,8 @@ function makeUnit(
     inventory: [],
     items: [],
     hasActed: false,
+    skills: [],
+    learnedSkills: [],
     sprite: '',
     ...overrides,
   };

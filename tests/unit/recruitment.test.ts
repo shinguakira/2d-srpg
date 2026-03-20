@@ -17,6 +17,8 @@ function makeUnit(id: string, faction: 'player' | 'enemy' | 'ally' = 'player', p
     inventory: [{ id: 'iron_sword', name: 'Iron Sword', type: 'sword', might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1 }],
     items: [],
     hasActed: false,
+    skills: [],
+    learnedSkills: [],
     facing: 'down',
     sprite: '',
     ...opts,

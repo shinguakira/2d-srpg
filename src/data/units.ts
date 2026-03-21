@@ -103,8 +103,8 @@ export const ENEMY_UNITS: Record<string, Unit> = {
   soldier_1: createUnit('soldier_1', 'Soldier', 'soldier', 'enemy', ['iron_lance'], 1, '', [], {
     statOverrides: { str: 3, skl: 3 },
   }),
-  // Ch1 Boss — weaker for tutorial
-  bone: createUnit('bone', 'Bone', 'fighter', 'enemy', ['iron_axe', 'hand_axe'], 2, '', [], {
+  // Ch1 Boss — tutorial boss, remembers all 347 cycles
+  garrek: createUnit('garrek', 'Garrek', 'fighter', 'enemy', ['iron_axe', 'hand_axe'], 2, '', [], {
     aiBehavior: { type: 'boss' },
     statOverrides: { str: 5, skl: 3 },
   }),
@@ -120,7 +120,7 @@ export const ENEMY_UNITS: Record<string, Unit> = {
     aiBehavior: { type: 'guard', radius: 3 },
     statOverrides: { str: 4, skl: 3 },
   }),
-  zonta: createUnit('zonta', 'Zonta', 'soldier', 'enemy', ['steel_lance', 'javelin'], 3, '', [], {
+  thane: createUnit('thane', 'Thane', 'cavalier', 'enemy', ['iron_lance', 'steel_lance'], 3, '', [], {
     aiBehavior: { type: 'boss' },
     statOverrides: { str: 5, skl: 3 },
   }),
@@ -148,42 +148,41 @@ export const ENEMY_UNITS: Record<string, Unit> = {
   ch3_guard_1: createUnit('ch3_guard_1', 'Bandit', 'fighter', 'enemy', ['steel_axe'], 5, '', [], {
     aiBehavior: { type: 'guard', radius: 2 },
   }),
-  ch3_boss: createUnit('ch3_boss', 'Bazba', 'fighter', 'enemy', ['steel_axe', 'hand_axe'], 7, '', [], {
+  ch3_boss: createUnit('ch3_boss', 'Holtz', 'soldier', 'enemy', ['steel_lance', 'javelin'], 7, '', [], {
     aiBehavior: { type: 'boss' },
   }),
   ch3_reinforce_1: createUnit('ch3_reinforce_1', 'Brigand', 'fighter', 'enemy', ['steel_axe'], 4),
   ch3_reinforce_2: createUnit('ch3_reinforce_2', 'Brigand', 'fighter', 'enemy', ['hand_axe'], 5),
 
-  // Chapter 4 enemies — Ancient Horrors (very hard — final chapter)
-  ch4_soldier_1: createUnit('ch4_soldier_1', 'Revenant', 'soldier', 'enemy', ['steel_lance'], 6),
-  ch4_soldier_2: createUnit('ch4_soldier_2', 'Revenant', 'soldier', 'enemy', ['steel_lance'], 6),
-  ch4_soldier_3: createUnit('ch4_soldier_3', 'Revenant', 'soldier', 'enemy', ['iron_lance'], 5),
-  ch4_fighter_1: createUnit('ch4_fighter_1', 'Bonewalker', 'fighter', 'enemy', ['steel_axe'], 6),
-  ch4_fighter_2: createUnit('ch4_fighter_2', 'Bonewalker', 'fighter', 'enemy', ['steel_axe'], 7),
-  ch4_fighter_3: createUnit('ch4_fighter_3', 'Bonewalker', 'fighter', 'enemy', ['hand_axe'], 6),
-  ch4_mage_1: createUnit('ch4_mage_1', 'Mogall', 'mage', 'enemy', ['fire'], 7, '', [], {
+  // Chapter 4 enemies — The Pickpocket (pirate stronghold)
+  ch4_soldier_1: createUnit('ch4_soldier_1', 'Pirate', 'soldier', 'enemy', ['steel_lance'], 6),
+  ch4_soldier_2: createUnit('ch4_soldier_2', 'Pirate', 'soldier', 'enemy', ['steel_lance'], 6),
+  ch4_soldier_3: createUnit('ch4_soldier_3', 'Pirate', 'soldier', 'enemy', ['iron_lance'], 5),
+  ch4_fighter_1: createUnit('ch4_fighter_1', 'Raider', 'fighter', 'enemy', ['steel_axe'], 6),
+  ch4_fighter_2: createUnit('ch4_fighter_2', 'Raider', 'fighter', 'enemy', ['steel_axe'], 7),
+  ch4_fighter_3: createUnit('ch4_fighter_3', 'Raider', 'fighter', 'enemy', ['hand_axe'], 6),
+  ch4_mage_1: createUnit('ch4_mage_1', 'Corsair Mage', 'mage', 'enemy', ['fire'], 7, '', [], {
     aiBehavior: { type: 'guard', radius: 4 },
   }),
-  ch4_mage_2: createUnit('ch4_mage_2', 'Mogall', 'mage', 'enemy', ['thunder'], 6, '', [], {
+  ch4_mage_2: createUnit('ch4_mage_2', 'Corsair Mage', 'mage', 'enemy', ['thunder'], 6, '', [], {
     aiBehavior: { type: 'guard', radius: 4 },
   }),
-  ch4_guard_1: createUnit('ch4_guard_1', 'Entombed', 'fighter', 'enemy', ['steel_axe'], 8, '', [], {
+  ch4_guard_1: createUnit('ch4_guard_1', 'Pirate Brute', 'fighter', 'enemy', ['steel_axe'], 8, '', [], {
     aiBehavior: { type: 'guard', radius: 2 },
   }),
-  ch4_guard_2: createUnit('ch4_guard_2', 'Deathgoyle', 'soldier', 'enemy', ['steel_lance'], 7, '', [], {
+  ch4_guard_2: createUnit('ch4_guard_2', 'Pirate Scout', 'soldier', 'enemy', ['steel_lance'], 7, '', [], {
     aiBehavior: { type: 'guard', radius: 3 },
   }),
-  ch4_boss: createUnit('ch4_boss', 'Naxos', 'soldier', 'enemy', ['steel_lance', 'javelin'], 9, '', [], {
-    aiBehavior: { type: 'boss' },
+  ch4_boss: createUnit('ch4_boss', 'Marko', 'fighter', 'enemy', ['steel_axe', 'hand_axe'], 9, '', [], {
+    aiBehavior: { type: 'aggressive' },
   }),
-  ch4_reinforce_1: createUnit('ch4_reinforce_1', 'Bonewalker', 'fighter', 'enemy', ['steel_axe'], 6),
-  ch4_reinforce_2: createUnit('ch4_reinforce_2', 'Revenant', 'soldier', 'enemy', ['steel_lance'], 6),
-  ch4_reinforce_3: createUnit('ch4_reinforce_3', 'Mogall', 'mage', 'enemy', ['fire'], 6),
+  ch4_reinforce_1: createUnit('ch4_reinforce_1', 'Raider', 'fighter', 'enemy', ['steel_axe'], 6),
+  ch4_reinforce_2: createUnit('ch4_reinforce_2', 'Pirate', 'soldier', 'enemy', ['steel_lance'], 6),
+  ch4_reinforce_3: createUnit('ch4_reinforce_3', 'Corsair Mage', 'mage', 'enemy', ['fire'], 6),
 
   // Chapter 5 enemies — Mountain Fortress (Arc 1 climax)
   ch5_boss: createUnit('ch5_boss', 'General Aldric', 'general_knight', 'enemy', ['steel_lance', 'javelin'], 12, '', [], {
     aiBehavior: { type: 'boss' },
-    deathQuote: "A real army... and you still broke through.",
     statOverrides: { hp: 50, str: 12, def: 16, skl: 8 },
   }),
   ch5_knight_1: createUnit('ch5_knight_1', 'Knight', 'knight', 'enemy', ['iron_lance'], 10, '', [], {

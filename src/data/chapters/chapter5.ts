@@ -75,26 +75,29 @@ export const CHAPTER_5: ChapterData = {
   recruitableUnits: ['yuel'],
   prologue: {
     lines: [
-      { speaker: 'Narrator', text: 'The mountain fortress looms above, its walls cutting the sky like a blade. General Aldric commands its garrison.' },
-      { speaker: 'Yuel', text: 'Princess Ren! I bring urgent word from the border watch. The skies... something is wrong with them.', speakerFaction: 'player' },
-      { speaker: 'Ren', text: 'Who are you?', speakerFaction: 'player' },
-      { speaker: 'Yuel', text: 'Yuel, pegasus knight of the Third Wing. I was patrolling the mountain pass when the clouds... shifted. Like they were rewritten.', speakerFaction: 'player' },
-      { speaker: 'Senna', text: 'Rewritten? Interesting choice of words. Show me exactly where.', speakerFaction: 'player' },
-      { speaker: 'Kael', text: 'We can discuss anomalies later. The fortress must fall before nightfall or we lose our advantage.', speakerFaction: 'player' },
-      { speaker: 'Yuel', text: 'Then let me fight alongside you. My pegasus can reach places your ground forces cannot.', speakerFaction: 'player' },
-      { speaker: 'Ren', text: 'Welcome, Yuel. Stay close — the fortress approach will be dangerous.', speakerFaction: 'player' },
+      { speaker: 'Narrator', text: 'Dawn. The party camps on a ridge overlooking the highland fortress. Clouds hang unnaturally low. A pegasus knight descends, lance drawn.' },
+      { speaker: 'Yuel', text: "DON'T go up there. Please. Something is wrong with the sky.", speakerFaction: 'player' },
+      { speaker: 'Ren', text: 'Wrong how?', speakerFaction: 'player' },
+      { speaker: 'Yuel', text: "The clouds were loading in SQUARES. Like tiles. I watched a patch of sky just... not render. For three seconds. Then it came back wrong.", speakerFaction: 'player' },
+      { speaker: 'Kael', text: "Clouds don't load. They're clouds.", speakerFaction: 'player' },
+      { speaker: 'Yuel', text: 'I know what I saw.', speakerFaction: 'player' },
+      { speaker: 'Ren', text: '...I believe you.', speakerFaction: 'player' },
+      { speaker: 'Senna', text: "The fortress is well-defended. General Aldric has knights on every approach. If we're doing this, we need the aerial route. Which means we need her.", speakerFaction: 'player' },
     ],
   },
   epilogue: {
     lines: [
-      { speaker: 'Narrator', text: 'The fortress falls silent. General Aldric\'s garrison is broken. The mountain pass lies open.' },
-      { speaker: 'Ren', text: 'It is done. The fortress is ours.', speakerFaction: 'player' },
-      { speaker: 'Yuel', text: 'Princess, look — the sky above the fortress. It is... flickering. Like a painting with wet ink.', speakerFaction: 'player' },
-      { speaker: 'Senna', text: 'I have been running the numbers since the terrain shifted. The RNG seed — the fundamental constant that governs probability in our world — it changed.', speakerFaction: 'player' },
-      { speaker: 'Kael', text: 'Speak plainly, Senna.', speakerFaction: 'player' },
-      { speaker: 'Senna', text: 'The script is not safe anymore. Someone — or something — is rewriting the rules while we are still inside them.', speakerFaction: 'player' },
-      { speaker: 'Ren', text: '...Then we rewrite them back. Whatever is coming, we face it together.', speakerFaction: 'player' },
-      { speaker: 'Narrator', text: 'As Arc 1 draws to a close, the company gazes at a sky that no longer obeys its own laws. The world they knew is changing — and the changes have only begun.' },
+      { speaker: 'Narrator', text: 'The fortress courtyard, after battle. The Data Void has closed, but the tiles it occupied are still wrong.' },
+      { speaker: 'Senna', text: "I need to say something. I've been tracking the combat seed since Chapter 1. Every random number, every hit roll \u2014 I had the pattern mapped. All of it.", speakerFaction: 'player' },
+      { speaker: 'Ren', text: 'Had?', speakerFaction: 'player' },
+      { speaker: 'Senna', text: 'It changed. Mid-battle. Something reached into the system and REWROTE the seed. My entire model is compromised.', speakerFaction: 'player' },
+      { speaker: 'Yuel', text: 'I told you. The sky was wrong.', speakerFaction: 'player' },
+      { speaker: 'Coda', text: 'And the ground. And the walls. And Senna\'s math.', speakerFaction: 'player' },
+      { speaker: 'Lira', text: 'So what does this mean? For us?', speakerFaction: 'player' },
+      { speaker: 'Ren', text: "It means the script isn't safe anymore. Whatever's running this world... it's editing in real time.", speakerFaction: 'player' },
+      { speaker: 'Kael', text: "Then we adapt. We've fought bandits, pirates, and a general. We can handle a few broken tiles.", speakerFaction: 'player' },
+      { speaker: 'Ren', text: '...Yeah. A few broken tiles.', speakerFaction: 'player' },
+      { speaker: 'Narrator', text: 'As Arc 1 draws to a close, the company gazes at a sky that no longer obeys its own laws.' },
     ],
   },
   villages: [
@@ -140,70 +143,70 @@ export const CHAPTER_5: ChapterData = {
     // Turn 3 — Terrain Shift: 6 tiles change, disrupting planned paths
     {
       id: 'ch5_terrain_shift',
-      trigger: { type: 'turn_start' as const, turn: 3 },
+      trigger: { type: 'turn_start', turn: 3 },
       effects: [
         {
-          type: 'show_dialogue' as const,
+          type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Bram', text: 'Did that TREE just turn into a RIVER?', speakerFaction: 'player' as const },
-              { speaker: 'Senna', text: 'That\'s impossible. Terrain values are fixed. I mapped this entire grid.', speakerFaction: 'player' as const },
-              { speaker: 'Ren', text: 'Senna. Your map.', speakerFaction: 'player' as const },
-              { speaker: 'Senna', text: 'It\'s... wrong now. My movement cost calculations are all wrong. The terrain changed AFTER I analyzed it.', speakerFaction: 'player' as const },
+              { speaker: 'Bram', text: 'Did that TREE just turn into a RIVER?', speakerFaction: 'player' },
+              { speaker: 'Senna', text: 'That\'s impossible. Terrain values are fixed. I mapped this entire grid.', speakerFaction: 'player' },
+              { speaker: 'Ren', text: 'Senna. Your map.', speakerFaction: 'player' },
+              { speaker: 'Senna', text: 'It\'s... wrong now. My movement cost calculations are all wrong. The terrain changed AFTER I analyzed it.', speakerFaction: 'player' },
             ],
           },
         },
-        { type: 'change_terrain' as const, position: { x: 4, y: 8 }, terrain: 'plain' },     // water → plain
-        { type: 'change_terrain' as const, position: { x: 5, y: 6 }, terrain: 'mountain' },   // plain → mountain
-        { type: 'change_terrain' as const, position: { x: 9, y: 6 }, terrain: 'water' },      // plain → water
-        { type: 'change_terrain' as const, position: { x: 3, y: 9 }, terrain: 'forest' },     // plain → forest
-        { type: 'change_terrain' as const, position: { x: 10, y: 9 }, terrain: 'mountain' },  // plain → mountain
-        { type: 'change_terrain' as const, position: { x: 7, y: 8 }, terrain: 'forest' },     // plain → forest
+        { type: 'change_terrain', position: { x: 4, y: 8 }, terrain: 'plain' },     // water → plain
+        { type: 'change_terrain', position: { x: 5, y: 6 }, terrain: 'mountain' },   // plain → mountain
+        { type: 'change_terrain', position: { x: 9, y: 6 }, terrain: 'water' },      // plain → water
+        { type: 'change_terrain', position: { x: 3, y: 9 }, terrain: 'forest' },     // plain → forest
+        { type: 'change_terrain', position: { x: 10, y: 9 }, terrain: 'mountain' },  // plain → mountain
+        { type: 'change_terrain', position: { x: 7, y: 8 }, terrain: 'forest' },     // plain → forest
       ],
       once: true,
     },
     // Turn 5 — Data Void: 3×2 block appears in NE corner, nearby enemies scatter
     {
       id: 'ch5_data_void',
-      trigger: { type: 'turn_start' as const, turn: 5 },
+      trigger: { type: 'turn_start', turn: 5 },
       effects: [
         {
-          type: 'show_dialogue' as const,
+          type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Yuel', text: 'THAT. That\'s what I saw in the sky. The nothing.', speakerFaction: 'player' as const },
-              { speaker: 'Coda', text: 'That\'s not "nothing." That\'s... unloaded. Like a texture that got deleted.', speakerFaction: 'player' as const },
-              { speaker: 'Senna', text: 'I can\'t analyze what isn\'t there. My formulas need INPUT. That void has no data.', speakerFaction: 'player' as const },
-              { speaker: 'Ren', text: 'Everyone stay away from it. Push toward Aldric.', speakerFaction: 'player' as const },
+              { speaker: 'Yuel', text: 'THAT. That\'s what I saw in the sky. The nothing.', speakerFaction: 'player' },
+              { speaker: 'Coda', text: 'That\'s not "nothing." That\'s... unloaded. Like a texture that got deleted.', speakerFaction: 'player' },
+              { speaker: 'Senna', text: 'I can\'t analyze what isn\'t there. My formulas need INPUT. That void has no data.', speakerFaction: 'player' },
+              { speaker: 'Ren', text: 'Everyone stay away from it. Push toward Aldric.', speakerFaction: 'player' },
             ],
           },
         },
         // 3×2 data void block: rows 0-1, cols 10-12
-        { type: 'change_terrain' as const, position: { x: 10, y: 0 }, terrain: 'data_void' },
-        { type: 'change_terrain' as const, position: { x: 11, y: 0 }, terrain: 'data_void' },
-        { type: 'change_terrain' as const, position: { x: 12, y: 0 }, terrain: 'data_void' },
-        { type: 'change_terrain' as const, position: { x: 10, y: 1 }, terrain: 'data_void' },
-        { type: 'change_terrain' as const, position: { x: 11, y: 1 }, terrain: 'data_void' },
-        { type: 'change_terrain' as const, position: { x: 12, y: 1 }, terrain: 'data_void' },
+        { type: 'change_terrain', position: { x: 10, y: 0 }, terrain: 'data_void' },
+        { type: 'change_terrain', position: { x: 11, y: 0 }, terrain: 'data_void' },
+        { type: 'change_terrain', position: { x: 12, y: 0 }, terrain: 'data_void' },
+        { type: 'change_terrain', position: { x: 10, y: 1 }, terrain: 'data_void' },
+        { type: 'change_terrain', position: { x: 11, y: 1 }, terrain: 'data_void' },
+        { type: 'change_terrain', position: { x: 12, y: 1 }, terrain: 'data_void' },
         // Nearby enemies panic: scatter from guard to aggressive
-        { type: 'change_ai' as const, unitId: 'ch5_archer_2', newBehavior: { type: 'aggressive' as const } },
-        { type: 'change_ai' as const, unitId: 'ch5_cavalier_2', newBehavior: { type: 'aggressive' as const } },
+        { type: 'change_ai', unitId: 'ch5_archer_2', newBehavior: { type: 'aggressive' } },
+        { type: 'change_ai', unitId: 'ch5_cavalier_2', newBehavior: { type: 'aggressive' } },
       ],
       once: true,
     },
     // Turn 7 — Forecast Flicker: dialogue-only story beat
     {
       id: 'ch5_forecast_flicker',
-      trigger: { type: 'turn_start' as const, turn: 7 },
+      trigger: { type: 'turn_start', turn: 7 },
       effects: [
         {
-          type: 'show_dialogue' as const,
+          type: 'show_dialogue',
           scene: {
             lines: [
               { speaker: 'Narrator', text: 'For a brief moment, the combat forecast display flickers — showing impossible numbers before snapping back to normal.' },
-              { speaker: 'Senna', text: 'The seed changed. Mid-battle. That doesn\'t happen. The seed is set at the start and it NEVER changes.', speakerFaction: 'player' as const },
-              { speaker: 'Bram', text: 'Can we worry about math AFTER the guys with lances stop charging us?', speakerFaction: 'player' as const },
-              { speaker: 'Senna', text: 'You don\'t understand. If the seed can change, NOTHING I\'ve calculated this entire campaign is reliable.', speakerFaction: 'player' as const },
+              { speaker: 'Senna', text: 'The seed changed. Mid-battle. That doesn\'t happen. The seed is set at the start and it NEVER changes.', speakerFaction: 'player' },
+              { speaker: 'Bram', text: 'Can we worry about math AFTER the guys with lances stop charging us?', speakerFaction: 'player' },
+              { speaker: 'Senna', text: 'You don\'t understand. If the seed can change, NOTHING I\'ve calculated this entire campaign is reliable.', speakerFaction: 'player' },
             ],
           },
         },
@@ -213,15 +216,33 @@ export const CHAPTER_5: ChapterData = {
     // Boss approach — Ren reaches the fortress gate
     {
       id: 'ch5_boss_approach',
-      trigger: { type: 'unit_at' as const, unitId: 'ren', position: { x: 7, y: 4 } },
+      trigger: { type: 'unit_at', unitId: 'ren', position: { x: 7, y: 4 } },
       effects: [
         {
-          type: 'show_dialogue' as const,
+          type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Aldric', text: 'You\'ve fought bandits and pirates. Now face a real army.', speakerFaction: 'enemy' as const },
-              { speaker: 'Ren', text: 'Your walls just REWROTE themselves. Half your courtyard is a void. How are you not concerned?', speakerFaction: 'player' as const },
-              { speaker: 'Aldric', text: 'I don\'t answer to anomalies. I answer to the Empire.', speakerFaction: 'enemy' as const },
+              { speaker: 'Aldric', text: 'You\'ve fought bandits and pirates. Now face a real army.', speakerFaction: 'enemy' },
+              { speaker: 'Ren', text: 'Your walls just REWROTE themselves. Half your courtyard is a void. How are you not concerned?', speakerFaction: 'player' },
+              { speaker: 'Aldric', text: 'I don\'t answer to anomalies. I answer to the Empire.', speakerFaction: 'enemy' },
+            ],
+          },
+        },
+      ],
+      once: true,
+    },
+    // Boss killed — Aldric's denial
+    {
+      id: 'ch5_boss_killed',
+      trigger: { type: 'unit_killed', unitId: 'ch5_boss' },
+      effects: [
+        {
+          type: 'show_dialogue',
+          scene: {
+            lines: [
+              { speaker: 'Aldric', text: 'A real army... and you still broke through.', speakerFaction: 'enemy' },
+              { speaker: 'Ren', text: "It wasn't us. Your fortress was falling apart before we got here.", speakerFaction: 'player' },
+              { speaker: 'Aldric', text: '...I noticed. I chose not to see it. Easier that way.', speakerFaction: 'enemy' },
             ],
           },
         },

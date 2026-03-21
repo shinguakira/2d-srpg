@@ -6,10 +6,10 @@ export type ChapterMeta = {
 };
 
 export const CAMPAIGN: ChapterMeta[] = [
-  { id: 'ch1', name: 'Prologue: The Fall of Renais', chapterNumber: 1, implemented: true },
-  { id: 'ch2', name: 'Chapter 2: Escape', chapterNumber: 2, implemented: true },
-  { id: 'ch3', name: 'Chapter 3: The Bandits of Borgo', chapterNumber: 3, implemented: true },
-  { id: 'ch4', name: 'Chapter 4: Ancient Horrors', chapterNumber: 4, implemented: true },
+  { id: 'ch1', name: 'Chapter 1: Not This Again', chapterNumber: 1, implemented: true },
+  { id: 'ch2', name: 'Chapter 2: The Defector', chapterNumber: 2, implemented: true },
+  { id: 'ch3', name: 'Chapter 3: Scout\'s Honor', chapterNumber: 3, implemented: true },
+  { id: 'ch4', name: 'Chapter 4: The Pickpocket', chapterNumber: 4, implemented: true },
   { id: 'ch5', name: 'Chapter 5: Above the Clouds', chapterNumber: 5, implemented: true },
   { id: 'ch6', name: 'Chapter 6: Victims of War', chapterNumber: 6, implemented: false },
   { id: 'ch7', name: 'Chapter 7: Waterside Renvall', chapterNumber: 7, implemented: false },

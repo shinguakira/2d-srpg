@@ -19,6 +19,12 @@ const SPEAKER_PORTRAITS: Record<string, { classId: string; faction: Faction }> =
   Voss: { classId: 'soldier', faction: 'player' },
   Nira: { classId: 'archer', faction: 'player' },
   Coda: { classId: 'thief', faction: 'player' },
+  Yuel: { classId: 'pegasus_knight', faction: 'player' },
+  Garrek: { classId: 'fighter', faction: 'enemy' },
+  Thane: { classId: 'cavalier', faction: 'enemy' },
+  Holtz: { classId: 'soldier', faction: 'enemy' },
+  Marko: { classId: 'fighter', faction: 'enemy' },
+  Aldric: { classId: 'general_knight', faction: 'enemy' },
 };
 
 export function EventDialogue() {

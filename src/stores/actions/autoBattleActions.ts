@@ -12,6 +12,7 @@ import { getClassFlags } from '../helpers/mapHelpers';
 import { applyCombatResult } from '../helpers/combatResolution';
 import { refreshDangerZone } from '../helpers/dangerZoneHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
+import { isNearRen } from '../../core/metaStats';
 
 /** Check if walk animation should be skipped (for E2E tests) */
 function shouldSkipWalkAnim(): boolean {
@@ -165,7 +166,9 @@ function finalizeAutoAction(
     const combatUnit = { ...movedUnit, facing: attackFacing };
     newUnits.set(unit.id, combatUnit);
 
-    const forecast = calculateCombatForecast(combatUnit, target, attackerTerrain, defenderTerrain, distance);
+    const attackerNearRen = combatUnit.id !== 'ren' && isNearRen(destination, newUnits);
+    const defenderNearRen = target.id !== 'ren' && isNearRen(target.position, newUnits);
+    const forecast = calculateCombatForecast(combatUnit, target, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen });
     const result = resolveCombat(forecast, rng, combatUnit, target);
 
     set({

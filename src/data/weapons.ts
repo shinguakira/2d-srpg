@@ -331,6 +331,7 @@ export const WEAPONS: Record<string, Weapon> = {
     minRange: 1,
     maxRange: 2,
     rank: 'D',
+    crpGain: 3,
   },
   lightning: {
     id: 'lightning',
@@ -391,5 +392,21 @@ export const WEAPONS: Record<string, Weapon> = {
     minRange: 1,
     maxRange: 1,
     rank: 'C',
+  },
+
+  // ===== Prf — Memory Blade (Ren) =====
+
+  memory_blade: {
+    id: 'memory_blade',
+    name: 'Memory Blade',
+    type: 'sword',
+    might: 1, // dynamic: 1 + floor(LOOP / 30)
+    hit: 85,
+    crit: 5,
+    weight: 4,
+    minRange: 1,
+    maxRange: 1,
+    prf: 'ren',
+    rank: 'Prf',
   },
 };

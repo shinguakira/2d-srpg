@@ -3,7 +3,7 @@ import { writeSave, readSave, deleteSave, hasSave, hasAnySave, getSlotSummary } 
 import type { SaveData } from '../../src/core/types';
 
 const SAMPLE_SAVE: SaveData = {
-  version: 3,
+  version: 4,
   timestamp: 1700000000000,
   currentChapterId: 'ch2',
   completedChapters: ['ch1'],
@@ -80,13 +80,13 @@ describe('saveManager', () => {
     localStorage.setItem('srpg_save_slot_0', JSON.stringify(v1Save));
     const loaded = readSave(0);
     expect(loaded).not.toBeNull();
-    expect(loaded!.version).toBe(3);
+    expect(loaded!.version).toBe(4);
     expect(loaded!.roster).toEqual(['ren']);
     expect(loaded!.deadUnitIds).toEqual([]);
     expect(loaded!.currentChapterId).toBe('ch2');
   });
 
-  it('migrates v2 save to v3 on read', () => {
+  it('migrates v2 save to v4 on read', () => {
     const v2Save = {
       version: 2,
       timestamp: 1700000000000,
@@ -101,10 +101,36 @@ describe('saveManager', () => {
     localStorage.setItem('srpg_save_slot_0', JSON.stringify(v2Save));
     const loaded = readSave(0);
     expect(loaded).not.toBeNull();
-    expect(loaded!.version).toBe(3);
-    // v2→v3 adds skillIds and learnedSkillIds to unitProgress
+    expect(loaded!.version).toBe(4);
+    // v2→v3 adds skillIds/learnedSkillIds, v3→v4 adds metaStats/crpLowChapters
     const renProgress = loaded!.unitProgress.ren;
     expect(renProgress.skillIds).toEqual([]);
     expect(renProgress.learnedSkillIds).toEqual([]);
+    expect(renProgress.crpLowChapters).toBe(0);
+  });
+
+  it('migrates v3 save to v4 on read', () => {
+    const v3Save = {
+      version: 3,
+      timestamp: 1700000000000,
+      currentChapterId: 'ch2',
+      completedChapters: ['ch1'],
+      unitProgress: {
+        ren: {
+          level: 3, exp: 45,
+          stats: { hp: 22, str: 7, mag: 1, def: 6, res: 2, spd: 8, skl: 6, lck: 8, mov: 5, cha: 0, wil: 0 },
+          weaponIds: [], itemIds: [], skillIds: [], learnedSkillIds: [],
+        },
+      },
+      roster: ['ren'],
+      deadUnitIds: [],
+    };
+    localStorage.setItem('srpg_save_slot_0', JSON.stringify(v3Save));
+    const loaded = readSave(0);
+    expect(loaded).not.toBeNull();
+    expect(loaded!.version).toBe(4);
+    const renProgress = loaded!.unitProgress.ren;
+    expect(renProgress.crpLowChapters).toBe(0);
+    expect(renProgress.metaStats).toBeUndefined();
   });
 });

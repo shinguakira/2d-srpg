@@ -82,6 +82,7 @@ export type Weapon = {
   readonly durability?: number | null;
   readonly brave?: boolean;
   readonly prf?: string;
+  readonly crpGain?: number; // CRP inflicted on hit (dark magic)
 };
 
 // ===== Items =====
@@ -98,6 +99,17 @@ export type ConsumableItem = {
   uses: number;
   readonly maxUses: number;
   readonly effect: ItemEffect;
+};
+
+// ===== Meta-Stats =====
+
+export type MetaStats = {
+  awr: number;  // Awareness: 0-100
+  loop: number; // Memory (Ren only): spendable resource, starts 347
+  sync: number; // Stability: 0-100
+  loy: number;  // Loyalty: 0-100
+  crp: number;  // Corruption: 0-100, 100 = turns enemy
+  sta: number;  // Stamina: 0-45 per chapter, resets between chapters
 };
 
 // ===== Units =====
@@ -186,12 +198,14 @@ export type Unit = {
   deathQuote?: string;
   recruitableBy?: string;
   recruitCondition?: 'talk' | 'visit_village' | 'event' | 'defection';
+  recruitLoyThreshold?: number;
   skills: string[];
   learnedSkills: string[];
   isHidden?: boolean;
   carriedUnitId?: string;
   isCarried?: boolean;
   originalStats?: UnitStats;
+  metaStats: MetaStats;
 };
 
 // ===== Game State =====
@@ -352,10 +366,12 @@ export type UnitProgress = {
   readonly classId?: string;
   readonly skillIds?: string[];
   readonly learnedSkillIds?: string[];
+  readonly metaStats?: MetaStats;
+  readonly crpLowChapters?: number; // chapters with CRP < 15 (for passive decay)
 };
 
 export type SaveData = {
-  readonly version: 3;
+  readonly version: 4;
   readonly timestamp: number;
   readonly currentChapterId: string;
   readonly completedChapters: string[];

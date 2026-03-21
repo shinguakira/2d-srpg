@@ -5,6 +5,7 @@ import { calculateCombatForecast, getWeaponTriangle } from './combat';
 import type { CombatForecast } from './combat';
 import { getTerrainData } from './terrain';
 import type { ClassFlags } from './terrain';
+import { isNearRen } from './metaStats';
 
 export type AIAction = {
   unitId: string;
@@ -138,7 +139,9 @@ function collectAttackOptions(
       const distance = getManhattanDistance(pos, target.position);
 
       const unitAtPos = { ...unit, position: pos };
-      const forecast = calculateCombatForecast(unitAtPos, target, attackerTerrain, defenderTerrain, distance);
+      const attackerNearRen = unit.id !== 'ren' && isNearRen(pos, allUnits);
+      const defenderNearRen = target.id !== 'ren' && isNearRen(target.position, allUnits);
+      const forecast = calculateCombatForecast(unitAtPos, target, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen });
 
       let score = scoreTarget(forecast, target, unit, defenderTerrain);
 

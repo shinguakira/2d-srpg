@@ -11,6 +11,7 @@ import {
   resolveDefenseSkills,
   hasSkill,
 } from './skills';
+import { getEffectiveStats, getMemoryBladeMight, getLightMagicBonus, applySyncHitBonus } from './metaStats';
 
 // ===== Weapon Triangle =====
 
@@ -118,24 +119,54 @@ export function calculateCombatForecast(
   attackerTerrain: TerrainType,
   defenderTerrain: TerrainType,
   distance: number,
+  options?: { attackerNearRen?: boolean; defenderNearRen?: boolean },
 ): CombatForecast {
-  const atkDmg = calcDamage(attacker, defender, defenderTerrain);
-  const atkHit = calcHit(attacker, defender, defenderTerrain);
-  const atkCrit = calcCrit(attacker, defender);
-  const atkDouble = canDouble(attacker, defender);
+  const atkNearRen = options?.attackerNearRen ?? false;
+  const defNearRen = options?.defenderNearRen ?? false;
 
-  const canCounter = canCounterattack(attacker, defender, distance);
-  const defDmg = canCounter ? calcDamage(defender, attacker, attackerTerrain) : 0;
-  const defHit = canCounter ? calcHit(defender, attacker, attackerTerrain) : 0;
-  const defCrit = canCounter ? calcCrit(defender, attacker) : 0;
-  const defDouble = canCounter && canDouble(defender, attacker);
+  // Apply meta-stat effective stats (STA penalties, CRP drain, LOY bonus, SYNC)
+  const atkEffStats = getEffectiveStats(attacker, atkNearRen);
+  const defEffStats = getEffectiveStats(defender, defNearRen);
+  const atkEff = { ...attacker, stats: atkEffStats };
+  const defEff = { ...defender, stats: defEffStats };
+
+  // Memory Blade: dynamic might based on LOOP
+  if (attacker.equippedWeapon.id === 'memory_blade') {
+    const dynamicMight = getMemoryBladeMight(attacker.metaStats.loop);
+    atkEff.equippedWeapon = { ...attacker.equippedWeapon, might: dynamicMight };
+  }
+  if (defender.equippedWeapon.id === 'memory_blade') {
+    const dynamicMight = getMemoryBladeMight(defender.metaStats.loop);
+    defEff.equippedWeapon = { ...defender.equippedWeapon, might: dynamicMight };
+  }
+
+  let atkDmg = calcDamage(atkEff, defEff, defenderTerrain);
+  const atkHit = calcHit(atkEff, defEff, defenderTerrain) + applySyncHitBonus(attacker.metaStats.sync);
+  const atkCrit = calcCrit(atkEff, defEff);
+  const atkDouble = canDouble(atkEff, defEff);
+
+  // Light magic +50% damage vs corrupted units
+  if ((attacker.equippedWeapon.type === 'light') && defender.metaStats.crp > 0) {
+    atkDmg = Math.floor(atkDmg * getLightMagicBonus(defender.metaStats.crp));
+  }
+
+  const canCounter = canCounterattack(atkEff, defEff, distance);
+  let defDmg = canCounter ? calcDamage(defEff, atkEff, attackerTerrain) : 0;
+  const defHit = canCounter ? calcHit(defEff, atkEff, attackerTerrain) + applySyncHitBonus(defender.metaStats.sync) : 0;
+  const defCrit = canCounter ? calcCrit(defEff, atkEff) : 0;
+  const defDouble = canCounter && canDouble(defEff, atkEff);
+
+  // Light magic +50% for defender counter too
+  if (canCounter && defender.equippedWeapon.type === 'light' && attacker.metaStats.crp > 0) {
+    defDmg = Math.floor(defDmg * getLightMagicBonus(attacker.metaStats.crp));
+  }
 
   // Vantage: defender strikes first when HP ≤ 50%
   const dummyRng = { roll: () => true }; // forecast checks condition only, no RNG
-  const vantageActive = canCounter && shouldVantage(defender, dummyRng);
+  const vantageActive = canCounter && shouldVantage(defEff, dummyRng);
 
   // Quick Riposte: defender guaranteed double on counter at HP ≥ 70%
-  const quickRiposteActive = canCounter && hasQuickRiposte(defender);
+  const quickRiposteActive = canCounter && hasQuickRiposte(defEff);
   const effectiveDefDouble = defDouble || quickRiposteActive;
 
   // Build round sequence
@@ -222,9 +253,20 @@ export function resolveCombat(
   for (const round of forecast.rounds) {
     if (atkHp <= 0 || defHp <= 0) break;
 
-    const didHit = rng.roll(round.hitChance);
+    // SYNC <30 variance: ±2 to damage and ±5 to hit chance per round
+    let roundHitChance = round.hitChance;
+    let roundDamage = round.damage;
+    const actingUnit = round.attackerIsInitiator ? attackerUnit : defenderUnit;
+    if (actingUnit && actingUnit.metaStats.sync < 30) {
+      const dmgVariance = rng.nextInt(0, 4) - 2; // -2 to +2
+      const hitVariance = (rng.nextInt(0, 4) - 2) * 2; // -4 to +4 (from ±2 SKL)
+      roundDamage = Math.max(0, roundDamage + dmgVariance);
+      roundHitChance = Math.max(0, Math.min(100, roundHitChance + hitVariance));
+    }
+
+    const didHit = rng.roll(roundHitChance);
     const didCrit = didHit && rng.roll(round.critChance);
-    let baseDamage = didHit ? (didCrit ? round.damage * 3 : round.damage) : 0;
+    let baseDamage = didHit ? (didCrit ? roundDamage * 3 : roundDamage) : 0;
 
     let activatedSkill: string | null = null;
     let healedAmount = 0;

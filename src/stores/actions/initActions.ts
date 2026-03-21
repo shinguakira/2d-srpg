@@ -10,6 +10,20 @@ type Set = (partial: Partial<GameState>) => void;
 export function initChapter(_get: Get, set: Set, chapter: ChapterData, seed: number = 12345, unitProgress?: Record<string, UnitProgress>, deployedUnitIds?: string[]) {
   const map = buildMap(chapter);
   const units = placeUnits(chapter, map, unitProgress, deployedUnitIds);
+
+  // Reset STA to 0 for all player units at chapter start + apply CRP passive decay
+  for (const [id, unit] of units) {
+    if (unit.faction === 'player') {
+      let meta = { ...unit.metaStats, sta: 0 };
+      // CRP passive decay: -1 if crpLowChapters >= 3
+      const progress = unitProgress?.[id];
+      if (progress?.crpLowChapters && progress.crpLowChapters >= 3 && meta.crp > 0) {
+        meta = { ...meta, crp: meta.crp - 1 };
+      }
+      units.set(id, { ...unit, metaStats: meta });
+    }
+  }
+
   set({
     gameMap: map,
     units,

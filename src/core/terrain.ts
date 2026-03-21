@@ -22,7 +22,7 @@ export const TERRAIN: Record<TerrainType, TerrainData> = {
   armory:         { name: 'Armory',         movementCost: 1,  defenseBonus: 0, avoidBonus: 0 },
   bridge:         { name: 'Bridge',         movementCost: 1,  defenseBonus: 0, avoidBonus: 0 },
   glitched:       { name: 'Glitched',       movementCost: 1,  defenseBonus: 0, avoidBonus: 0 },
-  data_void:      { name: 'Data Void',      movementCost: 2,  defenseBonus: -2, avoidBonus: -20 },
+  data_void:      { name: 'Data Void',      movementCost: 99, defenseBonus: -2, avoidBonus: -20 },
   memory:         { name: 'Memory',         movementCost: 1,  defenseBonus: 1, avoidBonus: 10 },
   corrupted_fort: { name: 'Corrupted Fort', movementCost: 1,  defenseBonus: 3, avoidBonus: 20 },
   broken_throne:  { name: 'Broken Throne',  movementCost: 1,  defenseBonus: 2, avoidBonus: 10 },
@@ -59,11 +59,14 @@ export type ClassFlags = {
 export function getClassMovementCost(terrain: TerrainType, flags: ClassFlags): number {
   const base = TERRAIN[terrain].movementCost;
 
-  // Wall and door are always impassable
+  // Wall and door are always impassable (even for flying)
   if (terrain === 'wall' || terrain === 'door') return 99;
 
   // Flying: everything costs 1 (except wall/door handled above)
   if (flags.flying) return 1;
+
+  // Data void is impassable for non-flying
+  if (terrain === 'data_void') return 99;
 
   // Armored: mountain impassable, forest +1
   if (flags.armored) {

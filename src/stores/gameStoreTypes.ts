@@ -257,4 +257,7 @@ export type GameActions = {
   // Trade
   startTradeTargeting: () => void;
   confirmTrade: (targetId: string, swaps: Array<{ from: 'a' | 'b'; index: number }>) => void;
+
+  // Rest (STA recovery)
+  rest: () => void;
 };

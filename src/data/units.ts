@@ -2,6 +2,7 @@ import type { Unit, ConsumableItem, AIBehavior, Faction } from '../core/types';
 import { WEAPONS } from './weapons';
 import { CLASSES } from './classes';
 import { ITEMS } from './items';
+import { defaultMetaStats } from '../core/metaStats';
 
 /** Unit template — position is a placeholder, overridden by chapter placement */
 function createUnit(
@@ -45,12 +46,13 @@ function createUnit(
     aiBehavior: opts?.aiBehavior,
     skills: [],
     learnedSkills: [],
+    metaStats: defaultMetaStats(id),
   };
 }
 
 // Player units
 export const PLAYER_UNITS: Record<string, Unit> = {
-  ren: createUnit('ren', 'Ren', 'lord', 'player', ['iron_sword', 'slim_sword'], 1, '', ['vulnerary'], {
+  ren: createUnit('ren', 'Ren', 'lord', 'player', ['iron_sword', 'slim_sword', 'memory_blade'], 1, '', ['vulnerary'], {
     isLord: true,
     deathQuote: "Not again... not this time...",
   }),

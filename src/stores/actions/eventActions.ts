@@ -4,6 +4,8 @@ import { evaluateEvents, resolveEffects, type EventContext, type EffectResult } 
 import type { GameState, GameActions } from '../gameStoreTypes';
 import { refreshDangerZone } from '../helpers/dangerZoneHelpers';
 import { ENEMY_UNITS, PLAYER_UNITS } from '../../data/units';
+import { getManhattanDistance } from '../../core/pathfinding';
+import { clampMetaStats } from '../../core/metaStats';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -140,6 +142,38 @@ function applyEffectResult(get: Get, set: Set, result: EffectResult) {
   for (const change of result.flagChanges) {
     newFlags.set(change.key, change.value);
     flagsChanged = true;
+  }
+
+  // AWR gain: player units near glitched terrain changes get +3 AWR
+  for (const change of result.terrainChanges) {
+    if (change.terrain === 'glitched' || change.terrain === 'data_void') {
+      const awrGain = change.terrain === 'data_void' ? 5 : 3;
+      for (const [uid, u] of newUnits) {
+        if (u.faction !== 'player') continue;
+        if (getManhattanDistance(u.position, change.position) <= 3) {
+          newUnits.set(uid, {
+            ...u,
+            metaStats: clampMetaStats({ ...u.metaStats, awr: u.metaStats.awr + awrGain }),
+          });
+        }
+      }
+    }
+  }
+
+  // LOOP expenditure: if event sets flag 'loop_cost', deduct from Ren
+  for (const change of result.flagChanges) {
+    if (change.key === 'loop_cost') {
+      const cost = parseInt(change.value, 10);
+      if (!isNaN(cost) && cost > 0) {
+        const ren = newUnits.get('ren');
+        if (ren) {
+          newUnits.set('ren', {
+            ...ren,
+            metaStats: clampMetaStats({ ...ren.metaStats, loop: ren.metaStats.loop - cost }),
+          });
+        }
+      }
+    }
   }
 
   const stateUpdate: Partial<GameState> = {

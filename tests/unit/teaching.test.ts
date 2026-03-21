@@ -14,6 +14,7 @@ function makeUnit(overrides: Partial<Unit> = {}): Unit {
     equippedWeapon: { id: 'iron_sword', name: 'Iron Sword', type: 'sword', might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1 },
     inventory: [], items: [], hasActed: false, facing: 'down', sprite: '',
     skills: [], learnedSkills: [],
+    metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
     ...overrides,
   } as Unit;
 }

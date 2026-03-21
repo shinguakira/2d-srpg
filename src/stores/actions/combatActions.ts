@@ -13,6 +13,8 @@ import { allPlayersDone } from '../helpers/mapHelpers';
 import { refreshDangerZone } from '../helpers/dangerZoneHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
 import { checkAndFireEvents } from './eventActions';
+import { applyCombatSta, applySkillSta } from './metaStatActions';
+import { clampMetaStats, shouldDisobey, isNearRen } from '../../core/metaStats';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -53,7 +55,9 @@ export function selectAttackTarget(get: Get, set: Set, targetId: string) {
   const distance = getManhattanDistance(pendingPosition, defender.position);
 
   const atkAtPending = { ...attacker, position: { ...pendingPosition }, equippedWeapon: weapon };
-  const forecast = calculateCombatForecast(atkAtPending, defender, attackerTerrain, defenderTerrain, distance);
+  const attackerNearRen = attacker.id !== 'ren' && isNearRen(pendingPosition, units);
+  const defenderNearRen = defender.id !== 'ren' && isNearRen(defender.position, units);
+  const forecast = calculateCombatForecast(atkAtPending, defender, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen });
 
   set({
     attackTargetId: targetId,
@@ -68,9 +72,35 @@ export function confirmAttack(get: Get, set: Set) {
   const { selectedUnitId, attackTargetId, pendingPosition, combatForecast, units, gameMap, rng, selectedWeaponIndex } = get();
   if (!selectedUnitId || !attackTargetId || !pendingPosition || !combatForecast) return;
 
+  // LOY disobedience: low loyalty units may refuse to attack
+  const attacker = units.get(selectedUnitId)!;
+  if (attacker.faction === 'player' && attacker.id !== 'ren' && shouldDisobey(attacker.metaStats.loy, rng)) {
+    // Move to pending position but refuse to attack
+    const newUnits = new Map(units);
+    const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
+    newTiles[attacker.position.y][attacker.position.x].occupantId = null;
+    newTiles[pendingPosition.y][pendingPosition.x].occupantId = selectedUnitId;
+    newUnits.set(selectedUnitId, { ...attacker, position: { ...pendingPosition }, hasActed: true });
+    set({
+      ...IDLE_RESET,
+      units: newUnits,
+      gameMap: { ...gameMap, tiles: newTiles },
+      floatingNumbers: [...get().floatingNumbers, {
+        id: Date.now(),
+        x: pendingPosition.x,
+        y: pendingPosition.y,
+        text: 'Refuses!',
+        color: '#ef4444',
+      }],
+    });
+    if (allPlayersDone(get().units)) {
+      get().endPlayerTurn();
+    }
+    return;
+  }
+
   // First, move the unit to pending position and equip selected weapon
   const newUnits = new Map(units);
-  const attacker = units.get(selectedUnitId)!;
   const weapon = attacker.inventory[selectedWeaponIndex] ?? attacker.equippedWeapon;
   const defender = units.get(attackTargetId)!;
   const facing = deriveFacing(pendingPosition, defender.position);
@@ -223,6 +253,46 @@ export function finishCombat(get: Get, set: Set) {
       deathQuote: resolution.deathQuote,
       floatingNumbers: resolution.floatingNumbers,
     });
+  }
+
+  // STA +3 for the player attacker
+  if (!combatResult.attackerDied && attacker.faction === 'player') {
+    applyCombatSta(get, set, selectedUnitId);
+
+    // STA +5 per skill activation during combat
+    const attackerSkillActivations = combatResult.hits.filter(
+      (h) => h.attackerIsInitiator && h.activatedSkill,
+    );
+    if (attackerSkillActivations.length > 0) {
+      applySkillSta(get, set, selectedUnitId);
+    }
+  }
+
+  // CRP from dark magic hits
+  if (!combatResult.defenderDied && attacker.equippedWeapon.crpGain) {
+    const hitLanded = combatResult.hits.some((h) => h.attackerIsInitiator && h.damage > 0);
+    if (hitLanded) {
+      const defUnit = get().units.get(attackTargetId);
+      if (defUnit) {
+        const newMeta = clampMetaStats({ ...defUnit.metaStats, crp: defUnit.metaStats.crp + attacker.equippedWeapon.crpGain });
+        const newUnits = new Map(get().units);
+        newUnits.set(attackTargetId, { ...defUnit, metaStats: newMeta });
+        set({ units: newUnits });
+      }
+    }
+  }
+  // CRP from defender's dark magic counter-attacks
+  if (!combatResult.attackerDied && defender.equippedWeapon?.crpGain) {
+    const counterHit = combatResult.hits.some((h) => !h.attackerIsInitiator && h.damage > 0);
+    if (counterHit) {
+      const atkUnit = get().units.get(selectedUnitId);
+      if (atkUnit) {
+        const newMeta = clampMetaStats({ ...atkUnit.metaStats, crp: atkUnit.metaStats.crp + defender.equippedWeapon.crpGain });
+        const newUnits = new Map(get().units);
+        newUnits.set(selectedUnitId, { ...atkUnit, metaStats: newMeta });
+        set({ units: newUnits });
+      }
+    }
   }
 
   refreshDangerZone(get, set);

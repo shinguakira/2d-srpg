@@ -8,6 +8,8 @@ import { CLASSES } from '../../data/classes';
 import { IDLE_RESET } from '../helpers/constants';
 import { allPlayersDone } from '../helpers/mapHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
+import { applyHealSta } from './metaStatActions';
+import { clampMetaStats } from '../../core/metaStats';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -100,6 +102,16 @@ export function confirmHeal(get: Get, set: Set, targetId: string) {
     currentHp: result.targetHpAfter,
   });
 
+  // Light magic / purify staff: reduce target CRP
+  if (staff.type === 'light' || staff.type === 'staff') {
+    const targetUnit = newUnits.get(targetId)!;
+    if (targetUnit.metaStats.crp > 0) {
+      const crpReduction = Math.min(targetUnit.metaStats.crp, Math.max(1, Math.floor(result.targetHpAfter - result.targetHpBefore)));
+      const newMeta = clampMetaStats({ ...targetUnit.metaStats, crp: targetUnit.metaStats.crp - crpReduction });
+      newUnits.set(targetId, { ...targetUnit, metaStats: newMeta });
+    }
+  }
+
   // Transition to heal animation phase
   set({
     ...IDLE_RESET,
@@ -126,7 +138,7 @@ export function confirmHeal(get: Get, set: Set, targetId: string) {
 }
 
 export function finishHealAnimation(get: Get, set: Set) {
-  const { levelUpGains, units } = get();
+  const { levelUpGains, selectedUnitId } = get();
 
   set({
     currentPhase: 'player_phase',
@@ -134,8 +146,13 @@ export function finishHealAnimation(get: Get, set: Set) {
     healResult: null,
   });
 
+  // STA +2 for the healer
+  if (selectedUnitId) {
+    applyHealSta(get, set, selectedUnitId);
+  }
+
   // Auto end turn if all player units have acted (and no level-up pending)
-  if (!levelUpGains && allPlayersDone(units)) {
+  if (!levelUpGains && allPlayersDone(get().units)) {
     get().endPlayerTurn();
   }
 }

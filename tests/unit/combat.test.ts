@@ -36,6 +36,7 @@ function makeUnit(id: string, overrides: Partial<Unit> = {}): Unit {
     skills: [],
     learnedSkills: [],
     sprite: '',
+    metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
     ...overrides,
   };
 }

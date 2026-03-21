@@ -1,7 +1,7 @@
 import type { SaveData } from './types';
 
 const SAVE_KEY_PREFIX = 'srpg_save_slot_';
-const CURRENT_VERSION = 3;
+const CURRENT_VERSION = 4;
 
 export function writeSave(slot: number, data: SaveData): void {
   localStorage.setItem(SAVE_KEY_PREFIX + slot, JSON.stringify(data));
@@ -52,6 +52,25 @@ function migrateSave(data: Record<string, unknown>): SaveData | null {
       unitProgress: migratedProgress,
     };
     version = 3;
+  }
+
+  // v3 → v4: add metaStats and crpLowChapters to each unitProgress entry
+  if (version === 3) {
+    const progress = (data.unitProgress ?? {}) as Record<string, Record<string, unknown>>;
+    const migratedProgress: Record<string, unknown> = {};
+    for (const [uid, p] of Object.entries(progress)) {
+      migratedProgress[uid] = {
+        ...p,
+        metaStats: (p as Record<string, unknown>).metaStats ?? undefined,
+        crpLowChapters: (p as Record<string, unknown>).crpLowChapters ?? 0,
+      };
+    }
+    data = {
+      ...data,
+      version: 4,
+      unitProgress: migratedProgress,
+    };
+    version = 4;
   }
 
   if (version === CURRENT_VERSION) return data as SaveData;

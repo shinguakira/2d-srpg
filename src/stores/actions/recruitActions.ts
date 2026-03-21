@@ -1,4 +1,5 @@
 import { getManhattanDistance } from '../../core/pathfinding';
+import { canRecruit } from '../../core/metaStats';
 import type { GameState, GameActions } from '../gameStoreTypes';
 import { IDLE_RESET } from '../helpers/constants';
 import { allPlayersDone } from '../helpers/mapHelpers';
@@ -43,6 +44,30 @@ export function startTalk(get: Get, set: Set) {
 
   const unit = units.get(selectedUnitId)!;
   const target = units.get(targetId)!;
+
+  // LOY gate: if target has a LOY threshold and recruiter doesn't meet it, fail
+  if (target.recruitLoyThreshold != null && !canRecruit(unit.metaStats.loy, target.recruitLoyThreshold)) {
+    // Move to pending position but fail recruitment
+    const newUnits = new Map(units);
+    const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
+    if (unit.position.x !== pendingPosition.x || unit.position.y !== pendingPosition.y) {
+      newTiles[unit.position.y][unit.position.x].occupantId = null;
+    }
+    newTiles[pendingPosition.y][pendingPosition.x].occupantId = selectedUnitId;
+    const facing = deriveFacing(pendingPosition, target.position);
+    newUnits.set(selectedUnitId, { ...unit, position: { ...pendingPosition }, hasActed: true, facing });
+    set({
+      ...IDLE_RESET,
+      units: newUnits,
+      gameMap: { ...gameMap, tiles: newTiles },
+      eventDialogue: {
+        lines: [{ speaker: target.name, text: `I don't trust you enough to join...` }],
+      },
+      eventDialogueLineIndex: 0,
+    });
+    if (allPlayersDone(get().units)) get().endPlayerTurn();
+    return;
+  }
 
   // Move unit to pending position first
   const newUnits = new Map(units);

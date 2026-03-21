@@ -15,6 +15,10 @@ export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected,
   const hpPercent = Math.max(0, (unit.currentHp / unit.stats.hp) * 100);
   const hpColor = hpPercent > 50 ? '#22c55e' : hpPercent > 25 ? '#eab308' : '#ef4444';
   const c = FACTION_COLORS[unit.faction];
+  const crp = unit.metaStats.crp;
+  const sta = unit.metaStats.sta;
+  const crpClass = crp >= 80 ? 'unit-sprite--crp-heavy' : crp >= 60 ? 'unit-sprite--crp-medium' : crp >= 30 ? 'unit-sprite--crp-flicker' : '';
+  const staClass = sta >= 30 && sta < 45 ? 'unit-sprite--sta-dim' : '';
   const animClass = isSpawning ? 'unit-sprite--spawning'
     : isRemoving ? 'unit-sprite--removing'
     : isRefreshed ? 'unit-sprite--refreshed'
@@ -23,7 +27,7 @@ export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected,
 
   return (
     <div
-      className={`unit-sprite ${animClass}`}
+      className={`unit-sprite ${animClass} ${crpClass} ${staClass}`}
       data-testid={`unit-${unit.id}`}
       data-unit-id={unit.id}
       data-faction={unit.faction}
@@ -85,6 +89,18 @@ export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected,
           }}
         />
       </div>
+
+      {/* CRP warning overlay at 80+ */}
+      {crp >= 80 && (
+        <div className="unit-sprite__crp-warning" />
+      )}
+
+      {/* STA sweat-drop at 45+ */}
+      {sta >= 45 && (
+        <svg className="unit-sprite__sta-sweat" viewBox="0 0 8 10" width="8" height="10">
+          <path d="M4 0 Q6 4 4 8 Q2 4 4 0Z" fill="#60a5fa" opacity="0.8" />
+        </svg>
+      )}
 
       {/* Carry badge — small person icon when rescuing */}
       {unit.carriedUnitId && (

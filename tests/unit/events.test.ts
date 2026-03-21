@@ -21,6 +21,7 @@ function makeUnit(id: string, faction: 'player' | 'enemy' = 'player', pos: Posit
     learnedSkills: [],
     facing: 'down',
     sprite: '',
+    metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
   };
 }
 

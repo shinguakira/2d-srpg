@@ -6,6 +6,7 @@ import { canUseItem } from '../../core/items';
 import { getManhattanDistance } from '../../core/pathfinding';
 import { hasSkill } from '../../core/skills';
 import { canRescueUnit } from '../../core/rescue';
+import { isExhausted } from '../../core/metaStats';
 
 export function ActionMenu() {
   const playerAction = useGameStore((s) => s.playerAction);
@@ -38,6 +39,7 @@ export function ActionMenu() {
   const lockpickAction = useGameStore((s) => s.lockpick);
   const openedChests = useGameStore((s) => s.openedChests);
   const startTradeTargeting = useGameStore((s) => s.startTradeTargeting);
+  const restAction = useGameStore((s) => s.rest);
   const cameraOffset = useUIStore((s) => s.cameraOffset);
   const tileSize = useUIStore((s) => s.tileSize);
 
@@ -46,6 +48,11 @@ export function ActionMenu() {
   if (playerAction !== 'action_menu' || !pendingPosition) return null;
 
   const selectedUnit = selectedUnitId ? units.get(selectedUnitId) : null;
+
+  // Exhaustion: STA > 45 — only Wait, Rest, Cancel allowed
+  const exhausted = selectedUnit ? isExhausted(selectedUnit) : false;
+  // Rest is available when STA > 20
+  const canRest = selectedUnit ? selectedUnit.metaStats.sta > 20 : false;
 
   // Check if there are any enemies in attack range (only for non-staff weapons)
   const hasNonStaffWeapon = selectedUnit?.equippedWeapon.type !== 'staff';
@@ -312,7 +319,7 @@ export function ActionMenu() {
         </div>
       ) : (
         <div className="action-menu__actions">
-          {hasEnemyInRange && (
+          {!exhausted && hasEnemyInRange && (
             <button
               className="action-menu__btn action-menu__btn--attack"
               data-testid="action-attack"
@@ -321,7 +328,7 @@ export function ActionMenu() {
               Attack
             </button>
           )}
-          {canHeal && (
+          {!exhausted && canHeal && (
             <button
               className="action-menu__btn action-menu__btn--visit"
               data-testid="action-heal"
@@ -330,7 +337,7 @@ export function ActionMenu() {
               Heal
             </button>
           )}
-          {canTalk && (
+          {!exhausted && canTalk && (
             <button
               className="action-menu__btn action-menu__btn--talk"
               data-testid="action-talk"
@@ -339,7 +346,7 @@ export function ActionMenu() {
               Talk
             </button>
           )}
-          {hasUsableItems && (
+          {!exhausted && hasUsableItems && (
             <button
               className="action-menu__btn action-menu__btn--visit"
               data-testid="action-item"
@@ -348,7 +355,7 @@ export function ActionMenu() {
               Item
             </button>
           )}
-          {canSeize && (
+          {!exhausted && canSeize && (
             <button
               className="action-menu__btn action-menu__btn--seize"
               data-testid="action-seize"
@@ -357,7 +364,7 @@ export function ActionMenu() {
               Seize
             </button>
           )}
-          {canEscape && (
+          {!exhausted && canEscape && (
             <button
               className="action-menu__btn action-menu__btn--seize"
               data-testid="action-escape"
@@ -366,7 +373,7 @@ export function ActionMenu() {
               Escape
             </button>
           )}
-          {isUnvisitedVillage && (
+          {!exhausted && isUnvisitedVillage && (
             <button
               className="action-menu__btn action-menu__btn--visit"
               data-testid="action-visit"
@@ -375,7 +382,7 @@ export function ActionMenu() {
               Visit
             </button>
           )}
-          {canShove && (
+          {!exhausted && canShove && (
             <button
               className="action-menu__btn action-menu__btn--visit"
               data-testid="action-shove"
@@ -384,7 +391,7 @@ export function ActionMenu() {
               Shove
             </button>
           )}
-          {canSwap && (
+          {!exhausted && canSwap && (
             <button
               className="action-menu__btn action-menu__btn--visit"
               data-testid="action-swap"
@@ -393,7 +400,7 @@ export function ActionMenu() {
               Swap
             </button>
           )}
-          {canReposition && (
+          {!exhausted && canReposition && (
             <button
               className="action-menu__btn action-menu__btn--visit"
               data-testid="action-reposition"
@@ -402,7 +409,7 @@ export function ActionMenu() {
               Reposition
             </button>
           )}
-          {canDance && (
+          {!exhausted && canDance && (
             <button
               className="action-menu__btn action-menu__btn--visit"
               data-testid="action-dance"
@@ -411,7 +418,7 @@ export function ActionMenu() {
               Dance
             </button>
           )}
-          {canSteal && (
+          {!exhausted && canSteal && (
             <button
               className="action-menu__btn action-menu__btn--visit"
               data-testid="action-steal"
@@ -420,7 +427,7 @@ export function ActionMenu() {
               Steal
             </button>
           )}
-          {canRescue && (
+          {!exhausted && canRescue && (
             <button
               className="action-menu__btn action-menu__btn--visit"
               data-testid="action-rescue"
@@ -429,7 +436,7 @@ export function ActionMenu() {
               Rescue
             </button>
           )}
-          {canDrop && (
+          {!exhausted && canDrop && (
             <button
               className="action-menu__btn action-menu__btn--visit"
               data-testid="action-drop"
@@ -438,7 +445,7 @@ export function ActionMenu() {
               Drop
             </button>
           )}
-          {canLockpick && (
+          {!exhausted && canLockpick && (
             <button
               className="action-menu__btn action-menu__btn--visit"
               data-testid="action-lockpick"
@@ -447,13 +454,22 @@ export function ActionMenu() {
               Lockpick
             </button>
           )}
-          {canTrade && (
+          {!exhausted && canTrade && (
             <button
               className="action-menu__btn action-menu__btn--visit"
               data-testid="action-trade"
               onClick={startTradeTargeting}
             >
               Trade
+            </button>
+          )}
+          {canRest && (
+            <button
+              className="action-menu__btn action-menu__btn--rest"
+              data-testid="action-rest"
+              onClick={restAction}
+            >
+              Rest
             </button>
           )}
           <button

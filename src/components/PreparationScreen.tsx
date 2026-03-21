@@ -7,6 +7,7 @@ import { BattleSprite } from './Combat/BattleSprite';
 import { PromotionScreen } from './UI/PromotionScreen';
 import { canPromote, getPromotionOptions, getMatchingPromotionItem, applyPromotion, calculateSkillSlots } from '../core/promotion';
 import { canTeach, getTeachingCost } from '../core/teaching';
+import { defaultMetaStats } from '../core/metaStats';
 import { SKILLS } from '../data/skills';
 import { ALL_CLASSES } from '../data/promotedClasses';
 import type { Unit, Weapon, ConsumableItem, SupportConversation } from '../core/types';
@@ -25,6 +26,7 @@ function prepToUnit(u: PrepUnit): Unit {
     faction: 'player',
     position: { x: 0, y: 0 }, equippedWeapon: weapon,
     hasActed: false, facing: 'down', sprite: '',
+    metaStats: defaultMetaStats(u.id),
   } as Unit;
 }
 

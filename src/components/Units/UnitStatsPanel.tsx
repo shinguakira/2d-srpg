@@ -1,7 +1,62 @@
+import { useState } from 'react';
 import type { Unit } from '../../core/types';
 import { CLASSES } from '../../data/classes';
 import { getTerrainData } from '../../core/terrain';
+import { canSeeEnemyMetaStats } from '../../core/metaStats';
 import { useGameStore } from '../../stores/gameStore';
+
+type MetaStatBarProps = {
+  label: string;
+  value: number;
+  max: number;
+  stat: string;
+};
+
+function MetaStatBar({ label, value, max, stat }: MetaStatBarProps) {
+  const pct = Math.min(100, (value / max) * 100);
+  const fillClass = stat === 'crp' && value >= 60
+    ? 'meta-stats__fill meta-stats__fill--crp-danger'
+    : `meta-stats__fill meta-stats__fill--${stat}`;
+  return (
+    <div className="meta-stats__row">
+      <span className={`meta-stats__label meta-stats__label--${stat}`}>{label}</span>
+      <div className="meta-stats__bar">
+        <div className={fillClass} style={{ width: `${pct}%` }} />
+      </div>
+      <span className="meta-stats__value">{value}</span>
+    </div>
+  );
+}
+
+function MetaStatsSection({ unit }: { unit: Unit }) {
+  const [collapsed, setCollapsed] = useState(false);
+  return (
+    <div className="meta-stats" data-testid="meta-stats">
+      <div
+        className="meta-stats__header"
+        onClick={() => setCollapsed(!collapsed)}
+        style={{ cursor: 'pointer', fontSize: '11px', opacity: 0.7, marginBottom: collapsed ? 0 : 4 }}
+      >
+        {collapsed ? '+ Meta-Stats' : '- Meta-Stats'}
+      </div>
+      {!collapsed && (
+        <>
+          <MetaStatBar label="AWR" value={unit.metaStats.awr} max={100} stat="awr" />
+          {unit.id === 'ren' && (
+            <div className="meta-stats__row">
+              <span className="meta-stats__label meta-stats__label--loop">LOOP</span>
+              <span className="meta-stats__loop-value">{unit.metaStats.loop}</span>
+            </div>
+          )}
+          <MetaStatBar label="SYNC" value={unit.metaStats.sync} max={100} stat="sync" />
+          <MetaStatBar label="LOY" value={unit.metaStats.loy} max={100} stat="loy" />
+          <MetaStatBar label="CRP" value={unit.metaStats.crp} max={100} stat="crp" />
+          <MetaStatBar label="STA" value={unit.metaStats.sta} max={45} stat="sta" />
+        </>
+      )}
+    </div>
+  );
+}
 
 export function UnitStatsPanel() {
   const selectedUnitId = useGameStore((s) => s.selectedUnitId);
@@ -48,6 +103,11 @@ export function UnitStatsPanel() {
           <div className="unit-stats-panel__weapon">
             {unit.equippedWeapon.name} (Mt {unit.equippedWeapon.might})
           </div>
+
+          {/* Meta-Stats — enemy meta-stats require AWR ≥ 80 from any player unit */}
+          {(unit.faction === 'player' || canSeeEnemyMetaStats(units.values())) && (
+            <MetaStatsSection unit={unit} />
+          )}
         </div>
       )}
 

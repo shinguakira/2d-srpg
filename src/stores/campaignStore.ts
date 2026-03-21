@@ -174,6 +174,28 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
       }
     }
 
+    // Meta-stat chapter-end updates: AWR +1, crpLowChapters tracking, LOOP regen at arc transitions
+    const arcTransitions = ['ch5', 'ch10', 'ch15', 'ch20'];
+    const isArcTransition = arcTransitions.includes(currentChapterId);
+    for (const uid of Object.keys(progress)) {
+      const p = progress[uid];
+      const ms = p.metaStats ?? { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 };
+      let newAwr = Math.min(100, ms.awr + 1); // AWR +1 per chapter
+      let newLoop = ms.loop;
+      if (uid === 'ren' && isArcTransition) {
+        newLoop += 10; // LOOP +10 at arc transitions
+      }
+      // Track CRP low chapters for passive decay
+      const oldCrpLow = p.crpLowChapters ?? 0;
+      const newCrpLow = ms.crp < 15 ? oldCrpLow + 1 : 0;
+
+      progress[uid] = {
+        ...p,
+        metaStats: { ...ms, awr: newAwr, loop: newLoop, sta: 0 }, // reset STA
+        crpLowChapters: newCrpLow,
+      };
+    }
+
     set({ completedChapters: newCompleted, unitProgress: progress, roster: newRoster });
 
     if (currentChapterData?.epilogue) {
@@ -194,7 +216,7 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
     const { currentChapterId, completedChapters, unitProgress, roster, deadUnitIds } = get();
     const nextChapterId = getNextChapterId(currentChapterId, completedChapters);
     writeSave(slot, {
-      version: 3,
+      version: 4,
       timestamp: Date.now(),
       currentChapterId: nextChapterId,
       completedChapters,

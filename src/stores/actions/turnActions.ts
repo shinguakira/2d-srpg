@@ -5,6 +5,7 @@ import { ENEMY_UNITS } from '../../data/units';
 import { refreshDangerZone } from '../helpers/dangerZoneHelpers';
 import { checkAndFireEvents } from './eventActions';
 import { getRenewalHeal } from '../../core/skills';
+import { updateTurnMetaStats } from './metaStatActions';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -33,7 +34,7 @@ export function dismissPhaseBanner(get: Get, set: Set) {
     for (const [id, unit] of newEnemyUnits) {
       if (unit.faction === 'enemy' && unit.currentHp < unit.stats.hp) {
         const tile = newTiles[unit.position.y]?.[unit.position.x];
-        if (tile && (tile.terrain === 'fort' || tile.terrain === 'throne')) {
+        if (tile && (tile.terrain === 'fort' || tile.terrain === 'throne' || tile.terrain === 'corrupted_fort' || tile.terrain === 'broken_throne')) {
           const heal = Math.max(1, Math.floor(unit.stats.hp * 0.1));
           const newHp = Math.min(unit.stats.hp, unit.currentHp + heal);
           newEnemyUnits.set(id, { ...unit, currentHp: newHp });
@@ -82,6 +83,9 @@ export function dismissPhaseBanner(get: Get, set: Set) {
         reinforcementMessage,
       });
 
+      // Per-turn meta-stat updates for enemies
+      updateTurnMetaStats(get, set, 'enemy');
+
       // Fire turn-start events (enemy phase = end of player's turn)
       checkAndFireEvents(get, set, { justStartedPhase: 'enemy' });
 
@@ -104,7 +108,7 @@ export function dismissPhaseBanner(get: Get, set: Set) {
         // Fort/throne healing at start of player phase
         if (unit.currentHp < unit.stats.hp) {
           const tile = gameMap.tiles[unit.position.y]?.[unit.position.x];
-          if (tile && (tile.terrain === 'fort' || tile.terrain === 'throne')) {
+          if (tile && (tile.terrain === 'fort' || tile.terrain === 'throne' || tile.terrain === 'corrupted_fort' || tile.terrain === 'broken_throne')) {
             const heal = Math.max(1, Math.floor(unit.stats.hp * 0.1));
             const newHp = Math.min(unit.stats.hp, updated.currentHp + heal);
             updated = { ...updated, currentHp: newHp };
@@ -138,6 +142,9 @@ export function dismissPhaseBanner(get: Get, set: Set) {
         return;
       }
     }
+
+    // Per-turn meta-stat updates (CRP terrain, STA recovery, LOY adjacency, etc.)
+    updateTurnMetaStats(get, set, 'player');
 
     // Fire turn-start events for player phase
     checkAndFireEvents(get, set, { justStartedPhase: 'player' });

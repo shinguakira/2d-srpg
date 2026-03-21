@@ -6,6 +6,7 @@ import type { GameState, GameActions } from '../gameStoreTypes';
 import { EMPTY_SET, IDLE_RESET } from '../helpers/constants';
 import { getClassFlags } from '../helpers/mapHelpers';
 import { hasSkill } from '../../core/skills';
+import { isExhausted, isNearRen } from '../../core/metaStats';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -20,7 +21,11 @@ export function selectUnit(get: Get, set: Set, unitId: string) {
 
   const flags = getClassFlags(unit);
   const canPass = hasSkill(unit, 'pass');
-  const moveRange = getMovementRange(unit, gameMap, units, flags, canPass);
+
+  // Exhausted units can only stay on current tile
+  const moveRange = isExhausted(unit)
+    ? new Set([posKey(unit.position)])
+    : getMovementRange(unit, gameMap, units, flags, canPass);
   const atkRange = getFullAttackRange(unit, moveRange, gameMap);
 
   set({
@@ -69,7 +74,9 @@ export function hoverTile(get: Get, set: Set, pos: Position | null) {
           const defenderTerrain = gameMap.tiles[unit.position.y][unit.position.x].terrain;
           const distance = getManhattanDistance(pendingPosition, unit.position);
           const atkAtPending = { ...attacker, position: { ...pendingPosition }, equippedWeapon: weapon };
-          const forecast = calculateCombatForecast(atkAtPending, unit, attackerTerrain, defenderTerrain, distance);
+          const attackerNearRen = attacker.id !== 'ren' && isNearRen(pendingPosition, units);
+          const defenderNearRen = unit.id !== 'ren' && isNearRen(unit.position, units);
+          const forecast = calculateCombatForecast(atkAtPending, unit, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen });
           set({ hoveredTile: pos, movePath: [], combatForecast: forecast });
           return;
         }

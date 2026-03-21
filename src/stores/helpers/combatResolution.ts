@@ -1,6 +1,8 @@
 import type { Unit, GameMap, Tile, ChapterData } from '../../core/types';
 import type { CombatResult } from '../../core/combat';
 import type { GameState } from '../gameStoreTypes';
+import { clampMetaStats } from '../../core/metaStats';
+import { getManhattanDistance } from '../../core/pathfinding';
 
 export type CombatResolutionResult = {
   newUnits: Map<string, Unit>;
@@ -89,6 +91,24 @@ export function applyCombatResult(
   }
   if (dmgToAttacker > 0 && !combatResult.attackerDied) {
     floatingNumbers.push({ id: floatId++, x: attacker.position.x, y: attacker.position.y, text: `-${dmgToAttacker}`, color: '#ef4444' });
+  }
+
+  // LOY -5 for adjacent player allies when Ren takes damage
+  const renDamaged =
+    (attackerId === 'ren' && combatResult.attackerHpAfter < attacker.currentHp && !combatResult.attackerDied) ||
+    (defenderId === 'ren' && combatResult.defenderHpAfter < defender.currentHp && !combatResult.defenderDied);
+  if (renDamaged) {
+    const ren = newUnits.get('ren');
+    if (ren) {
+      for (const [uid, u] of newUnits) {
+        if (uid === 'ren' || u.faction !== 'player') continue;
+        if (getManhattanDistance(u.position, ren.position) <= 1) {
+          const newMeta = clampMetaStats({ ...u.metaStats, loy: u.metaStats.loy - 5 });
+          newUnits.set(uid, { ...u, metaStats: newMeta });
+          floatingNumbers.push({ id: floatId++, x: u.position.x, y: u.position.y, text: 'LOY -5', color: '#eab308' });
+        }
+      }
+    }
   }
 
   // Check victory/defeat

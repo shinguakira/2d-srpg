@@ -28,6 +28,7 @@ import { startStealTargeting, confirmSteal } from './actions/stealActions';
 import { startRescueTargeting, confirmRescue, startDropTargeting, confirmDrop } from './actions/rescueActions';
 import { executeLockpick } from './actions/lockpickActions';
 import { startTradeTargeting, confirmTrade } from './actions/tradeActions';
+import { rest } from './actions/metaStatActions';
 
 export const useGameStore = create<GameState & GameActions>((set, get) => ({
   gameMap: EMPTY_MAP,
@@ -196,6 +197,9 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   // Trade
   startTradeTargeting: () => startTradeTargeting(get, set),
   confirmTrade: (targetId, swaps) => confirmTrade(get, set, targetId, swaps),
+
+  // Rest
+  rest: () => rest(get, set),
 
   // Canto
   confirmCantoMove: (pos) => confirmCantoMove(get, set, pos),

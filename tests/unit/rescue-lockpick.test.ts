@@ -30,6 +30,7 @@ function makeUnit(id: string, pos: Position, overrides: Partial<Unit> = {}): Uni
     inventory: [makeWeapon()],
     items: [], hasActed: false, facing: 'down' as const, sprite: '',
     skills: [], learnedSkills: [],
+    metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
     ...overrides,
   };
 }

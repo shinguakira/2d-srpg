@@ -3,6 +3,7 @@ import { IDLE_RESET } from '../helpers/constants';
 import { allPlayersDone } from '../helpers/mapHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
 import { checkAndFireEvents } from './eventActions';
+import { applyMovementSta } from './metaStatActions';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -115,6 +116,12 @@ function teleportUnit(
     units: newUnits,
     gameMap: { ...gameMap, tiles: newTiles },
   });
+
+  // STA gain from movement (+1 per tile moved)
+  const tilesMoved = Math.abs(destination.x - unit.position.x) + Math.abs(destination.y - unit.position.y);
+  if (tilesMoved > 0) {
+    applyMovementSta(get, set, unitId, tilesMoved);
+  }
 
   // Fire events for unit movement
   checkAndFireEvents(get, set, {

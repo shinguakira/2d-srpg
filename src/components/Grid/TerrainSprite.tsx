@@ -51,6 +51,16 @@ function renderTerrain(terrain: TerrainType) {
       return <VillageTerrain />;
     case 'throne':
       return <ThroneTerrain />;
+    case 'glitched':
+      return <GlitchedTerrain />;
+    case 'data_void':
+      return <DataVoidTerrain />;
+    case 'corrupted_fort':
+      return <CorruptedFortTerrain />;
+    case 'broken_throne':
+      return <BrokenThroneTerrain />;
+    case 'memory':
+      return <MemoryTerrain />;
     default:
       return <rect width="48" height="48" fill="#7ec850" />;
   }
@@ -212,6 +222,109 @@ function ThroneTerrain() {
       {/* Armrests */}
       <rect x="15" y="18" width="3" height="12" fill="#b8922e" rx="1" />
       <rect x="30" y="18" width="3" height="12" fill="#b8922e" rx="1" />
+    </>
+  );
+}
+
+function GlitchedTerrain() {
+  return (
+    <>
+      <rect width="48" height="48" fill="#1a1a2e" />
+      {/* Static noise lines */}
+      <rect x="0" y="8" width="48" height="2" fill="#a855f7" opacity="0.4" />
+      <rect x="0" y="20" width="48" height="1" fill="#ef4444" opacity="0.3" />
+      <rect x="0" y="32" width="48" height="2" fill="#22c55e" opacity="0.3" />
+      <rect x="0" y="42" width="48" height="1" fill="#3b82f6" opacity="0.4" />
+      {/* Glitch fragments */}
+      <rect x="5" y="12" width="10" height="4" fill="#a855f7" opacity="0.5" />
+      <rect x="28" y="24" width="14" height="3" fill="#ef4444" opacity="0.4" />
+      <rect x="12" y="36" width="8" height="3" fill="#22c55e" opacity="0.4" />
+      {/* Scan line pattern */}
+      <rect x="0" y="0" width="48" height="48" fill="url(#glitch-scan)" opacity="0.15" />
+      <defs>
+        <pattern id="glitch-scan" width="48" height="4" patternUnits="userSpaceOnUse">
+          <rect width="48" height="2" fill="#fff" />
+        </pattern>
+      </defs>
+    </>
+  );
+}
+
+function DataVoidTerrain() {
+  return (
+    <>
+      <rect width="48" height="48" fill="#0a0a0a" />
+      {/* Deep void with subtle purple edges */}
+      <rect x="2" y="2" width="44" height="44" fill="#050510" rx="2" />
+      {/* Faint data fragments */}
+      <text x="6" y="16" fontSize="6" fill="#a855f7" opacity="0.2" fontFamily="monospace">01</text>
+      <text x="28" y="28" fontSize="6" fill="#a855f7" opacity="0.15" fontFamily="monospace">10</text>
+      <text x="14" y="40" fontSize="6" fill="#a855f7" opacity="0.1" fontFamily="monospace">00</text>
+      {/* Void vortex hint */}
+      <circle cx="24" cy="24" r="8" fill="none" stroke="#a855f7" strokeWidth="0.5" opacity="0.2" />
+      <circle cx="24" cy="24" r="4" fill="none" stroke="#a855f7" strokeWidth="0.5" opacity="0.3" />
+    </>
+  );
+}
+
+function CorruptedFortTerrain() {
+  return (
+    <>
+      <rect width="48" height="48" fill="#2d1f4e" />
+      {/* Fort base with purple tint */}
+      <rect x="8" y="20" width="32" height="22" fill="#6b5b8a" stroke="#4a3b6a" strokeWidth="1" />
+      {/* Battlements */}
+      <rect x="8" y="16" width="8" height="6" fill="#6b5b8a" stroke="#4a3b6a" strokeWidth="1" />
+      <rect x="20" y="16" width="8" height="6" fill="#6b5b8a" stroke="#4a3b6a" strokeWidth="1" />
+      <rect x="32" y="16" width="8" height="6" fill="#6b5b8a" stroke="#4a3b6a" strokeWidth="1" />
+      {/* Door */}
+      <rect x="19" y="30" width="10" height="12" fill="#1a0a2e" rx="5" />
+      {/* Corruption veins */}
+      <line x1="10" y1="22" x2="18" y2="28" stroke="#a855f7" strokeWidth="1" opacity="0.6" />
+      <line x1="30" y1="20" x2="36" y2="30" stroke="#a855f7" strokeWidth="1" opacity="0.5" />
+      <line x1="22" y1="18" x2="26" y2="26" stroke="#a855f7" strokeWidth="0.8" opacity="0.4" />
+    </>
+  );
+}
+
+function BrokenThroneTerrain() {
+  return (
+    <>
+      {/* Cracked stone floor */}
+      <rect width="48" height="48" fill="#4b4260" />
+      <rect x="0" y="0" width="24" height="24" fill="#3b3250" stroke="#2b2240" strokeWidth="0.5" />
+      <rect x="24" y="24" width="24" height="24" fill="#3b3250" stroke="#2b2240" strokeWidth="0.5" />
+      {/* Cracked steps */}
+      <rect x="12" y="38" width="24" height="4" fill="#2b2240" />
+      {/* Broken throne */}
+      <rect x="17" y="18" width="14" height="16" fill="#8b7530" rx="2" />
+      <rect x="18" y="10" width="12" height="10" fill="#8b7530" rx="2" />
+      {/* Cracks */}
+      <line x1="20" y1="12" x2="26" y2="22" stroke="#1a1a2e" strokeWidth="1.5" />
+      <line x1="28" y1="16" x2="24" y2="28" stroke="#1a1a2e" strokeWidth="1" />
+      {/* Purple glow */}
+      <circle cx="24" cy="20" r="12" fill="none" stroke="#a855f7" strokeWidth="1" opacity="0.3" />
+      <circle cx="24" cy="20" r="6" fill="#a855f7" opacity="0.1" />
+    </>
+  );
+}
+
+function MemoryTerrain() {
+  return (
+    <>
+      <rect width="48" height="48" fill="#2a2520" />
+      {/* Soft gold glow */}
+      <circle cx="24" cy="24" r="20" fill="#fbbf24" opacity="0.08" />
+      <circle cx="24" cy="24" r="12" fill="#fbbf24" opacity="0.12" />
+      {/* Memory fragments — gentle golden lines */}
+      <line x1="8" y1="14" x2="18" y2="14" stroke="#fbbf24" strokeWidth="1" opacity="0.3" />
+      <line x1="30" y1="22" x2="40" y2="22" stroke="#fbbf24" strokeWidth="1" opacity="0.25" />
+      <line x1="12" y1="34" x2="24" y2="34" stroke="#fbbf24" strokeWidth="1" opacity="0.3" />
+      {/* Floating particles */}
+      <circle cx="16" cy="20" r="1.5" fill="#fbbf24" opacity="0.4" />
+      <circle cx="34" cy="30" r="1" fill="#fbbf24" opacity="0.3" />
+      <circle cx="24" cy="12" r="1.2" fill="#fbbf24" opacity="0.35" />
+      <circle cx="38" cy="40" r="0.8" fill="#fbbf24" opacity="0.25" />
     </>
   );
 }

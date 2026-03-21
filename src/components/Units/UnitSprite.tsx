@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import type { Unit, WeaponType } from '../../core/types';
+import type { Unit } from '../../core/types';
 import { FACTION_COLORS, renderClassSprite } from '../sprites/classSprites';
 import '../../styles/ui/boss.css';
 

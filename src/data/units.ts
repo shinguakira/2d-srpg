@@ -1,6 +1,7 @@
 import type { Unit, ConsumableItem, AIBehavior, Faction } from '../core/types';
 import { WEAPONS } from './weapons';
 import { CLASSES } from './classes';
+import { ALL_CLASSES } from './promotedClasses';
 import { ITEMS } from './items';
 import { defaultMetaStats } from '../core/metaStats';
 
@@ -21,7 +22,7 @@ function createUnit(
     statOverrides?: Partial<Unit['stats']>;
   },
 ): Unit {
-  const cls = CLASSES[classId];
+  const cls = CLASSES[classId] ?? ALL_CLASSES[classId];
   const weapons = weaponIds.map((wid) => ({ ...WEAPONS[wid] }));
   const items: ConsumableItem[] = itemIds.map((iid) => ({ ...ITEMS[iid] }));
   const stats = { ...cls.baseStats, ...opts?.statOverrides };
@@ -83,6 +84,10 @@ export const PLAYER_UNITS: Record<string, Unit> = {
   coda: createUnit('coda', 'Coda', 'thief', 'player', ['iron_knife', 'data_knife'], 1, '', [], {
     deathQuote: "No more secrets... to find...",
     statOverrides: { spd: 9, skl: 7, lck: 6 },
+  }),
+  yuel: createUnit('yuel', 'Yuel', 'pegasus_knight', 'player', ['iron_lance'], 3, '', ['vulnerary'], {
+    deathQuote: "The sky... is falling...",
+    statOverrides: { spd: 10, skl: 7, res: 6 },
   }),
 };
 
@@ -174,4 +179,43 @@ export const ENEMY_UNITS: Record<string, Unit> = {
   ch4_reinforce_1: createUnit('ch4_reinforce_1', 'Bonewalker', 'fighter', 'enemy', ['steel_axe'], 6),
   ch4_reinforce_2: createUnit('ch4_reinforce_2', 'Revenant', 'soldier', 'enemy', ['steel_lance'], 6),
   ch4_reinforce_3: createUnit('ch4_reinforce_3', 'Mogall', 'mage', 'enemy', ['fire'], 6),
+
+  // Chapter 5 enemies — Mountain Fortress (Arc 1 climax)
+  ch5_boss: createUnit('ch5_boss', 'General Aldric', 'general_knight', 'enemy', ['steel_lance', 'javelin'], 12, '', [], {
+    aiBehavior: { type: 'boss' },
+    deathQuote: "A real army... and you still broke through.",
+    statOverrides: { hp: 50, str: 12, def: 16, skl: 8 },
+  }),
+  ch5_knight_1: createUnit('ch5_knight_1', 'Knight', 'knight', 'enemy', ['iron_lance'], 10, '', [], {
+    aiBehavior: { type: 'escort', targetUnitId: 'ch5_boss' },
+  }),
+  ch5_knight_2: createUnit('ch5_knight_2', 'Knight', 'knight', 'enemy', ['iron_lance'], 10, '', [], {
+    aiBehavior: { type: 'escort', targetUnitId: 'ch5_boss' },
+  }),
+  ch5_soldier_1: createUnit('ch5_soldier_1', 'Soldier', 'soldier', 'enemy', ['iron_lance'], 8, '', [], {
+    aiBehavior: { type: 'guard', radius: 3 },
+  }),
+  ch5_soldier_2: createUnit('ch5_soldier_2', 'Soldier', 'soldier', 'enemy', ['steel_lance'], 8, '', [], {
+    aiBehavior: { type: 'guard', radius: 3 },
+  }),
+  ch5_archer_1: createUnit('ch5_archer_1', 'Archer', 'archer', 'enemy', ['iron_bow'], 7, '', [], {
+    aiBehavior: { type: 'stationary' },
+  }),
+  ch5_archer_2: createUnit('ch5_archer_2', 'Archer', 'archer', 'enemy', ['iron_bow'], 7, '', [], {
+    aiBehavior: { type: 'stationary' },
+  }),
+  ch5_cavalier_1: createUnit('ch5_cavalier_1', 'Cavalier', 'cavalier', 'enemy', ['iron_lance'], 8, '', [], {
+    aiBehavior: { type: 'guard', radius: 4 },
+  }),
+  ch5_cavalier_2: createUnit('ch5_cavalier_2', 'Cavalier', 'cavalier', 'enemy', ['iron_lance'], 8, '', [], {
+    aiBehavior: { type: 'guard', radius: 4 },
+  }),
+  ch5_mage_1: createUnit('ch5_mage_1', 'Mage', 'mage', 'enemy', ['fire'], 8, '', [], {
+    aiBehavior: { type: 'guard', radius: 3 },
+  }),
+  ch5_brigand_1: createUnit('ch5_brigand_1', 'Brigand', 'fighter', 'enemy', ['iron_axe'], 6),
+  ch5_brigand_2: createUnit('ch5_brigand_2', 'Brigand', 'fighter', 'enemy', ['iron_axe'], 6),
+  ch5_reinforce_1: createUnit('ch5_reinforce_1', 'Soldier', 'soldier', 'enemy', ['iron_lance'], 7),
+  ch5_reinforce_2: createUnit('ch5_reinforce_2', 'Soldier', 'soldier', 'enemy', ['iron_lance'], 7),
+  ch5_reinforce_3: createUnit('ch5_reinforce_3', 'Cavalier', 'cavalier', 'enemy', ['iron_lance'], 8),
 };

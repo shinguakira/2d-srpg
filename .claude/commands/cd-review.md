@@ -22,16 +22,28 @@ Review the current changes against the project specs and task definitions.
    ```
    ## Spec Coverage
    Task: [matched task file(s)]
-   - ✅ [requirement] — implemented
-   - ⚠️ [requirement] — partial / needs attention
-   - ❌ [requirement] — missing
+   - ✅ [requirement]
+   - ✅ [requirement]
+   - ⚠️ [requirement] — [what's missing or wrong]
+   - ❌ [requirement] — [why it's missing / what needs to be done]
+   ```
+   - For ✅ items: just the checkmark and requirement name. No explanation needed.
+   - For ⚠️/❌ items: include a clear description of the gap or issue.
 
+   ```
    ## Code Review
    - [file:line] — [issue description]
-
-   ## Summary
-   [1-2 sentence overall assessment]
    ```
+   - Only list actual bugs, logic errors, convention violations, or missing edge cases.
+   - Skip this section entirely if no issues found.
+
+   ```
+   ## Summary
+   ```
+   - Focus ONLY on what's NOT done, bugs, and things that need fixing.
+   - List concrete action items the developer needs to address.
+   - If everything is complete and no issues found, just say "All requirements met, no issues found."
+   - Do NOT summarize what was accomplished — the checkmarks already show that.
 
 6. **Update task checkboxes**: After the review, check off (`- [x]`) all completed requirements in the matched task file(s). Do this as a batch at the end — do not modify the task files during the review itself.
 

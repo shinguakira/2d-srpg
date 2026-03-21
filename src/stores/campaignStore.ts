@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import type { AppScreen, ChapterData, DialogueScene, UnitProgress, SupportPair, DifficultyMode, EndingType } from '../core/types';
 import { writeSave, readSave, deleteSave, hasAnySave, getSlotSummary } from '../core/saveManager';
 import { CHAPTERS, CHAPTER_ORDER } from '../data/chapters';
+import { PLAYER_UNITS } from '../data/units';
 import { WEAPONS } from '../data/weapons';
 import { canForge, applyForge, getRequiredMaterial, getForgeGoldCost } from '../core/forging';
 import { rollLevelUp, applyStatGains } from '../core/experience';
@@ -119,6 +120,13 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
   startChapter: (id: string) => {
     const chapter = CHAPTERS[id];
     if (!chapter) return;
+    // Auto-add new chapter units to roster (e.g., Yuel joining in ch5)
+    const { roster } = get();
+    const chapterPlayerIds = chapter.playerUnits.map((p) => p.unitId);
+    const newIds = chapterPlayerIds.filter((uid) => !roster.includes(uid) && PLAYER_UNITS[uid]);
+    if (newIds.length > 0) {
+      set({ roster: [...roster, ...newIds] });
+    }
     set({ currentChapterId: id, currentChapterData: chapter });
 
     if (chapter.prologue) {

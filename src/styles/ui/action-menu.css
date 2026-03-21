@@ -109,3 +109,13 @@
 .action-menu__btn--seize:hover {
   background: rgba(251, 191, 36, 0.5);
 }
+
+.action-menu__btn--negotiate {
+  background: rgba(168, 85, 247, 0.3);
+  border-color: rgba(168, 85, 247, 0.5);
+  color: #c084fc;
+}
+
+.action-menu__btn--negotiate:hover {
+  background: rgba(168, 85, 247, 0.5);
+}

@@ -8,6 +8,7 @@ import { hasSkill } from '../../core/skills';
 import { canRescueUnit } from '../../core/rescue';
 import { isExhausted } from '../../core/metaStats';
 import { canAttackTerrain } from '../../core/destructibleTerrain';
+import { checkNegotiateCondition } from '../../stores/actions/negotiateActions';
 
 export function ActionMenu() {
   const playerAction = useGameStore((s) => s.playerAction);
@@ -45,6 +46,8 @@ export function ActionMenu() {
   const terrainHpMap = useGameStore((s) => s.terrainHpMap);
   const useTorchAction = useGameStore((s) => s.useTorch);
   const fogOfWar = useGameStore((s) => s.fogOfWar);
+  const negotiateAction = useGameStore((s) => s.negotiate);
+  const useBalanceAction = useGameStore((s) => s.useBalance);
   const cameraOffset = useUIStore((s) => s.cameraOffset);
   const tileSize = useUIStore((s) => s.tileSize);
 
@@ -286,6 +289,26 @@ export function ActionMenu() {
   // Check torch — unit has torch item and fog is active
   const canUseTorch = fogOfWar && selectedUnit && selectedUnit.items.some((i) => i.effect.kind === 'torch' && i.uses > 0);
 
+  // Check Balance (Fortify) — unit has 'balance' skill + damaged allies within 5 tiles
+  const canBalance = (() => {
+    if (!selectedUnit || !pendingPosition) return false;
+    if (!hasSkill(selectedUnit, 'balance')) return false;
+    for (const ally of units.values()) {
+      if (ally.id === selectedUnitId) continue;
+      if (ally.faction !== selectedUnit.faction || ally.currentHp <= 0) continue;
+      if (ally.currentHp >= ally.stats.hp) continue;
+      if (getManhattanDistance(pendingPosition, ally.position) <= 5) return true;
+    }
+    return false;
+  })();
+
+  // Check negotiate — Ren adjacent to boss, boss HP ≤ 50%, party AWR avg ≥ 70
+  const canNegotiate = (() => {
+    if (!selectedUnit || exhausted) return false;
+    const { available } = checkNegotiateCondition(useGameStore.getState);
+    return available;
+  })();
+
   // Position menu next to the pending tile
   const menuX = (pendingPosition.x + 1) * tileSize + cameraOffset.x + 4;
   const menuY = pendingPosition.y * tileSize + cameraOffset.y;
@@ -492,6 +515,24 @@ export function ActionMenu() {
               onClick={attackTerrainAction}
             >
               Break
+            </button>
+          )}
+          {canNegotiate && (
+            <button
+              className="action-menu__btn action-menu__btn--negotiate"
+              data-testid="action-negotiate"
+              onClick={negotiateAction}
+            >
+              Negotiate
+            </button>
+          )}
+          {!exhausted && canBalance && (
+            <button
+              className="action-menu__btn action-menu__btn--visit"
+              data-testid="action-balance"
+              onClick={useBalanceAction}
+            >
+              Balance
             </button>
           )}
           {!exhausted && canUseTorch && (

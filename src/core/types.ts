@@ -93,7 +93,8 @@ export type ItemEffect =
   | { readonly kind: 'heal'; readonly amount: number }
   | { readonly kind: 'promote'; readonly eligibleClasses: string[] }
   | { readonly kind: 'unlock'; readonly targetTerrain: 'door' | 'chest' }
-  | { readonly kind: 'torch' };
+  | { readonly kind: 'torch' }
+  | { readonly kind: 'key_item' };
 
 export type ConsumableItem = {
   readonly id: string;
@@ -177,6 +178,52 @@ export type AIBehavior =
   | { readonly type: 'coordinated'; readonly groupId: string }
   | { readonly type: 'ambush'; readonly triggerRadius: number };
 
+// ===== Boss Phases =====
+
+export type BossPhase = {
+  readonly hpThreshold: number;
+  readonly statChanges?: Partial<UnitStats>;
+  readonly weaponId?: string;
+  readonly dialogue?: DialogueScene;
+  readonly aiOverride?: AIBehavior;
+  readonly immunity?: 'physical' | 'magical';
+  readonly selfHeal?: number;
+};
+
+// ===== Map Boss =====
+
+export type MapBossPhase = {
+  readonly hpThreshold: number;
+  readonly terrainChanges: ReadonlyArray<{ readonly position: Position; readonly terrain: TerrainType }>;
+  readonly enemyHealRate: number;
+  readonly spawnRate: number;
+  readonly clearWalls?: boolean; // Final phase: remove all wall/mountain terrain
+};
+
+export type MapBossState = {
+  maxHp: number;
+  currentHp: number;
+  phases: MapBossPhase[];
+  currentPhase: number;
+  checkpointPositions: Position[];
+};
+
+// ===== Split Party =====
+
+export type SplitPartyConfig = {
+  readonly teamASlots: number;
+  readonly teamBSlots: number;
+  readonly mergeCondition: { readonly bossHpPercent: number };
+};
+
+// ===== Difficulty =====
+
+export type DifficultyMode = 'classic' | 'casual' | 'hard';
+
+// ===== Endings =====
+
+export type EndingType = 'perfect' | 'true' | 'bittersweet' | 'tragic';
+
 export type Faction = 'player' | 'enemy' | 'ally' | 'neutral';
 
 export type Unit = {
@@ -204,6 +251,14 @@ export type Unit = {
   recruitLoyThreshold?: number;
   skills: string[];
   learnedSkills: string[];
+  traumaSkills?: string[];
+  retreated?: boolean;
+  bossPhases?: BossPhase[];
+  currentBossPhase?: number;
+  corruptionLayers?: number;
+  weaponCycleOrder?: WeaponType[];
+  weaponCycleIndex?: number;
+  tags?: string[];
   isHidden?: boolean;
   carriedUnitId?: string;
   isCarried?: boolean;
@@ -231,7 +286,8 @@ export type PlayerAction =
   | 'steal_target'
   | 'rescue_target'
   | 'drop_target'
-  | 'trade_target';
+  | 'trade_target'
+  | 'negotiate';
 
 // ===== Weather & Fog =====
 
@@ -325,6 +381,9 @@ export type ChapterData = {
   readonly weather?: WeatherType;
   readonly weatherChanges?: ReadonlyArray<{ readonly turn: number; readonly weather: WeatherType; readonly message?: string }>;
   readonly destructibleTerrain?: ReadonlyArray<{ readonly position: Position; readonly hp: number; readonly destroyedTerrain: TerrainType }>;
+  readonly bossPhases?: Readonly<Record<string, readonly BossPhase[]>>;
+  readonly mapBoss?: MapBossState;
+  readonly splitParty?: SplitPartyConfig;
 };
 
 export type ReinforcementWave = {
@@ -397,10 +456,13 @@ export type UnitProgress = {
   readonly crpLowChapters?: number; // chapters with CRP < 15 (for passive decay)
   readonly supportPartners?: string[]; // partner unit IDs (5-partner limit enforcement)
   readonly weaponForgeLevel?: number[]; // per-weapon forge levels (parallel to weaponIds)
+  readonly retreated?: boolean; // casual mode: unit retreated instead of dying
+  readonly currentHp?: number; // track HP across chapters for casual restore
+  readonly traumaSkills?: string[]; // trauma skills persist across chapters
 };
 
 export type SaveData = {
-  readonly version: 5;
+  readonly version: 6;
   readonly timestamp: number;
   readonly currentChapterId: string;
   readonly completedChapters: string[];
@@ -411,8 +473,12 @@ export type SaveData = {
   readonly bonusExp?: number;
   readonly forgeMaterials?: string[];
   readonly gold?: number;
+  readonly difficulty?: DifficultyMode;
+  readonly campaignFlags?: Record<string, string | number | boolean>;
+  readonly newGamePlusUnlocked?: boolean;
+  readonly endingsSeen?: EndingType[];
 };
 
 // ===== App Screens =====
 
-export type AppScreen = 'title' | 'dialogue' | 'battle' | 'debug' | 'preparation';
+export type AppScreen = 'title' | 'dialogue' | 'battle' | 'debug' | 'preparation' | 'ending' | 'credits' | 'team_selection';

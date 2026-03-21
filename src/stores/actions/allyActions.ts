@@ -1,4 +1,5 @@
 import { posKey } from '../../core/types';
+import { useCampaignStore } from '../campaignStore';
 import { getManhattanDistance, getPath } from '../../core/pathfinding';
 import { calculateCombatForecast, resolveCombat } from '../../core/combat';
 import { decideAction } from '../../core/ai';
@@ -9,6 +10,7 @@ import { applyCombatResult } from '../helpers/combatResolution';
 import { checkVictory, getClassFlags } from '../helpers/mapHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
 import { isNearRen } from '../../core/metaStats';
+import { checkMergeCondition, switchActiveTeam, mergeMaps } from './splitPartyActions';
 
 /** Check if walk animation should be skipped (for E2E tests) */
 function shouldSkipWalkAnim(): boolean {
@@ -138,7 +140,9 @@ function finalizeAllyAction(
     const attackerNearRen = combatUnit.id !== 'ren' && isNearRen(destination, newUnits);
     const defenderNearRen = target.id !== 'ren' && isNearRen(target.position, newUnits);
     const forecast = calculateCombatForecast(combatUnit, target, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen });
-    const result = resolveCombat(forecast, rng, combatUnit, target);
+    const { cycleAuthorityUsed, vanishUsed } = get();
+    const combinedUsedSkills = new Set([...cycleAuthorityUsed, ...vanishUsed]);
+    const result = resolveCombat(forecast, rng, combatUnit, target, combinedUsedSkills);
 
     set({
       units: newUnits,
@@ -165,7 +169,8 @@ export function finishAllyCombat(get: Get, set: Set) {
   if (!selectedUnitId || !attackTargetId || !combatResult) return;
 
   const { chapterData } = get();
-  const resolution = applyCombatResult(units, gameMap, selectedUnitId, attackTargetId, combatResult, chapterData);
+  const difficulty = useCampaignStore.getState().difficulty;
+  const resolution = applyCombatResult(units, gameMap, selectedUnitId, attackTargetId, combatResult, chapterData, difficulty);
 
   if (resolution.lordDied || resolution.victoryResult) {
     set({
@@ -177,6 +182,17 @@ export function finishAllyCombat(get: Get, set: Set) {
       floatingNumbers: resolution.floatingNumbers,
     });
     return;
+  }
+
+  // Track once-per-chapter skill activations
+  if (combatResult.activatedSkillKeys) {
+    const newCycleAuthority = new Set(get().cycleAuthorityUsed);
+    const newVanish = new Set(get().vanishUsed);
+    for (const key of combatResult.activatedSkillKeys) {
+      if (key.endsWith(':cycle_authority')) newCycleAuthority.add(key);
+      if (key.endsWith(':vanish')) newVanish.add(key);
+    }
+    set({ cycleAuthorityUsed: newCycleAuthority, vanishUsed: newVanish });
   }
 
   set({
@@ -195,8 +211,8 @@ export function finishAllyCombat(get: Get, set: Set) {
 }
 
 export function endAllyTurn(get: Get, set: Set) {
-  const { units, chapterData } = get();
-  const endResult = checkVictory(units, chapterData);
+  const { units, chapterData, mapBossState } = get();
+  const endResult = checkVictory(units, chapterData, mapBossState);
 
   if (endResult) {
     set({ currentPhase: 'game_over', allyActions: [], allyActionIndex: -1 });
@@ -221,4 +237,14 @@ export function endAllyTurn(get: Get, set: Set) {
     allyActionIndex: -1,
     phaseBanner: 'player_phase',
   });
+
+  // Split party: check merge or switch teams
+  const { splitParty } = get();
+  if (splitParty && !splitParty.merged) {
+    if (checkMergeCondition(get)) {
+      mergeMaps(get, set);
+    } else {
+      switchActiveTeam(get, set);
+    }
+  }
 }

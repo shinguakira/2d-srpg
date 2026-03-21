@@ -122,3 +122,51 @@
 .promotion-screen__cancel:hover {
   border-color: #94a3b8;
 }
+
+/* ===== Master Promotion Fanfare ===== */
+
+.promotion-screen--master {
+  background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.3) 0%, rgba(0, 0, 0, 0.95) 70%);
+  animation: master-fanfare-bg 2s ease-out;
+}
+
+.promotion-screen__title--master {
+  font-size: 2rem;
+  color: #c084fc;
+  text-shadow: 0 0 20px rgba(168, 85, 247, 0.8), 0 0 40px rgba(168, 85, 247, 0.4);
+  animation: master-title-glow 2s ease-in-out infinite alternate;
+}
+
+.promotion-screen--master .promotion-screen__subtitle {
+  color: #e9d5ff;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+}
+
+.promotion-screen--master .promotion-screen__option {
+  border-color: #7c3aed;
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+}
+
+.promotion-screen--master .promotion-screen__option:hover,
+.promotion-screen--master .promotion-screen__option--selected {
+  border-color: #c084fc;
+  box-shadow: 0 0 30px rgba(192, 132, 252, 0.5);
+}
+
+.promotion-screen--master .promotion-screen__confirm {
+  background: linear-gradient(135deg, #7c3aed, #c084fc);
+  color: #fff;
+  box-shadow: 0 0 16px rgba(124, 58, 237, 0.5);
+}
+
+@keyframes master-fanfare-bg {
+  0% { background: rgba(0, 0, 0, 0.95); }
+  30% { background: radial-gradient(ellipse at center, rgba(251, 191, 36, 0.4) 0%, rgba(0, 0, 0, 0.95) 60%); }
+  100% { background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.3) 0%, rgba(0, 0, 0, 0.95) 70%); }
+}
+
+@keyframes master-title-glow {
+  from { text-shadow: 0 0 20px rgba(168, 85, 247, 0.8), 0 0 40px rgba(168, 85, 247, 0.4); }
+  to { text-shadow: 0 0 30px rgba(192, 132, 252, 1), 0 0 60px rgba(168, 85, 247, 0.6); }
+}

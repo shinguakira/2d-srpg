@@ -14,12 +14,15 @@ const STAT_LABELS: (keyof UnitStats)[] = ['hp', 'str', 'mag', 'def', 'res', 'spd
 
 export function PromotionScreen({ unitName, options, onConfirm, onCancel }: Props) {
   const [selected, setSelected] = useState<string | null>(options.length === 1 ? options[0].id : null);
+  const isMaster = options.some((cls) => cls.tier === 'master');
 
   return (
-    <div className="promotion-screen" data-testid="promotion-screen">
-      <div className="promotion-screen__title">Promote {unitName}</div>
+    <div className={`promotion-screen ${isMaster ? 'promotion-screen--master' : ''}`} data-testid="promotion-screen">
+      <div className={`promotion-screen__title ${isMaster ? 'promotion-screen__title--master' : ''}`}>
+        {isMaster ? 'Master Promotion' : `Promote ${unitName}`}
+      </div>
       <div className="promotion-screen__subtitle">
-        Choose a promotion path
+        {isMaster ? `${unitName} ascends to a Master Class` : 'Choose a promotion path'}
       </div>
 
       <div className="promotion-screen__options">

@@ -1,0 +1,188 @@
+/* ===== Boss Phase Transition ===== */
+
+.boss-phase-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.boss-phase-transition__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  animation: boss-phase-fade-in 0.5s ease-out;
+}
+
+.boss-phase-transition__content {
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 100%);
+  border: 2px solid #8b5cf6;
+  border-radius: 8px;
+  padding: 24px 32px;
+  max-width: 500px;
+  width: 90%;
+  animation: boss-phase-slide-in 0.6s ease-out;
+}
+
+.boss-phase-transition__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #6d28d9;
+}
+
+.boss-phase-transition__boss-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #c084fc;
+}
+
+.boss-phase-transition__phase-label {
+  font-size: 14px;
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.15);
+  padding: 2px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.boss-phase-transition__dialogue {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.boss-phase-transition__line {
+  display: flex;
+  gap: 6px;
+  line-height: 1.4;
+}
+
+.boss-phase-transition__speaker {
+  font-weight: bold;
+  color: #a78bfa;
+  white-space: nowrap;
+}
+
+.boss-phase-transition__text {
+  color: #e2e8f0;
+}
+
+.boss-phase-transition__hint {
+  text-align: center;
+  color: #64748b;
+  font-size: 12px;
+  animation: boss-hint-pulse 2s infinite;
+}
+
+/* ===== Weapon Cycle Indicator ===== */
+
+.weapon-cycle-indicator {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #f59e0b;
+  border-radius: 3px;
+  padding: 1px 4px;
+  font-size: 9px;
+  color: #f59e0b;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ===== Corruption Layer Visual ===== */
+
+.corruption-layers {
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 2px;
+}
+
+.corruption-layers__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #7c3aed;
+  border: 1px solid #a78bfa;
+}
+
+.corruption-layers__dot--stripped {
+  background: #374151;
+  border-color: #6b7280;
+}
+
+/* ===== Map Boss HP Bar ===== */
+
+.map-boss-hp-bar {
+  position: fixed;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  background: rgba(15, 5, 30, 0.9);
+  border: 2px solid #6d28d9;
+  border-radius: 6px;
+  padding: 6px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 300px;
+}
+
+.map-boss-hp-bar__label {
+  color: #c084fc;
+  font-weight: bold;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.map-boss-hp-bar__bar {
+  flex: 1;
+  height: 10px;
+  background: #1e1b4b;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.map-boss-hp-bar__fill {
+  height: 100%;
+  background: linear-gradient(90deg, #7c3aed, #a78bfa);
+  transition: width 0.5s ease-out;
+  border-radius: 5px;
+}
+
+.map-boss-hp-bar__text {
+  color: #e2e8f0;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+/* ===== Animations ===== */
+
+@keyframes boss-phase-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes boss-phase-slide-in {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes boss-hint-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}

@@ -1,4 +1,5 @@
 import { posKey } from '../../core/types';
+import { useCampaignStore } from '../campaignStore';
 import { getManhattanDistance, getPath } from '../../core/pathfinding';
 import { calculateCombatForecast, resolveCombat } from '../../core/combat';
 import { calculateExpGain, checkLevelUp, rollLevelUp, applyStatGains } from '../../core/experience';
@@ -169,7 +170,9 @@ function finalizeAutoAction(
     const attackerNearRen = combatUnit.id !== 'ren' && isNearRen(destination, newUnits);
     const defenderNearRen = target.id !== 'ren' && isNearRen(target.position, newUnits);
     const forecast = calculateCombatForecast(combatUnit, target, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen });
-    const result = resolveCombat(forecast, rng, combatUnit, target);
+    const { cycleAuthorityUsed, vanishUsed } = get();
+    const combinedUsedSkills = new Set([...cycleAuthorityUsed, ...vanishUsed]);
+    const result = resolveCombat(forecast, rng, combatUnit, target, combinedUsedSkills);
 
     set({
       units: newUnits,
@@ -195,7 +198,8 @@ export function finishAutoCombat(get: Get, set: Set) {
   const defender = units.get(attackTargetId)!;
   const { chapterData } = get();
 
-  const resolution = applyCombatResult(units, gameMap, selectedUnitId, attackTargetId, combatResult, chapterData);
+  const difficulty = useCampaignStore.getState().difficulty;
+  const resolution = applyCombatResult(units, gameMap, selectedUnitId, attackTargetId, combatResult, chapterData, difficulty);
 
   if (resolution.lordDied) {
     set({
@@ -270,6 +274,17 @@ export function finishAutoCombat(get: Get, set: Set) {
     isAutoBattle: nextPhase !== 'game_over',
     autoBattleActions: nextPhase === 'game_over' ? [] : get().autoBattleActions,
   });
+
+  // Track once-per-chapter skill activations
+  if (combatResult.activatedSkillKeys) {
+    const newCycleAuthority = new Set(get().cycleAuthorityUsed);
+    const newVanish = new Set(get().vanishUsed);
+    for (const key of combatResult.activatedSkillKeys) {
+      if (key.endsWith(':cycle_authority')) newCycleAuthority.add(key);
+      if (key.endsWith(':vanish')) newVanish.add(key);
+    }
+    set({ cycleAuthorityUsed: newCycleAuthority, vanishUsed: newVanish });
+  }
 
   refreshDangerZone(get, set);
 }

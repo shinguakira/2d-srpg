@@ -1,5 +1,6 @@
 import type { GamePhase } from '../../core/types';
 import { posKey } from '../../core/types';
+import { useCampaignStore } from '../campaignStore';
 import { getManhattanDistance } from '../../core/pathfinding';
 import { calculateCombatForecast, resolveCombat } from '../../core/combat';
 import { calculateExpGain, checkLevelUp, rollLevelUp, applyStatGains } from '../../core/experience';
@@ -17,6 +18,18 @@ import { checkAndFireEvents } from './eventActions';
 import { applyCombatSta, applySkillSta } from './metaStatActions';
 import { clampMetaStats, shouldDisobey, isNearRen } from '../../core/metaStats';
 import { addSupportPoints } from './supportActions';
+import { hasSkill } from '../../core/skills';
+import { checkPhaseTransition, applyPhaseTransition } from '../../core/bossPhase';
+
+function hasAdjacentIronwallAlly(pos: { x: number; y: number }, unitFaction: string, unitId: string, units: Map<string, import('../../core/types').Unit>): boolean {
+  for (const u of units.values()) {
+    if (u.id === unitId || u.faction !== unitFaction || u.currentHp <= 0) continue;
+    if (Math.abs(u.position.x - pos.x) + Math.abs(u.position.y - pos.y) === 1) {
+      if (hasSkill(u, 'ironwall')) return true;
+    }
+  }
+  return false;
+}
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -62,7 +75,9 @@ export function selectAttackTarget(get: Get, set: Set, targetId: string) {
   const defenderNearRen = defender.id !== 'ren' && isNearRen(defender.position, units);
   const attackerSupport = getTotalSupportBonuses(attacker.id, pendingPosition, units, supportPairs);
   const defenderSupport = getTotalSupportBonuses(defender.id, defender.position, units, supportPairs);
-  const forecast = calculateCombatForecast(atkAtPending, defender, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen, weather, attackerSupport, defenderSupport });
+  const attackerHasIronwallAlly = hasAdjacentIronwallAlly(pendingPosition, attacker.faction, attacker.id, units);
+  const defenderHasIronwallAlly = hasAdjacentIronwallAlly(defender.position, defender.faction, defender.id, units);
+  const forecast = calculateCombatForecast(atkAtPending, defender, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen, weather, attackerSupport, defenderSupport, attackerHasIronwallAlly, defenderHasIronwallAlly });
 
   set({
     attackTargetId: targetId,
@@ -117,7 +132,9 @@ export function confirmAttack(get: Get, set: Set) {
   newTiles[pendingPosition.y][pendingPosition.x].occupantId = selectedUnitId;
 
   // Resolve combat (pass units so skills activate)
-  const result = resolveCombat(combatForecast, rng, movedAttacker, defender);
+  const { cycleAuthorityUsed, vanishUsed } = get();
+  const combinedUsedSkills = new Set([...cycleAuthorityUsed, ...vanishUsed]);
+  const result = resolveCombat(combatForecast, rng, movedAttacker, defender, combinedUsedSkills);
 
   set({
     units: newUnits,
@@ -161,7 +178,8 @@ export function finishCombat(get: Get, set: Set) {
   const { chapterData } = get();
 
   // Apply shared combat resolution (HP, deaths, floats, victory check)
-  const resolution = applyCombatResult(units, gameMap, selectedUnitId, attackTargetId, combatResult, chapterData);
+  const difficulty = useCampaignStore.getState().difficulty;
+  const resolution = applyCombatResult(units, gameMap, selectedUnitId, attackTargetId, combatResult, chapterData, difficulty);
 
   if (resolution.lordDied) {
     set({
@@ -311,6 +329,42 @@ export function finishCombat(get: Get, set: Set) {
           addSupportPoints(get, set, selectedUnitId, ally.id, 'same_enemy');
         }
       }
+    }
+  }
+
+  // Track once-per-chapter skill activations
+  if (combatResult.activatedSkillKeys) {
+    const newCycleAuthority = new Set(get().cycleAuthorityUsed);
+    const newVanish = new Set(get().vanishUsed);
+    for (const key of combatResult.activatedSkillKeys) {
+      if (key.endsWith(':cycle_authority')) newCycleAuthority.add(key);
+      if (key.endsWith(':vanish')) newVanish.add(key);
+    }
+    set({ cycleAuthorityUsed: newCycleAuthority, vanishUsed: newVanish });
+  }
+
+  // Boss phase transition check
+  if (!combatResult.defenderDied && defender.bossPhases && defender.bossPhases.length > 0) {
+    const phase = checkPhaseTransition(defender, combatResult.defenderHpAfter);
+    if (phase) {
+      const phaseIndex = (defender.currentBossPhase ?? 0) + 1;
+      const transitioned = applyPhaseTransition(defender, phase, phaseIndex);
+      const bossUnits = new Map(get().units);
+      bossUnits.set(attackTargetId, transitioned);
+      set({ units: bossUnits });
+      if (phase.dialogue) {
+        set({ bossPhaseTransition: { bossId: attackTargetId, dialogue: phase.dialogue, phaseIndex } });
+      }
+    }
+  }
+
+  // Galeforce (Divine Wings): grant extra turn if attacker killed defender
+  if (combatResult.galeforceTriggered && !combatResult.attackerDied) {
+    const galeUnit = get().units.get(selectedUnitId);
+    if (galeUnit) {
+      const gu = new Map(get().units);
+      gu.set(selectedUnitId, { ...galeUnit, hasActed: false });
+      set({ units: gu });
     }
   }
 

@@ -409,4 +409,34 @@ export const WEAPONS: Record<string, Weapon> = {
     prf: 'ren',
     rank: 'Prf',
   },
+
+  // ===== Late-Game Weapons =====
+
+  cycle_breaker_bow: {
+    id: 'cycle_breaker_bow',
+    name: 'Cycle Breaker',
+    type: 'bow',
+    might: 14,
+    hit: 80,
+    crit: 10,
+    weight: 8,
+    minRange: 2,
+    maxRange: 3,
+    prf: 'nira',
+    effectiveAgainst: ['system_construct'],
+    rank: 'Prf',
+  },
+  echos_interface: {
+    id: 'echos_interface',
+    name: "Echo's Interface",
+    type: 'light',
+    might: 0, // dynamic: target's CRP value
+    hit: 95,
+    crit: 5,
+    weight: 3,
+    minRange: 1,
+    maxRange: 2,
+    prf: 'echo',
+    rank: 'Prf',
+  },
 };

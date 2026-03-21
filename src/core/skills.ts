@@ -9,6 +9,7 @@ import { ALL_CLASSES } from '../data/promotedClasses';
  */
 export function hasSkill(unit: Unit, skillId: string): boolean {
   if (unit.skills.includes(skillId)) return true;
+  if (unit.traumaSkills?.includes(skillId)) return true;
   const cls = ALL_CLASSES[unit.classId];
   return cls?.innateSkills?.includes(skillId) ?? false;
 }
@@ -89,7 +90,45 @@ export function resolvePerHitSkills(
   baseDamage: number,
   rng: RNG,
   isBoss = false,
+  usedSkills?: Set<string>,
 ): SkillHitResult {
+  // Vanish (Deadeye): once per chapter — guaranteed hit, 3× damage
+  if (hasSkill(attacker, 'vanish') && !usedSkills?.has(attacker.id + ':vanish')) {
+    return {
+      skillId: 'vanish',
+      modifiedDamage: baseDamage * 3,
+      bonusHits: 0,
+      healAmount: 0,
+      instantKill: false,
+    };
+  }
+
+  // Bloodlust (Aether): Sol+Luna combined at SKL%
+  if (hasSkill(attacker, 'bloodlust') && rng.roll(attacker.stats.skl)) {
+    const isMagic = ['fire', 'thunder', 'wind', 'dark', 'light'].includes(attacker.equippedWeapon.type);
+    const defStat = isMagic ? defender.stats.res : defender.stats.def;
+    const lunaBonus = Math.floor(defStat / 2);
+    const modDmg = baseDamage + lunaBonus;
+    return {
+      skillId: 'bloodlust',
+      modifiedDamage: modDmg,
+      bonusHits: 0,
+      healAmount: modDmg, // Sol: heal = damage dealt
+      instantKill: false,
+    };
+  }
+
+  // Terror Aura (Lethality+): instant kill at SKL/2% — works on non-boss too
+  if (hasSkill(attacker, 'terror_aura') && rng.roll(Math.floor(attacker.stats.skl / 2))) {
+    return {
+      skillId: 'terror_aura',
+      modifiedDamage: baseDamage,
+      bonusHits: 0,
+      healAmount: 0,
+      instantKill: true,
+    };
+  }
+
   // Astra: 5 hits at 50% damage
   if (hasSkill(attacker, 'astra') && rng.roll(Math.floor(attacker.stats.skl / 2))) {
     return {
@@ -170,6 +209,7 @@ export function resolveDefenseSkills(
   damage: number,
   isMagic: boolean,
   rng: RNG,
+  usedSkills?: Set<string>,
 ): DefenseResult {
   // Aegis: halve magic damage
   if (isMagic && hasSkill(defender, 'aegis') && rng.roll(defender.stats.skl)) {
@@ -186,6 +226,15 @@ export function resolveDefenseSkills(
       reducedDamage: Math.max(1, Math.floor(damage / 2)),
       miracleSaved: false,
       skillId: 'pavise',
+    };
+  }
+
+  // Cycle Authority: negate one lethal hit per chapter (passive, no RNG — once per chapter)
+  if (damage >= defender.currentHp && hasSkill(defender, 'cycle_authority') && !usedSkills?.has(defender.id + ':cycle_authority')) {
+    return {
+      reducedDamage: defender.currentHp - 1,
+      miracleSaved: true,
+      skillId: 'cycle_authority',
     };
   }
 

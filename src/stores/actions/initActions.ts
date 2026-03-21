@@ -4,13 +4,15 @@ import type { GameState, GameActions } from '../gameStoreTypes';
 import { EMPTY_SET } from '../helpers/constants';
 import { buildMap, placeUnits } from '../helpers/mapHelpers';
 import { initFog } from './fogActions';
+import { useCampaignStore } from '../campaignStore';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
 
 export function initChapter(get: Get, set: Set, chapter: ChapterData, seed: number = 12345, unitProgress?: Record<string, UnitProgress>, deployedUnitIds?: string[], supportPairs?: SupportPair[]) {
+  const difficulty = useCampaignStore.getState().difficulty;
   const map = buildMap(chapter);
-  const units = placeUnits(chapter, map, unitProgress, deployedUnitIds);
+  const units = placeUnits(chapter, map, unitProgress, deployedUnitIds, difficulty);
 
   // Reset STA to 0 for all player units at chapter start + apply CRP passive decay
   for (const [id, unit] of units) {

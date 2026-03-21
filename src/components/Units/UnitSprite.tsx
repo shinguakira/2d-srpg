@@ -1,6 +1,34 @@
 import { memo } from 'react';
-import type { Unit } from '../../core/types';
+import type { Unit, WeaponType } from '../../core/types';
 import { FACTION_COLORS, renderClassSprite } from '../sprites/classSprites';
+import '../../styles/ui/boss.css';
+
+const BOSS_PHASE_COLORS = [
+  'drop-shadow(0 0 3px rgba(251,191,36,0.6))',                    // Phase 0: gold
+  'drop-shadow(0 0 4px rgba(239,68,68,0.7)) hue-rotate(10deg)',   // Phase 1: red
+  'drop-shadow(0 0 5px rgba(168,85,247,0.8)) hue-rotate(40deg)',  // Phase 2+: purple
+];
+
+function getBossPhaseFilter(unit: Unit): string {
+  if (!unit.bossPhases || unit.bossPhases.length === 0) {
+    return 'drop-shadow(0 0 3px rgba(251,191,36,0.6))';
+  }
+  // Find current phase index based on HP thresholds
+  let phaseIdx = 0;
+  for (let i = unit.bossPhases.length - 1; i >= 0; i--) {
+    if (unit.currentHp <= unit.bossPhases[i].hpThreshold) {
+      phaseIdx = i + 1;
+      break;
+    }
+  }
+  return BOSS_PHASE_COLORS[Math.min(phaseIdx, BOSS_PHASE_COLORS.length - 1)];
+}
+
+const WEAPON_ICONS: Record<string, string> = {
+  sword: '\u2694', lance: '\u{1F531}', axe: '\u{1FA93}',
+  fire: '\u{1F525}', thunder: '\u26A1', wind: '\u{1F32C}',
+  bow: '\u{1F3F9}', staff: '\u{1FA84}', light: '\u2728', dark: '\u{1F311}', knife: '\u{1F5E1}',
+};
 
 type UnitSpriteProps = {
   unit: Unit;
@@ -56,7 +84,7 @@ export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected,
         viewBox="0 0 32 36"
         style={{
           imageRendering: 'auto',
-          filter: unit.aiBehavior?.type === 'boss' ? 'drop-shadow(0 0 3px rgba(251,191,36,0.6))' : undefined,
+          filter: unit.aiBehavior?.type === 'boss' ? getBossPhaseFilter(unit) : undefined,
           transform: unit.facing === 'left' ? 'scaleX(-1)' : undefined,
         }}
       >
@@ -67,6 +95,25 @@ export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected,
           </g>
         )}
       </svg>
+
+      {/* Weapon cycle indicator above boss */}
+      {unit.weaponCycleOrder && unit.weaponCycleOrder.length > 0 && (
+        <div className="weapon-cycle-indicator" data-testid={`weapon-cycle-${unit.id}`}>
+          {WEAPON_ICONS[unit.weaponCycleOrder[unit.weaponCycleIndex ?? 0]] ?? unit.weaponCycleOrder[unit.weaponCycleIndex ?? 0]}
+        </div>
+      )}
+
+      {/* Corruption layer dots */}
+      {unit.corruptionLayers != null && unit.corruptionLayers > 0 && (
+        <div className="corruption-layers" data-testid={`corruption-${unit.id}`}>
+          {Array.from({ length: 3 }, (_, i) => (
+            <div
+              key={i}
+              className={`corruption-layers__dot ${i >= unit.corruptionLayers! ? 'corruption-layers__dot--stripped' : ''}`}
+            />
+          ))}
+        </div>
+      )}
 
       {/* HP bar */}
       <div

@@ -98,4 +98,15 @@ export const ITEMS: Record<string, ConsumableItem> = {
     maxUses: 1,
     effect: { kind: 'torch' },
   },
+
+  // ===== Key Items =====
+
+  final_save_crystal: {
+    id: 'final_save_crystal',
+    name: 'Final Save Crystal',
+    type: 'consumable',
+    uses: 1,
+    maxUses: 1,
+    effect: { kind: 'key_item' },
+  },
 };

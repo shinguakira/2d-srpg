@@ -25,27 +25,41 @@ export function renderClassSprite(classId: string, c: Palette, facing: 'front' |
       return <SoldierSprite c={c} />;
     case 'cleric':
       return <ClericSprite c={c} />;
-    // Promoted classes → reuse base class sprites temporarily
-    case 'great_lord': case 'conqueror': case 'overlord':
+    // Promoted classes → reuse base class sprites
+    case 'great_lord': case 'conqueror':
       return <LordSprite c={c} />;
     case 'paladin': case 'great_knight': case 'mage_knight': case 'nomad_trooper':
     case 'valkyrie_cleric': case 'valkyrie_troubadour': case 'maid': case 'great_knight_armor':
-    case 'marshal':
       return <CavalierSprite c={c} />;
-    case 'sage': case 'dark_flier': case 'druid': case 'summoner': case 'archsage':
-    case 'oracle':
+    case 'sage': case 'dark_flier': case 'druid': case 'summoner':
       return <MageSprite c={c} />;
-    case 'warrior': case 'berserker': case 'hero': case 'war_monk': case 'reaver':
+    case 'warrior': case 'berserker': case 'hero': case 'war_monk':
       return <FighterSprite c={c} />;
     case 'general_soldier': case 'halberdier': case 'general_knight':
       return <SoldierSprite c={c} />;
     case 'bishop': case 'saint':
       return <ClericSprite c={c} />;
-    case 'sniper': case 'assassin': case 'rogue': case 'swordmaster': case 'phantom':
+    case 'sniper': case 'assassin': case 'rogue': case 'swordmaster':
       return <GenericSprite c={c} />;
-    case 'falcon_knight': case 'wyvern_lord': case 'malig_knight': case 'seraph':
+    case 'falcon_knight': case 'wyvern_lord': case 'malig_knight':
+      return <GenericSprite c={c} />;
+    // Master classes — enhanced sprites with glow accents
+    case 'overlord':
+      return <MasterSprite c={c} base="lord" glow="#fbbf24" />;
+    case 'archsage':
+      return <MasterSprite c={c} base="mage" glow="#a78bfa" />;
+    case 'reaver':
+      return <MasterSprite c={c} base="fighter" glow="#ef4444" />;
+    case 'seraph':
+      return <MasterSprite c={c} base="generic" glow="#f0f9ff" />;
+    case 'marshal':
+      return <MasterSprite c={c} base="cavalier" glow="#60a5fa" />;
+    case 'phantom':
+      return <MasterSprite c={c} base="generic" glow="#6366f1" />;
+    case 'oracle':
+      return <MasterSprite c={c} base="cleric" glow="#34d399" />;
     case 'dragon_lord':
-      return <GenericSprite c={c} />;
+      return <MasterSprite c={c} base="generic" glow="#dc2626" />;
     default:
       return <GenericSprite c={c} />;
   }
@@ -187,6 +201,34 @@ function GenericSprite({ c }: { c: Palette }) {
       <rect x="17" y="8" width="2" height="2" rx="0.3" fill="#333" />
       <rect x="11" y="28" width="4" height="6" rx="1" fill={c.dark} />
       <rect x="17" y="28" width="4" height="6" rx="1" fill={c.dark} />
+    </g>
+  );
+}
+
+/** Master class sprite: base sprite wrapped with a glow aura ring. */
+function MasterSprite({ c, base, glow }: { c: Palette; base: string; glow: string }) {
+  const baseSprite = (() => {
+    switch (base) {
+      case 'lord': return <LordSprite c={c} />;
+      case 'cavalier': return <CavalierSprite c={c} />;
+      case 'mage': return <MageSprite c={c} />;
+      case 'fighter': return <FighterSprite c={c} />;
+      case 'soldier': return <SoldierSprite c={c} />;
+      case 'cleric': return <ClericSprite c={c} />;
+      default: return <GenericSprite c={c} />;
+    }
+  })();
+
+  return (
+    <g>
+      {/* Glow aura behind the sprite */}
+      <circle cx="16" cy="18" r="14" fill="none" stroke={glow} strokeWidth="1.5" opacity="0.4">
+        <animate attributeName="opacity" values="0.2;0.5;0.2" dur="2s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="16" cy="18" r="12" fill={glow} opacity="0.08" />
+      {baseSprite}
+      {/* Crown/star accent for master tier */}
+      <polygon points="16,0 17.2,3 20,3 17.8,5 18.6,8 16,6.5 13.4,8 14.2,5 12,3 14.8,3" fill={glow} opacity="0.7" />
     </g>
   );
 }

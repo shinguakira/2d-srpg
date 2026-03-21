@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useCampaignStore } from '../stores/campaignStore';
 import type { GameMode } from '../stores/campaignStore';
+import type { DifficultyMode } from '../core/types';
+import { isHardLocked } from '../core/difficulty';
 import { CAMPAIGN } from '../data/campaignConfig';
 
 type SubMenu = 'none' | 'load' | 'chapter_select' | 'mode_select';
@@ -8,8 +10,11 @@ type SubMenu = 'none' | 'load' | 'chapter_select' | 'mode_select';
 export function TitleScreen() {
   const [subMenu, setSubMenu] = useState<SubMenu>('none');
   const [selectedMode, setSelectedMode] = useState<GameMode>('classic');
+  const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyMode>('classic');
   const startNewGame = useCampaignStore((s) => s.startNewGame);
   const setGameMode = useCampaignStore((s) => s.setGameMode);
+  const setDifficulty = useCampaignStore((s) => s.setDifficulty);
+  const endingsSeen = useCampaignStore((s) => s.endingsSeen);
   const loadFromSlot = useCampaignStore((s) => s.loadFromSlot);
   const anySave = useCampaignStore((s) => s.hasAnySave);
   const getSlotSummary = useCampaignStore((s) => s.getSlotSummary);
@@ -27,10 +32,10 @@ export function TitleScreen() {
           <button
             className="title-screen__btn"
             data-testid="mode-classic"
-            onClick={() => setSelectedMode('classic')}
+            onClick={() => { setSelectedMode('classic'); setSelectedDifficulty('classic'); }}
             style={{
-              border: selectedMode === 'classic' ? '2px solid #fbbf24' : '1px solid rgba(255,255,255,0.12)',
-              boxShadow: selectedMode === 'classic' ? '0 0 12px rgba(251,191,36,0.2)' : 'none',
+              border: selectedDifficulty === 'classic' ? '2px solid #fbbf24' : '1px solid rgba(255,255,255,0.12)',
+              boxShadow: selectedDifficulty === 'classic' ? '0 0 12px rgba(251,191,36,0.2)' : 'none',
               background: 'rgba(255,255,255,0.06)',
               textAlign: 'left',
               padding: '12px 16px',
@@ -44,10 +49,10 @@ export function TitleScreen() {
           <button
             className="title-screen__btn"
             data-testid="mode-casual"
-            onClick={() => setSelectedMode('casual')}
+            onClick={() => { setSelectedMode('casual'); setSelectedDifficulty('casual'); }}
             style={{
-              border: selectedMode === 'casual' ? '2px solid #fbbf24' : '1px solid rgba(255,255,255,0.12)',
-              boxShadow: selectedMode === 'casual' ? '0 0 12px rgba(251,191,36,0.2)' : 'none',
+              border: selectedDifficulty === 'casual' ? '2px solid #fbbf24' : '1px solid rgba(255,255,255,0.12)',
+              boxShadow: selectedDifficulty === 'casual' ? '0 0 12px rgba(251,191,36,0.2)' : 'none',
               background: 'rgba(255,255,255,0.06)',
               textAlign: 'left',
               padding: '12px 16px',
@@ -60,10 +65,34 @@ export function TitleScreen() {
           </button>
           <button
             className="title-screen__btn"
+            data-testid="mode-hard"
+            disabled={isHardLocked(endingsSeen)}
+            onClick={() => {
+              if (isHardLocked(endingsSeen)) return;
+              setSelectedDifficulty('hard');
+              setSelectedMode('classic');
+            }}
+            style={{
+              border: selectedDifficulty === 'hard' ? '2px solid #ef4444' : '1px solid rgba(255,255,255,0.12)',
+              boxShadow: selectedDifficulty === 'hard' ? '0 0 12px rgba(239,68,68,0.2)' : 'none',
+              background: 'rgba(255,255,255,0.06)',
+              textAlign: 'left',
+              padding: '12px 16px',
+              opacity: isHardLocked(endingsSeen) ? 0.4 : 1,
+            }}
+          >
+            <div style={{ fontWeight: 'bold', marginBottom: '4px', color: '#ef4444' }}>HARD</div>
+            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>
+              {isHardLocked(endingsSeen) ? 'Complete the game to unlock.' : 'Stronger enemies, faster reinforcements.'}
+            </div>
+          </button>
+          <button
+            className="title-screen__btn"
             data-testid="mode-confirm"
             onClick={() => {
               setGameMode(selectedMode);
-              startNewGame();
+              setDifficulty(selectedDifficulty);
+              startNewGame(selectedDifficulty);
               setSubMenu('none');
             }}
             style={{

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { AppScreen, ChapterData, DialogueScene, UnitProgress, SupportPair } from '../core/types';
+import type { AppScreen, ChapterData, DialogueScene, UnitProgress, SupportPair, DifficultyMode, EndingType } from '../core/types';
 import { writeSave, readSave, deleteSave, hasAnySave, getSlotSummary } from '../core/saveManager';
 import { CHAPTERS, CHAPTER_ORDER } from '../data/chapters';
 import { WEAPONS } from '../data/weapons';
@@ -27,6 +27,11 @@ type CampaignState = {
   bonusExp: number; // unallocated bonus EXP pool
   forgeMaterials: string[]; // forge material item IDs
   gold: number; // currency for forging and other costs
+  difficulty: DifficultyMode;
+  campaignFlags: Record<string, string | number | boolean>;
+  newGamePlusUnlocked: boolean;
+  endingsSeen: EndingType[];
+  currentEnding: EndingType | null;
 
   // Dialogue playback
   dialogueScene: DialogueScene | null;
@@ -37,7 +42,8 @@ type CampaignState = {
   goToTitle: () => void;
   goToDebug: () => void;
   setGameMode: (mode: GameMode) => void;
-  startNewGame: () => void;
+  setDifficulty: (difficulty: DifficultyMode) => void;
+  startNewGame: (difficulty?: DifficultyMode) => void;
   startChapter: (id: string) => void;
   startChapterDirect: (id: string) => void;
   startBattle: () => void;
@@ -53,6 +59,10 @@ type CampaignState = {
   forgeWeapon: (unitId: string, weaponIndex: number) => void;
   hasAnySave: () => boolean;
   getSlotSummary: (slot: number) => { timestamp: number; chapterId: string } | null;
+
+  // Endings / Credits / NG+
+  goToCredits: () => void;
+  startNewGamePlus: () => void;
 };
 
 export const useCampaignStore = create<CampaignState>((set, get) => ({
@@ -74,6 +84,11 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
   bonusExp: 0,
   forgeMaterials: [],
   gold: 1000,
+  difficulty: 'classic' as DifficultyMode,
+  campaignFlags: {},
+  newGamePlusUnlocked: false,
+  endingsSeen: [],
+  currentEnding: null,
 
   goToTitle: () => set({
     currentScreen: 'title',
@@ -86,10 +101,18 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
 
   setGameMode: (mode: GameMode) => set({ gameMode: mode }),
 
-  startNewGame: () => {
+  setDifficulty: (difficulty: DifficultyMode) => set({ difficulty }),
+
+  startNewGame: (difficulty?: DifficultyMode) => {
     const ch1 = CHAPTERS['ch1'];
     const initialRoster = ch1 ? ch1.playerUnits.map((p) => p.unitId) : [];
-    set({ completedChapters: [], unitProgress: {}, deadUnitIds: [], roster: initialRoster, deployedUnitIds: [], storage: [], viewedSupports: [], supportPairs: [], bonusExp: 0, forgeMaterials: [], gold: 1000 });
+    set({
+      completedChapters: [], unitProgress: {}, deadUnitIds: [], roster: initialRoster,
+      deployedUnitIds: [], storage: [], viewedSupports: [], supportPairs: [],
+      bonusExp: 0, forgeMaterials: [], gold: 1000,
+      difficulty: difficulty ?? get().difficulty,
+      campaignFlags: {}, currentEnding: null,
+    });
     get().startChapter('ch1');
   },
 
@@ -203,6 +226,35 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
     // Gold reward for chapter completion
     const newGold = get().gold + 500;
 
+    // Grief decay: decrement grief counter, remove grief trauma skill when expired
+    const griefChaptersKey = 'grief_chapters_remaining';
+    const griefRemaining = (get().campaignFlags[griefChaptersKey] as number | undefined) ?? 0;
+    if (griefRemaining > 0) {
+      const newRemaining = griefRemaining - 1;
+      const newFlags = { ...get().campaignFlags, [griefChaptersKey]: newRemaining };
+      if (newRemaining <= 0) {
+        // Remove grief trauma skill from all units
+        for (const uid of Object.keys(progress)) {
+          const p = progress[uid];
+          const trauma = p.traumaSkills;
+          if (trauma && trauma.includes('grief')) {
+            progress[uid] = { ...p, traumaSkills: trauma.filter((s: string) => s !== 'grief') };
+          }
+        }
+      }
+      set({ campaignFlags: newFlags });
+    }
+
+    // Casual mode: restore retreated units at 1 HP for next chapter
+    if (get().difficulty === 'casual') {
+      for (const uid of Object.keys(progress)) {
+        const p = progress[uid];
+        if (p.retreated) {
+          progress[uid] = { ...p, retreated: false, currentHp: 1 };
+        }
+      }
+    }
+
     const newState: Partial<CampaignState> = { completedChapters: newCompleted, unitProgress: progress, roster: newRoster, bonusExp: newBonusExp, gold: newGold };
     if (updatedSupportPairs) {
       newState.supportPairs = updatedSupportPairs;
@@ -227,7 +279,7 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
     const { currentChapterId, completedChapters, unitProgress, roster, deadUnitIds } = get();
     const nextChapterId = getNextChapterId(currentChapterId, completedChapters);
     writeSave(slot, {
-      version: 5,
+      version: 6,
       timestamp: Date.now(),
       currentChapterId: nextChapterId,
       completedChapters,
@@ -238,6 +290,10 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
       bonusExp: get().bonusExp,
       forgeMaterials: get().forgeMaterials,
       gold: get().gold,
+      difficulty: get().difficulty,
+      campaignFlags: get().campaignFlags,
+      newGamePlusUnlocked: get().newGamePlusUnlocked,
+      endingsSeen: get().endingsSeen,
     });
   },
 
@@ -253,6 +309,10 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
       bonusExp: data.bonusExp ?? 0,
       forgeMaterials: data.forgeMaterials ?? [],
       gold: data.gold ?? 1000,
+      difficulty: data.difficulty ?? 'classic',
+      campaignFlags: data.campaignFlags ?? {},
+      newGamePlusUnlocked: data.newGamePlusUnlocked ?? false,
+      endingsSeen: data.endingsSeen ?? [],
     });
     get().startChapter(data.currentChapterId);
     return true;
@@ -337,6 +397,26 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
   deleteSlot: (slot: number) => deleteSave(slot),
   hasAnySave: () => hasAnySave(),
   getSlotSummary: (slot: number) => getSlotSummary(slot),
+
+  goToCredits: () => {
+    const { currentEnding, endingsSeen } = get();
+    const newSeen = currentEnding && !endingsSeen.includes(currentEnding)
+      ? [...endingsSeen, currentEnding]
+      : endingsSeen;
+    set({ currentScreen: 'credits', endingsSeen: newSeen, newGamePlusUnlocked: true });
+  },
+
+  startNewGamePlus: () => {
+    // Increment LOOP for Ren by 1 in unit progress
+    const { unitProgress } = get();
+    const renProgress = unitProgress['ren'];
+    const newProgress = renProgress
+      ? { ...unitProgress, ren: { ...renProgress, metaStats: { ...(renProgress.metaStats ?? { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 }), loop: (renProgress.metaStats?.loop ?? 347) + 1 } } }
+      : unitProgress;
+
+    set({ newGamePlusUnlocked: true, unitProgress: newProgress });
+    get().startNewGame(get().difficulty);
+  },
 }));
 
 function getNextChapterId(currentId: string | null, _completed: string[]): string {

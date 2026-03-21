@@ -147,4 +147,83 @@ export const SKILLS: Record<string, Skill> = {
     activation: { type: 'passive' },
     isInnate: true,
   },
+
+  // --- Master Class Innate Skills (8) ---
+
+  cycle_authority: {
+    id: 'cycle_authority', name: 'Cycle Authority', category: 'combat',
+    description: 'Negate one lethal hit per chapter.',
+    activation: { type: 'passive' },
+    isInnate: true,
+  },
+  tri_magic: {
+    id: 'tri_magic', name: 'Tri-Magic', category: 'combat',
+    description: 'All tomes deal ×1.5 damage.',
+    activation: { type: 'passive' },
+    isInnate: true,
+  },
+  bloodlust: {
+    id: 'bloodlust', name: 'Bloodlust', category: 'combat',
+    description: 'SKL% chance: heal damage dealt + halve enemy DEF/RES (Sol+Luna).',
+    activation: { type: 'skl_pct' },
+    isInnate: true,
+  },
+  divine_wings: {
+    id: 'divine_wings', name: 'Divine Wings', category: 'combat',
+    description: 'After killing an enemy, gain an extra turn.',
+    activation: { type: 'passive' },
+    isInnate: true,
+  },
+  ironwall: {
+    id: 'ironwall', name: 'Ironwall', category: 'combat',
+    description: 'Adjacent allies take -50% damage.',
+    activation: { type: 'passive' },
+    isInnate: true,
+  },
+  vanish: {
+    id: 'vanish', name: 'Vanish', category: 'combat',
+    description: 'Once per chapter: guaranteed hit, 3× damage.',
+    activation: { type: 'passive' },
+    isInnate: true,
+  },
+  balance: {
+    id: 'balance', name: 'Balance', category: 'support',
+    description: 'Heal all allies within 5 tiles for MAG amount.',
+    activation: { type: 'passive' },
+    isInnate: true,
+  },
+  terror_aura: {
+    id: 'terror_aura', name: 'Terror Aura', category: 'combat',
+    description: 'SKL/2% chance to instantly defeat the target.',
+    activation: { type: 'skl_half_pct' },
+    isInnate: true,
+  },
+
+  // --- Trauma Skills (5) ---
+
+  survivors_guilt: {
+    id: 'survivors_guilt', name: "Survivor's Guilt", category: 'passive',
+    description: '-2 STR, +2 DEF.',
+    activation: { type: 'passive' },
+  },
+  vengeance_trauma: {
+    id: 'vengeance_trauma', name: 'Vengeance', category: 'combat',
+    description: 'When HP ≤ 25%, +30% damage dealt.',
+    activation: { type: 'hp_threshold', threshold: 25 },
+  },
+  numb: {
+    id: 'numb', name: 'Numb', category: 'passive',
+    description: 'Immune to stat debuffs, -10 avoid.',
+    activation: { type: 'passive' },
+  },
+  last_stand: {
+    id: 'last_stand', name: 'Last Stand', category: 'passive',
+    description: '+5 all stats when only unit remaining.',
+    activation: { type: 'passive' },
+  },
+  grief: {
+    id: 'grief', name: 'Grief', category: 'passive',
+    description: '-3 all stats for 2 chapters.',
+    activation: { type: 'passive' },
+  },
 };

@@ -4,6 +4,8 @@ import { TitleScreen } from './components/TitleScreen';
 import { DialogueBox } from './components/DialogueBox';
 import { PreparationScreen } from './components/PreparationScreen';
 import { DebugScreen } from './components/Debug/DebugScreen';
+import { EndingScreen } from './components/UI/EndingScreen';
+import { CreditsScreen } from './components/UI/CreditsScreen';
 import { useCampaignStore } from './stores/campaignStore';
 import './styles/grid.css';
 import './styles/units.css';
@@ -34,6 +36,10 @@ function App() {
       return <Game />;
     case 'debug':
       return <DebugScreen />;
+    case 'ending':
+      return <EndingScreen />;
+    case 'credits':
+      return <CreditsScreen />;
   }
 }
 

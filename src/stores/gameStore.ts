@@ -13,7 +13,7 @@ import { toggleDangerZone, dismissDeathQuote, dismissReinforcementMessage, selec
 import { seize, escape } from './actions/seizeActions';
 import { useItem } from './actions/itemActions';
 import { visitVillage, dismissVillageReward } from './actions/villageActions';
-import { startHealTargeting, confirmHeal, finishHealAnimation } from './actions/healActions';
+import { startHealTargeting, confirmHeal, finishHealAnimation, useBalance } from './actions/healActions';
 import { endPlayerTurn, dismissPhaseBanner } from './actions/turnActions';
 import { startAttackTargeting, selectAttackTarget, confirmAttack, advanceCombatAnimation, finishCombat } from './actions/combatActions';
 import { computeEnemyActions, executeNextEnemyAction, finishEnemyCombat, endEnemyTurn } from './actions/enemyActions';
@@ -32,6 +32,7 @@ import { rest } from './actions/metaStatActions';
 import { useTorch } from './actions/fogActions';
 import { attackTerrain } from './actions/terrainActions';
 import { dismissSupportRankUp } from './actions/supportActions';
+import { negotiate } from './actions/negotiateActions';
 
 export const useGameStore = create<GameState & GameActions>((set, get) => ({
   gameMap: EMPTY_MAP,
@@ -120,6 +121,17 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   // Support
   supportPairs: [],
   supportRankUp: null,
+
+  // Boss phases
+  bossPhaseTransition: null,
+  cycleAuthorityUsed: new Set(),
+  vanishUsed: new Set(),
+
+  // Map boss
+  mapBossState: null,
+
+  // Split party
+  splitParty: null,
 
   // Init
   initChapter: (chapter, seed = 12345, unitProgress?, deployedUnitIds?, supportPairs?) => initChapter(get, set, chapter, seed, unitProgress, deployedUnitIds, supportPairs),
@@ -228,6 +240,15 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   useTorch: () => useTorch(get, set),
   attackTerrain: () => attackTerrain(get, set),
   dismissSupportRankUp: () => dismissSupportRankUp(get, set),
+
+  // Boss phases
+  dismissBossPhaseTransition: () => set({ bossPhaseTransition: null }),
+
+  // Negotiate
+  negotiate: () => negotiate(get, set),
+
+  // Balance (Fortify)
+  useBalance: () => useBalance(get, set),
 
   // Canto
   confirmCantoMove: (pos) => confirmCantoMove(get, set, pos),

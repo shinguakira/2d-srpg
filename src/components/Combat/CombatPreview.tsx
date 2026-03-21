@@ -4,6 +4,7 @@ import { getWeaponTriangle } from '../../core/combat';
 const WEAPON_NAMES: Record<string, string> = {
   sword: 'Sword', axe: 'Axe', lance: 'Lance',
   fire: 'Fire', thunder: 'Thunder', wind: 'Wind', staff: 'Staff',
+  light: 'Light', dark: 'Dark', bow: 'Bow', knife: 'Knife',
 };
 
 function getTriangleText(atkType: string, defType: string): { text: string; color: string } | null {
@@ -20,12 +21,25 @@ function getTriangleText(atkType: string, defType: string): { text: string; colo
 export function CombatPreview() {
   const forecast = useGameStore((s) => s.combatForecast);
   const playerAction = useGameStore((s) => s.playerAction);
+  const units = useGameStore((s) => s.units);
 
   // Show forecast when hovering enemies during attack_target or action_menu
   if ((playerAction !== 'attack_target' && playerAction !== 'action_menu') || !forecast) return null;
 
   // Always show player on left, enemy on right
   const attackerIsPlayer = forecast.attacker.faction === 'player';
+
+  // Weapon cycle hint for cycling bosses
+  const enemyId = attackerIsPlayer ? forecast.defender.unitId : forecast.attacker.unitId;
+  const enemyFullUnit = units.get(enemyId);
+  let cycleHint: string | null = null;
+  if (enemyFullUnit?.weaponCycleOrder && enemyFullUnit.weaponCycleOrder.length > 0) {
+    const idx = enemyFullUnit.weaponCycleIndex ?? 0;
+    const current = WEAPON_NAMES[enemyFullUnit.weaponCycleOrder[idx]] ?? enemyFullUnit.weaponCycleOrder[idx];
+    const nextIdx = (idx + 1) % enemyFullUnit.weaponCycleOrder.length;
+    const next = WEAPON_NAMES[enemyFullUnit.weaponCycleOrder[nextIdx]] ?? enemyFullUnit.weaponCycleOrder[nextIdx];
+    cycleHint = `Cycle: ${current} \u2192 Next: ${next}`;
+  }
 
   const playerUnit = attackerIsPlayer ? forecast.attacker : forecast.defender;
   const enemyUnit = attackerIsPlayer ? forecast.defender : forecast.attacker;
@@ -128,6 +142,13 @@ export function CombatPreview() {
       {triangle && (
         <div className="combat-forecast__triangle" style={{ color: triangle.color }}>
           {triangle.text}
+        </div>
+      )}
+
+      {/* Weapon cycle hint for cycling bosses */}
+      {cycleHint && (
+        <div className="combat-forecast__cycle-hint" data-testid="forecast-cycle-hint" style={{ color: '#f59e0b', fontSize: '0.75rem', textAlign: 'center', marginTop: 4 }}>
+          {cycleHint}
         </div>
       )}
 

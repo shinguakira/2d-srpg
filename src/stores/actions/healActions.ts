@@ -11,6 +11,7 @@ import { deriveFacing } from '../helpers/facingHelpers';
 import { addSupportPoints } from './supportActions';
 import { applyHealSta } from './metaStatActions';
 import { clampMetaStats } from '../../core/metaStats';
+import { hasSkill } from '../../core/skills';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -157,6 +158,58 @@ export function finishHealAnimation(get: Get, set: Set) {
 
   // Auto end turn if all player units have acted (and no level-up pending)
   if (!levelUpGains && allPlayersDone(get().units)) {
+    get().endPlayerTurn();
+  }
+}
+
+/**
+ * Balance (Fortify): heal all allies within 5 tiles by MAG amount.
+ * Oracle innate skill. Once-per-turn action (consumes unit's action).
+ */
+export function useBalance(get: Get, set: Set): void {
+  const { selectedUnitId, pendingPosition, units, gameMap } = get();
+  if (!selectedUnitId || !pendingPosition) return;
+
+  const healer = units.get(selectedUnitId);
+  if (!healer || !hasSkill(healer, 'balance')) return;
+
+  const healAmount = healer.stats.mag;
+  if (healAmount <= 0) return;
+
+  // Move healer to pending position first
+  const newUnits = new Map(units);
+  const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
+  newTiles[healer.position.y][healer.position.x].occupantId = null;
+  newTiles[pendingPosition.y][pendingPosition.x].occupantId = selectedUnitId;
+
+  const movedHealer = { ...healer, position: { ...pendingPosition }, hasActed: true };
+  newUnits.set(selectedUnitId, movedHealer);
+
+  // Heal all allies within 5 tiles
+  const floatingNumbers: GameState['floatingNumbers'] = [];
+  let floatId = Date.now();
+  for (const [uid, ally] of newUnits) {
+    if (uid === selectedUnitId) continue;
+    if (ally.faction !== healer.faction || ally.currentHp <= 0) continue;
+    if (getManhattanDistance(pendingPosition, ally.position) > 5) continue;
+    if (ally.currentHp >= ally.stats.hp) continue;
+
+    const newHp = Math.min(ally.stats.hp, ally.currentHp + healAmount);
+    const healed = newHp - ally.currentHp;
+    if (healed > 0) {
+      newUnits.set(uid, { ...ally, currentHp: newHp });
+      floatingNumbers.push({ id: floatId++, x: ally.position.x, y: ally.position.y, text: `+${healed}`, color: '#22c55e' });
+    }
+  }
+
+  set({
+    ...IDLE_RESET,
+    units: newUnits,
+    gameMap: { ...gameMap, tiles: newTiles },
+    floatingNumbers,
+  });
+
+  if (allPlayersDone(get().units)) {
     get().endPlayerTurn();
   }
 }

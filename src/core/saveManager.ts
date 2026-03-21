@@ -1,7 +1,7 @@
 import type { SaveData } from './types';
 
 const SAVE_KEY_PREFIX = 'srpg_save_slot_';
-const CURRENT_VERSION = 5;
+const CURRENT_VERSION = 6;
 
 export function writeSave(slot: number, data: SaveData): void {
   localStorage.setItem(SAVE_KEY_PREFIX + slot, JSON.stringify(data));
@@ -92,6 +92,19 @@ function migrateSave(data: Record<string, unknown>): SaveData | null {
       forgeMaterials: (data as Record<string, unknown>).forgeMaterials ?? [],
     };
     version = 5;
+  }
+
+  // v5 → v6: add difficulty, campaignFlags, newGamePlusUnlocked, endingsSeen
+  if (version === 5) {
+    data = {
+      ...data,
+      version: 6,
+      difficulty: (data as Record<string, unknown>).difficulty ?? 'classic',
+      campaignFlags: (data as Record<string, unknown>).campaignFlags ?? {},
+      newGamePlusUnlocked: (data as Record<string, unknown>).newGamePlusUnlocked ?? false,
+      endingsSeen: (data as Record<string, unknown>).endingsSeen ?? [],
+    };
+    version = 6;
   }
 
   if (version === CURRENT_VERSION) return data as SaveData;

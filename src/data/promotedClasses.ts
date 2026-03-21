@@ -267,6 +267,7 @@ const MASTER_CLASSES: Record<string, UnitClass> = {
     baseStats: { hp: 26, str: 10, mag: 1, def: 8, res: 3, spd: 9, skl: 7, lck: 8, mov: 7, cha: 1, wil: 1 },
     growthRates: { hp: 85, str: 50, mag: 10, def: 35, res: 25, spd: 50, skl: 50, lck: 60, cha: 5, wil: 5 },
     weaponTypes: ['sword', 'lance', 'axe'],
+    statCaps: { str: 40 },
     innateSkills: ['cycle_authority'],
   },
   archsage: {
@@ -275,6 +276,7 @@ const MASTER_CLASSES: Record<string, UnitClass> = {
     baseStats: { hp: 21, str: 1, mag: 12, def: 4, res: 10, spd: 7, skl: 5, lck: 6, mov: 6, cha: 0, wil: 1 },
     growthRates: { hp: 55, str: 10, mag: 65, def: 15, res: 55, spd: 45, skl: 40, lck: 45, cha: 0, wil: 5 },
     weaponTypes: ['fire', 'thunder', 'wind', 'dark', 'light', 'staff'],
+    statCaps: { mag: 40 },
     innateSkills: ['tri_magic'],
   },
   marshal: {
@@ -302,6 +304,7 @@ const MASTER_CLASSES: Record<string, UnitClass> = {
     baseStats: { hp: 22, str: 8, mag: 4, def: 5, res: 9, spd: 11, skl: 7, lck: 7, mov: 9, cha: 0, wil: 0 },
     growthRates: { hp: 60, str: 45, mag: 20, def: 25, res: 50, spd: 60, skl: 50, lck: 50, cha: 0, wil: 0 },
     weaponTypes: ['lance', 'light', 'staff'],
+    statCaps: { spd: 40 },
     innateSkills: ['divine_wings'],
     flying: true,
   },
@@ -330,6 +333,7 @@ const MASTER_CLASSES: Record<string, UnitClass> = {
     baseStats: { hp: 22, str: 2, mag: 11, def: 3, res: 11, spd: 6, skl: 5, lck: 7, mov: 6, cha: 0, wil: 2 },
     growthRates: { hp: 55, str: 5, mag: 60, def: 15, res: 60, spd: 40, skl: 40, lck: 50, cha: 0, wil: 10 },
     weaponTypes: ['light', 'dark', 'staff'],
+    statCaps: { mag: 40 },
     innateSkills: ['balance'],
   },
 };

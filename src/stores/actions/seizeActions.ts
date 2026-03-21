@@ -2,6 +2,7 @@ import type { GameState, GameActions } from '../gameStoreTypes';
 import { IDLE_RESET } from '../helpers/constants';
 import { deriveFacing } from '../helpers/facingHelpers';
 import { isBossDefeated, allPlayersDone } from '../helpers/mapHelpers';
+import { useCampaignStore } from '../campaignStore';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -28,6 +29,14 @@ export function seize(get: Get, set: Set) {
 
   const facing = deriveFacing(unit.position, pendingPosition);
   newUnits.set(selectedUnitId, { ...unit, position: { ...pendingPosition }, hasActed: true, facing });
+
+  // Check if Ren has Final Save Crystal — set campaign flag
+  if (unit.items.some((i) => i.effect.kind === 'key_item' && i.id === 'final_save_crystal')) {
+    const campaignState = useCampaignStore.getState();
+    useCampaignStore.setState({
+      campaignFlags: { ...campaignState.campaignFlags, final_save_crystal_used: true },
+    });
+  }
 
   set({
     ...IDLE_RESET,

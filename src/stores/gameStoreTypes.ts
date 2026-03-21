@@ -17,6 +17,7 @@ import type {
   WeatherType,
   SupportPair,
   SupportRank,
+  MapBossState,
 } from '../core/types';
 import type { SeededRandom } from '../core/rng';
 import type { CombatForecast, CombatResult } from '../core/combat';
@@ -175,6 +176,23 @@ export type GameState = {
   // Support system
   supportPairs: SupportPair[];
   supportRankUp: { unitA: string; unitB: string; rank: SupportRank } | null;
+
+  // Boss phases
+  bossPhaseTransition: { bossId: string; dialogue: DialogueScene; phaseIndex: number } | null;
+  cycleAuthorityUsed: Set<string>;
+  vanishUsed: Set<string>;
+
+  // Map boss
+  mapBossState: MapBossState | null;
+
+  // Split party
+  splitParty: {
+    teamA: string[];
+    teamB: string[];
+    activeTeam: 'A' | 'B';
+    savedState: Partial<GameState> | null;
+    merged: boolean;
+  } | null;
 };
 
 export type GameActions = {
@@ -293,4 +311,13 @@ export type GameActions = {
 
   // Support
   dismissSupportRankUp: () => void;
+
+  // Boss phases
+  dismissBossPhaseTransition: () => void;
+
+  // Negotiate
+  negotiate: () => void;
+
+  // Balance (Fortify)
+  useBalance: () => void;
 };

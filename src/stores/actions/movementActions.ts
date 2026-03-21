@@ -5,6 +5,7 @@ import { deriveFacing } from '../helpers/facingHelpers';
 import { checkAndFireEvents } from './eventActions';
 import { applyMovementSta } from './metaStatActions';
 import { recalculateFog } from './fogActions';
+import { checkMapBossCheckpoint, applyMapBossPhaseTransition } from './mapBossActions';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -126,6 +127,17 @@ function teleportUnit(
 
   // Recalculate fog of war after movement
   recalculateFog(get, set);
+
+  // Map boss: check if unit reached a checkpoint
+  if (checkMapBossCheckpoint(get, set, unitId, destination)) {
+    applyMapBossPhaseTransition(get, set);
+    // Check if map boss is defeated
+    const { mapBossState: mbState } = get();
+    if (mbState && mbState.currentHp <= 0) {
+      set({ currentPhase: 'game_over' });
+      return;
+    }
+  }
 
   // Fire events for unit movement
   checkAndFireEvents(get, set, {

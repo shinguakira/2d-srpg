@@ -20,6 +20,8 @@ import { TradeUI } from './UI/TradeUI';
 import { WeatherOverlay } from './UI/WeatherOverlay';
 import { WeatherIndicator } from './UI/WeatherIndicator';
 import { SupportRankPopup } from './UI/SupportRankPopup';
+import { BossPhaseTransition } from './UI/BossPhaseTransition';
+import { MapBossHPBar } from './UI/MapBossHPBar';
 import { useGameStore } from '../stores/gameStore';
 import { useUIStore } from '../stores/uiStore';
 import { useCampaignStore } from '../stores/campaignStore';
@@ -102,6 +104,8 @@ export function Game() {
 
       <WeatherOverlay />
 
+      <MapBossHPBar />
+
       <div className="game__ui">
         <TurnInfo />
         <WeatherIndicator />
@@ -124,6 +128,7 @@ export function Game() {
       <UnitDetailScreen />
       <TradeUI />
       <SupportRankPopup />
+      <BossPhaseTransition />
       <PhaseBanner />
 
       {/* Game Over overlay */}

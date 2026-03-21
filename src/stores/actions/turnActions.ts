@@ -10,6 +10,10 @@ import { decrementTorches, recalculateFog } from './fogActions';
 import { getWeatherCrpGain } from '../../core/weather';
 import { clampMetaStats } from '../../core/metaStats';
 import { processTurnEndSupports } from './supportActions';
+import { getBossSelfHeal, advanceWeaponCycle } from '../../core/bossPhase';
+import { useCampaignStore } from '../campaignStore';
+import { getReinforcementTurnOffset } from '../../core/difficulty';
+import { getMapBossEnemyHealRate, getMapBossSpawnRate } from '../actions/mapBossActions';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -39,22 +43,59 @@ export function dismissPhaseBanner(get: Get, set: Set) {
     const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
 
     for (const [id, unit] of newEnemyUnits) {
-      if (unit.faction === 'enemy' && unit.currentHp < unit.stats.hp) {
-        const tile = newTiles[unit.position.y]?.[unit.position.x];
-        if (tile && (tile.terrain === 'fort' || tile.terrain === 'throne' || tile.terrain === 'corrupted_fort' || tile.terrain === 'broken_throne')) {
-          const heal = Math.max(1, Math.floor(unit.stats.hp * 0.1));
-          const newHp = Math.min(unit.stats.hp, unit.currentHp + heal);
-          newEnemyUnits.set(id, { ...unit, currentHp: newHp });
+      if (unit.faction === 'enemy') {
+        let updated = unit;
+        // Fort/throne healing
+        if (updated.currentHp < updated.stats.hp) {
+          const tile = newTiles[updated.position.y]?.[updated.position.x];
+          if (tile && (tile.terrain === 'fort' || tile.terrain === 'throne' || tile.terrain === 'corrupted_fort' || tile.terrain === 'broken_throne')) {
+            const heal = Math.max(1, Math.floor(updated.stats.hp * 0.1));
+            updated = { ...updated, currentHp: Math.min(updated.stats.hp, updated.currentHp + heal) };
+          }
+        }
+        // Boss self-heal per phase
+        const selfHeal = getBossSelfHeal(updated);
+        if (selfHeal > 0 && updated.currentHp < updated.stats.hp) {
+          updated = { ...updated, currentHp: Math.min(updated.stats.hp, updated.currentHp + selfHeal) };
+        }
+        // Weapon cycling boss: advance to next weapon
+        if (updated.weaponCycleOrder && updated.weaponCycleOrder.length > 0) {
+          updated = advanceWeaponCycle(updated);
+        }
+        if (updated !== unit) {
+          newEnemyUnits.set(id, updated);
         }
       }
     }
 
-    // Spawn reinforcements for this turn
+    // Map boss: heal all enemies based on current phase heal rate
+    const { mapBossState } = get();
+    if (mapBossState && mapBossState.currentHp > 0) {
+      const healRate = getMapBossEnemyHealRate(mapBossState);
+      if (healRate > 0) {
+        for (const [id, unit] of newEnemyUnits) {
+          if (unit.faction === 'enemy' && unit.currentHp > 0 && unit.currentHp < unit.stats.hp) {
+            const healAmount = Math.max(1, Math.floor(unit.stats.hp * healRate));
+            newEnemyUnits.set(id, { ...unit, currentHp: Math.min(unit.stats.hp, unit.currentHp + healAmount) });
+          }
+        }
+      }
+    }
+
+    // Spawn reinforcements for this turn (hard mode: arrive 1 turn earlier)
+    // Map boss: spawn rate scales down as map HP drops (fewer spawns in later phases)
     let reinforcementMessage: string | null = null;
+    const difficulty = useCampaignStore.getState().difficulty;
+    const reinforcementOffset = getReinforcementTurnOffset(difficulty);
+    const mapBossSpawnRate = mapBossState && mapBossState.currentHp > 0
+      ? getMapBossSpawnRate(mapBossState)
+      : 1; // no map boss = full spawn rate
     if (chapterData?.reinforcements) {
       for (const wave of chapterData.reinforcements) {
-        if (wave.turn === currentTurn) {
+        if (wave.turn + reinforcementOffset === currentTurn) {
           for (const placement of wave.units) {
+            // Map boss spawn rate: skip spawns probabilistically when rate < 1
+            if (mapBossSpawnRate < 1 && Math.random() > mapBossSpawnRate) continue;
             const template = ENEMY_UNITS[placement.unitId];
             if (!template) continue;
             // Don't spawn if tile is occupied

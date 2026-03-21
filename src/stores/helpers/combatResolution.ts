@@ -1,8 +1,11 @@
-import type { Unit, GameMap, Tile, ChapterData } from '../../core/types';
+import type { Unit, GameMap, Tile, ChapterData, DifficultyMode } from '../../core/types';
 import type { CombatResult } from '../../core/combat';
 import type { GameState } from '../gameStoreTypes';
 import { clampMetaStats } from '../../core/metaStats';
 import { getManhattanDistance } from '../../core/pathfinding';
+import { isPermadeath } from '../../core/difficulty';
+import { assignTraumaSkill } from '../../core/traumaSkills';
+import { useCampaignStore } from '../campaignStore';
 
 export type CombatResolutionResult = {
   newUnits: Map<string, Unit>;
@@ -24,6 +27,7 @@ export function applyCombatResult(
   defenderId: string,
   combatResult: CombatResult,
   chapterData: ChapterData | null,
+  difficulty?: DifficultyMode,
 ): CombatResolutionResult {
   const newUnits = new Map(units);
   const attacker = newUnits.get(attackerId)!;
@@ -37,6 +41,8 @@ export function applyCombatResult(
   let deathQuote: CombatResolutionResult['deathQuote'] = null;
   let lordDied = false;
 
+  const casualMode = difficulty ? !isPermadeath(difficulty) : false;
+
   // Remove dead units + check for death quotes/lord death
   if (combatResult.defenderDied) {
     if (defender.faction === 'player' && defender.deathQuote) {
@@ -45,7 +51,12 @@ export function applyCombatResult(
     if (defender.faction === 'player' && defender.isLord) {
       lordDied = true;
     }
-    newUnits.delete(defenderId);
+    if (casualMode && defender.faction === 'player' && !defender.isLord) {
+      // Casual mode: unit retreats instead of dying permanently
+      newUnits.set(defenderId, { ...defender, currentHp: 1, retreated: true, hasActed: true });
+    } else {
+      newUnits.delete(defenderId);
+    }
     newTiles[defender.position.y][defender.position.x].occupantId = null;
     // Carrier death: carried unit also dies
     if (defender.carriedUnitId) {
@@ -55,7 +66,11 @@ export function applyCombatResult(
           deathQuote = { unitName: carried.name, quote: carried.deathQuote };
         }
         if (carried.faction === 'player' && carried.isLord) lordDied = true;
-        newUnits.delete(defender.carriedUnitId);
+        if (casualMode && carried.faction === 'player' && !carried.isLord) {
+          newUnits.set(defender.carriedUnitId, { ...carried, currentHp: 1, retreated: true });
+        } else {
+          newUnits.delete(defender.carriedUnitId);
+        }
       }
     }
   }
@@ -66,7 +81,11 @@ export function applyCombatResult(
     if (attacker.faction === 'player' && attacker.isLord) {
       lordDied = true;
     }
-    newUnits.delete(attackerId);
+    if (casualMode && attacker.faction === 'player' && !attacker.isLord) {
+      newUnits.set(attackerId, { ...attacker, currentHp: 1, retreated: true, hasActed: true });
+    } else {
+      newUnits.delete(attackerId);
+    }
     newTiles[attacker.position.y][attacker.position.x].occupantId = null;
     // Carrier death: carried unit also dies
     if (attacker.carriedUnitId) {
@@ -76,7 +95,47 @@ export function applyCombatResult(
           deathQuote = { unitName: carried.name, quote: carried.deathQuote };
         }
         if (carried.faction === 'player' && carried.isLord) lordDied = true;
-        newUnits.delete(attacker.carriedUnitId);
+        if (casualMode && carried.faction === 'player' && !carried.isLord) {
+          newUnits.set(attacker.carriedUnitId, { ...carried, currentHp: 1, retreated: true });
+        } else {
+          newUnits.delete(attacker.carriedUnitId);
+        }
+      }
+    }
+  }
+
+  // Trauma skill assignment on permadeath
+  const permadeath = difficulty ? isPermadeath(difficulty) : true;
+  if (permadeath) {
+    let runningDeaths = ((useCampaignStore.getState().campaignFlags.total_deaths as number) ?? 0);
+    if (combatResult.defenderDied && defender.faction === 'player' && !defender.isLord) {
+      runningDeaths += 1;
+      useCampaignStore.setState({
+        campaignFlags: { ...useCampaignStore.getState().campaignFlags, total_deaths: runningDeaths },
+      });
+      const assignment = assignTraumaSkill(runningDeaths, defenderId, newUnits, defender.position);
+      if (assignment) {
+        const target = newUnits.get(assignment.targetUnitId);
+        if (target) {
+          const trauma = [...(target.traumaSkills ?? [])];
+          if (!trauma.includes(assignment.skillId)) trauma.push(assignment.skillId);
+          newUnits.set(assignment.targetUnitId, { ...target, traumaSkills: trauma });
+        }
+      }
+    }
+    if (combatResult.attackerDied && attacker.faction === 'player' && !attacker.isLord) {
+      runningDeaths += 1;
+      useCampaignStore.setState({
+        campaignFlags: { ...useCampaignStore.getState().campaignFlags, total_deaths: runningDeaths },
+      });
+      const assignment = assignTraumaSkill(runningDeaths, attackerId, newUnits, attacker.position);
+      if (assignment) {
+        const target = newUnits.get(assignment.targetUnitId);
+        if (target) {
+          const trauma = [...(target.traumaSkills ?? [])];
+          if (!trauma.includes(assignment.skillId)) trauma.push(assignment.skillId);
+          newUnits.set(assignment.targetUnitId, { ...target, traumaSkills: trauma });
+        }
       }
     }
   }

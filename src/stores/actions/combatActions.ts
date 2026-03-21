@@ -7,6 +7,7 @@ import type { StatGains } from '../../core/experience';
 import { ALL_CLASSES } from '../../data/promotedClasses';
 import { getStatCaps, clampStats } from '../../core/promotion';
 import type { GameState, GameActions } from '../gameStoreTypes';
+import { getTotalSupportBonuses } from '../../core/support';
 import { EMPTY_SET, IDLE_RESET } from '../helpers/constants';
 import { applyCombatResult } from '../helpers/combatResolution';
 import { allPlayersDone } from '../helpers/mapHelpers';
@@ -15,18 +16,20 @@ import { deriveFacing } from '../helpers/facingHelpers';
 import { checkAndFireEvents } from './eventActions';
 import { applyCombatSta, applySkillSta } from './metaStatActions';
 import { clampMetaStats, shouldDisobey, isNearRen } from '../../core/metaStats';
+import { addSupportPoints } from './supportActions';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
 
 export function startAttackTargeting(get: Get, set: Set) {
-  const { selectedUnitId, pendingPosition, pendingAttackTiles, units } = get();
+  const { selectedUnitId, pendingPosition, pendingAttackTiles, units, fogOfWar, visibleTiles } = get();
   if (!selectedUnitId || !pendingPosition) return;
 
-  // Check if there are any enemies in attack range
+  // Check if there are any enemies in attack range (fog: only visible enemies)
   let hasTarget = false;
   for (const unit of units.values()) {
     if (unit.faction === 'enemy' && pendingAttackTiles.has(posKey(unit.position))) {
+      if (fogOfWar && !visibleTiles.has(posKey(unit.position))) continue;
       hasTarget = true;
       break;
     }
@@ -42,7 +45,7 @@ export function startAttackTargeting(get: Get, set: Set) {
 }
 
 export function selectAttackTarget(get: Get, set: Set, targetId: string) {
-  const { selectedUnitId, pendingPosition, units, gameMap, selectedWeaponIndex } = get();
+  const { selectedUnitId, pendingPosition, units, gameMap, selectedWeaponIndex, weather, supportPairs } = get();
   if (!selectedUnitId || !pendingPosition) return;
 
   const attacker = units.get(selectedUnitId);
@@ -57,7 +60,9 @@ export function selectAttackTarget(get: Get, set: Set, targetId: string) {
   const atkAtPending = { ...attacker, position: { ...pendingPosition }, equippedWeapon: weapon };
   const attackerNearRen = attacker.id !== 'ren' && isNearRen(pendingPosition, units);
   const defenderNearRen = defender.id !== 'ren' && isNearRen(defender.position, units);
-  const forecast = calculateCombatForecast(atkAtPending, defender, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen });
+  const attackerSupport = getTotalSupportBonuses(attacker.id, pendingPosition, units, supportPairs);
+  const defenderSupport = getTotalSupportBonuses(defender.id, defender.position, units, supportPairs);
+  const forecast = calculateCombatForecast(atkAtPending, defender, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen, weather, attackerSupport, defenderSupport });
 
   set({
     attackTargetId: targetId,
@@ -291,6 +296,20 @@ export function finishCombat(get: Get, set: Set) {
         const newUnits = new Map(get().units);
         newUnits.set(selectedUnitId, { ...atkUnit, metaStats: newMeta });
         set({ units: newUnits });
+      }
+    }
+  }
+
+  // Support points: +3 to adjacent allies who share the enemy target
+  if (!combatResult.attackerDied && attacker.faction === 'player') {
+    const pos = get().units.get(selectedUnitId)?.position;
+    if (pos) {
+      for (const ally of get().units.values()) {
+        if (ally.id === selectedUnitId) continue;
+        if (ally.faction !== 'player') continue;
+        if (getManhattanDistance(pos, ally.position) <= 3) {
+          addSupportPoints(get, set, selectedUnitId, ally.id, 'same_enemy');
+        }
       }
     }
   }

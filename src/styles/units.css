@@ -71,6 +71,22 @@
   pointer-events: none;
 }
 
+/* Support heart icon */
+.unit-sprite__support-heart {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  animation: support-heart-pulse 2s ease-in-out infinite;
+}
+
+@keyframes support-heart-pulse {
+  0%, 100% { opacity: 0.9; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.85); }
+}
+
 /* Steal flash effect */
 .unit-sprite--steal-flash {
   animation: steal-flash 0.5s ease-out;

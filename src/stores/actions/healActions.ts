@@ -8,6 +8,7 @@ import { CLASSES } from '../../data/classes';
 import { IDLE_RESET } from '../helpers/constants';
 import { allPlayersDone } from '../helpers/mapHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
+import { addSupportPoints } from './supportActions';
 import { applyHealSta } from './metaStatActions';
 import { clampMetaStats } from '../../core/metaStats';
 
@@ -135,6 +136,9 @@ export function confirmHeal(get: Get, set: Set, targetId: string) {
     levelUpGains: gains,
     levelUpUnitId: levelUpUnit,
   });
+
+  // Award support points for healing
+  addSupportPoints(get, set, selectedUnitId, targetId, 'heal');
 }
 
 export function finishHealAnimation(get: Get, set: Set) {

@@ -7,12 +7,15 @@ import { BattleSprite } from './Combat/BattleSprite';
 import { PromotionScreen } from './UI/PromotionScreen';
 import { canPromote, getPromotionOptions, getMatchingPromotionItem, applyPromotion, calculateSkillSlots } from '../core/promotion';
 import { canTeach, getTeachingCost } from '../core/teaching';
+import { canForge, getRequiredMaterial, previewForge, applyForge, getForgeGoldCost } from '../core/forging';
+import { previewBonusExp } from '../core/experience';
 import { defaultMetaStats } from '../core/metaStats';
 import { SKILLS } from '../data/skills';
 import { ALL_CLASSES } from '../data/promotedClasses';
 import type { Unit, Weapon, ConsumableItem, SupportConversation } from '../core/types';
+import { RANK_SUPPORT_CONVERSATIONS } from '../data/supportConversations';
 
-type Tab = 'units' | 'storage' | 'support' | 'skills' | 'teaching';
+type Tab = 'units' | 'storage' | 'support' | 'skills' | 'teaching' | 'bonus_exp' | 'forge';
 
 /** Build a minimal Unit-like object from PrepUnit for promotion functions */
 function prepToUnit(u: PrepUnit): Unit {
@@ -52,6 +55,12 @@ export function PreparationScreen() {
   const roster = useCampaignStore((s) => s.roster);
   const deadUnitIds = useCampaignStore((s) => s.deadUnitIds);
   const gameMode = useCampaignStore((s) => s.gameMode);
+  const bonusExp = useCampaignStore((s) => s.bonusExp);
+  const allocateBonusExp = useCampaignStore((s) => s.allocateBonusExp);
+  const forgeMaterials = useCampaignStore((s) => s.forgeMaterials);
+  const forgeWeapon = useCampaignStore((s) => s.forgeWeapon);
+  const gold = useCampaignStore((s) => s.gold);
+  const campaignSupportPairs = useCampaignStore((s) => s.supportPairs);
 
   const hasDeploymentSlots = !!chapterData?.deploymentSlots;
   const maxDeploy = chapterData?.deploymentSlots ?? 0;
@@ -172,7 +181,9 @@ export function PreparationScreen() {
       setSupportLineIdx((i) => i + 1);
     } else {
       // Conversation done — apply reward
-      const key = `${chapterData?.id}:${supportScene.unitA}:${supportScene.unitB}`;
+      const key = supportScene.rank
+        ? `rank:${supportScene.unitA}:${supportScene.unitB}:${supportScene.rank}`
+        : `${chapterData?.id}:${supportScene.unitA}:${supportScene.unitB}`;
       setCompletedSupports((prev) => [...prev, key]);
 
       const reward = supportScene.reward;
@@ -283,10 +294,28 @@ export function PreparationScreen() {
   }
 
   const supports = chapterData.supportConversations ?? [];
-  const availableSupports = supports.filter((s) => {
+  const chapterSupports = supports.filter((s) => {
     const key = `${chapterData.id}:${s.unitA}:${s.unitB}`;
     return !viewedSupports.includes(key) && !completedSupports.includes(key);
   });
+
+  // Rank-based support conversations: unlocked by reaching support rank
+  const rankSupports = RANK_SUPPORT_CONVERSATIONS.filter((conv) => {
+    if (!conv.rank) return false;
+    const key = `rank:${conv.unitA}:${conv.unitB}:${conv.rank}`;
+    if (viewedSupports.includes(key) || completedSupports.includes(key)) return false;
+    // Check if both units are in roster
+    if (!units.some((u) => u.id === conv.unitA) || !units.some((u) => u.id === conv.unitB)) return false;
+    // Check if pair has reached the required rank
+    const pair = campaignSupportPairs.find((p) =>
+      (p.unitA === conv.unitA && p.unitB === conv.unitB) || (p.unitA === conv.unitB && p.unitB === conv.unitA)
+    );
+    if (!pair?.rank) return false;
+    const rankOrder = ['C', 'B', 'A', 'S'];
+    return rankOrder.indexOf(pair.rank) >= rankOrder.indexOf(conv.rank);
+  });
+
+  const availableSupports = [...chapterSupports, ...rankSupports];
 
   return (
     <div className="prep-screen" data-testid="preparation-screen">
@@ -314,6 +343,16 @@ export function PreparationScreen() {
         {roster.includes('ren') && (
           <button className={`prep-screen__tab ${tab === 'teaching' ? 'prep-screen__tab--active' : ''}`} data-testid="teaching-tab" onClick={() => setTab('teaching')}>
             Teaching
+          </button>
+        )}
+        {bonusExp > 0 && (
+          <button className={`prep-screen__tab ${tab === 'bonus_exp' ? 'prep-screen__tab--active' : ''}`} data-testid="bonus-exp-tab" onClick={() => setTab('bonus_exp')}>
+            Bonus EXP ({bonusExp})
+          </button>
+        )}
+        {forgeMaterials.length > 0 && (
+          <button className={`prep-screen__tab ${tab === 'forge' ? 'prep-screen__tab--active' : ''}`} data-testid="forge-tab" onClick={() => setTab('forge')}>
+            Forge ({forgeMaterials.length})
           </button>
         )}
       </div>
@@ -572,6 +611,129 @@ export function PreparationScreen() {
                 </div>
               );
             })}
+          </div>
+        )}
+
+        {tab === 'forge' && (
+          <div className="prep-screen__forge" data-testid="forge-panel">
+            <div className="prep-screen__forge-header">
+              <div className="prep-screen__forge-materials">
+                Materials: {forgeMaterials.map((m, i) => <span key={i} className="prep-screen__forge-mat">{m === 'adamant_ore' ? 'Adamant Ore' : m === 'mithril' ? 'Mithril' : m}</span>)}
+              </div>
+              <div className="prep-screen__forge-gold" data-testid="forge-gold">
+                Gold: <strong>{gold}</strong>G
+              </div>
+            </div>
+            <div className="prep-screen__unit-list">
+              {units.filter((u) => !deadUnitIds.includes(u.id)).map((unit) => (
+                <div key={unit.id} className="prep-screen__forge-unit">
+                  <div className="prep-screen__forge-unit-header">
+                    <BattleSprite classId={unit.classId} faction="player" />
+                    <span className="prep-screen__forge-unit-name">{unit.name}</span>
+                  </div>
+                  <div className="prep-screen__forge-weapons">
+                    {unit.weapons.map((w, wi) => {
+                      const forgeLevel = w.forgeLevel ?? 0;
+                      const forgeable = canForge(w, forgeMaterials, gold);
+                      const preview = previewForge(w);
+                      const matNeeded = getRequiredMaterial(w);
+                      const goldCost = getForgeGoldCost(w);
+                      return (
+                        <div key={wi} className="prep-screen__forge-weapon">
+                          <span className="prep-screen__forge-weapon-name">
+                            {w.name} {'★'.repeat(forgeLevel)}{'☆'.repeat(3 - forgeLevel)}
+                          </span>
+                          <span className="prep-screen__forge-weapon-stats">
+                            Mt {w.might} Hit {w.hit}
+                            {preview && <span className="prep-screen__forge-preview"> → Mt {preview.might} Hit {preview.hit}</span>}
+                          </span>
+                          {matNeeded && (
+                            <span className="prep-screen__forge-cost">
+                              {matNeeded === 'adamant_ore' ? 'Adamant' : 'Mithril'} + {goldCost}G
+                            </span>
+                          )}
+                          <button
+                            className="prep-screen__forge-btn"
+                            data-testid={`forge-${unit.id}-${wi}`}
+                            disabled={!forgeable}
+                            onClick={() => {
+                              forgeWeapon(unit.id, wi);
+                              // Update local state using applyForge to stay in sync
+                              setUnits((prev) =>
+                                prev.map((u) => {
+                                  if (u.id !== unit.id) return u;
+                                  const newWeapons = [...u.weapons];
+                                  newWeapons[wi] = applyForge(newWeapons[wi]);
+                                  return { ...u, weapons: newWeapons };
+                                })
+                              );
+                            }}
+                          >
+                            Forge
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {tab === 'bonus_exp' && (
+          <div className="prep-screen__bonus-exp" data-testid="bonus-exp-panel">
+            <div className="prep-screen__bonus-pool">
+              Available: <strong>{bonusExp}</strong> EXP
+            </div>
+            <div className="prep-screen__unit-list">
+              {units.filter((u) => !deadUnitIds.includes(u.id)).map((unit) => {
+                const canGain = unit.exp < 99;
+                const cls = ALL_CLASSES[unit.classId];
+                const preview = cls && bonusExp >= 10
+                  ? previewBonusExp(unit.exp, Math.min(10, 99 - unit.exp), unit.level, cls.growthRates)
+                  : null;
+                return (
+                  <div key={unit.id} className="prep-screen__bonus-unit">
+                    <div className="prep-screen__bonus-unit-info">
+                      <BattleSprite classId={unit.classId} faction="player" />
+                      <span className="prep-screen__bonus-unit-name">{unit.name}</span>
+                      <span className="prep-screen__bonus-unit-level">Lv.{unit.level}</span>
+                      <span className="prep-screen__bonus-unit-exp">EXP: {unit.exp}/99</span>
+                    </div>
+                    <div className="prep-screen__bonus-actions">
+                      {preview?.wouldLevel && preview.projectedGains && (
+                        <span className="prep-screen__bonus-levelup-preview" data-testid={`bonus-preview-${unit.id}`}>
+                          Level Up! {Object.entries(preview.projectedGains)
+                            .filter(([, v]) => v > 0)
+                            .map(([k, v]) => `${k.toUpperCase()} +${v}`)
+                            .join(', ')}
+                        </span>
+                      )}
+                      <button
+                        className="prep-screen__bonus-btn"
+                        data-testid={`bonus-add-${unit.id}`}
+                        disabled={!canGain || bonusExp < 10}
+                        onClick={() => {
+                          const actual = Math.min(10, bonusExp, 99 - unit.exp);
+                          if (actual <= 0) return;
+                          allocateBonusExp(unit.id, 10);
+                          setUnits((prev) =>
+                            prev.map((u) =>
+                              u.id === unit.id
+                                ? { ...u, exp: u.exp + actual }
+                                : u
+                            )
+                          );
+                        }}
+                      >
+                        +10
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
 

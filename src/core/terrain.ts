@@ -26,6 +26,10 @@ export const TERRAIN: Record<TerrainType, TerrainData> = {
   memory:         { name: 'Memory',         movementCost: 1,  defenseBonus: 1, avoidBonus: 10 },
   corrupted_fort: { name: 'Corrupted Fort', movementCost: 1,  defenseBonus: 3, avoidBonus: 20 },
   broken_throne:  { name: 'Broken Throne',  movementCost: 1,  defenseBonus: 2, avoidBonus: 10 },
+
+  // ===== Phase 5 — Destructible terrain result =====
+
+  rubble:         { name: 'Rubble',         movementCost: 2,  defenseBonus: 0, avoidBonus: 0 },
 };
 
 export function getTerrainData(terrain: TerrainType): TerrainData {

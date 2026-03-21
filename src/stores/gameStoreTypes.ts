@@ -13,6 +13,10 @@ import type {
   ChapterEvent,
   DialogueScene,
   EventEffect,
+  FogState,
+  WeatherType,
+  SupportPair,
+  SupportRank,
 } from '../core/types';
 import type { SeededRandom } from '../core/rng';
 import type { CombatForecast, CombatResult } from '../core/combat';
@@ -151,10 +155,30 @@ export type GameState = {
   refreshedUnitIds: Set<string>; // units just danced — sparkle effect
   stealAnimationData: { position: Position; itemName: string } | null;
   rescueAnimationData: { position: Position; type: 'rescue' | 'drop' } | null;
+
+  // Fog of war
+  fogOfWar: boolean;
+  fogMap: Map<string, FogState>;
+  visibleTiles: Set<string>;
+  torchEffects: Map<string, number>; // unitId -> turns remaining
+
+  // Weather
+  weather: WeatherType;
+
+  // Destructible terrain
+  terrainHpMap: Map<string, { hp: number; maxHp: number }>;
+  terrainDestroyPositions: Set<string>; // tiles currently playing destroy animation
+
+  // Fog reveal
+  fogRevealTiles: Set<string>; // tiles that just became visible (flash animation)
+
+  // Support system
+  supportPairs: SupportPair[];
+  supportRankUp: { unitA: string; unitB: string; rank: SupportRank } | null;
 };
 
 export type GameActions = {
-  initChapter: (chapter: ChapterData, seed?: number, unitProgress?: Record<string, UnitProgress>, deployedUnitIds?: string[]) => void;
+  initChapter: (chapter: ChapterData, seed?: number, unitProgress?: Record<string, UnitProgress>, deployedUnitIds?: string[], supportPairs?: SupportPair[]) => void;
   selectUnit: (unitId: string) => void;
   deselectUnit: () => void;
   hoverTile: (pos: Position | null) => void;
@@ -260,4 +284,13 @@ export type GameActions = {
 
   // Rest (STA recovery)
   rest: () => void;
+
+  // Fog of war
+  useTorch: () => void;
+
+  // Destructible terrain
+  attackTerrain: () => void;
+
+  // Support
+  dismissSupportRankUp: () => void;
 };

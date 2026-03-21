@@ -6,6 +6,10 @@ import { refreshDangerZone } from '../helpers/dangerZoneHelpers';
 import { checkAndFireEvents } from './eventActions';
 import { getRenewalHeal } from '../../core/skills';
 import { updateTurnMetaStats } from './metaStatActions';
+import { decrementTorches, recalculateFog } from './fogActions';
+import { getWeatherCrpGain } from '../../core/weather';
+import { clampMetaStats } from '../../core/metaStats';
+import { processTurnEndSupports } from './supportActions';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -13,6 +17,9 @@ type Set = (partial: Partial<GameState>) => void;
 export function endPlayerTurn(get: Get, set: Set) {
   const { currentPhase } = get();
   if (currentPhase !== 'player_phase') return;
+
+  // Process support point gains from adjacency
+  processTurnEndSupports(get, set);
 
   // Deselect everything
   set({
@@ -145,6 +152,41 @@ export function dismissPhaseBanner(get: Get, set: Set) {
 
     // Per-turn meta-stat updates (CRP terrain, STA recovery, LOY adjacency, etc.)
     updateTurnMetaStats(get, set, 'player');
+
+    // Weather: check for scheduled weather changes
+    const { currentTurn: turn, chapterData: chData } = get();
+    if (chData?.weatherChanges) {
+      for (const change of chData.weatherChanges) {
+        if (change.turn === turn) {
+          set({ weather: change.weather });
+          if (change.message) {
+            // Show as a floating message via reinforcementMessage (reuse existing mechanism)
+            set({ reinforcementMessage: change.message });
+          }
+          break;
+        }
+      }
+    }
+
+    // Weather: corruption storm +1 CRP per turn for all units
+    const weatherNow = get().weather;
+    const crpGain = getWeatherCrpGain(weatherNow);
+    if (crpGain > 0) {
+      const crpUnits = new Map(get().units);
+      for (const [uid, u] of crpUnits) {
+        if (u.faction === 'player' || u.faction === 'enemy') {
+          crpUnits.set(uid, {
+            ...u,
+            metaStats: clampMetaStats({ ...u.metaStats, crp: u.metaStats.crp + crpGain }),
+          });
+        }
+      }
+      set({ units: crpUnits });
+    }
+
+    // Fog of war: decrement torches and recalculate visibility
+    decrementTorches(get, set);
+    recalculateFog(get, set);
 
     // Fire turn-start events for player phase
     checkAndFireEvents(get, set, { justStartedPhase: 'player' });

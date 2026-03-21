@@ -34,10 +34,12 @@ export function getMovementRange(
   allUnits: Map<string, Unit>,
   classFlags?: ClassFlags,
   canPass?: boolean,
+  weatherMods?: { movPenalty?: number; terrainCostMod?: number },
 ): Set<string> {
   const startKey = posKey(unit.position);
-  const mov = unit.stats.mov;
+  const mov = Math.max(1, unit.stats.mov + (weatherMods?.movPenalty ?? 0));
   const flags = classFlags ?? {};
+  const extraCost = weatherMods?.terrainCostMod ?? 0;
 
   // occupant lookup (hidden/carried units don't block movement)
   const occupantFaction = new Map<string, Faction>();
@@ -65,7 +67,7 @@ export function getMovementRange(
       const terrain = map.tiles[next.y][next.x].terrain;
       if (!isPassableForClass(terrain, flags)) continue;
 
-      const cost = getClassMovementCost(terrain, flags);
+      const cost = getClassMovementCost(terrain, flags) + extraCost;
       const nextRemaining = remaining - cost;
       if (nextRemaining < 0) continue;
 

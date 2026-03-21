@@ -1,13 +1,14 @@
-import type { ChapterData, UnitProgress } from '../../core/types';
+import type { ChapterData, UnitProgress, SupportPair } from '../../core/types';
 import { SeededRandom } from '../../core/rng';
 import type { GameState, GameActions } from '../gameStoreTypes';
 import { EMPTY_SET } from '../helpers/constants';
 import { buildMap, placeUnits } from '../helpers/mapHelpers';
+import { initFog } from './fogActions';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
 
-export function initChapter(_get: Get, set: Set, chapter: ChapterData, seed: number = 12345, unitProgress?: Record<string, UnitProgress>, deployedUnitIds?: string[]) {
+export function initChapter(get: Get, set: Set, chapter: ChapterData, seed: number = 12345, unitProgress?: Record<string, UnitProgress>, deployedUnitIds?: string[], supportPairs?: SupportPair[]) {
   const map = buildMap(chapter);
   const units = placeUnits(chapter, map, unitProgress, deployedUnitIds);
 
@@ -74,5 +75,22 @@ export function initChapter(_get: Get, set: Set, chapter: ChapterData, seed: num
     escapedUnitIds: new Set<string>(),
     allyActions: [],
     allyActionIndex: -1,
+    weather: chapter.weather ?? 'clear',
+    terrainHpMap: new Map(),
+    supportPairs: (supportPairs ?? []).map(p => ({ ...p })),
+    supportRankUp: null,
   });
+
+  // Initialize fog of war if chapter has it
+  initFog(get, set);
+
+  // Initialize destructible terrain HP from chapter config
+  if (chapter.destructibleTerrain) {
+    const terrainHpMap = new Map<string, { hp: number; maxHp: number }>();
+    for (const dt of chapter.destructibleTerrain) {
+      const key = `${dt.position.x},${dt.position.y}`;
+      terrainHpMap.set(key, { hp: dt.hp, maxHp: dt.hp });
+    }
+    set({ terrainHpMap });
+  }
 }

@@ -1,9 +1,11 @@
+import { useMemo } from 'react';
 import { useGameStore } from '../../stores/gameStore';
 import { useUIStore } from '../../stores/uiStore';
 import { Tile } from './Tile';
 import { RangeOverlay } from './RangeOverlay';
 import { FloatingNumbers } from './FloatingNumber';
 import { posKey } from '../../core/types';
+import { getActiveSupports } from '../../core/support';
 
 export function TacticalGrid() {
   const gameMap = useGameStore((s) => s.gameMap);
@@ -16,17 +18,38 @@ export function TacticalGrid() {
   const removingUnitIds = useGameStore((s) => s.removingUnitIds);
   const refreshedUnitIds = useGameStore((s) => s.refreshedUnitIds);
   const terrainChangePositions = useGameStore((s) => s.terrainChangePositions);
+  const terrainDestroyPositions = useGameStore((s) => s.terrainDestroyPositions);
+  const terrainHpMap = useGameStore((s) => s.terrainHpMap);
+  const fogOfWar = useGameStore((s) => s.fogOfWar);
+  const fogMap = useGameStore((s) => s.fogMap);
+  const visibleTiles = useGameStore((s) => s.visibleTiles);
+  const fogRevealTiles = useGameStore((s) => s.fogRevealTiles);
+  const supportPairs = useGameStore((s) => s.supportPairs);
   const tileSize = useUIStore((s) => s.tileSize);
   const cursorPosition = useUIStore((s) => s.cursorPosition);
   const keyboardMode = useUIStore((s) => s.keyboardMode);
 
+  // Compute which player units have an active support partner within 3 tiles
+  const unitsWithActiveSupport = useMemo(() => {
+    const set = new Set<string>();
+    for (const u of units.values()) {
+      if (u.faction !== 'player') continue;
+      const actives = getActiveSupports(u.id, u.position, units, supportPairs);
+      if (actives.length > 0) set.add(u.id);
+    }
+    return set;
+  }, [units, supportPairs]);
+
   if (gameMap.width === 0) return null;
 
-  // Build lookup: posKey -> unit (skip hidden and carried units)
+  // Build lookup: posKey -> unit (skip hidden and carried units; in fog, hide non-visible enemies)
   const unitsByPos = new Map<string, (typeof units extends Map<string, infer U> ? U : never)>();
   for (const unit of units.values()) {
     if (unit.isHidden || unit.isCarried) continue;
-    unitsByPos.set(posKey(unit.position), unit);
+    const key = posKey(unit.position);
+    // In fog of war, hide enemy/neutral units not on visible tiles
+    if (fogOfWar && unit.faction !== 'player' && unit.faction !== 'ally' && !visibleTiles.has(key)) continue;
+    unitsByPos.set(key, unit);
   }
 
   return (
@@ -48,6 +71,8 @@ export function TacticalGrid() {
         const isSelected = unit ? unit.id === selectedUnitId : false;
         const visited = tile.terrain === 'village' && visitedVillages.has(key);
 
+        const fogState = fogOfWar ? fogMap.get(key) : undefined;
+
         return (
           <Tile
             key={key}
@@ -57,9 +82,14 @@ export function TacticalGrid() {
             tileSize={tileSize}
             visited={visited}
             isTerrainChanging={terrainChangePositions.has(key)}
+            isTerrainDestroying={terrainDestroyPositions.has(key)}
+            isFogRevealing={fogRevealTiles.has(key)}
             isUnitSpawning={unit ? spawningUnitIds.has(unit.id) : false}
             isUnitRemoving={unit ? removingUnitIds.has(unit.id) : false}
             isUnitRefreshed={unit ? refreshedUnitIds.has(unit.id) : false}
+            hasActiveSupport={unit ? unitsWithActiveSupport.has(unit.id) : false}
+            fogState={fogState}
+            terrainHp={terrainHpMap.get(key)}
             onClick={() => clickTile(tile.position)}
             onMouseEnter={() => hoverTile(tile.position)}
           />

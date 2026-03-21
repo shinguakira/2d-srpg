@@ -4,6 +4,7 @@ import { allPlayersDone } from '../helpers/mapHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
 import { checkAndFireEvents } from './eventActions';
 import { applyMovementSta } from './metaStatActions';
+import { recalculateFog } from './fogActions';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -122,6 +123,9 @@ function teleportUnit(
   if (tilesMoved > 0) {
     applyMovementSta(get, set, unitId, tilesMoved);
   }
+
+  // Recalculate fog of war after movement
+  recalculateFog(get, set);
 
   // Fire events for unit movement
   checkAndFireEvents(get, set, {

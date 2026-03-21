@@ -7,6 +7,7 @@ import { IDLE_RESET } from '../helpers/constants';
 import { allPlayersDone, getClassFlags } from '../helpers/mapHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
 import type { GameState, GameActions } from '../gameStoreTypes';
+import { addSupportPoints } from './supportActions';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -93,6 +94,9 @@ export function confirmRescue(get: Get, set: Set, targetId: string) {
       color: '#60a5fa',
     }],
   });
+
+  // Support points: +4 for rescue
+  addSupportPoints(get, set, selectedUnitId, targetId, 'rescue');
 
   if (allPlayersDone(newUnits)) {
     get().endPlayerTurn();

@@ -9,6 +9,7 @@ import type {
   GamePhase,
   AIBehavior,
   TerrainType,
+  WeatherType,
 } from './types';
 
 // ===== Event Context =====
@@ -34,6 +35,7 @@ export type EffectResult = {
   terrainChanges: { position: Position; terrain: TerrainType }[];
   flagChanges: { key: string; value: string }[];
   dialogueToShow: DialogueScene | null;
+  weatherChange: WeatherType | null;
 };
 
 function emptyResult(): EffectResult {
@@ -45,6 +47,7 @@ function emptyResult(): EffectResult {
     terrainChanges: [],
     flagChanges: [],
     dialogueToShow: null,
+    weatherChange: null,
   };
 }
 
@@ -145,6 +148,9 @@ export function resolveEffects(effects: EventEffect[]): EffectResult {
       case 'set_flag':
         result.flagChanges.push({ key: effect.key, value: effect.value });
         break;
+      case 'change_weather':
+        result.weatherChange = effect.weather;
+        break;
       case 'chain':
         mergeResult(result, resolveEffects(effect.effects));
         break;
@@ -163,5 +169,8 @@ function mergeResult(target: EffectResult, source: EffectResult): void {
   target.flagChanges.push(...source.flagChanges);
   if (!target.dialogueToShow && source.dialogueToShow) {
     target.dialogueToShow = source.dialogueToShow;
+  }
+  if (!target.weatherChange && source.weatherChange) {
+    target.weatherChange = source.weatherChange;
   }
 }

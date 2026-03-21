@@ -9,6 +9,7 @@ import { allPlayersDone } from '../helpers/mapHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
 import type { StatGains } from '../../core/experience';
 import type { GameState, GameActions } from '../gameStoreTypes';
+import { addSupportPoints } from './supportActions';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -99,6 +100,9 @@ export function confirmDance(get: Get, set: Set, targetId: string) {
     levelUpUnitId: levelUpUnit,
     refreshedUnitIds: new Set([targetId]),
   });
+
+  // Support points: +3 for dance
+  addSupportPoints(get, set, selectedUnitId, targetId, 'dance');
 
   // Clear sparkle effect after animation completes
   setTimeout(() => {

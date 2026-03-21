@@ -29,6 +29,9 @@ import { startRescueTargeting, confirmRescue, startDropTargeting, confirmDrop } 
 import { executeLockpick } from './actions/lockpickActions';
 import { startTradeTargeting, confirmTrade } from './actions/tradeActions';
 import { rest } from './actions/metaStatActions';
+import { useTorch } from './actions/fogActions';
+import { attackTerrain } from './actions/terrainActions';
+import { dismissSupportRankUp } from './actions/supportActions';
 
 export const useGameStore = create<GameState & GameActions>((set, get) => ({
   gameMap: EMPTY_MAP,
@@ -98,8 +101,28 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   stealAnimationData: null,
   rescueAnimationData: null,
 
+  // Fog of war
+  fogOfWar: false,
+  fogMap: new Map(),
+  visibleTiles: new Set(),
+  torchEffects: new Map(),
+
+  // Weather
+  weather: 'clear',
+
+  // Destructible terrain
+  terrainHpMap: new Map(),
+  terrainDestroyPositions: new Set(),
+
+  // Fog reveal
+  fogRevealTiles: new Set(),
+
+  // Support
+  supportPairs: [],
+  supportRankUp: null,
+
   // Init
-  initChapter: (chapter, seed = 12345, unitProgress?, deployedUnitIds?) => initChapter(get, set, chapter, seed, unitProgress, deployedUnitIds),
+  initChapter: (chapter, seed = 12345, unitProgress?, deployedUnitIds?, supportPairs?) => initChapter(get, set, chapter, seed, unitProgress, deployedUnitIds, supportPairs),
 
   // Selection & navigation
   selectUnit: (unitId) => selectUnit(get, set, unitId),
@@ -200,6 +223,11 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
 
   // Rest
   rest: () => rest(get, set),
+
+  // Fog of war
+  useTorch: () => useTorch(get, set),
+  attackTerrain: () => attackTerrain(get, set),
+  dismissSupportRankUp: () => dismissSupportRankUp(get, set),
 
   // Canto
   confirmCantoMove: (pos) => confirmCantoMove(get, set, pos),

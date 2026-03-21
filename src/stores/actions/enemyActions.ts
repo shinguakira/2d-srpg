@@ -3,6 +3,7 @@ import { getManhattanDistance, getPath } from '../../core/pathfinding';
 import { calculateCombatForecast, resolveCombat, resolveHealing } from '../../core/combat';
 import { decideAction } from '../../core/ai';
 import type { AIAction, AIContext } from '../../core/ai';
+import { getWeatherMovPenalty, getWeatherTerrainCostMod } from '../../core/weather';
 import type { GameState, GameActions } from '../gameStoreTypes';
 import { IDLE_RESET } from '../helpers/constants';
 import { applyCombatResult } from '../helpers/combatResolution';
@@ -10,6 +11,7 @@ import { checkVictory, getClassFlags } from '../helpers/mapHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
 import { checkAndFireEvents } from './eventActions';
 import { isNearRen } from '../../core/metaStats';
+import { getTotalSupportBonuses } from '../../core/support';
 
 /** Check if walk animation should be skipped (for E2E tests) */
 function shouldSkipWalkAnim(): boolean {
@@ -21,10 +23,10 @@ type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
 
 export function computeEnemyActions(get: Get, set: Set) {
-  const { units, gameMap, visitedVillages, openedChests } = get();
+  const { units, gameMap, visitedVillages, openedChests, weather } = get();
   const actions: AIAction[] = [];
 
-  const ctx: AIContext = { visitedVillages, openedChests };
+  const ctx: AIContext = { visitedVillages, openedChests, weather };
 
   // Use a mutable copy of units so each enemy sees previous enemies' planned positions
   const simUnits = new Map(units);
@@ -34,7 +36,12 @@ export function computeEnemyActions(get: Get, set: Set) {
 
   for (const unit of units.values()) {
     if (unit.faction === 'enemy' && !unit.hasActed) {
-      const action = decideAction(simUnits.get(unit.id)!, gameMap, simUnits, getClassFlags(unit), ctx);
+      const flags = getClassFlags(unit);
+      const weatherMods = weather !== 'clear' ? {
+        movPenalty: getWeatherMovPenalty(weather, flags),
+        terrainCostMod: getWeatherTerrainCostMod(weather, flags),
+      } : undefined;
+      const action = decideAction(simUnits.get(unit.id)!, gameMap, simUnits, flags, { ...ctx, weatherMods });
       actions.push(action);
 
       // Simulate the move so the next enemy sees the updated position
@@ -206,7 +213,9 @@ function finalizeEnemyAction(
 
     const attackerNearRen = combatUnit.id !== 'ren' && isNearRen(destination, newUnits);
     const defenderNearRen = target.id !== 'ren' && isNearRen(target.position, newUnits);
-    const forecast = calculateCombatForecast(combatUnit, target, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen });
+    const { weather: w, supportPairs } = get();
+    const defenderSupport = target.faction === 'player' ? getTotalSupportBonuses(target.id, target.position, newUnits, supportPairs) : undefined;
+    const forecast = calculateCombatForecast(combatUnit, target, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen, weather: w, defenderSupport });
     const result = resolveCombat(forecast, rng, combatUnit, target);
 
     set({

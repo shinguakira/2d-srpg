@@ -2,17 +2,19 @@ import type { Position } from '../../core/types';
 import { posKey } from '../../core/types';
 import { getMovementRange, getFullAttackRange, getPath, getAttackTilesFrom, getManhattanDistance } from '../../core/pathfinding';
 import { calculateCombatForecast } from '../../core/combat';
+import { getWeatherMovPenalty, getWeatherTerrainCostMod } from '../../core/weather';
 import type { GameState, GameActions } from '../gameStoreTypes';
 import { EMPTY_SET, IDLE_RESET } from '../helpers/constants';
 import { getClassFlags } from '../helpers/mapHelpers';
 import { hasSkill } from '../../core/skills';
 import { isExhausted, isNearRen } from '../../core/metaStats';
+import { getTotalSupportBonuses } from '../../core/support';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
 
 export function selectUnit(get: Get, set: Set, unitId: string) {
-  const { units, gameMap } = get();
+  const { units, gameMap, weather } = get();
   const unit = units.get(unitId);
   if (!unit) return;
   if (unit.faction !== 'player') return;
@@ -21,11 +23,15 @@ export function selectUnit(get: Get, set: Set, unitId: string) {
 
   const flags = getClassFlags(unit);
   const canPass = hasSkill(unit, 'pass');
+  const weatherMods = weather !== 'clear' ? {
+    movPenalty: getWeatherMovPenalty(weather, flags),
+    terrainCostMod: getWeatherTerrainCostMod(weather, flags),
+  } : undefined;
 
   // Exhausted units can only stay on current tile
   const moveRange = isExhausted(unit)
     ? new Set([posKey(unit.position)])
-    : getMovementRange(unit, gameMap, units, flags, canPass);
+    : getMovementRange(unit, gameMap, units, flags, canPass, weatherMods);
   const atkRange = getFullAttackRange(unit, moveRange, gameMap);
 
   set({
@@ -76,7 +82,10 @@ export function hoverTile(get: Get, set: Set, pos: Position | null) {
           const atkAtPending = { ...attacker, position: { ...pendingPosition }, equippedWeapon: weapon };
           const attackerNearRen = attacker.id !== 'ren' && isNearRen(pendingPosition, units);
           const defenderNearRen = unit.id !== 'ren' && isNearRen(unit.position, units);
-          const forecast = calculateCombatForecast(atkAtPending, unit, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen });
+          const { weather: w, supportPairs: sp } = get();
+          const attackerSupport = getTotalSupportBonuses(attacker.id, pendingPosition, units, sp);
+          const defenderSupport = getTotalSupportBonuses(unit.id, unit.position, units, sp);
+          const forecast = calculateCombatForecast(atkAtPending, unit, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen, weather: w, attackerSupport, defenderSupport });
           set({ hoveredTile: pos, movePath: [], combatForecast: forecast });
           return;
         }

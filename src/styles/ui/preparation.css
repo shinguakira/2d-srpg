@@ -482,3 +482,197 @@
   color: #64748b;
   font-style: italic;
 }
+
+/* ===== Bonus EXP Tab ===== */
+.prep-screen__bonus-exp {
+  width: 100%;
+}
+
+.prep-screen__bonus-pool {
+  text-align: center;
+  font-size: 1rem;
+  margin-bottom: 12px;
+  padding: 8px;
+  background: rgba(250, 204, 21, 0.1);
+  border: 1px solid rgba(250, 204, 21, 0.3);
+  border-radius: 6px;
+  color: #fbbf24;
+}
+
+.prep-screen__bonus-unit {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.prep-screen__bonus-unit-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.prep-screen__bonus-unit-name {
+  font-weight: 600;
+  min-width: 60px;
+}
+
+.prep-screen__bonus-unit-level {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.prep-screen__bonus-unit-exp {
+  font-size: 0.75rem;
+  color: #60a5fa;
+  min-width: 70px;
+}
+
+.prep-screen__bonus-btn {
+  padding: 4px 12px;
+  background: rgba(250, 204, 21, 0.15);
+  border: 1px solid rgba(250, 204, 21, 0.4);
+  border-radius: 4px;
+  color: #fbbf24;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.prep-screen__bonus-btn:hover:not(:disabled) {
+  background: rgba(250, 204, 21, 0.25);
+}
+
+.prep-screen__bonus-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.prep-screen__bonus-levelup-preview {
+  font-size: 0.65rem;
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  white-space: nowrap;
+}
+
+.prep-screen__bonus-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ===== Forge Tab ===== */
+.prep-screen__forge {
+  width: 100%;
+}
+
+.prep-screen__forge-header {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.prep-screen__forge-materials {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  flex: 1;
+  padding: 8px;
+  background: rgba(100, 160, 255, 0.1);
+  border: 1px solid rgba(100, 160, 255, 0.3);
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.prep-screen__forge-gold {
+  padding: 8px 14px;
+  background: rgba(250, 204, 21, 0.1);
+  border: 1px solid rgba(250, 204, 21, 0.3);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: #fbbf24;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.prep-screen__forge-mat {
+  padding: 2px 8px;
+  background: rgba(100, 160, 255, 0.15);
+  border-radius: 3px;
+  color: #93c5fd;
+}
+
+.prep-screen__forge-unit {
+  margin-bottom: 12px;
+}
+
+.prep-screen__forge-unit-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.prep-screen__forge-unit-name {
+  font-weight: 600;
+}
+
+.prep-screen__forge-weapons {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 8px;
+}
+
+.prep-screen__forge-weapon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.8rem;
+}
+
+.prep-screen__forge-weapon-name {
+  min-width: 130px;
+  color: #e2e8f0;
+}
+
+.prep-screen__forge-weapon-stats {
+  min-width: 120px;
+  color: #94a3b8;
+}
+
+.prep-screen__forge-preview {
+  color: #4ade80;
+}
+
+.prep-screen__forge-cost {
+  color: #f59e0b;
+  font-size: 0.7rem;
+}
+
+.prep-screen__forge-btn {
+  padding: 3px 10px;
+  background: rgba(100, 160, 255, 0.15);
+  border: 1px solid rgba(100, 160, 255, 0.4);
+  border-radius: 4px;
+  color: #60a5fa;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.prep-screen__forge-btn:hover:not(:disabled) {
+  background: rgba(100, 160, 255, 0.25);
+}
+
+.prep-screen__forge-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}

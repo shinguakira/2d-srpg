@@ -9,9 +9,10 @@ type UnitSpriteProps = {
   isSpawning?: boolean;
   isRemoving?: boolean;
   isRefreshed?: boolean;
+  hasActiveSupport?: boolean;
 };
 
-export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected, isSpawning, isRemoving, isRefreshed }: UnitSpriteProps) {
+export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected, isSpawning, isRemoving, isRefreshed, hasActiveSupport }: UnitSpriteProps) {
   const hpPercent = Math.max(0, (unit.currentHp / unit.stats.hp) * 100);
   const hpColor = hpPercent > 50 ? '#22c55e' : hpPercent > 25 ? '#eab308' : '#ef4444';
   const c = FACTION_COLORS[unit.faction];
@@ -99,6 +100,17 @@ export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected,
       {sta >= 45 && (
         <svg className="unit-sprite__sta-sweat" viewBox="0 0 8 10" width="8" height="10">
           <path d="M4 0 Q6 4 4 8 Q2 4 4 0Z" fill="#60a5fa" opacity="0.8" />
+        </svg>
+      )}
+
+      {/* Support heart — shown when ranked support partner within 3 tiles */}
+      {hasActiveSupport && unit.faction === 'player' && (
+        <svg
+          className="unit-sprite__support-heart"
+          viewBox="0 0 10 10"
+          data-testid={`support-heart-${unit.id}`}
+        >
+          <path d="M5 8 C2 5.5 0.5 3.5 2 2 C3 1 4.5 1.5 5 3 C5.5 1.5 7 1 8 2 C9.5 3.5 8 5.5 5 8Z" fill="#f472b6" stroke="#be185d" strokeWidth="0.5" />
         </svg>
       )}
 

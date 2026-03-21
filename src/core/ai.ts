@@ -1,4 +1,4 @@
-import type { Unit, GameMap, Position, TerrainType } from './types';
+import type { Unit, GameMap, Position, TerrainType, WeatherType } from './types';
 import { posKey } from './types';
 import { getMovementRange, getAttackTilesFrom, getManhattanDistance } from './pathfinding';
 import { calculateCombatForecast, getWeaponTriangle } from './combat';
@@ -23,6 +23,8 @@ export type AIAction = {
 export type AIContext = {
   visitedVillages?: ReadonlySet<string>;
   openedChests?: ReadonlySet<string>;
+  weather?: WeatherType;
+  weatherMods?: { movPenalty?: number; terrainCostMod?: number };
 };
 
 // ===== Main Decision Function =====
@@ -40,26 +42,29 @@ export function decideAction(
 ): AIAction {
   const behavior = unit.aiBehavior?.type ?? 'aggressive';
 
+  const wm = ctx?.weatherMods;
+  const wt = ctx?.weather;
+
   switch (behavior) {
     case 'stationary':
     case 'boss':
-      return decideStationaryOrBoss(unit, gameMap, allUnits, behavior);
+      return decideStationaryOrBoss(unit, gameMap, allUnits, behavior, wm, wt);
     case 'guard':
-      return decideGuard(unit, gameMap, allUnits, classFlags);
+      return decideGuard(unit, gameMap, allUnits, classFlags, wm, wt);
     case 'survival':
-      return decideSurvival(unit, gameMap, allUnits, classFlags);
+      return decideSurvival(unit, gameMap, allUnits, classFlags, wm, wt);
     case 'thief':
-      return decideThief(unit, gameMap, allUnits, classFlags, ctx);
+      return decideThief(unit, gameMap, allUnits, classFlags, ctx, wm, wt);
     case 'healer':
-      return decideHealer(unit, gameMap, allUnits, classFlags);
+      return decideHealer(unit, gameMap, allUnits, classFlags, wm, wt);
     case 'escort':
-      return decideEscort(unit, gameMap, allUnits, classFlags);
+      return decideEscort(unit, gameMap, allUnits, classFlags, wm, wt);
     case 'coordinated':
-      return decideCoordinated(unit, gameMap, allUnits, classFlags);
+      return decideCoordinated(unit, gameMap, allUnits, classFlags, wm, wt);
     case 'ambush':
-      return decideAmbush(unit, gameMap, allUnits, classFlags);
+      return decideAmbush(unit, gameMap, allUnits, classFlags, wm, wt);
     default:
-      return decideAggressive(unit, gameMap, allUnits, classFlags);
+      return decideAggressive(unit, gameMap, allUnits, classFlags, wm, wt);
   }
 }
 
@@ -122,6 +127,7 @@ function collectAttackOptions(
   movablePositions: Position[],
   gameMap: GameMap,
   allUnits: Map<string, Unit>,
+  weather: WeatherType | undefined,
   behavior: string,
 ): Array<{ moveTo: Position; targetId: string; forecast: CombatForecast; score: number }> {
   const options: Array<{ moveTo: Position; targetId: string; forecast: CombatForecast; score: number }> = [];
@@ -141,7 +147,7 @@ function collectAttackOptions(
       const unitAtPos = { ...unit, position: pos };
       const attackerNearRen = unit.id !== 'ren' && isNearRen(pos, allUnits);
       const defenderNearRen = target.id !== 'ren' && isNearRen(target.position, allUnits);
-      const forecast = calculateCombatForecast(unitAtPos, target, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen });
+      const forecast = calculateCombatForecast(unitAtPos, target, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen, weather });
 
       let score = scoreTarget(forecast, target, unit, defenderTerrain);
 
@@ -159,8 +165,8 @@ function collectAttackOptions(
 }
 
 /** Get full movement range as Position[] */
-function getMovablePositions(unit: Unit, gameMap: GameMap, allUnits: Map<string, Unit>, classFlags?: ClassFlags): Position[] {
-  const moveRange = getMovementRange(unit, gameMap, allUnits, classFlags);
+function getMovablePositions(unit: Unit, gameMap: GameMap, allUnits: Map<string, Unit>, classFlags?: ClassFlags, weatherMods?: { movPenalty?: number; terrainCostMod?: number }): Position[] {
+  const moveRange = getMovementRange(unit, gameMap, allUnits, classFlags, undefined, weatherMods);
   return Array.from(moveRange).map((key) => {
     const [x, y] = key.split(',').map(Number);
     return { x, y } as Position;
@@ -273,9 +279,11 @@ function decideStationaryOrBoss(
   gameMap: GameMap,
   allUnits: Map<string, Unit>,
   behavior: string,
+  _wm?: { movPenalty?: number; terrainCostMod?: number },
+  wt?: WeatherType,
 ): AIAction {
   const movablePositions = [{ ...unit.position }];
-  const options = collectAttackOptions(unit, movablePositions, gameMap, allUnits, behavior);
+  const options = collectAttackOptions(unit, movablePositions, gameMap, allUnits, wt, behavior);
 
   if (options.length > 0) {
     const best = options[0];
@@ -289,8 +297,10 @@ function decideGuard(
   gameMap: GameMap,
   allUnits: Map<string, Unit>,
   classFlags?: ClassFlags,
+  wm?: { movPenalty?: number; terrainCostMod?: number },
+  wt?: WeatherType,
 ): AIAction {
-  let movablePositions = getMovablePositions(unit, gameMap, allUnits, classFlags);
+  let movablePositions = getMovablePositions(unit, gameMap, allUnits, classFlags, wm);
 
   if (unit.aiBehavior?.type === 'guard' && unit.startPosition) {
     const { radius } = unit.aiBehavior;
@@ -298,7 +308,7 @@ function decideGuard(
     movablePositions = movablePositions.filter((pos) => getManhattanDistance(pos, start) <= radius);
   }
 
-  const options = collectAttackOptions(unit, movablePositions, gameMap, allUnits, 'guard');
+  const options = collectAttackOptions(unit, movablePositions, gameMap, allUnits, wt, 'guard');
   if (options.length > 0) {
     const best = options[0];
     return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast };
@@ -362,9 +372,11 @@ function decideAggressive(
   gameMap: GameMap,
   allUnits: Map<string, Unit>,
   classFlags?: ClassFlags,
+  wm?: { movPenalty?: number; terrainCostMod?: number },
+  wt?: WeatherType,
 ): AIAction {
-  const movablePositions = getMovablePositions(unit, gameMap, allUnits, classFlags);
-  const options = collectAttackOptions(unit, movablePositions, gameMap, allUnits, 'aggressive');
+  const movablePositions = getMovablePositions(unit, gameMap, allUnits, classFlags, wm);
+  const options = collectAttackOptions(unit, movablePositions, gameMap, allUnits, wt, 'aggressive');
 
   if (options.length > 0) {
     const best = options[0];
@@ -381,13 +393,15 @@ function decideSurvival(
   gameMap: GameMap,
   allUnits: Map<string, Unit>,
   classFlags?: ClassFlags,
+  wm?: { movPenalty?: number; terrainCostMod?: number },
+  wt?: WeatherType,
 ): AIAction {
   const hpPct = unit.currentHp / unit.stats.hp;
-  const movablePositions = getMovablePositions(unit, gameMap, allUnits, classFlags);
+  const movablePositions = getMovablePositions(unit, gameMap, allUnits, classFlags, wm);
 
   // HP > 50%: aggressive mode
   if (hpPct > 0.5) {
-    return decideAggressive(unit, gameMap, allUnits, classFlags);
+    return decideAggressive(unit, gameMap, allUnits, classFlags, wm, wt);
   }
 
   // HP <= 30%: retreat mode
@@ -408,7 +422,7 @@ function decideSurvival(
   }
 
   // HP 30-50%: cautious mode — only attack if safe and score > 80
-  const options = collectAttackOptions(unit, movablePositions, gameMap, allUnits, 'survival');
+  const options = collectAttackOptions(unit, movablePositions, gameMap, allUnits, wt, 'survival');
   const safeOptions = options.filter((opt) => {
     if (!opt.forecast.defenderCanCounter) return true;
     const counterDmg = opt.forecast.defenderDamage * (opt.forecast.defenderCanDouble ? 2 : 1);
@@ -438,8 +452,10 @@ function decideThief(
   allUnits: Map<string, Unit>,
   classFlags?: ClassFlags,
   ctx?: AIContext,
+  wm?: { movPenalty?: number; terrainCostMod?: number },
+  wt?: WeatherType,
 ): AIAction {
-  const movablePositions = getMovablePositions(unit, gameMap, allUnits, classFlags);
+  const movablePositions = getMovablePositions(unit, gameMap, allUnits, classFlags, wm);
 
   // Find loot targets: chest and village tiles
   const targets: Position[] = [];
@@ -516,7 +532,7 @@ function decideThief(
   }
 
   // No loot targets remain — fall back to aggressive
-  return decideAggressive(unit, gameMap, allUnits, classFlags);
+  return decideAggressive(unit, gameMap, allUnits, classFlags, wm, wt);
 }
 
 function decideHealer(
@@ -524,8 +540,10 @@ function decideHealer(
   gameMap: GameMap,
   allUnits: Map<string, Unit>,
   classFlags?: ClassFlags,
+  wm?: { movPenalty?: number; terrainCostMod?: number },
+  _wt?: WeatherType,
 ): AIAction {
-  const movablePositions = getMovablePositions(unit, gameMap, allUnits, classFlags);
+  const movablePositions = getMovablePositions(unit, gameMap, allUnits, classFlags, wm);
   const hpPct = unit.currentHp / unit.stats.hp;
 
   // If HP < 50%, flee (maximize distance from hostiles)
@@ -591,16 +609,18 @@ function decideEscort(
   gameMap: GameMap,
   allUnits: Map<string, Unit>,
   classFlags?: ClassFlags,
+  wm?: { movPenalty?: number; terrainCostMod?: number },
+  wt?: WeatherType,
 ): AIAction {
-  if (unit.aiBehavior?.type !== 'escort') return decideAggressive(unit, gameMap, allUnits, classFlags);
+  if (unit.aiBehavior?.type !== 'escort') return decideAggressive(unit, gameMap, allUnits, classFlags, wm, wt);
 
   const targetUnit = allUnits.get(unit.aiBehavior.targetUnitId);
   if (!targetUnit) {
     // Target dead — fall back to aggressive
-    return decideAggressive(unit, gameMap, allUnits, classFlags);
+    return decideAggressive(unit, gameMap, allUnits, classFlags, wm, wt);
   }
 
-  const movablePositions = getMovablePositions(unit, gameMap, allUnits, classFlags);
+  const movablePositions = getMovablePositions(unit, gameMap, allUnits, classFlags, wm);
 
   // Filter to positions within 2 tiles of escort target
   const nearTargetPositions = movablePositions.filter(
@@ -620,7 +640,7 @@ function decideEscort(
 
   // If threats exist, try to attack the closest one
   if (threats.length > 0) {
-    const options = collectAttackOptions(unit, candidatePositions, gameMap, allUnits, 'escort');
+    const options = collectAttackOptions(unit, candidatePositions, gameMap, allUnits, wt, 'escort');
     // Prioritize threats to the escort target
     const threatIds = new Set(threats.map((t) => t.id));
     const threatOptions = options.filter((o) => threatIds.has(o.targetId));
@@ -678,8 +698,10 @@ function decideCoordinated(
   gameMap: GameMap,
   allUnits: Map<string, Unit>,
   classFlags?: ClassFlags,
+  wm?: { movPenalty?: number; terrainCostMod?: number },
+  wt?: WeatherType,
 ): AIAction {
-  if (unit.aiBehavior?.type !== 'coordinated') return decideAggressive(unit, gameMap, allUnits, classFlags);
+  if (unit.aiBehavior?.type !== 'coordinated') return decideAggressive(unit, gameMap, allUnits, classFlags, wm, wt);
 
   const groupId = unit.aiBehavior.groupId;
 
@@ -693,12 +715,12 @@ function decideCoordinated(
 
   // If fewer than 3 coordinated units remain, fall back to aggressive
   if (groupCount < 3) {
-    return decideAggressive(unit, gameMap, allUnits, classFlags);
+    return decideAggressive(unit, gameMap, allUnits, classFlags, wm, wt);
   }
 
   // Find the highest-priority target across all player units
-  const movablePositions = getMovablePositions(unit, gameMap, allUnits, classFlags);
-  const allOptions = collectAttackOptions(unit, movablePositions, gameMap, allUnits, 'coordinated');
+  const movablePositions = getMovablePositions(unit, gameMap, allUnits, classFlags, wm);
+  const allOptions = collectAttackOptions(unit, movablePositions, gameMap, allUnits, wt, 'coordinated');
 
   // Score all hostiles to find focus target
   let bestTargetId: string | null = null;
@@ -733,14 +755,16 @@ function decideAmbush(
   gameMap: GameMap,
   allUnits: Map<string, Unit>,
   classFlags?: ClassFlags,
+  wm?: { movPenalty?: number; terrainCostMod?: number },
+  wt?: WeatherType,
 ): AIAction {
-  if (unit.aiBehavior?.type !== 'ambush') return decideAggressive(unit, gameMap, allUnits, classFlags);
+  if (unit.aiBehavior?.type !== 'ambush') return decideAggressive(unit, gameMap, allUnits, classFlags, wm, wt);
 
   const triggerRadius = unit.aiBehavior.triggerRadius;
 
   // If already revealed, behave like aggressive
   if (!unit.isHidden) {
-    return decideAggressive(unit, gameMap, allUnits, classFlags);
+    return decideAggressive(unit, gameMap, allUnits, classFlags, wm, wt);
   }
 
   // Check if any hostile unit is within trigger radius
@@ -760,8 +784,8 @@ function decideAmbush(
   }
 
   // Triggered — reveal and attack
-  const movablePositions = getMovablePositions(unit, gameMap, allUnits, classFlags);
-  const options = collectAttackOptions(unit, movablePositions, gameMap, allUnits, 'ambush');
+  const movablePositions = getMovablePositions(unit, gameMap, allUnits, classFlags, wm);
+  const options = collectAttackOptions(unit, movablePositions, gameMap, allUnits, wt, 'ambush');
 
   if (options.length > 0) {
     const best = options[0];

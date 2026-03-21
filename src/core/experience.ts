@@ -1,5 +1,5 @@
 import type { Unit, GrowthRates, UnitStats } from './types';
-import type { SeededRandom } from './rng';
+import { SeededRandom } from './rng';
 
 export type StatGains = {
   hp: number;
@@ -79,6 +79,26 @@ export function checkLevelUp(currentExp: number, expGain: number): { newExp: num
     return { newExp: totalExp - 100, newLevel: 1, leveled: true };
   }
   return { newExp: totalExp, newLevel: 0, leveled: false };
+}
+
+/**
+ * Preview the result of allocating bonus EXP to a unit.
+ * Returns whether it would trigger a level-up and the projected stat gains.
+ */
+export function previewBonusExp(
+  currentExp: number,
+  amount: number,
+  level: number,
+  growthRates: GrowthRates,
+): { wouldLevel: boolean; projectedGains: StatGains | null } {
+  const newExp = currentExp + amount;
+  if (newExp >= 100) {
+    // Use same seed formula as campaignStore.allocateBonusExp
+    const rng = new SeededRandom(level * 1000 + newExp);
+    const gains = rollLevelUp(growthRates, rng);
+    return { wouldLevel: true, projectedGains: gains };
+  }
+  return { wouldLevel: false, projectedGains: null };
 }
 
 export { EMPTY_GAINS };

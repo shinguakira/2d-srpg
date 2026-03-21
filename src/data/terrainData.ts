@@ -24,6 +24,7 @@ export const TERRAIN_COLORS: Record<TerrainType, string> = {
   memory:         '#6090c0',
   corrupted_fort: '#708060',
   broken_throne:  '#a09040',
+  rubble:         '#6a6058',
 };
 
 /** Display label for terrain info panel */
@@ -50,4 +51,5 @@ export const TERRAIN_LABELS: Record<TerrainType, string> = {
   memory:         'Memory',
   corrupted_fort: 'Corrupted Fort',
   broken_throne:  'Broken Throne',
+  rubble:         'Rubble',
 };

@@ -5,6 +5,7 @@ type UseItemContext = {
   gameMap: GameMap;
   position: Position;
   openedChests?: Set<string>;
+  fogOfWar?: boolean;
 };
 
 /** Check if a unit can use a given item */
@@ -29,6 +30,9 @@ export function canUseItem(unit: Unit, item: ConsumableItem, context?: UseItemCo
       if (item.effect.targetTerrain === 'chest' && tile.terrain === 'chest' && !openedChests?.has(posKey(adj))) return true;
     }
     return false;
+  }
+  if (item.effect.kind === 'torch') {
+    return !!context?.fogOfWar;
   }
   return false;
 }

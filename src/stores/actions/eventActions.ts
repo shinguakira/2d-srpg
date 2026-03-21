@@ -183,6 +183,9 @@ function applyEffectResult(get: Get, set: Set, result: EffectResult) {
   if (flagsChanged) {
     stateUpdate.eventFlags = newFlags;
   }
+  if (result.weatherChange) {
+    stateUpdate.weather = result.weatherChange;
+  }
 
   // Track animations
   if (newSpawning.size > 0) stateUpdate.spawningUnitIds = newSpawning;

@@ -7,6 +7,7 @@ import { getManhattanDistance } from '../../core/pathfinding';
 import { hasSkill } from '../../core/skills';
 import { canRescueUnit } from '../../core/rescue';
 import { isExhausted } from '../../core/metaStats';
+import { canAttackTerrain } from '../../core/destructibleTerrain';
 
 export function ActionMenu() {
   const playerAction = useGameStore((s) => s.playerAction);
@@ -40,6 +41,10 @@ export function ActionMenu() {
   const openedChests = useGameStore((s) => s.openedChests);
   const startTradeTargeting = useGameStore((s) => s.startTradeTargeting);
   const restAction = useGameStore((s) => s.rest);
+  const attackTerrainAction = useGameStore((s) => s.attackTerrain);
+  const terrainHpMap = useGameStore((s) => s.terrainHpMap);
+  const useTorchAction = useGameStore((s) => s.useTorch);
+  const fogOfWar = useGameStore((s) => s.fogOfWar);
   const cameraOffset = useUIStore((s) => s.cameraOffset);
   const tileSize = useUIStore((s) => s.tileSize);
 
@@ -264,6 +269,23 @@ export function ActionMenu() {
     return false;
   })();
 
+  // Check break — adjacent destructible terrain with HP remaining
+  const canBreak = (() => {
+    if (!selectedUnit || !pendingPosition) return false;
+    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    for (const d of dirs) {
+      const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
+      if (adj.x < 0 || adj.y < 0 || adj.x >= gameMap.width || adj.y >= gameMap.height) continue;
+      const terrain = gameMap.tiles[adj.y][adj.x].terrain;
+      const key = posKey(adj);
+      if (terrainHpMap.has(key) && canAttackTerrain(selectedUnit, terrain)) return true;
+    }
+    return false;
+  })();
+
+  // Check torch — unit has torch item and fog is active
+  const canUseTorch = fogOfWar && selectedUnit && selectedUnit.items.some((i) => i.effect.kind === 'torch' && i.uses > 0);
+
   // Position menu next to the pending tile
   const menuX = (pendingPosition.x + 1) * tileSize + cameraOffset.x + 4;
   const menuY = pendingPosition.y * tileSize + cameraOffset.y;
@@ -461,6 +483,24 @@ export function ActionMenu() {
               onClick={startTradeTargeting}
             >
               Trade
+            </button>
+          )}
+          {!exhausted && canBreak && (
+            <button
+              className="action-menu__btn action-menu__btn--attack"
+              data-testid="action-break"
+              onClick={attackTerrainAction}
+            >
+              Break
+            </button>
+          )}
+          {!exhausted && canUseTorch && (
+            <button
+              className="action-menu__btn action-menu__btn--visit"
+              data-testid="action-torch"
+              onClick={useTorchAction}
+            >
+              Torch
             </button>
           )}
           {canRest && (

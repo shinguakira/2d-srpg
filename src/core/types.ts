@@ -38,7 +38,8 @@ export type TerrainType =
   | 'data_void'
   | 'memory'
   | 'corrupted_fort'
-  | 'broken_throne';
+  | 'broken_throne'
+  | 'rubble';
 
 export type TerrainData = {
   readonly name: string;
@@ -83,6 +84,7 @@ export type Weapon = {
   readonly brave?: boolean;
   readonly prf?: string;
   readonly crpGain?: number; // CRP inflicted on hit (dark magic)
+  readonly forgeLevel?: number; // 0-3, forge bonuses: +2 might/level, +5 hit/level
 };
 
 // ===== Items =====
@@ -90,7 +92,8 @@ export type Weapon = {
 export type ItemEffect =
   | { readonly kind: 'heal'; readonly amount: number }
   | { readonly kind: 'promote'; readonly eligibleClasses: string[] }
-  | { readonly kind: 'unlock'; readonly targetTerrain: 'door' | 'chest' };
+  | { readonly kind: 'unlock'; readonly targetTerrain: 'door' | 'chest' }
+  | { readonly kind: 'torch' };
 
 export type ConsumableItem = {
   readonly id: string;
@@ -206,6 +209,7 @@ export type Unit = {
   isCarried?: boolean;
   originalStats?: UnitStats;
   metaStats: MetaStats;
+  visionRange?: number; // default 3, thief 5
 };
 
 // ===== Game State =====
@@ -228,6 +232,23 @@ export type PlayerAction =
   | 'rescue_target'
   | 'drop_target'
   | 'trade_target';
+
+// ===== Weather & Fog =====
+
+export type WeatherType = 'clear' | 'rain' | 'fog' | 'snow' | 'sandstorm' | 'corruption_storm';
+
+export type FogState = 'hidden' | 'revealed' | 'visible';
+
+// ===== Support System =====
+
+export type SupportRank = 'C' | 'B' | 'A' | 'S';
+
+export type SupportPair = {
+  unitA: string;
+  unitB: string;
+  points: number;
+  rank: SupportRank | null;
+};
 
 // ===== Chapter =====
 
@@ -263,6 +284,7 @@ export type VillageData = {
 export type SupportConversation = {
   readonly unitA: string;
   readonly unitB: string;
+  readonly rank?: SupportRank; // if set, unlocks when pair reaches this rank
   readonly lines: DialogueLine[];
   readonly reward: SupportReward;
 };
@@ -299,6 +321,10 @@ export type ChapterData = {
   readonly forceDeploy?: string[];
   readonly parTurns?: number;
   readonly recruitableUnits?: string[]; // unit IDs recruitable in this chapter (cross-ref with unit.recruitableBy)
+  readonly fogOfWar?: boolean;
+  readonly weather?: WeatherType;
+  readonly weatherChanges?: ReadonlyArray<{ readonly turn: number; readonly weather: WeatherType; readonly message?: string }>;
+  readonly destructibleTerrain?: ReadonlyArray<{ readonly position: Position; readonly hp: number; readonly destroyedTerrain: TerrainType }>;
 };
 
 export type ReinforcementWave = {
@@ -334,7 +360,8 @@ export type EventEffect =
   | { readonly type: 'remove_unit'; readonly unitId: string }
   | { readonly type: 'change_terrain'; readonly position: Position; readonly terrain: TerrainType }
   | { readonly type: 'set_flag'; readonly key: string; readonly value: string }
-  | { readonly type: 'chain'; readonly effects: EventEffect[] };
+  | { readonly type: 'chain'; readonly effects: EventEffect[] }
+  | { readonly type: 'change_weather'; readonly weather: WeatherType };
 
 export type ChapterEvent = {
   readonly id: string;
@@ -368,16 +395,22 @@ export type UnitProgress = {
   readonly learnedSkillIds?: string[];
   readonly metaStats?: MetaStats;
   readonly crpLowChapters?: number; // chapters with CRP < 15 (for passive decay)
+  readonly supportPartners?: string[]; // partner unit IDs (5-partner limit enforcement)
+  readonly weaponForgeLevel?: number[]; // per-weapon forge levels (parallel to weaponIds)
 };
 
 export type SaveData = {
-  readonly version: 4;
+  readonly version: 5;
   readonly timestamp: number;
   readonly currentChapterId: string;
   readonly completedChapters: string[];
   readonly unitProgress: Record<string, UnitProgress>;
   readonly roster: string[];
   readonly deadUnitIds: string[];
+  readonly supportPairs?: SupportPair[];
+  readonly bonusExp?: number;
+  readonly forgeMaterials?: string[];
+  readonly gold?: number;
 };
 
 // ===== App Screens =====

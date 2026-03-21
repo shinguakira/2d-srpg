@@ -17,6 +17,9 @@ import { ExpBar } from './Combat/ExpBar';
 import { EventDialogue } from './UI/EventDialogue';
 import { UnitDetailScreen } from './UI/UnitDetailScreen';
 import { TradeUI } from './UI/TradeUI';
+import { WeatherOverlay } from './UI/WeatherOverlay';
+import { WeatherIndicator } from './UI/WeatherIndicator';
+import { SupportRankPopup } from './UI/SupportRankPopup';
 import { useGameStore } from '../stores/gameStore';
 import { useUIStore } from '../stores/uiStore';
 import { useCampaignStore } from '../stores/campaignStore';
@@ -40,6 +43,7 @@ export function Game() {
   const chapterData = useCampaignStore((s) => s.currentChapterData);
   const unitProgress = useCampaignStore((s) => s.unitProgress);
   const deployedUnitIds = useCampaignStore((s) => s.deployedUnitIds);
+  const campaignSupportPairs = useCampaignStore((s) => s.supportPairs);
 
   useEffect(() => {
     if (!chapterData) return;
@@ -47,7 +51,7 @@ export function Game() {
     const seed = Number(params.get('seed')) || Date.now();
     const progress = Object.keys(unitProgress).length > 0 ? unitProgress : undefined;
     const deployed = deployedUnitIds.length > 0 ? deployedUnitIds : undefined;
-    initChapter(chapterData, seed, progress, deployed);
+    initChapter(chapterData, seed, progress, deployed, campaignSupportPairs);
   }, [chapterData, initChapter]);
 
   // Compute tile size to fill viewport
@@ -96,8 +100,11 @@ export function Game() {
         </div>
       </div>
 
+      <WeatherOverlay />
+
       <div className="game__ui">
         <TurnInfo />
+        <WeatherIndicator />
         <ActionMenu />
         <EndTurnButton />
         <UnitStatsPanel />
@@ -116,6 +123,7 @@ export function Game() {
       <ReinforcementBanner />
       <UnitDetailScreen />
       <TradeUI />
+      <SupportRankPopup />
       <PhaseBanner />
 
       {/* Game Over overlay */}
@@ -131,6 +139,7 @@ function GameOverOverlay() {
   const onChapterVictory = useCampaignStore((s) => s.onChapterVictory);
   const goToTitle = useCampaignStore((s) => s.goToTitle);
 
+  const supportPairs = useGameStore((s) => s.supportPairs);
   const escapedUnitIds = useGameStore((s) => s.escapedUnitIds);
 
   let hasPlayer = false;
@@ -175,8 +184,8 @@ function GameOverOverlay() {
         };
       }
     }
-    onChapterVictory(progress, currentTurn);
-  }, [units, onChapterVictory, currentTurn]);
+    onChapterVictory(progress, currentTurn, supportPairs);
+  }, [units, onChapterVictory, currentTurn, supportPairs]);
 
   return (
     <div

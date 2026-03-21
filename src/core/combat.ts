@@ -1,4 +1,4 @@
-import type { Unit, Weapon, WeaponType, TerrainType, Faction } from './types';
+import type { Unit, Weapon, WeaponType, TerrainType, Faction, WeatherType } from './types';
 import { getTerrainData } from './terrain';
 import type { SeededRandom } from './rng';
 import {
@@ -12,6 +12,8 @@ import {
   hasSkill,
 } from './skills';
 import { getEffectiveStats, getMemoryBladeMight, getLightMagicBonus, applySyncHitBonus } from './metaStats';
+import { getWeatherCombatModifiers } from './weather';
+import type { SupportCombatBonuses } from './support';
 
 // ===== Weapon Triangle =====
 
@@ -119,16 +121,25 @@ export function calculateCombatForecast(
   attackerTerrain: TerrainType,
   defenderTerrain: TerrainType,
   distance: number,
-  options?: { attackerNearRen?: boolean; defenderNearRen?: boolean },
+  options?: { attackerNearRen?: boolean; defenderNearRen?: boolean; weather?: WeatherType; attackerSupport?: SupportCombatBonuses; defenderSupport?: SupportCombatBonuses },
 ): CombatForecast {
   const atkNearRen = options?.attackerNearRen ?? false;
   const defNearRen = options?.defenderNearRen ?? false;
+  const weather = options?.weather ?? 'clear';
+  const atkSupport = options?.attackerSupport ?? { hit: 0, avoid: 0, crit: 0, dmg: 0 };
+  const defSupport = options?.defenderSupport ?? { hit: 0, avoid: 0, crit: 0, dmg: 0 };
 
   // Apply meta-stat effective stats (STA penalties, CRP drain, LOY bonus, SYNC)
   const atkEffStats = getEffectiveStats(attacker, atkNearRen);
   const defEffStats = getEffectiveStats(defender, defNearRen);
   const atkEff = { ...attacker, stats: atkEffStats };
   const defEff = { ...defender, stats: defEffStats };
+
+  // Weather: apply SPD modifier
+  const atkWeatherMods = getWeatherCombatModifiers(weather, attacker.equippedWeapon);
+  const defWeatherMods = getWeatherCombatModifiers(weather, defender.equippedWeapon);
+  if (atkWeatherMods.spdMod) atkEff.stats = { ...atkEff.stats, spd: Math.max(0, atkEff.stats.spd + atkWeatherMods.spdMod) };
+  if (defWeatherMods.spdMod) defEff.stats = { ...defEff.stats, spd: Math.max(0, defEff.stats.spd + defWeatherMods.spdMod) };
 
   // Memory Blade: dynamic might based on LOOP
   if (attacker.equippedWeapon.id === 'memory_blade') {
@@ -140,9 +151,10 @@ export function calculateCombatForecast(
     defEff.equippedWeapon = { ...defender.equippedWeapon, might: dynamicMight };
   }
 
-  let atkDmg = calcDamage(atkEff, defEff, defenderTerrain);
-  const atkHit = calcHit(atkEff, defEff, defenderTerrain) + applySyncHitBonus(attacker.metaStats.sync);
-  const atkCrit = calcCrit(atkEff, defEff);
+  let atkDmg = calcDamage(atkEff, defEff, defenderTerrain) + atkWeatherMods.mightMod + atkSupport.dmg;
+  atkDmg = Math.max(0, atkDmg);
+  const atkHit = Math.max(0, Math.min(100, calcHit(atkEff, defEff, defenderTerrain) + applySyncHitBonus(attacker.metaStats.sync) + atkWeatherMods.hitMod + atkSupport.hit - defSupport.avoid));
+  const atkCrit = Math.max(0, calcCrit(atkEff, defEff) + atkSupport.crit);
   const atkDouble = canDouble(atkEff, defEff);
 
   // Light magic +50% damage vs corrupted units
@@ -151,9 +163,10 @@ export function calculateCombatForecast(
   }
 
   const canCounter = canCounterattack(atkEff, defEff, distance);
-  let defDmg = canCounter ? calcDamage(defEff, atkEff, attackerTerrain) : 0;
-  const defHit = canCounter ? calcHit(defEff, atkEff, attackerTerrain) + applySyncHitBonus(defender.metaStats.sync) : 0;
-  const defCrit = canCounter ? calcCrit(defEff, atkEff) : 0;
+  let defDmg = canCounter ? calcDamage(defEff, atkEff, attackerTerrain) + defWeatherMods.mightMod + defSupport.dmg : 0;
+  defDmg = Math.max(0, defDmg);
+  const defHit = canCounter ? Math.max(0, Math.min(100, calcHit(defEff, atkEff, attackerTerrain) + applySyncHitBonus(defender.metaStats.sync) + defWeatherMods.hitMod + defSupport.hit - atkSupport.avoid)) : 0;
+  const defCrit = canCounter ? Math.max(0, calcCrit(defEff, atkEff) + defSupport.crit) : 0;
   const defDouble = canCounter && canDouble(defEff, atkEff);
 
   // Light magic +50% for defender counter too

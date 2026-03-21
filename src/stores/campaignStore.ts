@@ -1,7 +1,12 @@
 import { create } from 'zustand';
-import type { AppScreen, ChapterData, DialogueScene, UnitProgress } from '../core/types';
+import type { AppScreen, ChapterData, DialogueScene, UnitProgress, SupportPair } from '../core/types';
 import { writeSave, readSave, deleteSave, hasAnySave, getSlotSummary } from '../core/saveManager';
 import { CHAPTERS, CHAPTER_ORDER } from '../data/chapters';
+import { WEAPONS } from '../data/weapons';
+import { canForge, applyForge, getRequiredMaterial, getForgeGoldCost } from '../core/forging';
+import { rollLevelUp, applyStatGains } from '../core/experience';
+import { ALL_CLASSES } from '../data/promotedClasses';
+import { SeededRandom } from '../core/rng';
 
 export type GameMode = 'classic' | 'casual';
 type DialoguePhase = 'prologue' | 'epilogue';
@@ -18,6 +23,10 @@ type CampaignState = {
   deployedUnitIds: string[]; // unit IDs selected for current chapter deployment
   storage: string[]; // weapon/item IDs in shared storage
   viewedSupports: string[]; // "chapterId:unitA:unitB" keys of viewed conversations
+  supportPairs: SupportPair[]; // persistent support pair data
+  bonusExp: number; // unallocated bonus EXP pool
+  forgeMaterials: string[]; // forge material item IDs
+  gold: number; // currency for forging and other costs
 
   // Dialogue playback
   dialogueScene: DialogueScene | null;
@@ -34,12 +43,14 @@ type CampaignState = {
   startBattle: () => void;
   startDialogue: (scene: DialogueScene, phase: DialoguePhase) => void;
   advanceDialogue: () => void;
-  onChapterVictory: (unitProgress: Record<string, UnitProgress>, actualTurns?: number) => void;
+  onChapterVictory: (unitProgress: Record<string, UnitProgress>, actualTurns?: number, updatedSupportPairs?: SupportPair[]) => void;
 
   // Save/Load
   saveToSlot: (slot: number) => void;
   loadFromSlot: (slot: number) => boolean;
   deleteSlot: (slot: number) => void;
+  allocateBonusExp: (unitId: string, amount: number) => void;
+  forgeWeapon: (unitId: string, weaponIndex: number) => void;
   hasAnySave: () => boolean;
   getSlotSummary: (slot: number) => { timestamp: number; chapterId: string } | null;
 };
@@ -59,6 +70,10 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
   deployedUnitIds: [],
   storage: [],
   viewedSupports: [],
+  supportPairs: [],
+  bonusExp: 0,
+  forgeMaterials: [],
+  gold: 1000,
 
   goToTitle: () => set({
     currentScreen: 'title',
@@ -74,7 +89,7 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
   startNewGame: () => {
     const ch1 = CHAPTERS['ch1'];
     const initialRoster = ch1 ? ch1.playerUnits.map((p) => p.unitId) : [];
-    set({ completedChapters: [], unitProgress: {}, deadUnitIds: [], roster: initialRoster, deployedUnitIds: [], storage: [], viewedSupports: [] });
+    set({ completedChapters: [], unitProgress: {}, deadUnitIds: [], roster: initialRoster, deployedUnitIds: [], storage: [], viewedSupports: [], supportPairs: [], bonusExp: 0, forgeMaterials: [], gold: 1000 });
     get().startChapter('ch1');
   },
 
@@ -140,7 +155,7 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
     }
   },
 
-  onChapterVictory: (progress: Record<string, UnitProgress>, actualTurns?: number) => {
+  onChapterVictory: (progress: Record<string, UnitProgress>, actualTurns?: number, updatedSupportPairs?: SupportPair[]) => {
     const { currentChapterId, completedChapters, currentChapterData, roster } = get();
     if (!currentChapterId) return;
 
@@ -156,22 +171,11 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
       }
     }
 
-    // Bonus EXP for completing under par turns (capped so unit EXP doesn't exceed 99)
+    // Bonus EXP pool for completing under par turns (player allocates in preparation screen)
+    let newBonusExp = get().bonusExp;
     if (currentChapterData?.parTurns && actualTurns) {
-      const bonusPool = Math.min(300, Math.max(0, (currentChapterData.parTurns - actualTurns) * 50));
-      if (bonusPool > 0) {
-        const unitIds = Object.keys(progress);
-        const perUnit = Math.floor(bonusPool / unitIds.length);
-        if (perUnit > 0) {
-          for (const uid of unitIds) {
-            const current = progress[uid].exp;
-            const capped = Math.min(perUnit, 99 - current);
-            if (capped > 0) {
-              progress[uid] = { ...progress[uid], exp: current + capped };
-            }
-          }
-        }
-      }
+      const earned = Math.min(300, Math.max(0, (currentChapterData.parTurns - actualTurns) * 50));
+      newBonusExp += earned;
     }
 
     // Meta-stat chapter-end updates: AWR +1, crpLowChapters tracking, LOOP regen at arc transitions
@@ -196,7 +200,14 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
       };
     }
 
-    set({ completedChapters: newCompleted, unitProgress: progress, roster: newRoster });
+    // Gold reward for chapter completion
+    const newGold = get().gold + 500;
+
+    const newState: Partial<CampaignState> = { completedChapters: newCompleted, unitProgress: progress, roster: newRoster, bonusExp: newBonusExp, gold: newGold };
+    if (updatedSupportPairs) {
+      newState.supportPairs = updatedSupportPairs;
+    }
+    set(newState);
 
     if (currentChapterData?.epilogue) {
       get().startDialogue(currentChapterData.epilogue, 'epilogue');
@@ -216,13 +227,17 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
     const { currentChapterId, completedChapters, unitProgress, roster, deadUnitIds } = get();
     const nextChapterId = getNextChapterId(currentChapterId, completedChapters);
     writeSave(slot, {
-      version: 4,
+      version: 5,
       timestamp: Date.now(),
       currentChapterId: nextChapterId,
       completedChapters,
       unitProgress,
       roster,
       deadUnitIds,
+      supportPairs: get().supportPairs,
+      bonusExp: get().bonusExp,
+      forgeMaterials: get().forgeMaterials,
+      gold: get().gold,
     });
   },
 
@@ -234,9 +249,89 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
       unitProgress: data.unitProgress,
       roster: data.roster,
       deadUnitIds: data.deadUnitIds,
+      supportPairs: data.supportPairs ?? [],
+      bonusExp: data.bonusExp ?? 0,
+      forgeMaterials: data.forgeMaterials ?? [],
+      gold: data.gold ?? 1000,
     });
     get().startChapter(data.currentChapterId);
     return true;
+  },
+
+  allocateBonusExp: (unitId: string, amount: number) => {
+    const { bonusExp, unitProgress } = get();
+    const alloc = Math.min(amount, bonusExp);
+    if (alloc <= 0) return;
+    const progress = unitProgress[unitId];
+    if (!progress) return;
+    // Catch-up bonus: +20% if unit is 3+ levels below roster average
+    const allLevels = Object.values(unitProgress).map((p) => p.level);
+    const avgLevel = allLevels.length > 0 ? allLevels.reduce((a, b) => a + b, 0) / allLevels.length : 0;
+    const catchUpBonus = progress.level + 3 <= avgLevel ? Math.ceil(alloc * 0.2) : 0;
+    const totalAlloc = alloc + catchUpBonus;
+
+    const maxAlloc = Math.min(totalAlloc, 99 - progress.exp);
+    if (maxAlloc <= 0) return;
+
+    const newExp = progress.exp + maxAlloc;
+    let updatedProgress = { ...progress, exp: newExp };
+
+    // Check for level-up at 100+ EXP
+    if (newExp >= 100) {
+      const cls = ALL_CLASSES[progress.classId ?? ''];
+      if (cls) {
+        const rng = new SeededRandom(progress.level * 1000 + newExp);
+        const gains = rollLevelUp(cls.growthRates, rng);
+        const newStats = applyStatGains(progress.stats, gains);
+        updatedProgress = {
+          ...updatedProgress,
+          exp: newExp - 100,
+          level: progress.level + 1,
+          stats: newStats,
+        };
+      }
+    }
+
+    set({
+      bonusExp: bonusExp - Math.min(alloc, maxAlloc),
+      unitProgress: {
+        ...unitProgress,
+        [unitId]: updatedProgress,
+      },
+    });
+  },
+
+  forgeWeapon: (unitId: string, weaponIndex: number) => {
+    const { unitProgress, forgeMaterials, gold } = get();
+    const progress = unitProgress[unitId];
+    if (!progress) return;
+    const weaponId = progress.weaponIds?.[weaponIndex];
+    if (!weaponId) return;
+    const baseWeapon = WEAPONS[weaponId];
+    if (!baseWeapon) return;
+    // Reconstruct weapon with current forge level
+    const weapon: import('../core/types').Weapon = { ...baseWeapon, forgeLevel: progress.weaponForgeLevel?.[weaponIndex] ?? 0 };
+    const goldCost = getForgeGoldCost(weapon);
+    if (!canForge(weapon, forgeMaterials, gold)) return;
+    const materialId = getRequiredMaterial(weapon);
+    if (!materialId) return;
+    const matIdx = forgeMaterials.indexOf(materialId);
+    if (matIdx < 0) return;
+    const forged = applyForge(weapon);
+    // Update materials
+    const newMaterials = [...forgeMaterials];
+    newMaterials.splice(matIdx, 1);
+    // Update weapon forge levels in progress
+    const newForgeLevels = [...(progress.weaponForgeLevel ?? progress.weaponIds.map(() => 0))];
+    newForgeLevels[weaponIndex] = forged.forgeLevel ?? 0;
+    set({
+      forgeMaterials: newMaterials,
+      gold: gold - goldCost,
+      unitProgress: {
+        ...unitProgress,
+        [unitId]: { ...progress, weaponForgeLevel: newForgeLevels },
+      },
+    });
   },
 
   deleteSlot: (slot: number) => deleteSave(slot),

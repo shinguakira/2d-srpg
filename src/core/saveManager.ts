@@ -1,7 +1,7 @@
 import type { SaveData } from './types';
 
 const SAVE_KEY_PREFIX = 'srpg_save_slot_';
-const CURRENT_VERSION = 4;
+const CURRENT_VERSION = 5;
 
 export function writeSave(slot: number, data: SaveData): void {
   localStorage.setItem(SAVE_KEY_PREFIX + slot, JSON.stringify(data));
@@ -71,6 +71,27 @@ function migrateSave(data: Record<string, unknown>): SaveData | null {
       unitProgress: migratedProgress,
     };
     version = 4;
+  }
+
+  // v4 → v5: add supportPairs, bonusExp, forgeMaterials, supportPartners per unit
+  if (version === 4) {
+    const progress = (data.unitProgress ?? {}) as Record<string, Record<string, unknown>>;
+    const migratedProgress: Record<string, unknown> = {};
+    for (const [uid, p] of Object.entries(progress)) {
+      migratedProgress[uid] = {
+        ...p,
+        supportPartners: (p as Record<string, unknown>).supportPartners ?? [],
+      };
+    }
+    data = {
+      ...data,
+      version: 5,
+      unitProgress: migratedProgress,
+      supportPairs: (data as Record<string, unknown>).supportPairs ?? [],
+      bonusExp: (data as Record<string, unknown>).bonusExp ?? 0,
+      forgeMaterials: (data as Record<string, unknown>).forgeMaterials ?? [],
+    };
+    version = 5;
   }
 
   if (version === CURRENT_VERSION) return data as SaveData;

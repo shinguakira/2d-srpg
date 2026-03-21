@@ -87,4 +87,15 @@ export const ITEMS: Record<string, ConsumableItem> = {
     maxUses: 1,
     effect: { kind: 'unlock', targetTerrain: 'chest' },
   },
+
+  // ===== Fog of War =====
+
+  torch: {
+    id: 'torch',
+    name: 'Torch',
+    type: 'consumable',
+    uses: 1,
+    maxUses: 1,
+    effect: { kind: 'torch' },
+  },
 };

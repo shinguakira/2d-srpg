@@ -1,0 +1,60 @@
+# Terrain Meta-Stat Effects in Terrain Info
+
+> **Severity:** high
+> **Category:** ui
+> **Affected files:** `src/components/Units/UnitStatsPanel.tsx`, `src/core/metaStats.ts`, `src/styles/ui/unit-stats-panel.css`
+> **Spec refs:** `specs/ui/hud.md`, `specs/gameplay/meta-stats.md`
+
+## Description
+
+Special terrains apply per-turn meta-stat effects that are invisible to the player. Glitched terrain gives CRP+2/SYNC-1, data_void gives CRP+3/SYNC-3, forts give STA-3 recovery. CRP reaching 100 turns a player unit into an enemy — stepping onto glitched terrain unknowingly is a hidden trap.
+
+## Current Behavior
+
+- `UnitStatsPanel.tsx:114-120` terrain section shows only terrain name, DEF bonus, and AVO bonus
+- `metaStats.ts` exports `getTerrainCrpGain()`, `getTerrainSyncChange()`, `getTerrainStaRecovery()` — these are used in turn-end processing but never displayed
+- Players must memorize terrain effects or discover them by accident
+
+## Expected Behavior
+
+Below the DEF/AVO lines in terrain info, show non-zero meta-stat effects:
+
+| Terrain | Effects Shown |
+|---------|--------------|
+| Glitched | CRP +2/turn, SYNC -1/turn |
+| Data Void | CRP +3/turn, SYNC -3/turn |
+| Fort | STA -3/turn |
+| Corrupted Fort | CRP +1/turn, STA -3/turn |
+| Memory | SYNC +5/turn |
+
+### Color Coding
+
+- CRP effects: magenta (#d946ef) — danger color matching corruption theme
+- SYNC effects: cyan (#22d3ee) — positive green if gaining, red if losing
+- STA effects: blue (#60a5fa) — recovery/rest theme
+
+### Format
+
+```
+Forest
+DEF +1  AVO +20
+
+Glitched Ground
+DEF +0  AVO +0
+CRP +2/turn  SYNC -1/turn
+```
+
+## Steps to Fix
+
+- [ ] In `UnitStatsPanel.tsx`: after DEF/AVO lines, call `getTerrainCrpGain(terrain)`, `getTerrainSyncChange(terrain)`, `getTerrainStaRecovery(terrain)` from `src/core/metaStats.ts`
+- [ ] Conditionally render each non-zero effect with appropriate color
+- [ ] Import the three functions (they should already be exported)
+- [ ] CSS: add color classes for meta-stat terrain effects in `unit-stats-panel.css`
+- [ ] `data-testid="terrain-meta-effects"` on the container div
+- [ ] Test: hover glitched terrain → "CRP +2/turn" and "SYNC -1/turn" appear below DEF/AVO
+- [ ] Test: hover normal terrain (grass/plain) → no meta-stat lines shown
+- [ ] Test: hover fort → "STA -3/turn" appears
+
+## Spec Update
+
+- [ ] Confirm `specs/ui/hud.md` Terrain Info section matches implementation

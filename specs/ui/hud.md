@@ -19,7 +19,30 @@ Rendered inside `UnitStatsPanel` below unit info:
 - Shows terrain name (e.g. "Forest", "Fort")
 - Defense bonus (DEF +N)
 - Avoid bonus (AVO +N)
+- **Movement cost**: class-aware cost when a unit is selected (e.g. "Move: 3 (Mounted)"), base cost otherwise. Uses `getClassMovementCost()` from `src/core/terrain.ts`
+- **Meta-stat terrain effects**: for special terrains, show per-turn effects below DEF/AVO:
+  - CRP gain (magenta): "CRP +2/turn" for glitched, "CRP +3/turn" for data_void
+  - SYNC change (cyan): "SYNC -1/turn" for glitched, "SYNC -3/turn" for data_void
+  - STA recovery (blue): "STA -3/turn" for fort/corrupted_fort
+  - Data source: `getTerrainCrpGain()`, `getTerrainSyncChange()`, `getTerrainStaRecovery()` from `src/core/metaStats.ts`
 - Appears when hovering any tile, independent of unit display
+
+### Stamina Warnings
+
+Rendered inside `MetaStatsSection` below the STA bar:
+
+- **STA 25-29**: yellow text "Fatigue at 30" (approaching threshold)
+- **STA 30-44**: orange text "Fatigued: -1 SPD" (penalty active)
+- **STA 45+**: red text "Exhausted: Cannot act!" (locked to Wait/Rest)
+- When `exhausted === true` in ActionMenu, show explanation text above buttons: "Exhausted — Wait or Rest only"
+
+### Support Bonuses
+
+Rendered inside `UnitStatsPanel` below stats when a player unit has active support partners within 3 tiles:
+
+- Lists each active partner: name, rank, and concrete bonuses
+- Format: "Marcus (B): +10 Hit, +10 Avo, +5 Crit"
+- Data source: `getActiveSupports()` from `src/core/support.ts`
 
 ### Turn Info
 
@@ -55,6 +78,8 @@ Positioned adjacent to the unit's pending tile (right side, offset by 4px). Only
 
 - Appears above action buttons when unit has multiple non-staff weapons
 - Highlights currently selected weapon index
+- Shows weapon durability as "uses/max" next to each weapon name (omit for infinite durability)
+- Shows "Eff!" badge on weapons effective against the current hover target (uses `isEffectiveAgainst()`)
 - Hidden when item submenu is open
 
 ### Item Submenu
@@ -96,6 +121,8 @@ Component: `CombatPreview` (`src/components/Combat/CombatPreview.tsx`)
 - "Cannot counter" shown when defender is out of range
 - Weapon triangle text at bottom (green "Sword beats Axe" or red "Axe loses to Lance")
 
+See [combat-forecast-enhancements.md](combat-forecast-enhancements.md) for planned enhancements: weapon effectiveness warnings, skill descriptions, modifier breakdown, boss phase indicators.
+
 ### Item Usage Animation
 
 Component: `ItemAnimation` (`src/components/Combat/ItemAnimation.tsx`)
@@ -129,11 +156,30 @@ Component: `ExpBar` -- see `specs/ui/animations.md` for fill behavior.
 - Displayed via the dialogue system when a unit with a `deathQuote` field dies
 - Not a dedicated HUD component; uses the standard dialogue overlay
 
+## System Menu
+
+Component: `SystemMenu` (`src/components/UI/SystemMenu.tsx`)
+
+Triggered by clicking an empty tile or right-clicking during idle phase. Vertical menu on the left side of the screen.
+
+| Item | Action |
+|------|--------|
+| **Unit List** | Open unit list panel |
+| **Objective** | Show victory/defeat conditions overlay |
+| **Settings** | Open settings panel (BGM/SE volume, animation speed) |
+| **Suspend** | Save current state and return to title screen |
+| **End Turn** | End player phase, advance to enemy phase |
+
+- Closes on Escape, B key, or clicking outside the menu
+- FE-style dark green background with gold border decoration
+- `data-testid="system-menu"`, `data-testid="system-menu-{item}"`
+
 ## End Turn Controls
 
 Component: `EndTurnButton` (`src/components/UI/EndTurnButton.tsx`)
 
 - Visible during entire player phase (not just idle)
+- **Disabled** when `isAutoBattle === true` or `playerAction !== 'idle'` (grayed out, `cursor: not-allowed`)
 - Two buttons:
   - **Auto Battle**: triggers `startAutoBattle`, disabled while auto-battle is running (label changes to "Auto...")
   - **End Turn**: triggers `endPlayerTurn` to advance to enemy phase

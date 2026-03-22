@@ -1,6 +1,6 @@
 # Task Priority & Dependencies
 
-> Master overview of all 18 task files in `specs/tasks/`.
+> Master overview of all task files in `specs/tasks/`.
 > Shows execution order, completion status, and remaining work.
 
 ---
@@ -8,11 +8,14 @@
 ## Completion Status
 
 ```
-COMPLETE:  12 / 18  (67%)
-REMAINING:  6 / 18  (33%) — all Arc 3-5 maps + story
+GAMEPLAY:   7 / 7   (100%)
+STORY:      2 / 5   (40%)
+MAPS:       2 / 5   (40%)
+UI/UX:      0 / 14  (0%)    ← NEW TRACK
+BUGS:       7 / 9   (78%)
 ```
 
-All 7 gameplay phases are **COMPLETE**. All remaining work is content implementation (maps + story for chapters 11-25).
+All 7 gameplay phases are **COMPLETE**. Remaining work: content (maps + story for ch11-25) and UI/UX improvements.
 
 ---
 
@@ -82,7 +85,7 @@ GAMEPLAY TRACK (ALL DONE)         STORY TRACK              MAP TRACK
 
 ## Remaining Work — Parallel Tracks
 
-All gameplay systems are done. Only content tracks remain:
+All gameplay systems are done. Three independent tracks remain:
 
 ### Track A: Story (pure dialogue data)
 ```
@@ -94,8 +97,15 @@ All gameplay systems are done. Only content tracks remain:
 ✅ Arc 1 → ✅ Arc 2 → ⬜ Arc 3 → ⬜ Arc 4 → ⬜ Arc 5
 ```
 
+### Track C: UI/UX Improvements (no content dependency)
+```
+⬜ Phase A (Tier 1: 5 tasks) → ⬜ Phase B (Tier 2: 4 tasks) → ⬜ Phase C (Tier 3: 6 tasks)
+```
+
 ### Parallelism
-Each arc's story and maps can run in parallel (story = dialogue arrays, maps = terrain + unit placement + events). Within an arc, story should ideally complete first so maps can reference dialogue context.
+- Story and maps can run in parallel per arc (story should complete first for dialogue context)
+- **UI/UX track is fully independent** — no dependency on story/maps content. Can run in parallel with all content work
+- Within the UI track, all tasks within a phase can run in parallel (no interdependencies)
 
 ---
 
@@ -180,6 +190,37 @@ All 18 task files with completion status:
 | [`story/arc3-story-ch11-ch15.md`](story/arc3-story-ch11-ch15.md) | 11-15 | ⬜ Not Started |
 | [`story/arc4-story-ch16-ch20.md`](story/arc4-story-ch16-ch20.md) | 16-20 | ⬜ Not Started |
 | [`story/arc5-story-ch21-ch25.md`](story/arc5-story-ch21-ch25.md) | 21-25 | ⬜ Not Started |
+
+### UI/UX Improvements (14 files) — 0/14 NEW
+
+All tasks are independent and can run in parallel. Recommended phased execution:
+
+#### Phase A: Critical Tactical Info (Tier 1)
+| File | Severity | Status |
+|------|----------|--------|
+| [`ui/weapon-effectiveness-warning.md`](ui/weapon-effectiveness-warning.md) | high | ⬜ Not Started |
+| [`ui/skill-descriptions-tooltips.md`](ui/skill-descriptions-tooltips.md) | high | ⬜ Not Started |
+| [`ui/stamina-exhaustion-warning.md`](ui/stamina-exhaustion-warning.md) | high | ⬜ Not Started |
+| [`ui/terrain-meta-stat-effects.md`](ui/terrain-meta-stat-effects.md) | high | ⬜ Not Started |
+| [`ui/combat-modifier-breakdown.md`](ui/combat-modifier-breakdown.md) | medium | ⬜ Not Started |
+
+#### Phase B: Quality of Life (Tier 2)
+| File | Severity | Status |
+|------|----------|--------|
+| [`ui/weapon-durability-display.md`](ui/weapon-durability-display.md) | medium | ⬜ Not Started |
+| [`ui/boss-phase-hp-indicators.md`](ui/boss-phase-hp-indicators.md) | medium | ⬜ Not Started |
+| [`ui/support-bonus-visibility.md`](ui/support-bonus-visibility.md) | medium | ⬜ Not Started |
+| [`ui/movement-cost-display.md`](ui/movement-cost-display.md) | medium | ⬜ Not Started |
+
+#### Phase C: Power User Features (Tier 3)
+| File | Severity | Status |
+|------|----------|--------|
+| [`ui/growth-rates-display.md`](ui/growth-rates-display.md) | low | ⬜ Not Started |
+| [`ui/promotion-path-preview.md`](ui/promotion-path-preview.md) | low | ⬜ Not Started |
+| [`ui/danger-zone-attribution.md`](ui/danger-zone-attribution.md) | low | ⬜ Not Started |
+| [`ui/status-effect-icons.md`](ui/status-effect-icons.md) | low | ⬜ Not Started |
+| [`ui/minimap.md`](ui/minimap.md) | low | ⬜ Not Started |
+| [`ui/animation-speed-control.md`](ui/animation-speed-control.md) | low | ⬜ Not Started |
 
 ### Bug Tracking
 | Folder | Purpose |

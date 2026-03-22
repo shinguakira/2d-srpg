@@ -250,13 +250,15 @@ When no target is reachable, aggressive enemies move toward the nearest player u
 
 ```
 1. Find all player units
-2. Calculate Manhattan distance from current position to each
+2. Calculate actual pathfinding distance (BFS/Dijkstra, terrain-aware) from current position to each
+   — avoids getting stuck on impassable terrain (rivers, walls, mountains)
+   — falls back to Manhattan distance if all targets are unreachable
 3. Select nearest player unit
-4. Among all movable positions, pick the one closest to that player
+4. Among all movable positions, pick the one closest to that player (by BFS distance)
 5. Move there
 ```
 
-This creates a "closing in" behavior — enemies swarm the party over multiple turns.
+This creates a "closing in" behavior — enemies swarm the party over multiple turns, correctly routing around obstacles.
 
 ### Guard Return
 

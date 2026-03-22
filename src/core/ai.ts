@@ -1,6 +1,6 @@
 import type { Unit, GameMap, Position, TerrainType, WeatherType } from './types';
 import { posKey } from './types';
-import { getMovementRange, getAttackTilesFrom, getManhattanDistance } from './pathfinding';
+import { getMovementRange, getAttackTilesFrom, getManhattanDistance, getPathfindingDistance, getDistanceMap } from './pathfinding';
 import { calculateCombatForecast, getWeaponTriangle, isWeaponProficient, getEffectiveWeaponRange } from './combat';
 import type { CombatForecast } from './combat';
 import { getTerrainData } from './terrain';
@@ -179,6 +179,8 @@ function findMoveTowardNearestPlayer(
   unit: Unit,
   movablePositions: Position[],
   allUnits: Map<string, Unit>,
+  gameMap: GameMap,
+  classFlags?: ClassFlags,
 ): Position {
   const hostiles: Unit[] = [];
   for (const u of allUnits.values()) {
@@ -186,20 +188,34 @@ function findMoveTowardNearestPlayer(
   }
   if (hostiles.length === 0) return unit.position;
 
+  // Find nearest hostile by BFS distance, fallback to Manhattan if all unreachable
   let nearestTarget = hostiles[0];
   let nearestDist = Infinity;
   for (const h of hostiles) {
-    const dist = getManhattanDistance(unit.position, h.position);
+    const dist = getPathfindingDistance(unit.position, h.position, gameMap, classFlags);
     if (dist < nearestDist) {
       nearestDist = dist;
       nearestTarget = h;
     }
   }
+  if (nearestDist === Infinity) {
+    // All hostiles unreachable by terrain — fallback to Manhattan
+    nearestDist = Infinity;
+    for (const h of hostiles) {
+      const dist = getManhattanDistance(unit.position, h.position);
+      if (dist < nearestDist) {
+        nearestDist = dist;
+        nearestTarget = h;
+      }
+    }
+  }
 
+  // Find movable position closest to target by BFS distance
+  const targetDistMap = getDistanceMap(nearestTarget.position, gameMap, classFlags);
   let bestPos = unit.position;
-  let bestDist = Infinity;
+  let bestDist = targetDistMap.get(posKey(unit.position)) ?? Infinity;
   for (const pos of movablePositions) {
-    const dist = getManhattanDistance(pos, nearestTarget.position);
+    const dist = targetDistMap.get(posKey(pos)) ?? Infinity;
     if (dist < bestDist) {
       bestDist = dist;
       bestPos = pos;
@@ -213,6 +229,8 @@ function findMoveAwayFromHostiles(
   unit: Unit,
   movablePositions: Position[],
   allUnits: Map<string, Unit>,
+  gameMap: GameMap,
+  classFlags?: ClassFlags,
 ): Position {
   const hostiles: Unit[] = [];
   for (const u of allUnits.values()) {
@@ -220,12 +238,16 @@ function findMoveAwayFromHostiles(
   }
   if (hostiles.length === 0 || movablePositions.length === 0) return unit.position;
 
+  // Pre-compute distance maps from each hostile position
+  const hostileDistMaps = hostiles.map(h => getDistanceMap(h.position, gameMap, classFlags));
+
   let bestPos = movablePositions[0];
   let bestMinDist = -1;
   for (const pos of movablePositions) {
+    const pk = posKey(pos);
     let minDist = Infinity;
-    for (const h of hostiles) {
-      const d = getManhattanDistance(pos, h.position);
+    for (const distMap of hostileDistMaps) {
+      const d = distMap.get(pk) ?? Infinity;
       if (d < minDist) minDist = d;
     }
     if (minDist > bestMinDist) {
@@ -237,7 +259,7 @@ function findMoveAwayFromHostiles(
 }
 
 /** Find the movable position closest to any fort/throne tile */
-function findNearestFortPosition(movablePositions: Position[], gameMap: GameMap): Position | null {
+function findNearestFortPosition(movablePositions: Position[], gameMap: GameMap, classFlags?: ClassFlags): Position | null {
   const forts: Position[] = [];
   for (let y = 0; y < gameMap.height; y++) {
     for (let x = 0; x < gameMap.width; x++) {
@@ -249,11 +271,15 @@ function findNearestFortPosition(movablePositions: Position[], gameMap: GameMap)
   }
   if (forts.length === 0) return null;
 
+  // Pre-compute distance maps from each fort
+  const fortDistMaps = forts.map(f => getDistanceMap(f, gameMap, classFlags));
+
   let bestPos: Position | null = null;
   let bestDist = Infinity;
   for (const pos of movablePositions) {
-    for (const fort of forts) {
-      const d = getManhattanDistance(pos, fort);
+    const pk = posKey(pos);
+    for (const distMap of fortDistMaps) {
+      const d = distMap.get(pk) ?? Infinity;
       if (d < bestDist) {
         bestDist = d;
         bestPos = pos;
@@ -323,7 +349,7 @@ function decideGuard(
     let closestIdx = 0;
     let closestDist = Infinity;
     for (let i = 0; i < path.length; i++) {
-      const d = getManhattanDistance(unit.position, path[i]);
+      const d = getPathfindingDistance(unit.position, path[i], gameMap, classFlags);
       if (d < closestDist) {
         closestDist = d;
         closestIdx = i;
@@ -334,10 +360,11 @@ function decideGuard(
     targetWaypoint = path[nextIdx];
 
     // Find reachable position closest to the target waypoint
+    const wpDistMap = getDistanceMap(targetWaypoint, gameMap, classFlags);
     let bestPos = unit.position;
-    let bestDist = getManhattanDistance(unit.position, targetWaypoint);
+    let bestDist = wpDistMap.get(posKey(unit.position)) ?? Infinity;
     for (const pos of movablePositions) {
-      const d = getManhattanDistance(pos, targetWaypoint);
+      const d = wpDistMap.get(posKey(pos)) ?? Infinity;
       if (d < bestDist) {
         bestDist = d;
         bestPos = pos;
@@ -352,10 +379,11 @@ function decideGuard(
   if (unit.startPosition) {
     const start = unit.startPosition;
     if (unit.position.x !== start.x || unit.position.y !== start.y) {
+      const startDistMap = getDistanceMap(start, gameMap, classFlags);
       let bestPos = unit.position;
-      let bestDist = getManhattanDistance(unit.position, start);
+      let bestDist = startDistMap.get(posKey(unit.position)) ?? Infinity;
       for (const pos of movablePositions) {
-        const d = getManhattanDistance(pos, start);
+        const d = startDistMap.get(posKey(pos)) ?? Infinity;
         if (d < bestDist) {
           bestDist = d;
           bestPos = pos;
@@ -385,7 +413,7 @@ function decideAggressive(
   }
 
   // No target reachable — move toward nearest hostile
-  const moveToward = findMoveTowardNearestPlayer(unit, movablePositions, allUnits);
+  const moveToward = findMoveTowardNearestPlayer(unit, movablePositions, allUnits, gameMap, classFlags);
   return waitAction(unit.id, moveToward);
 }
 
@@ -411,14 +439,14 @@ function decideSurvival(
     const itemIdx = findHealItemIndex(unit);
     if (itemIdx >= 0) {
       // Move toward fort (or away from enemies) and use item
-      const fortPos = findNearestFortPosition(movablePositions, gameMap);
-      const movePos = fortPos ?? findMoveAwayFromHostiles(unit, movablePositions, allUnits);
+      const fortPos = findNearestFortPosition(movablePositions, gameMap, classFlags);
+      const movePos = fortPos ?? findMoveAwayFromHostiles(unit, movablePositions, allUnits, gameMap, classFlags);
       return { ...waitAction(unit.id, movePos), useItemIndex: itemIdx };
     }
 
     // No item — just flee toward fort or away from enemies
-    const fortPos = findNearestFortPosition(movablePositions, gameMap);
-    const movePos = fortPos ?? findMoveAwayFromHostiles(unit, movablePositions, allUnits);
+    const fortPos = findNearestFortPosition(movablePositions, gameMap, classFlags);
+    const movePos = fortPos ?? findMoveAwayFromHostiles(unit, movablePositions, allUnits, gameMap, classFlags);
     return waitAction(unit.id, movePos);
   }
 
@@ -439,11 +467,11 @@ function decideSurvival(
   // No safe attack — use healing item if available, else hold position or move toward fort
   const itemIdx = findHealItemIndex(unit);
   if (itemIdx >= 0) {
-    const fortPos = findNearestFortPosition(movablePositions, gameMap);
-    const movePos = fortPos ?? findMoveAwayFromHostiles(unit, movablePositions, allUnits);
+    const fortPos = findNearestFortPosition(movablePositions, gameMap, classFlags);
+    const movePos = fortPos ?? findMoveAwayFromHostiles(unit, movablePositions, allUnits, gameMap, classFlags);
     return { ...waitAction(unit.id, movePos), useItemIndex: itemIdx };
   }
-  const fortPos = findNearestFortPosition(movablePositions, gameMap);
+  const fortPos = findNearestFortPosition(movablePositions, gameMap, classFlags);
   return waitAction(unit.id, fortPos ?? unit.position);
 }
 
@@ -513,17 +541,28 @@ function decideThief(
     let nearestTarget = targets[0];
     let nearestDist = Infinity;
     for (const t of targets) {
-      const d = getManhattanDistance(unit.position, t);
+      const d = getPathfindingDistance(unit.position, t, gameMap, classFlags);
       if (d < nearestDist) {
         nearestDist = d;
         nearestTarget = t;
       }
     }
+    // Fallback to Manhattan if all targets unreachable
+    if (nearestDist === Infinity) {
+      for (const t of targets) {
+        const d = getManhattanDistance(unit.position, t);
+        if (d < nearestDist) {
+          nearestDist = d;
+          nearestTarget = t;
+        }
+      }
+    }
 
+    const targetDistMap = getDistanceMap(nearestTarget, gameMap, classFlags);
     let bestPos = unit.position;
-    let bestDist = Infinity;
+    let bestDist = targetDistMap.get(posKey(unit.position)) ?? Infinity;
     for (const pos of movablePositions) {
-      const d = getManhattanDistance(pos, nearestTarget);
+      const d = targetDistMap.get(posKey(pos)) ?? Infinity;
       if (d < bestDist) {
         bestDist = d;
         bestPos = pos;
@@ -549,7 +588,7 @@ function decideHealer(
 
   // If HP < 50%, flee (maximize distance from hostiles)
   if (hpPct < 0.5) {
-    const safePos = findMoveAwayFromHostiles(unit, movablePositions, allUnits);
+    const safePos = findMoveAwayFromHostiles(unit, movablePositions, allUnits, gameMap, classFlags);
     return waitAction(unit.id, safePos);
   }
 
@@ -557,7 +596,7 @@ function decideHealer(
   const staff = unit.inventory.find((w) => w.type === 'staff') ?? (unit.equippedWeapon.type === 'staff' ? unit.equippedWeapon : null);
   if (!staff) {
     // No staff — just stay away
-    const safePos = findMoveAwayFromHostiles(unit, movablePositions, allUnits);
+    const safePos = findMoveAwayFromHostiles(unit, movablePositions, allUnits, gameMap, classFlags);
     return waitAction(unit.id, safePos);
   }
 
@@ -601,7 +640,7 @@ function decideHealer(
   }
 
   // No heal targets — move away from enemies
-  const safePos = findMoveAwayFromHostiles(unit, movablePositions, allUnits);
+  const safePos = findMoveAwayFromHostiles(unit, movablePositions, allUnits, gameMap, classFlags);
   return waitAction(unit.id, safePos);
 }
 
@@ -747,7 +786,7 @@ function decideCoordinated(
   }
 
   // Can't reach anyone — move toward nearest hostile
-  const moveToward = findMoveTowardNearestPlayer(unit, movablePositions, allUnits);
+  const moveToward = findMoveTowardNearestPlayer(unit, movablePositions, allUnits, gameMap, classFlags);
   return waitAction(unit.id, moveToward);
 }
 
@@ -794,6 +833,6 @@ function decideAmbush(
   }
 
   // Can attack nobody — move toward nearest hostile, still reveal
-  const moveToward = findMoveTowardNearestPlayer(unit, movablePositions, allUnits);
+  const moveToward = findMoveTowardNearestPlayer(unit, movablePositions, allUnits, gameMap, classFlags);
   return { ...waitAction(unit.id, moveToward), reveal: true };
 }

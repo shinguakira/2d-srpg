@@ -1,6 +1,6 @@
 import { posKey } from '../../core/types';
 import { useCampaignStore } from '../campaignStore';
-import { getManhattanDistance, getPath } from '../../core/pathfinding';
+import { getManhattanDistance, getPath, clearDistanceMapCache } from '../../core/pathfinding';
 import { calculateCombatForecast, resolveCombat, resolveHealing } from '../../core/combat';
 import { decideAction } from '../../core/ai';
 import type { AIAction, AIContext } from '../../core/ai';
@@ -25,6 +25,7 @@ type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
 
 export function computeEnemyActions(get: Get, set: Set) {
+  clearDistanceMapCache();
   const { units, gameMap, visitedVillages, openedChests, weather } = get();
   const actions: AIAction[] = [];
 

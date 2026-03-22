@@ -1,6 +1,6 @@
 import { posKey } from '../../core/types';
 import { useCampaignStore } from '../campaignStore';
-import { getManhattanDistance, getPath } from '../../core/pathfinding';
+import { getManhattanDistance, getPath, clearDistanceMapCache } from '../../core/pathfinding';
 import { calculateCombatForecast, resolveCombat } from '../../core/combat';
 import { calculateExpGain, checkLevelUp, rollLevelUp, applyStatGains } from '../../core/experience';
 import type { StatGains } from '../../core/experience';
@@ -29,6 +29,7 @@ type Set = (partial: Partial<GameState>) => void;
  * treating them as aggressive AI.
  */
 export function startAutoBattle(get: Get, set: Set) {
+  clearDistanceMapCache();
   const { currentPhase, units, gameMap } = get();
   if (currentPhase !== 'player_phase') return;
 

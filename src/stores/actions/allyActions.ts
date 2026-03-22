@@ -1,6 +1,6 @@
 import { posKey } from '../../core/types';
 import { useCampaignStore } from '../campaignStore';
-import { getManhattanDistance, getPath } from '../../core/pathfinding';
+import { getManhattanDistance, getPath, clearDistanceMapCache } from '../../core/pathfinding';
 import { calculateCombatForecast, resolveCombat } from '../../core/combat';
 import { decideAction } from '../../core/ai';
 import type { AIAction } from '../../core/ai';
@@ -26,6 +26,7 @@ type Set = (partial: Partial<GameState>) => void;
  * Ally units target enemies using aggressive AI.
  */
 export function computeAllyActions(get: Get, set: Set) {
+  clearDistanceMapCache();
   const { units, gameMap } = get();
   const actions: AIAction[] = [];
 

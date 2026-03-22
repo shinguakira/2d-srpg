@@ -29,20 +29,20 @@ Auto-play (and enemy AI) movement scoring uses Manhattan distance to evaluate ho
 
 ## Steps to Fix
 
-- [ ] Add a `getPathfindingDistance` utility in `pathfinding.ts` that runs BFS and returns actual tile-step distance (or `Infinity` if unreachable)
-- [ ] Replace `getManhattanDistance` with `getPathfindingDistance` in the 3 shared helpers:
+- [x] Add a `getPathfindingDistance` utility in `pathfinding.ts` that runs BFS and returns actual tile-step distance (or `Infinity` if unreachable)
+- [x] Replace `getManhattanDistance` with `getPathfindingDistance` in the 3 shared helpers:
   - `findMoveTowardNearestPlayer()` (line ~192/202)
   - `findMoveAwayFromHostiles()` (line ~228)
   - `findNearestFortPosition()` (line ~256)
-- [ ] Fix guard waypoint selection (lines 338/340) — keep guard radius filtering (line 309) as Manhattan (by design)
-- [ ] Audit remaining `getManhattanDistance` call sites in `ai.ts` — replace where movement pathing is involved, keep where range/radius checks are intentional
-- [ ] Add per-`decideAction()` BFS cache to avoid redundant pathfinding (10+ enemies each calling BFS multiple times)
-- [ ] Add early-exit optimization: if Manhattan distance equals BFS distance, path is unobstructed — skip full BFS
-- [ ] Handle `Infinity` distance: if target is completely unreachable, skip it in target selection
-- [ ] Auto-battle (`src/stores/actions/autoBattleActions.ts`) reuses `decideAction()` so fix is automatic — verify with test
-- [ ] Add unit tests: AI with river between unit and target should path around, not get stuck
-- [ ] Add unit tests: AI with no valid path should pick alternative target
+- [x] Fix guard waypoint selection (lines 338/340) — keep guard radius filtering (line 309) as Manhattan (by design)
+- [x] Audit remaining `getManhattanDistance` call sites in `ai.ts` — replace where movement pathing is involved, keep where range/radius checks are intentional
+- [x] Add per-`decideAction()` BFS cache to avoid redundant pathfinding (10+ enemies each calling BFS multiple times)
+- [x] Add early-exit optimization: if Manhattan distance equals BFS distance, path is unobstructed — skip full BFS
+- [x] Handle `Infinity` distance: if target is completely unreachable, skip it in target selection
+- [x] Auto-battle (`src/stores/actions/autoBattleActions.ts`) reuses `decideAction()` so fix is automatic — verify with test
+- [x] Add unit tests: AI with river between unit and target should path around, not get stuck
+- [x] Add unit tests: AI with no valid path should pick alternative target
 
 ## Spec Update
 
-- [ ] Update `specs/gameplay/ai.md` — add note under movement scoring: "Uses actual pathfinding distance (BFS) instead of Manhattan distance to avoid getting stuck on impassable terrain"
+- [x] Update `specs/gameplay/ai.md` — add note under movement scoring: "Uses actual pathfinding distance (BFS) instead of Manhattan distance to avoid getting stuck on impassable terrain"

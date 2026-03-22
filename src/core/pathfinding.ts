@@ -15,6 +15,93 @@ export function getManhattanDistance(a: Position, b: Position): number {
   return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 }
 
+// ===== BFS Distance Map (Dijkstra, terrain-aware, ignores units) =====
+
+const distanceMapCache = new Map<string, Map<string, number>>();
+
+function flagsKey(flags?: ClassFlags): string {
+  return `${flags?.flying ? 'F' : ''}${flags?.mounted ? 'M' : ''}${flags?.armored ? 'A' : ''}`;
+}
+
+/** Clear the BFS distance map cache. Call once per AI computation batch. */
+export function clearDistanceMapCache(): void {
+  distanceMapCache.clear();
+}
+
+/**
+ * Dijkstra BFS from origin across entire map (terrain-only, ignores units).
+ * Returns Map of posKey -> minimum terrain cost to reach from origin.
+ */
+export function computeDistanceMap(
+  origin: Position,
+  map: GameMap,
+  classFlags?: ClassFlags,
+): Map<string, number> {
+  const flags = classFlags ?? {};
+  const dist = new Map<string, number>();
+  dist.set(posKey(origin), 0);
+
+  const queue: [Position, number][] = [[origin, 0]];
+
+  while (queue.length > 0) {
+    // Extract minimum cost entry
+    let minIdx = 0;
+    for (let i = 1; i < queue.length; i++) {
+      if (queue[i][1] < queue[minIdx][1]) minIdx = i;
+    }
+    const [pos, cost] = queue.splice(minIdx, 1)[0];
+
+    // Skip if we already found a better path
+    if (dist.get(posKey(pos))! < cost) continue;
+
+    for (const dir of DIRECTIONS) {
+      const next: Position = { x: pos.x + dir.x, y: pos.y + dir.y };
+      if (next.x < 0 || next.x >= map.width || next.y < 0 || next.y >= map.height) continue;
+
+      const terrain = map.tiles[next.y][next.x].terrain;
+      if (!isPassableForClass(terrain, flags)) continue;
+
+      const moveCost = getClassMovementCost(terrain, flags);
+      const newCost = cost + moveCost;
+      const nextKey = posKey(next);
+
+      if (!dist.has(nextKey) || dist.get(nextKey)! > newCost) {
+        dist.set(nextKey, newCost);
+        queue.push([next, newCost]);
+      }
+    }
+  }
+
+  return dist;
+}
+
+/** Get cached distance map from origin. Same origin+flags = cache hit. */
+export function getDistanceMap(
+  origin: Position,
+  map: GameMap,
+  classFlags?: ClassFlags,
+): Map<string, number> {
+  const key = `${posKey(origin)}|${flagsKey(classFlags)}`;
+  let cached = distanceMapCache.get(key);
+  if (!cached) {
+    cached = computeDistanceMap(origin, map, classFlags);
+    distanceMapCache.set(key, cached);
+  }
+  return cached;
+}
+
+/** Get terrain-aware pathfinding distance between two positions. Returns Infinity if unreachable. */
+export function getPathfindingDistance(
+  from: Position,
+  to: Position,
+  map: GameMap,
+  classFlags?: ClassFlags,
+): number {
+  if (from.x === to.x && from.y === to.y) return 0;
+  const distMap = getDistanceMap(from, map, classFlags);
+  return distMap.get(posKey(to)) ?? Infinity;
+}
+
 const DIRECTIONS: Position[] = [
   { x: 0, y: -1 }, // up
   { x: 1, y: 0 },  // right

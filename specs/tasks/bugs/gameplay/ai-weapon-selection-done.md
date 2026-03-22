@@ -25,17 +25,17 @@ AI (enemy, ally, and auto-battle) always attacks with `unit.equippedWeapon` with
 
 ## Steps to Fix
 
-- [ ] Add `weaponIndex?: number` to `AIAction` type
-- [ ] Update `collectAttackOptions` to iterate over all inventory weapons per target
-- [ ] For each weapon, compute forecast and expected value (damage × hit / 100)
-- [ ] Keep best-EV weapon per (position, target) pair
-- [ ] Skip staves in attack weapon evaluation
-- [ ] Apply weapon swap in `finalizeEnemyAction` before range check + forecast
-- [ ] Apply weapon swap in `finalizeAutoAction` before range check + forecast
-- [ ] Apply weapon swap in `finalizeAllyAction` before range check + forecast
-- [ ] Add unit tests: picks higher EV weapon, weapon triangle advantage, ranged fallback, staff skip
-- [ ] Update `specs/gameplay/ai.md` with weapon selection documentation
+- [x] Add `weaponIndex?: number` to `AIAction` type
+- [x] Update `collectAttackOptions` to iterate over all inventory weapons per target
+- [x] For each weapon, compute forecast and expected value (damage × hit / 100)
+- [x] Keep best-EV weapon per (position, target) pair
+- [x] Skip staves in attack weapon evaluation
+- [x] Apply weapon swap in `finalizeEnemyAction` before range check + forecast
+- [x] Apply weapon swap in `finalizeAutoAction` before range check + forecast
+- [x] Apply weapon swap in `finalizeAllyAction` before range check + forecast
+- [x] Add unit tests: picks higher EV weapon, weapon triangle advantage, ranged fallback, staff skip
+- [x] Update `specs/gameplay/ai.md` with weapon selection documentation
 
 ## Spec Update
 
-- [ ] Update `specs/gameplay/ai.md` — add note under combat scoring: "AI evaluates all weapons in inventory for each target and picks the one with highest expected value (damage × hit rate)"
+- [x] Update `specs/gameplay/ai.md` — add note under combat scoring: "AI evaluates all weapons in inventory for each target and picks the one with highest expected value (damage × hit rate)"

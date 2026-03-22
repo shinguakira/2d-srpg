@@ -130,6 +130,24 @@ export const CHAPTER_6: ChapterData = {
     },
   ],
   events: [
+    // Turn 2: Rook combat callout
+    {
+      id: 'ch6_rook_callout',
+      trigger: { type: 'turn_start', turn: 2 },
+      effects: [
+        {
+          type: 'show_dialogue',
+          scene: {
+            lines: [
+              { speaker: 'Rook', text: "Pegasus knights, wall sentries, and cavalry on the flanks. What did I sign up for?", speakerFaction: 'player' },
+              { speaker: 'Bram', text: "You signed up for coin. Still want it?", speakerFaction: 'player' },
+              { speaker: 'Rook', text: "...Double the rate.", speakerFaction: 'player' },
+            ],
+          },
+        },
+      ],
+      once: true,
+    },
     // Turn 4: Faye appears and joins
     {
       id: 'ch6_faye_joins',
@@ -195,6 +213,9 @@ export const CHAPTER_6: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
+              { speaker: 'Sera', text: "Do you even understand ALTITUDE? Tactical positioning is a three-dimensional problem — you ground-crawlers think in two dimensions!", speakerFaction: 'enemy' },
+              { speaker: 'Ren', text: "She's... talking about flight sims?", speakerFaction: 'player' },
+              { speaker: 'Sera', text: "COMBAT AVIATION. There's a DIFFERENCE.", speakerFaction: 'enemy' },
               { speaker: 'Sera', text: "The sky... something is wrong with the sky. I've seen it from above — the clouds move in patterns that shouldn't exist.", speakerFaction: 'enemy' },
               { speaker: 'Ren', text: "I know. It's spreading.", speakerFaction: 'player' },
               { speaker: 'Sera', text: "Then why are you walking INTO it?", speakerFaction: 'enemy' },

@@ -76,11 +76,14 @@ export const CHAPTER_7: ChapterData = {
     lines: [
       { speaker: 'Narrator', text: 'The corrupted spawns cease. The fortress falls quiet. But the silence feels wrong.' },
       { speaker: 'Senna', text: "My model is broken. Everything I built — 347 loops of pattern tracking — it changed underneath me. I need... I need a new approach.", speakerFaction: 'player' },
-      { speaker: 'Ren', text: "You'll figure it out. You always do.", speakerFaction: 'player' },
-      { speaker: 'Senna', text: "You keep saying that like you've seen it happen.", speakerFaction: 'player' },
+      { speaker: 'Ren', text: "You found an answer before. You'll find one again.", speakerFaction: 'player' },
+      { speaker: 'Senna', text: "You keep saying things like that. Like you've seen it happen.", speakerFaction: 'player' },
       { speaker: 'Ren', text: "...Because I have.", speakerFaction: 'player' },
       { speaker: 'Kael', text: "Ren? What does that mean?", speakerFaction: 'player' },
       { speaker: 'Ren', text: "It means I trust her. That's all.", speakerFaction: 'player' },
+      { speaker: 'Kael', text: "Whatever your numbers say, you kept us alive in there.", speakerFaction: 'player' },
+      { speaker: 'Faye', text: "I've seen healers break under less. The fact that you're still standing means something.", speakerFaction: 'player' },
+      { speaker: 'Bram', text: "Stop overthinking it. You're smart. That's enough.", speakerFaction: 'player' },
       { speaker: 'Narrator', text: "Senna stares at her notes. The numbers don't lie. But they don't tell the truth anymore either." },
     ],
   },
@@ -187,6 +190,8 @@ export const CHAPTER_7: ChapterData = {
               { speaker: 'Ren', text: "Three more turns. Hold the line — we're almost through this.", speakerFaction: 'player' },
               { speaker: 'Senna', text: "...The spawn rate is decreasing. Whatever it was... it's running out of energy.", speakerFaction: 'player' },
               { speaker: 'Kael', text: "Then we outlast it. Like we always do.", speakerFaction: 'player' },
+              { speaker: 'Ren', text: "Senna — you'll figure it out. You always do.", speakerFaction: 'player' },
+              { speaker: 'Senna', text: "...Thank you.", speakerFaction: 'player' },
             ],
           },
         },
@@ -205,6 +210,24 @@ export const CHAPTER_7: ChapterData = {
               { speaker: 'Senna', text: "The spawn frequency is dropping — the corruption is burning itself out. One more turn!", speakerFaction: 'player' },
               { speaker: 'Ren', text: "Hold steady! They're retreating — we just need to survive this last push!", speakerFaction: 'player' },
               { speaker: 'Narrator', text: "The glitched tiles at the north edge flicker and dim. The corruption is exhausting its fuel." },
+            ],
+          },
+        },
+      ],
+      once: true,
+    },
+    // Turn 12: Survive complete — brief relief
+    {
+      id: 'ch7_survive_relief',
+      trigger: { type: 'turn_start', turn: 12 },
+      effects: [
+        {
+          type: 'show_dialogue',
+          scene: {
+            lines: [
+              { speaker: 'Senna', text: "The spawns have stopped. The corruption is spent.", speakerFaction: 'player' },
+              { speaker: 'Kael', text: "We made it. Everyone still standing?", speakerFaction: 'player' },
+              { speaker: 'Ren', text: "Still standing. Barely.", speakerFaction: 'player' },
             ],
           },
         },

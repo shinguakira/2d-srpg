@@ -84,7 +84,13 @@ export const CHAPTER_8: ChapterData = {
       { speaker: 'Kael', text: "I don't care.", speakerFaction: 'player' },
       { speaker: 'Ren', text: "What?", speakerFaction: 'player' },
       { speaker: 'Kael', text: "This is the first time I REMEMBER. So it counts. Whatever happens today — it counts because I chose it.", speakerFaction: 'player' },
-      { speaker: 'Narrator', text: "The party moves into position. No one speaks. The silence says everything." },
+      { speaker: 'Narrator', text: "The party moves into position. Each member checks their weapons. The gestures are small, routine — but tonight they carry weight." },
+      { speaker: 'Bram', text: "...", speakerFaction: 'player' },
+      { speaker: 'Narrator', text: "Bram adjusts his axe grip, glances at Kael, says nothing." },
+      { speaker: 'Lira', text: "May the dawn find us all.", speakerFaction: 'player' },
+      { speaker: 'Voss', text: "...", speakerFaction: 'player' },
+      { speaker: 'Narrator', text: "Voss nods to Kael — a soldier's acknowledgment." },
+      { speaker: 'Faye', text: "I'll stay close. Whatever happens.", speakerFaction: 'player' },
     ],
   },
   epilogue: {
@@ -129,6 +135,40 @@ export const CHAPTER_8: ChapterData = {
     },
   ],
   events: [
+    // Turn 3: Tactical callout — throne room assessment
+    {
+      id: 'ch8_tactical_1',
+      trigger: { type: 'turn_start', turn: 3 },
+      effects: [
+        {
+          type: 'show_dialogue',
+          scene: {
+            lines: [
+              { speaker: 'Rook', text: "Knights guarding the throne room. Heavy armor — axes or magic will do better than swords.", speakerFaction: 'player' },
+              { speaker: 'Kael', text: "I'll draw their attention. You flank.", speakerFaction: 'player' },
+            ],
+          },
+        },
+      ],
+      once: true,
+    },
+    // Turn 5: South gate reinforcement warning
+    {
+      id: 'ch8_tactical_2',
+      trigger: { type: 'turn_start', turn: 5 },
+      effects: [
+        {
+          type: 'show_dialogue',
+          scene: {
+            lines: [
+              { speaker: 'Senna', text: "South gate activity — they're sending reinforcements through the corridor.", speakerFaction: 'player' },
+              { speaker: 'Ren', text: "Push north. We take Morryn before they overwhelm us.", speakerFaction: 'player' },
+            ],
+          },
+        },
+      ],
+      once: true,
+    },
     // Turn 7: South reinforcements dialogue
     {
       id: 'ch8_south_spotted',
@@ -170,6 +210,42 @@ export const CHAPTER_8: ChapterData = {
             { type: 'remove_unit', unitId: 'kael' },
             { type: 'spawn_units', units: [{ unitId: 'kael_npc', position: { x: 8, y: 16 } }], faction: 'ally' },
           ],
+        },
+      ],
+      once: true,
+    },
+    // Turn 10: Kael fighting alone — party watches
+    {
+      id: 'ch8_kael_holding',
+      trigger: { type: 'turn_start', turn: 10 },
+      effects: [
+        {
+          type: 'show_dialogue',
+          scene: {
+            lines: [
+              { speaker: 'Narrator', text: "In the south corridor, Kael fights alone. His lance catches the torchlight between strikes." },
+              { speaker: 'Lira', text: "Can anyone see him? Is he—", speakerFaction: 'player' },
+              { speaker: 'Voss', text: "He's holding. Focus on Morryn.", speakerFaction: 'player' },
+            ],
+          },
+        },
+      ],
+      once: true,
+    },
+    // Turn 12: Kael fading — urgency
+    {
+      id: 'ch8_kael_fading',
+      trigger: { type: 'turn_start', turn: 12 },
+      effects: [
+        {
+          type: 'show_dialogue',
+          scene: {
+            lines: [
+              { speaker: 'Narrator', text: "The sounds from the south corridor are slowing. Fewer clashes. Longer pauses." },
+              { speaker: 'Senna', text: "His vitals... they're dropping. We need to finish this NOW.", speakerFaction: 'player' },
+              { speaker: 'Ren', text: "Everyone — push! Take the throne!", speakerFaction: 'player' },
+            ],
+          },
         },
       ],
       once: true,

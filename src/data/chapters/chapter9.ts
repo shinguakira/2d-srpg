@@ -80,7 +80,9 @@ export const CHAPTER_9: ChapterData = {
       { speaker: 'Narrator', text: "For a moment, the performer's mask slips. Orin's eyes hold something older than comedy." },
       { speaker: 'Orin', text: "...I've seen that look before. In better stories than mine. It doesn't go away. But it gets quieter.", speakerFaction: 'player' },
       { speaker: 'Ren', text: "Thank you, Orin.", speakerFaction: 'player' },
-      { speaker: 'Senna', text: "The grief debuff is still active. Our stats won't recover until after the next engagement.", speakerFaction: 'player' },
+      { speaker: 'Bram', text: "...You're alright, performer.", speakerFaction: 'player' },
+      { speaker: 'Lira', text: "Stay with us. We could use someone who still knows how to smile.", speakerFaction: 'player' },
+      { speaker: 'Senna', text: "The grief is still weighing on us. Our stats won't recover until after the next engagement.", speakerFaction: 'player' },
     ],
   },
   villages: [

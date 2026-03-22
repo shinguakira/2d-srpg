@@ -162,7 +162,7 @@
 - [x] Village at bottom (rows 14-17), fortified hill center/north
 - [x] Three approach routes to hill: left (forest), center (bridge), right (open)
 - [x] NPC Elder Maren at village (must survive)
-- [x] Throne at hilltop (3, 8) — Drayen's position
+- [x] Throne at hilltop (7, 1) — Drayen's position
 
 ### Enemies
 - [x] Boss: General Drayen — Sage (promoted mage), Lv11, Elfire + Mend staff

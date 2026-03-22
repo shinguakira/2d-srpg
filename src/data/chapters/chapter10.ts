@@ -123,6 +123,24 @@ export const CHAPTER_10: ChapterData = {
     },
   ],
   events: [
+    // Turn 3: Elder Maren speaks about the scrolls
+    {
+      id: 'ch10_maren_speaks',
+      trigger: { type: 'turn_start', turn: 3 },
+      effects: [
+        {
+          type: 'show_dialogue',
+          scene: {
+            lines: [
+              { speaker: 'Elder Maren', text: "These scrolls document every anomaly for the past fifty years. If Drayen takes them, the truth dies with this village.", speakerFaction: 'ally' },
+              { speaker: 'Ren', text: "We won't let that happen.", speakerFaction: 'player' },
+              { speaker: 'Elder Maren', text: "I've survived worse than generals, young man. But I can't outrun what's coming from the north.", speakerFaction: 'ally' },
+            ],
+          },
+        },
+      ],
+      once: true,
+    },
     // Turn 6: System Construct spawn
     {
       id: 'ch10_construct_spawn',

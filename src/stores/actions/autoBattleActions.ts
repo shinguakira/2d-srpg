@@ -258,21 +258,24 @@ export function finishAutoCombat(get: Get, set: Set) {
     if (u) resolution.newUnits.set(selectedUnitId, { ...u, hasActed: true });
   }
 
-  const nextPhase = resolution.victoryResult ? 'game_over' as const : 'player_phase' as const;
+  const isVictory = !!resolution.victoryResult;
+  const nextPhase = (isVictory && expBarData) ? 'player_phase' as const : (isVictory ? 'game_over' as const : 'player_phase' as const);
+  const effectiveGameOver = isVictory && !expBarData;
 
   set({
     ...IDLE_RESET,
     units: resolution.newUnits,
     gameMap: { ...gameMap, tiles: resolution.newTiles },
     currentPhase: nextPhase,
+    pendingVictory: isVictory && !!expBarData,
     levelUpGains: gains,
     levelUpUnitId: levelUpUnit,
     deathQuote: resolution.deathQuote,
     floatingNumbers: resolution.floatingNumbers,
     expBarData,
-    autoBattleIndex: nextPhase === 'game_over' ? -1 : autoBattleIndex + 1,
-    isAutoBattle: nextPhase !== 'game_over',
-    autoBattleActions: nextPhase === 'game_over' ? [] : get().autoBattleActions,
+    autoBattleIndex: effectiveGameOver ? -1 : autoBattleIndex + 1,
+    isAutoBattle: !effectiveGameOver,
+    autoBattleActions: effectiveGameOver ? [] : get().autoBattleActions,
   });
 
   // Track once-per-chapter skill activations

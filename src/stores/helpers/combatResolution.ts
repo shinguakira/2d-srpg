@@ -6,6 +6,7 @@ import { getManhattanDistance } from '../../core/pathfinding';
 import { isPermadeath } from '../../core/difficulty';
 import { assignTraumaSkill } from '../../core/traumaSkills';
 import { useCampaignStore } from '../campaignStore';
+import { isBossDefeated } from './mapHelpers';
 
 export type CombatResolutionResult = {
   newUnits: Map<string, Unit>;
@@ -187,12 +188,25 @@ function checkVictorySimple(units: Map<string, Unit>, chapterData: ChapterData |
 
   if (!hasPlayer) return 'defeat';
 
-  if (!chapterData || chapterData.objective.type === 'rout') {
+  const objType = chapterData?.objective.type;
+
+  if (!chapterData || objType === 'rout') {
     if (!hasEnemy) return 'victory';
   }
 
-  if (chapterData?.objective.type === 'seize' && !hasEnemy) {
+  if (objType === 'seize' && !hasEnemy) {
     return 'victory';
+  }
+
+  // Boss kill: victory when no boss AI enemy remains
+  if (objType === 'boss_kill' && isBossDefeated(units)) {
+    return 'victory';
+  }
+
+  // Protect: defeat if protected unit dies; victory if boss defeated
+  if (objType === 'protect' && chapterData?.objective.protectUnitId) {
+    if (!units.has(chapterData.objective.protectUnitId)) return 'defeat';
+    if (isBossDefeated(units)) return 'victory';
   }
 
   return null;

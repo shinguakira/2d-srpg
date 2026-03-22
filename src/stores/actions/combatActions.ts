@@ -232,7 +232,9 @@ export function finishCombat(get: Get, set: Set) {
     };
   }
 
-  const nextPhase: GamePhase = resolution.victoryResult ? 'game_over' : 'player_phase';
+  const isVictory = !!resolution.victoryResult;
+  // Defer victory until EXP/level-up are dismissed so player sees the full flow
+  const nextPhase: GamePhase = (isVictory && expBarData) ? 'player_phase' : (isVictory ? 'game_over' : 'player_phase');
 
   if (expBarData) {
     // Preserve selectedUnitId and pendingPosition through EXP/level-up flow
@@ -241,6 +243,7 @@ export function finishCombat(get: Get, set: Set) {
       units: resolution.newUnits,
       gameMap: { ...gameMap, tiles: resolution.newTiles },
       currentPhase: nextPhase,
+      pendingVictory: isVictory,
       playerAction: 'idle',
       movementRange: EMPTY_SET,
       attackRange: EMPTY_SET,
@@ -273,6 +276,7 @@ export function finishCombat(get: Get, set: Set) {
       units: resolution.newUnits,
       gameMap: { ...gameMap, tiles: resolution.newTiles },
       currentPhase: nextPhase,
+      pendingVictory: false,
       deathQuote: resolution.deathQuote,
       floatingNumbers: resolution.floatingNumbers,
     });

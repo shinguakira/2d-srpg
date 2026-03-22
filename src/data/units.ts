@@ -89,6 +89,34 @@ export const PLAYER_UNITS: Record<string, Unit> = {
     deathQuote: "The sky... is falling...",
     statOverrides: { spd: 10, skl: 7, res: 6 },
   }),
+
+  // ===== Arc 2 — New player units =====
+
+  rook: createUnit('rook', 'Rook', 'mercenary', 'player', ['iron_sword', 'steel_sword'], 5, '', ['vulnerary'], {
+    deathQuote: "Paid in full... one last time...",
+    statOverrides: { hp: 22, str: 8, spd: 8, skl: 7, def: 6 },
+  }),
+  faye: createUnit('faye', 'Faye', 'troubadour', 'player', ['heal_staff', 'mend'], 4, '', ['vulnerary'], {
+    deathQuote: "I should have... stayed hidden...",
+    statOverrides: { mag: 7, spd: 8, res: 6 },
+  }),
+  orin: createUnit('orin', 'Orin', 'dancer', 'player', [], 5, '', ['vulnerary'], {
+    deathQuote: "The music... stops...",
+    statOverrides: { spd: 10, lck: 9 },
+  }),
+
+  // Kael NPC clone — used in ch8 when Kael becomes an ally NPC for the death sequence
+  kael_npc: createUnit('kael_npc', 'Kael', 'cavalier', 'ally', ['iron_lance', 'iron_sword'], 8, '', ['vulnerary'], {
+    aiBehavior: { type: 'aggressive' },
+    deathQuote: "This time... I choose...",
+    statOverrides: { hp: 28, str: 10, def: 8, spd: 8, skl: 8, lck: 6 },
+  }),
+
+  // Elder Maren — ch10 protect target NPC
+  elder_maren: createUnit('elder_maren', 'Elder Maren', 'cleric', 'ally', ['heal_staff'], 1, '', [], {
+    aiBehavior: { type: 'stationary' },
+    statOverrides: { hp: 14, def: 2, res: 4, mag: 3 },
+  }),
 };
 
 // Enemy templates
@@ -217,4 +245,162 @@ export const ENEMY_UNITS: Record<string, Unit> = {
   ch5_reinforce_1: createUnit('ch5_reinforce_1', 'Soldier', 'soldier', 'enemy', ['iron_lance'], 7),
   ch5_reinforce_2: createUnit('ch5_reinforce_2', 'Soldier', 'soldier', 'enemy', ['iron_lance'], 7),
   ch5_reinforce_3: createUnit('ch5_reinforce_3', 'Cavalier', 'cavalier', 'enemy', ['iron_lance'], 8),
+
+  // ===== Chapter 6 enemies — Coastal Harbor (Arc 2 opener) =====
+
+  ch6_boss: createUnit('ch6_boss', 'Captain Sera', 'pegasus_knight', 'enemy', ['steel_lance', 'javelin'], 8, '', [], {
+    aiBehavior: { type: 'aggressive' },
+    statOverrides: { hp: 38, str: 9, spd: 12, skl: 10, def: 5, res: 7 },
+  }),
+  ch6_soldier_1: createUnit('ch6_soldier_1', 'Soldier', 'soldier', 'enemy', ['iron_lance'], 6, '', [], {
+    aiBehavior: { type: 'guard', radius: 3 },
+  }),
+  ch6_soldier_2: createUnit('ch6_soldier_2', 'Soldier', 'soldier', 'enemy', ['iron_lance'], 6, '', [], {
+    aiBehavior: { type: 'guard', radius: 3 },
+  }),
+  ch6_soldier_3: createUnit('ch6_soldier_3', 'Soldier', 'soldier', 'enemy', ['steel_lance'], 7, '', [], {
+    aiBehavior: { type: 'guard', radius: 3 },
+  }),
+  ch6_soldier_4: createUnit('ch6_soldier_4', 'Soldier', 'soldier', 'enemy', ['steel_lance'], 7, '', [], {
+    aiBehavior: { type: 'guard', radius: 4 },
+  }),
+  ch6_archer_1: createUnit('ch6_archer_1', 'Archer', 'archer', 'enemy', ['iron_bow'], 6, '', [], {
+    aiBehavior: { type: 'stationary' },
+  }),
+  ch6_archer_2: createUnit('ch6_archer_2', 'Archer', 'archer', 'enemy', ['iron_bow'], 6, '', [], {
+    aiBehavior: { type: 'stationary' },
+  }),
+  ch6_fighter_1: createUnit('ch6_fighter_1', 'Brigand', 'fighter', 'enemy', ['steel_axe'], 6),
+  ch6_fighter_2: createUnit('ch6_fighter_2', 'Brigand', 'fighter', 'enemy', ['steel_axe'], 6),
+  ch6_fighter_3: createUnit('ch6_fighter_3', 'Brigand', 'fighter', 'enemy', ['hand_axe'], 6),
+  ch6_cavalier_1: createUnit('ch6_cavalier_1', 'Cavalier', 'cavalier', 'enemy', ['iron_lance'], 7),
+  ch6_cavalier_2: createUnit('ch6_cavalier_2', 'Cavalier', 'cavalier', 'enemy', ['iron_lance'], 7),
+  // Ch6 reinforcements — Turn 8 heavy cavalry (4 units)
+  ch6_reinforce_1: createUnit('ch6_reinforce_1', 'Heavy Cavalry', 'cavalier', 'enemy', ['steel_lance'], 8),
+  ch6_reinforce_2: createUnit('ch6_reinforce_2', 'Heavy Cavalry', 'cavalier', 'enemy', ['steel_lance'], 8),
+  ch6_reinforce_3: createUnit('ch6_reinforce_3', 'Heavy Cavalry', 'cavalier', 'enemy', ['steel_lance'], 8),
+  ch6_reinforce_4: createUnit('ch6_reinforce_4', 'Heavy Cavalry', 'cavalier', 'enemy', ['steel_lance'], 8),
+  // Ch6 reinforcements — Turn 12 overwhelming wave
+  ch6_reinforce_5: createUnit('ch6_reinforce_5', 'Imperial Soldier', 'soldier', 'enemy', ['steel_lance'], 8),
+  ch6_reinforce_6: createUnit('ch6_reinforce_6', 'Imperial Soldier', 'soldier', 'enemy', ['steel_lance'], 8),
+  ch6_reinforce_7: createUnit('ch6_reinforce_7', 'Imperial Fighter', 'fighter', 'enemy', ['steel_axe'], 8),
+  ch6_reinforce_8: createUnit('ch6_reinforce_8', 'Imperial Fighter', 'fighter', 'enemy', ['steel_axe'], 8),
+  ch6_reinforce_9: createUnit('ch6_reinforce_9', 'Imperial Cavalry', 'cavalier', 'enemy', ['steel_lance'], 9),
+  ch6_reinforce_10: createUnit('ch6_reinforce_10', 'Imperial Cavalry', 'cavalier', 'enemy', ['steel_lance'], 9),
+
+  // ===== Chapter 7 enemies — Coastal Fortress (Senna's crisis) =====
+
+  ch7_boss: createUnit('ch7_boss', 'Admiral Varga', 'general_soldier', 'enemy', ['steel_lance'], 9, '', [], {
+    aiBehavior: { type: 'stationary' },
+    statOverrides: { hp: 48, str: 12, def: 14, skl: 9, spd: 5 },
+  }),
+  ch7_soldier_1: createUnit('ch7_soldier_1', 'Soldier', 'soldier', 'enemy', ['steel_lance'], 7, '', [], {
+    aiBehavior: { type: 'guard', radius: 3 },
+  }),
+  ch7_soldier_2: createUnit('ch7_soldier_2', 'Soldier', 'soldier', 'enemy', ['iron_lance'], 7, '', [], {
+    aiBehavior: { type: 'guard', radius: 4 },
+  }),
+  ch7_fighter_1: createUnit('ch7_fighter_1', 'Fighter', 'fighter', 'enemy', ['steel_axe'], 7),
+  ch7_fighter_2: createUnit('ch7_fighter_2', 'Fighter', 'fighter', 'enemy', ['hand_axe'], 7),
+  ch7_mage_1: createUnit('ch7_mage_1', 'Mage', 'mage', 'enemy', ['fire'], 7, '', [], {
+    aiBehavior: { type: 'guard', radius: 4 },
+  }),
+  ch7_mage_2: createUnit('ch7_mage_2', 'Mage', 'mage', 'enemy', ['thunder'], 7, '', [], {
+    aiBehavior: { type: 'guard', radius: 4 },
+  }),
+  // Ch7 corrupted spawns (shaman class, reinforcement waves)
+  ch7_corrupted_1: createUnit('ch7_corrupted_1', 'Corrupted', 'shaman', 'enemy', ['fire'], 6),
+  ch7_corrupted_2: createUnit('ch7_corrupted_2', 'Corrupted', 'shaman', 'enemy', ['thunder'], 6),
+  ch7_corrupted_3: createUnit('ch7_corrupted_3', 'Corrupted', 'shaman', 'enemy', ['fire'], 6),
+  ch7_corrupted_4: createUnit('ch7_corrupted_4', 'Corrupted', 'shaman', 'enemy', ['thunder'], 6),
+  ch7_corrupted_5: createUnit('ch7_corrupted_5', 'Corrupted', 'shaman', 'enemy', ['nosferatu'], 7),
+  ch7_corrupted_6: createUnit('ch7_corrupted_6', 'Corrupted', 'shaman', 'enemy', ['nosferatu'], 7),
+  ch7_corrupted_7: createUnit('ch7_corrupted_7', 'Corrupted', 'shaman', 'enemy', ['fire'], 7),
+  ch7_corrupted_8: createUnit('ch7_corrupted_8', 'Corrupted', 'shaman', 'enemy', ['thunder'], 7),
+
+  // ===== Chapter 8 enemies — Mountain Fortress (Kael's death) =====
+
+  ch8_boss: createUnit('ch8_boss', 'General Morryn', 'halberdier', 'enemy', ['steel_lance', 'javelin'], 12, '', [], {
+    aiBehavior: { type: 'boss' },
+    statOverrides: { hp: 55, str: 13, def: 14, skl: 10, spd: 7, res: 5 },
+  }),
+  ch8_knight_1: createUnit('ch8_knight_1', 'Knight', 'knight', 'enemy', ['iron_lance'], 9, '', [], {
+    aiBehavior: { type: 'guard', radius: 3 },
+  }),
+  ch8_knight_2: createUnit('ch8_knight_2', 'Knight', 'knight', 'enemy', ['iron_lance'], 9, '', [], {
+    aiBehavior: { type: 'guard', radius: 3 },
+  }),
+  ch8_knight_3: createUnit('ch8_knight_3', 'Knight', 'knight', 'enemy', ['steel_lance'], 8, '', [], {
+    aiBehavior: { type: 'guard', radius: 2 },
+  }),
+  ch8_knight_4: createUnit('ch8_knight_4', 'Knight', 'knight', 'enemy', ['steel_lance'], 8, '', [], {
+    aiBehavior: { type: 'guard', radius: 2 },
+  }),
+  ch8_cavalier_1: createUnit('ch8_cavalier_1', 'Cavalier', 'cavalier', 'enemy', ['iron_lance'], 8),
+  ch8_cavalier_2: createUnit('ch8_cavalier_2', 'Cavalier', 'cavalier', 'enemy', ['iron_lance'], 8),
+  ch8_cavalier_3: createUnit('ch8_cavalier_3', 'Cavalier', 'cavalier', 'enemy', ['steel_lance'], 8),
+  ch8_mage_1: createUnit('ch8_mage_1', 'Mage', 'mage', 'enemy', ['fire'], 8, '', [], {
+    aiBehavior: { type: 'guard', radius: 4 },
+  }),
+  ch8_mage_2: createUnit('ch8_mage_2', 'Mage', 'mage', 'enemy', ['thunder'], 8, '', [], {
+    aiBehavior: { type: 'guard', radius: 4 },
+  }),
+  // Ch8 south corridor reinforcements
+  ch8_reinforce_1: createUnit('ch8_reinforce_1', 'Soldier', 'soldier', 'enemy', ['steel_lance'], 7),
+  ch8_reinforce_2: createUnit('ch8_reinforce_2', 'Soldier', 'soldier', 'enemy', ['iron_lance'], 7),
+  ch8_reinforce_3: createUnit('ch8_reinforce_3', 'Soldier', 'soldier', 'enemy', ['steel_lance'], 8),
+  ch8_reinforce_4: createUnit('ch8_reinforce_4', 'Cavalier', 'cavalier', 'enemy', ['iron_lance'], 8),
+  ch8_reinforce_5: createUnit('ch8_reinforce_5', 'Soldier', 'soldier', 'enemy', ['steel_lance'], 8),
+  ch8_reinforce_6: createUnit('ch8_reinforce_6', 'Soldier', 'soldier', 'enemy', ['iron_lance'], 8),
+  ch8_reinforce_7: createUnit('ch8_reinforce_7', 'Soldier', 'soldier', 'enemy', ['steel_lance'], 8),
+
+  // ===== Chapter 9 enemies — Forest Pass (grief chapter) =====
+
+  ch9_raider_captain: createUnit('ch9_raider_captain', 'Raider Captain', 'cavalier', 'enemy', ['steel_lance'], 9, '', [], {
+    statOverrides: { hp: 32, str: 10, spd: 9, skl: 8 },
+  }),
+  ch9_soldier_1: createUnit('ch9_soldier_1', 'Soldier', 'soldier', 'enemy', ['steel_lance'], 8),
+  ch9_soldier_2: createUnit('ch9_soldier_2', 'Soldier', 'soldier', 'enemy', ['iron_lance'], 8),
+  ch9_soldier_3: createUnit('ch9_soldier_3', 'Soldier', 'soldier', 'enemy', ['steel_lance'], 8),
+  ch9_fighter_1: createUnit('ch9_fighter_1', 'Fighter', 'fighter', 'enemy', ['steel_axe'], 8),
+  ch9_fighter_2: createUnit('ch9_fighter_2', 'Fighter', 'fighter', 'enemy', ['hand_axe'], 8),
+  ch9_fighter_3: createUnit('ch9_fighter_3', 'Fighter', 'fighter', 'enemy', ['steel_axe'], 8),
+  ch9_archer_1: createUnit('ch9_archer_1', 'Archer', 'archer', 'enemy', ['iron_bow'], 7, '', [], {
+    aiBehavior: { type: 'guard', radius: 3 },
+  }),
+  ch9_archer_2: createUnit('ch9_archer_2', 'Archer', 'archer', 'enemy', ['iron_bow'], 7, '', [], {
+    aiBehavior: { type: 'guard', radius: 3 },
+  }),
+
+  // ===== Chapter 10 enemies — Village + Hill (Arc 2 climax) =====
+
+  ch10_boss: createUnit('ch10_boss', 'General Drayen', 'sage', 'enemy', ['elfire', 'mend'], 11, '', [], {
+    aiBehavior: { type: 'boss' },
+    statOverrides: { hp: 55, mag: 14, def: 8, res: 12, spd: 8, skl: 10 },
+  }),
+  ch10_guard_1: createUnit('ch10_guard_1', 'Elite Guard', 'soldier', 'enemy', ['steel_lance'], 9, '', [], {
+    aiBehavior: { type: 'escort', targetUnitId: 'ch10_boss' },
+  }),
+  ch10_guard_2: createUnit('ch10_guard_2', 'Elite Guard', 'mercenary', 'enemy', ['steel_sword'], 9, '', [], {
+    aiBehavior: { type: 'escort', targetUnitId: 'ch10_boss' },
+  }),
+  ch10_guard_3: createUnit('ch10_guard_3', 'Elite Guard', 'soldier', 'enemy', ['steel_lance'], 9, '', [], {
+    aiBehavior: { type: 'escort', targetUnitId: 'ch10_boss' },
+  }),
+  ch10_soldier_1: createUnit('ch10_soldier_1', 'Soldier', 'soldier', 'enemy', ['steel_lance'], 9),
+  ch10_soldier_2: createUnit('ch10_soldier_2', 'Soldier', 'soldier', 'enemy', ['iron_lance'], 8),
+  ch10_soldier_3: createUnit('ch10_soldier_3', 'Soldier', 'soldier', 'enemy', ['steel_lance'], 9),
+  ch10_soldier_4: createUnit('ch10_soldier_4', 'Soldier', 'soldier', 'enemy', ['iron_lance'], 8),
+  ch10_mage_1: createUnit('ch10_mage_1', 'Mage', 'mage', 'enemy', ['fire'], 8, '', [], {
+    aiBehavior: { type: 'guard', radius: 4 },
+  }),
+  ch10_mage_2: createUnit('ch10_mage_2', 'Mage', 'mage', 'enemy', ['thunder'], 8, '', [], {
+    aiBehavior: { type: 'guard', radius: 4 },
+  }),
+  ch10_fighter_1: createUnit('ch10_fighter_1', 'Raider', 'fighter', 'enemy', ['steel_axe'], 8),
+  ch10_fighter_2: createUnit('ch10_fighter_2', 'Raider', 'fighter', 'enemy', ['hand_axe'], 8),
+  // System Construct — ch10 Turn 6 spawn, special high-stat enemy
+  ch10_construct: createUnit('ch10_construct', 'System Construct', 'knight', 'enemy', ['steel_lance'], 15, '', [], {
+    statOverrides: { hp: 50, str: 15, def: 14, res: 10, spd: 3, skl: 8 },
+  }),
 };

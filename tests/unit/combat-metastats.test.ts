@@ -22,7 +22,7 @@ function makeUnit(id: string, overrides: Partial<Unit> = {}): Unit {
   return {
     id,
     name: id,
-    classId: 'test',
+    classId: 'lord',
     faction: 'player',
     position: { x: 0, y: 0 },
     stats: { hp: 20, str: 8, mag: 4, def: 5, res: 3, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
@@ -95,6 +95,7 @@ describe('Combat + Meta-Stats Integration', () => {
   describe('Light magic bonus', () => {
     it('deals +50% damage against units with CRP > 0', () => {
       const attacker = makeUnit('mage', {
+        classId: 'monk',
         stats: { hp: 20, str: 0, mag: 10, def: 3, res: 5, spd: 6, skl: 8, lck: 4, mov: 5, cha: 0, wil: 0 },
         equippedWeapon: makeWeapon('light', { might: 6 }),
       });
@@ -113,6 +114,7 @@ describe('Combat + Meta-Stats Integration', () => {
 
     it('no bonus when defender CRP is 0', () => {
       const attacker = makeUnit('mage', {
+        classId: 'monk',
         stats: { hp: 20, str: 0, mag: 10, def: 3, res: 5, spd: 6, skl: 8, lck: 4, mov: 5, cha: 0, wil: 0 },
         equippedWeapon: makeWeapon('light', { might: 6 }),
       });

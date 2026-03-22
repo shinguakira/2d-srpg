@@ -1,7 +1,7 @@
 import type { SaveData } from './types';
 
 const SAVE_KEY_PREFIX = 'srpg_save_slot_';
-const CURRENT_VERSION = 6;
+const CURRENT_VERSION = 7;
 
 export function writeSave(slot: number, data: SaveData): void {
   localStorage.setItem(SAVE_KEY_PREFIX + slot, JSON.stringify(data));
@@ -107,6 +107,17 @@ function migrateSave(data: Record<string, unknown>): SaveData | null {
     version = 6;
   }
 
+  // v6 → v7: add storage and viewedSupports
+  if (version === 6) {
+    data = {
+      ...data,
+      version: 7,
+      storage: (data as Record<string, unknown>).storage ?? [],
+      viewedSupports: (data as Record<string, unknown>).viewedSupports ?? [],
+    };
+    version = 7;
+  }
+
   if (version === CURRENT_VERSION) return data as SaveData;
   return null;
 }
@@ -120,7 +131,7 @@ export function hasSave(slot: number): boolean {
 }
 
 export function hasAnySave(): boolean {
-  return hasSave(0) || hasSave(1) || hasSave(2);
+  return hasSave(0) || hasSave(1) || hasSave(2) || hasSave(3);
 }
 
 export function getSlotSummary(slot: number): { timestamp: number; chapterId: string } | null {

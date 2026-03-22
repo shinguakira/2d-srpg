@@ -12,6 +12,7 @@ import { addSupportPoints } from './supportActions';
 import { applyHealSta } from './metaStatActions';
 import { clampMetaStats } from '../../core/metaStats';
 import { hasSkill } from '../../core/skills';
+import { canHealWithStaff } from '../../core/combat';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -22,6 +23,9 @@ export function startHealTargeting(get: Get, set: Set) {
 
   const unit = units.get(selectedUnitId);
   if (!unit) return;
+
+  // Only proficient staff users can heal
+  if (!canHealWithStaff(unit)) return;
 
   // Find staff in inventory
   const staff = unit.inventory.find((w) => w.type === 'staff');

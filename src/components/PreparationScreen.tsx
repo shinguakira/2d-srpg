@@ -1,10 +1,12 @@
 import { useState, useCallback } from 'react';
 import { useCampaignStore } from '../stores/campaignStore';
 import { PLAYER_UNITS } from '../data/units';
+import { computeAutoDeploy } from '../core/deployment';
 import { WEAPONS } from '../data/weapons';
 import { ITEMS } from '../data/items';
 import { BattleSprite } from './Combat/BattleSprite';
 import { PromotionScreen } from './UI/PromotionScreen';
+import { SaveSlotPicker } from './UI/SaveSlotPicker';
 import { canPromote, getPromotionOptions, getMatchingPromotionItem, applyPromotion, calculateSkillSlots } from '../core/promotion';
 import { canTeach, getTeachingCost } from '../core/teaching';
 import { canForge, getRequiredMaterial, previewForge, applyForge, getForgeGoldCost } from '../core/forging';
@@ -61,6 +63,7 @@ export function PreparationScreen() {
   const forgeWeapon = useCampaignStore((s) => s.forgeWeapon);
   const gold = useCampaignStore((s) => s.gold);
   const campaignSupportPairs = useCampaignStore((s) => s.supportPairs);
+  const saveCurrentToSlot = useCampaignStore((s) => s.saveCurrentToSlot);
 
   const hasDeploymentSlots = !!chapterData?.deploymentSlots;
   const maxDeploy = chapterData?.deploymentSlots ?? 0;
@@ -75,10 +78,10 @@ export function PreparationScreen() {
   const [completedSupports, setCompletedSupports] = useState<string[]>([]);
   const [deployedIds, setDeployedIds] = useState<string[]>(() => {
     if (!hasDeploymentSlots) return [];
-    // Auto-deploy force-deploy units
-    return [...forceDeploy];
+    return computeAutoDeploy(forceDeploy, roster, maxDeploy, deadUnitIds, gameMode);
   });
   const [promotingUnit, setPromotingUnit] = useState<PrepUnit | null>(null);
+  const [showSaveModal, setShowSaveModal] = useState(false);
 
   function buildPrepUnit(unitId: string): PrepUnit | null {
     const template = PLAYER_UNITS[unitId];
@@ -266,6 +269,29 @@ export function PreparationScreen() {
     });
     startBattle();
   }, [units, storageItems, unitProgress, viewedSupports, completedSupports, startBattle, hasDeploymentSlots, deployedIds]);
+
+  // Save game — persist prep changes then save to selected slot
+  const handleSave = useCallback((slot: number) => {
+    const newProgress = { ...unitProgress };
+    for (const u of units) {
+      newProgress[u.id] = {
+        level: u.level,
+        exp: u.exp,
+        stats: { ...u.stats },
+        weaponIds: u.weapons.map((w) => w.id),
+        itemIds: u.items.map((i) => i.id),
+        classId: u.classId,
+        skillIds: u.skills,
+        learnedSkillIds: u.learnedSkills,
+      };
+    }
+    useCampaignStore.setState({
+      unitProgress: newProgress,
+      storage: storageItems,
+      viewedSupports: [...viewedSupports, ...completedSupports],
+    });
+    saveCurrentToSlot(slot);
+  }, [units, storageItems, unitProgress, viewedSupports, completedSupports, saveCurrentToSlot]);
 
   if (!chapterData) return null;
 
@@ -822,6 +848,13 @@ export function PreparationScreen() {
 
       <div className="prep-screen__actions">
         <button
+          className="prep-screen__save-btn"
+          data-testid="prep-save-game"
+          onClick={() => setShowSaveModal(true)}
+        >
+          Save Game
+        </button>
+        <button
           className="prep-screen__start-btn"
           data-testid="prep-start-battle"
           onClick={handleStartBattle}
@@ -837,6 +870,14 @@ export function PreparationScreen() {
           options={getPromotionOptions(prepToUnit(promotingUnit))}
           onConfirm={handlePromotionConfirm}
           onCancel={() => setPromotingUnit(null)}
+        />
+      )}
+
+      {showSaveModal && (
+        <SaveSlotPicker
+          onSave={handleSave}
+          onCancel={() => setShowSaveModal(false)}
+          title="Save Game"
         />
       )}
     </div>

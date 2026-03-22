@@ -69,11 +69,34 @@ export type CombatForecast = {
   defenderSkills: string[];
   vantageActive: boolean;
   distance: number;
+  attackerProficient: boolean;
+  defenderProficient: boolean;
 };
 
-function isMagicWeapon(weapon: Weapon): boolean {
+export function isMagicWeapon(weapon: Weapon): boolean {
   return weapon.type === 'fire' || weapon.type === 'thunder' || weapon.type === 'wind'
     || weapon.type === 'dark' || weapon.type === 'light';
+}
+
+/** Check if a unit's class is proficient with the given weapon type */
+export function isWeaponProficient(unit: Unit, weapon: Weapon): boolean {
+  const cls = ALL_CLASSES[unit.classId];
+  if (!cls?.weaponTypes?.length) return false;
+  return cls.weaponTypes.includes(weapon.type);
+}
+
+/** Check if a unit's class can use staves for healing */
+export function canHealWithStaff(unit: Unit): boolean {
+  const cls = ALL_CLASSES[unit.classId];
+  return !!cls?.weaponTypes?.includes('staff');
+}
+
+/** Get effective weapon range — non-proficient magic/staff users are limited to range 1 (melee bonk) */
+export function getEffectiveWeaponRange(unit: Unit, weapon: Weapon): { minRange: number; maxRange: number } {
+  if ((isMagicWeapon(weapon) || weapon.type === 'staff') && !isWeaponProficient(unit, weapon)) {
+    return { minRange: 1, maxRange: 1 };
+  }
+  return { minRange: weapon.minRange, maxRange: weapon.maxRange };
 }
 
 function isEffectiveAgainst(weapon: Weapon, defender: Unit): boolean {
@@ -90,14 +113,35 @@ function isEffectiveAgainst(weapon: Weapon, defender: Unit): boolean {
 
 function calcDamage(attacker: Unit, defender: Unit, defenderTerrain: TerrainType): number {
   const weapon = attacker.equippedWeapon;
-  const triangle = getWeaponTriangle(weapon.type, defender.equippedWeapon.type);
+  const proficient = isWeaponProficient(attacker, weapon);
+  // Non-proficient: no weapon triangle bonus or penalty
+  const triangle = proficient
+    ? getWeaponTriangle(weapon.type, defender.equippedWeapon.type)
+    : { hitMod: 0, dmgMod: 0 };
   const terrainDef = getTerrainData(defenderTerrain).defenseBonus;
 
   let dmg: number;
   if (isMagicWeapon(weapon)) {
-    dmg = attacker.stats.mag + weapon.might - defender.stats.res - terrainDef;
+    if (proficient) {
+      // Magic: MAG + might vs RES
+      dmg = attacker.stats.mag + weapon.might - defender.stats.res - terrainDef;
+    } else {
+      // Non-proficient magic: STR + might vs DEF (physical bonk)
+      dmg = attacker.stats.str + weapon.might - defender.stats.def - terrainDef;
+    }
+  } else if (weapon.type === 'staff') {
+    if (proficient) {
+      // Proficient staff attack: MAG + might vs RES
+      dmg = attacker.stats.mag + weapon.might - defender.stats.res - terrainDef;
+    } else {
+      // Non-proficient staff: STR + might vs DEF (physical bonk)
+      dmg = attacker.stats.str + weapon.might - defender.stats.def - terrainDef;
+    }
   } else {
+    // Physical weapons (sword, axe, lance, bow, knife)
     dmg = attacker.stats.str + weapon.might - defender.stats.def - terrainDef;
+    // Non-proficient physical: -2 damage penalty
+    if (!proficient) dmg -= 2;
   }
   dmg += triangle.dmgMod;
 
@@ -111,12 +155,18 @@ function calcDamage(attacker: Unit, defender: Unit, defenderTerrain: TerrainType
 
 function calcHit(attacker: Unit, defender: Unit, defenderTerrain: TerrainType): number {
   const weapon = attacker.equippedWeapon;
-  const triangle = getWeaponTriangle(weapon.type, defender.equippedWeapon.type);
+  const proficient = isWeaponProficient(attacker, weapon);
+  // Non-proficient: no weapon triangle hit mod
+  const triangle = proficient
+    ? getWeaponTriangle(weapon.type, defender.equippedWeapon.type)
+    : { hitMod: 0, dmgMod: 0 };
   const terrainAvoid = getTerrainData(defenderTerrain).avoidBonus;
 
   const accuracy = attacker.stats.skl * 2 + attacker.stats.lck + weapon.hit;
   const evade = defender.stats.spd * 2 + defender.stats.lck + terrainAvoid;
-  const hit = accuracy - evade + triangle.hitMod;
+  let hit = accuracy - evade + triangle.hitMod;
+  // Non-proficient: -20 hit penalty
+  if (!proficient) hit -= 20;
   return Math.max(1, Math.min(99, hit));
 }
 
@@ -133,7 +183,8 @@ function canDouble(attacker: Unit, defender: Unit): boolean {
 
 function canCounterattack(_attacker: Unit, defender: Unit, distance: number): boolean {
   const defWeapon = defender.equippedWeapon;
-  return distance >= defWeapon.minRange && distance <= defWeapon.maxRange;
+  const { minRange, maxRange } = getEffectiveWeaponRange(defender, defWeapon);
+  return distance >= minRange && distance <= maxRange;
 }
 
 export function calculateCombatForecast(
@@ -291,6 +342,8 @@ export function calculateCombatForecast(
     defenderSkills: defender.skills ?? [],
     vantageActive,
     distance,
+    attackerProficient: isWeaponProficient(attacker, attacker.equippedWeapon),
+    defenderProficient: isWeaponProficient(defender, defender.equippedWeapon),
   };
 }
 

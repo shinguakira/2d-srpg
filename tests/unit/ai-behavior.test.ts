@@ -35,7 +35,7 @@ function makeUnit(
   return {
     id,
     name: id,
-    classId: 'test',
+    classId: 'fighter',
     faction: 'enemy',
     position: pos,
     stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 3, cha: 0, wil: 0 },
@@ -282,8 +282,8 @@ describe('AI behavior: aggressive (default)', () => {
 describe('scoreTarget improvements', () => {
   it('adds +10 for weapon triangle advantage', () => {
     const map = makeMap([['plain', 'plain']]);
-    const attacker = makeUnit('atk', { x: 0, y: 0 }, { equippedWeapon: makeWeapon('sword') });
-    const defender = makeUnit('def', { x: 1, y: 0 }, { faction: 'player', equippedWeapon: makeWeapon('axe') });
+    const attacker = makeUnit('atk', { x: 0, y: 0 }, { classId: 'lord', equippedWeapon: makeWeapon('sword') });
+    const defender = makeUnit('def', { x: 1, y: 0 }, { classId: 'fighter', faction: 'player', equippedWeapon: makeWeapon('axe') });
     const forecast = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1);
 
     const scoreWith = scoreTarget(forecast, defender, attacker, 'plain');
@@ -293,8 +293,8 @@ describe('scoreTarget improvements', () => {
 
   it('subtracts -10 for weapon triangle disadvantage', () => {
     const map = makeMap([['plain', 'plain']]);
-    const attacker = makeUnit('atk', { x: 0, y: 0 }, { equippedWeapon: makeWeapon('axe') });
-    const defender = makeUnit('def', { x: 1, y: 0 }, { faction: 'player', equippedWeapon: makeWeapon('sword') });
+    const attacker = makeUnit('atk', { x: 0, y: 0 }, { classId: 'fighter', equippedWeapon: makeWeapon('axe') });
+    const defender = makeUnit('def', { x: 1, y: 0 }, { classId: 'lord', faction: 'player', equippedWeapon: makeWeapon('sword') });
     const forecast = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1);
 
     const scoreWith = scoreTarget(forecast, defender, attacker, 'plain');

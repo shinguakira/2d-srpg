@@ -1,6 +1,6 @@
 import type { GameState, GameActions } from '../gameStoreTypes';
-import { getDangerZone } from '../../core/pathfinding';
-import { getAttackTilesFrom } from '../../core/pathfinding';
+import { getDangerZone, getAttackTilesFrom } from '../../core/pathfinding';
+import { getEffectiveWeaponRange } from '../../core/combat';
 import type { Unit } from '../../core/types';
 import { EMPTY_SET, IDLE_RESET } from '../helpers/constants';
 import { allPlayersDone, getClassFlags } from '../helpers/mapHelpers';
@@ -40,7 +40,8 @@ export function selectWeapon(get: Get, set: Set, index: number) {
   if (!unit || index < 0 || index >= unit.inventory.length) return;
 
   const weapon = unit.inventory[index];
-  const atkTiles = getAttackTilesFrom(pendingPosition, weapon, gameMap);
+  const rangeOverride = getEffectiveWeaponRange(unit, weapon);
+  const atkTiles = getAttackTilesFrom(pendingPosition, weapon, gameMap, rangeOverride);
 
   set({
     selectedWeaponIndex: index,
@@ -62,6 +63,12 @@ export function dismissLevelUp(get: Get, set: Set) {
     }
   }
 
+  // Deferred victory: show game_over now that level-up is dismissed
+  if (get().pendingVictory) {
+    set({ currentPhase: 'game_over', pendingVictory: false, ...IDLE_RESET });
+    return;
+  }
+
   // Check Canto after level-up dismissal
   if (selectedUnitId && tryCantoAfterCombat(get, set, selectedUnitId)) return;
 
@@ -79,6 +86,12 @@ export function dismissExpBar(get: Get, set: Set) {
 
   // If level-up pending, let dismissLevelUp handle Canto + auto-end
   if (levelUpGains || levelUpUnitId) return;
+
+  // Deferred victory: show game_over now that EXP bar is dismissed (no level-up)
+  if (get().pendingVictory) {
+    set({ currentPhase: 'game_over', pendingVictory: false, ...IDLE_RESET });
+    return;
+  }
 
   // No level-up — check Canto now
   if (selectedUnitId && tryCantoAfterCombat(get, set, selectedUnitId)) return;

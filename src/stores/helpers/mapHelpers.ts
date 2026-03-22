@@ -165,9 +165,10 @@ export function checkVictory(units: Map<string, Unit>, chapterData: ChapterData 
   // Lord death = defeat for most objectives
   if (!hasLord && objType !== 'rout') return 'defeat';
 
-  // Protect: defeat if protected unit dies
+  // Protect: defeat if protected unit dies; victory if boss defeated (dual objective)
   if (objType === 'protect' && chapterData?.objective.protectUnitId) {
     if (!units.has(chapterData.objective.protectUnitId)) return 'defeat';
+    if (isBossDefeated(units)) return 'victory';
   }
 
   // Rout: win when all enemies dead

@@ -116,6 +116,7 @@ describe('getDangerZone', () => {
     ]);
 
     const rangedEnemy = makeUnit('archer', { x: 0, y: 0 }, {
+      classId: 'mage',
       stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 1, cha: 0, wil: 0 },
       equippedWeapon: makeWeapon('fire', { minRange: 1, maxRange: 2 }),
     });

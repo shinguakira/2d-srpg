@@ -1,7 +1,7 @@
 import type { Position } from '../../core/types';
 import { posKey } from '../../core/types';
 import { getMovementRange, getFullAttackRange, getPath, getAttackTilesFrom, getManhattanDistance } from '../../core/pathfinding';
-import { calculateCombatForecast } from '../../core/combat';
+import { calculateCombatForecast, getEffectiveWeaponRange } from '../../core/combat';
 import { getWeatherMovPenalty, getWeatherTerrainCostMod } from '../../core/weather';
 import type { GameState, GameActions } from '../gameStoreTypes';
 import { EMPTY_SET, IDLE_RESET } from '../helpers/constants';
@@ -145,7 +145,8 @@ export function clickTile(get: Get, set: Set, pos: Position) {
       const flags = getClassFlags(unit);
       const path = getPath(unit.position, pos, unit, gameMap, units, flags);
       const weapon = unit.inventory[0] ?? unit.equippedWeapon;
-      const atkTiles = getAttackTilesFrom(pos, weapon, gameMap);
+      const rangeOverride = getEffectiveWeaponRange(unit, weapon);
+      const atkTiles = getAttackTilesFrom(pos, weapon, gameMap, rangeOverride);
 
       set({
         playerAction: 'action_menu',

@@ -23,7 +23,7 @@ function makeUnit(id: string, overrides: Partial<Unit> = {}): Unit {
   return {
     id,
     name: id,
-    classId: 'test',
+    classId: 'lord',
     faction: 'player',
     position: { x: 0, y: 0 },
     stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
@@ -102,6 +102,7 @@ describe('calculateCombatForecast', () => {
     // STR 8 + Might 5 - DEF 5 - Terrain 0 = 8 damage
     const attacker = makeUnit('atk', { stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 } });
     const defender = makeUnit('def', {
+      classId: 'fighter',
       faction: 'enemy',
       stats: { hp: 20, str: 6, mag: 0, def: 5, res: 0, spd: 5, skl: 3, lck: 2, mov: 5, cha: 0, wil: 0 },
       equippedWeapon: makeWeapon('axe'),
@@ -115,10 +116,12 @@ describe('calculateCombatForecast', () => {
 
   it('calculates magical damage against RES', () => {
     const attacker = makeUnit('mage', {
+      classId: 'mage',
       stats: { hp: 18, str: 0, mag: 8, def: 3, res: 5, spd: 6, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
       equippedWeapon: makeWeapon('fire', { might: 5, hit: 90 }),
     });
     const defender = makeUnit('def', {
+      classId: 'fighter',
       faction: 'enemy',
       stats: { hp: 20, str: 6, mag: 0, def: 5, res: 2, spd: 5, skl: 3, lck: 2, mov: 5, cha: 0, wil: 0 },
       equippedWeapon: makeWeapon('axe'),
@@ -145,8 +148,9 @@ describe('calculateCombatForecast', () => {
   });
 
   it('weapon triangle affects damage', () => {
-    const swordUser = makeUnit('sword', { equippedWeapon: makeWeapon('sword') });
+    const swordUser = makeUnit('sword', { classId: 'lord', equippedWeapon: makeWeapon('sword') });
     const axeUser = makeUnit('axe', {
+      classId: 'fighter',
       faction: 'enemy',
       equippedWeapon: makeWeapon('axe'),
       stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },

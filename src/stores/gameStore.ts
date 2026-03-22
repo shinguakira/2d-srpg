@@ -38,6 +38,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   gameMap: EMPTY_MAP,
   units: new Map(),
   currentPhase: 'player_phase',
+  pendingVictory: false,
   currentTurn: 1,
   playerAction: 'idle',
   rng: new SeededRandom(12345),

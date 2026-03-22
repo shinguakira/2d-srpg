@@ -1,7 +1,7 @@
 import type { Unit, GameMap, Position, TerrainType, WeatherType } from './types';
 import { posKey } from './types';
 import { getMovementRange, getAttackTilesFrom, getManhattanDistance } from './pathfinding';
-import { calculateCombatForecast, getWeaponTriangle } from './combat';
+import { calculateCombatForecast, getWeaponTriangle, isWeaponProficient, getEffectiveWeaponRange } from './combat';
 import type { CombatForecast } from './combat';
 import { getTerrainData } from './terrain';
 import type { ClassFlags } from './terrain';
@@ -103,8 +103,8 @@ export function scoreTarget(
     }
   }
 
-  // Weapon triangle awareness
-  if (attacker) {
+  // Weapon triangle awareness (only if proficient)
+  if (attacker && isWeaponProficient(attacker, attacker.equippedWeapon)) {
     const tri = getWeaponTriangle(attacker.equippedWeapon.type, target.equippedWeapon.type);
     if (tri.dmgMod > 0) score += 10;  // advantage
     if (tri.dmgMod < 0) score -= 10;  // disadvantage
@@ -133,7 +133,8 @@ function collectAttackOptions(
   const options: Array<{ moveTo: Position; targetId: string; forecast: CombatForecast; score: number }> = [];
 
   for (const pos of movablePositions) {
-    const atkTiles = getAttackTilesFrom(pos, unit.equippedWeapon, gameMap);
+    const rangeOverride = getEffectiveWeaponRange(unit, unit.equippedWeapon);
+    const atkTiles = getAttackTilesFrom(pos, unit.equippedWeapon, gameMap, rangeOverride);
 
     for (const target of allUnits.values()) {
       if (target.faction === unit.faction) continue;

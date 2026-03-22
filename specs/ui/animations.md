@@ -6,7 +6,7 @@ All animations are CSS-driven or timer-based in React. No canvas or requestAnima
 
 Component: `CombatAnimation` (`src/components/Combat/CombatAnimation.tsx`)
 
-GBA-style side-by-side battle view in a 640px-wide modal over a dark overlay (75% opacity).
+GBA-style side-by-side battle view in a 1100px-wide modal over a dark overlay (75% opacity). Sprites are 112×126px.
 
 ### Animation Phases
 
@@ -14,21 +14,21 @@ Each hit in combat cycles through these phases via `setTimeout` chains:
 
 - **idle** -- standing with subtle breathing animation (2s loop)
 - **windup** -- slight crouch before attack (200ms physical, 300ms magic)
-- **dash** -- attacker slides 392px across stage to defender (250ms, physical only)
+- **dash** -- attacker slides 676px across stage to defender (250ms, physical only)
 - **strike** -- weapon swing with scale pulse at defender position (120ms)
 - **impact** -- screen flash (white), defender shakes violently (300ms)
 - **return** -- attacker slides back to starting position (300ms)
 - **crit-pause** -- screen darkens (0.6s pulse), unit flashes bright before attack
 - **spell-fly** -- magic projectile crosses stage (400ms, magic only)
 - **spell-hit** -- spell impact on target with screen flash
-- **dodge** -- defender leaps backward 30px with arc (300ms), then "MISS" text
+- **dodge** -- defender leaps backward 52px with arc (300ms), then "MISS" text
 - **death** -- defender collapses downward, fades out (600ms)
 
 ### Visual Effects
 
 - **Screen flash**: white overlay, 0.2s for hits, 0.5s double-pulse for crits
 - **Crit darken**: black overlay pulses to 50% opacity before crit attack
-- **Damage numbers**: float upward with scale pop (36px normal, 44px gold for crits, 24px gray italic for MISS)
+- **Damage numbers**: float upward with scale pop (56px normal, 68px gold for crits, 36px gray italic for MISS)
 - **HP bars**: animated width transition (0.5s ease), drain after damage number appears
 - **Weapon triangle**: arrow indicator top-right of stage (green up / red down)
 - **Weapon effects**: `WeaponEffect` component renders per-weapon-type visual at defender position

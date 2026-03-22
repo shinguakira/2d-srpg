@@ -34,6 +34,7 @@ export type EffectResult = {
   aiChanges: { unitId: string; behavior: AIBehavior }[];
   terrainChanges: { position: Position; terrain: TerrainType }[];
   flagChanges: { key: string; value: string }[];
+  itemsToGive: { unitId: string; itemId: string }[];
   dialogueToShow: DialogueScene | null;
   weatherChange: WeatherType | null;
 };
@@ -46,6 +47,7 @@ function emptyResult(): EffectResult {
     aiChanges: [],
     terrainChanges: [],
     flagChanges: [],
+    itemsToGive: [],
     dialogueToShow: null,
     weatherChange: null,
   };
@@ -151,6 +153,9 @@ export function resolveEffects(effects: EventEffect[]): EffectResult {
       case 'change_weather':
         result.weatherChange = effect.weather;
         break;
+      case 'give_item':
+        result.itemsToGive.push({ unitId: effect.unitId, itemId: effect.itemId });
+        break;
       case 'chain':
         mergeResult(result, resolveEffects(effect.effects));
         break;
@@ -167,6 +172,7 @@ function mergeResult(target: EffectResult, source: EffectResult): void {
   target.aiChanges.push(...source.aiChanges);
   target.terrainChanges.push(...source.terrainChanges);
   target.flagChanges.push(...source.flagChanges);
+  target.itemsToGive.push(...source.itemsToGive);
   if (!target.dialogueToShow && source.dialogueToShow) {
     target.dialogueToShow = source.dialogueToShow;
   }

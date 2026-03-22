@@ -157,12 +157,18 @@ function GameOverOverlay() {
   // Escape victory: Lord escaped (escape action triggers game_over only when Lord escapes)
   const escapeVictory = chapterData?.objective.type === 'escape' && escapedUnitIds.size > 0;
 
-  // Victory: for rout, all enemies dead. For seize, Lord on throne (boss dead, enemies may remain).
-  // Defeat: no player units remaining.
+  // Check if all boss-AI enemies are defeated
+  const bossDefeated = (() => {
+    for (const u of units.values()) {
+      if (u.faction === 'enemy' && u.aiBehavior?.type === 'boss') return false;
+    }
+    return true;
+  })();
+
+  // Victory: varies by objective type. Defeat: no player units remaining.
   const victory = escapeVictory || (hasPlayer && (
     !hasEnemy || // rout win or all enemies killed
     (chapterData?.objective.type === 'seize' && (() => {
-      // Check if Lord is on seize position (meaning seize action was used)
       if (!chapterData.seizePosition) return false;
       for (const u of units.values()) {
         if (u.isLord && u.position.x === chapterData.seizePosition.x && u.position.y === chapterData.seizePosition.y) {
@@ -170,10 +176,19 @@ function GameOverOverlay() {
         }
       }
       return false;
-    })())
+    })()) ||
+    (chapterData?.objective.type === 'boss_kill' && bossDefeated) ||
+    (chapterData?.objective.type === 'survive' && !!chapterData.objective.turns && currentTurn > chapterData.objective.turns) ||
+    (chapterData?.objective.type === 'protect' && bossDefeated)
   ));
 
   const handleVictoryContinue = useCallback(() => {
+    // Bridge battle event flags to campaign flags (e.g., kael_dead from ch8)
+    const eventFlags = useGameStore.getState().eventFlags;
+    if (eventFlags.get('kael_dead') === 'true') {
+      useCampaignStore.setState((s) => ({ campaignFlags: { ...s.campaignFlags, kael_dead: true } }));
+    }
+
     const progress: Record<string, UnitProgress> = {};
     for (const u of units.values()) {
       if (u.faction === 'player') {
@@ -205,6 +220,9 @@ function GameOverOverlay() {
           {victory
             ? (chapterData?.objective.type === 'seize' ? 'The throne has been seized!'
               : chapterData?.objective.type === 'escape' ? 'Your army has escaped safely!'
+              : chapterData?.objective.type === 'boss_kill' ? 'The commander has been defeated!'
+              : chapterData?.objective.type === 'survive' ? 'You survived the onslaught!'
+              : chapterData?.objective.type === 'protect' ? 'The village is safe!'
               : 'All enemies have been defeated.')
             : 'Your army has fallen.'}
         </div>

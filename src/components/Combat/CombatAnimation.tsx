@@ -83,7 +83,11 @@ export function CombatAnimation() {
       ? (attackerIsPlayer ? combatForecast.attacker.weaponType : combatForecast.defender.weaponType)
       : (attackerIsPlayer ? combatForecast.defender.weaponType : combatForecast.attacker.weaponType);
 
-    const isMagic = isMagicType(weaponType);
+    // Non-proficient magic/staff users bonk physically — use physical animation
+    const hitAttackerProficient = playerIsAttacking
+      ? (attackerIsPlayer ? combatForecast.attackerProficient : combatForecast.defenderProficient)
+      : (attackerIsPlayer ? combatForecast.defenderProficient : combatForecast.attackerProficient);
+    const isMagic = isMagicType(weaponType) && hitAttackerProficient;
     const isCrit = currentHit.crit && currentHit.hit;
     const isHit = currentHit.hit;
 

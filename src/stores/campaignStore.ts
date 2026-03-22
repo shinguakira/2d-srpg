@@ -39,6 +39,10 @@ type CampaignState = {
   dialogueLineIndex: number;
   dialoguePhase: DialoguePhase | null;
 
+  // Save prompt (shown between chapters)
+  showSavePrompt: boolean;
+  pendingNextChapterId: string | null;
+
   // Actions
   goToTitle: () => void;
   goToDebug: () => void;
@@ -54,12 +58,14 @@ type CampaignState = {
 
   // Save/Load
   saveToSlot: (slot: number) => void;
+  saveCurrentToSlot: (slot: number) => void;
   loadFromSlot: (slot: number) => boolean;
   deleteSlot: (slot: number) => void;
   allocateBonusExp: (unitId: string, amount: number) => void;
   forgeWeapon: (unitId: string, weaponIndex: number) => void;
   hasAnySave: () => boolean;
   getSlotSummary: (slot: number) => { timestamp: number; chapterId: string } | null;
+  dismissSavePrompt: () => void;
 
   // Endings / Credits / NG+
   goToCredits: () => void;
@@ -90,6 +96,8 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
   newGamePlusUnlocked: false,
   endingsSeen: [],
   currentEnding: null,
+  showSavePrompt: false,
+  pendingNextChapterId: null,
 
   goToTitle: () => set({
     currentScreen: 'title',
@@ -131,6 +139,10 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
 
     if (chapter.prologue) {
       get().startDialogue(chapter.prologue, 'prologue');
+    } else if (chapter.skipPreparation) {
+      const allPlayerIds = chapter.playerUnits.map((p) => p.unitId);
+      get().saveCurrentToSlot(0);
+      set({ currentScreen: 'battle', deployedUnitIds: allPlayerIds });
     } else {
       set({ currentScreen: 'preparation' });
     }
@@ -149,7 +161,10 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
     });
   },
 
-  startBattle: () => set({ currentScreen: 'battle' }),
+  startBattle: () => {
+    get().saveCurrentToSlot(0);
+    set({ currentScreen: 'battle' });
+  },
 
   startDialogue: (scene: DialogueScene, phase: DialoguePhase) => {
     set({
@@ -169,17 +184,22 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
     } else {
       // Last line — transition
       if (dialoguePhase === 'prologue') {
-        set({ currentScreen: 'preparation', dialogueScene: null, dialoguePhase: null });
+        const chapter = get().currentChapterData;
+        if (chapter?.skipPreparation) {
+          const allPlayerIds = chapter.playerUnits.map((p) => p.unitId);
+          get().saveCurrentToSlot(0);
+          set({ currentScreen: 'battle', deployedUnitIds: allPlayerIds, dialogueScene: null, dialoguePhase: null });
+        } else {
+          set({ currentScreen: 'preparation', dialogueScene: null, dialoguePhase: null });
+        }
       } else if (dialoguePhase === 'epilogue') {
-        // Auto-save and advance to next chapter (or title if last chapter)
+        // Auto-save and show save prompt before advancing
         get().saveToSlot(0);
         const { currentChapterId } = get();
         const nextId = getNextChapterId(currentChapterId, []);
         if (nextId !== currentChapterId && CHAPTERS[nextId]) {
-          set({ dialogueScene: null, dialoguePhase: null });
-          get().startChapter(nextId);
+          set({ dialogueScene: null, dialoguePhase: null, showSavePrompt: true, pendingNextChapterId: nextId });
         } else {
-          // Last chapter — go to title
           set({ currentScreen: 'title', dialogueScene: null, dialoguePhase: null });
         }
       }
@@ -253,6 +273,26 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
       set({ campaignFlags: newFlags });
     }
 
+    // Kael permanent death: triggered by ch8 kael_dead campaign flag
+    const kaelDeadFlag = get().campaignFlags.kael_dead;
+    if (kaelDeadFlag && !get().deadUnitIds.includes('kael')) {
+      // Remove kael from roster, add to dead list
+      const updatedDead = [...get().deadUnitIds, 'kael'];
+      set({ deadUnitIds: updatedDead });
+      // Remove from newRoster (mutates the local array before it's used below)
+      const kaelIdx = newRoster.indexOf('kael');
+      if (kaelIdx !== -1) newRoster.splice(kaelIdx, 1);
+      // Set grief: 2 chapters remaining, assign grief trauma to all units
+      const griefFlags = { ...get().campaignFlags, grief_chapters_remaining: 2 };
+      set({ campaignFlags: griefFlags });
+      for (const uid of Object.keys(progress)) {
+        const p = progress[uid];
+        const trauma = p.traumaSkills ? [...p.traumaSkills] : [];
+        if (!trauma.includes('grief')) trauma.push('grief');
+        progress[uid] = { ...p, traumaSkills: trauma };
+      }
+    }
+
     // Casual mode: restore retreated units at 1 HP for next chapter
     if (get().difficulty === 'casual') {
       for (const uid of Object.keys(progress)) {
@@ -272,11 +312,11 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
     if (currentChapterData?.epilogue) {
       get().startDialogue(currentChapterData.epilogue, 'epilogue');
     } else {
-      // No epilogue — auto-advance to next chapter
+      // No epilogue — auto-save and show save prompt
       get().saveToSlot(0);
       const nextId = getNextChapterId(currentChapterId, []);
       if (nextId !== currentChapterId && CHAPTERS[nextId]) {
-        get().startChapter(nextId);
+        set({ showSavePrompt: true, pendingNextChapterId: nextId });
       } else {
         get().goToTitle();
       }
@@ -287,7 +327,7 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
     const { currentChapterId, completedChapters, unitProgress, roster, deadUnitIds } = get();
     const nextChapterId = getNextChapterId(currentChapterId, completedChapters);
     writeSave(slot, {
-      version: 6,
+      version: 7,
       timestamp: Date.now(),
       currentChapterId: nextChapterId,
       completedChapters,
@@ -302,6 +342,32 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
       campaignFlags: get().campaignFlags,
       newGamePlusUnlocked: get().newGamePlusUnlocked,
       endingsSeen: get().endingsSeen,
+      storage: get().storage,
+      viewedSupports: get().viewedSupports,
+    });
+  },
+
+  saveCurrentToSlot: (slot: number) => {
+    const { currentChapterId, completedChapters, unitProgress, roster, deadUnitIds } = get();
+    if (!currentChapterId) return;
+    writeSave(slot, {
+      version: 7,
+      timestamp: Date.now(),
+      currentChapterId,
+      completedChapters,
+      unitProgress,
+      roster,
+      deadUnitIds,
+      supportPairs: get().supportPairs,
+      bonusExp: get().bonusExp,
+      forgeMaterials: get().forgeMaterials,
+      gold: get().gold,
+      difficulty: get().difficulty,
+      campaignFlags: get().campaignFlags,
+      newGamePlusUnlocked: get().newGamePlusUnlocked,
+      endingsSeen: get().endingsSeen,
+      storage: get().storage,
+      viewedSupports: get().viewedSupports,
     });
   },
 
@@ -321,6 +387,8 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
       campaignFlags: data.campaignFlags ?? {},
       newGamePlusUnlocked: data.newGamePlusUnlocked ?? false,
       endingsSeen: data.endingsSeen ?? [],
+      storage: data.storage ?? [],
+      viewedSupports: data.viewedSupports ?? [],
     });
     get().startChapter(data.currentChapterId);
     return true;
@@ -405,6 +473,16 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
   deleteSlot: (slot: number) => deleteSave(slot),
   hasAnySave: () => hasAnySave(),
   getSlotSummary: (slot: number) => getSlotSummary(slot),
+
+  dismissSavePrompt: () => {
+    const { pendingNextChapterId } = get();
+    set({ showSavePrompt: false, pendingNextChapterId: null });
+    if (pendingNextChapterId && CHAPTERS[pendingNextChapterId]) {
+      get().startChapter(pendingNextChapterId);
+    } else {
+      set({ currentScreen: 'title' });
+    }
+  },
 
   goToCredits: () => {
     const { currentEnding, endingsSeen } = get();

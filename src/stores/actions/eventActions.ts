@@ -4,6 +4,7 @@ import { evaluateEvents, resolveEffects, type EventContext, type EffectResult } 
 import type { GameState, GameActions } from '../gameStoreTypes';
 import { refreshDangerZone } from '../helpers/dangerZoneHelpers';
 import { ENEMY_UNITS, PLAYER_UNITS } from '../../data/units';
+import { ITEMS } from '../../data/items';
 import { getManhattanDistance } from '../../core/pathfinding';
 import { clampMetaStats } from '../../core/metaStats';
 
@@ -142,6 +143,18 @@ function applyEffectResult(get: Get, set: Set, result: EffectResult) {
   for (const change of result.flagChanges) {
     newFlags.set(change.key, change.value);
     flagsChanged = true;
+  }
+
+  // Give items to units
+  for (const give of result.itemsToGive) {
+    const unit = newUnits.get(give.unitId);
+    const itemTemplate = ITEMS[give.itemId];
+    if (unit && itemTemplate) {
+      newUnits.set(give.unitId, {
+        ...unit,
+        items: [...unit.items, { ...itemTemplate }],
+      });
+    }
   }
 
   // AWR gain: player units near glitched terrain changes get +3 AWR

@@ -81,6 +81,7 @@ export function initChapter(get: Get, set: Set, chapter: ChapterData, seed: numb
     terrainHpMap: new Map(),
     supportPairs: (supportPairs ?? []).map(p => ({ ...p })),
     supportRankUp: null,
+    pendingVictory: false,
   });
 
   // Initialize fog of war if chapter has it

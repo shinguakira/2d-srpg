@@ -3,7 +3,7 @@ import { writeSave, readSave, deleteSave, hasSave, hasAnySave, getSlotSummary } 
 import type { SaveData } from '../../src/core/types';
 
 const SAMPLE_SAVE: SaveData = {
-  version: 6,
+  version: 7,
   timestamp: 1700000000000,
   currentChapterId: 'ch2',
   completedChapters: ['ch1'],
@@ -19,6 +19,8 @@ const SAMPLE_SAVE: SaveData = {
   campaignFlags: {},
   newGamePlusUnlocked: false,
   endingsSeen: [],
+  storage: [],
+  viewedSupports: [],
 };
 
 describe('saveManager', () => {
@@ -87,13 +89,13 @@ describe('saveManager', () => {
     localStorage.setItem('srpg_save_slot_0', JSON.stringify(v1Save));
     const loaded = readSave(0);
     expect(loaded).not.toBeNull();
-    expect(loaded!.version).toBe(6);
+    expect(loaded!.version).toBe(7);
     expect(loaded!.roster).toEqual(['ren']);
     expect(loaded!.deadUnitIds).toEqual([]);
     expect(loaded!.currentChapterId).toBe('ch2');
   });
 
-  it('migrates v2 save to v4 on read', () => {
+  it('migrates v2 save to current version on read', () => {
     const v2Save = {
       version: 2,
       timestamp: 1700000000000,
@@ -108,7 +110,7 @@ describe('saveManager', () => {
     localStorage.setItem('srpg_save_slot_0', JSON.stringify(v2Save));
     const loaded = readSave(0);
     expect(loaded).not.toBeNull();
-    expect(loaded!.version).toBe(6);
+    expect(loaded!.version).toBe(7);
     // v2→v3 adds skillIds/learnedSkillIds, v3→v4 adds metaStats/crpLowChapters, v4→v5 adds support/forge
     const renProgress = loaded!.unitProgress.ren;
     expect(renProgress.skillIds).toEqual([]);
@@ -116,7 +118,7 @@ describe('saveManager', () => {
     expect(renProgress.crpLowChapters).toBe(0);
   });
 
-  it('migrates v3 save to v4 on read', () => {
+  it('migrates v3 save to current version on read', () => {
     const v3Save = {
       version: 3,
       timestamp: 1700000000000,
@@ -135,13 +137,13 @@ describe('saveManager', () => {
     localStorage.setItem('srpg_save_slot_0', JSON.stringify(v3Save));
     const loaded = readSave(0);
     expect(loaded).not.toBeNull();
-    expect(loaded!.version).toBe(6);
+    expect(loaded!.version).toBe(7);
     const renProgress = loaded!.unitProgress.ren;
     expect(renProgress.crpLowChapters).toBe(0);
     expect(renProgress.metaStats).toBeUndefined();
   });
 
-  it('migrates v4 save to v5 on read', () => {
+  it('migrates v4 save to current version on read', () => {
     const v4Save = {
       version: 4,
       timestamp: 1700000000000,
@@ -162,7 +164,7 @@ describe('saveManager', () => {
     localStorage.setItem('srpg_save_slot_0', JSON.stringify(v4Save));
     const loaded = readSave(0);
     expect(loaded).not.toBeNull();
-    expect(loaded!.version).toBe(6);
+    expect(loaded!.version).toBe(7);
     expect(loaded!.supportPairs).toEqual([]);
     expect(loaded!.bonusExp).toBe(0);
     expect(loaded!.forgeMaterials).toEqual([]);
@@ -200,7 +202,7 @@ describe('saveManager', () => {
     expect(loaded!.unitProgress.senna.stats.mag).toBe(10);
   });
 
-  it('migrates v5 save to v6 on read', () => {
+  it('migrates v5 save to current version on read', () => {
     const v5Save = {
       version: 5,
       timestamp: 1700000000000,
@@ -226,7 +228,7 @@ describe('saveManager', () => {
     localStorage.setItem('srpg_save_slot_0', JSON.stringify(v5Save));
     const loaded = readSave(0);
     expect(loaded).not.toBeNull();
-    expect(loaded!.version).toBe(6);
+    expect(loaded!.version).toBe(7);
     // New v6 fields added with defaults
     expect(loaded!.difficulty).toBe('classic');
     expect(loaded!.campaignFlags).toEqual({});
@@ -238,5 +240,46 @@ describe('saveManager', () => {
     expect(loaded!.forgeMaterials).toEqual(['adamant_ore']);
     expect(loaded!.gold).toBe(1500);
     expect(loaded!.roster).toEqual(['ren', 'kael', 'senna']);
+  });
+
+  it('migrates v6 save to v7 on read', () => {
+    const v6Save = {
+      version: 6,
+      timestamp: 1700000000000,
+      currentChapterId: 'ch5',
+      completedChapters: ['ch1', 'ch2', 'ch3', 'ch4'],
+      unitProgress: {
+        ren: {
+          level: 10, exp: 50,
+          stats: { hp: 30, str: 14, mag: 4, def: 10, res: 5, spd: 12, skl: 11, lck: 11, mov: 5, cha: 0, wil: 0 },
+          weaponIds: ['iron_sword'], itemIds: [], skillIds: [], learnedSkillIds: [],
+          metaStats: { awr: 20, loop: 357, sync: 80, loy: 60, crp: 3, sta: 0 },
+          crpLowChapters: 0,
+          supportPartners: ['kael'],
+        },
+      },
+      roster: ['ren', 'kael', 'senna', 'lira'],
+      deadUnitIds: [],
+      supportPairs: [{ unitA: 'ren', unitB: 'kael', points: 50, rank: 'B' }],
+      bonusExp: 100,
+      forgeMaterials: ['adamant_ore'],
+      gold: 2500,
+      difficulty: 'classic',
+      campaignFlags: { grief_chapters_remaining: 2 },
+      newGamePlusUnlocked: false,
+      endingsSeen: [],
+    };
+    localStorage.setItem('srpg_save_slot_0', JSON.stringify(v6Save));
+    const loaded = readSave(0);
+    expect(loaded).not.toBeNull();
+    expect(loaded!.version).toBe(7);
+    // New v7 fields added with defaults
+    expect(loaded!.storage).toEqual([]);
+    expect(loaded!.viewedSupports).toEqual([]);
+    // Existing fields preserved
+    expect(loaded!.difficulty).toBe('classic');
+    expect(loaded!.campaignFlags).toEqual({ grief_chapters_remaining: 2 });
+    expect(loaded!.gold).toBe(2500);
+    expect(loaded!.roster).toEqual(['ren', 'kael', 'senna', 'lira']);
   });
 });

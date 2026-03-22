@@ -6,6 +6,7 @@ import { PreparationScreen } from './components/PreparationScreen';
 import { DebugScreen } from './components/Debug/DebugScreen';
 import { EndingScreen } from './components/UI/EndingScreen';
 import { CreditsScreen } from './components/UI/CreditsScreen';
+import { SavePromptOverlay } from './components/UI/SavePromptOverlay';
 import { useCampaignStore } from './stores/campaignStore';
 import './styles/grid.css';
 import './styles/units.css';
@@ -25,22 +26,31 @@ function App() {
     }
   }, []);
 
-  switch (currentScreen) {
-    case 'title':
-      return <TitleScreen />;
-    case 'dialogue':
-      return <DialogueBox />;
-    case 'preparation':
-      return <PreparationScreen />;
-    case 'battle':
-      return <Game />;
-    case 'debug':
-      return <DebugScreen />;
-    case 'ending':
-      return <EndingScreen />;
-    case 'credits':
-      return <CreditsScreen />;
-  }
+  const screen = (() => {
+    switch (currentScreen) {
+      case 'title':
+        return <TitleScreen />;
+      case 'dialogue':
+        return <DialogueBox />;
+      case 'preparation':
+        return <PreparationScreen />;
+      case 'battle':
+        return <Game />;
+      case 'debug':
+        return <DebugScreen />;
+      case 'ending':
+        return <EndingScreen />;
+      case 'credits':
+        return <CreditsScreen />;
+    }
+  })();
+
+  return (
+    <>
+      {screen}
+      <SavePromptOverlay />
+    </>
+  );
 }
 
 export default App;

@@ -1,6 +1,7 @@
 import type { Position, GameMap, Unit, Weapon, Faction } from './types';
 import { posKey } from './types';
 import { getClassMovementCost, isPassableForClass, type ClassFlags } from './terrain';
+import { getEffectiveWeaponRange } from './combat';
 
 /** Returns true if faction `a` considers faction `b` hostile (cannot pass through). */
 export function isHostileFaction(a: Faction, b: Faction): boolean {
@@ -186,12 +187,15 @@ export function getAttackTilesFrom(
   pos: Position,
   weapon: Weapon,
   map: GameMap,
+  rangeOverride?: { minRange: number; maxRange: number },
 ): Set<string> {
+  const minRange = rangeOverride?.minRange ?? weapon.minRange;
+  const maxRange = rangeOverride?.maxRange ?? weapon.maxRange;
   const result = new Set<string>();
-  for (let dx = -weapon.maxRange; dx <= weapon.maxRange; dx++) {
-    for (let dy = -weapon.maxRange; dy <= weapon.maxRange; dy++) {
+  for (let dx = -maxRange; dx <= maxRange; dx++) {
+    for (let dy = -maxRange; dy <= maxRange; dy++) {
       const dist = Math.abs(dx) + Math.abs(dy);
-      if (dist < weapon.minRange || dist > weapon.maxRange) continue;
+      if (dist < minRange || dist > maxRange) continue;
       const tx = pos.x + dx;
       const ty = pos.y + dy;
       if (tx < 0 || tx >= map.width || ty < 0 || ty >= map.height) continue;
@@ -218,7 +222,8 @@ export function getDangerZone(
     for (const moveKey of moveRange) {
       dangerZone.add(moveKey); // enemy can occupy this tile
       const [x, y] = moveKey.split(',').map(Number);
-      const atkTiles = getAttackTilesFrom({ x, y }, enemy.equippedWeapon, map);
+      const rangeOverride = getEffectiveWeaponRange(enemy, enemy.equippedWeapon);
+      const atkTiles = getAttackTilesFrom({ x, y }, enemy.equippedWeapon, map, rangeOverride);
       for (const atkKey of atkTiles) {
         dangerZone.add(atkKey);
       }
@@ -240,7 +245,8 @@ export function getFullAttackRange(
   const attackOnly = new Set<string>();
   for (const moveKey of movementRange) {
     const [x, y] = moveKey.split(',').map(Number);
-    const attackTiles = getAttackTilesFrom({ x, y }, unit.equippedWeapon, map);
+    const rangeOverride = getEffectiveWeaponRange(unit, unit.equippedWeapon);
+    const attackTiles = getAttackTilesFrom({ x, y }, unit.equippedWeapon, map, rangeOverride);
     for (const atkKey of attackTiles) {
       if (!movementRange.has(atkKey)) {
         attackOnly.add(atkKey);

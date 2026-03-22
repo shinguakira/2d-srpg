@@ -14,8 +14,8 @@ export function BattleSprite({ classId, faction, mirrored, pose = 'idle' }: Batt
   const c = FACTION_COLORS[faction];
   return (
     <svg
-      width={64}
-      height={72}
+      width={112}
+      height={126}
       viewBox="0 0 32 36"
       style={{
         imageRendering: 'auto',

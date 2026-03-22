@@ -28,6 +28,7 @@ export type GameState = {
   gameMap: GameMap;
   units: Map<string, Unit>;
   currentPhase: GamePhase;
+  pendingVictory: boolean;
   currentTurn: number;
   playerAction: PlayerAction;
   rng: SeededRandom;

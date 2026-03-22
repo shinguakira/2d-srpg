@@ -120,9 +120,10 @@ export function TitleScreen() {
       <div className="title-screen" data-testid="title-screen">
         <h1 className="title-screen__title">Load Game</h1>
         <div className="title-screen__menu">
-          {[0, 1, 2].map((slot) => {
+          {[0, 1, 2, 3].map((slot) => {
             const summary = getSlotSummary(slot);
             const meta = summary ? CAMPAIGN.find((c) => c.id === summary.chapterId) : null;
+            const label = slot === 0 ? 'Auto-Save' : `Slot ${slot}`;
             return (
               <button
                 key={slot}
@@ -134,8 +135,8 @@ export function TitleScreen() {
                 }}
               >
                 {summary
-                  ? `Slot ${slot + 1}: ${meta?.name ?? summary.chapterId} — ${new Date(summary.timestamp).toLocaleDateString()}`
-                  : `Slot ${slot + 1}: Empty`}
+                  ? `${label}: ${meta?.name ?? summary.chapterId} — ${new Date(summary.timestamp).toLocaleDateString()}`
+                  : `${label}: Empty`}
               </button>
             );
           })}

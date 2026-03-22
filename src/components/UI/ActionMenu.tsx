@@ -9,6 +9,7 @@ import { canRescueUnit } from '../../core/rescue';
 import { isExhausted } from '../../core/metaStats';
 import { canAttackTerrain } from '../../core/destructibleTerrain';
 import { checkNegotiateCondition } from '../../stores/actions/negotiateActions';
+import { canHealWithStaff } from '../../core/combat';
 
 export function ActionMenu() {
   const playerAction = useGameStore((s) => s.playerAction);
@@ -62,10 +63,10 @@ export function ActionMenu() {
   // Rest is available when STA > 20
   const canRest = selectedUnit ? selectedUnit.metaStats.sta > 20 : false;
 
-  // Check if there are any enemies in attack range (only for non-staff weapons)
-  const hasNonStaffWeapon = selectedUnit?.equippedWeapon.type !== 'staff';
+  // Check if there are any enemies in attack range (any weapon can attack)
+  const hasAttackWeapon = selectedUnit != null && selectedUnit.inventory.length > 0;
   let hasEnemyInRange = false;
-  if (hasNonStaffWeapon) {
+  if (hasAttackWeapon) {
     for (const unit of units.values()) {
       if (unit.faction === 'enemy' && pendingAttackTiles.has(posKey(unit.position))) {
         hasEnemyInRange = true;
@@ -74,10 +75,11 @@ export function ActionMenu() {
     }
   }
 
-  // Check if unit has a staff and damaged allies in range
+  // Check if unit has a staff, is proficient, and damaged allies in range
   const canHeal = (() => {
     if (!selectedUnit) return false;
-    // Check if any weapon in inventory is a staff
+    // Only proficient staff users can heal
+    if (!canHealWithStaff(selectedUnit)) return false;
     const staff = selectedUnit.inventory.find((w) => w.type === 'staff');
     if (!staff) return false;
     // Check for damaged allies in staff range from pending position
@@ -313,7 +315,7 @@ export function ActionMenu() {
   const menuX = (pendingPosition.x + 1) * tileSize + cameraOffset.x + 4;
   const menuY = pendingPosition.y * tileSize + cameraOffset.y;
 
-  const showWeaponSelector = selectedUnit && selectedUnit.inventory.length > 1 && hasNonStaffWeapon;
+  const showWeaponSelector = selectedUnit && selectedUnit.inventory.length > 1 && hasAttackWeapon;
 
   return (
     <div
@@ -323,7 +325,7 @@ export function ActionMenu() {
     >
       {showWeaponSelector && !showItemMenu && (
         <div className="action-menu__weapons" data-testid="weapon-selector">
-          {selectedUnit.inventory.filter((w) => w.type !== 'staff').map((weapon, i) => (
+          {selectedUnit.inventory.map((weapon, i) => (
             <button
               key={weapon.id}
               className={`action-menu__weapon-btn ${i === selectedWeaponIndex ? 'action-menu__weapon-btn--active' : ''}`}

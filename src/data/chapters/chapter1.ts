@@ -95,6 +95,7 @@ export const CHAPTER_1: ChapterData = {
   },
   deploymentSlots: 5,
   forceDeploy: ['ren'],
+  skipPreparation: true,
   parTurns: 8,
   events: [
     // Turn 2 — Bram's arrival

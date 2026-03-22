@@ -375,6 +375,7 @@ export type ChapterData = {
   readonly events?: ChapterEvent[];
   readonly deploymentSlots?: number;
   readonly forceDeploy?: string[];
+  readonly skipPreparation?: boolean;
   readonly parTurns?: number;
   readonly recruitableUnits?: string[]; // unit IDs recruitable in this chapter (cross-ref with unit.recruitableBy)
   readonly fogOfWar?: boolean;
@@ -420,7 +421,8 @@ export type EventEffect =
   | { readonly type: 'change_terrain'; readonly position: Position; readonly terrain: TerrainType }
   | { readonly type: 'set_flag'; readonly key: string; readonly value: string }
   | { readonly type: 'chain'; readonly effects: EventEffect[] }
-  | { readonly type: 'change_weather'; readonly weather: WeatherType };
+  | { readonly type: 'change_weather'; readonly weather: WeatherType }
+  | { readonly type: 'give_item'; readonly unitId: string; readonly itemId: string };
 
 export type ChapterEvent = {
   readonly id: string;
@@ -462,7 +464,7 @@ export type UnitProgress = {
 };
 
 export type SaveData = {
-  readonly version: 6;
+  readonly version: 7;
   readonly timestamp: number;
   readonly currentChapterId: string;
   readonly completedChapters: string[];
@@ -477,6 +479,8 @@ export type SaveData = {
   readonly campaignFlags?: Record<string, string | number | boolean>;
   readonly newGamePlusUnlocked?: boolean;
   readonly endingsSeen?: EndingType[];
+  readonly storage?: string[];
+  readonly viewedSupports?: string[];
 };
 
 // ===== App Screens =====

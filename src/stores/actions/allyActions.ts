@@ -105,10 +105,19 @@ function finalizeAllyAction(
     newTiles[destination.y][destination.x].occupantId = unit.id;
   }
   const moveFacing = deriveFacing(unit.position, destination);
-  const movedUnit = { ...unit, position: { ...destination }, facing: moveFacing };
+  let movedUnit = { ...unit, position: { ...destination }, facing: moveFacing };
   newUnits.set(unit.id, movedUnit);
 
   if (action.attackTargetId && action.forecast) {
+    // Equip AI-chosen weapon before combat
+    if (action.weaponIndex != null) {
+      const chosenWeapon = movedUnit.inventory[action.weaponIndex];
+      if (chosenWeapon) {
+        movedUnit = { ...movedUnit, equippedWeapon: chosenWeapon };
+        newUnits.set(unit.id, movedUnit);
+      }
+    }
+
     const target = newUnits.get(action.attackTargetId);
     if (!target) {
       newUnits.set(unit.id, { ...movedUnit, hasActed: true });
@@ -124,7 +133,7 @@ function finalizeAllyAction(
     const defenderTerrain = newTiles[target.position.y][target.position.x].terrain;
     const distance = getManhattanDistance(destination, target.position);
 
-    if (distance < unit.equippedWeapon.minRange || distance > unit.equippedWeapon.maxRange) {
+    if (distance < movedUnit.equippedWeapon.minRange || distance > movedUnit.equippedWeapon.maxRange) {
       newUnits.set(unit.id, { ...movedUnit, hasActed: true });
       set({
         units: newUnits,

@@ -16,6 +16,7 @@ export type AIAction = {
   healTargetId?: string;
   interactType?: 'chest' | 'village';
   reveal?: boolean;
+  weaponIndex?: number;
 };
 
 // ===== Context passed to AI for map-level knowledge =====
@@ -121,7 +122,9 @@ export function scoreTarget(
 
 // ===== Helpers =====
 
-/** Collect all attack options from a set of movable positions */
+/** Collect all attack options from a set of movable positions.
+ *  Evaluates all weapons in unit.inventory per (position, target) pair
+ *  and picks the one with highest expected value (damage × hitRate / 100). */
 function collectAttackOptions(
   unit: Unit,
   movablePositions: Position[],
@@ -129,35 +132,56 @@ function collectAttackOptions(
   allUnits: Map<string, Unit>,
   weather: WeatherType | undefined,
   behavior: string,
-): Array<{ moveTo: Position; targetId: string; forecast: CombatForecast; score: number }> {
-  const options: Array<{ moveTo: Position; targetId: string; forecast: CombatForecast; score: number }> = [];
+): Array<{ moveTo: Position; targetId: string; forecast: CombatForecast; score: number; weaponIndex?: number }> {
+  const options: Array<{ moveTo: Position; targetId: string; forecast: CombatForecast; score: number; weaponIndex?: number }> = [];
+
+  // Build list of attack-capable weapons (skip staves)
+  const weapons = unit.inventory.filter(w => w.type !== 'staff');
+  // Fallback: if inventory has no attack weapons, use equippedWeapon
+  if (weapons.length === 0) weapons.push(unit.equippedWeapon);
 
   for (const pos of movablePositions) {
-    const rangeOverride = getEffectiveWeaponRange(unit, unit.equippedWeapon);
-    const atkTiles = getAttackTilesFrom(pos, unit.equippedWeapon, gameMap, rangeOverride);
+    const attackerTerrain = gameMap.tiles[pos.y][pos.x].terrain;
+    const attackerNearRen = unit.id !== 'ren' && isNearRen(pos, allUnits);
 
     for (const target of allUnits.values()) {
       if (target.faction === unit.faction) continue;
       if (target.faction === 'neutral') continue;
-      if (!atkTiles.has(posKey(target.position))) continue;
 
-      const attackerTerrain = gameMap.tiles[pos.y][pos.x].terrain;
       const defenderTerrain = gameMap.tiles[target.position.y][target.position.x].terrain;
       const distance = getManhattanDistance(pos, target.position);
-
-      const unitAtPos = { ...unit, position: pos };
-      const attackerNearRen = unit.id !== 'ren' && isNearRen(pos, allUnits);
       const defenderNearRen = target.id !== 'ren' && isNearRen(target.position, allUnits);
-      const forecast = calculateCombatForecast(unitAtPos, target, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen, weather });
 
-      let score = scoreTarget(forecast, target, unit, defenderTerrain);
+      // Evaluate each weapon, keep best by expected value
+      let bestEv = -1;
+      let bestOption: { forecast: CombatForecast; score: number; weaponIndex: number } | null = null;
 
-      // Boss AI: bonus for attacking the Lord
-      if (behavior === 'boss' && target.isLord) {
-        score += 50;
+      for (let wi = 0; wi < weapons.length; wi++) {
+        const weapon = weapons[wi];
+        const range = getEffectiveWeaponRange(unit, weapon);
+        const atkTiles = getAttackTilesFrom(pos, weapon, gameMap, range);
+        if (!atkTiles.has(posKey(target.position))) continue;
+
+        const unitWithWeapon = { ...unit, position: pos, equippedWeapon: weapon };
+        const forecast = calculateCombatForecast(unitWithWeapon, target, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen, weather });
+        const ev = forecast.attackerDamage * forecast.attackerHit / 100;
+
+        if (ev > bestEv) {
+          bestEv = ev;
+          const score = scoreTarget(forecast, target, unitWithWeapon, defenderTerrain);
+          const inventoryIndex = unit.inventory.indexOf(weapon);
+          bestOption = { forecast, score, weaponIndex: inventoryIndex >= 0 ? inventoryIndex : 0 };
+        }
       }
 
-      options.push({ moveTo: pos, targetId: target.id, forecast, score });
+      if (bestOption) {
+        let { score } = bestOption;
+        // Boss AI: bonus for attacking the Lord
+        if (behavior === 'boss' && target.isLord) {
+          score += 50;
+        }
+        options.push({ moveTo: pos, targetId: target.id, forecast: bestOption.forecast, score, weaponIndex: bestOption.weaponIndex });
+      }
     }
   }
 
@@ -314,7 +338,7 @@ function decideStationaryOrBoss(
 
   if (options.length > 0) {
     const best = options[0];
-    return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast };
+    return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast, weaponIndex: best.weaponIndex };
   }
   return waitAction(unit.id, unit.position);
 }
@@ -338,7 +362,7 @@ function decideGuard(
   const options = collectAttackOptions(unit, movablePositions, gameMap, allUnits, wt, 'guard');
   if (options.length > 0) {
     const best = options[0];
-    return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast };
+    return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast, weaponIndex: best.weaponIndex };
   }
 
   // Patrol path: move toward next waypoint when idle
@@ -409,7 +433,7 @@ function decideAggressive(
 
   if (options.length > 0) {
     const best = options[0];
-    return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast };
+    return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast, weaponIndex: best.weaponIndex };
   }
 
   // No target reachable — move toward nearest hostile
@@ -461,7 +485,7 @@ function decideSurvival(
   const viableOptions = safeOptions.filter((opt) => opt.score > 80);
   if (viableOptions.length > 0) {
     const best = viableOptions[0];
-    return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast };
+    return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast, weaponIndex: best.weaponIndex };
   }
 
   // No safe attack — use healing item if available, else hold position or move toward fort
@@ -688,7 +712,7 @@ function decideEscort(
 
     if (bestOptions.length > 0) {
       const best = bestOptions[0];
-      return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast };
+      return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast, weaponIndex: best.weaponIndex };
     }
   }
 
@@ -782,7 +806,7 @@ function decideCoordinated(
 
   if (allOptions.length > 0) {
     const best = allOptions[0];
-    return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast };
+    return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast, weaponIndex: best.weaponIndex };
   }
 
   // Can't reach anyone — move toward nearest hostile
@@ -829,7 +853,7 @@ function decideAmbush(
 
   if (options.length > 0) {
     const best = options[0];
-    return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast, reveal: true };
+    return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast, reveal: true, weaponIndex: best.weaponIndex };
   }
 
   // Can attack nobody — move toward nearest hostile, still reveal

@@ -183,6 +183,20 @@ Hidden in fog of war. Waits until a player unit enters attack range, then strike
 
 ---
 
+## Weapon Selection
+
+The AI evaluates all weapons in `unit.inventory` for each (position, target) pair and picks the one with the highest **expected value** (期待値):
+
+```
+expectedValue = attackerDamage × (attackerHit / 100)
+```
+
+Staves are excluded from attack weapon evaluation (handled separately by healer AI). If the inventory contains no attack weapons, the AI falls back to `equippedWeapon`.
+
+The chosen weapon index is stored in `AIAction.weaponIndex` and applied by the action finalizer before combat resolution.
+
+---
+
 ## Target Scoring
 
 The AI evaluates every possible attack with a numeric score. Higher score = better target.

@@ -143,10 +143,19 @@ function finalizeAutoAction(
   }
 
   const moveFacing = deriveFacing(unit.position, destination);
-  const movedUnit = { ...unit, position: { ...destination }, facing: moveFacing };
+  let movedUnit = { ...unit, position: { ...destination }, facing: moveFacing };
   newUnits.set(unit.id, movedUnit);
 
   if (action.attackTargetId) {
+    // Equip AI-chosen weapon before combat
+    if (action.weaponIndex != null) {
+      const chosenWeapon = movedUnit.inventory[action.weaponIndex];
+      if (chosenWeapon) {
+        movedUnit = { ...movedUnit, equippedWeapon: chosenWeapon };
+        newUnits.set(unit.id, movedUnit);
+      }
+    }
+
     const target = newUnits.get(action.attackTargetId);
     if (!target || target.faction === 'player') {
       newUnits.set(unit.id, { ...movedUnit, hasActed: true });
@@ -158,7 +167,7 @@ function finalizeAutoAction(
     const defenderTerrain = newTiles[target.position.y][target.position.x].terrain;
     const distance = getManhattanDistance(destination, target.position);
 
-    if (distance < unit.equippedWeapon.minRange || distance > unit.equippedWeapon.maxRange) {
+    if (distance < movedUnit.equippedWeapon.minRange || distance > movedUnit.equippedWeapon.maxRange) {
       newUnits.set(unit.id, { ...movedUnit, hasActed: true });
       set({ units: newUnits, gameMap: { ...gameMap, tiles: newTiles }, autoBattleIndex: autoBattleIndex + 1 });
       return;

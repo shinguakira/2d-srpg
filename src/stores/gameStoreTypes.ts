@@ -36,6 +36,11 @@ export type GameState = {
   selectedUnitId: string | null;
   hoveredTile: Position | null;
 
+  // Hover range preview (idle phase)
+  hoverMovementRange: Set<string>;
+  hoverAttackRange: Set<string>;
+  hoverUnitFaction: Faction | null;
+
   // Movement
   movementRange: Set<string>;
   attackRange: Set<string>;
@@ -104,6 +109,20 @@ export type GameState = {
     healerMaxHp: number;
     healerHp: number;
     staffName: string;
+  } | null;
+
+  // Item animation
+  itemAnimationData: {
+    unitId: string;
+    unitName: string;
+    unitClassId: string;
+    unitFaction: Faction;
+    itemName: string;
+    position: Position;
+    healAmount: number;
+    hpBefore: number;
+    hpAfter: number;
+    maxHp: number;
   } | null;
 
   // Reinforcements
@@ -225,6 +244,7 @@ export type GameActions = {
 
   // Items
   useItem: (itemIndex: number) => void;
+  finishItemAnimation: () => void;
 
   // Healing
   startHealTargeting: () => void;

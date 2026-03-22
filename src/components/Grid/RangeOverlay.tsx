@@ -14,14 +14,18 @@ export const RangeOverlay = memo(function RangeOverlay() {
   const showDangerZone = useGameStore((s) => s.showDangerZone);
   const healableTiles = useGameStore((s) => s.healableTiles);
   const cantoRange = useGameStore((s) => s.cantoRange);
+  const hoverMovementRange = useGameStore((s) => s.hoverMovementRange);
+  const hoverAttackRange = useGameStore((s) => s.hoverAttackRange);
+  const hoverUnitFaction = useGameStore((s) => s.hoverUnitFaction);
   const tileSize = useUIStore((s) => s.tileSize);
 
   const showMoveRange = playerAction === 'move_target' || playerAction === 'action_menu';
   const showAttackTargets = playerAction === 'attack_target' || playerAction === 'confirm';
   const showHealTargets = playerAction === 'heal_target';
   const showCantoRange = playerAction === 'canto_move' && cantoRange.size > 0;
+  const showHoverRange = hoverMovementRange.size > 0;
 
-  if (!showMoveRange && !showAttackTargets && !showHealTargets && !showDangerZone && !showCantoRange) return null;
+  if (!showMoveRange && !showAttackTargets && !showHealTargets && !showDangerZone && !showCantoRange && !showHoverRange) return null;
 
   return (
     <div className="range-overlay" data-testid="range-overlay" style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }}>
@@ -47,6 +51,51 @@ export const RangeOverlay = memo(function RangeOverlay() {
           />
         );
       })}
+
+      {/* Hover range preview (lighter opacity, behind selection ranges) */}
+      {showHoverRange && (
+        <div data-testid="hover-range-overlay">
+          {/* Hover attack range (red for all factions) */}
+          {Array.from(hoverAttackRange).map((key) => {
+            const pos = parsePos(key);
+            return (
+              <div
+                key={`hover-atk-${key}`}
+                style={{
+                  position: 'absolute',
+                  left: pos.x * tileSize,
+                  top: pos.y * tileSize,
+                  width: tileSize,
+                  height: tileSize,
+                  backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                  border: '1px solid rgba(239, 68, 68, 0.25)',
+                  boxSizing: 'border-box',
+                }}
+              />
+            );
+          })}
+          {/* Hover movement range (blue for player/ally, red for enemy) */}
+          {Array.from(hoverMovementRange).map((key) => {
+            const pos = parsePos(key);
+            const isEnemy = hoverUnitFaction === 'enemy';
+            return (
+              <div
+                key={`hover-mov-${key}`}
+                style={{
+                  position: 'absolute',
+                  left: pos.x * tileSize,
+                  top: pos.y * tileSize,
+                  width: tileSize,
+                  height: tileSize,
+                  backgroundColor: isEnemy ? 'rgba(239, 68, 68, 0.15)' : 'rgba(59, 130, 246, 0.15)',
+                  border: `1px solid ${isEnemy ? 'rgba(239, 68, 68, 0.25)' : 'rgba(59, 130, 246, 0.25)'}`,
+                  boxSizing: 'border-box',
+                }}
+              />
+            );
+          })}
+        </div>
+      )}
 
       {showMoveRange && (
         <>

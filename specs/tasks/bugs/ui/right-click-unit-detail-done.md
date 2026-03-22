@@ -25,14 +25,14 @@ The full unit detail modal (`UnitDetailScreen`) exists and shows stats, weapons,
 
 ## Steps to Fix
 
-- [ ] In `Game.tsx` `handleContextMenu`, when `playerAction === 'idle'`, resolve tile position from mouse coordinates (using camera offset + tile size from `uiStore`)
-- [ ] If a unit exists at that tile, call `uiStore.setDetailUnitId(unit.id)` to open the detail modal
-- [ ] If no unit at tile or `playerAction !== 'idle'`, keep existing cancel behavior
-- [ ] Add "View Info" option to `ActionMenu.tsx` that opens `UnitDetailScreen` for the selected unit
-- [ ] Add `data-testid="action-view-info"` to the new menu option
-- [ ] Add E2E test: right-click enemy unit → detail modal opens with correct unit data
+- [x] In `Game.tsx` `handleContextMenu`, when `playerAction === 'idle'`, resolve tile position from mouse coordinates (using camera offset + tile size from `uiStore`)
+- [x] If a unit exists at that tile, call `uiStore.setDetailUnitId(unit.id)` to open the detail modal
+- [x] If no unit at tile or `playerAction !== 'idle'`, keep existing cancel behavior
+- [x] Add "View Info" option to `ActionMenu.tsx` that opens `UnitDetailScreen` for the selected unit
+- [x] Add `data-testid="action-view-info"` to the new menu option
+- [x] Add E2E test: right-click enemy unit → detail modal opens with correct unit data
 
 ## Spec Update
 
-- [ ] Update `specs/ui/hud.md` — add "Right-Click Behavior" section: right-click on unit opens detail modal during idle, cancels action otherwise
-- [ ] Update `specs/ui/hud.md` — add "View Info" to ActionMenu options list
+- [x] Update `specs/ui/hud.md` — add "Right-Click Behavior" section: right-click on unit opens detail modal during idle, cancels action otherwise
+- [x] Update `specs/ui/hud.md` — add "View Info" to ActionMenu options list

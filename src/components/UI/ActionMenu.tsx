@@ -557,6 +557,17 @@ export function ActionMenu() {
           )}
           <button
             className="action-menu__btn"
+            data-testid="action-view-info"
+            onClick={() => {
+              if (selectedUnitId) {
+                useUIStore.getState().setDetailUnitId(selectedUnitId);
+              }
+            }}
+          >
+            View Info
+          </button>
+          <button
+            className="action-menu__btn"
             data-testid="action-wait"
             onClick={confirmMove}
           >

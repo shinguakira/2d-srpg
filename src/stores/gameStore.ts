@@ -11,7 +11,7 @@ import { selectUnit, deselectUnit, hoverTile, clickTile, cancelAction } from './
 import { confirmMove, advanceMovement } from './actions/movementActions';
 import { toggleDangerZone, dismissDeathQuote, dismissReinforcementMessage, selectWeapon, dismissLevelUp, dismissHealResult, dismissExpBar } from './actions/miscActions';
 import { seize, escape } from './actions/seizeActions';
-import { useItem } from './actions/itemActions';
+import { useItem, finishItemAnimation } from './actions/itemActions';
 import { visitVillage, dismissVillageReward } from './actions/villageActions';
 import { startHealTargeting, confirmHeal, finishHealAnimation, useBalance } from './actions/healActions';
 import { endPlayerTurn, dismissPhaseBanner } from './actions/turnActions';
@@ -44,6 +44,9 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   rng: new SeededRandom(12345),
   selectedUnitId: null,
   hoveredTile: null,
+  hoverMovementRange: EMPTY_SET,
+  hoverAttackRange: EMPTY_SET,
+  hoverUnitFaction: null,
   movementRange: EMPTY_SET,
   attackRange: EMPTY_SET,
   movePath: [],
@@ -74,6 +77,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   healableTiles: EMPTY_SET,
   healResult: null,
   healAnimationData: null,
+  itemAnimationData: null,
   reinforcementMessage: null,
   deathQuote: null,
   floatingNumbers: [],
@@ -163,6 +167,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
 
   // Items
   useItem: (itemIndex) => useItem(get, set, itemIndex),
+  finishItemAnimation: () => finishItemAnimation(get, set),
 
   // Village
   visitVillage: () => visitVillage(get, set),

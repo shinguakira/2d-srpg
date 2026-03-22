@@ -19,8 +19,9 @@ export function useItem(get: Get, set: Set, itemIndex: number) {
   // Apply item effect
   const facing = deriveFacing(unit.position, pendingPosition);
   let updatedUnit = { ...unit, position: { ...pendingPosition }, hasActed: true, facing };
+  let healAmount = 0;
   if (item.effect.kind === 'heal') {
-    const healAmount = Math.min(item.effect.amount, unit.stats.hp - unit.currentHp);
+    healAmount = Math.min(item.effect.amount, unit.stats.hp - unit.currentHp);
     updatedUnit = { ...updatedUnit, currentHp: unit.currentHp + healAmount };
   }
 
@@ -64,6 +65,31 @@ export function useItem(get: Get, set: Set, itemIndex: number) {
     }
   }
 
+  // Heal items: transition to item_animation phase
+  if (item.effect.kind === 'heal' && healAmount > 0) {
+    set({
+      ...IDLE_RESET,
+      units: newUnits,
+      gameMap: { ...gameMap, tiles: newTiles },
+      openedChests: newOpenedChests,
+      currentPhase: 'item_animation',
+      itemAnimationData: {
+        unitId: selectedUnitId,
+        unitName: unit.name,
+        unitClassId: unit.classId,
+        unitFaction: unit.faction,
+        itemName: item.name,
+        position: { ...pendingPosition },
+        healAmount,
+        hpBefore: unit.currentHp,
+        hpAfter: unit.currentHp + healAmount,
+        maxHp: unit.stats.hp,
+      },
+    });
+    return;
+  }
+
+  // Non-heal items: apply instantly
   set({
     ...IDLE_RESET,
     units: newUnits,
@@ -72,8 +98,18 @@ export function useItem(get: Get, set: Set, itemIndex: number) {
     villageReward,
   });
 
-  // Auto end turn if all player units have acted
   if (allPlayersDone(newUnits)) {
+    get().endPlayerTurn();
+  }
+}
+
+export function finishItemAnimation(get: Get, set: Set) {
+  set({
+    currentPhase: 'player_phase',
+    itemAnimationData: null,
+  });
+
+  if (allPlayersDone(get().units)) {
     get().endPlayerTurn();
   }
 }

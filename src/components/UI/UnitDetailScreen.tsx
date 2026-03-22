@@ -70,8 +70,8 @@ export function UnitDetailScreen() {
       style={{
         position: 'fixed',
         top: 0, left: 0, width: '100vw', height: '100vh',
-        background: 'rgba(0,0,0,0.9)',
-        backdropFilter: 'blur(8px)',
+        background: 'rgba(0,0,0,0.35)',
+        backdropFilter: 'blur(2px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -88,8 +88,8 @@ export function UnitDetailScreen() {
           padding: '24px 32px',
           color: '#fff',
           fontFamily: "'Segoe UI', system-ui, sans-serif",
-          maxWidth: 500,
-          width: '90%',
+          maxWidth: 700,
+          width: '92%',
           animation: 'modal-appear 0.3s ease',
         }}
       >

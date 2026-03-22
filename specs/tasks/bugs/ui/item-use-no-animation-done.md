@@ -25,15 +25,15 @@ Using consumable items (Vulnerary, keys) applies effects instantly with no visua
 
 ## Steps to Fix
 
-- [ ] Add `itemAnimationData` to `GameState` in `gameStoreTypes.ts` with fields: `unitId`, `itemName`, `healAmount` (optional), `position`
-- [ ] Add `item_animation` value to the player action flow (or reuse existing animation phase pattern)
-- [ ] In `itemActions.ts`, instead of applying effect immediately: set animation data → transition to animation phase
-- [ ] Create `ItemAnimation` component (simpler than `HealingAnimation` — single-unit, green glow + floating number for heals)
-- [ ] Create `finishItemAnimation` action that applies the actual HP change, decrements item uses, and resets to idle
-- [ ] Add CSS for item animation in `src/styles/ui/` (green glow keyframes, float-up number)
-- [ ] Add `data-testid="item-animation"` for E2E testing
-- [ ] Add E2E test: use Vulnerary → animation plays → HP updates
+- [x] Add `itemAnimationData` to `GameState` in `gameStoreTypes.ts` with fields: `unitId`, `itemName`, `healAmount` (optional), `position`
+- [x] Add `item_animation` value to the player action flow (or reuse existing animation phase pattern)
+- [x] In `itemActions.ts`, instead of applying effect immediately: set animation data → transition to animation phase
+- [x] Create `ItemAnimation` component (simpler than `HealingAnimation` — single-unit, green glow + floating number for heals)
+- [x] Create `finishItemAnimation` action that applies the actual HP change, decrements item uses, and resets to idle
+- [x] Add CSS for item animation in `src/styles/ui/` (green glow keyframes, float-up number)
+- [x] Add `data-testid="item-animation"` for E2E testing
+- [x] Add E2E test: use Vulnerary → animation plays → HP updates
 
 ## Spec Update
 
-- [ ] Update `specs/ui/hud.md` — add "Item Usage Animation" section documenting the animation phases and visual effects for consumable items
+- [x] Update `specs/ui/hud.md` — add "Item Usage Animation" section documenting the animation phases and visual effects for consumable items

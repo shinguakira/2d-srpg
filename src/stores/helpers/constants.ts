@@ -8,6 +8,9 @@ export const EMPTY_MAP: GameMap = { width: 0, height: 0, tiles: [] };
 export const IDLE_RESET: Partial<GameState> = {
   selectedUnitId: null,
   playerAction: 'idle' as const,
+  hoverMovementRange: EMPTY_SET,
+  hoverAttackRange: EMPTY_SET,
+  hoverUnitFaction: null,
   movementRange: EMPTY_SET,
   attackRange: EMPTY_SET,
   movePath: [],

@@ -269,7 +269,7 @@ export type Unit = {
 
 // ===== Game State =====
 
-export type GamePhase = 'player_phase' | 'enemy_phase' | 'ally_phase' | 'combat_animation' | 'heal_animation' | 'game_over';
+export type GamePhase = 'player_phase' | 'enemy_phase' | 'ally_phase' | 'combat_animation' | 'heal_animation' | 'item_animation' | 'game_over';
 
 export type PlayerAction =
   | 'idle'

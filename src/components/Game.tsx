@@ -11,6 +11,7 @@ import { VillageDialogue } from './UI/VillageDialogue';
 import { DeathQuoteOverlay } from './UI/DeathQuoteOverlay';
 import { HealNotification } from './UI/HealNotification';
 import { HealingAnimation } from './Combat/HealingAnimation';
+import { ItemAnimation } from './Combat/ItemAnimation';
 import { ReinforcementBanner } from './UI/ReinforcementBanner';
 import { LevelUpPopup } from './Combat/LevelUpPopup';
 import { ExpBar } from './Combat/ExpBar';
@@ -72,11 +73,23 @@ export function Game() {
   useKeyboard();
   useMovementAnimation();
 
-  // Right-click to cancel
+  // Right-click: cancel action, or open unit detail during idle
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     if (playerAction !== 'idle') {
       cancelAction();
+      return;
+    }
+
+    // Idle: resolve tile from mouse position and open unit detail
+    const { tileSize, cameraOffset: camOff, setDetailUnitId } = useUIStore.getState();
+    const gameRect = e.currentTarget.getBoundingClientRect();
+    const tileX = Math.floor((e.clientX - gameRect.left - camOff.x) / tileSize);
+    const tileY = Math.floor((e.clientY - gameRect.top - camOff.y) / tileSize);
+
+    const unitAtTile = useGameStore.getState().getUnitAt({ x: tileX, y: tileY });
+    if (unitAtTile) {
+      setDetailUnitId(unitAtTile.id);
     }
   }, [playerAction, cancelAction]);
 
@@ -118,6 +131,7 @@ export function Game() {
       {/* Full-screen overlays */}
       <CombatAnimation />
       <HealingAnimation />
+      <ItemAnimation />
       <VillageDialogue />
       <HealNotification />
       <DeathQuoteOverlay />

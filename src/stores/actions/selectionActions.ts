@@ -46,6 +46,9 @@ export function selectUnit(get: Get, set: Set, unitId: string) {
     combatResult: null,
     combatAnimationStep: -1,
     attackTargetId: null,
+    hoverMovementRange: EMPTY_SET,
+    hoverAttackRange: EMPTY_SET,
+    hoverUnitFaction: null,
   });
 }
 
@@ -93,6 +96,41 @@ export function hoverTile(get: Get, set: Set, pos: Position | null) {
     }
     // Not hovering an enemy — clear forecast
     set({ hoveredTile: pos, movePath: [], combatForecast: null });
+    return;
+  }
+
+  // Idle phase: compute hover range preview for unit under cursor
+  if (playerAction === 'idle' && pos) {
+    const prevHovered = get().hoveredTile;
+    // Skip recompute if same tile
+    if (prevHovered && prevHovered.x === pos.x && prevHovered.y === pos.y) return;
+
+    const key = posKey(pos);
+    let hoverUnit = null;
+    for (const u of units.values()) {
+      if (posKey(u.position) === key && !u.isHidden && !u.isCarried) {
+        hoverUnit = u;
+        break;
+      }
+    }
+
+    if (hoverUnit) {
+      const { weather } = get();
+      const flags = getClassFlags(hoverUnit);
+      const canPass = hasSkill(hoverUnit, 'pass');
+      const weatherMods = weather !== 'clear' ? {
+        movPenalty: getWeatherMovPenalty(weather, flags),
+        terrainCostMod: getWeatherTerrainCostMod(weather, flags),
+      } : undefined;
+      const moveRange = isExhausted(hoverUnit)
+        ? new Set([posKey(hoverUnit.position)])
+        : getMovementRange(hoverUnit, gameMap, units, flags, canPass, weatherMods);
+      const atkRange = getFullAttackRange(hoverUnit, moveRange, gameMap);
+      set({ hoveredTile: pos, movePath: [], hoverMovementRange: moveRange, hoverAttackRange: atkRange, hoverUnitFaction: hoverUnit.faction });
+      return;
+    }
+
+    set({ hoveredTile: pos, movePath: [], hoverMovementRange: EMPTY_SET, hoverAttackRange: EMPTY_SET, hoverUnitFaction: null });
     return;
   }
 

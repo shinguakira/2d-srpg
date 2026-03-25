@@ -262,6 +262,10 @@ export type GameActions = {
   seize: () => void;
   escape: () => void;
 
+  // System menu
+  openSystemMenu: () => void;
+  closeSystemMenu: () => void;
+
   // Danger zone
   toggleDangerZone: () => void;
 

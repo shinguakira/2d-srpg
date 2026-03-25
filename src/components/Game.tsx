@@ -23,6 +23,7 @@ import { WeatherIndicator } from './UI/WeatherIndicator';
 import { SupportRankPopup } from './UI/SupportRankPopup';
 import { BossPhaseTransition } from './UI/BossPhaseTransition';
 import { MapBossHPBar } from './UI/MapBossHPBar';
+import { SystemMenu } from './UI/SystemMenu';
 import { useGameStore } from '../stores/gameStore';
 import { useUIStore } from '../stores/uiStore';
 import { useCampaignStore } from '../stores/campaignStore';
@@ -73,7 +74,7 @@ export function Game() {
   useKeyboard();
   useMovementAnimation();
 
-  // Right-click: cancel action, or open unit detail during idle
+  // Right-click: cancel action, open unit detail, or open system menu during idle
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     if (playerAction !== 'idle') {
@@ -81,7 +82,7 @@ export function Game() {
       return;
     }
 
-    // Idle: resolve tile from mouse position and open unit detail
+    // Idle: resolve tile from mouse position
     const { tileSize, cameraOffset: camOff, setDetailUnitId } = useUIStore.getState();
     const gameRect = e.currentTarget.getBoundingClientRect();
     const tileX = Math.floor((e.clientX - gameRect.left - camOff.x) / tileSize);
@@ -90,6 +91,8 @@ export function Game() {
     const unitAtTile = useGameStore.getState().getUnitAt({ x: tileX, y: tileY });
     if (unitAtTile) {
       setDetailUnitId(unitAtTile.id);
+    } else {
+      useGameStore.getState().openSystemMenu();
     }
   }, [playerAction, cancelAction]);
 
@@ -144,6 +147,7 @@ export function Game() {
       <SupportRankPopup />
       <BossPhaseTransition />
       <PhaseBanner />
+      <SystemMenu />
 
       {/* Game Over overlay */}
       {currentPhase === 'game_over' && <GameOverOverlay />}

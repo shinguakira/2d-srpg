@@ -33,6 +33,7 @@ import { useTorch } from './actions/fogActions';
 import { attackTerrain } from './actions/terrainActions';
 import { dismissSupportRankUp } from './actions/supportActions';
 import { negotiate } from './actions/negotiateActions';
+import { openSystemMenu, closeSystemMenu } from './actions/systemMenuActions';
 
 export const useGameStore = create<GameState & GameActions>((set, get) => ({
   gameMap: EMPTY_MAP,
@@ -151,6 +152,10 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   // Movement
   confirmMove: () => confirmMove(get, set),
   advanceMovement: () => advanceMovement(get, set),
+
+  // System menu
+  openSystemMenu: () => openSystemMenu(get, set),
+  closeSystemMenu: () => closeSystemMenu(get, set),
 
   // Misc
   toggleDangerZone: () => toggleDangerZone(get, set),

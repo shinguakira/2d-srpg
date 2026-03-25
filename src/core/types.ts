@@ -287,7 +287,8 @@ export type PlayerAction =
   | 'rescue_target'
   | 'drop_target'
   | 'trade_target'
-  | 'negotiate';
+  | 'negotiate'
+  | 'system_menu';
 
 // ===== Weather & Fog =====
 

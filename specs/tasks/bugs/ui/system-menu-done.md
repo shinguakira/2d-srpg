@@ -37,21 +37,21 @@ Idle状態で空タイルをクリック、または右クリックした時にF
 
 ## Steps to Fix
 
-- [ ] `gameStoreTypes.ts` に `playerAction` 状態 `'system_menu'` を追加
-- [ ] `SystemMenu.tsx` コンポーネントを作成（左側縦並びメニュー）
-- [ ] `clickTile` idle分岐: 空タイルクリック → `playerAction: 'system_menu'` に遷移
-- [ ] 右クリック（contextmenu）でもシステムメニューを開く処理を追加
-- [ ] メニュー項目の各アクション実装:
-  - [ ] ユニット一覧 → 既存ユニットリスト表示
-  - [ ] 勝敗条件 → 条件オーバーレイ表示
-  - [ ] 環境設定 → 設定パネル表示
-  - [ ] 中断 → セーブしてタイトルへ
-  - [ ] ターン終了 → `endPlayerPhase` 呼び出し
-- [ ] メニュー外クリック・Escape で閉じる
-- [ ] `data-testid` を各メニューボタンに付与
-- [ ] CSS: FEスタイルの装飾（ダークグリーン背景、金枠風ボーダー）
-- [ ] E2E test: 空タイルクリック → システムメニュー表示 → 各ボタン動作
+- [x] `gameStoreTypes.ts` に `playerAction` 状態 `'system_menu'` を追加
+- [x] `SystemMenu.tsx` コンポーネントを作成（左側縦並びメニュー）
+- [x] `clickTile` idle分岐: 空タイルクリック → `playerAction: 'system_menu'` に遷移
+- [x] 右クリック（contextmenu）でもシステムメニューを開く処理を追加
+- [x] メニュー項目の各アクション実装:
+  - [x] ユニット一覧 → 既存ユニットリスト表示
+  - [x] 勝敗条件 → 条件オーバーレイ表示
+  - [x] 環境設定 → 設定パネル表示
+  - [x] 中断 → セーブしてタイトルへ
+  - [x] ターン終了 → `endPlayerPhase` 呼び出し
+- [x] メニュー外クリック・Escape で閉じる
+- [x] `data-testid` を各メニューボタンに付与
+- [x] CSS: FEスタイルの装飾（ダークグリーン背景、金枠風ボーダー）
+- [x] E2E test: 空タイルクリック → システムメニュー表示 → 各ボタン動作
 
 ## Spec Update
 
-- [ ] Update `specs/ui/hud.md` — 「システムメニュー」セクションを追加
+- [x] Update `specs/ui/hud.md` — 「システムメニュー」セクションを追加

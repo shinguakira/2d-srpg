@@ -30,13 +30,18 @@ test.describe('Right-Click Unit Detail', () => {
     await expect(detail).toBeVisible();
   });
 
-  test('right-click empty tile during idle does nothing', async ({ page }) => {
+  test('right-click empty tile during idle opens system menu', async ({ page }) => {
     // Right-click empty tile
     await page.click('[data-testid="tile-0-0"]', { button: 'right' });
     await page.waitForTimeout(200);
 
-    const detail = page.locator('[data-testid="unit-detail-screen"]');
-    await expect(detail).not.toBeVisible();
+    const menu = page.locator('[data-testid="system-menu"]');
+    await expect(menu).toBeVisible();
+
+    // Close with Escape
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(200);
+    await expect(menu).not.toBeVisible();
   });
 
   test('right-click during move selection cancels action', async ({ page }) => {

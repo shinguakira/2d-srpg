@@ -148,6 +148,7 @@ export function clickTile(get: Get, set: Set, pos: Position) {
         return;
       }
     }
+    get().openSystemMenu();
     return;
   }
 
@@ -324,6 +325,11 @@ export function clickTile(get: Get, set: Set, pos: Position) {
 
 export function cancelAction(get: Get, set: Set) {
   const { selectedUnitId, playerAction } = get();
+
+  if (playerAction === 'system_menu') {
+    get().closeSystemMenu();
+    return;
+  }
 
   if (playerAction === 'attack_target' && selectedUnitId) {
     // Go back to action menu

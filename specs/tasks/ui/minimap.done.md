@@ -36,16 +36,16 @@ Small semi-transparent panel in bottom-left corner:
 
 ## Steps to Fix
 
-- [ ] Create `src/components/UI/Minimap.tsx` component
-- [ ] Read map dimensions and unit positions from `gameStore`
-- [ ] Render CSS Grid or SVG with 3px tiles, colored by terrain type (simplified: green/brown/blue/gray)
-- [ ] Render unit dots with faction colors
-- [ ] Draw viewport rectangle using `cameraOffset` and viewport size from `uiStore`
-- [ ] Handle click: compute map position from minimap coordinates, update `cameraOffset`
-- [ ] Only render when `gameMap.width > 12 || gameMap.height > 12`
-- [ ] Create `src/styles/ui/minimap.css` with positioning and transparency
-- [ ] Add `Minimap` to `Game.tsx` render tree
-- [ ] `data-testid="minimap"`, `data-testid="minimap-viewport"`
-- [ ] Test: load large map → minimap visible in bottom-left
-- [ ] Test: click on minimap edge → camera pans to that area
-- [ ] Test: load small map (10x10) → minimap not rendered
+- [x] Create `src/components/UI/Minimap.tsx` component
+- [x] Read map dimensions and unit positions from `gameStore`
+- [x] Render CSS Grid or SVG with 3px tiles, colored by terrain type (simplified: green/brown/blue/gray)
+- [x] Render unit dots with faction colors
+- [x] Draw viewport rectangle using `cameraOffset` and viewport size from `uiStore`
+- [x] Handle click: compute map position from minimap coordinates, update `cameraOffset`
+- [x] Only render when `gameMap.width > 12 || gameMap.height > 12`
+- [x] Create `src/styles/ui/minimap.css` with positioning and transparency
+- [x] Add `Minimap` to `Game.tsx` render tree
+- [x] `data-testid="minimap"`, `data-testid="minimap-viewport"`
+- [x] Test: load large map → minimap visible in bottom-left
+- [x] Test: click on minimap edge → camera pans to that area
+- [x] Test: load small map (10x10) → minimap not rendered

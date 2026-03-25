@@ -24,6 +24,7 @@ import { SupportRankPopup } from './UI/SupportRankPopup';
 import { BossPhaseTransition } from './UI/BossPhaseTransition';
 import { MapBossHPBar } from './UI/MapBossHPBar';
 import { SystemMenu } from './UI/SystemMenu';
+import { Minimap } from './UI/Minimap';
 import { useGameStore } from '../stores/gameStore';
 import { useUIStore } from '../stores/uiStore';
 import { useCampaignStore } from '../stores/campaignStore';
@@ -121,6 +122,8 @@ export function Game() {
       <WeatherOverlay />
 
       <MapBossHPBar />
+
+      <Minimap />
 
       <div className="game__ui">
         <TurnInfo />

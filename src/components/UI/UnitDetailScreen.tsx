@@ -5,6 +5,7 @@ import { ALL_CLASSES } from '../../data/promotedClasses';
 import { SKILLS } from '../../data/skills';
 import { getTerrainData } from '../../core/terrain';
 import { BattleSprite } from '../Combat/BattleSprite';
+import { getDurabilityColor } from '../../core/items';
 
 const STAT_LABELS: Record<string, string> = {
   hp: 'HP', str: 'STR', mag: 'MAG', skl: 'SKL',
@@ -159,6 +160,11 @@ export function UnitDetailScreen() {
                   </span>
                   <span style={{ fontSize: 12, opacity: 0.6 }}>
                     Mt {weapon.might} Hit {weapon.hit} Crit {weapon.crit} Rng {weapon.minRange}-{weapon.maxRange}
+                    {weapon.durability != null && weapon.maxDurability != null && (
+                      <span data-testid="weapon-durability" style={{ marginLeft: 4, color: getDurabilityColor(weapon.durability), opacity: 1 }}>
+                        Uses {weapon.durability}/{weapon.maxDurability}
+                      </span>
+                    )}
                   </span>
                 </div>
               );

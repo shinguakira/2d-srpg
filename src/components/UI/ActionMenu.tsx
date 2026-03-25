@@ -10,6 +10,7 @@ import { isExhausted } from '../../core/metaStats';
 import { canAttackTerrain } from '../../core/destructibleTerrain';
 import { checkNegotiateCondition } from '../../stores/actions/negotiateActions';
 import { canHealWithStaff } from '../../core/combat';
+import { getDurabilityColor } from '../../core/items';
 
 export function ActionMenu() {
   const playerAction = useGameStore((s) => s.playerAction);
@@ -333,6 +334,11 @@ export function ActionMenu() {
               onClick={() => selectWeapon(i)}
             >
               {weapon.name}
+              {weapon.durability != null && weapon.maxDurability != null && (
+                <span data-testid="weapon-durability" style={{ marginLeft: 4, fontSize: '0.85em', color: getDurabilityColor(weapon.durability) }}>
+                  {weapon.durability}/{weapon.maxDurability}
+                </span>
+              )}
             </button>
           ))}
         </div>

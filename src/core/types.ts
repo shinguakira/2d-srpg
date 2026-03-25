@@ -81,6 +81,7 @@ export type Weapon = {
   readonly effectiveAgainst?: string[];
   readonly rank?: WeaponRank;
   readonly durability?: number | null;
+  readonly maxDurability?: number | null;
   readonly brave?: boolean;
   readonly prf?: string;
   readonly crpGain?: number; // CRP inflicted on hit (dark magic)

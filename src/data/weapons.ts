@@ -11,6 +11,8 @@ export const WEAPONS: Record<string, Weapon> = {
     weight: 2,
     minRange: 1,
     maxRange: 1,
+    durability: 45,
+    maxDurability: 45,
   },
   iron_sword: {
     id: 'iron_sword',
@@ -22,6 +24,8 @@ export const WEAPONS: Record<string, Weapon> = {
     weight: 5,
     minRange: 1,
     maxRange: 1,
+    durability: 40,
+    maxDurability: 40,
   },
   iron_lance: {
     id: 'iron_lance',
@@ -33,6 +37,8 @@ export const WEAPONS: Record<string, Weapon> = {
     weight: 8,
     minRange: 1,
     maxRange: 1,
+    durability: 40,
+    maxDurability: 40,
   },
   iron_axe: {
     id: 'iron_axe',
@@ -44,6 +50,8 @@ export const WEAPONS: Record<string, Weapon> = {
     weight: 10,
     minRange: 1,
     maxRange: 1,
+    durability: 40,
+    maxDurability: 40,
   },
   fire: {
     id: 'fire',
@@ -55,6 +63,8 @@ export const WEAPONS: Record<string, Weapon> = {
     weight: 4,
     minRange: 1,
     maxRange: 2,
+    durability: 35,
+    maxDurability: 35,
   },
   thunder: {
     id: 'thunder',
@@ -66,6 +76,8 @@ export const WEAPONS: Record<string, Weapon> = {
     weight: 6,
     minRange: 1,
     maxRange: 2,
+    durability: 35,
+    maxDurability: 35,
   },
   wind: {
     id: 'wind',
@@ -77,6 +89,8 @@ export const WEAPONS: Record<string, Weapon> = {
     weight: 3,
     minRange: 1,
     maxRange: 2,
+    durability: 35,
+    maxDurability: 35,
   },
 
   // Steel tier
@@ -90,6 +104,8 @@ export const WEAPONS: Record<string, Weapon> = {
     weight: 10,
     minRange: 1,
     maxRange: 1,
+    durability: 30,
+    maxDurability: 30,
   },
   steel_lance: {
     id: 'steel_lance',
@@ -101,6 +117,8 @@ export const WEAPONS: Record<string, Weapon> = {
     weight: 13,
     minRange: 1,
     maxRange: 1,
+    durability: 30,
+    maxDurability: 30,
   },
   steel_axe: {
     id: 'steel_axe',
@@ -112,6 +130,8 @@ export const WEAPONS: Record<string, Weapon> = {
     weight: 15,
     minRange: 1,
     maxRange: 1,
+    durability: 30,
+    maxDurability: 30,
   },
 
   // Ranged physical (1-2 range)
@@ -125,6 +145,8 @@ export const WEAPONS: Record<string, Weapon> = {
     weight: 11,
     minRange: 1,
     maxRange: 2,
+    durability: 25,
+    maxDurability: 25,
   },
   hand_axe: {
     id: 'hand_axe',
@@ -136,6 +158,8 @@ export const WEAPONS: Record<string, Weapon> = {
     weight: 12,
     minRange: 1,
     maxRange: 2,
+    durability: 25,
+    maxDurability: 25,
   },
 
   // Silver tier
@@ -149,6 +173,8 @@ export const WEAPONS: Record<string, Weapon> = {
     weight: 8,
     minRange: 1,
     maxRange: 1,
+    durability: 20,
+    maxDurability: 20,
   },
 
   // Advanced magic
@@ -162,6 +188,8 @@ export const WEAPONS: Record<string, Weapon> = {
     weight: 8,
     minRange: 1,
     maxRange: 2,
+    durability: 25,
+    maxDurability: 25,
   },
 
   // Staff
@@ -175,6 +203,8 @@ export const WEAPONS: Record<string, Weapon> = {
     weight: 3,
     minRange: 1,
     maxRange: 1,
+    durability: 30,
+    maxDurability: 30,
   },
 
   // ===== Arc 1 — Prf weapons =====
@@ -192,6 +222,8 @@ export const WEAPONS: Record<string, Weapon> = {
     prf: 'ren',
     effectiveAgainst: ['armored', 'mounted'],
     rank: 'Prf',
+    durability: null,
+    maxDurability: null,
   },
   iron_bow: {
     id: 'iron_bow',
@@ -204,6 +236,8 @@ export const WEAPONS: Record<string, Weapon> = {
     minRange: 2,
     maxRange: 2,
     rank: 'E',
+    durability: 35,
+    maxDurability: 35,
   },
   iron_knife: {
     id: 'iron_knife',
@@ -216,6 +250,8 @@ export const WEAPONS: Record<string, Weapon> = {
     minRange: 1,
     maxRange: 2,
     rank: 'E',
+    durability: 30,
+    maxDurability: 30,
   },
   garrison_lance: {
     id: 'garrison_lance',
@@ -229,6 +265,7 @@ export const WEAPONS: Record<string, Weapon> = {
     maxRange: 1,
     prf: 'voss',
     durability: null,
+    maxDurability: null,
     rank: 'Prf',
   },
   sightbow: {
@@ -243,6 +280,8 @@ export const WEAPONS: Record<string, Weapon> = {
     maxRange: 2,
     prf: 'nira',
     rank: 'Prf',
+    durability: null,
+    maxDurability: null,
   },
   data_knife: {
     id: 'data_knife',
@@ -256,6 +295,8 @@ export const WEAPONS: Record<string, Weapon> = {
     maxRange: 2,
     prf: 'coda',
     rank: 'Prf',
+    durability: null,
+    maxDurability: null,
   },
 
   // ===== Arc 2 weapons =====
@@ -271,6 +312,8 @@ export const WEAPONS: Record<string, Weapon> = {
     minRange: 1,
     maxRange: 1,
     rank: 'C',
+    durability: 20,
+    maxDurability: 20,
   },
   killer_lance: {
     id: 'killer_lance',
@@ -283,6 +326,8 @@ export const WEAPONS: Record<string, Weapon> = {
     minRange: 1,
     maxRange: 1,
     rank: 'C',
+    durability: 20,
+    maxDurability: 20,
   },
   steel_bow: {
     id: 'steel_bow',
@@ -295,6 +340,8 @@ export const WEAPONS: Record<string, Weapon> = {
     minRange: 2,
     maxRange: 2,
     rank: 'D',
+    durability: 35,
+    maxDurability: 35,
   },
   longbow: {
     id: 'longbow',
@@ -307,6 +354,8 @@ export const WEAPONS: Record<string, Weapon> = {
     minRange: 2,
     maxRange: 3,
     rank: 'D',
+    durability: 35,
+    maxDurability: 35,
   },
   poison_dagger: {
     id: 'poison_dagger',
@@ -319,6 +368,8 @@ export const WEAPONS: Record<string, Weapon> = {
     minRange: 1,
     maxRange: 2,
     rank: 'D',
+    durability: 25,
+    maxDurability: 25,
   },
   nosferatu: {
     id: 'nosferatu',
@@ -332,6 +383,8 @@ export const WEAPONS: Record<string, Weapon> = {
     maxRange: 2,
     rank: 'D',
     crpGain: 3,
+    durability: 20,
+    maxDurability: 20,
   },
   lightning: {
     id: 'lightning',
@@ -344,6 +397,8 @@ export const WEAPONS: Record<string, Weapon> = {
     minRange: 1,
     maxRange: 2,
     rank: 'E',
+    durability: 35,
+    maxDurability: 35,
   },
   elthunder: {
     id: 'elthunder',
@@ -356,6 +411,8 @@ export const WEAPONS: Record<string, Weapon> = {
     minRange: 1,
     maxRange: 2,
     rank: 'C',
+    durability: 25,
+    maxDurability: 25,
   },
   elwind: {
     id: 'elwind',
@@ -368,6 +425,8 @@ export const WEAPONS: Record<string, Weapon> = {
     minRange: 1,
     maxRange: 2,
     rank: 'C',
+    durability: 25,
+    maxDurability: 25,
   },
   mend: {
     id: 'mend',
@@ -380,6 +439,8 @@ export const WEAPONS: Record<string, Weapon> = {
     minRange: 1,
     maxRange: 1,
     rank: 'C',
+    durability: 30,
+    maxDurability: 30,
   },
   barrier: {
     id: 'barrier',
@@ -392,6 +453,8 @@ export const WEAPONS: Record<string, Weapon> = {
     minRange: 1,
     maxRange: 1,
     rank: 'C',
+    durability: 30,
+    maxDurability: 30,
   },
 
   // ===== Prf — Memory Blade (Ren) =====
@@ -408,6 +471,8 @@ export const WEAPONS: Record<string, Weapon> = {
     maxRange: 1,
     prf: 'ren',
     rank: 'Prf',
+    durability: null,
+    maxDurability: null,
   },
 
   // ===== Late-Game Weapons =====
@@ -425,6 +490,8 @@ export const WEAPONS: Record<string, Weapon> = {
     prf: 'nira',
     effectiveAgainst: ['system_construct'],
     rank: 'Prf',
+    durability: null,
+    maxDurability: null,
   },
   echos_interface: {
     id: 'echos_interface',
@@ -438,5 +505,7 @@ export const WEAPONS: Record<string, Weapon> = {
     maxRange: 2,
     prf: 'echo',
     rank: 'Prf',
+    durability: null,
+    maxDurability: null,
   },
 };

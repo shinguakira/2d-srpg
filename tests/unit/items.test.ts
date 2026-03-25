@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { canUseItem, useItem } from '../../src/core/items';
+import { canUseItem, useItem, getDurabilityColor } from '../../src/core/items';
 import type { Unit, ConsumableItem, Weapon, WeaponType } from '../../src/core/types';
 
 function makeWeapon(type: WeaponType): Weapon {
@@ -143,5 +143,23 @@ describe('useItem', () => {
 
     expect(item).toBeNull(); // depleted after 3 uses
     expect(unit.currentHp).toBe(35); // 5 + 10 + 10 + 10 = 35
+  });
+});
+
+describe('getDurabilityColor', () => {
+  it('returns red for durability <= 5', () => {
+    expect(getDurabilityColor(0)).toBe('#ef4444');
+    expect(getDurabilityColor(3)).toBe('#ef4444');
+    expect(getDurabilityColor(5)).toBe('#ef4444');
+  });
+
+  it('returns yellow for durability 6-10', () => {
+    expect(getDurabilityColor(6)).toBe('#eab308');
+    expect(getDurabilityColor(10)).toBe('#eab308');
+  });
+
+  it('returns undefined for durability > 10', () => {
+    expect(getDurabilityColor(11)).toBeUndefined();
+    expect(getDurabilityColor(40)).toBeUndefined();
   });
 });

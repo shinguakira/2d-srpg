@@ -3,6 +3,7 @@ import type { Unit } from '../../core/types';
 import { CLASSES } from '../../data/classes';
 import { getTerrainData } from '../../core/terrain';
 import { canSeeEnemyMetaStats } from '../../core/metaStats';
+import { getDurabilityColor } from '../../core/items';
 import { useGameStore } from '../../stores/gameStore';
 
 type MetaStatBarProps = {
@@ -102,6 +103,11 @@ export function UnitStatsPanel() {
           </div>
           <div className="unit-stats-panel__weapon">
             {unit.equippedWeapon.name} (Mt {unit.equippedWeapon.might})
+            {unit.equippedWeapon.durability != null && unit.equippedWeapon.maxDurability != null && (
+              <span data-testid="weapon-durability" style={{ marginLeft: 6, color: getDurabilityColor(unit.equippedWeapon.durability) }}>
+                {unit.equippedWeapon.durability}/{unit.equippedWeapon.maxDurability}
+              </span>
+            )}
           </div>
 
           {/* Meta-Stats — enemy meta-stats require AWR ≥ 80 from any player unit */}

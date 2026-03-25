@@ -54,3 +54,10 @@ export function useItem(
   }
   return { unit, item };
 }
+
+/** Return a warning color for low durability, or undefined for normal. */
+export function getDurabilityColor(durability: number): string | undefined {
+  if (durability <= 5) return '#ef4444';
+  if (durability <= 10) return '#eab308';
+  return undefined;
+}

@@ -1,5 +1,6 @@
 import { useGameStore } from '../../stores/gameStore';
 import { getWeaponTriangle } from '../../core/combat';
+import { getDurabilityColor } from '../../core/items';
 
 const WEAPON_NAMES: Record<string, string> = {
   sword: 'Sword', axe: 'Axe', lance: 'Lance',
@@ -70,7 +71,14 @@ export function CombatPreview() {
         {/* Player side (always left, blue) */}
         <div className="combat-forecast__unit combat-forecast__unit--attacker">
           <div className="combat-forecast__name">{playerUnit.name}</div>
-          <div className="combat-forecast__weapon-type">{playerUnit.weaponName}</div>
+          <div className="combat-forecast__weapon-type">
+            {playerUnit.weaponName}
+            {playerUnit.weaponDurability != null && playerUnit.weaponMaxDurability != null && (
+              <span data-testid="weapon-durability" style={{ marginLeft: 4, fontSize: '0.85em', color: getDurabilityColor(playerUnit.weaponDurability) }}>
+                ({playerUnit.weaponDurability}/{playerUnit.weaponMaxDurability})
+              </span>
+            )}
+          </div>
           <div className="combat-forecast__hp">
             HP {playerUnit.currentHp}/{playerUnit.maxHp}
             {playerCanAttack === false || enemyCanAttack ? (
@@ -107,7 +115,14 @@ export function CombatPreview() {
         {/* Enemy side (always right, red) */}
         <div className="combat-forecast__unit combat-forecast__unit--defender">
           <div className="combat-forecast__name">{enemyUnit.name}</div>
-          <div className="combat-forecast__weapon-type">{enemyUnit.weaponName}</div>
+          <div className="combat-forecast__weapon-type">
+            {enemyUnit.weaponName}
+            {enemyUnit.weaponDurability != null && enemyUnit.weaponMaxDurability != null && (
+              <span data-testid="weapon-durability" style={{ marginLeft: 4, fontSize: '0.85em', color: getDurabilityColor(enemyUnit.weaponDurability) }}>
+                ({enemyUnit.weaponDurability}/{enemyUnit.weaponMaxDurability})
+              </span>
+            )}
+          </div>
           <div className="combat-forecast__hp">
             HP {enemyUnit.currentHp}/{enemyUnit.maxHp}
             <span className="combat-forecast__predicted-hp" style={{ color: enemyPredictedHp <= 0 ? '#ef4444' : enemyPredictedHp < enemyUnit.currentHp ? '#eab308' : undefined }}>

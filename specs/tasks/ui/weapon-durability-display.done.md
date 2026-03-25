@@ -38,18 +38,18 @@ Show uses next to weapon name: "Iron Sword (23/40)" or no count for infinite.
 
 ## Steps to Fix
 
-- [ ] In `UnitStatsPanel.tsx:103-105`: append durability display after Mt — skip if `durability === null`
-- [ ] In `ActionMenu.tsx` weapon selector buttons: add uses count, red color when <= 5
-- [ ] In `UnitDetailScreen.tsx` equipment section: add "Uses X/Y" to the stat line
-- [ ] In `CombatPreview.tsx` weapon name lines: append "(X/Y)" when durability is finite
-- [ ] Handle null durability (infinite) — show nothing or infinity symbol
-- [ ] Warn color: red (#ef4444) text when durability <= 5, yellow (#eab308) when <= 10
-- [ ] `data-testid="weapon-durability"` on durability elements
-- [ ] Test: unit with Iron Sword (durability 40) shows "40/40"
-- [ ] Test: Garrison Lance (durability null) shows no uses count
-- [ ] Test: weapon with 3 uses remaining shows red warning
+- [x] In `UnitStatsPanel.tsx:103-105`: append durability display after Mt — skip if `durability === null`
+- [x] In `ActionMenu.tsx` weapon selector buttons: add uses count, red color when <= 5
+- [x] In `UnitDetailScreen.tsx` equipment section: add "Uses X/Y" to the stat line
+- [x] In `CombatPreview.tsx` weapon name lines: append "(X/Y)" when durability is finite
+- [x] Handle null durability (infinite) — show nothing or infinity symbol
+- [x] Warn color: red (#ef4444) text when durability <= 5, yellow (#eab308) when <= 10
+- [x] `data-testid="weapon-durability"` on durability elements
+- [x] Test: unit with Iron Sword (durability 40) shows "40/40"
+- [x] Test: Garrison Lance (durability null) shows no uses count
+- [x] Test: weapon with 3 uses remaining shows red warning
 
 ## Spec Update
 
-- [ ] Confirm `specs/ui/hud.md` weapon selector section mentions durability
-- [ ] Confirm `specs/ui/combat-forecast-enhancements.md` mentions durability in forecast
+- [x] Confirm `specs/ui/hud.md` weapon selector section mentions durability
+- [x] Confirm `specs/ui/combat-forecast-enhancements.md` mentions durability in forecast

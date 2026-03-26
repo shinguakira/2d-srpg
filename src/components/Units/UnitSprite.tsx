@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import type { Unit } from '../../core/types';
 import { FACTION_COLORS, renderClassSprite } from '../sprites/classSprites';
+import { sortAndTruncateEffects, renderStatusIcon } from '../sprites/statusEffectIcons';
 import '../../styles/ui/boss.css';
 
 const BOSS_PHASE_COLORS = [
@@ -137,6 +138,27 @@ export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected,
           }}
         />
       </div>
+
+      {/* Status effect icons */}
+      {unit.statusEffects && unit.statusEffects.length > 0 && (
+        <div className="unit-sprite__status-icons">
+          {sortAndTruncateEffects(unit.statusEffects).map((effect) => (
+            <svg
+              key={effect.type}
+              className="unit-sprite__status-icon"
+              viewBox="0 0 8 8"
+              width={8}
+              height={8}
+              data-testid={`status-icon-${effect.type}`}
+            >
+              {renderStatusIcon(effect.type)}
+            </svg>
+          ))}
+          {unit.statusEffects.length > 3 && (
+            <span className="unit-sprite__status-overflow">...</span>
+          )}
+        </div>
+      )}
 
       {/* CRP warning overlay at 80+ */}
       {crp >= 80 && (

@@ -35,11 +35,11 @@ Add small status icons positioned around the unit sprite (max 3 visible at once 
 
 ## Steps to Fix
 
-- [ ] In `UnitSprite.tsx`: check `unit.statusEffects` array (if it exists on the Unit type)
-- [ ] Define SVG icon components for each status type (small, 8x8 viewBox)
-- [ ] Render up to 3 icons in a flex row below the HP bar
-- [ ] Sort by priority (Panic first) and truncate at 3
-- [ ] CSS: position icons below HP bar, small enough to not overlap other badges
-- [ ] `data-testid="status-icon-{effectType}"`
-- [ ] Test: unit with Poison status → purple droplet icon visible on sprite
-- [ ] Test: unit with 4+ statuses → only 3 icons shown
+- [x] In `UnitSprite.tsx`: check `unit.statusEffects` array (if it exists on the Unit type)
+- [x] Define SVG icon components for each status type (small, 8x8 viewBox)
+- [x] Render up to 3 icons in a flex row below the HP bar
+- [x] Sort by priority (Panic first) and truncate at 3
+- [x] CSS: position icons below HP bar, small enough to not overlap other badges
+- [x] `data-testid="status-icon-{effectType}"`
+- [x] Test: unit with Poison status → purple droplet icon visible on sprite
+- [x] Test: unit with 4+ statuses → only 3 icons shown

@@ -172,3 +172,27 @@
   0%, 100% { transform: translateY(0); opacity: 0.8; }
   50% { transform: translateY(3px); opacity: 0.4; }
 }
+
+/* ===== Status Effect Icons ===== */
+
+.unit-sprite__status-icons {
+  display: flex;
+  gap: 1px;
+  justify-content: center;
+  align-items: center;
+  margin-top: -1px;
+  pointer-events: none;
+  height: 10px;
+}
+
+.unit-sprite__status-icon {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+}
+
+.unit-sprite__status-overflow {
+  font-size: 6px;
+  color: #94a3b8;
+  line-height: 1;
+}

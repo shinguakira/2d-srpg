@@ -225,6 +225,17 @@ export type DifficultyMode = 'classic' | 'casual' | 'hard';
 
 export type EndingType = 'perfect' | 'true' | 'bittersweet' | 'tragic';
 
+// ===== Status Effects =====
+
+export type StatusEffectType =
+  | 'panic' | 'poison' | 'dazed'
+  | 'atk_break' | 'def_break' | 'spd_break' | 'mov_break';
+
+export type StatusEffect = {
+  readonly type: StatusEffectType;
+  duration: number; // turns remaining
+};
+
 export type Faction = 'player' | 'enemy' | 'ally' | 'neutral';
 
 export type Unit = {
@@ -266,6 +277,7 @@ export type Unit = {
   originalStats?: UnitStats;
   metaStats: MetaStats;
   visionRange?: number; // default 3, thief 5
+  statusEffects?: StatusEffect[];
 };
 
 // ===== Game State =====

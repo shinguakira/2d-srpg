@@ -32,16 +32,16 @@ Effective weapons deal 3x weapon might (e.g. Rapier vs cavaliers, bows vs fliers
 
 ## Steps to Fix
 
-- [ ] Export `isEffectiveAgainst(weapon, defenderUnit)` helper from `src/core/combat.ts` — extract from existing internal effectiveness logic
-- [ ] In `CombatPreview.tsx`: read full attacker/defender units from store, call `isEffectiveAgainst` for both sides
-- [ ] Add "EFFECTIVE!" row below DMG when attacker is effective against defender (green pulsing text)
-- [ ] Add "Weak!" indicator when defender is effective against attacker (red text)
-- [ ] In `ActionMenu.tsx` weapon selector: for each weapon, check `isEffectiveAgainst` against enemies in `pendingAttackTiles`, show "Eff!" badge
-- [ ] CSS: `.combat-forecast__effective` — green (#22c55e), font-weight bold, pulse animation (1.5s ease-in-out infinite)
-- [ ] Add `data-testid="forecast-effective"` to effectiveness indicator
-- [ ] Test: select unit with Rapier → attack cavalier → "EFFECTIVE!" appears in forecast
-- [ ] Test: weapon selector shows "Eff!" badge next to Rapier when cavalier is in range
+- [x] Export `isEffectiveAgainst(weapon, defenderUnit)` helper from `src/core/combat.ts` — extract from existing internal effectiveness logic
+- [x] In `CombatPreview.tsx`: read full attacker/defender units from store, call `isEffectiveAgainst` for both sides
+- [x] Add "EFFECTIVE!" row below DMG when attacker is effective against defender (green pulsing text)
+- [x] Add "Weak!" indicator when defender is effective against attacker (red text)
+- [x] In `ActionMenu.tsx` weapon selector: for each weapon, check `isEffectiveAgainst` against enemies in `pendingAttackTiles`, show "Eff!" badge
+- [x] CSS: `.combat-forecast__effective` — green (#22c55e), font-weight bold, pulse animation (1.5s ease-in-out infinite)
+- [x] Add `data-testid="forecast-effective"` to effectiveness indicator
+- [x] Test: select unit with Rapier → attack cavalier → "EFFECTIVE!" appears in forecast
+- [x] Test: weapon selector shows "Eff!" badge next to Rapier when cavalier is in range
 
 ## Spec Update
 
-- [ ] Update `specs/ui/combat-forecast-enhancements.md` — confirm weapon effectiveness section matches implementation
+- [x] Update `specs/ui/combat-forecast-enhancements.md` — confirm weapon effectiveness section matches implementation

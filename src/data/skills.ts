@@ -1,3 +1,5 @@
+import type { UnitStats } from '../core/types';
+
 // ===== Skill Definitions =====
 
 export type SkillCategory = 'combat' | 'movement' | 'support' | 'meta' | 'passive';
@@ -227,3 +229,17 @@ export const SKILLS: Record<string, Skill> = {
     activation: { type: 'passive' },
   },
 };
+
+/** Get human-readable activation text for a skill given unit stats */
+export function getSkillActivationText(skill: Skill, stats: UnitStats): string {
+  switch (skill.activation.type) {
+    case 'passive': return 'Passive';
+    case 'skl_pct': return `SKL ${stats.skl}%`;
+    case 'spd_pct': return `SPD ${stats.spd}%`;
+    case 'lck_pct': return `LCK ${stats.lck}%`;
+    case 'skl_half_pct': return `SKL/2 ${Math.floor(stats.skl / 2)}%`;
+    case 'skl_quarter_pct': return `SKL/4 ${Math.floor(stats.skl / 4)}%`;
+    case 'hp_threshold': return `Active below ${skill.activation.threshold}% HP`;
+    default: return '';
+  }
+}

@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useGameStore } from '../../stores/gameStore';
 import { useCampaignStore } from '../../stores/campaignStore';
+import { useUIStore } from '../../stores/uiStore';
+import type { AnimationSpeed } from '../../stores/uiStore';
 
 type SubPanel = 'none' | 'unit_list' | 'objective' | 'settings';
 
@@ -185,12 +187,20 @@ function ObjectivePanel({ objectiveDescription, currentTurn, onClose }: {
 
 // ===== Settings Sub-panel =====
 
+const SPEED_LABELS: Record<AnimationSpeed, string> = {
+  '1x': '通常 (1x)',
+  '2x': '高速 (2x)',
+  'skip': 'スキップ',
+};
+
 function SettingsPanel({ gameMode, onClose }: {
   gameMode: string;
   onClose: () => void;
 }) {
   const showDangerZone = useGameStore(s => s.showDangerZone);
   const toggleDangerZone = useGameStore(s => s.toggleDangerZone);
+  const animationSpeed = useUIStore(s => s.animationSpeed);
+  const cycleAnimationSpeed = useUIStore(s => s.cycleAnimationSpeed);
 
   return (
     <div className="system-menu-panel__backdrop" onClick={onClose} data-testid="system-menu-settings-panel">
@@ -204,6 +214,16 @@ function SettingsPanel({ gameMode, onClose }: {
             data-testid="system-menu-settings-danger-zone"
           >
             {showDangerZone ? 'ON' : 'OFF'}
+          </button>
+        </div>
+        <div className="settings-panel__row">
+          <span className="settings-panel__label">アニメ速度</span>
+          <button
+            className="settings-panel__toggle settings-panel__toggle--active"
+            onClick={cycleAnimationSpeed}
+            data-testid={`speed-${animationSpeed}`}
+          >
+            {SPEED_LABELS[animationSpeed]}
           </button>
         </div>
         <div className="settings-panel__row">

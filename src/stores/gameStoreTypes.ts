@@ -88,6 +88,7 @@ export type GameState = {
 
   // Danger zone
   dangerZone: Set<string>;
+  dangerZoneAttribution: Map<string, string[]>;
   showDangerZone: boolean;
 
   // Chapter reference

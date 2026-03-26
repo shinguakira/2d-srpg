@@ -39,16 +39,16 @@ When attacker or defender has STA >= 30, show a yellow modifier note: "STA 32: S
 
 ## Steps to Fix
 
-- [ ] Create helper `getStaWarningText(sta)` returning `{ text, color } | null` for the three thresholds
-- [ ] In `UnitStatsPanel.tsx` `MetaStatsSection`: after the STA bar (`<MetaStatBar ... stat="sta" />`), conditionally render warning text
-- [ ] Style: font-size 10px, matching the meta-stats label style, colored per table above
-- [ ] In `ActionMenu.tsx`: when `exhausted === true`, render explanation div above the action buttons
-- [ ] In `CombatPreview.tsx`: check both combatants' STA, add modifier note if >= 30
-- [ ] `data-testid="sta-warning"` on the warning element
-- [ ] Test: unit with STA 32 → "Fatigued: -1 SPD" visible in stats panel
-- [ ] Test: unit with STA 46 → action menu shows "Exhausted" explanation
-- [ ] Test: combat forecast against fatigued enemy shows SPD penalty note
+- [x] Create helper `getStaWarningText(sta)` returning `{ text, color } | null` for the three thresholds
+- [x] In `UnitStatsPanel.tsx` `MetaStatsSection`: after the STA bar (`<MetaStatBar ... stat="sta" />`), conditionally render warning text
+- [x] Style: font-size 10px, matching the meta-stats label style, colored per table above
+- [x] In `ActionMenu.tsx`: when `exhausted === true`, render explanation div above the action buttons
+- [x] In `CombatPreview.tsx`: check both combatants' STA, add modifier note if >= 30
+- [x] `data-testid="sta-warning"` on the warning element
+- [x] Test: unit with STA 32 → "Fatigued: -1 SPD" visible in stats panel
+- [x] Test: unit with STA 46 → action menu shows "Exhausted" explanation
+- [x] Test: combat forecast against fatigued enemy shows SPD penalty note
 
 ## Spec Update
 
-- [ ] Confirm `specs/ui/hud.md` Stamina Warnings section matches implementation
+- [x] Confirm `specs/ui/hud.md` Stamina Warnings section matches implementation

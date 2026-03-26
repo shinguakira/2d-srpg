@@ -32,11 +32,11 @@ Class Path
 
 ## Steps to Fix
 
-- [ ] In `UnitDetailScreen.tsx`: after equipment section, check `cls.promotesTo` array
-- [ ] For each promotion target, look up class from `ALL_CLASSES` and display: name, new weapon types, innate skills
-- [ ] Format as branching tree text: "→ ClassName (adds WeaponType)" separated by " | "
-- [ ] Color weapon types using existing `WEAPON_TYPE_COLORS` map
-- [ ] Handle edge cases: no promotions (Dancer), already max tier, null promotesTo
-- [ ] `data-testid="class-path"`, `data-testid="promotion-option-{classId}"`
-- [ ] Test: view base class unit → shows two promotion options with weapon differences
-- [ ] Test: view master class unit → shows "Master tier" with no further promotions
+- [x] In `UnitDetailScreen.tsx`: after equipment section, check `cls.promotesTo` array
+- [x] For each promotion target, look up class from `ALL_CLASSES` and display: name, new weapon types, innate skills
+- [x] Format as branching tree text: "→ ClassName (adds WeaponType)" separated by " | "
+- [x] Color weapon types using existing `WEAPON_TYPE_COLORS` map
+- [x] Handle edge cases: no promotions (Dancer), already max tier, null promotesTo
+- [x] `data-testid="class-path"`, `data-testid="promotion-option-{classId}"`
+- [x] Test: view base class unit → shows two promotion options with weapon differences
+- [x] Test: view master class unit → shows "Master tier" with no further promotions

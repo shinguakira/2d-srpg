@@ -1,8 +1,8 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import { useGameStore } from '../../stores/gameStore';
 import { useUIStore } from '../../stores/uiStore';
 import { ALL_CLASSES } from '../../data/promotedClasses';
-import { SKILLS } from '../../data/skills';
+import { SKILLS, getSkillActivationText } from '../../data/skills';
 import { getTerrainData } from '../../core/terrain';
 import { BattleSprite } from '../Combat/BattleSprite';
 import { getDurabilityColor } from '../../core/items';
@@ -12,6 +12,8 @@ const STAT_LABELS: Record<string, string> = {
   spd: 'SPD', def: 'DEF', res: 'RES', lck: 'LCK', mov: 'MOV',
 };
 
+const GROWTH_STAT_KEYS = ['hp', 'str', 'mag', 'skl', 'spd', 'def', 'res', 'lck'] as const;
+
 const WEAPON_TYPE_COLORS: Record<string, string> = {
   sword: '#3b82f6',
   lance: '#22c55e',
@@ -20,13 +22,24 @@ const WEAPON_TYPE_COLORS: Record<string, string> = {
   thunder: '#eab308',
   wind: '#22d3ee',
   staff: '#e2e8f0',
+  light: '#fef08a',
+  dark: '#a855f7',
+  bow: '#a3e635',
+  knife: '#94a3b8',
 };
+
+function getGrowthColor(rate: number): string {
+  if (rate >= 60) return '#22c55e';
+  if (rate >= 30) return '#eab308';
+  return '#ef4444';
+}
 
 export function UnitDetailScreen() {
   const detailUnitId = useUIStore((s) => s.detailUnitId);
   const setDetailUnitId = useUIStore((s) => s.setDetailUnitId);
   const units = useGameStore((s) => s.units);
   const getTileAt = useGameStore((s) => s.getTileAt);
+  const [showGrowths, setShowGrowths] = useState(false);
 
   const close = useCallback(() => setDetailUnitId(null), [setDetailUnitId]);
 
@@ -63,6 +76,20 @@ export function UnitDetailScreen() {
     ['lck', unit.stats.lck], ['mov', unit.stats.mov],
   ] as const;
 
+  // Growth rates (Task 9)
+  const growthRates = cls?.growthRates;
+  const statCaps = cls?.statCaps as Record<string, number> | undefined;
+
+  // Promotion paths (Task 10)
+  const promotesTo = cls?.promotesTo as string[] | undefined;
+  const isMasterTier = cls?.tier === 'master';
+
+  // Boss phases (Task 8)
+  const bossPhases = unit.bossPhases;
+  const currentBossPhase = unit.currentBossPhase ?? 0;
+
+  const sectionHeader = { fontSize: 12, fontWeight: 700 as const, color: '#fbbf24', textTransform: 'uppercase' as const, letterSpacing: 1, marginBottom: 8 };
+
   return (
     <div
       className="unit-detail-backdrop"
@@ -91,6 +118,8 @@ export function UnitDetailScreen() {
           fontFamily: "'Segoe UI', system-ui, sans-serif",
           maxWidth: 700,
           width: '92%',
+          maxHeight: '90vh',
+          overflowY: 'auto',
           animation: 'modal-appear 0.3s ease',
         }}
       >
@@ -126,7 +155,7 @@ export function UnitDetailScreen() {
 
         {/* Stats section */}
         <div style={{ marginBottom: 20 }}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: '#fbbf24', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>Stats</div>
+          <div style={sectionHeader}>Stats</div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px 20px' }}>
             {statEntries.map(([key, val]) => (
               <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '3px 8px', background: 'rgba(255,255,255,0.03)', borderRadius: 3 }}>
@@ -140,9 +169,39 @@ export function UnitDetailScreen() {
           </div>
         </div>
 
+        {/* Growth Rates (Task 9) — collapsible */}
+        {growthRates && (
+          <div style={{ marginBottom: 16 }} data-testid="growth-rates">
+            <div
+              style={{ ...sectionHeader, cursor: 'pointer', marginBottom: showGrowths ? 8 : 0 }}
+              onClick={() => setShowGrowths(!showGrowths)}
+            >
+              {showGrowths ? '- Growth Rates' : '+ Growth Rates'}
+            </div>
+            {showGrowths && (
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px 20px' }}>
+                {GROWTH_STAT_KEYS.map((key) => {
+                  const rate = (growthRates as Record<string, number>)[key] ?? 0;
+                  const cap = statCaps?.[key];
+                  return (
+                    <div key={key} data-testid={`growth-${key}`} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '2px 8px', background: 'rgba(255,255,255,0.03)', borderRadius: 3 }}>
+                      <span style={{ fontSize: 11, fontWeight: 700, opacity: 0.5, width: 32, textTransform: 'uppercase' }}>{STAT_LABELS[key] ?? key.toUpperCase()}</span>
+                      <span style={{ fontSize: 13, fontWeight: 600, width: 32, color: getGrowthColor(rate) }}>{rate}%</span>
+                      <div style={{ flex: 1, height: 3, background: 'rgba(255,255,255,0.08)', borderRadius: 2, overflow: 'hidden' }}>
+                        <div style={{ width: `${rate}%`, height: '100%', background: getGrowthColor(rate), borderRadius: 2, opacity: 0.6 }} />
+                      </div>
+                      {cap != null && <span style={{ fontSize: 9, opacity: 0.4 }}>Cap {cap}</span>}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Equipment section */}
-        <div style={{ marginBottom: terrain ? 16 : 0 }}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: '#fbbf24', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>Equipment</div>
+        <div style={{ marginBottom: 16 }}>
+          <div style={sectionHeader}>Equipment</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             {unit.inventory.map((weapon, i) => {
               const isEquipped = weapon.id === unit.equippedWeapon.id;
@@ -183,27 +242,111 @@ export function UnitDetailScreen() {
           </div>
         </div>
 
-        {/* Skills section */}
+        {/* Class Path / Promotion Preview (Task 10) */}
+        {cls && (
+          <div style={{ marginBottom: 16 }} data-testid="class-path">
+            <div style={sectionHeader}>Class Path</div>
+            {isMasterTier ? (
+              <div style={{ fontSize: 13, opacity: 0.6, fontStyle: 'italic' }}>Master tier reached</div>
+            ) : promotesTo && promotesTo.length > 0 ? (
+              <div style={{ fontSize: 13, display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 4 }}>
+                <span style={{ opacity: 0.6 }}>{cls.name} →</span>
+                {promotesTo.map((targetId, i) => {
+                  const target = ALL_CLASSES[targetId];
+                  if (!target) return null;
+                  const newWeapons = (target.weaponTypes as string[] ?? []).filter((w: string) => !(cls.weaponTypes as string[] ?? []).includes(w));
+                  return (
+                    <span key={targetId} data-testid={`promotion-option-${targetId}`}>
+                      {i > 0 && <span style={{ opacity: 0.4, margin: '0 4px' }}>|</span>}
+                      <span style={{ fontWeight: 600 }}>{target.name}</span>
+                      {newWeapons.length > 0 && (
+                        <span style={{ fontSize: 11, marginLeft: 4 }}>
+                          (adds {newWeapons.map((w: string) => (
+                            <span key={w} style={{ color: WEAPON_TYPE_COLORS[w] ?? '#e2e8f0' }}>{w}</span>
+                          )).reduce((prev: any, curr: any, idx: number) => idx === 0 ? [curr] : [...prev, ', ', curr], [])}
+                          )
+                        </span>
+                      )}
+                    </span>
+                  );
+                })}
+              </div>
+            ) : (
+              <div style={{ fontSize: 13, opacity: 0.6, fontStyle: 'italic' }}>No promotions available</div>
+            )}
+          </div>
+        )}
+
+        {/* Skills section with descriptions (Task 2) */}
         {(unit.skills?.length > 0 || (cls?.innateSkills?.length ?? 0) > 0) && (
           <div style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 12, fontWeight: 700, color: '#fbbf24', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>Skills</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+            <div style={sectionHeader}>Skills</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {cls?.innateSkills?.map((sid) => {
                 const skill = SKILLS[sid];
                 if (!skill) return null;
+                const activation = getSkillActivationText(skill, unit.stats);
                 return (
-                  <span key={sid} style={{ fontSize: 12, padding: '2px 8px', borderRadius: 3, border: '1px solid #4b5563', background: '#1a1a2e', color: '#9ca3af' }}>
-                    {skill.name} <span style={{ fontSize: 10, color: '#6b7280' }}>Innate</span>
-                  </span>
+                  <div key={sid} data-testid={`skill-description-${sid}`} style={{ padding: '4px 8px', borderRadius: 4, border: '1px solid #4b5563', background: '#1a1a2e' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <span style={{ fontSize: 12, color: '#9ca3af', fontWeight: 600 }}>{skill.name}</span>
+                      <span style={{ fontSize: 10, color: '#6b7280' }}>Innate</span>
+                      <span style={{ fontSize: 10, color: '#64748b', marginLeft: 'auto' }}>{activation}</span>
+                    </div>
+                    <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 2 }}>{skill.description}</div>
+                  </div>
                 );
               })}
               {unit.skills?.map((sid) => {
                 const skill = SKILLS[sid];
                 if (!skill) return null;
+                const activation = getSkillActivationText(skill, unit.stats);
                 return (
-                  <span key={sid} style={{ fontSize: 12, padding: '2px 8px', borderRadius: 3, border: '1px solid #3b82f6', background: '#1e3a5f', color: '#93c5fd' }}>
-                    {skill.name}
-                  </span>
+                  <div key={sid} data-testid={`skill-description-${sid}`} style={{ padding: '4px 8px', borderRadius: 4, border: '1px solid #3b82f6', background: '#1e3a5f' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <span style={{ fontSize: 12, color: '#93c5fd', fontWeight: 600 }}>{skill.name}</span>
+                      <span style={{ fontSize: 10, color: '#64748b', marginLeft: 'auto' }}>{activation}</span>
+                    </div>
+                    <div style={{ fontSize: 11, color: '#93c5fd', opacity: 0.7, marginTop: 2 }}>{skill.description}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Boss Phases (Task 8) */}
+        {bossPhases && bossPhases.length > 0 && (
+          <div style={{ marginBottom: 16 }} data-testid="boss-phase-info">
+            <div style={sectionHeader}>Boss Phases</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              {bossPhases.map((phase, i) => {
+                const isCurrent = i === currentBossPhase;
+                const parts: string[] = [];
+                if (phase.immunity) parts.push(`${phase.immunity === 'physical' ? 'Physical' : 'Magical'} Immunity`);
+                if (phase.selfHeal) parts.push(`Heal ${phase.selfHeal}/turn`);
+                if (phase.weaponId) parts.push(`Weapon: ${phase.weaponId}`);
+                if (phase.statChanges) {
+                  const changes = Object.entries(phase.statChanges)
+                    .filter(([, v]) => v !== 0)
+                    .map(([k, v]) => `${k.toUpperCase()} ${(v as number) > 0 ? '+' : ''}${v}`)
+                    .join(', ');
+                  if (changes) parts.push(changes);
+                }
+                return (
+                  <div key={i} data-testid={`boss-phase-tick-${i}`} style={{
+                    padding: '4px 8px', borderRadius: 4, fontSize: 12,
+                    background: isCurrent ? 'rgba(251,191,36,0.1)' : 'rgba(255,255,255,0.03)',
+                    border: isCurrent ? '1px solid rgba(251,191,36,0.4)' : '1px solid rgba(255,255,255,0.05)',
+                  }}>
+                    <span style={{ fontWeight: 600, color: isCurrent ? '#fbbf24' : '#fff' }}>
+                      Phase {i + 1} {phase.hpThreshold > 0 ? `(${phase.hpThreshold}% HP)` : '(Start)'}
+                    </span>
+                    {isCurrent && <span style={{ fontSize: 10, color: '#fbbf24', marginLeft: 6 }}>Current</span>}
+                    {parts.length > 0 && (
+                      <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: 11, marginTop: 2 }}>{parts.join(' | ')}</div>
+                    )}
+                  </div>
                 );
               })}
             </div>
@@ -213,7 +356,7 @@ export function UnitDetailScreen() {
         {/* Terrain section */}
         {terrain && (
           <div>
-            <div style={{ fontSize: 12, fontWeight: 700, color: '#fbbf24', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 }}>Terrain</div>
+            <div style={sectionHeader}>Terrain</div>
             <div style={{ fontSize: 14, display: 'flex', gap: 16 }}>
               <span style={{ fontWeight: 600 }}>{terrain.name}</span>
               {terrain.defenseBonus > 0 && <span style={{ color: '#3b82f6' }}>DEF +{terrain.defenseBonus}</span>}

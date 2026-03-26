@@ -58,6 +58,7 @@ export function initChapter(get: Get, set: Set, chapter: ChapterData, seed: numb
     chapterVillages: chapter.villages ?? [],
     chapterData: chapter,
     dangerZone: EMPTY_SET,
+    dangerZoneAttribution: new Map<string, string[]>(),
     showDangerZone: false,
     deathQuote: null,
     healableTiles: EMPTY_SET,

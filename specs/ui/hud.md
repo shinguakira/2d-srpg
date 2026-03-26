@@ -121,7 +121,7 @@ Component: `CombatPreview` (`src/components/Combat/CombatPreview.tsx`)
 - "Cannot counter" shown when defender is out of range
 - Weapon triangle text at bottom (green "Sword beats Axe" or red "Axe loses to Lance")
 
-See [combat-forecast-enhancements.md](combat-forecast-enhancements.md) for planned enhancements: weapon effectiveness warnings, skill descriptions, modifier breakdown, boss phase indicators.
+See [combat-forecast-enhancements.md](combat-forecast-enhancements.md) for implemented enhancements: weapon effectiveness warnings, skill descriptions with activation rates, grouped combat modifier breakdown, boss phase HP tick marks and indicators, weapon durability display.
 
 ### Item Usage Animation
 
@@ -173,6 +173,45 @@ Triggered by clicking an empty tile or right-clicking during idle phase. Vertica
 - Closes on Escape, B key, or clicking outside the menu
 - FE-style dark green background with gold border decoration
 - `data-testid="system-menu"`, `data-testid="system-menu-{item}"`
+
+## Danger Zone Threats
+
+Rendered inside `UnitStatsPanel` when the danger zone overlay is active and the player hovers a threatened tile:
+
+- Shows "Threats (N enemies)" header in red
+- Lists each enemy that can reach the hovered tile: name + equipped weapon
+- Data source: `dangerZoneAttribution` map from game store (built by `buildDangerZoneAttribution()` in `dangerZoneHelpers.ts`)
+- `data-testid="danger-threats"`, `data-testid="danger-threat-{enemyId}"`
+
+## Minimap
+
+Component: `Minimap` (`src/components/UI/Minimap.tsx`)
+
+SVG-based minimap for large maps (> 12x12 tiles). Fixed position bottom-left of screen.
+
+- **Tile rendering**: 3px per tile, colored by terrain type
+- **Unit dots**: faction-colored circles (blue player, red enemy, green ally, gray neutral). Boss units are larger (r=2) with gold stroke
+- **Viewport rectangle**: white outline showing current camera view area
+- **Click to navigate**: clicking the minimap centers the camera on that position
+- **Collapsible**: toggle icon above minimap to collapse/expand
+- Only rendered for maps larger than 12x12
+- `data-testid="minimap"`, `data-testid="minimap-viewport"`
+
+## Animation Speed Control
+
+Stored in `uiStore` as `animationSpeed: '1x' | '2x' | 'skip'`, persisted to localStorage.
+
+- **1x**: normal speed (multiplier 1.0)
+- **2x**: double speed (multiplier 0.5 on all durations)
+- **Skip**: near-instant (16ms minimum duration)
+
+### Controls
+
+- **Combat Animation**: cycle button in top-right corner of combat modal
+- **System Menu → Settings**: animation speed toggle with Japanese labels (通常/2倍速/スキップ)
+- **Game Loop**: enemy action delays scaled by `getScaledDuration()`
+
+Helper: `getScaledDuration(ms, speed)` from `src/stores/uiStore.ts`
 
 ## End Turn Controls
 

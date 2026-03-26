@@ -9,8 +9,9 @@ import { canRescueUnit } from '../../core/rescue';
 import { isExhausted } from '../../core/metaStats';
 import { canAttackTerrain } from '../../core/destructibleTerrain';
 import { checkNegotiateCondition } from '../../stores/actions/negotiateActions';
-import { canHealWithStaff } from '../../core/combat';
+import { canHealWithStaff, isEffectiveAgainst } from '../../core/combat';
 import { getDurabilityColor } from '../../core/items';
+import type { Weapon } from '../../core/types';
 
 export function ActionMenu() {
   const playerAction = useGameStore((s) => s.playerAction);
@@ -316,6 +317,21 @@ export function ActionMenu() {
   const menuX = (pendingPosition.x + 1) * tileSize + cameraOffset.x + 4;
   const menuY = pendingPosition.y * tileSize + cameraOffset.y;
 
+  // Compute weapon effectiveness badges (Task 1)
+  const weaponEffective = new Set<number>();
+  if (selectedUnit && hasEnemyInRange) {
+    selectedUnit.inventory.forEach((weapon: Weapon, i: number) => {
+      for (const unit of units.values()) {
+        if (unit.faction === 'enemy' && pendingAttackTiles.has(posKey(unit.position))) {
+          if (isEffectiveAgainst(weapon, unit)) {
+            weaponEffective.add(i);
+            break;
+          }
+        }
+      }
+    });
+  }
+
   const showWeaponSelector = selectedUnit && selectedUnit.inventory.length > 1 && hasAttackWeapon;
 
   return (
@@ -334,6 +350,9 @@ export function ActionMenu() {
               onClick={() => selectWeapon(i)}
             >
               {weapon.name}
+              {weaponEffective.has(i) && (
+                <span data-testid="weapon-effective" style={{ marginLeft: 4, fontSize: '0.8em', color: '#22c55e', fontWeight: 'bold' }}>Eff!</span>
+              )}
               {weapon.durability != null && weapon.maxDurability != null && (
                 <span data-testid="weapon-durability" style={{ marginLeft: 4, fontSize: '0.85em', color: getDurabilityColor(weapon.durability) }}>
                   {weapon.durability}/{weapon.maxDurability}
@@ -372,6 +391,11 @@ export function ActionMenu() {
         </div>
       ) : (
         <div className="action-menu__actions">
+          {exhausted && (
+            <div data-testid="exhaustion-warning" style={{ color: '#f97316', fontSize: '11px', padding: '4px 8px', textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.1)', marginBottom: 4 }}>
+              Exhausted — Wait or Rest only
+            </div>
+          )}
           {!exhausted && hasEnemyInRange && (
             <button
               className="action-menu__btn action-menu__btn--attack"

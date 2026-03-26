@@ -37,16 +37,16 @@ Skills are listed by name only — "Sol", "Vantage", "Nihil" — with no explana
 
 ## Steps to Fix
 
-- [ ] Create helper `getSkillActivationText(skill, unitStats)` — returns human-readable activation string
-- [ ] In `CombatPreview.tsx`: for each skill in `attackerSkills`/`defenderSkills`, look up `SKILLS[skillId]` and render description + activation rate below skill name
-- [ ] Style: description text at 11px, opacity 0.6, below the bold skill name
-- [ ] In `UnitDetailScreen.tsx`: expand innate and learned skill sections to show `skill.description` as second line under each chip
-- [ ] Show activation badge next to skill name: "SKL 14%" in small text
-- [ ] Handle edge cases: skills without activation (passive), skills with HP threshold
-- [ ] `data-testid="skill-description-{skillId}"` on each description element
-- [ ] Test: view unit with Sol skill → description "Heal HP equal to damage dealt" visible
-- [ ] Test: combat forecast shows skill descriptions for both attacker and defender skills
+- [x] Create helper `getSkillActivationText(skill, unitStats)` — returns human-readable activation string
+- [x] In `CombatPreview.tsx`: for each skill in `attackerSkills`/`defenderSkills`, look up `SKILLS[skillId]` and render description + activation rate below skill name
+- [x] Style: description text at 11px, opacity 0.6, below the bold skill name
+- [x] In `UnitDetailScreen.tsx`: expand innate and learned skill sections to show `skill.description` as second line under each chip
+- [x] Show activation badge next to skill name: "SKL 14%" in small text
+- [x] Handle edge cases: skills without activation (passive), skills with HP threshold
+- [x] `data-testid="skill-description-{skillId}"` on each description element
+- [x] Test: view unit with Sol skill → description "Heal HP equal to damage dealt" visible
+- [x] Test: combat forecast shows skill descriptions for both attacker and defender skills
 
 ## Spec Update
 
-- [ ] Update `specs/ui/combat-forecast-enhancements.md` — confirm skill descriptions section
+- [x] Update `specs/ui/combat-forecast-enhancements.md` — confirm skill descriptions section

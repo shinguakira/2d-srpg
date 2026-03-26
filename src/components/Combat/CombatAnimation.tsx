@@ -1,5 +1,6 @@
 import { useEffect, useCallback, useState, useRef } from 'react';
 import { useGameStore } from '../../stores/gameStore';
+import { useUIStore, getScaledDuration } from '../../stores/uiStore';
 import { BattleSprite } from './BattleSprite';
 import { WeaponEffect } from './WeaponEffect';
 import type { WeaponType } from '../../core/types';
@@ -49,6 +50,9 @@ export function CombatAnimation() {
   const [hpDrained, setHpDrained] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
+  const animationSpeed = useUIStore((s) => s.animationSpeed);
+  const cycleAnimationSpeed = useUIStore((s) => s.cycleAnimationSpeed);
+
   const advance = useCallback(() => {
     advanceCombatAnimation();
   }, [advanceCombatAnimation]);
@@ -61,17 +65,19 @@ export function CombatAnimation() {
       ? combatResult.hits[combatAnimationStep]
       : null;
 
+    const speed = useUIStore.getState().animationSpeed;
+
     if (!currentHit) {
       setPhase('idle');
       setFlashType('none');
       setCritDarken(false);
       setDamageVisible(false);
-      timerRef.current = setTimeout(advance, 400);
+      timerRef.current = setTimeout(advance, getScaledDuration(400, speed));
       return () => clearTimeout(timerRef.current);
     }
 
     const timers: ReturnType<typeof setTimeout>[] = [];
-    const t = (fn: () => void, ms: number) => { timers.push(setTimeout(fn, ms)); };
+    const t = (fn: () => void, ms: number) => { timers.push(setTimeout(fn, getScaledDuration(ms, speed))); };
 
     // Determine who is attacking this hit
     const attackerIsPlayer = combatForecast.attacker.faction === 'player';
@@ -296,7 +302,21 @@ export function CombatAnimation() {
       {critDarken && <div className="combat-animation__crit-darken" />}
 
       <div className="combat-animation__modal">
-        <div className="combat-animation__title">Combat</div>
+        <div className="combat-animation__title">
+          Combat
+          <button
+            data-testid="speed-toggle"
+            onClick={cycleAnimationSpeed}
+            style={{
+              position: 'absolute', top: 8, right: 12,
+              background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: 4, color: '#fbbf24', fontSize: 11, padding: '2px 8px',
+              cursor: 'pointer', pointerEvents: 'auto',
+            }}
+          >
+            {animationSpeed === '1x' ? '1x' : animationSpeed === '2x' ? '2x' : 'Skip'}
+          </button>
+        </div>
 
         {/* Wide battle stage */}
         <div className="combat-animation__stage">

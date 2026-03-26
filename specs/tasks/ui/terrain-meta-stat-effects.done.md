@@ -46,15 +46,15 @@ CRP +2/turn  SYNC -1/turn
 
 ## Steps to Fix
 
-- [ ] In `UnitStatsPanel.tsx`: after DEF/AVO lines, call `getTerrainCrpGain(terrain)`, `getTerrainSyncChange(terrain)`, `getTerrainStaRecovery(terrain)` from `src/core/metaStats.ts`
-- [ ] Conditionally render each non-zero effect with appropriate color
-- [ ] Import the three functions (they should already be exported)
-- [ ] CSS: add color classes for meta-stat terrain effects in `unit-stats-panel.css`
-- [ ] `data-testid="terrain-meta-effects"` on the container div
-- [ ] Test: hover glitched terrain → "CRP +2/turn" and "SYNC -1/turn" appear below DEF/AVO
-- [ ] Test: hover normal terrain (grass/plain) → no meta-stat lines shown
-- [ ] Test: hover fort → "STA -3/turn" appears
+- [x] In `UnitStatsPanel.tsx`: after DEF/AVO lines, call `getTerrainCrpGain(terrain)`, `getTerrainSyncChange(terrain)`, `getTerrainStaRecovery(terrain)` from `src/core/metaStats.ts`
+- [x] Conditionally render each non-zero effect with appropriate color
+- [x] Import the three functions (they should already be exported)
+- [x] CSS: add color classes for meta-stat terrain effects in `unit-stats-panel.css`
+- [x] `data-testid="terrain-meta-effects"` on the container div
+- [x] Test: hover glitched terrain → "CRP +2/turn" and "SYNC -1/turn" appear below DEF/AVO
+- [x] Test: hover normal terrain (grass/plain) → no meta-stat lines shown
+- [x] Test: hover fort → "STA -3/turn" appears
 
 ## Spec Update
 
-- [ ] Confirm `specs/ui/hud.md` Terrain Info section matches implementation
+- [x] Confirm `specs/ui/hud.md` Terrain Info section matches implementation

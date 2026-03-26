@@ -27,10 +27,10 @@ Add a "Growth Rates" collapsible section in `UnitDetailScreen` below the Stats s
 
 ## Steps to Fix
 
-- [ ] In `UnitDetailScreen.tsx`: after Stats section, add collapsible "Growth Rates" section
-- [ ] Read `ALL_CLASSES[unit.classId].growthRates` for each stat
-- [ ] Render growth rate per stat with percentage bar, color-coded by tier
-- [ ] Optionally show stat cap from `cls.statCaps` as "Cap: {value}" next to bar
-- [ ] Add collapse toggle state (default collapsed)
-- [ ] `data-testid="growth-rates"`, `data-testid="growth-{stat}"`
-- [ ] Test: view unit → expand growth rates → percentages match class definition
+- [x] In `UnitDetailScreen.tsx`: after Stats section, add collapsible "Growth Rates" section
+- [x] Read `ALL_CLASSES[unit.classId].growthRates` for each stat
+- [x] Render growth rate per stat with percentage bar, color-coded by tier
+- [x] Optionally show stat cap from `cls.statCaps` as "Cap: {value}" next to bar
+- [x] Add collapse toggle state (default collapsed)
+- [x] `data-testid="growth-rates"`, `data-testid="growth-{stat}"`
+- [x] Test: view unit → expand growth rates → percentages match class definition

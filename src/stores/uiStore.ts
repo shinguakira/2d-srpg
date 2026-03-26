@@ -10,12 +10,15 @@ export type CursorPosition = {
   y: number;
 } | null;
 
+export type AnimationSpeed = '1x' | '2x' | 'skip';
+
 export type UIState = {
   cameraOffset: CameraOffset;
   tileSize: number;
   cursorPosition: CursorPosition;
   keyboardMode: boolean;
   detailUnitId: string | null;
+  animationSpeed: AnimationSpeed;
 };
 
 export type UIActions = {
@@ -27,7 +30,27 @@ export type UIActions = {
   moveCursor: (dx: number, dy: number, mapWidth: number, mapHeight: number) => void;
   setKeyboardMode: (enabled: boolean) => void;
   setDetailUnitId: (id: string | null) => void;
+  setAnimationSpeed: (speed: AnimationSpeed) => void;
+  cycleAnimationSpeed: () => void;
 };
+
+/** Get the duration multiplier for the current animation speed */
+export function getSpeedMultiplier(speed: AnimationSpeed): number {
+  switch (speed) {
+    case '1x': return 1;
+    case '2x': return 0.5;
+    case 'skip': return 0;
+  }
+}
+
+/** Get a scaled duration (minimum 16ms for skip to allow React render cycles) */
+export function getScaledDuration(baseDuration: number, speed: AnimationSpeed): number {
+  const mult = getSpeedMultiplier(speed);
+  return mult === 0 ? 16 : Math.max(16, baseDuration * mult);
+}
+
+// Load persisted animation speed
+const savedSpeed = (typeof localStorage !== 'undefined' && localStorage.getItem('animationSpeed') as AnimationSpeed) || '1x';
 
 export const useUIStore = create<UIState & UIActions>((set, get) => ({
   cameraOffset: { x: 0, y: 0 },
@@ -35,6 +58,7 @@ export const useUIStore = create<UIState & UIActions>((set, get) => ({
   cursorPosition: null,
   keyboardMode: false,
   detailUnitId: null,
+  animationSpeed: (['1x', '2x', 'skip'].includes(savedSpeed) ? savedSpeed : '1x') as AnimationSpeed,
 
   panCamera: (dx, dy) => {
     set((state) => ({
@@ -92,5 +116,17 @@ export const useUIStore = create<UIState & UIActions>((set, get) => ({
 
   setDetailUnitId: (id) => {
     set({ detailUnitId: id });
+  },
+
+  setAnimationSpeed: (speed) => {
+    set({ animationSpeed: speed });
+    localStorage.setItem('animationSpeed', speed);
+  },
+
+  cycleAnimationSpeed: () => {
+    const current = get().animationSpeed;
+    const next: AnimationSpeed = current === '1x' ? '2x' : current === '2x' ? 'skip' : '1x';
+    set({ animationSpeed: next });
+    localStorage.setItem('animationSpeed', next);
   },
 }));

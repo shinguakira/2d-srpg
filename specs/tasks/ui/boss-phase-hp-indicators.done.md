@@ -34,17 +34,17 @@ Bosses change phases at HP thresholds — gaining immunity, swapping weapons, he
 
 ## Steps to Fix
 
-- [ ] In `CombatPreview.tsx`: check if enemy unit has `bossPhases` array
-- [ ] Find the next upcoming phase (first phase where `unit.currentHp > hpThreshold`)
-- [ ] Render phase info text below enemy stats: describe changes (immunity, weapon, heal, AI)
-- [ ] Add tick marks to the HP bar visual at threshold HP values (CSS pseudo-elements or inline divs)
-- [ ] In `UnitDetailScreen.tsx`: add "Boss Phases" section after skills when `unit.bossPhases` exists
-- [ ] Render table with: Phase #, HP Threshold (%), Changes summary
-- [ ] Highlight current phase row with gold background
-- [ ] `data-testid="boss-phase-info"`, `data-testid="boss-phase-tick-{n}"`
-- [ ] Test: target boss with 3 phases → next phase info shown in forecast
-- [ ] Test: view boss via Unit Detail → all phases listed in table
+- [x] In `CombatPreview.tsx`: check if enemy unit has `bossPhases` array
+- [x] Find the next upcoming phase (first phase where `unit.currentHp > hpThreshold`)
+- [x] Render phase info text below enemy stats: describe changes (immunity, weapon, heal, AI)
+- [x] Add tick marks to the HP bar visual at threshold HP values (CSS pseudo-elements or inline divs)
+- [x] In `UnitDetailScreen.tsx`: add "Boss Phases" section after skills when `unit.bossPhases` exists
+- [x] Render table with: Phase #, HP Threshold (%), Changes summary
+- [x] Highlight current phase row with gold background
+- [x] `data-testid="boss-phase-info"`, `data-testid="boss-phase-tick-{n}"`
+- [x] Test: target boss with 3 phases → next phase info shown in forecast
+- [x] Test: view boss via Unit Detail → all phases listed in table
 
 ## Spec Update
 
-- [ ] Confirm `specs/ui/combat-forecast-enhancements.md` boss phase section matches
+- [x] Confirm `specs/ui/combat-forecast-enhancements.md` boss phase section matches

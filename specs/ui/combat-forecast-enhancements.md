@@ -1,6 +1,6 @@
 # Combat Forecast Enhancements
 
-Planned improvements to `CombatPreview` to surface tactical data that exists in the game logic but is currently invisible to the player.
+Implemented improvements to `CombatPreview` that surface tactical data from the game logic to the player.
 
 See [hud.md](hud.md) for current forecast spec. See [../gameplay/combat.md](../gameplay/combat.md) for combat formulas.
 
@@ -48,21 +48,31 @@ Data source: `SKILLS` from `src/data/skills.ts`
 
 Collapsible section below main forecast stats showing the source of each modifier affecting DMG/HIT/CRIT. Only shows non-zero modifiers. Collapsed by default, toggle with small arrow.
 
+### Grouping
+
+Modifiers are grouped under two headers:
+- **You** (blue `#60a5fa`): attacker-side modifiers (triangle, weather, support, SYNC, STA, effectiveness, proficiency)
+- **Foe** (red `#ef4444`): defender-side modifiers (terrain, weather, STA, effectiveness, proficiency)
+
 ### Modifier Sources
 
-| Source | Example Display | Data Source |
-|--------|----------------|-------------|
-| Weapon triangle | "Triangle: HIT +15, DMG +1" | `getWeaponTriangle()` |
-| Terrain (defender) | "Terrain (Forest): AVO +20" | `getTerrainData()` |
-| Weather | "Rain: HIT -15 (bow)" | `getWeatherCombatModifiers()` |
-| Support | "Support (Marcus B): HIT +10, AVO +10" | `getTotalSupportBonuses()` |
-| SYNC bonus | "SYNC 85: HIT +5" | `applySyncHitBonus()` |
-| STA penalty | "STA 32: SPD -1" | threshold check in `metaStats.ts` |
-| Effectiveness | "Effective: Mt x3" | `isEffectiveAgainst()` |
-| Non-proficient | "Not proficient: HIT -20, DMG -2" | proficiency check in `combat.ts` |
+| Source | Group | Example Display | Data Source |
+|--------|-------|----------------|-------------|
+| Weapon triangle | You | "Triangle: HIT +15, DMG +1" | `getWeaponTriangle()` |
+| Weather (player) | You | "Weather: HIT -15" | `getWeatherCombatModifiers()` |
+| Support | You | "Support: HIT +10, AVO +10" | `getSupportCombatBonuses()` |
+| SYNC bonus | You | "SYNC 85: HIT +5" | `applySyncHitBonus()` |
+| STA penalty (player) | You | "STA 32: SPD -1" | `getStaCombatNote()` |
+| Effectiveness (player) | You | "Effective: Mt x3" | `isEffectiveAgainst()` |
+| Non-proficient (player) | You | "Not proficient: HIT -20" | proficiency check in `combat.ts` |
+| Terrain (defender) | Foe | "Terrain (Forest): AVO +20" | `getTerrainData()` |
+| Weather (enemy) | Foe | "Weather: HIT -15" | `getWeatherCombatModifiers()` |
+| STA penalty (enemy) | Foe | "STA 32: SPD -1" | `getStaCombatNote()` |
+| Effectiveness (enemy) | Foe | "Effective: Mt x3" | `isEffectiveAgainst()` |
+| Non-proficient (enemy) | Foe | "Not proficient: HIT -20" | proficiency check in `combat.ts` |
 
 - Text style: 11px, opacity 0.6, left-aligned under main stats
-- `data-testid="forecast-modifiers"`
+- `data-testid="forecast-modifiers"`, `data-testid="forecast-modifier-toggle"`
 
 ---
 

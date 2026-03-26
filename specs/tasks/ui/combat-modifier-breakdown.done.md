@@ -42,17 +42,17 @@ Collapsible "Modifiers" section below the main forecast stats. Collapsed by defa
 
 ## Steps to Fix
 
-- [ ] Add `showModifiers` boolean state (useState) to `CombatPreview`, default false
-- [ ] Compute modifier values from available data sources (weapon triangle already computed, terrain from tile, etc.)
-- [ ] Render collapsible section with toggle header "Modifiers" + arrow icon
-- [ ] List each non-zero modifier as a compact text line
-- [ ] Group by attacker-relevant and defender-relevant modifiers
-- [ ] CSS: `.combat-forecast__modifiers` section with collapse animation
-- [ ] `data-testid="forecast-modifiers"`, `data-testid="forecast-modifier-toggle"`
-- [ ] Test: attack in rain with bow → "Rain: HIT -15" visible in modifiers
-- [ ] Test: attack from forest → "Terrain (Forest): AVO +20" visible
-- [ ] Test: modifiers section toggles open/closed on click
+- [x] Add `showModifiers` boolean state (useState) to `CombatPreview`, default false
+- [x] Compute modifier values from available data sources (weapon triangle already computed, terrain from tile, etc.)
+- [x] Render collapsible section with toggle header "Modifiers" + arrow icon
+- [x] List each non-zero modifier as a compact text line
+- [x] Group by attacker-relevant and defender-relevant modifiers
+- [x] CSS: `.combat-forecast__modifiers` section with collapse animation
+- [x] `data-testid="forecast-modifiers"`, `data-testid="forecast-modifier-toggle"`
+- [x] Test: attack in rain with bow → "Rain: HIT -15" visible in modifiers
+- [x] Test: attack from forest → "Terrain (Forest): AVO +20" visible
+- [x] Test: modifiers section toggles open/closed on click
 
 ## Spec Update
 
-- [ ] Update `specs/ui/combat-forecast-enhancements.md` — confirm modifier breakdown section
+- [x] Update `specs/ui/combat-forecast-enhancements.md` — confirm modifier breakdown section

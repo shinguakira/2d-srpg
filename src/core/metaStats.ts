@@ -122,6 +122,21 @@ export function isExhausted(unit: Unit): boolean {
   return unit.metaStats.sta > 45;
 }
 
+/** Get STA warning text and color for display */
+export function getStaWarning(sta: number): { text: string; color: string } | null {
+  if (sta >= 45) return { text: 'Exhausted: Cannot act!', color: '#ef4444' };
+  if (sta >= 30) return { text: 'Fatigued: -1 SPD', color: '#f97316' };
+  if (sta >= 25) return { text: 'Fatigue at 30', color: '#eab308' };
+  return null;
+}
+
+/** Get STA combat penalty description for forecast */
+export function getStaCombatNote(sta: number): string | null {
+  if (sta >= 45) return `STA ${sta}: SPD -2, SKL -1`;
+  if (sta >= 30) return `STA ${sta}: SPD -1`;
+  return null;
+}
+
 // ===== LOOP / Memory Blade =====
 
 /** Memory Blade might based on LOOP: 1 + floor(LOOP / 30) */

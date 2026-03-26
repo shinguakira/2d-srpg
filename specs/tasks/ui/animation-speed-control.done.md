@@ -49,14 +49,14 @@ Small button in top-right of `CombatAnimation` modal: cycles 1x → 2x → Skip 
 
 ## Steps to Fix
 
-- [ ] In `uiStore.ts`: add `animationSpeed` state with getter/setter, default '1x'
-- [ ] Add `getSpeedMultiplier()` helper: returns 1, 0.5, or 0 based on speed
-- [ ] In `CombatAnimation.tsx`: multiply all setTimeout durations by speed multiplier
-- [ ] Add speed toggle button in top-right of battle scene modal
-- [ ] In `useGameLoop.ts`: multiply enemy action delay by speed multiplier
-- [ ] In System Menu settings: add animation speed selector
-- [ ] Persist to localStorage alongside other settings
-- [ ] `data-testid="speed-toggle"`, `data-testid="speed-{value}"`
-- [ ] Test: set 2x → combat animations play at double speed
-- [ ] Test: set Skip → combat resolves near-instantly
-- [ ] Test: speed persists after page reload
+- [x] In `uiStore.ts`: add `animationSpeed` state with getter/setter, default '1x'
+- [x] Add `getSpeedMultiplier()` helper: returns 1, 0.5, or 0 based on speed
+- [x] In `CombatAnimation.tsx`: multiply all setTimeout durations by speed multiplier
+- [x] Add speed toggle button in top-right of battle scene modal
+- [x] In `useGameLoop.ts`: multiply enemy action delay by speed multiplier
+- [x] In System Menu settings: add animation speed selector
+- [x] Persist to localStorage alongside other settings
+- [x] `data-testid="speed-toggle"`, `data-testid="speed-{value}"`
+- [x] Test: set 2x → combat animations play at double speed
+- [x] Test: set Skip → combat resolves near-instantly
+- [x] Test: speed persists after page reload

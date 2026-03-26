@@ -73,6 +73,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   villageReward: null,
   chapterVillages: [],
   dangerZone: EMPTY_SET,
+  dangerZoneAttribution: new Map<string, string[]>(),
   showDangerZone: false,
   chapterData: null,
   healableTiles: EMPTY_SET,

@@ -39,12 +39,12 @@ Modify `refreshDangerZone` to also build a `Map<string, string[]>` mapping tile 
 
 ## Steps to Fix
 
-- [ ] In `dangerZoneHelpers.ts`: modify `refreshDangerZone` to return both `dangerZone: Set<string>` and `dangerAttribution: Map<string, string[]>`
-- [ ] In `gameStoreTypes.ts`: add `dangerZoneAttribution: Map<string, string[]>` to GameState
-- [ ] Update all callers of `refreshDangerZone` to store attribution map
-- [ ] In `UnitStatsPanel.tsx`: when hovering a tile in danger zone, look up attribution map and show threatening enemies
-- [ ] Display enemy name + weapon type for each threat
+- [x] In `dangerZoneHelpers.ts`: modify `refreshDangerZone` to return both `dangerZone: Set<string>` and `dangerAttribution: Map<string, string[]>`
+- [x] In `gameStoreTypes.ts`: add `dangerZoneAttribution: Map<string, string[]>` to GameState
+- [x] Update all callers of `refreshDangerZone` to store attribution map
+- [x] In `UnitStatsPanel.tsx`: when hovering a tile in danger zone, look up attribution map and show threatening enemies
+- [x] Display enemy name + weapon type for each threat
 - [ ] Consider performance: only compute attribution when danger zone is active
-- [ ] `data-testid="danger-threats"`, `data-testid="danger-threat-{unitId}"`
-- [ ] Test: enable danger zone → hover threatened tile → enemy names listed
-- [ ] Test: hover safe tile → no threats section shown
+- [x] `data-testid="danger-threats"`, `data-testid="danger-threat-{unitId}"`
+- [x] Test: enable danger zone → hover threatened tile → enemy names listed
+- [x] Test: hover safe tile → no threats section shown

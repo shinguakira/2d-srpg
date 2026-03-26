@@ -39,16 +39,16 @@ Include a support modifier line when support bonuses are active:
 
 ## Steps to Fix
 
-- [ ] In `UnitStatsPanel.tsx`: import `getActiveSupports` or equivalent from `src/core/support.ts`
-- [ ] After meta-stats section, check if unit has active supports (faction === 'player', nearby partners with rank)
-- [ ] Render support section listing each partner: name, rank, and bonus breakdown
-- [ ] In `CombatPreview.tsx`: when combat has support bonuses, include line in modifier breakdown
-- [ ] Style: section header "Support" in gold, partner names in pink, bonuses in white
-- [ ] `data-testid="support-bonuses"`, `data-testid="support-partner-{unitId}"`
-- [ ] Test: place two units with B-rank support adjacent → stats panel shows bonus values
-- [ ] Test: move them apart → support section disappears
-- [ ] Test: combat forecast modifier section includes support line when active
+- [x] In `UnitStatsPanel.tsx`: import `getActiveSupports` or equivalent from `src/core/support.ts`
+- [x] After meta-stats section, check if unit has active supports (faction === 'player', nearby partners with rank)
+- [x] Render support section listing each partner: name, rank, and bonus breakdown
+- [x] In `CombatPreview.tsx`: when combat has support bonuses, include line in modifier breakdown
+- [x] Style: section header "Support" in gold, partner names in pink, bonuses in white
+- [x] `data-testid="support-bonuses"`, `data-testid="support-partner-{unitId}"`
+- [x] Test: place two units with B-rank support adjacent → stats panel shows bonus values
+- [x] Test: move them apart → support section disappears
+- [x] Test: combat forecast modifier section includes support line when active
 
 ## Spec Update
 
-- [ ] Confirm `specs/ui/hud.md` Support Bonuses section matches implementation
+- [x] Confirm `specs/ui/hud.md` Support Bonuses section matches implementation

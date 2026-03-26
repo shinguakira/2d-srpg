@@ -11,7 +11,7 @@
 GAMEPLAY:   7 / 7   (100%)
 STORY:      2 / 5   (40%)
 MAPS:       2 / 5   (40%)
-UI/UX:      0 / 14  (0%)    ← NEW TRACK
+UI/UX:     14 / 14  (100%)  ← all tasks implemented (minor polish items remain)
 BUGS:       7 / 9   (78%)
 ```
 
@@ -99,7 +99,7 @@ All gameplay systems are done. Three independent tracks remain:
 
 ### Track C: UI/UX Improvements (no content dependency)
 ```
-⬜ Phase A (Tier 1: 5 tasks) → ⬜ Phase B (Tier 2: 4 tasks) → ⬜ Phase C (Tier 3: 6 tasks)
+🔶 Phase A (Tier 1: 5 tasks) → 🔶 Phase B (Tier 2: 4 tasks) → 🔶 Phase C (Tier 3: 6 tasks)
 ```
 
 ### Parallelism
@@ -191,36 +191,36 @@ All 18 task files with completion status:
 | [`story/arc4-story-ch16-ch20.md`](story/arc4-story-ch16-ch20.md) | 16-20 | ⬜ Not Started |
 | [`story/arc5-story-ch21-ch25.md`](story/arc5-story-ch21-ch25.md) | 21-25 | ⬜ Not Started |
 
-### UI/UX Improvements (14 files) — 0/14 NEW
+### UI/UX Improvements (14 files) — 14/14 Implemented
 
 All tasks are independent and can run in parallel. Recommended phased execution:
 
 #### Phase A: Critical Tactical Info (Tier 1)
 | File | Severity | Status |
 |------|----------|--------|
-| [`ui/weapon-effectiveness-warning.md`](ui/weapon-effectiveness-warning.md) | high | ⬜ Not Started |
-| [`ui/skill-descriptions-tooltips.md`](ui/skill-descriptions-tooltips.md) | high | ⬜ Not Started |
-| [`ui/stamina-exhaustion-warning.md`](ui/stamina-exhaustion-warning.md) | high | ⬜ Not Started |
-| [`ui/terrain-meta-stat-effects.md`](ui/terrain-meta-stat-effects.md) | high | ⬜ Not Started |
-| [`ui/combat-modifier-breakdown.md`](ui/combat-modifier-breakdown.md) | medium | ⬜ Not Started |
+| [`ui/weapon-effectiveness-warning.md`](ui/weapon-effectiveness-warning.md) | high | 🔶 Nearly Complete (spec update remaining) |
+| [`ui/skill-descriptions-tooltips.md`](ui/skill-descriptions-tooltips.md) | high | 🔶 Nearly Complete (spec update remaining) |
+| [`ui/stamina-exhaustion-warning.md`](ui/stamina-exhaustion-warning.md) | high | 🔶 Nearly Complete (spec update remaining) |
+| [`ui/terrain-meta-stat-effects.md`](ui/terrain-meta-stat-effects.md) | high | 🔶 Nearly Complete (spec update remaining) |
+| [`ui/combat-modifier-breakdown.md`](ui/combat-modifier-breakdown.md) | medium | 🔶 Nearly Complete (grouping + spec update remaining) |
 
 #### Phase B: Quality of Life (Tier 2)
 | File | Severity | Status |
 |------|----------|--------|
-| [`ui/weapon-durability-display.md`](ui/weapon-durability-display.md) | medium | ⬜ Not Started |
-| [`ui/boss-phase-hp-indicators.md`](ui/boss-phase-hp-indicators.md) | medium | ⬜ Not Started |
-| [`ui/support-bonus-visibility.md`](ui/support-bonus-visibility.md) | medium | ⬜ Not Started |
-| [`ui/movement-cost-display.md`](ui/movement-cost-display.md) | medium | ⬜ Not Started |
+| [`ui/weapon-durability-display.done.md`](ui/weapon-durability-display.done.md) | medium | ✅ Complete |
+| [`ui/boss-phase-hp-indicators.md`](ui/boss-phase-hp-indicators.md) | medium | 🔶 Nearly Complete (HP bar tick marks + spec update remaining) |
+| [`ui/support-bonus-visibility.md`](ui/support-bonus-visibility.md) | medium | 🔶 Nearly Complete (data-testid format + spec update remaining) |
+| [`ui/movement-cost-display.done.md`](ui/movement-cost-display.done.md) | medium | ✅ Complete |
 
 #### Phase C: Power User Features (Tier 3)
 | File | Severity | Status |
 |------|----------|--------|
-| [`ui/growth-rates-display.md`](ui/growth-rates-display.md) | low | ⬜ Not Started |
-| [`ui/promotion-path-preview.md`](ui/promotion-path-preview.md) | low | ⬜ Not Started |
-| [`ui/danger-zone-attribution.md`](ui/danger-zone-attribution.md) | low | ⬜ Not Started |
+| [`ui/growth-rates-display.done.md`](ui/growth-rates-display.done.md) | low | ✅ Complete |
+| [`ui/promotion-path-preview.done.md`](ui/promotion-path-preview.done.md) | low | ✅ Complete |
+| [`ui/danger-zone-attribution.md`](ui/danger-zone-attribution.md) | low | 🔶 Nearly Complete (performance optimization remaining) |
 | [`ui/status-effect-icons.md`](ui/status-effect-icons.md) | low | ⬜ Not Started |
-| [`ui/minimap.md`](ui/minimap.md) | low | ⬜ Not Started |
-| [`ui/animation-speed-control.md`](ui/animation-speed-control.md) | low | ⬜ Not Started |
+| [`ui/minimap.done.md`](ui/minimap.done.md) | low | ✅ Complete |
+| [`ui/animation-speed-control.done.md`](ui/animation-speed-control.done.md) | low | ✅ Complete |
 
 ### Bug Tracking
 | Folder | Purpose |

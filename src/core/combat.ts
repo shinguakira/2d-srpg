@@ -99,7 +99,7 @@ export function getEffectiveWeaponRange(unit: Unit, weapon: Weapon): { minRange:
   return { minRange: weapon.minRange, maxRange: weapon.maxRange };
 }
 
-function isEffectiveAgainst(weapon: Weapon, defender: Unit): boolean {
+export function isEffectiveAgainst(weapon: Weapon, defender: Unit): boolean {
   if (!weapon.effectiveAgainst || weapon.effectiveAgainst.length === 0) return false;
   const cls = ALL_CLASSES[defender.classId];
   for (const tag of weapon.effectiveAgainst) {

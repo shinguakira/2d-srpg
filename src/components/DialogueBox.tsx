@@ -9,16 +9,16 @@ const FACTION_COLORS: Record<string, string> = {
 };
 const NARRATOR_COLOR = '#fbbf24';
 
-/** Map character names to their class/faction for portrait display */
-const SPEAKER_PORTRAITS: Record<string, { classId: string; faction: Faction }> = {
-  Ren: { classId: 'lord', faction: 'player' },
-  Kael: { classId: 'cavalier', faction: 'player' },
-  Senna: { classId: 'mage', faction: 'player' },
-  Lira: { classId: 'cleric', faction: 'player' },
-  Bram: { classId: 'fighter', faction: 'player' },
-  Voss: { classId: 'soldier', faction: 'player' },
-  Nira: { classId: 'archer', faction: 'player' },
-  Coda: { classId: 'thief', faction: 'player' },
+/** Map character names to their class/faction/unitId for portrait display */
+const SPEAKER_PORTRAITS: Record<string, { classId: string; faction: Faction; unitId?: string }> = {
+  Ren: { classId: 'lord', faction: 'player', unitId: 'ren' },
+  Kael: { classId: 'cavalier', faction: 'player', unitId: 'kael' },
+  Senna: { classId: 'mage', faction: 'player', unitId: 'senna' },
+  Lira: { classId: 'cleric', faction: 'player', unitId: 'lira' },
+  Bram: { classId: 'fighter', faction: 'player', unitId: 'bram' },
+  Voss: { classId: 'soldier', faction: 'player', unitId: 'voss' },
+  Nira: { classId: 'archer', faction: 'player', unitId: 'nira' },
+  Coda: { classId: 'thief', faction: 'player', unitId: 'coda' },
   Bone: { classId: 'fighter', faction: 'enemy' },
   Zonta: { classId: 'soldier', faction: 'enemy' },
   Bazba: { classId: 'fighter', faction: 'enemy' },
@@ -59,7 +59,7 @@ export function DialogueBox() {
     <div className="dialogue" data-testid="dialogue-box" onClick={handleAdvance}>
       {portrait && (
         <div className="dialogue__portrait" key={line.speaker}>
-          <BattleSprite classId={portrait.classId} faction={portrait.faction} />
+          <BattleSprite classId={portrait.classId} faction={portrait.faction} unitId={portrait.unitId} static />
         </div>
       )}
       <div className="dialogue__panel">

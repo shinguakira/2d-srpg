@@ -10,17 +10,17 @@ const FACTION_COLORS: Record<string, string> = {
 };
 const NARRATOR_COLOR = '#fbbf24';
 
-const SPEAKER_PORTRAITS: Record<string, { classId: string; faction: Faction }> = {
-  Ren: { classId: 'lord', faction: 'player' },
-  Kael: { classId: 'cavalier', faction: 'player' },
-  Senna: { classId: 'mage', faction: 'player' },
-  Lira: { classId: 'cleric', faction: 'player' },
-  Bram: { classId: 'fighter', faction: 'player' },
-  Voss: { classId: 'soldier', faction: 'player' },
-  Nira: { classId: 'archer', faction: 'player' },
-  Coda: { classId: 'thief', faction: 'player' },
-  Yuel: { classId: 'pegasus_knight', faction: 'player' },
-  Garrek: { classId: 'fighter', faction: 'enemy' },
+const SPEAKER_PORTRAITS: Record<string, { classId: string; faction: Faction; unitId?: string }> = {
+  Ren: { classId: 'lord', faction: 'player', unitId: 'ren' },
+  Kael: { classId: 'cavalier', faction: 'player', unitId: 'kael' },
+  Senna: { classId: 'mage', faction: 'player', unitId: 'senna' },
+  Lira: { classId: 'cleric', faction: 'player', unitId: 'lira' },
+  Bram: { classId: 'fighter', faction: 'player', unitId: 'bram' },
+  Voss: { classId: 'soldier', faction: 'player', unitId: 'voss' },
+  Nira: { classId: 'archer', faction: 'player', unitId: 'nira' },
+  Coda: { classId: 'thief', faction: 'player', unitId: 'coda' },
+  Yuel: { classId: 'pegasus_knight', faction: 'player', unitId: 'yuel' },
+  Garrek: { classId: 'fighter', faction: 'enemy', unitId: 'garrek' },
   Thane: { classId: 'cavalier', faction: 'enemy' },
   Holtz: { classId: 'soldier', faction: 'enemy' },
   Marko: { classId: 'fighter', faction: 'enemy' },
@@ -64,9 +64,7 @@ export function EventDialogue() {
       <div className="event-dialogue__panel">
         {portrait && (
           <div className="event-dialogue__portrait">
-            <svg viewBox="0 0 64 64" width="64" height="64">
-              <BattleSprite classId={portrait.classId} faction={portrait.faction} />
-            </svg>
+            <BattleSprite classId={portrait.classId} faction={portrait.faction} unitId={portrait.unitId} static />
           </div>
         )}
         <div className="event-dialogue__content">

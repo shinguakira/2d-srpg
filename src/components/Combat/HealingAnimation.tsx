@@ -109,6 +109,7 @@ export function HealingAnimation() {
               mirrored={false}
               pose={healerPose}
               weaponType="staff"
+              unitId={healData.healerUnitId}
             />
           </div>
 
@@ -142,6 +143,7 @@ export function HealingAnimation() {
               mirrored={true}
               pose="idle"
               weaponType="sword"
+              unitId={healData.targetUnitId}
             />
           </div>
 

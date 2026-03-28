@@ -127,8 +127,10 @@ export function confirmHeal(get: Get, set: Set, targetId: string) {
     healAnimationData: {
       healerName: healer.name,
       healerClassId: healer.classId,
+      healerUnitId: healer.id,
       targetName: target.name,
       targetClassId: target.classId,
+      targetUnitId: target.id,
       targetFaction: target.faction,
       healAmount: result.targetHpAfter - result.targetHpBefore,
       targetHpBefore: result.targetHpBefore,

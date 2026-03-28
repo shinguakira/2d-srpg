@@ -327,7 +327,10 @@ export function CombatAnimation() {
               faction={playerSide.info.faction}
               mirrored={false}
               pose={playerPose}
+              phase={phase}
               weaponType={playerSide.info.weaponType}
+              weaponId={playerSide.info.weaponId}
+              unitId={playerSide.info.unitId}
             />
           </div>
 
@@ -380,7 +383,10 @@ export function CombatAnimation() {
               faction={enemySide.info.faction}
               mirrored={true}
               pose={enemyPose}
+              phase={phase}
               weaponType={enemySide.info.weaponType}
+              weaponId={enemySide.info.weaponId}
+              unitId={enemySide.info.unitId}
             />
           </div>
 

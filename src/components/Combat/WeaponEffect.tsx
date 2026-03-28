@@ -13,8 +13,21 @@ export function WeaponEffect({ weaponType, side }: WeaponEffectProps) {
     case 'sword':
       return (
         <svg className="weapon-effect weapon-effect--slash" width="60" height="60" viewBox="0 0 60 60" style={{ transform: mirror }}>
-          <line x1="10" y1="50" x2="50" y2="10" stroke="#fff" strokeWidth="3" strokeLinecap="round" className="weapon-effect__line" />
-          <line x1="10" y1="50" x2="50" y2="10" stroke="#93c5fd" strokeWidth="1.5" strokeLinecap="round" className="weapon-effect__line weapon-effect__line--glow" />
+          {/* Blue glow trail on primary slash */}
+          <line x1="10" y1="50" x2="50" y2="10" stroke="#93c5fd" strokeWidth="5" strokeLinecap="round" className="weapon-effect__line--glow" opacity="0.4" />
+          {/* Primary diagonal slash */}
+          <line x1="10" y1="50" x2="50" y2="10" stroke="#fff" strokeWidth="3" strokeLinecap="round" className="weapon-effect__line weapon-effect__slash-1" />
+          {/* Secondary slash — offset X pattern */}
+          <line x1="15" y1="10" x2="48" y2="45" stroke="#fff" strokeWidth="2" strokeLinecap="round" className="weapon-effect__line weapon-effect__slash-2" />
+          {/* Tertiary horizontal accent */}
+          <line x1="8" y1="30" x2="52" y2="28" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" className="weapon-effect__line weapon-effect__slash-3" />
+          {/* Speed lines from impact center */}
+          <line x1="30" y1="30" x2="55" y2="15" stroke="rgba(255,255,255,0.3)" strokeWidth="1" className="weapon-effect__speed-line" />
+          <line x1="30" y1="30" x2="10" y2="55" stroke="rgba(255,255,255,0.3)" strokeWidth="1" className="weapon-effect__speed-line" />
+          <line x1="30" y1="30" x2="55" y2="40" stroke="rgba(255,255,255,0.25)" strokeWidth="0.8" className="weapon-effect__speed-line" />
+          {/* Impact spark at center */}
+          <circle cx="30" cy="30" r="4" fill="#fff" opacity="0.7" className="weapon-effect__spark" />
+          <circle cx="30" cy="30" r="8" fill="rgba(147,197,253,0.3)" className="weapon-effect__spark-glow" />
         </svg>
       );
 

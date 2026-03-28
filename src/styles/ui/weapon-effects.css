@@ -200,6 +200,56 @@
   100% { opacity: 0.8; filter: brightness(1); }
 }
 
+/* Multi-slash stagger — second slash delayed */
+.weapon-effect__slash-2 {
+  stroke-dasharray: 70;
+  stroke-dashoffset: 70;
+  animation: slash-draw 0.2s ease-out 0.08s forwards;
+}
+
+/* Third slash delayed further */
+.weapon-effect__slash-3 {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  animation: slash-draw 0.18s ease-out 0.12s forwards;
+}
+
+/* Speed lines — brief flash then fade */
+.weapon-effect__speed-line {
+  opacity: 0;
+  animation: speed-line-fade 0.25s ease-out 0.1s forwards;
+}
+
+@keyframes speed-line-fade {
+  0% { opacity: 0; }
+  30% { opacity: 0.4; }
+  100% { opacity: 0; }
+}
+
+/* Impact spark — quick pop */
+.weapon-effect__spark {
+  opacity: 0;
+  animation: spark-pop 0.2s ease-out 0.1s forwards;
+}
+
+@keyframes spark-pop {
+  0% { opacity: 0; transform: scale(0); }
+  50% { opacity: 0.8; transform: scale(1.2); }
+  100% { opacity: 0; transform: scale(0.6); }
+}
+
+/* Spark glow — expanding ring */
+.weapon-effect__spark-glow {
+  opacity: 0;
+  animation: spark-glow-expand 0.25s ease-out 0.1s forwards;
+}
+
+@keyframes spark-glow-expand {
+  0% { opacity: 0; transform: scale(0.3); }
+  40% { opacity: 0.5; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.4); }
+}
+
 /* Shared */
 @keyframes effect-appear {
   0% { opacity: 0; transform: scale(0.5); }

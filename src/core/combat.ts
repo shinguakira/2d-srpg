@@ -53,8 +53,8 @@ export type CombatRound = {
 };
 
 export type CombatForecast = {
-  attacker: { unitId: string; name: string; currentHp: number; maxHp: number; faction: Faction; classId: string; weaponName: string; weaponType: WeaponType; weaponDurability?: number | null; weaponMaxDurability?: number | null };
-  defender: { unitId: string; name: string; currentHp: number; maxHp: number; faction: Faction; classId: string; weaponName: string; weaponType: WeaponType; weaponDurability?: number | null; weaponMaxDurability?: number | null };
+  attacker: { unitId: string; name: string; currentHp: number; maxHp: number; faction: Faction; classId: string; weaponId: string; weaponName: string; weaponType: WeaponType; weaponDurability?: number | null; weaponMaxDurability?: number | null };
+  defender: { unitId: string; name: string; currentHp: number; maxHp: number; faction: Faction; classId: string; weaponId: string; weaponName: string; weaponType: WeaponType; weaponDurability?: number | null; weaponMaxDurability?: number | null };
   attackerDamage: number;
   attackerHit: number;
   attackerCrit: number;
@@ -326,8 +326,8 @@ export function calculateCombatForecast(
   }
 
   return {
-    attacker: { unitId: attacker.id, name: attacker.name, currentHp: attacker.currentHp, maxHp: attacker.stats.hp, faction: attacker.faction, classId: attacker.classId, weaponName: attacker.equippedWeapon.name, weaponType: attacker.equippedWeapon.type, weaponDurability: attacker.equippedWeapon.durability, weaponMaxDurability: attacker.equippedWeapon.maxDurability },
-    defender: { unitId: defender.id, name: defender.name, currentHp: defender.currentHp, maxHp: defender.stats.hp, faction: defender.faction, classId: defender.classId, weaponName: defender.equippedWeapon.name, weaponType: defender.equippedWeapon.type, weaponDurability: defender.equippedWeapon.durability, weaponMaxDurability: defender.equippedWeapon.maxDurability },
+    attacker: { unitId: attacker.id, name: attacker.name, currentHp: attacker.currentHp, maxHp: attacker.stats.hp, faction: attacker.faction, classId: attacker.classId, weaponId: attacker.equippedWeapon.id, weaponName: attacker.equippedWeapon.name, weaponType: attacker.equippedWeapon.type, weaponDurability: attacker.equippedWeapon.durability, weaponMaxDurability: attacker.equippedWeapon.maxDurability },
+    defender: { unitId: defender.id, name: defender.name, currentHp: defender.currentHp, maxHp: defender.stats.hp, faction: defender.faction, classId: defender.classId, weaponId: defender.equippedWeapon.id, weaponName: defender.equippedWeapon.name, weaponType: defender.equippedWeapon.type, weaponDurability: defender.equippedWeapon.durability, weaponMaxDurability: defender.equippedWeapon.maxDurability },
     attackerDamage: atkDmg,
     attackerHit: atkHit,
     attackerCrit: atkCrit,

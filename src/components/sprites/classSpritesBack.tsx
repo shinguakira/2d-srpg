@@ -16,23 +16,45 @@ export function renderClassSpriteBack(classId: string, c: Palette) {
 function LordBack({ c }: { c: Palette }) {
   return (
     <g>
-      {/* Cape flowing behind */}
-      <polygon points="11,16 6,34 26,34 21,16" fill={c.dark} opacity="0.5" />
-      {/* Body/armor */}
-      <rect x="11" y="16" width="10" height="12" rx="2" fill={c.primary} stroke={c.outline} strokeWidth="0.8" />
-      {/* Back of head — hair visible, no face */}
-      <circle cx="16" cy="10" r="6" fill="#d4a060" stroke={c.outline} strokeWidth="0.8" />
-      <ellipse cx="16" cy="8" rx="6" ry="4" fill={c.dark} />
-      {/* Crown from behind */}
-      <polygon points="11,6 13,2 16,5 19,2 21,6" fill="#fbbf24" stroke="#d97706" strokeWidth="0.5" />
-      {/* Sword on back */}
-      <rect x="22" y="10" width="2" height="16" rx="0.5" fill="#c0c0c0" stroke="#888" strokeWidth="0.4" />
-      <rect x="20" y="14" width="6" height="2" rx="0.5" fill="#d4a574" />
-      {/* Legs */}
-      <rect x="12" y="28" width="4" height="6" rx="1" fill={c.dark} />
-      <rect x="17" y="28" width="4" height="6" rx="1" fill={c.dark} />
-      <rect x="12" y="32" width="4" height="3" rx="1" fill="#5c3a1e" />
-      <rect x="17" y="32" width="4" height="3" rx="1" fill="#5c3a1e" />
+      {/* Cape — wide flowing back, dominant visual — with flutter */}
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0; -0.4 -0.3; 0 0; 0.3 0.2; 0 0" dur="2.5s" repeatCount="indefinite" />
+        <polygon points="9,16 4,36 28,36 23,16" fill={c.dark} opacity="0.55" />
+        <line x1="10" y1="20" x2="8" y2="32" stroke={c.primary} strokeWidth="0.5" opacity="0.2" />
+        <line x1="22" y1="20" x2="24" y2="32" stroke={c.primary} strokeWidth="0.5" opacity="0.2" />
+        <line x1="16" y1="18" x2="16" y2="34" stroke={c.primary} strokeWidth="0.5" opacity="0.15" />
+      </g>
+
+      {/* Upper body — breathing group */}
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0; 0 -0.4; 0 0" dur="2s" repeatCount="indefinite" />
+
+        {/* Shoulder pauldrons from behind */}
+        <ellipse cx="11" cy="17" rx="3" ry="2" fill={c.dark} stroke={c.outline} strokeWidth="0.5" />
+        <ellipse cx="21" cy="17" rx="3" ry="2" fill={c.dark} stroke={c.outline} strokeWidth="0.5" />
+        {/* Body/armor */}
+        <rect x="11" y="16" width="10" height="12" rx="2" fill={c.primary} stroke={c.outline} strokeWidth="0.8" />
+        <line x1="16" y1="17" x2="16" y2="27" stroke={c.dark} strokeWidth="0.5" opacity="0.3" />
+        {/* Gold belt from behind */}
+        <rect x="11" y="25" width="10" height="2" rx="0.5" fill="#d97706" />
+        {/* Back of head — full hair volume */}
+        <circle cx="16" cy="10" r="6" fill="#d4a060" stroke={c.outline} strokeWidth="0.8" />
+        <path d="M10,10 Q10,3 16,2 Q22,3 22,10 Q20,7 16,6 Q12,7 10,10 Z" fill={c.dark} />
+        {/* Crown from behind */}
+        <polygon points="10.5,5.5 12.5,1 14.5,4 16,0.5 17.5,4 19.5,1 21.5,5.5" fill="#fbbf24" stroke="#b45309" strokeWidth="0.5" />
+        {/* Sword hilt over right shoulder */}
+        <rect x="22" y="8" width="2" height="14" rx="0.5" fill="#c0c0c0" stroke="#888" strokeWidth="0.4" />
+        <rect x="20" y="14" width="7" height="2.5" rx="0.8" fill="#d4a574" stroke="#a07850" strokeWidth="0.3" />
+      </g>
+
+      {/* Legs — grounded */}
+      <rect x="12" y="27" width="4" height="6" rx="1" fill={c.dark} />
+      <rect x="17" y="27" width="4" height="6" rx="1" fill={c.dark} />
+      {/* Boots with cuffs */}
+      <rect x="11.5" y="32" width="5" height="3" rx="1" fill="#5c3a1e" />
+      <rect x="16.5" y="32" width="5" height="3" rx="1" fill="#5c3a1e" />
+      <line x1="12" y1="32" x2="16" y2="32" stroke="#7a5230" strokeWidth="0.5" />
+      <line x1="17" y1="32" x2="21" y2="32" stroke="#7a5230" strokeWidth="0.5" />
     </g>
   );
 }

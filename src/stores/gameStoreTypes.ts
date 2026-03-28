@@ -100,8 +100,10 @@ export type GameState = {
   healAnimationData: {
     healerName: string;
     healerClassId: string;
+    healerUnitId?: string;
     targetName: string;
     targetClassId: string;
+    targetUnitId?: string;
     targetFaction: Faction;
     healAmount: number;
     targetHpBefore: number;

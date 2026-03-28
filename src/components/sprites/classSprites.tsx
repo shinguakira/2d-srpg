@@ -68,19 +68,59 @@ export function renderClassSprite(classId: string, c: Palette, facing: 'front' |
 function LordSprite({ c }: { c: Palette }) {
   return (
     <g>
-      <polygon points="10,14 6,34 16,30" fill={c.dark} opacity="0.6" />
-      <rect x="11" y="16" width="10" height="12" rx="2" fill={c.primary} stroke={c.outline} strokeWidth="0.8" />
-      <circle cx="16" cy="10" r="6" fill="#fcd5a0" stroke={c.outline} strokeWidth="0.8" />
-      <ellipse cx="16" cy="7" rx="6" ry="3.5" fill={c.dark} />
-      <rect x="13" y="9" width="2" height="2" rx="0.5" fill="#333" />
-      <rect x="17" y="9" width="2" height="2" rx="0.5" fill="#333" />
-      <polygon points="11,6 13,2 16,5 19,2 21,6" fill="#fbbf24" stroke="#d97706" strokeWidth="0.5" />
-      <rect x="22" y="8" width="2" height="18" rx="0.5" fill="#c0c0c0" stroke="#888" strokeWidth="0.4" />
-      <rect x="20" y="14" width="6" height="2" rx="0.5" fill="#d4a574" />
-      <rect x="12" y="28" width="4" height="6" rx="1" fill={c.dark} />
-      <rect x="17" y="28" width="4" height="6" rx="1" fill={c.dark} />
-      <rect x="12" y="32" width="4" height="3" rx="1" fill="#5c3a1e" />
-      <rect x="17" y="32" width="4" height="3" rx="1" fill="#5c3a1e" />
+      {/* Cape — flowing, two layers — with flutter animation */}
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0; 0.5 -0.3; 0 0; -0.3 0.2; 0 0" dur="2.5s" repeatCount="indefinite" />
+        <polygon points="10,16 5,35 8,32 16,36 12,30" fill={c.dark} opacity="0.55" />
+        <polygon points="11,17 7,33 14,34" fill={c.light} opacity="0.15" />
+      </g>
+
+      {/* Upper body — breathing animation group */}
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0; 0 -0.4; 0 0" dur="2s" repeatCount="indefinite" />
+
+        {/* Shoulder pauldrons */}
+        <ellipse cx="11" cy="17" rx="3" ry="2" fill={c.dark} stroke={c.outline} strokeWidth="0.5" />
+        <ellipse cx="21" cy="17" rx="3" ry="2" fill={c.dark} stroke={c.outline} strokeWidth="0.5" />
+        <path d="M8,17 Q11,15 14,17" fill="none" stroke="#fbbf24" strokeWidth="0.4" />
+        {/* Body — armor with detail */}
+        <rect x="11" y="16" width="10" height="12" rx="2" fill={c.primary} stroke={c.outline} strokeWidth="0.8" />
+        <rect x="12" y="17" width="8" height="4" rx="1" fill={c.light} opacity="0.2" />
+        <line x1="16" y1="17" x2="16" y2="27" stroke={c.dark} strokeWidth="0.5" opacity="0.3" />
+        {/* Gold belt + buckle */}
+        <rect x="11" y="25" width="10" height="2" rx="0.5" fill="#d97706" />
+        <rect x="14.5" y="25" width="3" height="2" rx="0.3" fill="#fbbf24" stroke="#d97706" strokeWidth="0.3" />
+        {/* Head */}
+        <circle cx="16" cy="10" r="6" fill="#fcd5a0" stroke={c.outline} strokeWidth="0.8" />
+        {/* Hair — swept asymmetric with bangs */}
+        <path d="M10,10 Q10,4 13,3 L15,5 L17,3 Q20,4 22,6 Q22,10 21,11 L20,8 Q16,6 12,8 L11,11 Z" fill={c.dark} />
+        {/* Eyes with highlights */}
+        <rect x="13" y="9" width="2" height="2.2" rx="0.5" fill="#333" />
+        <rect x="17" y="9" width="2" height="2.2" rx="0.5" fill="#333" />
+        <rect x="13.3" y="9" width="0.8" height="0.8" rx="0.2" fill="#fff" opacity="0.6" />
+        <rect x="17.3" y="9" width="0.8" height="0.8" rx="0.2" fill="#fff" opacity="0.6" />
+        {/* Mouth hint */}
+        <line x1="14.5" y1="12.5" x2="17.5" y2="12.5" stroke="#c4956a" strokeWidth="0.5" />
+        {/* Crown — 3 peaks with gem */}
+        <polygon points="10.5,5.5 12.5,1 14.5,4 16,0.5 17.5,4 19.5,1 21.5,5.5" fill="#fbbf24" stroke="#b45309" strokeWidth="0.5" />
+        <circle cx="16" cy="3" r="0.8" fill="#ef4444">
+          <animate attributeName="opacity" values="1;0.6;1" dur="3s" repeatCount="indefinite" />
+        </circle>
+        {/* Sword with detail */}
+        <rect x="22.5" y="6" width="2" height="16" rx="0.3" fill="#c0c0c0" stroke="#888" strokeWidth="0.4" />
+        <line x1="23" y1="7" x2="23" y2="21" stroke="#e8e8e8" strokeWidth="0.4" opacity="0.5" />
+        <rect x="20" y="14" width="7" height="2.5" rx="0.8" fill="#d4a574" stroke="#a07850" strokeWidth="0.3" />
+        <circle cx="23.5" cy="23" r="1" fill="#d4a574" stroke="#a07850" strokeWidth="0.3" />
+      </g>
+
+      {/* Legs — grounded, no breathing */}
+      <rect x="12" y="27" width="4" height="6" rx="1" fill={c.dark} />
+      <rect x="17" y="27" width="4" height="6" rx="1" fill={c.dark} />
+      {/* Boots with cuffs */}
+      <rect x="11.5" y="32" width="5" height="3" rx="1" fill="#5c3a1e" />
+      <rect x="16.5" y="32" width="5" height="3" rx="1" fill="#5c3a1e" />
+      <line x1="12" y1="32" x2="16" y2="32" stroke="#7a5230" strokeWidth="0.5" />
+      <line x1="17" y1="32" x2="21" y2="32" stroke="#7a5230" strokeWidth="0.5" />
     </g>
   );
 }

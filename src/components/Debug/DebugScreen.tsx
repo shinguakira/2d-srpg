@@ -16,8 +16,9 @@ import { FormulasView } from './FormulasView';
 import { AIBehaviorsView } from './AIBehaviorsView';
 import { MetaStatsView } from './MetaStatsView';
 import { CampaignView } from './CampaignView';
+import { SpritesView } from './SpritesView';
 
-type Tab = 'characters' | 'items' | 'skills' | 'classes' | 'chapters' | 'terrain' | 'formulas' | 'ai' | 'metastats' | 'campaign';
+type Tab = 'characters' | 'items' | 'skills' | 'classes' | 'chapters' | 'terrain' | 'formulas' | 'ai' | 'metastats' | 'campaign' | 'sprites';
 
 const ALL_UNITS = Object.values({ ...PLAYER_UNITS, ...ENEMY_UNITS });
 const ALL_WEAPONS = Object.values(WEAPONS);
@@ -36,6 +37,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'ai', label: 'AI' },
   { id: 'metastats', label: 'Meta-Stats' },
   { id: 'campaign', label: 'Campaign' },
+  { id: 'sprites', label: 'Sprites' },
 ];
 
 export function DebugScreen() {
@@ -51,6 +53,7 @@ export function DebugScreen() {
   const [selectedChapterId, setSelectedChapterId] = useState<string | null>(CHAPTER_ORDER[0] ?? null);
   const [selectedTerrainId, setSelectedTerrainId] = useState<string | null>(TERRAIN_KEYS[0] ?? null);
   const [selectedAiId, setSelectedAiId] = useState<string | null>('aggressive');
+  const [selectedSpriteId, setSelectedSpriteId] = useState<string | null>('lord');
 
   return (
     <div className="debug-screen" data-testid="debug-screen">
@@ -103,6 +106,9 @@ export function DebugScreen() {
         )}
         {tab === 'metastats' && <MetaStatsView />}
         {tab === 'campaign' && <CampaignView />}
+        {tab === 'sprites' && (
+          <SpritesView selectedId={selectedSpriteId} onSelect={setSelectedSpriteId} />
+        )}
       </div>
     </div>
   );

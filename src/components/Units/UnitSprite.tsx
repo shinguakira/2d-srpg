@@ -1,7 +1,7 @@
-import { memo } from 'react';
+import { memo, useState, useEffect } from 'react';
 import type { Unit } from '../../core/types';
-import { FACTION_COLORS, renderClassSprite } from '../sprites/classSprites';
 import { sortAndTruncateEffects, renderStatusIcon } from '../sprites/statusEffectIcons';
+import { getSheetConfig, sheetFrameW, sheetFrameH, sheetCols, sheetPxW, sheetPxH } from '../sprites/spriteSheetConfig';
 import '../../styles/ui/boss.css';
 
 const BOSS_PHASE_COLORS = [
@@ -41,10 +41,12 @@ type UnitSpriteProps = {
   hasActiveSupport?: boolean;
 };
 
+const MAP_IDLE_MS = 250; // frame cycle speed on map
+
 export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected, isSpawning, isRemoving, isRefreshed, hasActiveSupport }: UnitSpriteProps) {
   const hpPercent = Math.max(0, (unit.currentHp / unit.stats.hp) * 100);
   const hpColor = hpPercent > 50 ? '#22c55e' : hpPercent > 25 ? '#eab308' : '#ef4444';
-  const c = FACTION_COLORS[unit.faction];
+  const cfg = getSheetConfig(unit.classId, unit.id);
   const crp = unit.metaStats.crp;
   const sta = unit.metaStats.sta;
   const crpClass = crp >= 80 ? 'unit-sprite--crp-heavy' : crp >= 60 ? 'unit-sprite--crp-medium' : crp >= 30 ? 'unit-sprite--crp-flicker' : '';
@@ -54,6 +56,25 @@ export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected,
     : isRefreshed ? 'unit-sprite--refreshed'
     : isSelected ? 'unit-sprite--selected'
     : !unit.hasActed ? 'unit-sprite--idle' : '';
+
+  /* Sprite sheet idle frame cycling */
+  const cfgCols = sheetCols(cfg);
+  const cfgFrameW = sheetFrameW(cfg);
+  const cfgSheetW = sheetPxW(cfg);
+  const cfgSheetH = sheetPxH(cfg);
+
+  const [frame, setFrame] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setFrame(f => (f + 1) % cfgCols), MAP_IDLE_MS);
+    return () => clearInterval(id);
+  }, [cfgCols]);
+
+  const spriteW = tileSize * 0.8;
+  const cfgFrameH = sheetFrameH(cfg);
+  const spriteH = spriteW * (cfgFrameH / cfgFrameW);
+  const scale = spriteW / cfgFrameW;
+  const col = frame;
+  const row = cfg.idleRow;
 
   return (
     <div
@@ -70,6 +91,7 @@ export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected,
         position: 'absolute',
         top: 0,
         left: 0,
+        overflow: 'visible',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -79,23 +101,31 @@ export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected,
         filter: unit.hasActed ? 'grayscale(0.6)' : 'none',
       }}
     >
-      <svg
-        width={tileSize * 0.75}
-        height={tileSize * 0.8}
-        viewBox="0 0 32 36"
+      <div
         style={{
-          imageRendering: 'auto',
+          width: spriteW,
+          height: spriteH,
+          backgroundImage: `url(${cfg.url})`,
+          backgroundPosition: `${-col * spriteW}px ${-row * spriteH}px`,
+          backgroundSize: `${cfgSheetW * scale}px ${cfgSheetH * scale}px`,
+          backgroundRepeat: 'no-repeat',
+          imageRendering: (cfgFrameW === cfgFrameH ? 'pixelated' : 'auto') as React.CSSProperties['imageRendering'],
           filter: unit.aiBehavior?.type === 'boss' ? getBossPhaseFilter(unit) : undefined,
           transform: unit.facing === 'left' ? 'scaleX(-1)' : undefined,
+          mixBlendMode: cfg.hasAlpha ? undefined : 'screen',
+          position: 'relative',
         }}
       >
-        {renderClassSprite(unit.classId, c, unit.facing === 'up' ? 'back' : 'front')}
         {unit.aiBehavior?.type === 'boss' && (
-          <g transform="translate(13, -2)">
+          <svg
+            width={12} height={10}
+            viewBox="0 0 6 6"
+            style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)' }}
+          >
             <polygon points="3,0 0,5 1.5,3 3,6 4.5,3 6,5" fill="#fbbf24" stroke="#d97706" strokeWidth="0.4" />
-          </g>
+          </svg>
         )}
-      </svg>
+      </div>
 
       {/* Weapon cycle indicator above boss */}
       {unit.weaponCycleOrder && unit.weaponCycleOrder.length > 0 && (

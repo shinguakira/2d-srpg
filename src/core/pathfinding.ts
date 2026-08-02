@@ -4,7 +4,7 @@ import { getClassMovementCost, isPassableForClass, type ClassFlags } from './ter
 import { getEffectiveWeaponRange } from './combat';
 
 /** Returns true if faction `a` considers faction `b` hostile (cannot pass through). */
-export function isHostileFaction(a: Faction, b: Faction): boolean {
+function isHostileFaction(a: Faction, b: Faction): boolean {
   if (a === 'neutral' || b === 'neutral') return true;
   if (a === 'player' || a === 'ally') return b === 'enemy';
   if (a === 'enemy') return b === 'player' || b === 'ally';
@@ -32,7 +32,7 @@ export function clearDistanceMapCache(): void {
  * Dijkstra BFS from origin across entire map (terrain-only, ignores units).
  * Returns Map of posKey -> minimum terrain cost to reach from origin.
  */
-export function computeDistanceMap(
+function computeDistanceMap(
   origin: Position,
   map: GameMap,
   classFlags?: ClassFlags,

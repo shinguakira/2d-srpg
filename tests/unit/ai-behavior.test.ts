@@ -7,7 +7,6 @@ import type {
   Tile,
   TerrainType,
   Position,
-  AIBehavior,
   Weapon,
   WeaponType,
   ConsumableItem,
@@ -481,7 +480,6 @@ describe('AI behavior: aggressive (default)', () => {
 
 describe('scoreTarget improvements', () => {
   it('adds +10 for weapon triangle advantage', () => {
-    const map = makeMap([['plain', 'plain']]);
     const attacker = makeUnit(
       'atk',
       { x: 0, y: 0 },
@@ -500,7 +498,6 @@ describe('scoreTarget improvements', () => {
   });
 
   it('subtracts -10 for weapon triangle disadvantage', () => {
-    const map = makeMap([['plain', 'plain']]);
     const attacker = makeUnit(
       'atk',
       { x: 0, y: 0 },
@@ -519,7 +516,6 @@ describe('scoreTarget improvements', () => {
   });
 
   it('penalizes targets on defensive terrain', () => {
-    const map = makeMap([['plain', 'forest']]);
     const attacker = makeUnit('atk', { x: 0, y: 0 });
     const defender = makeUnit(
       'def',

@@ -8,7 +8,6 @@ import type {
   TerrainType,
   Position,
   Weapon,
-  ChapterData,
   ChestData,
   VillageReward,
 } from '../../src/core/types';

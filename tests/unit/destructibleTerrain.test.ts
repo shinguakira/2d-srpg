@@ -5,7 +5,7 @@ import {
   canAttackTerrain,
   resolveBridgeCollapse,
 } from '../../src/core/destructibleTerrain';
-import type { Unit, GameMap, Position, Weapon } from '../../src/core/types';
+import type { Unit, GameMap } from '../../src/core/types';
 
 function makeUnit(overrides: Partial<Unit> = {}): Unit {
   return {
@@ -39,8 +39,8 @@ function makeUnit(overrides: Partial<Unit> = {}): Unit {
 }
 
 function makeMap(width: number, height: number, terrain: string = 'plain'): GameMap {
-  const tiles = Array.from({ length: height }, (_, y) =>
-    Array.from({ length: width }, (_, x) => ({
+  const tiles = Array.from({ length: height }, () =>
+    Array.from({ length: width }, () => ({
       terrain: terrain as any,
       occupantId: null,
     })),

@@ -315,18 +315,3 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
     reward: { type: 'stat', unitId: 'voss', stat: 'def', amount: 1 },
   },
 ];
-
-/** Lookup support conversation by pair and rank. */
-export function getRankConversation(
-  unitA: string,
-  unitB: string,
-  rank: string,
-): SupportConversation | null {
-  return (
-    RANK_SUPPORT_CONVERSATIONS.find(
-      (c) =>
-        ((c.unitA === unitA && c.unitB === unitB) || (c.unitA === unitB && c.unitB === unitA)) &&
-        c.rank === rank,
-    ) ?? null
-  );
-}

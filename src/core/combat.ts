@@ -50,7 +50,7 @@ export function getWeaponTriangle(attacker: WeaponType, defender: WeaponType): T
 
 // ===== Combat Forecast =====
 
-export type CombatRound = {
+type CombatRound = {
   attackerIsInitiator: boolean;
   damage: number;
   hitChance: number;
@@ -484,7 +484,7 @@ export function calculateCombatForecast(
 
 // ===== Combat Resolution =====
 
-export type CombatHit = {
+type CombatHit = {
   attackerIsInitiator: boolean;
   hit: boolean;
   crit: boolean;

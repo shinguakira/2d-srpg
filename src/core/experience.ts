@@ -14,19 +14,6 @@ export type StatGains = {
   wil: number;
 };
 
-const EMPTY_GAINS: StatGains = {
-  hp: 0,
-  str: 0,
-  mag: 0,
-  def: 0,
-  res: 0,
-  spd: 0,
-  skl: 0,
-  lck: 0,
-  cha: 0,
-  wil: 0,
-};
-
 /**
  * Calculate EXP gain from combat.
  * Base: 30 EXP for combat with equal-level enemy, scaled by level difference.
@@ -119,4 +106,3 @@ export function previewBonusExp(
   return { wouldLevel: false, projectedGains: null };
 }
 
-export { EMPTY_GAINS };

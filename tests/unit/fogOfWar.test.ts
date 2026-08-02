@@ -7,7 +7,6 @@ import {
   initializeFogMap,
 } from '../../src/core/fogOfWar';
 import type { Unit, GameMap, Tile, FogState, MetaStats } from '../../src/core/types';
-import { posKey } from '../../src/core/types';
 
 const BASE_META: MetaStats = { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 };
 

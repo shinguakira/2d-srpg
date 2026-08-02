@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { Unit, GameMap, Tile, Faction, MetaStats } from '../../src/core/types';
+import type { Unit, GameMap, Tile } from '../../src/core/types';
 import type { GameState, GameActions } from '../../src/stores/gameStoreTypes';
 import { updateTurnMetaStats } from '../../src/stores/actions/metaStatActions';
 import { applyCombatResult } from '../../src/stores/helpers/combatResolution';

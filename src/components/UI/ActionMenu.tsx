@@ -28,7 +28,7 @@ export function ActionMenu() {
   const visitVillage = useGameStore((s) => s.visitVillage);
   const visitedVillages = useGameStore((s) => s.visitedVillages);
   const chapterVillages = useGameStore((s) => s.chapterVillages);
-  const useItemAction = useGameStore((s) => s.useItem);
+  const itemUseAction = useGameStore((s) => s.useItem);
   const seizeAction = useGameStore((s) => s.seize);
   const startTalkAction = useGameStore((s) => s.startTalk);
   const escapeAction = useGameStore((s) => s.escape);
@@ -47,10 +47,10 @@ export function ActionMenu() {
   const restAction = useGameStore((s) => s.rest);
   const attackTerrainAction = useGameStore((s) => s.attackTerrain);
   const terrainHpMap = useGameStore((s) => s.terrainHpMap);
-  const useTorchAction = useGameStore((s) => s.useTorch);
+  const torchUseAction = useGameStore((s) => s.useTorch);
   const fogOfWar = useGameStore((s) => s.fogOfWar);
   const negotiateAction = useGameStore((s) => s.negotiate);
-  const useBalanceAction = useGameStore((s) => s.useBalance);
+  const balanceUseAction = useGameStore((s) => s.useBalance);
   const cameraOffset = useUIStore((s) => s.cameraOffset);
   const tileSize = useUIStore((s) => s.tileSize);
 
@@ -457,7 +457,7 @@ export function ActionMenu() {
               className="action-menu__btn action-menu__btn--item"
               data-testid={`item-${item.id}`}
               onClick={() => {
-                useItemAction(index);
+                itemUseAction(index);
                 setShowItemMenu(false);
               }}
             >
@@ -658,7 +658,7 @@ export function ActionMenu() {
             <button
               className="action-menu__btn action-menu__btn--visit"
               data-testid="action-balance"
-              onClick={useBalanceAction}
+              onClick={balanceUseAction}
             >
               Balance
             </button>
@@ -667,7 +667,7 @@ export function ActionMenu() {
             <button
               className="action-menu__btn action-menu__btn--visit"
               data-testid="action-torch"
-              onClick={useTorchAction}
+              onClick={torchUseAction}
             >
               Torch
             </button>

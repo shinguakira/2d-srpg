@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { checkNegotiateCondition, negotiate } from '../../src/stores/actions/negotiateActions';
 import { useCampaignStore } from '../../src/stores/campaignStore';
-import type { Unit, GameMap, Tile } from '../../src/core/types';
+import type { Unit } from '../../src/core/types';
 import type { GameState, GameActions } from '../../src/stores/gameStoreTypes';
 
 function makeUnit(overrides: Partial<Unit> = {}): Unit {

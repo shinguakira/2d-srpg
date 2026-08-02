@@ -3,7 +3,7 @@ import { getManhattanDistance } from './pathfinding';
 
 // ===== Thresholds =====
 
-export const SUPPORT_THRESHOLDS: Record<SupportRank, number> = {
+const SUPPORT_THRESHOLDS: Record<SupportRank, number> = {
   C: 20,
   B: 50,
   A: 100,

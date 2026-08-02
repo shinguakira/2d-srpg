@@ -1,4 +1,4 @@
-import type { TerrainType, TerrainData, GameMap, Position } from './types';
+import type { TerrainType, TerrainData } from './types';
 
 export const TERRAIN: Record<TerrainType, TerrainData> = {
   plain: { name: 'Plain', movementCost: 1, defenseBonus: 0, avoidBonus: 0 },
@@ -34,13 +34,6 @@ export const TERRAIN: Record<TerrainType, TerrainData> = {
 
 export function getTerrainData(terrain: TerrainType): TerrainData {
   return TERRAIN[terrain];
-}
-
-export function getTerrainAt(map: GameMap, pos: Position): TerrainType {
-  if (pos.x < 0 || pos.x >= map.width || pos.y < 0 || pos.y >= map.height) {
-    return 'wall'; // out of bounds = impassable
-  }
-  return map.tiles[pos.y][pos.x].terrain;
 }
 
 export function getMovementCost(terrain: TerrainType): number {

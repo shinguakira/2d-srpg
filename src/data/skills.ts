@@ -4,7 +4,7 @@ import type { UnitStats } from '../core/types';
 
 export type SkillCategory = 'combat' | 'movement' | 'support' | 'meta' | 'passive';
 
-export type SkillActivation =
+type SkillActivation =
   | { readonly type: 'passive' } // always active
   | { readonly type: 'skl_pct' } // SKL% chance
   | { readonly type: 'spd_pct' } // SPD% chance

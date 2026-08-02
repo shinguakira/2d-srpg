@@ -5,50 +5,6 @@ type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
 
 /**
- * Initialize split party: save team assignments, snapshot team B state.
- * Active team starts as A.
- */
-export function initSplitParty(
-  get: Get,
-  set: Set,
-  config: { teamA: string[]; teamB: string[] },
-): void {
-  const { units, gameMap } = get();
-
-  // Validate: min 2 per team
-  if (config.teamA.length < 2 || config.teamB.length < 2) return;
-
-  // Hide team B units from the map for now
-  const newUnits = new Map(units);
-  const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
-
-  // Snapshot team B units then remove them
-  const teamBUnits = new Map<string, Unit>();
-  for (const id of config.teamB) {
-    const unit = newUnits.get(id);
-    if (unit) {
-      teamBUnits.set(id, unit);
-      newUnits.delete(id);
-      newTiles[unit.position.y][unit.position.x].occupantId = null;
-    }
-  }
-
-  set({
-    units: newUnits,
-    gameMap: { ...gameMap, tiles: newTiles },
-    splitParty: {
-      teamA: config.teamA,
-      teamB: config.teamB,
-      activeTeam: 'A',
-      savedState: {
-        units: teamBUnits,
-      },
-      merged: false,
-    },
-  });
-}
-
-/**
  * Switch active team: snapshot current team, restore saved team.
  */
 export function switchActiveTeam(get: Get, set: Set): void {

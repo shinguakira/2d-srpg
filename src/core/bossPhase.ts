@@ -117,7 +117,7 @@ export function stripCorruptionLayer(boss: Unit): Unit {
 /**
  * Check if a weapon type is physical (for boss immunity).
  */
-export function isPhysicalWeaponType(type: WeaponType): boolean {
+function isPhysicalWeaponType(type: WeaponType): boolean {
   return ['sword', 'axe', 'lance', 'bow', 'knife'].includes(type);
 }
 

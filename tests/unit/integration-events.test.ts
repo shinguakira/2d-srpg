@@ -1,18 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import {
-  evaluateEvents,
-  resolveEffects,
-  matchesTrigger,
-  type EventContext,
-} from '../../src/core/events';
-import type {
-  ChapterEvent,
-  Unit,
-  Position,
-  EventEffect,
-  ChapterData,
-  TerrainType,
-} from '../../src/core/types';
+import { evaluateEvents, resolveEffects, type EventContext } from '../../src/core/events';
+import type { ChapterEvent, Unit, Position, EventEffect } from '../../src/core/types';
 
 /**
  * Integration test: simulates a mini-chapter with mid-battle events + recruitment.

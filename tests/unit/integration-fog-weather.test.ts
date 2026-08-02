@@ -23,7 +23,6 @@ import type {
   Position,
   Tile,
   TerrainType,
-  FogState,
   WeatherType,
 } from '../../src/core/types';
 
@@ -114,8 +113,6 @@ describe('Fog of War Integration', () => {
     // 8x8 map, player at (0,0) with vision 3, enemy at (1,1) and (7,7)
     const map = makeMap(8, 8);
     const player = makeUnit('ren', { x: 0, y: 0 });
-    const nearEnemy = makeUnit('e1', { x: 1, y: 1 }, { faction: 'enemy' });
-    const farEnemy = makeUnit('e2', { x: 7, y: 7 }, { faction: 'enemy' });
 
     const { fogMap, visibleTiles } = initializeFogMap(map, [player]);
 

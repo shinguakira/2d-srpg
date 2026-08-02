@@ -29,13 +29,6 @@ function findRecruitTarget(get: Get): string | null {
 }
 
 /**
- * Check if Talk action is available for the current unit at pending position.
- */
-export function canTalk(get: Get): boolean {
-  return findRecruitTarget(get) !== null;
-}
-
-/**
  * Start Talk action — find target and initiate recruitment.
  */
 export function startTalk(get: Get, set: Set) {

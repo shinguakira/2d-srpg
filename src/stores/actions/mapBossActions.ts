@@ -6,13 +6,6 @@ type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
 
 /**
- * Initialize map boss state from chapter config.
- */
-export function initMapBoss(_get: Get, set: Set, config: MapBossState): void {
-  set({ mapBossState: { ...config } });
-}
-
-/**
  * Check if a unit (Ren) has reached a checkpoint position.
  * If so, reduce map boss HP and trigger phase transitions.
  */

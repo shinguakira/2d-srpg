@@ -8,7 +8,6 @@ import type {
   Position,
   Weapon,
   ConsumableItem,
-  ChapterData,
 } from '../../src/core/types';
 
 function makeMap(terrain: TerrainType[][]): GameMap {
@@ -72,7 +71,6 @@ function makeUnit(id: string, pos: Position, overrides: Partial<Unit> = {}): Uni
 }
 
 function setupStore(units: Unit[], map: GameMap) {
-  const store = useGameStore.getState();
   const unitMap = new Map<string, Unit>();
   const tiles = map.tiles.map((row) => row.map((t) => ({ ...t })));
 

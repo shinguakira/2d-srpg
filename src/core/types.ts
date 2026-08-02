@@ -77,7 +77,7 @@ export type WeaponType =
   | 'dark'
   | 'light';
 
-export type WeaponRank = 'E' | 'D' | 'C' | 'B' | 'A' | 'S' | 'Prf';
+type WeaponRank = 'E' | 'D' | 'C' | 'B' | 'A' | 'S' | 'Prf';
 
 export type Weapon = {
   readonly id: string;
@@ -101,7 +101,7 @@ export type Weapon = {
 
 // ===== Items =====
 
-export type ItemEffect =
+type ItemEffect =
   | { readonly kind: 'heal'; readonly amount: number }
   | { readonly kind: 'promote'; readonly eligibleClasses: string[] }
   | { readonly kind: 'unlock'; readonly targetTerrain: 'door' | 'chest' }
@@ -204,7 +204,7 @@ export type BossPhase = {
 
 // ===== Map Boss =====
 
-export type MapBossPhase = {
+type MapBossPhase = {
   readonly hpThreshold: number;
   readonly terrainChanges: ReadonlyArray<{
     readonly position: Position;
@@ -225,7 +225,7 @@ export type MapBossState = {
 
 // ===== Split Party =====
 
-export type SplitPartyConfig = {
+type SplitPartyConfig = {
   readonly teamASlots: number;
   readonly teamBSlots: number;
   readonly mergeCondition: { readonly bossHpPercent: number };
@@ -348,7 +348,7 @@ export type SupportPair = {
 
 // ===== Chapter =====
 
-export type ObjectiveType =
+type ObjectiveType =
   | 'rout'
   | 'seize'
   | 'survive'
@@ -358,7 +358,7 @@ export type ObjectiveType =
   | 'capture'
   | 'dual';
 
-export type ChapterObjective = {
+type ChapterObjective = {
   readonly type: ObjectiveType;
   readonly turns?: number; // for survive/protect
   readonly escapePosition?: Position; // for escape
@@ -366,7 +366,7 @@ export type ChapterObjective = {
   readonly description: string;
 };
 
-export type UnitPlacement = {
+type UnitPlacement = {
   readonly unitId: string;
   readonly position: Position;
   readonly faction?: Faction;
@@ -393,7 +393,7 @@ export type SupportConversation = {
   readonly reward: SupportReward;
 };
 
-export type SupportReward =
+type SupportReward =
   | { readonly type: 'exp'; readonly unitId: string; readonly amount: number }
   | {
       readonly type: 'stat';
@@ -448,7 +448,7 @@ export type ChapterData = {
   readonly splitParty?: SplitPartyConfig;
 };
 
-export type ReinforcementWave = {
+type ReinforcementWave = {
   readonly turn: number;
   readonly units: UnitPlacement[];
   readonly message?: string;
@@ -456,7 +456,7 @@ export type ReinforcementWave = {
 
 // ===== Events =====
 
-export type CustomTriggerFn = (ctx: {
+type CustomTriggerFn = (ctx: {
   readonly currentTurn: number;
   readonly currentPhase: GamePhase;
   readonly units: ReadonlyMap<string, Unit>;
@@ -494,7 +494,7 @@ export type ChapterEvent = {
 
 // ===== Dialogue =====
 
-export type DialogueLine = {
+type DialogueLine = {
   readonly speaker: string;
   readonly text: string;
   readonly speakerFaction?: Faction;

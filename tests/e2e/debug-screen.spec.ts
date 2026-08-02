@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 
 test.describe('Debug Screen Screenshots', () => {
   test('01 - Characters list with sprites', async ({ page }) => {

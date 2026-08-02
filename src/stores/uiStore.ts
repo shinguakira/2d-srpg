@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 
-export type CameraOffset = {
+type CameraOffset = {
   x: number;
   y: number;
 };
 
-export type CursorPosition = {
+type CursorPosition = {
   x: number;
   y: number;
 } | null;
@@ -45,7 +45,7 @@ export type UIActions = {
 };
 
 /** Get the duration multiplier for the current animation speed */
-export function getSpeedMultiplier(speed: AnimationSpeed): number {
+function getSpeedMultiplier(speed: AnimationSpeed): number {
   switch (speed) {
     case '1x':
       return 1;

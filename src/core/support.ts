@@ -63,7 +63,10 @@ export function canFormSupport(
 
   // Already paired
   for (const p of existingPairs) {
-    if ((p.unitA === unitId && p.unitB === partnerId) || (p.unitA === partnerId && p.unitB === unitId)) {
+    if (
+      (p.unitA === unitId && p.unitB === partnerId) ||
+      (p.unitA === partnerId && p.unitB === unitId)
+    ) {
       return true; // already paired, can continue building points
     }
   }

@@ -2,7 +2,13 @@ import { useState } from 'react';
 import type { Unit } from '../../core/types';
 import { CLASSES } from '../../data/classes';
 import { getTerrainData, getClassMovementCost } from '../../core/terrain';
-import { canSeeEnemyMetaStats, getStaWarning, getTerrainCrpGain, getTerrainSyncChange, getTerrainStaRecovery } from '../../core/metaStats';
+import {
+  canSeeEnemyMetaStats,
+  getStaWarning,
+  getTerrainCrpGain,
+  getTerrainSyncChange,
+  getTerrainStaRecovery,
+} from '../../core/metaStats';
 import { getDurabilityColor } from '../../core/items';
 import { getSupportRank, getSupportCombatBonuses } from '../../core/support';
 import { getManhattanDistance } from '../../core/pathfinding';
@@ -18,9 +24,10 @@ type MetaStatBarProps = {
 
 function MetaStatBar({ label, value, max, stat }: MetaStatBarProps) {
   const pct = Math.min(100, (value / max) * 100);
-  const fillClass = stat === 'crp' && value >= 60
-    ? 'meta-stats__fill meta-stats__fill--crp-danger'
-    : `meta-stats__fill meta-stats__fill--${stat}`;
+  const fillClass =
+    stat === 'crp' && value >= 60
+      ? 'meta-stats__fill meta-stats__fill--crp-danger'
+      : `meta-stats__fill meta-stats__fill--${stat}`;
   return (
     <div className="meta-stats__row">
       <span className={`meta-stats__label meta-stats__label--${stat}`}>{label}</span>
@@ -40,7 +47,12 @@ function MetaStatsSection({ unit }: { unit: Unit }) {
       <div
         className="meta-stats__header"
         onClick={() => setCollapsed(!collapsed)}
-        style={{ cursor: 'pointer', fontSize: '11px', opacity: 0.7, marginBottom: collapsed ? 0 : 4 }}
+        style={{
+          cursor: 'pointer',
+          fontSize: '11px',
+          opacity: 0.7,
+          marginBottom: collapsed ? 0 : 4,
+        }}
       >
         {collapsed ? '+ Meta-Stats' : '- Meta-Stats'}
       </div>
@@ -58,7 +70,10 @@ function MetaStatsSection({ unit }: { unit: Unit }) {
           <MetaStatBar label="CRP" value={unit.metaStats.crp} max={100} stat="crp" />
           <MetaStatBar label="STA" value={unit.metaStats.sta} max={45} stat="sta" />
           {staWarning && (
-            <div data-testid="sta-warning" style={{ fontSize: '10px', color: staWarning.color, marginTop: 2 }}>
+            <div
+              data-testid="sta-warning"
+              style={{ fontSize: '10px', color: staWarning.color, marginTop: 2 }}
+            >
               {staWarning.text}
             </div>
           )}
@@ -68,29 +83,60 @@ function MetaStatsSection({ unit }: { unit: Unit }) {
   );
 }
 
-function SupportSection({ unit, units, supportPairs }: { unit: Unit; units: Map<string, Unit>; supportPairs: any[] }) {
+function SupportSection({
+  unit,
+  units,
+  supportPairs,
+}: {
+  unit: Unit;
+  units: Map<string, Unit>;
+  supportPairs: any[];
+}) {
   if (unit.faction !== 'player' || !supportPairs?.length) return null;
 
-  const activeSupports: { id: string; name: string; rank: string; bonuses: { hit: number; avoid: number; crit: number; dmg: number } }[] = [];
+  const activeSupports: {
+    id: string;
+    name: string;
+    rank: string;
+    bonuses: { hit: number; avoid: number; crit: number; dmg: number };
+  }[] = [];
   for (const pair of supportPairs) {
-    const partnerId = pair.unitA === unit.id ? pair.unitB : pair.unitB === unit.id ? pair.unitA : null;
+    const partnerId =
+      pair.unitA === unit.id ? pair.unitB : pair.unitB === unit.id ? pair.unitA : null;
     if (!partnerId) continue;
     const partner = units.get(partnerId);
     if (!partner || partner.currentHp <= 0) continue;
     if (getManhattanDistance(unit.position, partner.position) > 3) continue;
     const rank = getSupportRank(pair.points);
     if (!rank) continue;
-    activeSupports.push({ id: partner.id, name: partner.name, rank, bonuses: getSupportCombatBonuses(rank) });
+    activeSupports.push({
+      id: partner.id,
+      name: partner.name,
+      rank,
+      bonuses: getSupportCombatBonuses(rank),
+    });
   }
 
   if (activeSupports.length === 0) return null;
 
   return (
     <div data-testid="support-bonuses" style={{ marginTop: 6, fontSize: '11px' }}>
-      <div style={{ color: '#fbbf24', fontWeight: 700, fontSize: '10px', textTransform: 'uppercase', letterSpacing: 0.5 }}>Support</div>
+      <div
+        style={{
+          color: '#fbbf24',
+          fontWeight: 700,
+          fontSize: '10px',
+          textTransform: 'uppercase',
+          letterSpacing: 0.5,
+        }}
+      >
+        Support
+      </div>
       {activeSupports.map((s) => (
         <div key={s.id} data-testid={`support-partner-${s.id}`} style={{ marginTop: 2 }}>
-          <span style={{ color: '#f472b6' }}>{s.name} ({s.rank})</span>
+          <span style={{ color: '#f472b6' }}>
+            {s.name} ({s.rank})
+          </span>
           <span style={{ color: '#fff', marginLeft: 4 }}>
             +{s.bonuses.hit} Hit, +{s.bonuses.avoid} Avo
             {s.bonuses.crit > 0 && `, +${s.bonuses.crit} Crit`}
@@ -150,9 +196,13 @@ export function UnitStatsPanel() {
 
   // Danger zone attribution (Task 12)
   const hoveredKey = hoveredTile ? `${hoveredTile.x},${hoveredTile.y}` : null;
-  const threatEnemyIds = showDangerZone && hoveredKey && dangerZone?.has(hoveredKey) && dangerZoneAttribution
-    ? dangerZoneAttribution.get(hoveredKey) : null;
-  const threatEnemies = threatEnemyIds?.map((id) => units.get(id)).filter(Boolean) as Unit[] | undefined;
+  const threatEnemyIds =
+    showDangerZone && hoveredKey && dangerZone?.has(hoveredKey) && dangerZoneAttribution
+      ? dangerZoneAttribution.get(hoveredKey)
+      : null;
+  const threatEnemies = threatEnemyIds?.map((id) => units.get(id)).filter(Boolean) as
+    | Unit[]
+    | undefined;
 
   return (
     <div className="unit-stats-panel" data-testid="unit-stats-panel">
@@ -179,11 +229,18 @@ export function UnitStatsPanel() {
           </div>
           <div className="unit-stats-panel__weapon">
             {unit.equippedWeapon.name} (Mt {unit.equippedWeapon.might})
-            {unit.equippedWeapon.durability != null && unit.equippedWeapon.maxDurability != null && (
-              <span data-testid="weapon-durability" style={{ marginLeft: 6, color: getDurabilityColor(unit.equippedWeapon.durability) }}>
-                {unit.equippedWeapon.durability}/{unit.equippedWeapon.maxDurability}
-              </span>
-            )}
+            {unit.equippedWeapon.durability != null &&
+              unit.equippedWeapon.maxDurability != null && (
+                <span
+                  data-testid="weapon-durability"
+                  style={{
+                    marginLeft: 6,
+                    color: getDurabilityColor(unit.equippedWeapon.durability),
+                  }}
+                >
+                  {unit.equippedWeapon.durability}/{unit.equippedWeapon.maxDurability}
+                </span>
+              )}
           </div>
 
           {/* Meta-Stats — enemy meta-stats require AWR >= 80 from any player unit */}
@@ -204,7 +261,10 @@ export function UnitStatsPanel() {
 
           {/* Movement cost (Task 6) */}
           {moveCost != null && (
-            <div data-testid="terrain-move-cost" style={moveCost >= 99 ? { color: '#ef4444' } : undefined}>
+            <div
+              data-testid="terrain-move-cost"
+              style={moveCost >= 99 ? { color: '#ef4444' } : undefined}
+            >
               Move: {moveCost >= 99 ? '---' : moveCost} {moveLabel}
             </div>
           )}
@@ -212,9 +272,24 @@ export function UnitStatsPanel() {
           {/* Terrain meta-stat effects (Task 4) */}
           {hasTerrainMetaEffects && (
             <div data-testid="terrain-meta-effects" style={{ marginTop: 4 }}>
-              {terrainCrp !== 0 && <div style={{ color: '#d946ef' }}>CRP {terrainCrp > 0 ? '+' : ''}{terrainCrp}/turn</div>}
-              {terrainSync !== 0 && <div style={{ color: terrainSync > 0 ? '#22d3ee' : '#ef4444' }}>SYNC {terrainSync > 0 ? '+' : ''}{terrainSync}/turn</div>}
-              {terrainSta !== 0 && <div style={{ color: '#60a5fa' }}>STA {terrainSta > 0 ? '+' : ''}{terrainSta}/turn</div>}
+              {terrainCrp !== 0 && (
+                <div style={{ color: '#d946ef' }}>
+                  CRP {terrainCrp > 0 ? '+' : ''}
+                  {terrainCrp}/turn
+                </div>
+              )}
+              {terrainSync !== 0 && (
+                <div style={{ color: terrainSync > 0 ? '#22d3ee' : '#ef4444' }}>
+                  SYNC {terrainSync > 0 ? '+' : ''}
+                  {terrainSync}/turn
+                </div>
+              )}
+              {terrainSta !== 0 && (
+                <div style={{ color: '#60a5fa' }}>
+                  STA {terrainSta > 0 ? '+' : ''}
+                  {terrainSta}/turn
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -223,9 +298,15 @@ export function UnitStatsPanel() {
       {/* Danger zone threats (Task 12) */}
       {threatEnemies && threatEnemies.length > 0 && (
         <div data-testid="danger-threats" style={{ padding: '6px 8px', fontSize: '11px' }}>
-          <div style={{ color: '#ef4444', fontWeight: 700 }}>Threats ({threatEnemies.length} {threatEnemies.length === 1 ? 'enemy' : 'enemies'})</div>
+          <div style={{ color: '#ef4444', fontWeight: 700 }}>
+            Threats ({threatEnemies.length} {threatEnemies.length === 1 ? 'enemy' : 'enemies'})
+          </div>
           {threatEnemies.map((e) => (
-            <div key={e.id} data-testid={`danger-threat-${e.id}`} style={{ color: 'rgba(255,255,255,0.7)', marginTop: 1 }}>
+            <div
+              key={e.id}
+              data-testid={`danger-threat-${e.id}`}
+              style={{ color: 'rgba(255,255,255,0.7)', marginTop: 1 }}
+            >
               {e.name} — {e.equippedWeapon.name}
             </div>
           ))}
@@ -233,9 +314,7 @@ export function UnitStatsPanel() {
       )}
 
       {!unit && !terrainInfo && (
-        <div className="unit-stats-panel__empty">
-          Hover a tile or select a unit
-        </div>
+        <div className="unit-stats-panel__empty">Hover a tile or select a unit</div>
       )}
     </div>
   );

@@ -2,8 +2,13 @@ import type { ReactElement } from 'react';
 import type { StatusEffect, StatusEffectType } from '../../core/types';
 
 const STATUS_EFFECT_PRIORITY: StatusEffectType[] = [
-  'panic', 'poison', 'dazed',
-  'atk_break', 'def_break', 'spd_break', 'mov_break',
+  'panic',
+  'poison',
+  'dazed',
+  'atk_break',
+  'def_break',
+  'spd_break',
+  'mov_break',
 ];
 
 const STATUS_EFFECT_COLORS: Record<StatusEffectType, string> = {
@@ -20,7 +25,7 @@ const MAX_VISIBLE = 3;
 
 export function sortAndTruncateEffects(effects: StatusEffect[]): StatusEffect[] {
   const sorted = [...effects].sort(
-    (a, b) => STATUS_EFFECT_PRIORITY.indexOf(a.type) - STATUS_EFFECT_PRIORITY.indexOf(b.type)
+    (a, b) => STATUS_EFFECT_PRIORITY.indexOf(a.type) - STATUS_EFFECT_PRIORITY.indexOf(b.type),
   );
   return sorted.slice(0, MAX_VISIBLE);
 }

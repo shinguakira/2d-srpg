@@ -64,7 +64,18 @@ export type GameMap = {
 
 // ===== Weapons =====
 
-export type WeaponType = 'sword' | 'axe' | 'lance' | 'fire' | 'thunder' | 'wind' | 'staff' | 'bow' | 'knife' | 'dark' | 'light';
+export type WeaponType =
+  | 'sword'
+  | 'axe'
+  | 'lance'
+  | 'fire'
+  | 'thunder'
+  | 'wind'
+  | 'staff'
+  | 'bow'
+  | 'knife'
+  | 'dark'
+  | 'light';
 
 export type WeaponRank = 'E' | 'D' | 'C' | 'B' | 'A' | 'S' | 'Prf';
 
@@ -109,12 +120,12 @@ export type ConsumableItem = {
 // ===== Meta-Stats =====
 
 export type MetaStats = {
-  awr: number;  // Awareness: 0-100
+  awr: number; // Awareness: 0-100
   loop: number; // Memory (Ren only): spendable resource, starts 347
   sync: number; // Stability: 0-100
-  loy: number;  // Loyalty: 0-100
-  crp: number;  // Corruption: 0-100, 100 = turns enemy
-  sta: number;  // Stamina: 0-45 per chapter, resets between chapters
+  loy: number; // Loyalty: 0-100
+  crp: number; // Corruption: 0-100, 100 = turns enemy
+  sta: number; // Stamina: 0-45 per chapter, resets between chapters
 };
 
 // ===== Units =====
@@ -134,7 +145,7 @@ export type UnitStats = {
 };
 
 export type GrowthRates = {
-  readonly hp: number;  // 0-100%
+  readonly hp: number; // 0-100%
   readonly str: number;
   readonly mag: number;
   readonly def: number;
@@ -195,7 +206,10 @@ export type BossPhase = {
 
 export type MapBossPhase = {
   readonly hpThreshold: number;
-  readonly terrainChanges: ReadonlyArray<{ readonly position: Position; readonly terrain: TerrainType }>;
+  readonly terrainChanges: ReadonlyArray<{
+    readonly position: Position;
+    readonly terrain: TerrainType;
+  }>;
   readonly enemyHealRate: number;
   readonly spawnRate: number;
   readonly clearWalls?: boolean; // Final phase: remove all wall/mountain terrain
@@ -228,8 +242,13 @@ export type EndingType = 'perfect' | 'true' | 'bittersweet' | 'tragic';
 // ===== Status Effects =====
 
 export type StatusEffectType =
-  | 'panic' | 'poison' | 'dazed'
-  | 'atk_break' | 'def_break' | 'spd_break' | 'mov_break';
+  | 'panic'
+  | 'poison'
+  | 'dazed'
+  | 'atk_break'
+  | 'def_break'
+  | 'spd_break'
+  | 'mov_break';
 
 export type StatusEffect = {
   readonly type: StatusEffectType;
@@ -282,7 +301,14 @@ export type Unit = {
 
 // ===== Game State =====
 
-export type GamePhase = 'player_phase' | 'enemy_phase' | 'ally_phase' | 'combat_animation' | 'heal_animation' | 'item_animation' | 'game_over';
+export type GamePhase =
+  | 'player_phase'
+  | 'enemy_phase'
+  | 'ally_phase'
+  | 'combat_animation'
+  | 'heal_animation'
+  | 'item_animation'
+  | 'game_over';
 
 export type PlayerAction =
   | 'idle'
@@ -322,7 +348,15 @@ export type SupportPair = {
 
 // ===== Chapter =====
 
-export type ObjectiveType = 'rout' | 'seize' | 'survive' | 'boss_kill' | 'escape' | 'protect' | 'capture' | 'dual';
+export type ObjectiveType =
+  | 'rout'
+  | 'seize'
+  | 'survive'
+  | 'boss_kill'
+  | 'escape'
+  | 'protect'
+  | 'capture'
+  | 'dual';
 
 export type ChapterObjective = {
   readonly type: ObjectiveType;
@@ -361,7 +395,12 @@ export type SupportConversation = {
 
 export type SupportReward =
   | { readonly type: 'exp'; readonly unitId: string; readonly amount: number }
-  | { readonly type: 'stat'; readonly unitId: string; readonly stat: keyof Omit<UnitStats, 'mov'>; readonly amount: number }
+  | {
+      readonly type: 'stat';
+      readonly unitId: string;
+      readonly stat: keyof Omit<UnitStats, 'mov'>;
+      readonly amount: number;
+    }
   | { readonly type: 'exp_both'; readonly amount: number };
 
 export type ChestData = {
@@ -394,8 +433,16 @@ export type ChapterData = {
   readonly recruitableUnits?: string[]; // unit IDs recruitable in this chapter (cross-ref with unit.recruitableBy)
   readonly fogOfWar?: boolean;
   readonly weather?: WeatherType;
-  readonly weatherChanges?: ReadonlyArray<{ readonly turn: number; readonly weather: WeatherType; readonly message?: string }>;
-  readonly destructibleTerrain?: ReadonlyArray<{ readonly position: Position; readonly hp: number; readonly destroyedTerrain: TerrainType }>;
+  readonly weatherChanges?: ReadonlyArray<{
+    readonly turn: number;
+    readonly weather: WeatherType;
+    readonly message?: string;
+  }>;
+  readonly destructibleTerrain?: ReadonlyArray<{
+    readonly position: Position;
+    readonly hp: number;
+    readonly destroyedTerrain: TerrainType;
+  }>;
   readonly bossPhases?: Readonly<Record<string, readonly BossPhase[]>>;
   readonly mapBoss?: MapBossState;
   readonly splitParty?: SplitPartyConfig;
@@ -499,4 +546,12 @@ export type SaveData = {
 
 // ===== App Screens =====
 
-export type AppScreen = 'title' | 'dialogue' | 'battle' | 'debug' | 'preparation' | 'ending' | 'credits' | 'team_selection';
+export type AppScreen =
+  | 'title'
+  | 'dialogue'
+  | 'battle'
+  | 'debug'
+  | 'preparation'
+  | 'ending'
+  | 'credits'
+  | 'team_selection';

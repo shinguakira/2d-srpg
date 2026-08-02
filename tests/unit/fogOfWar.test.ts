@@ -18,11 +18,33 @@ function makeUnit(id: string, pos: { x: number; y: number }, opts?: Partial<Unit
     classId: 'lord',
     faction: 'player',
     position: pos,
-    stats: { hp: 20, str: 8, mag: 4, def: 5, res: 3, spd: 7, skl: 6, lck: 4, mov: 5, cha: 0, wil: 0 },
+    stats: {
+      hp: 20,
+      str: 8,
+      mag: 4,
+      def: 5,
+      res: 3,
+      spd: 7,
+      skl: 6,
+      lck: 4,
+      mov: 5,
+      cha: 0,
+      wil: 0,
+    },
     currentHp: 20,
     level: 1,
     exp: 0,
-    equippedWeapon: { id: 'iron_sword', name: 'Iron Sword', type: 'sword', might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1 },
+    equippedWeapon: {
+      id: 'iron_sword',
+      name: 'Iron Sword',
+      type: 'sword',
+      might: 5,
+      hit: 90,
+      crit: 0,
+      weight: 5,
+      minRange: 1,
+      maxRange: 1,
+    },
     inventory: [],
     items: [],
     hasActed: false,
@@ -69,24 +91,36 @@ describe('getVisionRange', () => {
   });
 
   it('AWR >= 61 adds +1', () => {
-    const unit = makeUnit('ren', { x: 0, y: 0 }, {
-      metaStats: { ...BASE_META, awr: 61 },
-    });
+    const unit = makeUnit(
+      'ren',
+      { x: 0, y: 0 },
+      {
+        metaStats: { ...BASE_META, awr: 61 },
+      },
+    );
     expect(getVisionRange(unit)).toBe(4);
   });
 
   it('AWR 60 does not add bonus', () => {
-    const unit = makeUnit('ren', { x: 0, y: 0 }, {
-      metaStats: { ...BASE_META, awr: 60 },
-    });
+    const unit = makeUnit(
+      'ren',
+      { x: 0, y: 0 },
+      {
+        metaStats: { ...BASE_META, awr: 60 },
+      },
+    );
     expect(getVisionRange(unit)).toBe(3);
   });
 
   it('thief + AWR 61 = 6', () => {
-    const unit = makeUnit('coda', { x: 0, y: 0 }, {
-      classId: 'thief',
-      metaStats: { ...BASE_META, awr: 61 },
-    });
+    const unit = makeUnit(
+      'coda',
+      { x: 0, y: 0 },
+      {
+        classId: 'thief',
+        metaStats: { ...BASE_META, awr: 61 },
+      },
+    );
     expect(getVisionRange(unit)).toBe(6);
   });
 

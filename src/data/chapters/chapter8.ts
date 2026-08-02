@@ -40,30 +40,30 @@ export const CHAPTER_8: ChapterData = {
   mapHeight: 20,
   terrain,
   playerUnits: [
-    { unitId: 'ren',   position: { x: 8, y: 12 } },
-    { unitId: 'kael',  position: { x: 9, y: 12 } },
+    { unitId: 'ren', position: { x: 8, y: 12 } },
+    { unitId: 'kael', position: { x: 9, y: 12 } },
     { unitId: 'senna', position: { x: 8, y: 13 } },
-    { unitId: 'bram',  position: { x: 7, y: 13 } },
-    { unitId: 'lira',  position: { x: 10, y: 13 } },
-    { unitId: 'voss',  position: { x: 7, y: 12 } },
-    { unitId: 'rook',  position: { x: 10, y: 12 } },
-    { unitId: 'faye',  position: { x: 9, y: 13 } },
+    { unitId: 'bram', position: { x: 7, y: 13 } },
+    { unitId: 'lira', position: { x: 10, y: 13 } },
+    { unitId: 'voss', position: { x: 7, y: 12 } },
+    { unitId: 'rook', position: { x: 10, y: 12 } },
+    { unitId: 'faye', position: { x: 9, y: 13 } },
   ],
   enemyUnits: [
     // Boss on throne
-    { unitId: 'ch8_boss',     position: { x: 9,  y: 1 } },
+    { unitId: 'ch8_boss', position: { x: 9, y: 1 } },
     // Throne room guards
-    { unitId: 'ch8_knight_1', position: { x: 8,  y: 2 } },
+    { unitId: 'ch8_knight_1', position: { x: 8, y: 2 } },
     { unitId: 'ch8_knight_2', position: { x: 10, y: 2 } },
-    { unitId: 'ch8_knight_3', position: { x: 6,  y: 3 } },
+    { unitId: 'ch8_knight_3', position: { x: 6, y: 3 } },
     { unitId: 'ch8_knight_4', position: { x: 11, y: 3 } },
     // Courtyard attackers
     { unitId: 'ch8_cavalier_1', position: { x: 5, y: 6 } },
     { unitId: 'ch8_cavalier_2', position: { x: 12, y: 6 } },
     { unitId: 'ch8_cavalier_3', position: { x: 9, y: 7 } },
     // Mages
-    { unitId: 'ch8_mage_1',  position: { x: 7,  y: 5 } },
-    { unitId: 'ch8_mage_2',  position: { x: 10, y: 5 } },
+    { unitId: 'ch8_mage_1', position: { x: 7, y: 5 } },
+    { unitId: 'ch8_mage_2', position: { x: 10, y: 5 } },
   ],
   objective: {
     type: 'seize',
@@ -75,36 +75,88 @@ export const CHAPTER_8: ChapterData = {
   parTurns: 20,
   prologue: {
     lines: [
-      { speaker: 'Narrator', text: "Night. The mountain fortress looms ahead. Two fronts — the throne room to the north, a corridor to the south where reinforcements will come." },
-      { speaker: 'Ren', text: "Kael. I need to tell you something.", speakerFaction: 'player' },
-      { speaker: 'Kael', text: "You've been keeping something from me. I can tell.", speakerFaction: 'player' },
-      { speaker: 'Ren', text: "This world... it's happened before. 347 times. Everything — the battles, the conversations, the deaths. I remember all of them.", speakerFaction: 'player' },
-      { speaker: 'Kael', text: "...347 times? You've watched us fight this war 347 times?", speakerFaction: 'player' },
-      { speaker: 'Ren', text: "Yes. And every time, I lose people. I lose you.", speakerFaction: 'player' },
+      {
+        speaker: 'Narrator',
+        text: 'Night. The mountain fortress looms ahead. Two fronts — the throne room to the north, a corridor to the south where reinforcements will come.',
+      },
+      { speaker: 'Ren', text: 'Kael. I need to tell you something.', speakerFaction: 'player' },
+      {
+        speaker: 'Kael',
+        text: "You've been keeping something from me. I can tell.",
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Ren',
+        text: "This world... it's happened before. 347 times. Everything — the battles, the conversations, the deaths. I remember all of them.",
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Kael',
+        text: "...347 times? You've watched us fight this war 347 times?",
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Ren',
+        text: 'Yes. And every time, I lose people. I lose you.',
+        speakerFaction: 'player',
+      },
       { speaker: 'Kael', text: "I don't care.", speakerFaction: 'player' },
-      { speaker: 'Ren', text: "What?", speakerFaction: 'player' },
-      { speaker: 'Kael', text: "This is the first time I REMEMBER. So it counts. Whatever happens today — it counts because I chose it.", speakerFaction: 'player' },
-      { speaker: 'Narrator', text: "The party moves into position. Each member checks their weapons. The gestures are small, routine — but tonight they carry weight." },
-      { speaker: 'Bram', text: "...", speakerFaction: 'player' },
-      { speaker: 'Narrator', text: "Bram adjusts his axe grip, glances at Kael, says nothing." },
-      { speaker: 'Lira', text: "May the dawn find us all.", speakerFaction: 'player' },
-      { speaker: 'Voss', text: "...", speakerFaction: 'player' },
+      { speaker: 'Ren', text: 'What?', speakerFaction: 'player' },
+      {
+        speaker: 'Kael',
+        text: 'This is the first time I REMEMBER. So it counts. Whatever happens today — it counts because I chose it.',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Narrator',
+        text: 'The party moves into position. Each member checks their weapons. The gestures are small, routine — but tonight they carry weight.',
+      },
+      { speaker: 'Bram', text: '...', speakerFaction: 'player' },
+      { speaker: 'Narrator', text: 'Bram adjusts his axe grip, glances at Kael, says nothing.' },
+      { speaker: 'Lira', text: 'May the dawn find us all.', speakerFaction: 'player' },
+      { speaker: 'Voss', text: '...', speakerFaction: 'player' },
       { speaker: 'Narrator', text: "Voss nods to Kael — a soldier's acknowledgment." },
       { speaker: 'Faye', text: "I'll stay close. Whatever happens.", speakerFaction: 'player' },
     ],
   },
   epilogue: {
     lines: [
-      { speaker: 'Narrator', text: "The fortress is taken. But the victory tastes like ash." },
-      { speaker: 'Ren', text: "I've seen him die 347 times. Why does this one hurt more?", speakerFaction: 'player' },
-      { speaker: 'Senna', text: "Because this time he knew. He chose it.", speakerFaction: 'player' },
-      { speaker: 'Bram', text: "...", speakerFaction: 'player' },
-      { speaker: 'Narrator', text: "Bram punches the fortress wall. His knuckles bleed. No one stops him." },
-      { speaker: 'Lira', text: "May his soul find the peace that this world denied him.", speakerFaction: 'player' },
-      { speaker: 'Voss', text: "He held that corridor alone. Against everything. The garrison would have been proud.", speakerFaction: 'player' },
-      { speaker: 'Faye', text: "I couldn't reach him. I tried to get there and I couldn't—", speakerFaction: 'player' },
-      { speaker: 'Rook', text: "None of us could. That was the point.", speakerFaction: 'player' },
-      { speaker: 'Narrator', text: "The grief settles over the party like armor — heavy, suffocating, and impossible to remove. All stats reduced by 3 for the next two chapters." },
+      { speaker: 'Narrator', text: 'The fortress is taken. But the victory tastes like ash.' },
+      {
+        speaker: 'Ren',
+        text: "I've seen him die 347 times. Why does this one hurt more?",
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Senna',
+        text: 'Because this time he knew. He chose it.',
+        speakerFaction: 'player',
+      },
+      { speaker: 'Bram', text: '...', speakerFaction: 'player' },
+      {
+        speaker: 'Narrator',
+        text: 'Bram punches the fortress wall. His knuckles bleed. No one stops him.',
+      },
+      {
+        speaker: 'Lira',
+        text: 'May his soul find the peace that this world denied him.',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Voss',
+        text: 'He held that corridor alone. Against everything. The garrison would have been proud.',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Faye',
+        text: "I couldn't reach him. I tried to get there and I couldn't—",
+        speakerFaction: 'player',
+      },
+      { speaker: 'Rook', text: 'None of us could. That was the point.', speakerFaction: 'player' },
+      {
+        speaker: 'Narrator',
+        text: 'The grief settles over the party like armor — heavy, suffocating, and impossible to remove. All stats reduced by 3 for the next two chapters.',
+      },
     ],
   },
   reinforcements: [
@@ -144,8 +196,16 @@ export const CHAPTER_8: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Rook', text: "Knights guarding the throne room. Heavy armor — axes or magic will do better than swords.", speakerFaction: 'player' },
-              { speaker: 'Kael', text: "I'll draw their attention. You flank.", speakerFaction: 'player' },
+              {
+                speaker: 'Rook',
+                text: 'Knights guarding the throne room. Heavy armor — axes or magic will do better than swords.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Kael',
+                text: "I'll draw their attention. You flank.",
+                speakerFaction: 'player',
+              },
             ],
           },
         },
@@ -161,8 +221,16 @@ export const CHAPTER_8: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Senna', text: "South gate activity — they're sending reinforcements through the corridor.", speakerFaction: 'player' },
-              { speaker: 'Ren', text: "Push north. We take Morryn before they overwhelm us.", speakerFaction: 'player' },
+              {
+                speaker: 'Senna',
+                text: "South gate activity — they're sending reinforcements through the corridor.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Ren',
+                text: 'Push north. We take Morryn before they overwhelm us.',
+                speakerFaction: 'player',
+              },
             ],
           },
         },
@@ -178,8 +246,16 @@ export const CHAPTER_8: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Voss', text: "The south corridor — they're sending more. Someone has to hold the rear.", speakerFaction: 'player' },
-              { speaker: 'Ren', text: "We can't split further. We need everyone for Morryn.", speakerFaction: 'player' },
+              {
+                speaker: 'Voss',
+                text: "The south corridor — they're sending more. Someone has to hold the rear.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Ren',
+                text: "We can't split further. We need everyone for Morryn.",
+                speakerFaction: 'player',
+              },
             ],
           },
         },
@@ -200,15 +276,23 @@ export const CHAPTER_8: ChapterData = {
                 lines: [
                   { speaker: 'Kael', text: "I'll hold the corridor.", speakerFaction: 'player' },
                   { speaker: 'Ren', text: "Kael, don't—", speakerFaction: 'player' },
-                  { speaker: 'Kael', text: "You said I've done this 347 times without knowing. Now I know. And I'm choosing to do it anyway.", speakerFaction: 'player' },
-                  { speaker: 'Kael', text: "Was I brave this time?", speakerFaction: 'player' },
-                  { speaker: 'Ren', text: "Every time.", speakerFaction: 'player' },
-                  { speaker: 'Kael', text: "Then it counted.", speakerFaction: 'player' },
+                  {
+                    speaker: 'Kael',
+                    text: "You said I've done this 347 times without knowing. Now I know. And I'm choosing to do it anyway.",
+                    speakerFaction: 'player',
+                  },
+                  { speaker: 'Kael', text: 'Was I brave this time?', speakerFaction: 'player' },
+                  { speaker: 'Ren', text: 'Every time.', speakerFaction: 'player' },
+                  { speaker: 'Kael', text: 'Then it counted.', speakerFaction: 'player' },
                 ],
               },
             },
             { type: 'remove_unit', unitId: 'kael' },
-            { type: 'spawn_units', units: [{ unitId: 'kael_npc', position: { x: 8, y: 16 } }], faction: 'ally' },
+            {
+              type: 'spawn_units',
+              units: [{ unitId: 'kael_npc', position: { x: 8, y: 16 } }],
+              faction: 'ally',
+            },
           ],
         },
       ],
@@ -223,8 +307,11 @@ export const CHAPTER_8: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Narrator', text: "In the south corridor, Kael fights alone. His lance catches the torchlight between strikes." },
-              { speaker: 'Lira', text: "Can anyone see him? Is he—", speakerFaction: 'player' },
+              {
+                speaker: 'Narrator',
+                text: 'In the south corridor, Kael fights alone. His lance catches the torchlight between strikes.',
+              },
+              { speaker: 'Lira', text: 'Can anyone see him? Is he—', speakerFaction: 'player' },
               { speaker: 'Voss', text: "He's holding. Focus on Morryn.", speakerFaction: 'player' },
             ],
           },
@@ -241,9 +328,20 @@ export const CHAPTER_8: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Narrator', text: "The sounds from the south corridor are slowing. Fewer clashes. Longer pauses." },
-              { speaker: 'Senna', text: "His vitals... they're dropping. We need to finish this NOW.", speakerFaction: 'player' },
-              { speaker: 'Ren', text: "Everyone — push! Take the throne!", speakerFaction: 'player' },
+              {
+                speaker: 'Narrator',
+                text: 'The sounds from the south corridor are slowing. Fewer clashes. Longer pauses.',
+              },
+              {
+                speaker: 'Senna',
+                text: "His vitals... they're dropping. We need to finish this NOW.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Ren',
+                text: 'Everyone — push! Take the throne!',
+                speakerFaction: 'player',
+              },
             ],
           },
         },
@@ -262,13 +360,23 @@ export const CHAPTER_8: ChapterData = {
               type: 'show_dialogue',
               scene: {
                 lines: [
-                  { speaker: 'Narrator', text: "In the south corridor, Kael staggers. His lance arm drops. The enemies close in." },
-                  { speaker: 'Kael', text: "Still... standing...", speakerFaction: 'player' },
-                  { speaker: 'Narrator', text: "He falls." },
-                  { speaker: 'Ren', text: "KAEL!", speakerFaction: 'player' },
-                  { speaker: 'Lira', text: "No— I can get there— let me—", speakerFaction: 'player' },
+                  {
+                    speaker: 'Narrator',
+                    text: 'In the south corridor, Kael staggers. His lance arm drops. The enemies close in.',
+                  },
+                  { speaker: 'Kael', text: 'Still... standing...', speakerFaction: 'player' },
+                  { speaker: 'Narrator', text: 'He falls.' },
+                  { speaker: 'Ren', text: 'KAEL!', speakerFaction: 'player' },
+                  {
+                    speaker: 'Lira',
+                    text: 'No— I can get there— let me—',
+                    speakerFaction: 'player',
+                  },
                   { speaker: 'Rook', text: "It's too late.", speakerFaction: 'player' },
-                  { speaker: 'Narrator', text: "The tile where Kael stood is empty. It is the loudest silence the party has ever heard." },
+                  {
+                    speaker: 'Narrator',
+                    text: 'The tile where Kael stood is empty. It is the loudest silence the party has ever heard.',
+                  },
                 ],
               },
             },
@@ -288,9 +396,13 @@ export const CHAPTER_8: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Morryn', text: "I've killed you before. I remember it happening... AGAIN. And again. How many times have we done this?", speakerFaction: 'enemy' },
-              { speaker: 'Ren', text: "347. But this is the last time.", speakerFaction: 'player' },
-              { speaker: 'Morryn', text: "You always say that...", speakerFaction: 'enemy' },
+              {
+                speaker: 'Morryn',
+                text: "I've killed you before. I remember it happening... AGAIN. And again. How many times have we done this?",
+                speakerFaction: 'enemy',
+              },
+              { speaker: 'Ren', text: '347. But this is the last time.', speakerFaction: 'player' },
+              { speaker: 'Morryn', text: 'You always say that...', speakerFaction: 'enemy' },
             ],
           },
         },
@@ -303,11 +415,23 @@ export const CHAPTER_8: ChapterData = {
       unitA: 'ren',
       unitB: 'kael',
       lines: [
-        { speaker: 'Kael', text: "If you've seen this 347 times... did I always volunteer?", speakerFaction: 'player' },
-        { speaker: 'Ren', text: "Always.", speakerFaction: 'player' },
-        { speaker: 'Kael', text: "Good. That means it's who I am, not just what I'm told to do.", speakerFaction: 'player' },
-        { speaker: 'Ren', text: "Kael...", speakerFaction: 'player' },
-        { speaker: 'Kael', text: "Don't. Just... let me be brave while I still can.", speakerFaction: 'player' },
+        {
+          speaker: 'Kael',
+          text: "If you've seen this 347 times... did I always volunteer?",
+          speakerFaction: 'player',
+        },
+        { speaker: 'Ren', text: 'Always.', speakerFaction: 'player' },
+        {
+          speaker: 'Kael',
+          text: "Good. That means it's who I am, not just what I'm told to do.",
+          speakerFaction: 'player',
+        },
+        { speaker: 'Ren', text: 'Kael...', speakerFaction: 'player' },
+        {
+          speaker: 'Kael',
+          text: "Don't. Just... let me be brave while I still can.",
+          speakerFaction: 'player',
+        },
       ],
       reward: { type: 'exp_both', amount: 30 },
     },
@@ -315,10 +439,22 @@ export const CHAPTER_8: ChapterData = {
       unitA: 'kael',
       unitB: 'lira',
       lines: [
-        { speaker: 'Lira', text: "Kael, you seem different today. Lighter, somehow.", speakerFaction: 'player' },
-        { speaker: 'Kael', text: "I learned something today. About the world, about us. About how many times we've done this.", speakerFaction: 'player' },
-        { speaker: 'Lira', text: "And that makes you lighter?", speakerFaction: 'player' },
-        { speaker: 'Kael', text: "It makes me certain. For the first time in my life, I know exactly who I am.", speakerFaction: 'player' },
+        {
+          speaker: 'Lira',
+          text: 'Kael, you seem different today. Lighter, somehow.',
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Kael',
+          text: "I learned something today. About the world, about us. About how many times we've done this.",
+          speakerFaction: 'player',
+        },
+        { speaker: 'Lira', text: 'And that makes you lighter?', speakerFaction: 'player' },
+        {
+          speaker: 'Kael',
+          text: 'It makes me certain. For the first time in my life, I know exactly who I am.',
+          speakerFaction: 'player',
+        },
       ],
       reward: { type: 'stat', unitId: 'kael', stat: 'def', amount: 2 },
     },

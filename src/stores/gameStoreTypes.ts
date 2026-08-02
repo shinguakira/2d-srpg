@@ -59,7 +59,13 @@ export type GameState = {
   levelUpUnitId: string | null;
 
   // EXP bar animation
-  expBarData: { unitId: string; unitName: string; expBefore: number; expGain: number; leveled: boolean } | null;
+  expBarData: {
+    unitId: string;
+    unitName: string;
+    expBefore: number;
+    expGain: number;
+    leveled: boolean;
+  } | null;
 
   // Phase transitions
   phaseBanner: 'player_phase' | 'enemy_phase' | null;
@@ -138,7 +144,20 @@ export type GameState = {
   floatingNumbers: Array<{ id: number; x: number; y: number; text: string; color: string }>;
 
   // Walking animation
-  movingUnit: { unitId: string; path: Position[]; stepIndex: number; onComplete: 'wait' | 'combat' | 'heal' | 'item' | 'seize' | 'village' | 'enemy_action' | 'auto_action' } | null;
+  movingUnit: {
+    unitId: string;
+    path: Position[];
+    stepIndex: number;
+    onComplete:
+      | 'wait'
+      | 'combat'
+      | 'heal'
+      | 'item'
+      | 'seize'
+      | 'village'
+      | 'enemy_action'
+      | 'auto_action';
+  } | null;
 
   // Events
   chapterEvents: ChapterEvent[];
@@ -219,7 +238,13 @@ export type GameState = {
 };
 
 export type GameActions = {
-  initChapter: (chapter: ChapterData, seed?: number, unitProgress?: Record<string, UnitProgress>, deployedUnitIds?: string[], supportPairs?: SupportPair[]) => void;
+  initChapter: (
+    chapter: ChapterData,
+    seed?: number,
+    unitProgress?: Record<string, UnitProgress>,
+    deployedUnitIds?: string[],
+    supportPairs?: SupportPair[],
+  ) => void;
   selectUnit: (unitId: string) => void;
   deselectUnit: () => void;
   hoverTile: (pos: Position | null) => void;

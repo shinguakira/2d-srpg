@@ -130,7 +130,11 @@ export function executeNextAutoAction(get: Get, set: Set) {
 }
 
 function finalizeAutoAction(
-  get: Get, set: Set, action: AIAction, unit: ReturnType<Get>['units'] extends Map<string, infer U> ? U : never, destination: { x: number; y: number }
+  get: Get,
+  set: Set,
+  action: AIAction,
+  unit: ReturnType<Get>['units'] extends Map<string, infer U> ? U : never,
+  destination: { x: number; y: number },
 ) {
   const { units, gameMap, rng, autoBattleIndex } = get();
 
@@ -159,7 +163,11 @@ function finalizeAutoAction(
     const target = newUnits.get(action.attackTargetId);
     if (!target || target.faction === 'player') {
       newUnits.set(unit.id, { ...movedUnit, hasActed: true });
-      set({ units: newUnits, gameMap: { ...gameMap, tiles: newTiles }, autoBattleIndex: autoBattleIndex + 1 });
+      set({
+        units: newUnits,
+        gameMap: { ...gameMap, tiles: newTiles },
+        autoBattleIndex: autoBattleIndex + 1,
+      });
       return;
     }
 
@@ -167,9 +175,16 @@ function finalizeAutoAction(
     const defenderTerrain = newTiles[target.position.y][target.position.x].terrain;
     const distance = getManhattanDistance(destination, target.position);
 
-    if (distance < movedUnit.equippedWeapon.minRange || distance > movedUnit.equippedWeapon.maxRange) {
+    if (
+      distance < movedUnit.equippedWeapon.minRange ||
+      distance > movedUnit.equippedWeapon.maxRange
+    ) {
       newUnits.set(unit.id, { ...movedUnit, hasActed: true });
-      set({ units: newUnits, gameMap: { ...gameMap, tiles: newTiles }, autoBattleIndex: autoBattleIndex + 1 });
+      set({
+        units: newUnits,
+        gameMap: { ...gameMap, tiles: newTiles },
+        autoBattleIndex: autoBattleIndex + 1,
+      });
       return;
     }
 
@@ -179,7 +194,14 @@ function finalizeAutoAction(
 
     const attackerNearRen = combatUnit.id !== 'ren' && isNearRen(destination, newUnits);
     const defenderNearRen = target.id !== 'ren' && isNearRen(target.position, newUnits);
-    const forecast = calculateCombatForecast(combatUnit, target, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen });
+    const forecast = calculateCombatForecast(
+      combatUnit,
+      target,
+      attackerTerrain,
+      defenderTerrain,
+      distance,
+      { attackerNearRen, defenderNearRen },
+    );
     const { cycleAuthorityUsed, vanishUsed } = get();
     const combinedUsedSkills = new Set([...cycleAuthorityUsed, ...vanishUsed]);
     const result = resolveCombat(forecast, rng, combatUnit, target, combinedUsedSkills);
@@ -196,12 +218,17 @@ function finalizeAutoAction(
     });
   } else {
     newUnits.set(unit.id, { ...movedUnit, hasActed: true });
-    set({ units: newUnits, gameMap: { ...gameMap, tiles: newTiles }, autoBattleIndex: autoBattleIndex + 1 });
+    set({
+      units: newUnits,
+      gameMap: { ...gameMap, tiles: newTiles },
+      autoBattleIndex: autoBattleIndex + 1,
+    });
   }
 }
 
 export function finishAutoCombat(get: Get, set: Set) {
-  const { selectedUnitId, attackTargetId, combatResult, units, gameMap, rng, autoBattleIndex } = get();
+  const { selectedUnitId, attackTargetId, combatResult, units, gameMap, rng, autoBattleIndex } =
+    get();
   if (!selectedUnitId || !attackTargetId || !combatResult) return;
 
   const attacker = units.get(selectedUnitId)!;
@@ -209,7 +236,15 @@ export function finishAutoCombat(get: Get, set: Set) {
   const { chapterData } = get();
 
   const difficulty = useCampaignStore.getState().difficulty;
-  const resolution = applyCombatResult(units, gameMap, selectedUnitId, attackTargetId, combatResult, chapterData, difficulty);
+  const resolution = applyCombatResult(
+    units,
+    gameMap,
+    selectedUnitId,
+    attackTargetId,
+    combatResult,
+    chapterData,
+    difficulty,
+  );
 
   if (resolution.lordDied) {
     set({
@@ -252,7 +287,11 @@ export function finishAutoCombat(get: Get, set: Set) {
         levelUpUnit = selectedUnitId;
       }
     } else {
-      resolution.newUnits.set(selectedUnitId, { ...updated, exp: levelCheck.newExp, hasActed: true });
+      resolution.newUnits.set(selectedUnitId, {
+        ...updated,
+        exp: levelCheck.newExp,
+        hasActed: true,
+      });
     }
 
     expBarData = {
@@ -269,7 +308,12 @@ export function finishAutoCombat(get: Get, set: Set) {
   }
 
   const isVictory = !!resolution.victoryResult;
-  const nextPhase = (isVictory && expBarData) ? 'player_phase' as const : (isVictory ? 'game_over' as const : 'player_phase' as const);
+  const nextPhase =
+    isVictory && expBarData
+      ? ('player_phase' as const)
+      : isVictory
+        ? ('game_over' as const)
+        : ('player_phase' as const);
   const effectiveGameOver = isVictory && !expBarData;
 
   set({

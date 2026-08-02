@@ -1,5 +1,13 @@
 import { useState, useEffect } from 'react';
-import { getSheetConfig, sheetFrameW, sheetCols, sheetPxW, sheetPxH, sheetRows, sheetFrameH } from '../sprites/spriteSheetConfig';
+import {
+  getSheetConfig,
+  sheetFrameW,
+  sheetCols,
+  sheetPxW,
+  sheetPxH,
+  sheetRows,
+  sheetFrameH,
+} from '../sprites/spriteSheetConfig';
 import type { SheetConfig } from '../sprites/spriteSheetConfig';
 
 /** All unique base sprite sheets */
@@ -102,7 +110,10 @@ export function SpritesView({
             <div className="debug-screen__entry-info">
               <span className="debug-screen__entry-name">{entry.label}</span>
               <span className="debug-screen__entry-meta">
-                <span className="debug-screen__badge" style={{ background: entry.cfg.hasAlpha ? '#22c55e' : '#d97706' }}>
+                <span
+                  className="debug-screen__badge"
+                  style={{ background: entry.cfg.hasAlpha ? '#22c55e' : '#d97706' }}
+                >
                   {entry.cfg.hasAlpha ? 'RGBA' : 'RGB'}
                 </span>
                 <span style={{ color: '#94a3b8', fontSize: 11 }}>
@@ -115,7 +126,11 @@ export function SpritesView({
       </div>
 
       <div className="debug-screen__detail">
-        {selected ? <SheetDetail entry={selected} /> : <div className="debug-screen__empty">Select a sprite sheet to view animations</div>}
+        {selected ? (
+          <SheetDetail entry={selected} />
+        ) : (
+          <div className="debug-screen__empty">Select a sprite sheet to view animations</div>
+        )}
       </div>
     </div>
   );
@@ -152,7 +167,7 @@ function SheetPreviewThumb({ cfg }: { cfg: SheetConfig }) {
 }
 
 /** Full detail panel for a selected sprite sheet */
-function SheetDetail({ entry }: { entry: typeof SHEET_ENTRIES[number] }) {
+function SheetDetail({ entry }: { entry: (typeof SHEET_ENTRIES)[number] }) {
   const { cfg } = entry;
   const cols = sheetCols(cfg);
   const fw = sheetFrameW(cfg);
@@ -182,26 +197,46 @@ function SheetDetail({ entry }: { entry: typeof SHEET_ENTRIES[number] }) {
 
   return (
     <div data-testid={`debug-sprite-detail-${entry.id}`}>
-      <h2 className="debug-screen__detail-name" style={{ marginBottom: 8 }}>{entry.label}</h2>
+      <h2 className="debug-screen__detail-name" style={{ marginBottom: 8 }}>
+        {entry.label}
+      </h2>
 
       {/* Sheet metadata */}
       <div style={{ display: 'flex', gap: 12, marginBottom: 16, flexWrap: 'wrap' }}>
-        <span className="debug-screen__badge debug-screen__badge--large" style={{ background: cfg.hasAlpha ? '#22c55e' : '#d97706' }}>
+        <span
+          className="debug-screen__badge debug-screen__badge--large"
+          style={{ background: cfg.hasAlpha ? '#22c55e' : '#d97706' }}
+        >
           {cfg.hasAlpha ? 'RGBA (transparent)' : 'RGB (blend: screen)'}
         </span>
-        <span className="debug-screen__badge debug-screen__badge--large" style={{ background: '#475569' }}>
+        <span
+          className="debug-screen__badge debug-screen__badge--large"
+          style={{ background: '#475569' }}
+        >
           {sw}x{sh}px
         </span>
-        <span className="debug-screen__badge debug-screen__badge--large" style={{ background: '#475569' }}>
+        <span
+          className="debug-screen__badge debug-screen__badge--large"
+          style={{ background: '#475569' }}
+        >
           {cols}x{rows} grid = {cols * rows} frames
         </span>
-        <span className="debug-screen__badge debug-screen__badge--large" style={{ background: '#475569' }}>
+        <span
+          className="debug-screen__badge debug-screen__badge--large"
+          style={{ background: '#475569' }}
+        >
           {fw}x{frameH}px per frame
         </span>
-        <span className="debug-screen__badge debug-screen__badge--large" style={{ background: '#3b82f6' }}>
+        <span
+          className="debug-screen__badge debug-screen__badge--large"
+          style={{ background: '#3b82f6' }}
+        >
           Idle: Row {cfg.idleRow}
         </span>
-        <span className="debug-screen__badge debug-screen__badge--large" style={{ background: '#ef4444' }}>
+        <span
+          className="debug-screen__badge debug-screen__badge--large"
+          style={{ background: '#ef4444' }}
+        >
           Attack: Row {cfg.attackRow}
         </span>
       </div>
@@ -209,13 +244,24 @@ function SheetDetail({ entry }: { entry: typeof SHEET_ENTRIES[number] }) {
       {/* Controls */}
       <div className="debug-screen__section">
         <h3 className="debug-screen__section-title">Controls</h3>
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', marginBottom: 8 }}>
+        <div
+          style={{
+            display: 'flex',
+            gap: 8,
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            marginBottom: 8,
+          }}
+        >
           <span style={{ color: '#94a3b8', fontSize: 12 }}>Speed:</span>
           {SPEED_PRESETS.map((p) => (
             <button
               key={p.label}
               className={`debug-screen__sub-tab ${speed === p.ms && !paused ? 'debug-screen__sub-tab--active' : ''}`}
-              onClick={() => { setSpeed(p.ms); setPaused(false); }}
+              onClick={() => {
+                setSpeed(p.ms);
+                setPaused(false);
+              }}
             >
               {p.label} ({p.ms}ms)
             </button>
@@ -262,7 +308,14 @@ function SheetDetail({ entry }: { entry: typeof SHEET_ENTRIES[number] }) {
           {Array.from({ length: rows }, (_, row) => {
             const isIdle = row === cfg.idleRow;
             const isAttack = row === cfg.attackRow;
-            const label = isIdle && isAttack ? 'Idle + Attack' : isIdle ? 'Idle' : isAttack ? 'Attack' : ROW_LABELS[row];
+            const label =
+              isIdle && isAttack
+                ? 'Idle + Attack'
+                : isIdle
+                  ? 'Idle'
+                  : isAttack
+                    ? 'Attack'
+                    : ROW_LABELS[row];
             const borderColor = isIdle ? '#3b82f6' : isAttack ? '#ef4444' : '#334155';
 
             return (
@@ -325,7 +378,10 @@ function SheetDetail({ entry }: { entry: typeof SHEET_ENTRIES[number] }) {
                   cursor: 'pointer',
                   flexShrink: 0,
                 }}
-                onClick={() => { setPaused(true); setManualFrame(col); }}
+                onClick={() => {
+                  setPaused(true);
+                  setManualFrame(col);
+                }}
               >
                 <div
                   style={{
@@ -351,7 +407,16 @@ function SheetDetail({ entry }: { entry: typeof SHEET_ENTRIES[number] }) {
       {/* Full sprite sheet */}
       <div className="debug-screen__section">
         <h3 className="debug-screen__section-title">Full Sprite Sheet</h3>
-        <div style={{ overflow: 'auto', maxWidth: '100%', background: '#000', borderRadius: 8, padding: 4, border: '1px solid #334155' }}>
+        <div
+          style={{
+            overflow: 'auto',
+            maxWidth: '100%',
+            background: '#000',
+            borderRadius: 8,
+            padding: 4,
+            border: '1px solid #334155',
+          }}
+        >
           <img
             src={cfg.url}
             alt={`${entry.label} sprite sheet`}
@@ -362,14 +427,14 @@ function SheetDetail({ entry }: { entry: typeof SHEET_ENTRIES[number] }) {
             }}
           />
         </div>
-        <div style={{ fontSize: 11, color: '#64748b', marginTop: 4 }}>
-          {cfg.url}
-        </div>
+        <div style={{ fontSize: 11, color: '#64748b', marginTop: 4 }}>{cfg.url}</div>
       </div>
 
       {/* Classes using this sheet */}
       <div className="debug-screen__section">
-        <h3 className="debug-screen__section-title">Classes Using This Sheet ({entry.classes.length})</h3>
+        <h3 className="debug-screen__section-title">
+          Classes Using This Sheet ({entry.classes.length})
+        </h3>
         <div className="debug-screen__used-by">
           {entry.classes.map((cls) => (
             <span key={cls} className="debug-screen__used-by-chip">
@@ -389,30 +454,40 @@ function SheetDetail({ entry }: { entry: typeof SHEET_ENTRIES[number] }) {
           return (
             <div style={{ display: 'flex', gap: 32, alignItems: 'flex-end' }}>
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: 12, color: '#3b82f6', marginBottom: 4 }}>Idle (Row {cfg.idleRow})</div>
+                <div style={{ fontSize: 12, color: '#3b82f6', marginBottom: 4 }}>
+                  Idle (Row {cfg.idleRow})
+                </div>
                 <div
                   style={{
-                    width: 160, height: bigH,
+                    width: 160,
+                    height: bigH,
                     backgroundImage: `url(${cfg.url})`,
                     backgroundPosition: `${-currentFrame * 160}px ${-cfg.idleRow * bigH}px`,
                     backgroundSize: `${sw * bigScale}px ${sh * bigScale}px`,
-                    backgroundRepeat: 'no-repeat', imageRendering: 'pixelated',
+                    backgroundRepeat: 'no-repeat',
+                    imageRendering: 'pixelated',
                     mixBlendMode: cfg.hasAlpha ? undefined : 'screen',
-                    border: '1px solid #3b82f6', borderRadius: 8,
+                    border: '1px solid #3b82f6',
+                    borderRadius: 8,
                   }}
                 />
               </div>
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: 12, color: '#ef4444', marginBottom: 4 }}>Attack (Row {cfg.attackRow})</div>
+                <div style={{ fontSize: 12, color: '#ef4444', marginBottom: 4 }}>
+                  Attack (Row {cfg.attackRow})
+                </div>
                 <div
                   style={{
-                    width: 160, height: bigH,
+                    width: 160,
+                    height: bigH,
                     backgroundImage: `url(${cfg.url})`,
                     backgroundPosition: `${-currentFrame * 160}px ${-cfg.attackRow * bigH}px`,
                     backgroundSize: `${sw * bigScale}px ${sh * bigScale}px`,
-                    backgroundRepeat: 'no-repeat', imageRendering: 'pixelated',
+                    backgroundRepeat: 'no-repeat',
+                    imageRendering: 'pixelated',
                     mixBlendMode: cfg.hasAlpha ? undefined : 'screen',
-                    border: '1px solid #ef4444', borderRadius: 8,
+                    border: '1px solid #ef4444',
+                    borderRadius: 8,
                   }}
                 />
               </div>

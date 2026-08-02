@@ -14,29 +14,42 @@ export function defaultMetaStats(unitId: string): MetaStats {
 
 export function getTerrainCrpGain(terrain: TerrainType): number {
   switch (terrain) {
-    case 'glitched': return 2;
-    case 'data_void': return 3;
-    case 'corrupted_fort': return 1;
-    case 'broken_throne': return 1;
-    default: return 0;
+    case 'glitched':
+      return 2;
+    case 'data_void':
+      return 3;
+    case 'corrupted_fort':
+      return 1;
+    case 'broken_throne':
+      return 1;
+    default:
+      return 0;
   }
 }
 
 export function getTerrainSyncChange(terrain: TerrainType): number {
   switch (terrain) {
-    case 'glitched': return -1;
-    case 'data_void': return -3;
-    case 'fort': return 2;
-    case 'memory': return 5;
-    default: return 0;
+    case 'glitched':
+      return -1;
+    case 'data_void':
+      return -3;
+    case 'fort':
+      return 2;
+    case 'memory':
+      return 5;
+    default:
+      return 0;
   }
 }
 
 export function getTerrainStaRecovery(terrain: TerrainType): number {
   switch (terrain) {
-    case 'fort': return -3;
-    case 'throne': return -5;
-    default: return 0;
+    case 'fort':
+      return -3;
+    case 'throne':
+      return -5;
+    default:
+      return 0;
   }
 }
 

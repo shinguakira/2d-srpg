@@ -61,7 +61,10 @@ export function dismissVillageReward(get: Get, set: Set) {
   });
 
   // Fire events for tile_visited (enables village recruitment via events)
-  checkAndFireEvents(get, set, { lastMovedUnitId: selectedUnitId, lastMovedPosition: { ...pendingPosition } });
+  checkAndFireEvents(get, set, {
+    lastMovedUnitId: selectedUnitId,
+    lastMovedPosition: { ...pendingPosition },
+  });
 
   // Auto end turn if all player units have acted (skip if event dialogue showing)
   if (!get().eventDialogue && allPlayersDone(get().units)) {

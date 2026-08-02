@@ -21,7 +21,12 @@ import { addSupportPoints } from './supportActions';
 import { hasSkill } from '../../core/skills';
 import { checkPhaseTransition, applyPhaseTransition } from '../../core/bossPhase';
 
-function hasAdjacentIronwallAlly(pos: { x: number; y: number }, unitFaction: string, unitId: string, units: Map<string, import('../../core/types').Unit>): boolean {
+function hasAdjacentIronwallAlly(
+  pos: { x: number; y: number },
+  unitFaction: string,
+  unitId: string,
+  units: Map<string, import('../../core/types').Unit>,
+): boolean {
   for (const u of units.values()) {
     if (u.id === unitId || u.faction !== unitFaction || u.currentHp <= 0) continue;
     if (Math.abs(u.position.x - pos.x) + Math.abs(u.position.y - pos.y) === 1) {
@@ -35,7 +40,8 @@ type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
 
 export function startAttackTargeting(get: Get, set: Set) {
-  const { selectedUnitId, pendingPosition, pendingAttackTiles, units, fogOfWar, visibleTiles } = get();
+  const { selectedUnitId, pendingPosition, pendingAttackTiles, units, fogOfWar, visibleTiles } =
+    get();
   if (!selectedUnitId || !pendingPosition) return;
 
   // Check if there are any enemies in attack range (fog: only visible enemies)
@@ -58,7 +64,15 @@ export function startAttackTargeting(get: Get, set: Set) {
 }
 
 export function selectAttackTarget(get: Get, set: Set, targetId: string) {
-  const { selectedUnitId, pendingPosition, units, gameMap, selectedWeaponIndex, weather, supportPairs } = get();
+  const {
+    selectedUnitId,
+    pendingPosition,
+    units,
+    gameMap,
+    selectedWeaponIndex,
+    weather,
+    supportPairs,
+  } = get();
   if (!selectedUnitId || !pendingPosition) return;
 
   const attacker = units.get(selectedUnitId);
@@ -74,10 +88,40 @@ export function selectAttackTarget(get: Get, set: Set, targetId: string) {
   const attackerNearRen = attacker.id !== 'ren' && isNearRen(pendingPosition, units);
   const defenderNearRen = defender.id !== 'ren' && isNearRen(defender.position, units);
   const attackerSupport = getTotalSupportBonuses(attacker.id, pendingPosition, units, supportPairs);
-  const defenderSupport = getTotalSupportBonuses(defender.id, defender.position, units, supportPairs);
-  const attackerHasIronwallAlly = hasAdjacentIronwallAlly(pendingPosition, attacker.faction, attacker.id, units);
-  const defenderHasIronwallAlly = hasAdjacentIronwallAlly(defender.position, defender.faction, defender.id, units);
-  const forecast = calculateCombatForecast(atkAtPending, defender, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen, weather, attackerSupport, defenderSupport, attackerHasIronwallAlly, defenderHasIronwallAlly });
+  const defenderSupport = getTotalSupportBonuses(
+    defender.id,
+    defender.position,
+    units,
+    supportPairs,
+  );
+  const attackerHasIronwallAlly = hasAdjacentIronwallAlly(
+    pendingPosition,
+    attacker.faction,
+    attacker.id,
+    units,
+  );
+  const defenderHasIronwallAlly = hasAdjacentIronwallAlly(
+    defender.position,
+    defender.faction,
+    defender.id,
+    units,
+  );
+  const forecast = calculateCombatForecast(
+    atkAtPending,
+    defender,
+    attackerTerrain,
+    defenderTerrain,
+    distance,
+    {
+      attackerNearRen,
+      defenderNearRen,
+      weather,
+      attackerSupport,
+      defenderSupport,
+      attackerHasIronwallAlly,
+      defenderHasIronwallAlly,
+    },
+  );
 
   set({
     attackTargetId: targetId,
@@ -89,12 +133,25 @@ export function selectAttackTarget(get: Get, set: Set, targetId: string) {
 }
 
 export function confirmAttack(get: Get, set: Set) {
-  const { selectedUnitId, attackTargetId, pendingPosition, combatForecast, units, gameMap, rng, selectedWeaponIndex } = get();
+  const {
+    selectedUnitId,
+    attackTargetId,
+    pendingPosition,
+    combatForecast,
+    units,
+    gameMap,
+    rng,
+    selectedWeaponIndex,
+  } = get();
   if (!selectedUnitId || !attackTargetId || !pendingPosition || !combatForecast) return;
 
   // LOY disobedience: low loyalty units may refuse to attack
   const attacker = units.get(selectedUnitId)!;
-  if (attacker.faction === 'player' && attacker.id !== 'ren' && shouldDisobey(attacker.metaStats.loy, rng)) {
+  if (
+    attacker.faction === 'player' &&
+    attacker.id !== 'ren' &&
+    shouldDisobey(attacker.metaStats.loy, rng)
+  ) {
     // Move to pending position but refuse to attack
     const newUnits = new Map(units);
     const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
@@ -105,13 +162,16 @@ export function confirmAttack(get: Get, set: Set) {
       ...IDLE_RESET,
       units: newUnits,
       gameMap: { ...gameMap, tiles: newTiles },
-      floatingNumbers: [...get().floatingNumbers, {
-        id: Date.now(),
-        x: pendingPosition.x,
-        y: pendingPosition.y,
-        text: 'Refuses!',
-        color: '#ef4444',
-      }],
+      floatingNumbers: [
+        ...get().floatingNumbers,
+        {
+          id: Date.now(),
+          x: pendingPosition.x,
+          y: pendingPosition.y,
+          text: 'Refuses!',
+          color: '#ef4444',
+        },
+      ],
     });
     if (allPlayersDone(get().units)) {
       get().endPlayerTurn();
@@ -124,7 +184,12 @@ export function confirmAttack(get: Get, set: Set) {
   const weapon = attacker.inventory[selectedWeaponIndex] ?? attacker.equippedWeapon;
   const defender = units.get(attackTargetId)!;
   const facing = deriveFacing(pendingPosition, defender.position);
-  const movedAttacker = { ...attacker, position: { ...pendingPosition }, equippedWeapon: weapon, facing };
+  const movedAttacker = {
+    ...attacker,
+    position: { ...pendingPosition },
+    equippedWeapon: weapon,
+    facing,
+  };
   newUnits.set(selectedUnitId, movedAttacker);
 
   const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
@@ -179,7 +244,15 @@ export function finishCombat(get: Get, set: Set) {
 
   // Apply shared combat resolution (HP, deaths, floats, victory check)
   const difficulty = useCampaignStore.getState().difficulty;
-  const resolution = applyCombatResult(units, gameMap, selectedUnitId, attackTargetId, combatResult, chapterData, difficulty);
+  const resolution = applyCombatResult(
+    units,
+    gameMap,
+    selectedUnitId,
+    attackTargetId,
+    combatResult,
+    chapterData,
+    difficulty,
+  );
 
   if (resolution.lordDied) {
     set({
@@ -234,7 +307,8 @@ export function finishCombat(get: Get, set: Set) {
 
   const isVictory = !!resolution.victoryResult;
   // Defer victory until EXP/level-up are dismissed so player sees the full flow
-  const nextPhase: GamePhase = (isVictory && expBarData) ? 'player_phase' : (isVictory ? 'game_over' : 'player_phase');
+  const nextPhase: GamePhase =
+    isVictory && expBarData ? 'player_phase' : isVictory ? 'game_over' : 'player_phase';
 
   if (expBarData) {
     // Preserve selectedUnitId and pendingPosition through EXP/level-up flow
@@ -301,7 +375,10 @@ export function finishCombat(get: Get, set: Set) {
     if (hitLanded) {
       const defUnit = get().units.get(attackTargetId);
       if (defUnit) {
-        const newMeta = clampMetaStats({ ...defUnit.metaStats, crp: defUnit.metaStats.crp + attacker.equippedWeapon.crpGain });
+        const newMeta = clampMetaStats({
+          ...defUnit.metaStats,
+          crp: defUnit.metaStats.crp + attacker.equippedWeapon.crpGain,
+        });
         const newUnits = new Map(get().units);
         newUnits.set(attackTargetId, { ...defUnit, metaStats: newMeta });
         set({ units: newUnits });
@@ -314,7 +391,10 @@ export function finishCombat(get: Get, set: Set) {
     if (counterHit) {
       const atkUnit = get().units.get(selectedUnitId);
       if (atkUnit) {
-        const newMeta = clampMetaStats({ ...atkUnit.metaStats, crp: atkUnit.metaStats.crp + defender.equippedWeapon.crpGain });
+        const newMeta = clampMetaStats({
+          ...atkUnit.metaStats,
+          crp: atkUnit.metaStats.crp + defender.equippedWeapon.crpGain,
+        });
         const newUnits = new Map(get().units);
         newUnits.set(selectedUnitId, { ...atkUnit, metaStats: newMeta });
         set({ units: newUnits });
@@ -357,7 +437,9 @@ export function finishCombat(get: Get, set: Set) {
       bossUnits.set(attackTargetId, transitioned);
       set({ units: bossUnits });
       if (phase.dialogue) {
-        set({ bossPhaseTransition: { bossId: attackTargetId, dialogue: phase.dialogue, phaseIndex } });
+        set({
+          bossPhaseTransition: { bossId: attackTargetId, dialogue: phase.dialogue, phaseIndex },
+        });
       }
     }
   }
@@ -377,12 +459,22 @@ export function finishCombat(get: Get, set: Set) {
   // Fire events after combat (e.g., unit_killed triggers)
   if (nextPhase !== 'game_over') {
     checkAndFireEvents(get, set, {
-      lastKilledUnitId: combatResult.defenderDied ? attackTargetId : (combatResult.attackerDied ? selectedUnitId : undefined),
+      lastKilledUnitId: combatResult.defenderDied
+        ? attackTargetId
+        : combatResult.attackerDied
+          ? selectedUnitId
+          : undefined,
     });
   }
 
   // Auto-end turn only when no EXP bar (Canto + auto-end deferred to dismissExpBar/dismissLevelUp)
-  if (!expBarData && nextPhase === 'player_phase' && !resolution.deathQuote && !get().eventDialogue && allPlayersDone(get().units)) {
+  if (
+    !expBarData &&
+    nextPhase === 'player_phase' &&
+    !resolution.deathQuote &&
+    !get().eventDialogue &&
+    allPlayersDone(get().units)
+  ) {
     get().endPlayerTurn();
   }
 }

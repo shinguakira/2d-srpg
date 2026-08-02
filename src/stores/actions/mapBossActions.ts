@@ -33,7 +33,9 @@ export function checkMapBossCheckpoint(
   if (!isCheckpoint) return false;
 
   // Reduce HP by portion (total HP / number of checkpoints)
-  const hpPerCheckpoint = Math.floor(mapBossState.maxHp / Math.max(1, mapBossState.checkpointPositions.length));
+  const hpPerCheckpoint = Math.floor(
+    mapBossState.maxHp / Math.max(1, mapBossState.checkpointPositions.length),
+  );
   const newHp = Math.max(0, mapBossState.currentHp - hpPerCheckpoint);
 
   // Remove this checkpoint so it can't be triggered again

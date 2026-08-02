@@ -1,14 +1,27 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { computeDistanceMap, getPathfindingDistance, getDistanceMap, clearDistanceMapCache } from '../../src/core/pathfinding';
+import {
+  computeDistanceMap,
+  getPathfindingDistance,
+  getDistanceMap,
+  clearDistanceMapCache,
+} from '../../src/core/pathfinding';
 import { decideAction } from '../../src/core/ai';
 import { posKey } from '../../src/core/types';
-import type { Unit, GameMap, Tile, TerrainType, Position, Weapon, WeaponType } from '../../src/core/types';
+import type {
+  Unit,
+  GameMap,
+  Tile,
+  TerrainType,
+  Position,
+  Weapon,
+  WeaponType,
+} from '../../src/core/types';
 
 function makeMap(terrain: TerrainType[][]): GameMap {
   const height = terrain.length;
   const width = terrain[0].length;
   const tiles: Tile[][] = terrain.map((row, y) =>
-    row.map((t, x) => ({ position: { x, y }, terrain: t, occupantId: null }))
+    row.map((t, x) => ({ position: { x, y }, terrain: t, occupantId: null })),
   );
   return { width, height, tiles };
 }
@@ -28,18 +41,26 @@ function makeWeapon(type: WeaponType, overrides: Partial<Weapon> = {}): Weapon {
   };
 }
 
-function makeUnit(
-  id: string,
-  pos: Position,
-  overrides: Partial<Unit> = {},
-): Unit {
+function makeUnit(id: string, pos: Position, overrides: Partial<Unit> = {}): Unit {
   return {
     id,
     name: id,
     classId: 'fighter',
     faction: 'enemy',
     position: pos,
-    stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 3, cha: 0, wil: 0 },
+    stats: {
+      hp: 20,
+      str: 8,
+      mag: 0,
+      def: 5,
+      res: 0,
+      spd: 7,
+      skl: 5,
+      lck: 3,
+      mov: 3,
+      cha: 0,
+      wil: 0,
+    },
     currentHp: 20,
     level: 1,
     exp: 0,
@@ -94,9 +115,7 @@ describe('computeDistanceMap / getPathfindingDistance', () => {
 
   it('completely blocked — returns Infinity', () => {
     // 3x1: water blocks all paths
-    const map = makeMap([
-      ['plain', 'water', 'plain'],
-    ]);
+    const map = makeMap([['plain', 'water', 'plain']]);
 
     expect(getPathfindingDistance({ x: 0, y: 0 }, { x: 2, y: 0 }, map)).toBe(Infinity);
   });
@@ -115,26 +134,20 @@ describe('computeDistanceMap / getPathfindingDistance', () => {
 
   it('forest increases cost', () => {
     // plain(1) + forest(2) = 3 cost from (0,0) to (2,0)
-    const map = makeMap([
-      ['plain', 'forest', 'plain'],
-    ]);
+    const map = makeMap([['plain', 'forest', 'plain']]);
 
     expect(getPathfindingDistance({ x: 0, y: 0 }, { x: 2, y: 0 }, map)).toBe(3);
   });
 
   it('mountain has high cost', () => {
     // plain(1) + mountain(3) = 4 cost from (0,0) to (2,0)
-    const map = makeMap([
-      ['plain', 'mountain', 'plain'],
-    ]);
+    const map = makeMap([['plain', 'mountain', 'plain']]);
 
     expect(getPathfindingDistance({ x: 0, y: 0 }, { x: 2, y: 0 }, map)).toBe(4);
   });
 
   it('flying units have cost 1 on all passable terrain', () => {
-    const map = makeMap([
-      ['plain', 'forest', 'mountain', 'plain'],
-    ]);
+    const map = makeMap([['plain', 'forest', 'mountain', 'plain']]);
 
     // Without flying: 1 + 2 + 3 = 6... wait, cost is per-tile entered
     // (0,0) to (3,0): enter (1,0) forest=2, enter (2,0) mountain=3, enter (3,0) plain=1 = 6
@@ -145,9 +158,7 @@ describe('computeDistanceMap / getPathfindingDistance', () => {
   });
 
   it('cache returns same results for same params', () => {
-    const map = makeMap([
-      ['plain', 'forest', 'plain'],
-    ]);
+    const map = makeMap([['plain', 'forest', 'plain']]);
 
     const d1 = getPathfindingDistance({ x: 0, y: 0 }, { x: 2, y: 0 }, map);
     const d2 = getPathfindingDistance({ x: 0, y: 0 }, { x: 2, y: 0 }, map);
@@ -156,9 +167,7 @@ describe('computeDistanceMap / getPathfindingDistance', () => {
   });
 
   it('cache differentiates by classFlags', () => {
-    const map = makeMap([
-      ['plain', 'forest', 'plain'],
-    ]);
+    const map = makeMap([['plain', 'forest', 'plain']]);
 
     const dInfantry = getPathfindingDistance({ x: 0, y: 0 }, { x: 2, y: 0 }, map);
     const dFlying = getPathfindingDistance({ x: 0, y: 0 }, { x: 2, y: 0 }, map, { flying: true });
@@ -206,16 +215,39 @@ describe('AI pathfinding: aggressive paths around water', () => {
       ['plain', 'plain', 'plain', 'plain', 'plain'],
     ]);
 
-    const enemy = makeUnit('enemy1', { x: 0, y: 0 }, {
-      aiBehavior: { type: 'aggressive' },
-      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 3, cha: 0, wil: 0 },
-    });
-    const player = makeUnit('player1', { x: 4, y: 0 }, {
-      faction: 'player',
-      equippedWeapon: makeWeapon('sword'),
-    });
+    const enemy = makeUnit(
+      'enemy1',
+      { x: 0, y: 0 },
+      {
+        aiBehavior: { type: 'aggressive' },
+        stats: {
+          hp: 20,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 0,
+          spd: 7,
+          skl: 5,
+          lck: 3,
+          mov: 3,
+          cha: 0,
+          wil: 0,
+        },
+      },
+    );
+    const player = makeUnit(
+      'player1',
+      { x: 4, y: 0 },
+      {
+        faction: 'player',
+        equippedWeapon: makeWeapon('sword'),
+      },
+    );
 
-    const allUnits = new Map([['enemy1', enemy], ['player1', player]]);
+    const allUnits = new Map([
+      ['enemy1', enemy],
+      ['player1', player],
+    ]);
     const action = decideAction(enemy, map, allUnits);
 
     // Should NOT move to (1,0) which is closer by Manhattan but stuck behind water
@@ -232,17 +264,40 @@ describe('AI pathfinding: thief navigates around wall', () => {
       ['plain', 'plain', 'plain', 'plain', 'plain'],
     ]);
 
-    const thief = makeUnit('thief1', { x: 0, y: 0 }, {
-      aiBehavior: { type: 'thief' },
-      stats: { hp: 15, str: 5, mag: 0, def: 3, res: 0, spd: 10, skl: 8, lck: 5, mov: 4, cha: 0, wil: 0 },
-    });
+    const thief = makeUnit(
+      'thief1',
+      { x: 0, y: 0 },
+      {
+        aiBehavior: { type: 'thief' },
+        stats: {
+          hp: 15,
+          str: 5,
+          mag: 0,
+          def: 3,
+          res: 0,
+          spd: 10,
+          skl: 8,
+          lck: 5,
+          mov: 4,
+          cha: 0,
+          wil: 0,
+        },
+      },
+    );
     // Need a player to exist (enemy needs an opposing faction)
-    const player = makeUnit('player1', { x: 4, y: 2 }, {
-      faction: 'player',
-      equippedWeapon: makeWeapon('sword'),
-    });
+    const player = makeUnit(
+      'player1',
+      { x: 4, y: 2 },
+      {
+        faction: 'player',
+        equippedWeapon: makeWeapon('sword'),
+      },
+    );
 
-    const allUnits = new Map([['thief1', thief], ['player1', player]]);
+    const allUnits = new Map([
+      ['thief1', thief],
+      ['player1', player],
+    ]);
     const action = decideAction(thief, map, allUnits);
 
     // Thief should move south toward the opening, not get stuck at (1,0)
@@ -257,18 +312,41 @@ describe('AI pathfinding: guard returns to start around obstacle', () => {
       ['plain', 'plain', 'plain', 'plain', 'plain'],
     ]);
 
-    const guard = makeUnit('guard1', { x: 2, y: 0 }, {
-      aiBehavior: { type: 'guard', radius: 5 },
-      startPosition: { x: 0, y: 0 },
-      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 3, cha: 0, wil: 0 },
-    });
+    const guard = makeUnit(
+      'guard1',
+      { x: 2, y: 0 },
+      {
+        aiBehavior: { type: 'guard', radius: 5 },
+        startPosition: { x: 0, y: 0 },
+        stats: {
+          hp: 20,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 0,
+          spd: 7,
+          skl: 5,
+          lck: 3,
+          mov: 3,
+          cha: 0,
+          wil: 0,
+        },
+      },
+    );
     // No player in range — guard should return to start
-    const player = makeUnit('player1', { x: 4, y: 1 }, {
-      faction: 'player',
-      equippedWeapon: makeWeapon('sword'),
-    });
+    const player = makeUnit(
+      'player1',
+      { x: 4, y: 1 },
+      {
+        faction: 'player',
+        equippedWeapon: makeWeapon('sword'),
+      },
+    );
 
-    const allUnits = new Map([['guard1', guard], ['player1', player]]);
+    const allUnits = new Map([
+      ['guard1', guard],
+      ['player1', player],
+    ]);
     const action = decideAction(guard, map, allUnits);
 
     // Should move toward row 1 to go around the wall, not stay stuck
@@ -288,16 +366,39 @@ describe('AI pathfinding: unreachable target fallback', () => {
       ['water', 'water', 'water', 'water', 'water'],
     ]);
 
-    const enemy = makeUnit('enemy1', { x: 1, y: 1 }, {
-      aiBehavior: { type: 'aggressive' },
-      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 3, cha: 0, wil: 0 },
-    });
-    const player = makeUnit('player1', { x: 3, y: 1 }, {
-      faction: 'player',
-      equippedWeapon: makeWeapon('sword'),
-    });
+    const enemy = makeUnit(
+      'enemy1',
+      { x: 1, y: 1 },
+      {
+        aiBehavior: { type: 'aggressive' },
+        stats: {
+          hp: 20,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 0,
+          spd: 7,
+          skl: 5,
+          lck: 3,
+          mov: 3,
+          cha: 0,
+          wil: 0,
+        },
+      },
+    );
+    const player = makeUnit(
+      'player1',
+      { x: 3, y: 1 },
+      {
+        faction: 'player',
+        equippedWeapon: makeWeapon('sword'),
+      },
+    );
 
-    const allUnits = new Map([['enemy1', enemy], ['player1', player]]);
+    const allUnits = new Map([
+      ['enemy1', enemy],
+      ['player1', player],
+    ]);
     const action = decideAction(enemy, map, allUnits);
 
     // Should not crash, should return an action (wait at current position)
@@ -313,22 +414,50 @@ describe('AI pathfinding: unreachable target fallback', () => {
       ['plain', 'plain', 'plain', 'water', 'plain'],
     ]);
 
-    const enemy = makeUnit('enemy1', { x: 0, y: 1 }, {
-      aiBehavior: { type: 'aggressive' },
-      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 3, cha: 0, wil: 0 },
-    });
+    const enemy = makeUnit(
+      'enemy1',
+      { x: 0, y: 1 },
+      {
+        aiBehavior: { type: 'aggressive' },
+        stats: {
+          hp: 20,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 0,
+          spd: 7,
+          skl: 5,
+          lck: 3,
+          mov: 3,
+          cha: 0,
+          wil: 0,
+        },
+      },
+    );
     // Reachable player at (2,1)
-    const player1 = makeUnit('player1', { x: 2, y: 1 }, {
-      faction: 'player',
-      equippedWeapon: makeWeapon('sword'),
-    });
+    const player1 = makeUnit(
+      'player1',
+      { x: 2, y: 1 },
+      {
+        faction: 'player',
+        equippedWeapon: makeWeapon('sword'),
+      },
+    );
     // Unreachable player on the other side of water wall
-    const player2 = makeUnit('player2', { x: 4, y: 1 }, {
-      faction: 'player',
-      equippedWeapon: makeWeapon('sword'),
-    });
+    const player2 = makeUnit(
+      'player2',
+      { x: 4, y: 1 },
+      {
+        faction: 'player',
+        equippedWeapon: makeWeapon('sword'),
+      },
+    );
 
-    const allUnits = new Map([['enemy1', enemy], ['player1', player1], ['player2', player2]]);
+    const allUnits = new Map([
+      ['enemy1', enemy],
+      ['player1', player1],
+      ['player2', player2],
+    ]);
     const action = decideAction(enemy, map, allUnits);
 
     // Should move toward the reachable player (x=2), not toward the wall (x=3)

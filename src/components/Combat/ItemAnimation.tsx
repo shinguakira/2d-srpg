@@ -25,7 +25,9 @@ export function ItemAnimation() {
     if (currentPhase !== 'item_animation' || !data) return;
 
     const timers: ReturnType<typeof setTimeout>[] = [];
-    const t = (fn: () => void, ms: number) => { timers.push(setTimeout(fn, ms)); };
+    const t = (fn: () => void, ms: number) => {
+      timers.push(setTimeout(fn, ms));
+    };
 
     // Reset
     setPhase('idle');
@@ -69,22 +71,22 @@ export function ItemAnimation() {
     return '#ef4444';
   };
 
-  const unitCls = phase === 'glow' ? 'item-animation__fighter--glow' :
-                  phase === 'receive' ? 'heal-animation__fighter--heal-receive' : '';
+  const unitCls =
+    phase === 'glow'
+      ? 'item-animation__fighter--glow'
+      : phase === 'receive'
+        ? 'heal-animation__fighter--heal-receive'
+        : '';
 
   const displayHp = hpAnimated ? data.hpAfter : data.hpBefore;
 
   return (
     <div className="combat-animation" data-testid="item-animation">
       {/* Green heal flash */}
-      {flashActive && (
-        <div className="heal-animation__flash" key={`item-flash-${phase}`} />
-      )}
+      {flashActive && <div className="heal-animation__flash" key={`item-flash-${phase}`} />}
 
       <div className="combat-animation__modal item-animation__modal">
-        <div className="combat-animation__title item-animation__title-bar">
-          {data.itemName}
-        </div>
+        <div className="combat-animation__title item-animation__title-bar">{data.itemName}</div>
 
         {/* Battle stage — single unit centered */}
         <div className="combat-animation__stage">
@@ -132,7 +134,10 @@ export function ItemAnimation() {
                 style={{ width: `${Math.max(0, (displayHp / data.maxHp) * 100)}%` }}
               />
             </div>
-            <div className="combat-animation__hp-text" style={{ color: hpColor(displayHp, data.maxHp) }}>
+            <div
+              className="combat-animation__hp-text"
+              style={{ color: hpColor(displayHp, data.maxHp) }}
+            >
               {displayHp}/{data.maxHp}
             </div>
           </div>

@@ -27,9 +27,10 @@ export function useItem(get: Get, set: Set, itemIndex: number) {
 
   // Update items (decrement uses, remove if depleted)
   const remaining = item.uses - 1;
-  const newItems = remaining > 0
-    ? unit.items.map((it, i) => i === itemIndex ? { ...it, uses: remaining } : it)
-    : unit.items.filter((_, i) => i !== itemIndex);
+  const newItems =
+    remaining > 0
+      ? unit.items.map((it, i) => (i === itemIndex ? { ...it, uses: remaining } : it))
+      : unit.items.filter((_, i) => i !== itemIndex);
   updatedUnit = { ...updatedUnit, items: newItems };
 
   // Move unit to pending position
@@ -43,7 +44,12 @@ export function useItem(get: Get, set: Set, itemIndex: number) {
   let villageReward = null;
   let newOpenedChests = openedChests;
   if (item.effect.kind === 'unlock') {
-    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    const dirs = [
+      { x: 0, y: -1 },
+      { x: 0, y: 1 },
+      { x: -1, y: 0 },
+      { x: 1, y: 0 },
+    ];
     for (const d of dirs) {
       const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
       if (adj.x < 0 || adj.y < 0 || adj.x >= gameMap.width || adj.y >= gameMap.height) continue;
@@ -53,11 +59,15 @@ export function useItem(get: Get, set: Set, itemIndex: number) {
         newTiles[adj.y][adj.x] = { ...tile, terrain: 'indoor' };
         break;
       }
-      if (item.effect.targetTerrain === 'chest' && tile.terrain === 'chest' && !openedChests.has(posKey(adj))) {
+      if (
+        item.effect.targetTerrain === 'chest' &&
+        tile.terrain === 'chest' &&
+        !openedChests.has(posKey(adj))
+      ) {
         newOpenedChests = new Set(openedChests);
         newOpenedChests.add(posKey(adj));
         const chestData = chapterData?.chests?.find(
-          (c) => c.position.x === adj.x && c.position.y === adj.y
+          (c) => c.position.x === adj.x && c.position.y === adj.y,
         );
         villageReward = chestData?.reward ?? null;
         break;

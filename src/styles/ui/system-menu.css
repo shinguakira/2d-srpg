@@ -26,8 +26,12 @@
 }
 
 @keyframes system-menu-slide-in {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(0); }
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 .system-menu__title {
@@ -58,7 +62,9 @@
   text-align: left;
   width: 100%;
   cursor: pointer;
-  transition: background 0.1s, color 0.1s;
+  transition:
+    background 0.1s,
+    color 0.1s;
   font-family: inherit;
 }
 
@@ -109,8 +115,14 @@
 }
 
 @keyframes system-menu-panel-appear {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .system-menu-panel__title {

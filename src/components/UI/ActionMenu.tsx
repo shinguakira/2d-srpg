@@ -111,7 +111,10 @@ export function ActionMenu() {
   })();
 
   // Check if unit has usable items (pass context for key items that need adjacency check)
-  const itemContext = selectedUnit && pendingPosition ? { gameMap, position: pendingPosition, openedChests } : undefined;
+  const itemContext =
+    selectedUnit && pendingPosition
+      ? { gameMap, position: pendingPosition, openedChests }
+      : undefined;
   const usableItems = selectedUnit
     ? selectedUnit.items
         .map((item, index) => ({ item, index }))
@@ -128,7 +131,11 @@ export function ActionMenu() {
   // Check if Lord can seize (on seize position + boss defeated)
   const canSeize = (() => {
     if (!selectedUnit?.isLord || !chapterData?.seizePosition) return false;
-    if (pendingPosition.x !== chapterData.seizePosition.x || pendingPosition.y !== chapterData.seizePosition.y) return false;
+    if (
+      pendingPosition.x !== chapterData.seizePosition.x ||
+      pendingPosition.y !== chapterData.seizePosition.y
+    )
+      return false;
     for (const u of units.values()) {
       if (u.faction === 'enemy' && u.aiBehavior?.type === 'boss') return false;
     }
@@ -138,7 +145,8 @@ export function ActionMenu() {
   // Check if unit can escape (on escape position, escape objective)
   const canEscape = (() => {
     if (!selectedUnit || selectedUnit.faction !== 'player') return false;
-    if (chapterData?.objective.type !== 'escape' || !chapterData.objective.escapePosition) return false;
+    if (chapterData?.objective.type !== 'escape' || !chapterData.objective.escapePosition)
+      return false;
     const escPos = chapterData.objective.escapePosition;
     return pendingPosition.x === escPos.x && pendingPosition.y === escPos.y;
   })();
@@ -146,7 +154,12 @@ export function ActionMenu() {
   // Check movement skills (Shove, Swap, Reposition)
   const canShove = (() => {
     if (!selectedUnit || !hasSkill(selectedUnit, 'shove')) return false;
-    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    const dirs = [
+      { x: 0, y: -1 },
+      { x: 0, y: 1 },
+      { x: -1, y: 0 },
+      { x: 1, y: 0 },
+    ];
     for (const d of dirs) {
       const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
       const tile = gameMap.tiles[adj.y]?.[adj.x];
@@ -156,7 +169,8 @@ export function ActionMenu() {
       const target = { x: adj.x + d.x, y: adj.y + d.y };
       if (target.x >= 0 && target.y >= 0 && target.x < gameMap.width && target.y < gameMap.height) {
         const tgt = gameMap.tiles[target.y]?.[target.x];
-        if (tgt && !tgt.occupantId && tgt.terrain !== 'wall' && tgt.terrain !== 'water') return true;
+        if (tgt && !tgt.occupantId && tgt.terrain !== 'wall' && tgt.terrain !== 'water')
+          return true;
       }
     }
     return false;
@@ -164,7 +178,12 @@ export function ActionMenu() {
 
   const canSwap = (() => {
     if (!selectedUnit || !hasSkill(selectedUnit, 'swap')) return false;
-    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    const dirs = [
+      { x: 0, y: -1 },
+      { x: 0, y: 1 },
+      { x: -1, y: 0 },
+      { x: 1, y: 0 },
+    ];
     for (const d of dirs) {
       const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
       const tile = gameMap.tiles[adj.y]?.[adj.x];
@@ -177,7 +196,12 @@ export function ActionMenu() {
 
   const canReposition = (() => {
     if (!selectedUnit || !hasSkill(selectedUnit, 'reposition')) return false;
-    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    const dirs = [
+      { x: 0, y: -1 },
+      { x: 0, y: 1 },
+      { x: -1, y: 0 },
+      { x: 1, y: 0 },
+    ];
     for (const d of dirs) {
       const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
       const tile = gameMap.tiles[adj.y]?.[adj.x];
@@ -187,7 +211,8 @@ export function ActionMenu() {
       const target = { x: pendingPosition.x - d.x, y: pendingPosition.y - d.y };
       if (target.x >= 0 && target.y >= 0 && target.x < gameMap.width && target.y < gameMap.height) {
         const tgt = gameMap.tiles[target.y]?.[target.x];
-        if (tgt && !tgt.occupantId && tgt.terrain !== 'wall' && tgt.terrain !== 'water') return true;
+        if (tgt && !tgt.occupantId && tgt.terrain !== 'wall' && tgt.terrain !== 'water')
+          return true;
       }
     }
     return false;
@@ -196,13 +221,19 @@ export function ActionMenu() {
   // Check dance skill — adjacent acted ally
   const canDance = (() => {
     if (!selectedUnit || !hasSkill(selectedUnit, 'dance')) return false;
-    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    const dirs = [
+      { x: 0, y: -1 },
+      { x: 0, y: 1 },
+      { x: -1, y: 0 },
+      { x: 1, y: 0 },
+    ];
     for (const d of dirs) {
       const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
       const tile = gameMap.tiles[adj.y]?.[adj.x];
       if (!tile?.occupantId) continue;
       const ally = units.get(tile.occupantId);
-      if (ally && ally.faction === 'player' && ally.id !== selectedUnitId && ally.hasActed) return true;
+      if (ally && ally.faction === 'player' && ally.id !== selectedUnitId && ally.hasActed)
+        return true;
     }
     return false;
   })();
@@ -210,13 +241,24 @@ export function ActionMenu() {
   // Check steal skill — adjacent enemy with items and SPD < thief's SPD
   const canSteal = (() => {
     if (!selectedUnit || !hasSkill(selectedUnit, 'steal')) return false;
-    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    const dirs = [
+      { x: 0, y: -1 },
+      { x: 0, y: 1 },
+      { x: -1, y: 0 },
+      { x: 1, y: 0 },
+    ];
     for (const d of dirs) {
       const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
       const tile = gameMap.tiles[adj.y]?.[adj.x];
       if (!tile?.occupantId) continue;
       const enemy = units.get(tile.occupantId);
-      if (enemy && enemy.faction === 'enemy' && enemy.items.length > 0 && selectedUnit.stats.spd > enemy.stats.spd) return true;
+      if (
+        enemy &&
+        enemy.faction === 'enemy' &&
+        enemy.items.length > 0 &&
+        selectedUnit.stats.spd > enemy.stats.spd
+      )
+        return true;
     }
     return false;
   })();
@@ -224,13 +266,25 @@ export function ActionMenu() {
   // Check rescue — adjacent player ally that we can carry, not already carrying
   const canRescue = (() => {
     if (!selectedUnit || selectedUnit.carriedUnitId) return false;
-    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    const dirs = [
+      { x: 0, y: -1 },
+      { x: 0, y: 1 },
+      { x: -1, y: 0 },
+      { x: 1, y: 0 },
+    ];
     for (const d of dirs) {
       const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
       const tile = gameMap.tiles[adj.y]?.[adj.x];
       if (!tile?.occupantId) continue;
       const ally = units.get(tile.occupantId);
-      if (ally && ally.faction === 'player' && ally.id !== selectedUnitId && !ally.isCarried && canRescueUnit(selectedUnit, ally)) return true;
+      if (
+        ally &&
+        ally.faction === 'player' &&
+        ally.id !== selectedUnitId &&
+        !ally.isCarried &&
+        canRescueUnit(selectedUnit, ally)
+      )
+        return true;
     }
     return false;
   })();
@@ -238,7 +292,12 @@ export function ActionMenu() {
   // Check drop — unit is carrying someone + adjacent empty passable tile
   const canDrop = (() => {
     if (!selectedUnit || !selectedUnit.carriedUnitId) return false;
-    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    const dirs = [
+      { x: 0, y: -1 },
+      { x: 0, y: 1 },
+      { x: -1, y: 0 },
+      { x: 1, y: 0 },
+    ];
     for (const d of dirs) {
       const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
       if (adj.x < 0 || adj.y < 0 || adj.x >= gameMap.width || adj.y >= gameMap.height) continue;
@@ -251,7 +310,12 @@ export function ActionMenu() {
   // Check lockpick — unit has lockpick_skill + adjacent unopened chest or closed door
   const canLockpick = (() => {
     if (!selectedUnit || !hasSkill(selectedUnit, 'lockpick_skill')) return false;
-    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    const dirs = [
+      { x: 0, y: -1 },
+      { x: 0, y: 1 },
+      { x: -1, y: 0 },
+      { x: 1, y: 0 },
+    ];
     for (const d of dirs) {
       const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
       if (adj.x < 0 || adj.y < 0 || adj.x >= gameMap.width || adj.y >= gameMap.height) continue;
@@ -265,13 +329,19 @@ export function ActionMenu() {
   // Check trade — any adjacent player ally
   const canTrade = (() => {
     if (!selectedUnit) return false;
-    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    const dirs = [
+      { x: 0, y: -1 },
+      { x: 0, y: 1 },
+      { x: -1, y: 0 },
+      { x: 1, y: 0 },
+    ];
     for (const d of dirs) {
       const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
       const tile = gameMap.tiles[adj.y]?.[adj.x];
       if (!tile?.occupantId) continue;
       const ally = units.get(tile.occupantId);
-      if (ally && ally.faction === 'player' && ally.id !== selectedUnitId && !ally.isCarried) return true;
+      if (ally && ally.faction === 'player' && ally.id !== selectedUnitId && !ally.isCarried)
+        return true;
     }
     return false;
   })();
@@ -279,7 +349,12 @@ export function ActionMenu() {
   // Check break — adjacent destructible terrain with HP remaining
   const canBreak = (() => {
     if (!selectedUnit || !pendingPosition) return false;
-    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    const dirs = [
+      { x: 0, y: -1 },
+      { x: 0, y: 1 },
+      { x: -1, y: 0 },
+      { x: 1, y: 0 },
+    ];
     for (const d of dirs) {
       const adj = { x: pendingPosition.x + d.x, y: pendingPosition.y + d.y };
       if (adj.x < 0 || adj.y < 0 || adj.x >= gameMap.width || adj.y >= gameMap.height) continue;
@@ -291,7 +366,10 @@ export function ActionMenu() {
   })();
 
   // Check torch — unit has torch item and fog is active
-  const canUseTorch = fogOfWar && selectedUnit && selectedUnit.items.some((i) => i.effect.kind === 'torch' && i.uses > 0);
+  const canUseTorch =
+    fogOfWar &&
+    selectedUnit &&
+    selectedUnit.items.some((i) => i.effect.kind === 'torch' && i.uses > 0);
 
   // Check Balance (Fortify) — unit has 'balance' skill + damaged allies within 5 tiles
   const canBalance = (() => {
@@ -335,11 +413,7 @@ export function ActionMenu() {
   const showWeaponSelector = selectedUnit && selectedUnit.inventory.length > 1 && hasAttackWeapon;
 
   return (
-    <div
-      className="action-menu"
-      data-testid="action-menu"
-      style={{ left: menuX, top: menuY }}
-    >
+    <div className="action-menu" data-testid="action-menu" style={{ left: menuX, top: menuY }}>
       {showWeaponSelector && !showItemMenu && (
         <div className="action-menu__weapons" data-testid="weapon-selector">
           {selectedUnit.inventory.map((weapon, i) => (
@@ -351,10 +425,22 @@ export function ActionMenu() {
             >
               {weapon.name}
               {weaponEffective.has(i) && (
-                <span data-testid="weapon-effective" style={{ marginLeft: 4, fontSize: '0.8em', color: '#22c55e', fontWeight: 'bold' }}>Eff!</span>
+                <span
+                  data-testid="weapon-effective"
+                  style={{ marginLeft: 4, fontSize: '0.8em', color: '#22c55e', fontWeight: 'bold' }}
+                >
+                  Eff!
+                </span>
               )}
               {weapon.durability != null && weapon.maxDurability != null && (
-                <span data-testid="weapon-durability" style={{ marginLeft: 4, fontSize: '0.85em', color: getDurabilityColor(weapon.durability) }}>
+                <span
+                  data-testid="weapon-durability"
+                  style={{
+                    marginLeft: 4,
+                    fontSize: '0.85em',
+                    color: getDurabilityColor(weapon.durability),
+                  }}
+                >
                   {weapon.durability}/{weapon.maxDurability}
                 </span>
               )}
@@ -392,7 +478,17 @@ export function ActionMenu() {
       ) : (
         <div className="action-menu__actions">
           {exhausted && (
-            <div data-testid="exhaustion-warning" style={{ color: '#f97316', fontSize: '11px', padding: '4px 8px', textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.1)', marginBottom: 4 }}>
+            <div
+              data-testid="exhaustion-warning"
+              style={{
+                color: '#f97316',
+                fontSize: '11px',
+                padding: '4px 8px',
+                textAlign: 'center',
+                borderBottom: '1px solid rgba(255,255,255,0.1)',
+                marginBottom: 4,
+              }}
+            >
               Exhausted — Wait or Rest only
             </div>
           )}
@@ -596,11 +692,7 @@ export function ActionMenu() {
           >
             View Info
           </button>
-          <button
-            className="action-menu__btn"
-            data-testid="action-wait"
-            onClick={confirmMove}
-          >
+          <button className="action-menu__btn" data-testid="action-wait" onClick={confirmMove}>
             Wait
           </button>
           <button

@@ -36,22 +36,22 @@ export const CHAPTER_7: ChapterData = {
   mapHeight: 16,
   terrain,
   playerUnits: [
-    { unitId: 'ren',   position: { x: 7, y: 13 } },
-    { unitId: 'kael',  position: { x: 8, y: 13 } },
+    { unitId: 'ren', position: { x: 7, y: 13 } },
+    { unitId: 'kael', position: { x: 8, y: 13 } },
     { unitId: 'senna', position: { x: 7, y: 14 } },
-    { unitId: 'bram',  position: { x: 6, y: 14 } },
-    { unitId: 'lira',  position: { x: 9, y: 14 } },
-    { unitId: 'rook',  position: { x: 6, y: 13 } },
-    { unitId: 'faye',  position: { x: 9, y: 13 } },
+    { unitId: 'bram', position: { x: 6, y: 14 } },
+    { unitId: 'lira', position: { x: 9, y: 14 } },
+    { unitId: 'rook', position: { x: 6, y: 13 } },
+    { unitId: 'faye', position: { x: 9, y: 13 } },
   ],
   enemyUnits: [
-    { unitId: 'ch7_boss',      position: { x: 4,  y: 2 } },  // Admiral Varga on fort
-    { unitId: 'ch7_soldier_1', position: { x: 7,  y: 4 } },  // courtyard
-    { unitId: 'ch7_soldier_2', position: { x: 8,  y: 4 } },  // courtyard
-    { unitId: 'ch7_fighter_1', position: { x: 5,  y: 7 } },  // transition zone
-    { unitId: 'ch7_fighter_2', position: { x: 10, y: 7 } },  // transition zone
-    { unitId: 'ch7_mage_1',   position: { x: 6,  y: 5 } },  // central fort
-    { unitId: 'ch7_mage_2',   position: { x: 9,  y: 5 } },  // central fort
+    { unitId: 'ch7_boss', position: { x: 4, y: 2 } }, // Admiral Varga on fort
+    { unitId: 'ch7_soldier_1', position: { x: 7, y: 4 } }, // courtyard
+    { unitId: 'ch7_soldier_2', position: { x: 8, y: 4 } }, // courtyard
+    { unitId: 'ch7_fighter_1', position: { x: 5, y: 7 } }, // transition zone
+    { unitId: 'ch7_fighter_2', position: { x: 10, y: 7 } }, // transition zone
+    { unitId: 'ch7_mage_1', position: { x: 6, y: 5 } }, // central fort
+    { unitId: 'ch7_mage_2', position: { x: 9, y: 5 } }, // central fort
   ],
   objective: {
     type: 'survive',
@@ -63,28 +63,81 @@ export const CHAPTER_7: ChapterData = {
   parTurns: 12,
   prologue: {
     lines: [
-      { speaker: 'Narrator', text: 'The coastal fortress. Waves crash against stone walls that have held for centuries. But something stirs at the northern edge.' },
-      { speaker: 'Senna', text: "I've been running predictive models all night. The anomaly patterns... they're not random. Something is adapting.", speakerFaction: 'player' },
-      { speaker: 'Kael', text: "Adapting to what?", speakerFaction: 'player' },
-      { speaker: 'Senna', text: "To ME. Every time I map a pattern, it shifts. Like it knows I'm watching.", speakerFaction: 'player' },
-      { speaker: 'Rook', text: "Admiral Varga holds the fortress interior. His garrison is disciplined but spread thin.", speakerFaction: 'player' },
-      { speaker: 'Ren', text: "Hold the defensive line. Don't overextend. Senna, stay near the rear — I need your analysis.", speakerFaction: 'player' },
-      { speaker: 'Senna', text: "My analysis might be worthless by Turn 3.", speakerFaction: 'player' },
+      {
+        speaker: 'Narrator',
+        text: 'The coastal fortress. Waves crash against stone walls that have held for centuries. But something stirs at the northern edge.',
+      },
+      {
+        speaker: 'Senna',
+        text: "I've been running predictive models all night. The anomaly patterns... they're not random. Something is adapting.",
+        speakerFaction: 'player',
+      },
+      { speaker: 'Kael', text: 'Adapting to what?', speakerFaction: 'player' },
+      {
+        speaker: 'Senna',
+        text: "To ME. Every time I map a pattern, it shifts. Like it knows I'm watching.",
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Rook',
+        text: 'Admiral Varga holds the fortress interior. His garrison is disciplined but spread thin.',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Ren',
+        text: "Hold the defensive line. Don't overextend. Senna, stay near the rear — I need your analysis.",
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Senna',
+        text: 'My analysis might be worthless by Turn 3.',
+        speakerFaction: 'player',
+      },
     ],
   },
   epilogue: {
     lines: [
-      { speaker: 'Narrator', text: 'The corrupted spawns cease. The fortress falls quiet. But the silence feels wrong.' },
-      { speaker: 'Senna', text: "My model is broken. Everything I built — 347 loops of pattern tracking — it changed underneath me. I need... I need a new approach.", speakerFaction: 'player' },
-      { speaker: 'Ren', text: "You found an answer before. You'll find one again.", speakerFaction: 'player' },
-      { speaker: 'Senna', text: "You keep saying things like that. Like you've seen it happen.", speakerFaction: 'player' },
-      { speaker: 'Ren', text: "...Because I have.", speakerFaction: 'player' },
-      { speaker: 'Kael', text: "Ren? What does that mean?", speakerFaction: 'player' },
+      {
+        speaker: 'Narrator',
+        text: 'The corrupted spawns cease. The fortress falls quiet. But the silence feels wrong.',
+      },
+      {
+        speaker: 'Senna',
+        text: 'My model is broken. Everything I built — 347 loops of pattern tracking — it changed underneath me. I need... I need a new approach.',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Ren',
+        text: "You found an answer before. You'll find one again.",
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Senna',
+        text: "You keep saying things like that. Like you've seen it happen.",
+        speakerFaction: 'player',
+      },
+      { speaker: 'Ren', text: '...Because I have.', speakerFaction: 'player' },
+      { speaker: 'Kael', text: 'Ren? What does that mean?', speakerFaction: 'player' },
       { speaker: 'Ren', text: "It means I trust her. That's all.", speakerFaction: 'player' },
-      { speaker: 'Kael', text: "Whatever your numbers say, you kept us alive in there.", speakerFaction: 'player' },
-      { speaker: 'Faye', text: "I've seen healers break under less. The fact that you're still standing means something.", speakerFaction: 'player' },
-      { speaker: 'Bram', text: "Stop overthinking it. You're smart. That's enough.", speakerFaction: 'player' },
-      { speaker: 'Narrator', text: "Senna stares at her notes. The numbers don't lie. But they don't tell the truth anymore either." },
+      {
+        speaker: 'Kael',
+        text: 'Whatever your numbers say, you kept us alive in there.',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Faye',
+        text: "I've seen healers break under less. The fact that you're still standing means something.",
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Bram',
+        text: "Stop overthinking it. You're smart. That's enough.",
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Narrator',
+        text: "Senna stares at her notes. The numbers don't lie. But they don't tell the truth anymore either.",
+      },
     ],
   },
   reinforcements: [
@@ -115,9 +168,7 @@ export const CHAPTER_7: ChapterData = {
     },
     {
       turn: 9,
-      units: [
-        { unitId: 'ch7_corrupted_8', position: { x: 8, y: 0 } },
-      ],
+      units: [{ unitId: 'ch7_corrupted_8', position: { x: 8, y: 0 } }],
       message: 'A final wave of corruption pulses from the north!',
     },
   ],
@@ -131,9 +182,21 @@ export const CHAPTER_7: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Senna', text: "Wait. That soldier's hit rate — my prediction was off by twelve points. That's... not right.", speakerFaction: 'player' },
-              { speaker: 'Ren', text: "Could be noise. Focus on the battle.", speakerFaction: 'player' },
-              { speaker: 'Senna', text: "It's not noise. I don't get twelve-point errors.", speakerFaction: 'player' },
+              {
+                speaker: 'Senna',
+                text: "Wait. That soldier's hit rate — my prediction was off by twelve points. That's... not right.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Ren',
+                text: 'Could be noise. Focus on the battle.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Senna',
+                text: "It's not noise. I don't get twelve-point errors.",
+                speakerFaction: 'player',
+              },
             ],
           },
         },
@@ -149,10 +212,26 @@ export const CHAPTER_7: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Senna', text: "The north wall — those tiles are GLITCHING. Something is spawning from corrupted data!", speakerFaction: 'player' },
-              { speaker: 'Bram', text: "Those things aren't soldiers. They're... wrong.", speakerFaction: 'player' },
-              { speaker: 'Senna', text: "My predictions aren't working. The numbers are CHANGING. Every calculation I run comes back different.", speakerFaction: 'player' },
-              { speaker: 'Ren', text: "New plan — we hold position and survive. Forget the advance!", speakerFaction: 'player' },
+              {
+                speaker: 'Senna',
+                text: 'The north wall — those tiles are GLITCHING. Something is spawning from corrupted data!',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Bram',
+                text: "Those things aren't soldiers. They're... wrong.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Senna',
+                text: "My predictions aren't working. The numbers are CHANGING. Every calculation I run comes back different.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Ren',
+                text: 'New plan — we hold position and survive. Forget the advance!',
+                speakerFaction: 'player',
+              },
             ],
           },
         },
@@ -168,10 +247,26 @@ export const CHAPTER_7: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Senna', text: "The system is changing the ANSWER. Every time I try to predict, it changes MORE. Something is watching me analyze it and CHANGING to stay ahead.", speakerFaction: 'player' },
-              { speaker: 'Faye', text: "Senna, breathe. We need you here.", speakerFaction: 'player' },
-              { speaker: 'Senna', text: "You don't understand — I AM my analysis. If the numbers lie, what am I?", speakerFaction: 'player' },
-              { speaker: 'Rook', text: "You're the person keeping us alive. Numbers or not.", speakerFaction: 'player' },
+              {
+                speaker: 'Senna',
+                text: 'The system is changing the ANSWER. Every time I try to predict, it changes MORE. Something is watching me analyze it and CHANGING to stay ahead.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Faye',
+                text: 'Senna, breathe. We need you here.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Senna',
+                text: "You don't understand — I AM my analysis. If the numbers lie, what am I?",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Rook',
+                text: "You're the person keeping us alive. Numbers or not.",
+                speakerFaction: 'player',
+              },
             ],
           },
         },
@@ -187,11 +282,27 @@ export const CHAPTER_7: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Ren', text: "Three more turns. Hold the line — we're almost through this.", speakerFaction: 'player' },
-              { speaker: 'Senna', text: "...The spawn rate is decreasing. Whatever it was... it's running out of energy.", speakerFaction: 'player' },
-              { speaker: 'Kael', text: "Then we outlast it. Like we always do.", speakerFaction: 'player' },
-              { speaker: 'Ren', text: "Senna — you'll figure it out. You always do.", speakerFaction: 'player' },
-              { speaker: 'Senna', text: "...Thank you.", speakerFaction: 'player' },
+              {
+                speaker: 'Ren',
+                text: "Three more turns. Hold the line — we're almost through this.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Senna',
+                text: "...The spawn rate is decreasing. Whatever it was... it's running out of energy.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Kael',
+                text: 'Then we outlast it. Like we always do.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Ren',
+                text: "Senna — you'll figure it out. You always do.",
+                speakerFaction: 'player',
+              },
+              { speaker: 'Senna', text: '...Thank you.', speakerFaction: 'player' },
             ],
           },
         },
@@ -207,9 +318,20 @@ export const CHAPTER_7: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Senna', text: "The spawn frequency is dropping — the corruption is burning itself out. One more turn!", speakerFaction: 'player' },
-              { speaker: 'Ren', text: "Hold steady! They're retreating — we just need to survive this last push!", speakerFaction: 'player' },
-              { speaker: 'Narrator', text: "The glitched tiles at the north edge flicker and dim. The corruption is exhausting its fuel." },
+              {
+                speaker: 'Senna',
+                text: 'The spawn frequency is dropping — the corruption is burning itself out. One more turn!',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Ren',
+                text: "Hold steady! They're retreating — we just need to survive this last push!",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Narrator',
+                text: 'The glitched tiles at the north edge flicker and dim. The corruption is exhausting its fuel.',
+              },
             ],
           },
         },
@@ -225,9 +347,17 @@ export const CHAPTER_7: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Senna', text: "The spawns have stopped. The corruption is spent.", speakerFaction: 'player' },
-              { speaker: 'Kael', text: "We made it. Everyone still standing?", speakerFaction: 'player' },
-              { speaker: 'Ren', text: "Still standing. Barely.", speakerFaction: 'player' },
+              {
+                speaker: 'Senna',
+                text: 'The spawns have stopped. The corruption is spent.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Kael',
+                text: 'We made it. Everyone still standing?',
+                speakerFaction: 'player',
+              },
+              { speaker: 'Ren', text: 'Still standing. Barely.', speakerFaction: 'player' },
             ],
           },
         },
@@ -243,9 +373,20 @@ export const CHAPTER_7: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Varga', text: "This fortress... has stood for two hundred years. It will stand after I'm gone.", speakerFaction: 'enemy' },
-              { speaker: 'Ren', text: "You saw the corruption at the north wall. You know this fortress won't stand much longer.", speakerFaction: 'player' },
-              { speaker: 'Narrator', text: "Admiral Varga's Hero Crest clatters to the stone floor." },
+              {
+                speaker: 'Varga',
+                text: "This fortress... has stood for two hundred years. It will stand after I'm gone.",
+                speakerFaction: 'enemy',
+              },
+              {
+                speaker: 'Ren',
+                text: "You saw the corruption at the north wall. You know this fortress won't stand much longer.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Narrator',
+                text: "Admiral Varga's Hero Crest clatters to the stone floor.",
+              },
             ],
           },
         },
@@ -259,10 +400,22 @@ export const CHAPTER_7: ChapterData = {
       unitA: 'ren',
       unitB: 'senna',
       lines: [
-        { speaker: 'Senna', text: "Ren. How many times have you seen me fail like this?", speakerFaction: 'player' },
-        { speaker: 'Ren', text: "You've never failed. Not once, in any—", speakerFaction: 'player' },
-        { speaker: 'Senna', text: "In any WHAT? Finish that sentence.", speakerFaction: 'player' },
-        { speaker: 'Ren', text: "...In any way that matters. You always find a new approach.", speakerFaction: 'player' },
+        {
+          speaker: 'Senna',
+          text: 'Ren. How many times have you seen me fail like this?',
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Ren',
+          text: "You've never failed. Not once, in any—",
+          speakerFaction: 'player',
+        },
+        { speaker: 'Senna', text: 'In any WHAT? Finish that sentence.', speakerFaction: 'player' },
+        {
+          speaker: 'Ren',
+          text: '...In any way that matters. You always find a new approach.',
+          speakerFaction: 'player',
+        },
       ],
       reward: { type: 'stat', unitId: 'senna', stat: 'mag', amount: 1 },
     },
@@ -270,10 +423,22 @@ export const CHAPTER_7: ChapterData = {
       unitA: 'senna',
       unitB: 'coda',
       lines: [
-        { speaker: 'Coda', text: "Your numbers are broken? Good. Numbers were always a cage. Now you can see what's BEHIND them.", speakerFaction: 'player' },
+        {
+          speaker: 'Coda',
+          text: "Your numbers are broken? Good. Numbers were always a cage. Now you can see what's BEHIND them.",
+          speakerFaction: 'player',
+        },
         { speaker: 'Senna', text: "That's not helpful, Coda.", speakerFaction: 'player' },
-        { speaker: 'Coda', text: "Wasn't trying to be helpful. Was trying to be honest. There's a difference.", speakerFaction: 'player' },
-        { speaker: 'Senna', text: "...Fine. What do you see behind the numbers?", speakerFaction: 'player' },
+        {
+          speaker: 'Coda',
+          text: "Wasn't trying to be helpful. Was trying to be honest. There's a difference.",
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Senna',
+          text: '...Fine. What do you see behind the numbers?',
+          speakerFaction: 'player',
+        },
       ],
       reward: { type: 'exp_both', amount: 20 },
     },

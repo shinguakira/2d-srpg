@@ -19,18 +19,18 @@ import { getWeaponTriangle } from '../../core/combat';
 
 // Animation phases for the full FE-style choreography
 type AnimPhase =
-  | 'idle'           // Standing ready
-  | 'windup'         // Anticipation — slight crouch before dash
-  | 'dash'           // Running toward opponent (physical) or casting (magic)
-  | 'strike'         // At opponent's position, weapon swung
-  | 'impact'         // Hit connects — flash + shake + damage number
-  | 'return'         // Running back to starting position
-  | 'crit-pause'     // Special dramatic pause before crit
-  | 'spell-fly'      // Magic projectile crossing the screen
-  | 'spell-hit'      // Magic impact on target
-  | 'dodge'          // Defender leaps back
-  | 'death'          // Defender collapses
-  | 'done';          // Finished, advance to next hit
+  | 'idle' // Standing ready
+  | 'windup' // Anticipation — slight crouch before dash
+  | 'dash' // Running toward opponent (physical) or casting (magic)
+  | 'strike' // At opponent's position, weapon swung
+  | 'impact' // Hit connects — flash + shake + damage number
+  | 'return' // Running back to starting position
+  | 'crit-pause' // Special dramatic pause before crit
+  | 'spell-fly' // Magic projectile crossing the screen
+  | 'spell-hit' // Magic impact on target
+  | 'dodge' // Defender leaps back
+  | 'death' // Defender collapses
+  | 'done'; // Finished, advance to next hit
 
 function isMagicType(wt: WeaponType): boolean {
   return wt === 'fire' || wt === 'thunder' || wt === 'wind' || wt === 'staff';
@@ -61,9 +61,10 @@ export function CombatAnimation() {
   useEffect(() => {
     if (currentPhase !== 'combat_animation' || !combatResult || !combatForecast) return;
 
-    const currentHit = combatAnimationStep >= 0 && combatAnimationStep < combatResult.hits.length
-      ? combatResult.hits[combatAnimationStep]
-      : null;
+    const currentHit =
+      combatAnimationStep >= 0 && combatAnimationStep < combatResult.hits.length
+        ? combatResult.hits[combatAnimationStep]
+        : null;
 
     const speed = useUIStore.getState().animationSpeed;
 
@@ -77,7 +78,9 @@ export function CombatAnimation() {
     }
 
     const timers: ReturnType<typeof setTimeout>[] = [];
-    const t = (fn: () => void, ms: number) => { timers.push(setTimeout(fn, getScaledDuration(ms, speed))); };
+    const t = (fn: () => void, ms: number) => {
+      timers.push(setTimeout(fn, getScaledDuration(ms, speed)));
+    };
 
     // Determine who is attacking this hit
     const attackerIsPlayer = combatForecast.attacker.faction === 'player';
@@ -86,13 +89,21 @@ export function CombatAnimation() {
       : !currentHit.attackerIsInitiator;
 
     const weaponType = playerIsAttacking
-      ? (attackerIsPlayer ? combatForecast.attacker.weaponType : combatForecast.defender.weaponType)
-      : (attackerIsPlayer ? combatForecast.defender.weaponType : combatForecast.attacker.weaponType);
+      ? attackerIsPlayer
+        ? combatForecast.attacker.weaponType
+        : combatForecast.defender.weaponType
+      : attackerIsPlayer
+        ? combatForecast.defender.weaponType
+        : combatForecast.attacker.weaponType;
 
     // Non-proficient magic/staff users bonk physically — use physical animation
     const hitAttackerProficient = playerIsAttacking
-      ? (attackerIsPlayer ? combatForecast.attackerProficient : combatForecast.defenderProficient)
-      : (attackerIsPlayer ? combatForecast.defenderProficient : combatForecast.attackerProficient);
+      ? attackerIsPlayer
+        ? combatForecast.attackerProficient
+        : combatForecast.defenderProficient
+      : attackerIsPlayer
+        ? combatForecast.defenderProficient
+        : combatForecast.attackerProficient;
     const isMagic = isMagicType(weaponType) && hitAttackerProficient;
     const isCrit = currentHit.crit && currentHit.hit;
     const isHit = currentHit.hit;
@@ -108,7 +119,10 @@ export function CombatAnimation() {
 
     if (isCrit) {
       // Crit: dramatic pause with screen darken
-      t(() => { setPhase('crit-pause'); setCritDarken(true); }, cursor);
+      t(() => {
+        setPhase('crit-pause');
+        setCritDarken(true);
+      }, cursor);
       cursor += 600;
       t(() => setCritDarken(false), cursor);
     }
@@ -192,14 +206,18 @@ export function CombatAnimation() {
       advance();
     }, cursor + 200);
 
-    return () => { timers.forEach(clearTimeout); clearTimeout(timerRef.current); };
+    return () => {
+      timers.forEach(clearTimeout);
+      clearTimeout(timerRef.current);
+    };
   }, [currentPhase, combatResult, combatForecast, combatAnimationStep, advance]);
 
   if (currentPhase !== 'combat_animation' || !combatResult || !combatForecast) return null;
 
-  const currentHit = combatAnimationStep >= 0 && combatAnimationStep < combatResult.hits.length
-    ? combatResult.hits[combatAnimationStep]
-    : null;
+  const currentHit =
+    combatAnimationStep >= 0 && combatAnimationStep < combatResult.hits.length
+      ? combatResult.hits[combatAnimationStep]
+      : null;
 
   // Calculate running HP totals — current hit only applies after HP drain animation
   let atkHpDisplay = combatForecast.attacker.currentHp;
@@ -220,37 +238,57 @@ export function CombatAnimation() {
     : { info: combatForecast.attacker, hp: atkHpDisplay };
 
   const playerIsAttacking = currentHit
-    ? (attackerIsPlayer ? currentHit.attackerIsInitiator : !currentHit.attackerIsInitiator)
+    ? attackerIsPlayer
+      ? currentHit.attackerIsInitiator
+      : !currentHit.attackerIsInitiator
     : false;
 
   const weaponType = currentHit
-    ? (playerIsAttacking
-        ? (attackerIsPlayer ? combatForecast.attacker.weaponType : combatForecast.defender.weaponType)
-        : (attackerIsPlayer ? combatForecast.defender.weaponType : combatForecast.attacker.weaponType))
+    ? playerIsAttacking
+      ? attackerIsPlayer
+        ? combatForecast.attacker.weaponType
+        : combatForecast.defender.weaponType
+      : attackerIsPlayer
+        ? combatForecast.defender.weaponType
+        : combatForecast.attacker.weaponType
     : null;
 
   // Determine CSS classes for each fighter based on phase + who is attacking
   const getAttackerClass = (): string => {
     switch (phase) {
-      case 'crit-pause': return 'crit-pause';
-      case 'windup': return 'windup';
-      case 'dash': return 'dash';
-      case 'strike': return 'strike';
-      case 'impact': return 'strike'; // Hold at strike position during impact
-      case 'return': return 'return';
-      case 'spell-fly': return 'casting';
-      case 'spell-hit': return 'casting';
-      default: return 'idle';
+      case 'crit-pause':
+        return 'crit-pause';
+      case 'windup':
+        return 'windup';
+      case 'dash':
+        return 'dash';
+      case 'strike':
+        return 'strike';
+      case 'impact':
+        return 'strike'; // Hold at strike position during impact
+      case 'return':
+        return 'return';
+      case 'spell-fly':
+        return 'casting';
+      case 'spell-hit':
+        return 'casting';
+      default:
+        return 'idle';
     }
   };
 
   const getDefenderClass = (): string => {
     switch (phase) {
-      case 'impact': return 'hit';
-      case 'spell-hit': return 'hit';
-      case 'dodge': return 'dodge';
-      case 'death': return 'death';
-      default: return 'idle';
+      case 'impact':
+        return 'hit';
+      case 'spell-hit':
+        return 'hit';
+      case 'dodge':
+        return 'dodge';
+      case 'death':
+        return 'death';
+      default:
+        return 'idle';
     }
   };
 
@@ -262,14 +300,24 @@ export function CombatAnimation() {
   const enemyCls = playerIsAttacking ? defenderCls : attackerCls;
 
   // Sprite poses
-  const attackerPose = (phase === 'windup' || phase === 'dash' || phase === 'strike' || phase === 'impact' || phase === 'crit-pause' || phase === 'spell-fly' || phase === 'spell-hit') ? 'attack' : 'idle';
+  const attackerPose =
+    phase === 'windup' ||
+    phase === 'dash' ||
+    phase === 'strike' ||
+    phase === 'impact' ||
+    phase === 'crit-pause' ||
+    phase === 'spell-fly' ||
+    phase === 'spell-hit'
+      ? 'attack'
+      : 'idle';
   const defenderPose = 'idle';
 
   const playerPose = playerIsAttacking ? attackerPose : defenderPose;
   const enemyPose = playerIsAttacking ? defenderPose : attackerPose;
 
   // Show weapon effect during specific phases
-  const showEffect = phase === 'strike' || phase === 'impact' || phase === 'spell-fly' || phase === 'spell-hit';
+  const showEffect =
+    phase === 'strike' || phase === 'impact' || phase === 'spell-fly' || phase === 'spell-hit';
 
   // Weapon triangle
   const triangle = getWeaponTriangle(playerSide.info.weaponType, enemySide.info.weaponType);
@@ -278,11 +326,31 @@ export function CombatAnimation() {
 
   // Forecast stats for each side
   const playerForecast = attackerIsPlayer
-    ? { damage: combatForecast.attackerDamage, hit: combatForecast.attackerHit, crit: combatForecast.attackerCrit, canCounter: true }
-    : { damage: combatForecast.defenderDamage, hit: combatForecast.defenderHit, crit: combatForecast.defenderCrit, canCounter: combatForecast.defenderCanCounter };
+    ? {
+        damage: combatForecast.attackerDamage,
+        hit: combatForecast.attackerHit,
+        crit: combatForecast.attackerCrit,
+        canCounter: true,
+      }
+    : {
+        damage: combatForecast.defenderDamage,
+        hit: combatForecast.defenderHit,
+        crit: combatForecast.defenderCrit,
+        canCounter: combatForecast.defenderCanCounter,
+      };
   const enemyForecast = attackerIsPlayer
-    ? { damage: combatForecast.defenderDamage, hit: combatForecast.defenderHit, crit: combatForecast.defenderCrit, canCounter: combatForecast.defenderCanCounter }
-    : { damage: combatForecast.attackerDamage, hit: combatForecast.attackerHit, crit: combatForecast.attackerCrit, canCounter: true };
+    ? {
+        damage: combatForecast.defenderDamage,
+        hit: combatForecast.defenderHit,
+        crit: combatForecast.defenderCrit,
+        canCounter: combatForecast.defenderCanCounter,
+      }
+    : {
+        damage: combatForecast.attackerDamage,
+        hit: combatForecast.attackerHit,
+        crit: combatForecast.attackerCrit,
+        canCounter: true,
+      };
 
   const hpColor = (hp: number, maxHp: number) => {
     const pct = hp / maxHp;
@@ -295,7 +363,10 @@ export function CombatAnimation() {
     <div className="combat-animation" data-testid="combat-animation">
       {/* Screen flash */}
       {flashType !== 'none' && (
-        <div className={`combat-animation__flash combat-animation__flash--${flashType}`} key={`flash-${combatAnimationStep}-${phase}`} />
+        <div
+          className={`combat-animation__flash combat-animation__flash--${flashType}`}
+          key={`flash-${combatAnimationStep}-${phase}`}
+        />
       )}
 
       {/* Crit dramatic darken */}
@@ -308,10 +379,17 @@ export function CombatAnimation() {
             data-testid="speed-toggle"
             onClick={cycleAnimationSpeed}
             style={{
-              position: 'absolute', top: 8, right: 12,
-              background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
-              borderRadius: 4, color: '#fbbf24', fontSize: 11, padding: '2px 8px',
-              cursor: 'pointer', pointerEvents: 'auto',
+              position: 'absolute',
+              top: 8,
+              right: 12,
+              background: 'rgba(255,255,255,0.1)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: 4,
+              color: '#fbbf24',
+              fontSize: 11,
+              padding: '2px 8px',
+              cursor: 'pointer',
+              pointerEvents: 'auto',
             }}
           >
             {animationSpeed === '1x' ? '1x' : animationSpeed === '2x' ? '2x' : 'Skip'}
@@ -321,7 +399,9 @@ export function CombatAnimation() {
         {/* Wide battle stage */}
         <div className="combat-animation__stage">
           {/* Player fighter */}
-          <div className={`combat-animation__fighter combat-animation__fighter--left combat-animation__fighter--${playerCls}`}>
+          <div
+            className={`combat-animation__fighter combat-animation__fighter--left combat-animation__fighter--${playerCls}`}
+          >
             <BattleSprite
               classId={playerSide.info.classId}
               faction={playerSide.info.faction}
@@ -372,12 +452,16 @@ export function CombatAnimation() {
               data-testid="combat-damage-display"
             >
               {!currentHit.hit ? 'MISS' : currentHit.damage}
-              {currentHit.crit && currentHit.hit && <span className="combat-animation__crit-label">CRITICAL!</span>}
+              {currentHit.crit && currentHit.hit && (
+                <span className="combat-animation__crit-label">CRITICAL!</span>
+              )}
             </div>
           )}
 
           {/* Enemy fighter */}
-          <div className={`combat-animation__fighter combat-animation__fighter--right combat-animation__fighter--${enemyCls}`}>
+          <div
+            className={`combat-animation__fighter combat-animation__fighter--right combat-animation__fighter--${enemyCls}`}
+          >
             <BattleSprite
               classId={enemySide.info.classId}
               faction={enemySide.info.faction}
@@ -415,18 +499,28 @@ export function CombatAnimation() {
                 style={{ width: `${Math.max(0, (playerSide.hp / playerSide.info.maxHp) * 100)}%` }}
               />
             </div>
-            <div className="combat-animation__hp-text" style={{ color: hpColor(playerSide.hp, playerSide.info.maxHp) }}>
+            <div
+              className="combat-animation__hp-text"
+              style={{ color: hpColor(playerSide.hp, playerSide.info.maxHp) }}
+            >
               {playerSide.hp}/{playerSide.info.maxHp}
             </div>
             <div className="combat-animation__forecast-stats">
-              <span className="combat-animation__stat">Dmg <strong>{playerForecast.damage}</strong></span>
-              <span className="combat-animation__stat">Hit <strong>{playerForecast.hit}%</strong></span>
-              <span className="combat-animation__stat">Crit <strong>{playerForecast.crit}%</strong></span>
+              <span className="combat-animation__stat">
+                Dmg <strong>{playerForecast.damage}</strong>
+              </span>
+              <span className="combat-animation__stat">
+                Hit <strong>{playerForecast.hit}%</strong>
+              </span>
+              <span className="combat-animation__stat">
+                Crit <strong>{playerForecast.crit}%</strong>
+              </span>
             </div>
           </div>
 
           <div className="combat-animation__step">
-            Hit {Math.min(combatAnimationStep + 1, combatResult.hits.length)} / {combatResult.hits.length}
+            Hit {Math.min(combatAnimationStep + 1, combatResult.hits.length)} /{' '}
+            {combatResult.hits.length}
           </div>
 
           <div className="combat-animation__unit-info">
@@ -438,18 +532,29 @@ export function CombatAnimation() {
                 style={{ width: `${Math.max(0, (enemySide.hp / enemySide.info.maxHp) * 100)}%` }}
               />
             </div>
-            <div className="combat-animation__hp-text" style={{ color: hpColor(enemySide.hp, enemySide.info.maxHp) }}>
+            <div
+              className="combat-animation__hp-text"
+              style={{ color: hpColor(enemySide.hp, enemySide.info.maxHp) }}
+            >
               {enemySide.hp}/{enemySide.info.maxHp}
             </div>
             <div className="combat-animation__forecast-stats">
               {enemyForecast.canCounter ? (
                 <>
-                  <span className="combat-animation__stat">Dmg <strong>{enemyForecast.damage}</strong></span>
-                  <span className="combat-animation__stat">Hit <strong>{enemyForecast.hit}%</strong></span>
-                  <span className="combat-animation__stat">Crit <strong>{enemyForecast.crit}%</strong></span>
+                  <span className="combat-animation__stat">
+                    Dmg <strong>{enemyForecast.damage}</strong>
+                  </span>
+                  <span className="combat-animation__stat">
+                    Hit <strong>{enemyForecast.hit}%</strong>
+                  </span>
+                  <span className="combat-animation__stat">
+                    Crit <strong>{enemyForecast.crit}%</strong>
+                  </span>
                 </>
               ) : (
-                <span className="combat-animation__stat combat-animation__stat--no-counter">No counter</span>
+                <span className="combat-animation__stat combat-animation__stat--no-counter">
+                  No counter
+                </span>
               )}
             </div>
           </div>

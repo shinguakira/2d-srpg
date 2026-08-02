@@ -1,12 +1,20 @@
 import { describe, it, expect } from 'vitest';
 import { getDangerZone } from '../../src/core/pathfinding';
-import type { Unit, GameMap, Tile, TerrainType, Position, Weapon, WeaponType } from '../../src/core/types';
+import type {
+  Unit,
+  GameMap,
+  Tile,
+  TerrainType,
+  Position,
+  Weapon,
+  WeaponType,
+} from '../../src/core/types';
 
 function makeMap(terrain: TerrainType[][]): GameMap {
   const height = terrain.length;
   const width = terrain[0].length;
   const tiles: Tile[][] = terrain.map((row, y) =>
-    row.map((t, x) => ({ position: { x, y }, terrain: t, occupantId: null }))
+    row.map((t, x) => ({ position: { x, y }, terrain: t, occupantId: null })),
   );
   return { width, height, tiles };
 }
@@ -26,18 +34,26 @@ function makeWeapon(type: WeaponType, overrides: Partial<Weapon> = {}): Weapon {
   };
 }
 
-function makeUnit(
-  id: string,
-  pos: Position,
-  overrides: Partial<Unit> = {},
-): Unit {
+function makeUnit(id: string, pos: Position, overrides: Partial<Unit> = {}): Unit {
   return {
     id,
     name: id,
     classId: 'test',
     faction: 'enemy',
     position: pos,
-    stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 2, cha: 0, wil: 0 },
+    stats: {
+      hp: 20,
+      str: 8,
+      mag: 0,
+      def: 5,
+      res: 0,
+      spd: 7,
+      skl: 5,
+      lck: 3,
+      mov: 2,
+      cha: 0,
+      wil: 0,
+    },
     currentHp: 20,
     level: 1,
     exp: 0,
@@ -64,9 +80,25 @@ describe('getDangerZone', () => {
       ['plain', 'plain', 'plain', 'plain', 'plain'],
     ]);
 
-    const enemy = makeUnit('enemy1', { x: 2, y: 2 }, {
-      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 1, cha: 0, wil: 0 },
-    });
+    const enemy = makeUnit(
+      'enemy1',
+      { x: 2, y: 2 },
+      {
+        stats: {
+          hp: 20,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 0,
+          spd: 7,
+          skl: 5,
+          lck: 3,
+          mov: 1,
+          cha: 0,
+          wil: 0,
+        },
+      },
+    );
     const allUnits = new Map([['enemy1', enemy]]);
     const dangerZone = getDangerZone([enemy], map, allUnits);
 
@@ -85,17 +117,50 @@ describe('getDangerZone', () => {
   });
 
   it('handles multiple enemies', () => {
-    const map = makeMap([
-      ['plain', 'plain', 'plain', 'plain', 'plain', 'plain', 'plain'],
-    ]);
+    const map = makeMap([['plain', 'plain', 'plain', 'plain', 'plain', 'plain', 'plain']]);
 
-    const enemy1 = makeUnit('enemy1', { x: 0, y: 0 }, {
-      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 1, cha: 0, wil: 0 },
-    });
-    const enemy2 = makeUnit('enemy2', { x: 6, y: 0 }, {
-      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 1, cha: 0, wil: 0 },
-    });
-    const allUnits = new Map([['enemy1', enemy1], ['enemy2', enemy2]]);
+    const enemy1 = makeUnit(
+      'enemy1',
+      { x: 0, y: 0 },
+      {
+        stats: {
+          hp: 20,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 0,
+          spd: 7,
+          skl: 5,
+          lck: 3,
+          mov: 1,
+          cha: 0,
+          wil: 0,
+        },
+      },
+    );
+    const enemy2 = makeUnit(
+      'enemy2',
+      { x: 6, y: 0 },
+      {
+        stats: {
+          hp: 20,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 0,
+          spd: 7,
+          skl: 5,
+          lck: 3,
+          mov: 1,
+          cha: 0,
+          wil: 0,
+        },
+      },
+    );
+    const allUnits = new Map([
+      ['enemy1', enemy1],
+      ['enemy2', enemy2],
+    ]);
     const dangerZone = getDangerZone([enemy1, enemy2], map, allUnits);
 
     // Enemy1 at x=0 with MOV 1 + range 1 covers x=0,1,2
@@ -111,15 +176,29 @@ describe('getDangerZone', () => {
   });
 
   it('ranged weapons extend danger zone further', () => {
-    const map = makeMap([
-      ['plain', 'plain', 'plain', 'plain', 'plain', 'plain', 'plain'],
-    ]);
+    const map = makeMap([['plain', 'plain', 'plain', 'plain', 'plain', 'plain', 'plain']]);
 
-    const rangedEnemy = makeUnit('archer', { x: 0, y: 0 }, {
-      classId: 'mage',
-      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 1, cha: 0, wil: 0 },
-      equippedWeapon: makeWeapon('fire', { minRange: 1, maxRange: 2 }),
-    });
+    const rangedEnemy = makeUnit(
+      'archer',
+      { x: 0, y: 0 },
+      {
+        classId: 'mage',
+        stats: {
+          hp: 20,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 0,
+          spd: 7,
+          skl: 5,
+          lck: 3,
+          mov: 1,
+          cha: 0,
+          wil: 0,
+        },
+        equippedWeapon: makeWeapon('fire', { minRange: 1, maxRange: 2 }),
+      },
+    );
     const allUnits = new Map([['archer', rangedEnemy]]);
     const dangerZone = getDangerZone([rangedEnemy], map, allUnits);
 
@@ -130,9 +209,7 @@ describe('getDangerZone', () => {
   });
 
   it('returns empty set for no enemies', () => {
-    const map = makeMap([
-      ['plain', 'plain', 'plain'],
-    ]);
+    const map = makeMap([['plain', 'plain', 'plain']]);
 
     const dangerZone = getDangerZone([], map, new Map());
     expect(dangerZone.size).toBe(0);

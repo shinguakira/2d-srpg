@@ -22,21 +22,24 @@ export function TeamSelectionScreen({ roster, onConfirm }: Props) {
 
   const teamB = roster.filter((id) => !teamA.includes(id));
 
-  const toggleUnit = useCallback((unitId: string) => {
-    if (unitId === 'ren') return; // Ren stays on Team A
-    setTeamA((prev) => {
-      if (prev.includes(unitId)) {
-        // Move to B (if A still has 2+)
-        if (prev.length <= 2) return prev;
-        return prev.filter((id) => id !== unitId);
-      } else {
-        // Move to A (if B still has 2+)
-        const currentB = roster.filter((id) => !prev.includes(id) && id !== unitId);
-        if (currentB.length < 2) return prev;
-        return [...prev, unitId];
-      }
-    });
-  }, [roster]);
+  const toggleUnit = useCallback(
+    (unitId: string) => {
+      if (unitId === 'ren') return; // Ren stays on Team A
+      setTeamA((prev) => {
+        if (prev.includes(unitId)) {
+          // Move to B (if A still has 2+)
+          if (prev.length <= 2) return prev;
+          return prev.filter((id) => id !== unitId);
+        } else {
+          // Move to A (if B still has 2+)
+          const currentB = roster.filter((id) => !prev.includes(id) && id !== unitId);
+          if (currentB.length < 2) return prev;
+          return [...prev, unitId];
+        }
+      });
+    },
+    [roster],
+  );
 
   const canConfirm = teamA.length >= 2 && teamB.length >= 2;
 

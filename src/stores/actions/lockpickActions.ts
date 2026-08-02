@@ -28,7 +28,12 @@ export function executeLockpick(get: Get, set: Set) {
   });
 
   // Find adjacent chest or door
-  const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+  const dirs = [
+    { x: 0, y: -1 },
+    { x: 0, y: 1 },
+    { x: -1, y: 0 },
+    { x: 1, y: 0 },
+  ];
   let updated = false;
 
   for (const d of dirs) {
@@ -42,7 +47,7 @@ export function executeLockpick(get: Get, set: Set) {
 
       // Check for chest reward in chapter data
       const chestData = chapterData?.chests?.find(
-        (c) => c.position.x === adj.x && c.position.y === adj.y
+        (c) => c.position.x === adj.x && c.position.y === adj.y,
       );
 
       set({

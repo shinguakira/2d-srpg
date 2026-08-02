@@ -48,15 +48,27 @@ export function dismissPhaseBanner(get: Get, set: Set) {
         // Fort/throne healing
         if (updated.currentHp < updated.stats.hp) {
           const tile = newTiles[updated.position.y]?.[updated.position.x];
-          if (tile && (tile.terrain === 'fort' || tile.terrain === 'throne' || tile.terrain === 'corrupted_fort' || tile.terrain === 'broken_throne')) {
+          if (
+            tile &&
+            (tile.terrain === 'fort' ||
+              tile.terrain === 'throne' ||
+              tile.terrain === 'corrupted_fort' ||
+              tile.terrain === 'broken_throne')
+          ) {
             const heal = Math.max(1, Math.floor(updated.stats.hp * 0.1));
-            updated = { ...updated, currentHp: Math.min(updated.stats.hp, updated.currentHp + heal) };
+            updated = {
+              ...updated,
+              currentHp: Math.min(updated.stats.hp, updated.currentHp + heal),
+            };
           }
         }
         // Boss self-heal per phase
         const selfHeal = getBossSelfHeal(updated);
         if (selfHeal > 0 && updated.currentHp < updated.stats.hp) {
-          updated = { ...updated, currentHp: Math.min(updated.stats.hp, updated.currentHp + selfHeal) };
+          updated = {
+            ...updated,
+            currentHp: Math.min(updated.stats.hp, updated.currentHp + selfHeal),
+          };
         }
         // Weapon cycling boss: advance to next weapon
         if (updated.weaponCycleOrder && updated.weaponCycleOrder.length > 0) {
@@ -76,7 +88,10 @@ export function dismissPhaseBanner(get: Get, set: Set) {
         for (const [id, unit] of newEnemyUnits) {
           if (unit.faction === 'enemy' && unit.currentHp > 0 && unit.currentHp < unit.stats.hp) {
             const healAmount = Math.max(1, Math.floor(unit.stats.hp * healRate));
-            newEnemyUnits.set(id, { ...unit, currentHp: Math.min(unit.stats.hp, unit.currentHp + healAmount) });
+            newEnemyUnits.set(id, {
+              ...unit,
+              currentHp: Math.min(unit.stats.hp, unit.currentHp + healAmount),
+            });
           }
         }
       }
@@ -87,9 +102,8 @@ export function dismissPhaseBanner(get: Get, set: Set) {
     let reinforcementMessage: string | null = null;
     const difficulty = useCampaignStore.getState().difficulty;
     const reinforcementOffset = getReinforcementTurnOffset(difficulty);
-    const mapBossSpawnRate = mapBossState && mapBossState.currentHp > 0
-      ? getMapBossSpawnRate(mapBossState)
-      : 1; // no map boss = full spawn rate
+    const mapBossSpawnRate =
+      mapBossState && mapBossState.currentHp > 0 ? getMapBossSpawnRate(mapBossState) : 1; // no map boss = full spawn rate
     if (chapterData?.reinforcements) {
       for (const wave of chapterData.reinforcements) {
         if (wave.turn + reinforcementOffset === currentTurn) {
@@ -120,7 +134,10 @@ export function dismissPhaseBanner(get: Get, set: Set) {
     // Check if there are any enemies left
     let hasEnemy = false;
     for (const u of newEnemyUnits.values()) {
-      if (u.faction === 'enemy') { hasEnemy = true; break; }
+      if (u.faction === 'enemy') {
+        hasEnemy = true;
+        break;
+      }
     }
     if (hasEnemy) {
       set({
@@ -142,7 +159,12 @@ export function dismissPhaseBanner(get: Get, set: Set) {
         get().computeEnemyActions();
       }
     } else {
-      set({ phaseBanner: null, currentPhase: 'game_over', units: newEnemyUnits, gameMap: { ...gameMap, tiles: newTiles } });
+      set({
+        phaseBanner: null,
+        currentPhase: 'game_over',
+        units: newEnemyUnits,
+        gameMap: { ...gameMap, tiles: newTiles },
+      });
     }
   } else if (phaseBanner === 'player_phase') {
     // Reset player units' hasActed + fort/throne healing
@@ -156,7 +178,13 @@ export function dismissPhaseBanner(get: Get, set: Set) {
         // Fort/throne healing at start of player phase
         if (unit.currentHp < unit.stats.hp) {
           const tile = gameMap.tiles[unit.position.y]?.[unit.position.x];
-          if (tile && (tile.terrain === 'fort' || tile.terrain === 'throne' || tile.terrain === 'corrupted_fort' || tile.terrain === 'broken_throne')) {
+          if (
+            tile &&
+            (tile.terrain === 'fort' ||
+              tile.terrain === 'throne' ||
+              tile.terrain === 'corrupted_fort' ||
+              tile.terrain === 'broken_throne')
+          ) {
             const heal = Math.max(1, Math.floor(unit.stats.hp * 0.1));
             const newHp = Math.min(unit.stats.hp, updated.currentHp + heal);
             updated = { ...updated, currentHp: newHp };

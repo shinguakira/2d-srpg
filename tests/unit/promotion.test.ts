@@ -13,7 +13,17 @@ import { applyStatGains, type StatGains } from '../../src/core/experience';
 import type { Unit, Weapon, ConsumableItem, UnitStats } from '../../src/core/types';
 
 function makeWeapon(): Weapon {
-  return { id: 'sword', name: 'Iron Sword', type: 'sword', might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1 };
+  return {
+    id: 'sword',
+    name: 'Iron Sword',
+    type: 'sword',
+    might: 5,
+    hit: 90,
+    crit: 0,
+    weight: 5,
+    minRange: 1,
+    maxRange: 1,
+  };
 }
 
 function makeUnit(classId: string, level: number, overrides: Partial<Unit> = {}): Unit {
@@ -23,7 +33,19 @@ function makeUnit(classId: string, level: number, overrides: Partial<Unit> = {})
     classId,
     faction: 'player',
     position: { x: 0, y: 0 },
-    stats: { hp: 25, str: 10, mag: 2, def: 8, res: 3, spd: 9, skl: 7, lck: 5, mov: 5, cha: 0, wil: 0 },
+    stats: {
+      hp: 25,
+      str: 10,
+      mag: 2,
+      def: 8,
+      res: 3,
+      spd: 9,
+      skl: 7,
+      lck: 5,
+      mov: 5,
+      cha: 0,
+      wil: 0,
+    },
     currentHp: 25,
     level,
     exp: 0,
@@ -40,7 +62,14 @@ function makeUnit(classId: string, level: number, overrides: Partial<Unit> = {})
 }
 
 function makePromotionItem(id: string, eligibleClasses: string[]): ConsumableItem {
-  return { id, name: id, type: 'consumable', uses: 1, maxUses: 1, effect: { kind: 'promote', eligibleClasses } };
+  return {
+    id,
+    name: id,
+    type: 'consumable',
+    uses: 1,
+    maxUses: 1,
+    effect: { kind: 'promote', eligibleClasses },
+  };
 }
 
 // ===== canPromote =====
@@ -85,13 +114,13 @@ describe('getPromotionOptions', () => {
   it('returns two options for lord', () => {
     const options = getPromotionOptions(makeUnit('lord', 15));
     expect(options).toHaveLength(2);
-    expect(options.map(o => o.id)).toEqual(['great_lord', 'conqueror']);
+    expect(options.map((o) => o.id)).toEqual(['great_lord', 'conqueror']);
   });
 
   it('returns two options for cavalier', () => {
     const options = getPromotionOptions(makeUnit('cavalier', 15));
     expect(options).toHaveLength(2);
-    expect(options.map(o => o.id)).toEqual(['paladin', 'great_knight']);
+    expect(options.map((o) => o.id)).toEqual(['paladin', 'great_knight']);
   });
 
   it('returns empty for dancer', () => {
@@ -101,7 +130,7 @@ describe('getPromotionOptions', () => {
   it('returns master options for promoted class', () => {
     const options = getPromotionOptions(makeUnit('great_lord', 30));
     expect(options.length).toBeGreaterThan(0);
-    expect(options.every(o => o.tier === 'master')).toBe(true);
+    expect(options.every((o) => o.tier === 'master')).toBe(true);
   });
 });
 
@@ -177,7 +206,19 @@ describe('applyPromotion', () => {
   it('clamps stats to new tier caps', () => {
     // Give unit unreasonably high stats, then promote
     const unit = makeUnit('lord', 15, {
-      stats: { hp: 78, str: 29, mag: 29, def: 29, res: 29, spd: 29, skl: 29, lck: 39, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 78,
+        str: 29,
+        mag: 29,
+        def: 29,
+        res: 29,
+        spd: 29,
+        skl: 29,
+        lck: 39,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       currentHp: 78,
     });
     const promoted = applyPromotion(unit, 'great_lord');
@@ -196,7 +237,19 @@ describe('applyPromotion', () => {
   it('mounted classes do NOT get extra MOV (already in bonuses)', () => {
     // Paladin promotion bonus has no MOV (mounted — already high)
     const unit = makeUnit('cavalier', 15, {
-      stats: { hp: 30, str: 12, mag: 0, def: 10, res: 2, spd: 10, skl: 8, lck: 6, mov: 7, cha: 0, wil: 0 },
+      stats: {
+        hp: 30,
+        str: 12,
+        mag: 0,
+        def: 10,
+        res: 2,
+        spd: 10,
+        skl: 8,
+        lck: 6,
+        mov: 7,
+        cha: 0,
+        wil: 0,
+      },
     });
     const promoted = applyPromotion(unit, 'paladin');
     // paladin bonuses: hp:3, str:2, def:2, res:2 — no MOV
@@ -205,7 +258,19 @@ describe('applyPromotion', () => {
 
   it('handles negative bonuses (great_knight SPD -1)', () => {
     const unit = makeUnit('cavalier', 15, {
-      stats: { hp: 30, str: 12, mag: 0, def: 10, res: 2, spd: 10, skl: 8, lck: 6, mov: 7, cha: 0, wil: 0 },
+      stats: {
+        hp: 30,
+        str: 12,
+        mag: 0,
+        def: 10,
+        res: 2,
+        spd: 10,
+        skl: 8,
+        lck: 6,
+        mov: 7,
+        cha: 0,
+        wil: 0,
+      },
     });
     const promoted = applyPromotion(unit, 'great_knight');
     // great_knight bonuses: hp:4, str:3, def:3, spd:-1
@@ -295,8 +360,32 @@ describe('getStatCaps', () => {
 
 describe('clampStats', () => {
   it('clamps stats above caps', () => {
-    const stats: UnitStats = { hp: 90, str: 35, mag: 25, def: 30, res: 30, spd: 30, skl: 30, lck: 50, mov: 7, cha: 0, wil: 0 };
-    const caps: UnitStats = { hp: 80, str: 30, mag: 30, def: 30, res: 30, spd: 30, skl: 30, lck: 40, mov: 15, cha: 30, wil: 30 };
+    const stats: UnitStats = {
+      hp: 90,
+      str: 35,
+      mag: 25,
+      def: 30,
+      res: 30,
+      spd: 30,
+      skl: 30,
+      lck: 50,
+      mov: 7,
+      cha: 0,
+      wil: 0,
+    };
+    const caps: UnitStats = {
+      hp: 80,
+      str: 30,
+      mag: 30,
+      def: 30,
+      res: 30,
+      spd: 30,
+      skl: 30,
+      lck: 40,
+      mov: 15,
+      cha: 30,
+      wil: 30,
+    };
     const clamped = clampStats(stats, caps);
     expect(clamped.hp).toBe(80);
     expect(clamped.str).toBe(30);
@@ -309,8 +398,31 @@ describe('clampStats', () => {
 
 describe('applyStatGains with caps', () => {
   it('clamps stats at cap during level up', () => {
-    const stats: UnitStats = { hp: 19, str: 19, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 };
-    const gains: StatGains = { hp: 1, str: 1, mag: 0, def: 1, res: 0, spd: 0, skl: 1, lck: 0, cha: 0, wil: 0 };
+    const stats: UnitStats = {
+      hp: 19,
+      str: 19,
+      mag: 0,
+      def: 5,
+      res: 0,
+      spd: 7,
+      skl: 5,
+      lck: 3,
+      mov: 5,
+      cha: 0,
+      wil: 0,
+    };
+    const gains: StatGains = {
+      hp: 1,
+      str: 1,
+      mag: 0,
+      def: 1,
+      res: 0,
+      spd: 0,
+      skl: 1,
+      lck: 0,
+      cha: 0,
+      wil: 0,
+    };
     const caps = { hp: 60, str: 20 }; // only cap str at 20
     const result = applyStatGains(stats, gains, caps);
     expect(result.str).toBe(20); // 19+1 = 20, at cap
@@ -319,8 +431,31 @@ describe('applyStatGains with caps', () => {
   });
 
   it('works without caps (backwards compatible)', () => {
-    const stats: UnitStats = { hp: 19, str: 19, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 };
-    const gains: StatGains = { hp: 1, str: 1, mag: 0, def: 0, res: 0, spd: 0, skl: 0, lck: 0, cha: 0, wil: 0 };
+    const stats: UnitStats = {
+      hp: 19,
+      str: 19,
+      mag: 0,
+      def: 5,
+      res: 0,
+      spd: 7,
+      skl: 5,
+      lck: 3,
+      mov: 5,
+      cha: 0,
+      wil: 0,
+    };
+    const gains: StatGains = {
+      hp: 1,
+      str: 1,
+      mag: 0,
+      def: 0,
+      res: 0,
+      spd: 0,
+      skl: 0,
+      lck: 0,
+      cha: 0,
+      wil: 0,
+    };
     const result = applyStatGains(stats, gains);
     expect(result.str).toBe(20); // no cap → goes to 20
     expect(result.hp).toBe(20);

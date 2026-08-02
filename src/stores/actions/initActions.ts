@@ -9,7 +9,15 @@ import { useCampaignStore } from '../campaignStore';
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
 
-export function initChapter(get: Get, set: Set, chapter: ChapterData, seed: number = 12345, unitProgress?: Record<string, UnitProgress>, deployedUnitIds?: string[], supportPairs?: SupportPair[]) {
+export function initChapter(
+  get: Get,
+  set: Set,
+  chapter: ChapterData,
+  seed: number = 12345,
+  unitProgress?: Record<string, UnitProgress>,
+  deployedUnitIds?: string[],
+  supportPairs?: SupportPair[],
+) {
   const difficulty = useCampaignStore.getState().difficulty;
   const map = buildMap(chapter);
   const units = placeUnits(chapter, map, unitProgress, deployedUnitIds, difficulty);
@@ -80,7 +88,7 @@ export function initChapter(get: Get, set: Set, chapter: ChapterData, seed: numb
     allyActionIndex: -1,
     weather: chapter.weather ?? 'clear',
     terrainHpMap: new Map(),
-    supportPairs: (supportPairs ?? []).map(p => ({ ...p })),
+    supportPairs: (supportPairs ?? []).map((p) => ({ ...p })),
     supportRankUp: null,
     pendingVictory: false,
   });

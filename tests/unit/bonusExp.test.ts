@@ -60,7 +60,18 @@ describe('Bonus EXP system', () => {
   });
 
   describe('previewBonusExp', () => {
-    const growthRates = { hp: 80, str: 50, mag: 10, def: 40, res: 20, spd: 50, skl: 40, lck: 30, cha: 10, wil: 10 };
+    const growthRates = {
+      hp: 80,
+      str: 50,
+      mag: 10,
+      def: 40,
+      res: 20,
+      spd: 50,
+      skl: 40,
+      lck: 30,
+      cha: 10,
+      wil: 10,
+    };
 
     it('returns wouldLevel=false when EXP stays under 100', () => {
       const result = previewBonusExp(50, 10, 5, growthRates);

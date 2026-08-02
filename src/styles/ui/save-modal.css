@@ -58,7 +58,9 @@
   font-size: 14px;
   cursor: pointer;
   text-align: left;
-  transition: border-color 0.15s, background 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
 }
 
 .save-slot-picker__slot:hover:not(:disabled) {
@@ -128,7 +130,9 @@
   color: #94a3b8;
   font-size: 14px;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
 .save-slot-picker__cancel:hover:not(:disabled) {
@@ -188,7 +192,9 @@
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
 }
 
 .save-prompt__btn--save {
@@ -221,7 +227,10 @@
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
 }
 
 .prep-screen__save-btn:hover {
@@ -232,6 +241,12 @@
 
 /* ===== Animations ===== */
 @keyframes save-fade-in {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

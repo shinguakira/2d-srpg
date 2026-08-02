@@ -5,11 +5,25 @@ import { useUIStore } from '../../stores/uiStore';
 const TILE_PX = 3;
 
 const TERRAIN_COLORS: Record<string, string> = {
-  plain: '#4a7c4a', grass: '#4a7c4a', forest: '#2d5a2d', mountain: '#8b7355',
-  wall: '#555', water: '#3b82f6', fort: '#666', throne: '#8b6914',
-  village: '#c47d2b', sand: '#d4a84b', chest: '#b8860b', door: '#8b4513',
-  bridge: '#8b7355', floor: '#777', gate: '#888', glitched: '#d946ef',
-  data_void: '#1a0033', memory: '#22d3ee', corrupted_fort: '#a020f0',
+  plain: '#4a7c4a',
+  grass: '#4a7c4a',
+  forest: '#2d5a2d',
+  mountain: '#8b7355',
+  wall: '#555',
+  water: '#3b82f6',
+  fort: '#666',
+  throne: '#8b6914',
+  village: '#c47d2b',
+  sand: '#d4a84b',
+  chest: '#b8860b',
+  door: '#8b4513',
+  bridge: '#8b7355',
+  floor: '#777',
+  gate: '#888',
+  glitched: '#d946ef',
+  data_void: '#1a0033',
+  memory: '#22d3ee',
+  corrupted_fort: '#a020f0',
   broken_throne: '#5c3a00',
 };
 
@@ -28,17 +42,26 @@ export function Minimap() {
   const setCameraOffset = useUIStore((s) => s.setCameraOffset);
   const [collapsed, setCollapsed] = useState(false);
 
-  const handleClick = useCallback((e: React.MouseEvent<SVGSVGElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / TILE_PX;
-    const y = (e.clientY - rect.top) / TILE_PX;
-    // Center camera on clicked position
-    const viewW = window.innerWidth;
-    const viewH = window.innerHeight;
-    const newX = Math.min(0, Math.max(-(gameMap.width * tileSize - viewW), -(x * tileSize - viewW / 2)));
-    const newY = Math.min(0, Math.max(-(gameMap.height * tileSize - viewH), -(y * tileSize - viewH / 2)));
-    setCameraOffset({ x: newX, y: newY });
-  }, [gameMap.width, gameMap.height, tileSize, setCameraOffset]);
+  const handleClick = useCallback(
+    (e: React.MouseEvent<SVGSVGElement>) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / TILE_PX;
+      const y = (e.clientY - rect.top) / TILE_PX;
+      // Center camera on clicked position
+      const viewW = window.innerWidth;
+      const viewH = window.innerHeight;
+      const newX = Math.min(
+        0,
+        Math.max(-(gameMap.width * tileSize - viewW), -(x * tileSize - viewW / 2)),
+      );
+      const newY = Math.min(
+        0,
+        Math.max(-(gameMap.height * tileSize - viewH), -(y * tileSize - viewH / 2)),
+      );
+      setCameraOffset({ x: newX, y: newY });
+    },
+    [gameMap.width, gameMap.height, tileSize, setCameraOffset],
+  );
 
   // Only show for maps > 12x12
   if (gameMap.width <= 12 && gameMap.height <= 12) return null;
@@ -49,10 +72,10 @@ export function Minimap() {
   // Viewport rectangle
   const viewW = window.innerWidth;
   const viewH = window.innerHeight;
-  const vpX = Math.max(0, -cameraOffset.x / tileSize * TILE_PX);
-  const vpY = Math.max(0, -cameraOffset.y / tileSize * TILE_PX);
-  const vpW = Math.min(mapW - vpX, viewW / tileSize * TILE_PX);
-  const vpH = Math.min(mapH - vpY, viewH / tileSize * TILE_PX);
+  const vpX = Math.max(0, (-cameraOffset.x / tileSize) * TILE_PX);
+  const vpY = Math.max(0, (-cameraOffset.y / tileSize) * TILE_PX);
+  const vpW = Math.min(mapW - vpX, (viewW / tileSize) * TILE_PX);
+  const vpH = Math.min(mapH - vpY, (viewH / tileSize) * TILE_PX);
 
   return (
     <div className="minimap" data-testid="minimap">
@@ -77,7 +100,7 @@ export function Minimap() {
                 height={TILE_PX}
                 fill={TERRAIN_COLORS[tile.terrain] ?? '#4a7c4a'}
               />
-            ))
+            )),
           )}
           {/* Unit dots */}
           {Array.from(units.values()).map((unit) => {

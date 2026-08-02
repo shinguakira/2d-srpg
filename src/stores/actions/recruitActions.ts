@@ -18,7 +18,10 @@ function findRecruitTarget(get: Get): string | null {
   if (!selectedUnitId || !pendingPosition) return null;
 
   for (const unit of units.values()) {
-    if (unit.recruitableBy === selectedUnitId && getManhattanDistance(pendingPosition, unit.position) === 1) {
+    if (
+      unit.recruitableBy === selectedUnitId &&
+      getManhattanDistance(pendingPosition, unit.position) === 1
+    ) {
       return unit.id;
     }
   }
@@ -46,7 +49,10 @@ export function startTalk(get: Get, set: Set) {
   const target = units.get(targetId)!;
 
   // LOY gate: if target has a LOY threshold and recruiter doesn't meet it, fail
-  if (target.recruitLoyThreshold != null && !canRecruit(unit.metaStats.loy, target.recruitLoyThreshold)) {
+  if (
+    target.recruitLoyThreshold != null &&
+    !canRecruit(unit.metaStats.loy, target.recruitLoyThreshold)
+  ) {
     // Move to pending position but fail recruitment
     const newUnits = new Map(units);
     const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
@@ -55,7 +61,12 @@ export function startTalk(get: Get, set: Set) {
     }
     newTiles[pendingPosition.y][pendingPosition.x].occupantId = selectedUnitId;
     const facing = deriveFacing(pendingPosition, target.position);
-    newUnits.set(selectedUnitId, { ...unit, position: { ...pendingPosition }, hasActed: true, facing });
+    newUnits.set(selectedUnitId, {
+      ...unit,
+      position: { ...pendingPosition },
+      hasActed: true,
+      facing,
+    });
     set({
       ...IDLE_RESET,
       units: newUnits,

@@ -1,13 +1,20 @@
 import { memo, useState, useEffect } from 'react';
 import type { Unit } from '../../core/types';
 import { sortAndTruncateEffects, renderStatusIcon } from '../sprites/statusEffectIcons';
-import { getSheetConfig, sheetFrameW, sheetFrameH, sheetCols, sheetPxW, sheetPxH } from '../sprites/spriteSheetConfig';
+import {
+  getSheetConfig,
+  sheetFrameW,
+  sheetFrameH,
+  sheetCols,
+  sheetPxW,
+  sheetPxH,
+} from '../sprites/spriteSheetConfig';
 import '../../styles/ui/boss.css';
 
 const BOSS_PHASE_COLORS = [
-  'drop-shadow(0 0 3px rgba(251,191,36,0.6))',                    // Phase 0: gold
-  'drop-shadow(0 0 4px rgba(239,68,68,0.7)) hue-rotate(10deg)',   // Phase 1: red
-  'drop-shadow(0 0 5px rgba(168,85,247,0.8)) hue-rotate(40deg)',  // Phase 2+: purple
+  'drop-shadow(0 0 3px rgba(251,191,36,0.6))', // Phase 0: gold
+  'drop-shadow(0 0 4px rgba(239,68,68,0.7)) hue-rotate(10deg)', // Phase 1: red
+  'drop-shadow(0 0 5px rgba(168,85,247,0.8)) hue-rotate(40deg)', // Phase 2+: purple
 ];
 
 function getBossPhaseFilter(unit: Unit): string {
@@ -26,9 +33,17 @@ function getBossPhaseFilter(unit: Unit): string {
 }
 
 const WEAPON_ICONS: Record<string, string> = {
-  sword: '\u2694', lance: '\u{1F531}', axe: '\u{1FA93}',
-  fire: '\u{1F525}', thunder: '\u26A1', wind: '\u{1F32C}',
-  bow: '\u{1F3F9}', staff: '\u{1FA84}', light: '\u2728', dark: '\u{1F311}', knife: '\u{1F5E1}',
+  sword: '\u2694',
+  lance: '\u{1F531}',
+  axe: '\u{1FA93}',
+  fire: '\u{1F525}',
+  thunder: '\u26A1',
+  wind: '\u{1F32C}',
+  bow: '\u{1F3F9}',
+  staff: '\u{1FA84}',
+  light: '\u2728',
+  dark: '\u{1F311}',
+  knife: '\u{1F5E1}',
 };
 
 type UnitSpriteProps = {
@@ -43,19 +58,40 @@ type UnitSpriteProps = {
 
 const MAP_IDLE_MS = 250; // frame cycle speed on map
 
-export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected, isSpawning, isRemoving, isRefreshed, hasActiveSupport }: UnitSpriteProps) {
+export const UnitSprite = memo(function UnitSprite({
+  unit,
+  tileSize,
+  isSelected,
+  isSpawning,
+  isRemoving,
+  isRefreshed,
+  hasActiveSupport,
+}: UnitSpriteProps) {
   const hpPercent = Math.max(0, (unit.currentHp / unit.stats.hp) * 100);
   const hpColor = hpPercent > 50 ? '#22c55e' : hpPercent > 25 ? '#eab308' : '#ef4444';
   const cfg = getSheetConfig(unit.classId, unit.id);
   const crp = unit.metaStats.crp;
   const sta = unit.metaStats.sta;
-  const crpClass = crp >= 80 ? 'unit-sprite--crp-heavy' : crp >= 60 ? 'unit-sprite--crp-medium' : crp >= 30 ? 'unit-sprite--crp-flicker' : '';
+  const crpClass =
+    crp >= 80
+      ? 'unit-sprite--crp-heavy'
+      : crp >= 60
+        ? 'unit-sprite--crp-medium'
+        : crp >= 30
+          ? 'unit-sprite--crp-flicker'
+          : '';
   const staClass = sta >= 30 && sta < 45 ? 'unit-sprite--sta-dim' : '';
-  const animClass = isSpawning ? 'unit-sprite--spawning'
-    : isRemoving ? 'unit-sprite--removing'
-    : isRefreshed ? 'unit-sprite--refreshed'
-    : isSelected ? 'unit-sprite--selected'
-    : !unit.hasActed ? 'unit-sprite--idle' : '';
+  const animClass = isSpawning
+    ? 'unit-sprite--spawning'
+    : isRemoving
+      ? 'unit-sprite--removing'
+      : isRefreshed
+        ? 'unit-sprite--refreshed'
+        : isSelected
+          ? 'unit-sprite--selected'
+          : !unit.hasActed
+            ? 'unit-sprite--idle'
+            : '';
 
   /* Sprite sheet idle frame cycling */
   const cfgCols = sheetCols(cfg);
@@ -65,7 +101,7 @@ export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected,
 
   const [frame, setFrame] = useState(0);
   useEffect(() => {
-    const id = setInterval(() => setFrame(f => (f + 1) % cfgCols), MAP_IDLE_MS);
+    const id = setInterval(() => setFrame((f) => (f + 1) % cfgCols), MAP_IDLE_MS);
     return () => clearInterval(id);
   }, [cfgCols]);
 
@@ -109,7 +145,9 @@ export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected,
           backgroundPosition: `${-col * spriteW}px ${-row * spriteH}px`,
           backgroundSize: `${cfgSheetW * scale}px ${cfgSheetH * scale}px`,
           backgroundRepeat: 'no-repeat',
-          imageRendering: (cfgFrameW === cfgFrameH ? 'pixelated' : 'auto') as React.CSSProperties['imageRendering'],
+          imageRendering: (cfgFrameW === cfgFrameH
+            ? 'pixelated'
+            : 'auto') as React.CSSProperties['imageRendering'],
           filter: unit.aiBehavior?.type === 'boss' ? getBossPhaseFilter(unit) : undefined,
           transform: unit.facing === 'left' ? 'scaleX(-1)' : undefined,
           mixBlendMode: cfg.hasAlpha ? undefined : 'screen',
@@ -118,11 +156,17 @@ export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected,
       >
         {unit.aiBehavior?.type === 'boss' && (
           <svg
-            width={12} height={10}
+            width={12}
+            height={10}
             viewBox="0 0 6 6"
             style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)' }}
           >
-            <polygon points="3,0 0,5 1.5,3 3,6 4.5,3 6,5" fill="#fbbf24" stroke="#d97706" strokeWidth="0.4" />
+            <polygon
+              points="3,0 0,5 1.5,3 3,6 4.5,3 6,5"
+              fill="#fbbf24"
+              stroke="#d97706"
+              strokeWidth="0.4"
+            />
           </svg>
         )}
       </div>
@@ -130,7 +174,8 @@ export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected,
       {/* Weapon cycle indicator above boss */}
       {unit.weaponCycleOrder && unit.weaponCycleOrder.length > 0 && (
         <div className="weapon-cycle-indicator" data-testid={`weapon-cycle-${unit.id}`}>
-          {WEAPON_ICONS[unit.weaponCycleOrder[unit.weaponCycleIndex ?? 0]] ?? unit.weaponCycleOrder[unit.weaponCycleIndex ?? 0]}
+          {WEAPON_ICONS[unit.weaponCycleOrder[unit.weaponCycleIndex ?? 0]] ??
+            unit.weaponCycleOrder[unit.weaponCycleIndex ?? 0]}
         </div>
       )}
 
@@ -191,9 +236,7 @@ export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected,
       )}
 
       {/* CRP warning overlay at 80+ */}
-      {crp >= 80 && (
-        <div className="unit-sprite__crp-warning" />
-      )}
+      {crp >= 80 && <div className="unit-sprite__crp-warning" />}
 
       {/* STA sweat-drop at 45+ */}
       {sta >= 45 && (
@@ -209,7 +252,12 @@ export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected,
           viewBox="0 0 10 10"
           data-testid={`support-heart-${unit.id}`}
         >
-          <path d="M5 8 C2 5.5 0.5 3.5 2 2 C3 1 4.5 1.5 5 3 C5.5 1.5 7 1 8 2 C9.5 3.5 8 5.5 5 8Z" fill="#f472b6" stroke="#be185d" strokeWidth="0.5" />
+          <path
+            d="M5 8 C2 5.5 0.5 3.5 2 2 C3 1 4.5 1.5 5 3 C5.5 1.5 7 1 8 2 C9.5 3.5 8 5.5 5 8Z"
+            fill="#f472b6"
+            stroke="#be185d"
+            strokeWidth="0.5"
+          />
         </svg>
       )}
 
@@ -221,7 +269,13 @@ export const UnitSprite = memo(function UnitSprite({ unit, tileSize, isSelected,
           data-testid={`carry-badge-${unit.id}`}
         >
           <circle cx="5" cy="2.5" r="1.8" fill="#60a5fa" stroke="#1e3a5f" strokeWidth="0.5" />
-          <path d="M5 4.5 L5 7.5 M3 5.5 L7 5.5 M3.5 10 L5 7.5 L6.5 10" stroke="#60a5fa" strokeWidth="0.8" fill="none" strokeLinecap="round" />
+          <path
+            d="M5 4.5 L5 7.5 M3 5.5 L7 5.5 M3.5 10 L5 7.5 L6.5 10"
+            stroke="#60a5fa"
+            strokeWidth="0.8"
+            fill="none"
+            strokeLinecap="round"
+          />
         </svg>
       )}
     </div>

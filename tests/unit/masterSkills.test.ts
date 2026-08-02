@@ -2,18 +2,55 @@ import { describe, it, expect } from 'vitest';
 import { hasSkill, resolvePerHitSkills, resolveDefenseSkills } from '../../src/core/skills';
 import { SKILLS } from '../../src/data/skills';
 import { ALL_CLASSES } from '../../src/data/promotedClasses';
-import { canPromote, getStatCaps, applyPromotion, getPromotionOptions } from '../../src/core/promotion';
+import {
+  canPromote,
+  getStatCaps,
+  applyPromotion,
+  getPromotionOptions,
+} from '../../src/core/promotion';
 import type { Unit } from '../../src/core/types';
 
 function makeUnit(overrides: Partial<Unit> = {}): Unit {
   return {
-    id: 'test', name: 'Test', classId: 'lord', faction: 'player',
+    id: 'test',
+    name: 'Test',
+    classId: 'lord',
+    faction: 'player',
     position: { x: 0, y: 0 },
-    stats: { hp: 30, str: 12, mag: 8, def: 8, res: 5, spd: 10, skl: 15, lck: 8, mov: 5, cha: 0, wil: 0 },
-    currentHp: 30, level: 10, exp: 0,
-    equippedWeapon: { id: 'iron_sword', name: 'Iron Sword', type: 'sword', might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1 },
-    inventory: [], items: [], hasActed: false, skills: [], learnedSkills: [],
-    facing: 'down', sprite: '',
+    stats: {
+      hp: 30,
+      str: 12,
+      mag: 8,
+      def: 8,
+      res: 5,
+      spd: 10,
+      skl: 15,
+      lck: 8,
+      mov: 5,
+      cha: 0,
+      wil: 0,
+    },
+    currentHp: 30,
+    level: 10,
+    exp: 0,
+    equippedWeapon: {
+      id: 'iron_sword',
+      name: 'Iron Sword',
+      type: 'sword',
+      might: 5,
+      hit: 90,
+      crit: 0,
+      weight: 5,
+      minRange: 1,
+      maxRange: 1,
+    },
+    inventory: [],
+    items: [],
+    hasActed: false,
+    skills: [],
+    learnedSkills: [],
+    facing: 'down',
+    sprite: '',
     metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
     ...overrides,
   };
@@ -24,7 +61,16 @@ const neverRoll = { roll: () => false };
 
 describe('Master Class Skills', () => {
   it('all 8 master skill definitions exist', () => {
-    const ids = ['cycle_authority', 'tri_magic', 'bloodlust', 'divine_wings', 'ironwall', 'vanish', 'balance', 'terror_aura'];
+    const ids = [
+      'cycle_authority',
+      'tri_magic',
+      'bloodlust',
+      'divine_wings',
+      'ironwall',
+      'vanish',
+      'balance',
+      'terror_aura',
+    ];
     for (const id of ids) {
       expect(SKILLS[id]).toBeDefined();
       expect(SKILLS[id].isInnate).toBe(true);
@@ -103,7 +149,16 @@ describe('Trauma Skill definitions', () => {
 });
 
 describe('Master Class Definitions', () => {
-  const masterIds = ['overlord', 'archsage', 'marshal', 'reaver', 'seraph', 'dragon_lord', 'phantom', 'oracle'];
+  const masterIds = [
+    'overlord',
+    'archsage',
+    'marshal',
+    'reaver',
+    'seraph',
+    'dragon_lord',
+    'phantom',
+    'oracle',
+  ];
 
   it('all 8 master classes exist with tier master', () => {
     for (const id of masterIds) {
@@ -115,9 +170,14 @@ describe('Master Class Definitions', () => {
 
   it('all master classes have an innate skill', () => {
     const expected: Record<string, string> = {
-      overlord: 'cycle_authority', archsage: 'tri_magic', marshal: 'ironwall',
-      reaver: 'bloodlust', seraph: 'divine_wings', dragon_lord: 'terror_aura',
-      phantom: 'vanish', oracle: 'balance',
+      overlord: 'cycle_authority',
+      archsage: 'tri_magic',
+      marshal: 'ironwall',
+      reaver: 'bloodlust',
+      seraph: 'divine_wings',
+      dragon_lord: 'terror_aura',
+      phantom: 'vanish',
+      oracle: 'balance',
     };
     for (const [id, skillId] of Object.entries(expected)) {
       expect(ALL_CLASSES[id].innateSkills).toContain(skillId);
@@ -126,8 +186,14 @@ describe('Master Class Definitions', () => {
 
   it('all master classes have a key stat cap of 40', () => {
     const keyCaps: Record<string, string> = {
-      overlord: 'str', archsage: 'mag', marshal: 'def', reaver: 'str',
-      seraph: 'spd', dragon_lord: 'def', phantom: 'spd', oracle: 'mag',
+      overlord: 'str',
+      archsage: 'mag',
+      marshal: 'def',
+      reaver: 'str',
+      seraph: 'spd',
+      dragon_lord: 'def',
+      phantom: 'spd',
+      oracle: 'mag',
     };
     for (const [id, stat] of Object.entries(keyCaps)) {
       const caps = getStatCaps(id);
@@ -159,8 +225,21 @@ describe('Master Class Definitions', () => {
 
   it('applyPromotion applies bonuses and clamps to master caps', () => {
     const unit = makeUnit({
-      classId: 'sage', level: 30,
-      stats: { hp: 40, str: 5, mag: 28, def: 10, res: 20, spd: 18, skl: 15, lck: 12, mov: 6, cha: 5, wil: 5 },
+      classId: 'sage',
+      level: 30,
+      stats: {
+        hp: 40,
+        str: 5,
+        mag: 28,
+        def: 10,
+        res: 20,
+        spd: 18,
+        skl: 15,
+        lck: 12,
+        mov: 6,
+        cha: 5,
+        wil: 5,
+      },
       currentHp: 40,
     });
     const promoted = applyPromotion(unit, 'archsage');

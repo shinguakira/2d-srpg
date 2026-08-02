@@ -9,11 +9,28 @@ import type { Unit, GameMap, Position, Weapon } from '../../src/core/types';
 
 function makeUnit(overrides: Partial<Unit> = {}): Unit {
   return {
-    id: 'u1', name: 'Test', classId: 'fighter', faction: 'player',
-    level: 1, exp: 0, position: { x: 0, y: 0 }, startPosition: { x: 0, y: 0 },
+    id: 'u1',
+    name: 'Test',
+    classId: 'fighter',
+    faction: 'player',
+    level: 1,
+    exp: 0,
+    position: { x: 0, y: 0 },
+    startPosition: { x: 0, y: 0 },
     stats: { hp: 30, str: 10, mag: 0, skl: 5, spd: 5, lck: 5, def: 5, res: 5, mov: 5, con: 10 },
-    currentHp: 30, hasActed: false,
-    equippedWeapon: { id: 'iron_axe', name: 'Iron Axe', type: 'axe', might: 8, hit: 80, crit: 0, weight: 8, minRange: 1, maxRange: 1 },
+    currentHp: 30,
+    hasActed: false,
+    equippedWeapon: {
+      id: 'iron_axe',
+      name: 'Iron Axe',
+      type: 'axe',
+      might: 8,
+      hit: 80,
+      crit: 0,
+      weight: 8,
+      minRange: 1,
+      maxRange: 1,
+    },
     inventory: [],
     items: [],
     metaStats: { crp: 0, sta: 50, loy: 50, awr: 50, sync: 50, loop: 100 },
@@ -26,7 +43,7 @@ function makeMap(width: number, height: number, terrain: string = 'plain'): Game
     Array.from({ length: width }, (_, x) => ({
       terrain: terrain as any,
       occupantId: null,
-    }))
+    })),
   );
   return { width, height, tiles } as GameMap;
 }
@@ -64,7 +81,17 @@ describe('getDestructibleConfig', () => {
 describe('calcTerrainDamage', () => {
   it('STR + weapon might', () => {
     const unit = makeUnit({
-      equippedWeapon: { id: 'w', name: 'W', type: 'sword', might: 7, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1 },
+      equippedWeapon: {
+        id: 'w',
+        name: 'W',
+        type: 'sword',
+        might: 7,
+        hit: 90,
+        crit: 0,
+        weight: 5,
+        minRange: 1,
+        maxRange: 1,
+      },
     });
     expect(calcTerrainDamage(unit)).toBe(10 + 7); // STR 10 + might 7
   });
@@ -76,7 +103,17 @@ describe('calcTerrainDamage', () => {
 
   it('non-axe weapons get no bonus', () => {
     const unit = makeUnit({
-      equippedWeapon: { id: 'w', name: 'W', type: 'lance', might: 7, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1 },
+      equippedWeapon: {
+        id: 'w',
+        name: 'W',
+        type: 'lance',
+        might: 7,
+        hit: 90,
+        crit: 0,
+        weight: 5,
+        minRange: 1,
+        maxRange: 1,
+      },
     });
     expect(calcTerrainDamage(unit)).toBe(10 + 7);
   });
@@ -105,7 +142,17 @@ describe('canAttackTerrain', () => {
 
   it('forest with fire magic is allowed', () => {
     const unit = makeUnit({
-      equippedWeapon: { id: 'w', name: 'Fire', type: 'fire', might: 5, hit: 90, crit: 0, weight: 3, minRange: 1, maxRange: 2 },
+      equippedWeapon: {
+        id: 'w',
+        name: 'Fire',
+        type: 'fire',
+        might: 5,
+        hit: 90,
+        crit: 0,
+        weight: 3,
+        minRange: 1,
+        maxRange: 2,
+      },
     });
     expect(canAttackTerrain(unit, 'forest')).toBe(true);
   });
@@ -124,10 +171,7 @@ describe('resolveBridgeCollapse', () => {
     const unit = makeUnit({ position: { x: 1, y: 1 } });
     const units = new Map([['u1', unit]]);
 
-    const results = resolveBridgeCollapse(
-      { x: 1, y: 1 }, map, units,
-      () => ({})
-    );
+    const results = resolveBridgeCollapse({ x: 1, y: 1 }, map, units, () => ({}));
 
     expect(results).toHaveLength(1);
     expect(results[0].unitId).toBe('u1');
@@ -142,10 +186,7 @@ describe('resolveBridgeCollapse', () => {
     const unit = makeUnit({ position: { x: 1, y: 1 } });
     const units = new Map([['u1', unit]]);
 
-    const results = resolveBridgeCollapse(
-      { x: 1, y: 1 }, map, units,
-      () => ({ flying: true })
-    );
+    const results = resolveBridgeCollapse({ x: 1, y: 1 }, map, units, () => ({ flying: true }));
 
     expect(results).toHaveLength(0);
   });
@@ -163,10 +204,7 @@ describe('resolveBridgeCollapse', () => {
     const unit = makeUnit({ position: { x: 1, y: 1 } });
     const units = new Map([['u1', unit]]);
 
-    const results = resolveBridgeCollapse(
-      { x: 1, y: 1 }, map, units,
-      () => ({})
-    );
+    const results = resolveBridgeCollapse({ x: 1, y: 1 }, map, units, () => ({}));
 
     expect(results[0].displacedTo).toEqual({ x: 1, y: 2 });
   });
@@ -179,10 +217,7 @@ describe('resolveBridgeCollapse', () => {
     const unit = makeUnit({ position: { x: 1, y: 1 } });
     const units = new Map([['u1', unit]]);
 
-    const results = resolveBridgeCollapse(
-      { x: 1, y: 1 }, map, units,
-      () => ({})
-    );
+    const results = resolveBridgeCollapse({ x: 1, y: 1 }, map, units, () => ({}));
 
     expect(results[0].displacedTo).toBeNull();
   });

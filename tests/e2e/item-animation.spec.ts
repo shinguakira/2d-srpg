@@ -20,7 +20,9 @@ test.describe('Item Usage Animation', () => {
     await page.waitForTimeout(500);
 
     // Wait for combat animation to finish
-    await expect(page.locator('[data-testid="combat-animation"]')).not.toBeVisible({ timeout: 15000 });
+    await expect(page.locator('[data-testid="combat-animation"]')).not.toBeVisible({
+      timeout: 15000,
+    });
     await page.waitForTimeout(500);
 
     // Step 2: End turn to cycle back to player phase (Kael has acted)

@@ -18,11 +18,7 @@ export function EndingScreen() {
         </div>
         <h1 className="ending-screen__title">{title}</h1>
         <p className="ending-screen__description">{description}</p>
-        <button
-          className="ending-screen__btn"
-          data-testid="ending-continue"
-          onClick={goToCredits}
-        >
+        <button className="ending-screen__btn" data-testid="ending-continue" onClick={goToCredits}>
           Continue
         </button>
       </div>

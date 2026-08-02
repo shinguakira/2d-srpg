@@ -13,18 +13,33 @@ const CATEGORY_COLORS: Record<SkillCategory, string> = {
   passive: '#64748b',
 };
 
-const CATEGORIES: Array<SkillCategory | 'all'> = ['all', 'combat', 'movement', 'support', 'passive', 'meta'];
+const CATEGORIES: Array<SkillCategory | 'all'> = [
+  'all',
+  'combat',
+  'movement',
+  'support',
+  'passive',
+  'meta',
+];
 
 function getActivationText(activation: { type: string; threshold?: number }): string {
   switch (activation.type) {
-    case 'passive': return 'Always active';
-    case 'skl_pct': return 'SKL% chance per hit';
-    case 'spd_pct': return 'SPD% chance per hit';
-    case 'lck_pct': return 'LCK% chance';
-    case 'skl_half_pct': return 'SKL/2% chance';
-    case 'skl_quarter_pct': return 'SKL/4% chance';
-    case 'hp_threshold': return `Active when HP ≤ ${(activation as { threshold: number }).threshold}%`;
-    default: return activation.type;
+    case 'passive':
+      return 'Always active';
+    case 'skl_pct':
+      return 'SKL% chance per hit';
+    case 'spd_pct':
+      return 'SPD% chance per hit';
+    case 'lck_pct':
+      return 'LCK% chance';
+    case 'skl_half_pct':
+      return 'SKL/2% chance';
+    case 'skl_quarter_pct':
+      return 'SKL/4% chance';
+    case 'hp_threshold':
+      return `Active when HP ≤ ${(activation as { threshold: number }).threshold}%`;
+    default:
+      return activation.type;
   }
 }
 
@@ -82,16 +97,18 @@ export function SkillsView({
       </div>
 
       <div className="debug-screen__detail">
-        {selected ? <SkillDetail skill={selected} /> : <div className="debug-screen__empty">Select a skill to view details</div>}
+        {selected ? (
+          <SkillDetail skill={selected} />
+        ) : (
+          <div className="debug-screen__empty">Select a skill to view details</div>
+        )}
       </div>
     </div>
   );
 }
 
 function SkillDetail({ skill }: { skill: (typeof ALL_SKILLS)[0] }) {
-  const classesWithSkill = ALL_CLASSES_ARR.filter(
-    (cls) => cls.innateSkills?.includes(skill.id),
-  );
+  const classesWithSkill = ALL_CLASSES_ARR.filter((cls) => cls.innateSkills?.includes(skill.id));
 
   return (
     <div data-testid={`debug-detail-${skill.id}`}>
@@ -106,7 +123,10 @@ function SkillDetail({ skill }: { skill: (typeof ALL_SKILLS)[0] }) {
               {skill.category}
             </span>
             {skill.isInnate && (
-              <span className="debug-screen__badge debug-screen__badge--large" style={{ background: '#d97706' }}>
+              <span
+                className="debug-screen__badge debug-screen__badge--large"
+                style={{ background: '#d97706' }}
+              >
                 Class Innate
               </span>
             )}
@@ -139,7 +159,17 @@ function SkillDetail({ skill }: { skill: (typeof ALL_SKILLS)[0] }) {
             {classesWithSkill.map((cls) => (
               <span key={cls.id} className="debug-screen__used-by-chip">
                 {cls.name}
-                <span className="debug-screen__badge" style={{ background: cls.tier === 'base' ? '#3b82f6' : cls.tier === 'promoted' ? '#d97706' : '#a855f7' }}>
+                <span
+                  className="debug-screen__badge"
+                  style={{
+                    background:
+                      cls.tier === 'base'
+                        ? '#3b82f6'
+                        : cls.tier === 'promoted'
+                          ? '#d97706'
+                          : '#a855f7',
+                  }}
+                >
                   {cls.tier}
                 </span>
               </span>

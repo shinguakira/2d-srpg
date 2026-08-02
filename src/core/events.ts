@@ -77,7 +77,10 @@ export function matchesTrigger(trigger: EventTrigger, ctx: EventContext): boolea
     }
     case 'tile_visited':
       if (!ctx.lastMovedPosition) return false;
-      return ctx.lastMovedPosition.x === trigger.position.x && ctx.lastMovedPosition.y === trigger.position.y;
+      return (
+        ctx.lastMovedPosition.x === trigger.position.x &&
+        ctx.lastMovedPosition.y === trigger.position.y
+      );
     case 'custom':
       return trigger.fn({
         currentTurn: ctx.currentTurn,
@@ -132,7 +135,11 @@ export function resolveEffects(effects: EventEffect[]): EffectResult {
         break;
       case 'spawn_units':
         for (const u of effect.units) {
-          result.unitsToSpawn.push({ unitId: u.unitId, position: u.position, faction: effect.faction });
+          result.unitsToSpawn.push({
+            unitId: u.unitId,
+            position: u.position,
+            faction: effect.faction,
+          });
         }
         break;
       case 'recruit_unit':

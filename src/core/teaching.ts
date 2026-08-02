@@ -11,9 +11,15 @@ export function getTeachingCost(skillId: string): { loop: number; crp: number } 
 
   let loop: number;
   switch (skill.category) {
-    case 'movement': loop = 5; break;
-    case 'meta': loop = 15; break;
-    default: loop = 10; break; // combat, support, passive
+    case 'movement':
+      loop = 5;
+      break;
+    case 'meta':
+      loop = 15;
+      break;
+    default:
+      loop = 10;
+      break; // combat, support, passive
   }
   return { loop, crp: 2 };
 }
@@ -73,7 +79,8 @@ export function applyTeaching(
   // Deduct LOOP if available (Phase 4)
   let newRen = { ...ren };
   if ('loop' in newRen && typeof (newRen as Record<string, unknown>).loop === 'number') {
-    (newRen as Record<string, unknown>).loop = ((newRen as Record<string, unknown>).loop as number) - cost.loop;
+    (newRen as Record<string, unknown>).loop =
+      ((newRen as Record<string, unknown>).loop as number) - cost.loop;
   }
 
   return { ren: newRen, student: newStudent };

@@ -19,15 +19,24 @@ export function checkNegotiateCondition(get: Get): { available: boolean; bossId:
   const pos = pendingPosition ?? unit.position;
 
   // Find adjacent boss with HP ≤ 50%
-  const adjacentOffsets = [{ x: -1, y: 0 }, { x: 1, y: 0 }, { x: 0, y: -1 }, { x: 0, y: 1 }];
+  const adjacentOffsets = [
+    { x: -1, y: 0 },
+    { x: 1, y: 0 },
+    { x: 0, y: -1 },
+    { x: 0, y: 1 },
+  ];
   let targetBossId: string | null = null;
 
   for (const offset of adjacentOffsets) {
     const adjX = pos.x + offset.x;
     const adjY = pos.y + offset.y;
     for (const u of units.values()) {
-      if (u.position.x === adjX && u.position.y === adjY &&
-          u.faction === 'enemy' && u.aiBehavior?.type === 'boss') {
+      if (
+        u.position.x === adjX &&
+        u.position.y === adjY &&
+        u.faction === 'enemy' &&
+        u.aiBehavior?.type === 'boss'
+      ) {
         if (u.currentHp / u.stats.hp <= 0.5) {
           targetBossId = u.id;
           break;
@@ -80,7 +89,7 @@ export function negotiate(get: Get, set: Set): void {
     eventDialogue: {
       lines: [
         { speaker: boss.name, text: 'I... I will stand down.' },
-        { speaker: 'Ren', text: 'We don\'t have to fight. There\'s another way.' },
+        { speaker: 'Ren', text: "We don't have to fight. There's another way." },
       ],
     },
     eventDialogueLineIndex: 0,

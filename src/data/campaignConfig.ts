@@ -8,7 +8,7 @@ export type ChapterMeta = {
 export const CAMPAIGN: ChapterMeta[] = [
   { id: 'ch1', name: 'Chapter 1: Not This Again', chapterNumber: 1, implemented: true },
   { id: 'ch2', name: 'Chapter 2: The Defector', chapterNumber: 2, implemented: true },
-  { id: 'ch3', name: 'Chapter 3: Scout\'s Honor', chapterNumber: 3, implemented: true },
+  { id: 'ch3', name: "Chapter 3: Scout's Honor", chapterNumber: 3, implemented: true },
   { id: 'ch4', name: 'Chapter 4: The Pickpocket', chapterNumber: 4, implemented: true },
   { id: 'ch5', name: 'Chapter 5: Above the Clouds', chapterNumber: 5, implemented: true },
   { id: 'ch6', name: 'Chapter 6: New Alliances', chapterNumber: 6, implemented: true },
@@ -28,7 +28,7 @@ export const CAMPAIGN: ChapterMeta[] = [
   { id: 'ch20', name: 'Chapter 20: Darkling Woods', chapterNumber: 20, implemented: false },
   { id: 'ch21', name: 'Chapter 21: Sacred Stones', chapterNumber: 21, implemented: false },
   { id: 'ch22', name: 'Chapter 22: Father and Son', chapterNumber: 22, implemented: false },
-  { id: 'ch23', name: 'Chapter 23: Fluorspar\'s Oath', chapterNumber: 23, implemented: false },
+  { id: 'ch23', name: "Chapter 23: Fluorspar's Oath", chapterNumber: 23, implemented: false },
   { id: 'ch24', name: 'Chapter 24: The Demon King', chapterNumber: 24, implemented: false },
   { id: 'ch25', name: 'Final: Light and Dark', chapterNumber: 25, implemented: false },
 ];

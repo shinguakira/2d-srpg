@@ -12,10 +12,7 @@ export function MapBossHPBar() {
     <div className="map-boss-hp-bar" data-testid="map-boss-hp-bar">
       <span className="map-boss-hp-bar__label">System Core</span>
       <div className="map-boss-hp-bar__bar">
-        <div
-          className="map-boss-hp-bar__fill"
-          style={{ width: `${hpPercent}%` }}
-        />
+        <div className="map-boss-hp-bar__fill" style={{ width: `${hpPercent}%` }} />
       </div>
       <span className="map-boss-hp-bar__text">
         {mapBossState.currentHp}/{mapBossState.maxHp} — {phaseLabel}

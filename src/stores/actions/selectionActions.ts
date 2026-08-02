@@ -1,6 +1,12 @@
 import type { Position } from '../../core/types';
 import { posKey } from '../../core/types';
-import { getMovementRange, getFullAttackRange, getPath, getAttackTilesFrom, getManhattanDistance } from '../../core/pathfinding';
+import {
+  getMovementRange,
+  getFullAttackRange,
+  getPath,
+  getAttackTilesFrom,
+  getManhattanDistance,
+} from '../../core/pathfinding';
 import { calculateCombatForecast, getEffectiveWeaponRange } from '../../core/combat';
 import { getWeatherMovPenalty, getWeatherTerrainCostMod } from '../../core/weather';
 import type { GameState, GameActions } from '../gameStoreTypes';
@@ -23,10 +29,13 @@ export function selectUnit(get: Get, set: Set, unitId: string) {
 
   const flags = getClassFlags(unit);
   const canPass = hasSkill(unit, 'pass');
-  const weatherMods = weather !== 'clear' ? {
-    movPenalty: getWeatherMovPenalty(weather, flags),
-    terrainCostMod: getWeatherTerrainCostMod(weather, flags),
-  } : undefined;
+  const weatherMods =
+    weather !== 'clear'
+      ? {
+          movPenalty: getWeatherMovPenalty(weather, flags),
+          terrainCostMod: getWeatherTerrainCostMod(weather, flags),
+        }
+      : undefined;
 
   // Exhausted units can only stay on current tile
   const moveRange = isExhausted(unit)
@@ -57,7 +66,15 @@ export function deselectUnit(_get: Get, set: Set) {
 }
 
 export function hoverTile(get: Get, set: Set, pos: Position | null) {
-  const { playerAction, selectedUnitId, units, gameMap, movementRange, pendingPosition, pendingAttackTiles } = get();
+  const {
+    playerAction,
+    selectedUnitId,
+    units,
+    gameMap,
+    movementRange,
+    pendingPosition,
+    pendingAttackTiles,
+  } = get();
 
   if (playerAction === 'move_target' && selectedUnitId && pos) {
     const key = posKey(pos);
@@ -71,7 +88,12 @@ export function hoverTile(get: Get, set: Set, pos: Position | null) {
   }
 
   // Show combat forecast when hovering enemy during attack_target or action_menu
-  if ((playerAction === 'attack_target' || playerAction === 'action_menu') && selectedUnitId && pendingPosition && pos) {
+  if (
+    (playerAction === 'attack_target' || playerAction === 'action_menu') &&
+    selectedUnitId &&
+    pendingPosition &&
+    pos
+  ) {
     const key = posKey(pos);
     if (pendingAttackTiles.has(key)) {
       for (const unit of units.values()) {
@@ -82,13 +104,24 @@ export function hoverTile(get: Get, set: Set, pos: Position | null) {
           const attackerTerrain = gameMap.tiles[pendingPosition.y][pendingPosition.x].terrain;
           const defenderTerrain = gameMap.tiles[unit.position.y][unit.position.x].terrain;
           const distance = getManhattanDistance(pendingPosition, unit.position);
-          const atkAtPending = { ...attacker, position: { ...pendingPosition }, equippedWeapon: weapon };
+          const atkAtPending = {
+            ...attacker,
+            position: { ...pendingPosition },
+            equippedWeapon: weapon,
+          };
           const attackerNearRen = attacker.id !== 'ren' && isNearRen(pendingPosition, units);
           const defenderNearRen = unit.id !== 'ren' && isNearRen(unit.position, units);
           const { weather: w, supportPairs: sp } = get();
           const attackerSupport = getTotalSupportBonuses(attacker.id, pendingPosition, units, sp);
           const defenderSupport = getTotalSupportBonuses(unit.id, unit.position, units, sp);
-          const forecast = calculateCombatForecast(atkAtPending, unit, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen, weather: w, attackerSupport, defenderSupport });
+          const forecast = calculateCombatForecast(
+            atkAtPending,
+            unit,
+            attackerTerrain,
+            defenderTerrain,
+            distance,
+            { attackerNearRen, defenderNearRen, weather: w, attackerSupport, defenderSupport },
+          );
           set({ hoveredTile: pos, movePath: [], combatForecast: forecast });
           return;
         }
@@ -118,19 +151,34 @@ export function hoverTile(get: Get, set: Set, pos: Position | null) {
       const { weather } = get();
       const flags = getClassFlags(hoverUnit);
       const canPass = hasSkill(hoverUnit, 'pass');
-      const weatherMods = weather !== 'clear' ? {
-        movPenalty: getWeatherMovPenalty(weather, flags),
-        terrainCostMod: getWeatherTerrainCostMod(weather, flags),
-      } : undefined;
+      const weatherMods =
+        weather !== 'clear'
+          ? {
+              movPenalty: getWeatherMovPenalty(weather, flags),
+              terrainCostMod: getWeatherTerrainCostMod(weather, flags),
+            }
+          : undefined;
       const moveRange = isExhausted(hoverUnit)
         ? new Set([posKey(hoverUnit.position)])
         : getMovementRange(hoverUnit, gameMap, units, flags, canPass, weatherMods);
       const atkRange = getFullAttackRange(hoverUnit, moveRange, gameMap);
-      set({ hoveredTile: pos, movePath: [], hoverMovementRange: moveRange, hoverAttackRange: atkRange, hoverUnitFaction: hoverUnit.faction });
+      set({
+        hoveredTile: pos,
+        movePath: [],
+        hoverMovementRange: moveRange,
+        hoverAttackRange: atkRange,
+        hoverUnitFaction: hoverUnit.faction,
+      });
       return;
     }
 
-    set({ hoveredTile: pos, movePath: [], hoverMovementRange: EMPTY_SET, hoverAttackRange: EMPTY_SET, hoverUnitFaction: null });
+    set({
+      hoveredTile: pos,
+      movePath: [],
+      hoverMovementRange: EMPTY_SET,
+      hoverAttackRange: EMPTY_SET,
+      hoverUnitFaction: null,
+    });
     return;
   }
 
@@ -138,7 +186,15 @@ export function hoverTile(get: Get, set: Set, pos: Position | null) {
 }
 
 export function clickTile(get: Get, set: Set, pos: Position) {
-  const { playerAction, selectedUnitId, units, gameMap, movementRange, pendingAttackTiles, pendingPosition } = get();
+  const {
+    playerAction,
+    selectedUnitId,
+    units,
+    gameMap,
+    movementRange,
+    pendingAttackTiles,
+    pendingPosition,
+  } = get();
 
   if (playerAction === 'idle') {
     const key = posKey(pos);
@@ -173,7 +229,13 @@ export function clickTile(get: Get, set: Set, pos: Position) {
 
     // Clicking another available player unit switches selection
     for (const unit of units.values()) {
-      if (posKey(unit.position) === key && unit.faction === 'player' && !unit.hasActed && unit.id !== selectedUnitId && !unit.isCarried) {
+      if (
+        posKey(unit.position) === key &&
+        unit.faction === 'player' &&
+        !unit.hasActed &&
+        unit.id !== selectedUnitId &&
+        !unit.isCarried
+      ) {
         get().selectUnit(unit.id);
         return;
       }
@@ -223,7 +285,11 @@ export function clickTile(get: Get, set: Set, pos: Position) {
     const { healableTiles } = get();
     if (healableTiles.has(key)) {
       for (const unit of units.values()) {
-        if (posKey(unit.position) === key && unit.faction === 'player' && unit.id !== selectedUnitId) {
+        if (
+          posKey(unit.position) === key &&
+          unit.faction === 'player' &&
+          unit.id !== selectedUnitId
+        ) {
           get().confirmHeal(unit.id);
           return;
         }
@@ -239,7 +305,11 @@ export function clickTile(get: Get, set: Set, pos: Position) {
     const { danceableTiles } = get();
     if (danceableTiles.has(key)) {
       for (const unit of units.values()) {
-        if (posKey(unit.position) === key && unit.faction === 'player' && unit.id !== selectedUnitId) {
+        if (
+          posKey(unit.position) === key &&
+          unit.faction === 'player' &&
+          unit.id !== selectedUnitId
+        ) {
           get().confirmDance(unit.id);
           return;
         }
@@ -269,7 +339,11 @@ export function clickTile(get: Get, set: Set, pos: Position) {
     const { tradableTiles } = get();
     if (tradableTiles.has(key)) {
       for (const unit of units.values()) {
-        if (posKey(unit.position) === key && unit.faction === 'player' && unit.id !== selectedUnitId) {
+        if (
+          posKey(unit.position) === key &&
+          unit.faction === 'player' &&
+          unit.id !== selectedUnitId
+        ) {
           // For now, do a simple "swap all items" trade. UI can be enhanced later.
           set({ tradePartnerId: unit.id });
           return;
@@ -285,7 +359,11 @@ export function clickTile(get: Get, set: Set, pos: Position) {
     const { rescuableTiles } = get();
     if (rescuableTiles.has(key)) {
       for (const unit of units.values()) {
-        if (posKey(unit.position) === key && unit.faction === 'player' && unit.id !== selectedUnitId) {
+        if (
+          posKey(unit.position) === key &&
+          unit.faction === 'player' &&
+          unit.id !== selectedUnitId
+        ) {
           get().confirmRescue(unit.id);
           return;
         }

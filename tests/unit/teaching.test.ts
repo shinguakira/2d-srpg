@@ -3,17 +3,52 @@ import { getTeachingCost, canTeach, applyTeaching } from '../../src/core/teachin
 import type { Unit, UnitStats } from '../../src/core/types';
 
 function makeStats(overrides: Partial<UnitStats> = {}): UnitStats {
-  return { hp: 20, str: 8, mag: 4, def: 6, res: 4, spd: 7, skl: 6, lck: 5, mov: 5, cha: 5, wil: 5, ...overrides };
+  return {
+    hp: 20,
+    str: 8,
+    mag: 4,
+    def: 6,
+    res: 4,
+    spd: 7,
+    skl: 6,
+    lck: 5,
+    mov: 5,
+    cha: 5,
+    wil: 5,
+    ...overrides,
+  };
 }
 
 function makeUnit(overrides: Partial<Unit> = {}): Unit {
   return {
-    id: 'unit1', name: 'Unit1', classId: 'lord', level: 10, exp: 0,
-    stats: makeStats(), currentHp: 20,
-    position: { x: 0, y: 0 }, faction: 'player', ai: 'stationary',
-    equippedWeapon: { id: 'iron_sword', name: 'Iron Sword', type: 'sword', might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1 },
-    inventory: [], items: [], hasActed: false, facing: 'down', sprite: '',
-    skills: [], learnedSkills: [],
+    id: 'unit1',
+    name: 'Unit1',
+    classId: 'lord',
+    level: 10,
+    exp: 0,
+    stats: makeStats(),
+    currentHp: 20,
+    position: { x: 0, y: 0 },
+    faction: 'player',
+    ai: 'stationary',
+    equippedWeapon: {
+      id: 'iron_sword',
+      name: 'Iron Sword',
+      type: 'sword',
+      might: 5,
+      hit: 90,
+      crit: 0,
+      weight: 5,
+      minRange: 1,
+      maxRange: 1,
+    },
+    inventory: [],
+    items: [],
+    hasActed: false,
+    facing: 'down',
+    sprite: '',
+    skills: [],
+    learnedSkills: [],
     metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
     ...overrides,
   } as Unit;
@@ -109,7 +144,12 @@ describe('canTeach', () => {
     // berserker has bonusCrit but no innateSkills in our data, so this test is speculative
     // Just verify the code path exists
     const ren = makeUnit({ id: 'ren', skills: ['sol'], learnedSkills: [] });
-    const student = makeUnit({ id: 'student', classId: 'berserker', skills: [], learnedSkills: [] });
+    const student = makeUnit({
+      id: 'student',
+      classId: 'berserker',
+      skills: [],
+      learnedSkills: [],
+    });
     const result = canTeach(ren, student, 'sol');
     // berserker has no innateSkills, so this goes to LOOP gate
     expect(result.reason).toContain('LOOP');

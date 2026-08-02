@@ -86,13 +86,16 @@ export function confirmRescue(get: Get, set: Set, targetId: string) {
     ...IDLE_RESET,
     units: newUnits,
     gameMap: { ...gameMap, tiles: newTiles },
-    floatingNumbers: [...get().floatingNumbers, {
-      id: rescueFloatId,
-      x: pendingPosition.x,
-      y: pendingPosition.y,
-      text: 'Rescue!',
-      color: '#60a5fa',
-    }],
+    floatingNumbers: [
+      ...get().floatingNumbers,
+      {
+        id: rescueFloatId,
+        x: pendingPosition.x,
+        y: pendingPosition.y,
+        text: 'Rescue!',
+        color: '#60a5fa',
+      },
+    ],
   });
 
   // Support points: +4 for rescue
@@ -111,7 +114,12 @@ export function startDropTargeting(get: Get, set: Set) {
   if (!unit || !unit.carriedUnitId) return;
 
   const droppable = new Set<string>();
-  const dirs: Position[] = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+  const dirs: Position[] = [
+    { x: 0, y: -1 },
+    { x: 0, y: 1 },
+    { x: -1, y: 0 },
+    { x: 1, y: 0 },
+  ];
   const flags = getClassFlags(unit);
 
   for (const d of dirs) {
@@ -177,13 +185,16 @@ export function confirmDrop(get: Get, set: Set, pos: Position) {
     ...IDLE_RESET,
     units: newUnits,
     gameMap: { ...gameMap, tiles: newTiles },
-    floatingNumbers: [...get().floatingNumbers, {
-      id: dropFloatId,
-      x: pos.x,
-      y: pos.y,
-      text: 'Drop!',
-      color: '#60a5fa',
-    }],
+    floatingNumbers: [
+      ...get().floatingNumbers,
+      {
+        id: dropFloatId,
+        x: pos.x,
+        y: pos.y,
+        text: 'Drop!',
+        color: '#60a5fa',
+      },
+    ],
   });
 
   if (allPlayersDone(newUnits)) {

@@ -11,8 +11,22 @@ function makeWeapon(type: WeaponType, overrides: Partial<Weapon> = {}): Weapon {
     hit: 90,
     crit: 0,
     weight: 5,
-    minRange: type === 'fire' || type === 'thunder' || type === 'wind' || type === 'dark' || type === 'light' ? 1 : 1,
-    maxRange: type === 'fire' || type === 'thunder' || type === 'wind' || type === 'dark' || type === 'light' ? 2 : 1,
+    minRange:
+      type === 'fire' ||
+      type === 'thunder' ||
+      type === 'wind' ||
+      type === 'dark' ||
+      type === 'light'
+        ? 1
+        : 1,
+    maxRange:
+      type === 'fire' ||
+      type === 'thunder' ||
+      type === 'wind' ||
+      type === 'dark' ||
+      type === 'light'
+        ? 2
+        : 1,
     ...overrides,
   };
 }
@@ -24,7 +38,19 @@ function makeUnit(id: string, overrides: Partial<Unit> = {}): Unit {
     classId: 'lord',
     faction: 'player',
     position: { x: 0, y: 0 },
-    stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+    stats: {
+      hp: 20,
+      str: 8,
+      mag: 0,
+      def: 5,
+      res: 0,
+      spd: 7,
+      skl: 5,
+      lck: 3,
+      mov: 5,
+      cha: 0,
+      wil: 0,
+    },
     currentHp: 20,
     level: 1,
     exp: 0,

@@ -49,9 +49,9 @@ export const CHAPTER_4: ChapterData = {
     { unitId: 'ch4_fighter_3', position: { x: 13, y: 3 } },
     { unitId: 'ch4_mage_1', position: { x: 11, y: 3 } },
     { unitId: 'ch4_mage_2', position: { x: 5, y: 3 } },
-    { unitId: 'ch4_guard_1', position: { x: 7, y: 4 } },     // on fort
+    { unitId: 'ch4_guard_1', position: { x: 7, y: 4 } }, // on fort
     { unitId: 'ch4_guard_2', position: { x: 4, y: 1 } },
-    { unitId: 'ch4_boss', position: { x: 8, y: 0 } },        // boss — aggressive AI, will leave throne
+    { unitId: 'ch4_boss', position: { x: 8, y: 0 } }, // boss — aggressive AI, will leave throne
   ],
   objective: {
     type: 'seize',
@@ -63,27 +63,73 @@ export const CHAPTER_4: ChapterData = {
   recruitableUnits: [],
   prologue: {
     lines: [
-      { speaker: 'Narrator', text: "Ren's company arrives at the pirate stronghold of Portwall. Overturned stalls and fleeing merchants paint a grim picture." },
+      {
+        speaker: 'Narrator',
+        text: "Ren's company arrives at the pirate stronghold of Portwall. Overturned stalls and fleeing merchants paint a grim picture.",
+      },
       { speaker: 'Kael', text: 'Pirates? This far inland?', speakerFaction: 'player' },
-      { speaker: 'Senna', text: "River pirates. They've been raiding the district for weeks. Three storehouses are still holding out.", speakerFaction: 'player' },
-      { speaker: 'Bram', text: "PIRATES. Do they have a loot system? Tell me they drop rare items.", speakerFaction: 'player' },
-      { speaker: 'Lira', text: 'Bram, these people are losing their HOMES.', speakerFaction: 'player' },
+      {
+        speaker: 'Senna',
+        text: "River pirates. They've been raiding the district for weeks. Three storehouses are still holding out.",
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Bram',
+        text: 'PIRATES. Do they have a loot system? Tell me they drop rare items.',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Lira',
+        text: 'Bram, these people are losing their HOMES.',
+        speakerFaction: 'player',
+      },
       { speaker: 'Bram', text: 'Right. Tragic. But also \u2014 loot?', speakerFaction: 'player' },
-      { speaker: 'Ren', text: "We protect the storehouses. All three. If even one falls, the town loses its trade route.", speakerFaction: 'player' },
+      {
+        speaker: 'Ren',
+        text: 'We protect the storehouses. All three. If even one falls, the town loses its trade route.',
+        speakerFaction: 'player',
+      },
     ],
   },
   epilogue: {
     lines: [
-      { speaker: 'Lira', text: "Coda, was it? You're really staying with us?", speakerFaction: 'player' },
-      { speaker: 'Coda', text: "Your group has terrible stealth discipline, but decent loot potential. I'll manage.", speakerFaction: 'player' },
-      { speaker: 'Voss', text: 'They stole my belt pouch. Twice. During the battle.', speakerFaction: 'player' },
+      {
+        speaker: 'Lira',
+        text: "Coda, was it? You're really staying with us?",
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Coda',
+        text: "Your group has terrible stealth discipline, but decent loot potential. I'll manage.",
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Voss',
+        text: 'They stole my belt pouch. Twice. During the battle.',
+        speakerFaction: 'player',
+      },
       { speaker: 'Coda', text: 'Quality assurance. You passed. Mostly.', speakerFaction: 'player' },
-      { speaker: 'Bram', text: 'I like them. Finally someone who understands the importance of a good item game.', speakerFaction: 'player' },
-      { speaker: 'Coda', text: "Oh \u2014 one thing. That corridor back there? Something was... flickering.", speakerFaction: 'player' },
+      {
+        speaker: 'Bram',
+        text: 'I like them. Finally someone who understands the importance of a good item game.',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Coda',
+        text: 'Oh \u2014 one thing. That corridor back there? Something was... flickering.',
+        speakerFaction: 'player',
+      },
       { speaker: 'Senna', text: 'Flickering?', speakerFaction: 'player' },
-      { speaker: 'Coda', text: "Like the air was glitching. Just for a second. Textures not loading properly, you know? Probably nothing.", speakerFaction: 'player' },
+      {
+        speaker: 'Coda',
+        text: 'Like the air was glitching. Just for a second. Textures not loading properly, you know? Probably nothing.',
+        speakerFaction: 'player',
+      },
       { speaker: 'Ren', text: '...Probably.', speakerFaction: 'player' },
-      { speaker: 'Narrator', text: 'The company rests as evening falls, but the flickering Coda noticed lingers in their thoughts.' },
+      {
+        speaker: 'Narrator',
+        text: 'The company rests as evening falls, but the flickering Coda noticed lingers in their thoughts.',
+      },
     ],
   },
   villages: [
@@ -137,10 +183,26 @@ export const CHAPTER_4: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Senna', text: "Raiders \u2014 heading for the storehouses. They're fast and they won't stop to fight.", speakerFaction: 'player' },
-              { speaker: 'Ren', text: 'Split up. Cover all three routes.', speakerFaction: 'player' },
-              { speaker: 'Bram', text: "Splitting the party?! That's ALWAYS a bad idea!", speakerFaction: 'player' },
-              { speaker: 'Lira', text: "He's right, actually. In my experience, the party should stay together for bonding opportunities.", speakerFaction: 'player' },
+              {
+                speaker: 'Senna',
+                text: "Raiders \u2014 heading for the storehouses. They're fast and they won't stop to fight.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Ren',
+                text: 'Split up. Cover all three routes.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Bram',
+                text: "Splitting the party?! That's ALWAYS a bad idea!",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Lira',
+                text: "He's right, actually. In my experience, the party should stay together for bonding opportunities.",
+                speakerFaction: 'player',
+              },
               { speaker: 'Ren', text: "We're splitting up.", speakerFaction: 'player' },
             ],
           },
@@ -157,15 +219,39 @@ export const CHAPTER_4: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Coda', text: 'Stealth check... passed. Lockpick check... passed. Inventory extraction in progress\u2014', speakerFaction: 'player' },
+              {
+                speaker: 'Coda',
+                text: 'Stealth check... passed. Lockpick check... passed. Inventory extraction in progress\u2014',
+                speakerFaction: 'player',
+              },
               { speaker: 'Ren', text: 'HEY. Drop it.', speakerFaction: 'player' },
-              { speaker: 'Coda', text: "...How did you SEE me? I'm crouching! Crouching makes you invisible!", speakerFaction: 'player' },
+              {
+                speaker: 'Coda',
+                text: "...How did you SEE me? I'm crouching! Crouching makes you invisible!",
+                speakerFaction: 'player',
+              },
               { speaker: 'Ren', text: "It doesn't.", speakerFaction: 'player' },
-              { speaker: 'Coda', text: "It does in EVERY game I've played.", speakerFaction: 'player' },
-              { speaker: 'Coda', text: "Fine. I'll join your... whatever this is. Loud squad. Walking-in-the-open squad.", speakerFaction: 'player' },
+              {
+                speaker: 'Coda',
+                text: "It does in EVERY game I've played.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Coda',
+                text: "Fine. I'll join your... whatever this is. Loud squad. Walking-in-the-open squad.",
+                speakerFaction: 'player',
+              },
               { speaker: 'Senna', text: 'Welcome to tactical combat.', speakerFaction: 'player' },
-              { speaker: 'Coda', text: "I don't DO combat. I do 'data extraction' and 'tactical repositioning.'", speakerFaction: 'player' },
-              { speaker: 'Bram', text: 'Those are just fancy words for stealing and running away.', speakerFaction: 'player' },
+              {
+                speaker: 'Coda',
+                text: "I don't DO combat. I do 'data extraction' and 'tactical repositioning.'",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Bram',
+                text: 'Those are just fancy words for stealing and running away.',
+                speakerFaction: 'player',
+              },
               { speaker: 'Coda', text: '...Exactly.', speakerFaction: 'player' },
             ],
           },
@@ -182,9 +268,21 @@ export const CHAPTER_4: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Senna', text: "That raider is closing on the southern storehouse. If they reach it, it's lost.", speakerFaction: 'player' },
-              { speaker: 'Nira', text: "I can intercept \u2014 but I'd be overextended.", speakerFaction: 'player' },
-              { speaker: 'Ren', text: "Do it. We can't lose any of them.", speakerFaction: 'player' },
+              {
+                speaker: 'Senna',
+                text: "That raider is closing on the southern storehouse. If they reach it, it's lost.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Nira',
+                text: "I can intercept \u2014 but I'd be overextended.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Ren',
+                text: "Do it. We can't lose any of them.",
+                speakerFaction: 'player',
+              },
             ],
           },
         },
@@ -200,9 +298,21 @@ export const CHAPTER_4: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Marko', text: "More heroes? I get a new batch every week. You all look the same.", speakerFaction: 'enemy' },
-              { speaker: 'Ren', text: 'Stand down. Your operation is finished.', speakerFaction: 'player' },
-              { speaker: 'Marko', text: "Gold is gold. Don't care about your 'grand quest.' I'm just getting PAID.", speakerFaction: 'enemy' },
+              {
+                speaker: 'Marko',
+                text: 'More heroes? I get a new batch every week. You all look the same.',
+                speakerFaction: 'enemy',
+              },
+              {
+                speaker: 'Ren',
+                text: 'Stand down. Your operation is finished.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Marko',
+                text: "Gold is gold. Don't care about your 'grand quest.' I'm just getting PAID.",
+                speakerFaction: 'enemy',
+              },
             ],
           },
         },
@@ -218,7 +328,11 @@ export const CHAPTER_4: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Bram', text: 'Did he drop anything? Check his pockets!', speakerFaction: 'player' },
+              {
+                speaker: 'Bram',
+                text: 'Did he drop anything? Check his pockets!',
+                speakerFaction: 'player',
+              },
               { speaker: 'Coda', text: 'Already did. Nothing good.', speakerFaction: 'player' },
               { speaker: 'Bram', text: 'WHEN did you\u2014', speakerFaction: 'player' },
               { speaker: 'Coda', text: 'Stealth.', speakerFaction: 'player' },
@@ -234,11 +348,31 @@ export const CHAPTER_4: ChapterData = {
       unitA: 'coda',
       unitB: 'bram',
       lines: [
-        { speaker: 'Bram', text: "Coda. Important question. What's the best loot you've ever found?", speakerFaction: 'player' },
-        { speaker: 'Coda', text: "A key that opened every door in a twelve-floor dungeon. Beautiful piece of data.", speakerFaction: 'player' },
-        { speaker: 'Bram', text: "That's not loot! That's a TOOL. I mean weapons! Armor! Things that make you HIT HARDER.", speakerFaction: 'player' },
-        { speaker: 'Coda', text: "...You people and your direct approaches. Sometimes the best weapon is the one they never see.", speakerFaction: 'player' },
-        { speaker: 'Bram', text: "I want them to see it. I want them to see it COMING.", speakerFaction: 'player' },
+        {
+          speaker: 'Bram',
+          text: "Coda. Important question. What's the best loot you've ever found?",
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Coda',
+          text: 'A key that opened every door in a twelve-floor dungeon. Beautiful piece of data.',
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Bram',
+          text: "That's not loot! That's a TOOL. I mean weapons! Armor! Things that make you HIT HARDER.",
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Coda',
+          text: '...You people and your direct approaches. Sometimes the best weapon is the one they never see.',
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Bram',
+          text: 'I want them to see it. I want them to see it COMING.',
+          speakerFaction: 'player',
+        },
       ],
       reward: { type: 'stat', unitId: 'bram', stat: 'str', amount: 1 },
     },
@@ -248,9 +382,21 @@ export const CHAPTER_4: ChapterData = {
       lines: [
         { speaker: 'Voss', text: "You don't talk much.", speakerFaction: 'player' },
         { speaker: 'Nira', text: 'No.', speakerFaction: 'player' },
-        { speaker: 'Voss', text: "I stood still for fifteen turns and nobody talked to me either. It's not bad, actually.", speakerFaction: 'player' },
-        { speaker: 'Nira', text: "I prefer high ground and clear sightlines to conversation.", speakerFaction: 'player' },
-        { speaker: 'Voss', text: "...That might be the most relatable thing anyone in this company has said to me.", speakerFaction: 'player' },
+        {
+          speaker: 'Voss',
+          text: "I stood still for fifteen turns and nobody talked to me either. It's not bad, actually.",
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Nira',
+          text: 'I prefer high ground and clear sightlines to conversation.',
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Voss',
+          text: '...That might be the most relatable thing anyone in this company has said to me.',
+          speakerFaction: 'player',
+        },
       ],
       reward: { type: 'stat', unitId: 'nira', stat: 'skl', amount: 1 },
     },

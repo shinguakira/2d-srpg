@@ -40,8 +40,17 @@ export const Tile = memo(function Tile({
   onClick,
   onMouseEnter,
 }: TileProps) {
-  const fogClass = fogState === 'hidden' ? ' tile--fog-hidden' : fogState === 'revealed' ? ' tile--fog-revealed' : '';
-  const terrainAnimClass = isTerrainDestroying ? ' tile--terrain-destroy' : isTerrainChanging ? ' tile--terrain-change' : '';
+  const fogClass =
+    fogState === 'hidden'
+      ? ' tile--fog-hidden'
+      : fogState === 'revealed'
+        ? ' tile--fog-revealed'
+        : '';
+  const terrainAnimClass = isTerrainDestroying
+    ? ' tile--terrain-destroy'
+    : isTerrainChanging
+      ? ' tile--terrain-change'
+      : '';
   const fogRevealClass = isFogRevealing ? ' tile--fog-reveal' : '';
   const tileClasses = `tile ${isSelected ? 'tile--selected' : ''}${terrainAnimClass}${fogClass}${fogRevealClass}`;
   return (
@@ -60,7 +69,15 @@ export const Tile = memo(function Tile({
     >
       <TerrainSprite terrain={tile.terrain} size={tileSize} visited={visited} />
       {unit && fogState !== 'hidden' && (
-        <UnitSprite unit={unit} tileSize={tileSize} isSelected={isSelected} isSpawning={isUnitSpawning} isRemoving={isUnitRemoving} isRefreshed={isUnitRefreshed} hasActiveSupport={hasActiveSupport} />
+        <UnitSprite
+          unit={unit}
+          tileSize={tileSize}
+          isSelected={isSelected}
+          isSpawning={isUnitSpawning}
+          isRemoving={isUnitRemoving}
+          isRefreshed={isUnitRefreshed}
+          hasActiveSupport={hasActiveSupport}
+        />
       )}
       {terrainHp && terrainHp.hp < terrainHp.maxHp && fogState !== 'hidden' && (
         <div className="tile__terrain-hp" data-testid="terrain-hp-bar">

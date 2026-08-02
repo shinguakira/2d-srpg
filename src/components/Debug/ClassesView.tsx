@@ -29,8 +29,11 @@ export function ClassesView({
 }) {
   const [filter, setFilter] = useState<TierFilter>('all');
 
-  const filtered = (filter === 'all' ? ALL_CLASSES_ARR : ALL_CLASSES_ARR.filter((c) => c.tier === filter))
-    .sort((a, b) => (TIER_ORDER[a.tier] ?? 0) - (TIER_ORDER[b.tier] ?? 0) || a.name.localeCompare(b.name));
+  const filtered = (
+    filter === 'all' ? ALL_CLASSES_ARR : ALL_CLASSES_ARR.filter((c) => c.tier === filter)
+  ).sort(
+    (a, b) => (TIER_ORDER[a.tier] ?? 0) - (TIER_ORDER[b.tier] ?? 0) || a.name.localeCompare(b.name),
+  );
 
   const selected = selectedId ? ALL_CLASSES[selectedId] : null;
 
@@ -59,7 +62,10 @@ export function ClassesView({
             <div className="debug-screen__entry-info">
               <span className="debug-screen__entry-name">{cls.name}</span>
               <span className="debug-screen__entry-meta">
-                <span className="debug-screen__badge" style={{ background: TIER_COLORS[cls.tier] ?? '#888' }}>
+                <span
+                  className="debug-screen__badge"
+                  style={{ background: TIER_COLORS[cls.tier] ?? '#888' }}
+                >
                   {cls.tier}
                 </span>
                 {cls.weaponTypes?.map((wt) => (
@@ -72,7 +78,11 @@ export function ClassesView({
       </div>
 
       <div className="debug-screen__detail">
-        {selected ? <ClassDetail cls={selected} /> : <div className="debug-screen__empty">Select a class to view details</div>}
+        {selected ? (
+          <ClassDetail cls={selected} />
+        ) : (
+          <div className="debug-screen__empty">Select a class to view details</div>
+        )}
       </div>
     </div>
   );
@@ -87,12 +97,36 @@ function ClassDetail({ cls }: { cls: UnitClass }) {
         <div className="debug-screen__detail-header-info">
           <h2 className="debug-screen__detail-name">{cls.name}</h2>
           <div className="debug-screen__detail-badges">
-            <span className="debug-screen__badge debug-screen__badge--large" style={{ background: TIER_COLORS[cls.tier] ?? '#888' }}>
+            <span
+              className="debug-screen__badge debug-screen__badge--large"
+              style={{ background: TIER_COLORS[cls.tier] ?? '#888' }}
+            >
               {cls.tier}
             </span>
-            {cls.mounted && <span className="debug-screen__badge debug-screen__badge--large" style={{ background: '#0ea5e9' }}>Mounted</span>}
-            {cls.flying && <span className="debug-screen__badge debug-screen__badge--large" style={{ background: '#06b6d4' }}>Flying</span>}
-            {cls.armored && <span className="debug-screen__badge debug-screen__badge--large" style={{ background: '#64748b' }}>Armored</span>}
+            {cls.mounted && (
+              <span
+                className="debug-screen__badge debug-screen__badge--large"
+                style={{ background: '#0ea5e9' }}
+              >
+                Mounted
+              </span>
+            )}
+            {cls.flying && (
+              <span
+                className="debug-screen__badge debug-screen__badge--large"
+                style={{ background: '#06b6d4' }}
+              >
+                Flying
+              </span>
+            )}
+            {cls.armored && (
+              <span
+                className="debug-screen__badge debug-screen__badge--large"
+                style={{ background: '#64748b' }}
+              >
+                Armored
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -105,7 +139,10 @@ function ClassDetail({ cls }: { cls: UnitClass }) {
               <span className="debug-screen__stat-label">{key.toUpperCase()}</span>
               <span className="debug-screen__stat-value">{val}</span>
               <div className="debug-screen__stat-bar-track">
-                <div className="debug-screen__stat-bar-fill" style={{ width: `${Math.min(100, (val / 30) * 100)}%` }} />
+                <div
+                  className="debug-screen__stat-bar-fill"
+                  style={{ width: `${Math.min(100, (val / 30) * 100)}%` }}
+                />
               </div>
             </div>
           ))}
@@ -118,7 +155,9 @@ function ClassDetail({ cls }: { cls: UnitClass }) {
           {(Object.entries(cls.growthRates) as [string, number][]).map(([key, val]) => (
             <div key={key} className="debug-screen__stat-row">
               <span className="debug-screen__stat-label">{key.toUpperCase()}</span>
-              <span className="debug-screen__stat-value debug-screen__stat-value--growth">{val}%</span>
+              <span className="debug-screen__stat-value debug-screen__stat-value--growth">
+                {val}%
+              </span>
               <div className="debug-screen__growth-bar">
                 <div className="debug-screen__growth-fill" style={{ width: `${val}%` }} />
               </div>
@@ -159,15 +198,21 @@ function ClassDetail({ cls }: { cls: UnitClass }) {
         <h3 className="debug-screen__section-title">Promotion Chain</h3>
         {cls.promotesFrom && (
           <p className="debug-screen__desc-text">
-            Promotes from: <span style={{ color: '#fbbf24', fontWeight: 700 }}>{ALL_CLASSES[cls.promotesFrom]?.name ?? cls.promotesFrom}</span>
+            Promotes from:{' '}
+            <span style={{ color: '#fbbf24', fontWeight: 700 }}>
+              {ALL_CLASSES[cls.promotesFrom]?.name ?? cls.promotesFrom}
+            </span>
           </p>
         )}
         {cls.promotesTo && cls.promotesTo.length > 0 && (
           <p className="debug-screen__desc-text">
-            Promotes to: {cls.promotesTo.map((id, i) => (
+            Promotes to:{' '}
+            {cls.promotesTo.map((id, i) => (
               <span key={id}>
                 {i > 0 && ', '}
-                <span style={{ color: '#fbbf24', fontWeight: 700 }}>{ALL_CLASSES[id]?.name ?? id}</span>
+                <span style={{ color: '#fbbf24', fontWeight: 700 }}>
+                  {ALL_CLASSES[id]?.name ?? id}
+                </span>
               </span>
             ))}
           </p>
@@ -180,7 +225,9 @@ function ClassDetail({ cls }: { cls: UnitClass }) {
       {cls.bonusCrit != null && (
         <div className="debug-screen__section">
           <h3 className="debug-screen__section-title">Bonus Critical</h3>
-          <p className="debug-screen__desc-text" style={{ color: '#fbbf24' }}>+{cls.bonusCrit} Crit</p>
+          <p className="debug-screen__desc-text" style={{ color: '#fbbf24' }}>
+            +{cls.bonusCrit} Crit
+          </p>
         </div>
       )}
 

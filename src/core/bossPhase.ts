@@ -89,7 +89,7 @@ export function advanceWeaponCycle(boss: Unit): Unit {
   const nextWeaponType = cycle[nextIndex];
 
   // Find matching weapon in inventory or use a fallback
-  const matchingWeapon = boss.inventory.find(w => w.type === nextWeaponType);
+  const matchingWeapon = boss.inventory.find((w) => w.type === nextWeaponType);
   if (matchingWeapon) {
     return { ...boss, equippedWeapon: matchingWeapon, weaponCycleIndex: nextIndex };
   }
@@ -124,7 +124,11 @@ export function isPhysicalWeaponType(type: WeaponType): boolean {
 /**
  * Get damage after applying boss immunity. Returns 0 if immune.
  */
-export function applyBossImmunity(damage: number, weaponType: WeaponType, immunity: 'physical' | 'magical' | null): number {
+export function applyBossImmunity(
+  damage: number,
+  weaponType: WeaponType,
+  immunity: 'physical' | 'magical' | null,
+): number {
   if (!immunity) return damage;
   if (immunity === 'physical' && isPhysicalWeaponType(weaponType)) return 0;
   if (immunity === 'magical' && !isPhysicalWeaponType(weaponType)) return 0;

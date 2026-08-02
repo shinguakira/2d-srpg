@@ -1,7 +1,18 @@
 import type { Unit, GameMap, Position, TerrainType, WeatherType } from './types';
 import { posKey } from './types';
-import { getMovementRange, getAttackTilesFrom, getManhattanDistance, getPathfindingDistance, getDistanceMap } from './pathfinding';
-import { calculateCombatForecast, getWeaponTriangle, isWeaponProficient, getEffectiveWeaponRange } from './combat';
+import {
+  getMovementRange,
+  getAttackTilesFrom,
+  getManhattanDistance,
+  getPathfindingDistance,
+  getDistanceMap,
+} from './pathfinding';
+import {
+  calculateCombatForecast,
+  getWeaponTriangle,
+  isWeaponProficient,
+  getEffectiveWeaponRange,
+} from './combat';
 import type { CombatForecast } from './combat';
 import { getTerrainData } from './terrain';
 import type { ClassFlags } from './terrain';
@@ -107,8 +118,8 @@ export function scoreTarget(
   // Weapon triangle awareness (only if proficient)
   if (attacker && isWeaponProficient(attacker, attacker.equippedWeapon)) {
     const tri = getWeaponTriangle(attacker.equippedWeapon.type, target.equippedWeapon.type);
-    if (tri.dmgMod > 0) score += 10;  // advantage
-    if (tri.dmgMod < 0) score -= 10;  // disadvantage
+    if (tri.dmgMod > 0) score += 10; // advantage
+    if (tri.dmgMod < 0) score -= 10; // disadvantage
   }
 
   // Terrain awareness — penalize attacking targets on defensive terrain
@@ -132,11 +143,23 @@ function collectAttackOptions(
   allUnits: Map<string, Unit>,
   weather: WeatherType | undefined,
   behavior: string,
-): Array<{ moveTo: Position; targetId: string; forecast: CombatForecast; score: number; weaponIndex?: number }> {
-  const options: Array<{ moveTo: Position; targetId: string; forecast: CombatForecast; score: number; weaponIndex?: number }> = [];
+): Array<{
+  moveTo: Position;
+  targetId: string;
+  forecast: CombatForecast;
+  score: number;
+  weaponIndex?: number;
+}> {
+  const options: Array<{
+    moveTo: Position;
+    targetId: string;
+    forecast: CombatForecast;
+    score: number;
+    weaponIndex?: number;
+  }> = [];
 
   // Build list of attack-capable weapons (skip staves)
-  const weapons = unit.inventory.filter(w => w.type !== 'staff');
+  const weapons = unit.inventory.filter((w) => w.type !== 'staff');
   // Fallback: if inventory has no attack weapons, use equippedWeapon
   if (weapons.length === 0) weapons.push(unit.equippedWeapon);
 
@@ -154,7 +177,8 @@ function collectAttackOptions(
 
       // Evaluate each weapon, keep best by expected value
       let bestEv = -1;
-      let bestOption: { forecast: CombatForecast; score: number; weaponIndex: number } | null = null;
+      let bestOption: { forecast: CombatForecast; score: number; weaponIndex: number } | null =
+        null;
 
       for (let wi = 0; wi < weapons.length; wi++) {
         const weapon = weapons[wi];
@@ -163,8 +187,15 @@ function collectAttackOptions(
         if (!atkTiles.has(posKey(target.position))) continue;
 
         const unitWithWeapon = { ...unit, position: pos, equippedWeapon: weapon };
-        const forecast = calculateCombatForecast(unitWithWeapon, target, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen, weather });
-        const ev = forecast.attackerDamage * forecast.attackerHit / 100;
+        const forecast = calculateCombatForecast(
+          unitWithWeapon,
+          target,
+          attackerTerrain,
+          defenderTerrain,
+          distance,
+          { attackerNearRen, defenderNearRen, weather },
+        );
+        const ev = (forecast.attackerDamage * forecast.attackerHit) / 100;
 
         if (ev > bestEv) {
           bestEv = ev;
@@ -180,7 +211,13 @@ function collectAttackOptions(
         if (behavior === 'boss' && target.isLord) {
           score += 50;
         }
-        options.push({ moveTo: pos, targetId: target.id, forecast: bestOption.forecast, score, weaponIndex: bestOption.weaponIndex });
+        options.push({
+          moveTo: pos,
+          targetId: target.id,
+          forecast: bestOption.forecast,
+          score,
+          weaponIndex: bestOption.weaponIndex,
+        });
       }
     }
   }
@@ -190,7 +227,13 @@ function collectAttackOptions(
 }
 
 /** Get full movement range as Position[] */
-function getMovablePositions(unit: Unit, gameMap: GameMap, allUnits: Map<string, Unit>, classFlags?: ClassFlags, weatherMods?: { movPenalty?: number; terrainCostMod?: number }): Position[] {
+function getMovablePositions(
+  unit: Unit,
+  gameMap: GameMap,
+  allUnits: Map<string, Unit>,
+  classFlags?: ClassFlags,
+  weatherMods?: { movPenalty?: number; terrainCostMod?: number },
+): Position[] {
   const moveRange = getMovementRange(unit, gameMap, allUnits, classFlags, undefined, weatherMods);
   return Array.from(moveRange).map((key) => {
     const [x, y] = key.split(',').map(Number);
@@ -263,7 +306,7 @@ function findMoveAwayFromHostiles(
   if (hostiles.length === 0 || movablePositions.length === 0) return unit.position;
 
   // Pre-compute distance maps from each hostile position
-  const hostileDistMaps = hostiles.map(h => getDistanceMap(h.position, gameMap, classFlags));
+  const hostileDistMaps = hostiles.map((h) => getDistanceMap(h.position, gameMap, classFlags));
 
   let bestPos = movablePositions[0];
   let bestMinDist = -1;
@@ -283,7 +326,11 @@ function findMoveAwayFromHostiles(
 }
 
 /** Find the movable position closest to any fort/throne tile */
-function findNearestFortPosition(movablePositions: Position[], gameMap: GameMap, classFlags?: ClassFlags): Position | null {
+function findNearestFortPosition(
+  movablePositions: Position[],
+  gameMap: GameMap,
+  classFlags?: ClassFlags,
+): Position | null {
   const forts: Position[] = [];
   for (let y = 0; y < gameMap.height; y++) {
     for (let x = 0; x < gameMap.width; x++) {
@@ -296,7 +343,7 @@ function findNearestFortPosition(movablePositions: Position[], gameMap: GameMap,
   if (forts.length === 0) return null;
 
   // Pre-compute distance maps from each fort
-  const fortDistMaps = forts.map(f => getDistanceMap(f, gameMap, classFlags));
+  const fortDistMaps = forts.map((f) => getDistanceMap(f, gameMap, classFlags));
 
   let bestPos: Position | null = null;
   let bestDist = Infinity;
@@ -338,7 +385,13 @@ function decideStationaryOrBoss(
 
   if (options.length > 0) {
     const best = options[0];
-    return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast, weaponIndex: best.weaponIndex };
+    return {
+      unitId: unit.id,
+      moveTo: best.moveTo,
+      attackTargetId: best.targetId,
+      forecast: best.forecast,
+      weaponIndex: best.weaponIndex,
+    };
   }
   return waitAction(unit.id, unit.position);
 }
@@ -362,11 +415,21 @@ function decideGuard(
   const options = collectAttackOptions(unit, movablePositions, gameMap, allUnits, wt, 'guard');
   if (options.length > 0) {
     const best = options[0];
-    return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast, weaponIndex: best.weaponIndex };
+    return {
+      unitId: unit.id,
+      moveTo: best.moveTo,
+      attackTargetId: best.targetId,
+      forecast: best.forecast,
+      weaponIndex: best.weaponIndex,
+    };
   }
 
   // Patrol path: move toward next waypoint when idle
-  if (unit.aiBehavior?.type === 'guard' && unit.aiBehavior.patrolPath && unit.aiBehavior.patrolPath.length > 0) {
+  if (
+    unit.aiBehavior?.type === 'guard' &&
+    unit.aiBehavior.patrolPath &&
+    unit.aiBehavior.patrolPath.length > 0
+  ) {
     const path = unit.aiBehavior.patrolPath;
     // Find the closest waypoint we're not already on, preferring the next one in sequence
     let targetWaypoint: Position | null = null;
@@ -433,11 +496,23 @@ function decideAggressive(
 
   if (options.length > 0) {
     const best = options[0];
-    return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast, weaponIndex: best.weaponIndex };
+    return {
+      unitId: unit.id,
+      moveTo: best.moveTo,
+      attackTargetId: best.targetId,
+      forecast: best.forecast,
+      weaponIndex: best.weaponIndex,
+    };
   }
 
   // No target reachable — move toward nearest hostile
-  const moveToward = findMoveTowardNearestPlayer(unit, movablePositions, allUnits, gameMap, classFlags);
+  const moveToward = findMoveTowardNearestPlayer(
+    unit,
+    movablePositions,
+    allUnits,
+    gameMap,
+    classFlags,
+  );
   return waitAction(unit.id, moveToward);
 }
 
@@ -464,13 +539,15 @@ function decideSurvival(
     if (itemIdx >= 0) {
       // Move toward fort (or away from enemies) and use item
       const fortPos = findNearestFortPosition(movablePositions, gameMap, classFlags);
-      const movePos = fortPos ?? findMoveAwayFromHostiles(unit, movablePositions, allUnits, gameMap, classFlags);
+      const movePos =
+        fortPos ?? findMoveAwayFromHostiles(unit, movablePositions, allUnits, gameMap, classFlags);
       return { ...waitAction(unit.id, movePos), useItemIndex: itemIdx };
     }
 
     // No item — just flee toward fort or away from enemies
     const fortPos = findNearestFortPosition(movablePositions, gameMap, classFlags);
-    const movePos = fortPos ?? findMoveAwayFromHostiles(unit, movablePositions, allUnits, gameMap, classFlags);
+    const movePos =
+      fortPos ?? findMoveAwayFromHostiles(unit, movablePositions, allUnits, gameMap, classFlags);
     return waitAction(unit.id, movePos);
   }
 
@@ -485,14 +562,21 @@ function decideSurvival(
   const viableOptions = safeOptions.filter((opt) => opt.score > 80);
   if (viableOptions.length > 0) {
     const best = viableOptions[0];
-    return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast, weaponIndex: best.weaponIndex };
+    return {
+      unitId: unit.id,
+      moveTo: best.moveTo,
+      attackTargetId: best.targetId,
+      forecast: best.forecast,
+      weaponIndex: best.weaponIndex,
+    };
   }
 
   // No safe attack — use healing item if available, else hold position or move toward fort
   const itemIdx = findHealItemIndex(unit);
   if (itemIdx >= 0) {
     const fortPos = findNearestFortPosition(movablePositions, gameMap, classFlags);
-    const movePos = fortPos ?? findMoveAwayFromHostiles(unit, movablePositions, allUnits, gameMap, classFlags);
+    const movePos =
+      fortPos ?? findMoveAwayFromHostiles(unit, movablePositions, allUnits, gameMap, classFlags);
     return { ...waitAction(unit.id, movePos), useItemIndex: itemIdx };
   }
   const fortPos = findNearestFortPosition(movablePositions, gameMap, classFlags);
@@ -516,10 +600,10 @@ function decideThief(
     for (let x = 0; x < gameMap.width; x++) {
       const terrain = gameMap.tiles[y][x].terrain;
       const key = posKey({ x, y });
-      if (terrain === 'chest' && !(ctx?.openedChests?.has(key))) {
+      if (terrain === 'chest' && !ctx?.openedChests?.has(key)) {
         targets.push({ x, y });
       }
-      if (terrain === 'village' && !(ctx?.visitedVillages?.has(key))) {
+      if (terrain === 'village' && !ctx?.visitedVillages?.has(key)) {
         targets.push({ x, y });
       }
     }
@@ -617,7 +701,9 @@ function decideHealer(
   }
 
   // Find staff weapon
-  const staff = unit.inventory.find((w) => w.type === 'staff') ?? (unit.equippedWeapon.type === 'staff' ? unit.equippedWeapon : null);
+  const staff =
+    unit.inventory.find((w) => w.type === 'staff') ??
+    (unit.equippedWeapon.type === 'staff' ? unit.equippedWeapon : null);
   if (!staff) {
     // No staff — just stay away
     const safePos = findMoveAwayFromHostiles(unit, movablePositions, allUnits, gameMap, classFlags);
@@ -660,7 +746,13 @@ function decideHealer(
   if (healOptions.length > 0) {
     healOptions.sort((a, b) => b.score - a.score);
     const best = healOptions[0];
-    return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: null, forecast: null, healTargetId: best.targetId };
+    return {
+      unitId: unit.id,
+      moveTo: best.moveTo,
+      attackTargetId: null,
+      forecast: null,
+      healTargetId: best.targetId,
+    };
   }
 
   // No heal targets — move away from enemies
@@ -676,7 +768,8 @@ function decideEscort(
   wm?: { movPenalty?: number; terrainCostMod?: number },
   wt?: WeatherType,
 ): AIAction {
-  if (unit.aiBehavior?.type !== 'escort') return decideAggressive(unit, gameMap, allUnits, classFlags, wm, wt);
+  if (unit.aiBehavior?.type !== 'escort')
+    return decideAggressive(unit, gameMap, allUnits, classFlags, wm, wt);
 
   const targetUnit = allUnits.get(unit.aiBehavior.targetUnitId);
   if (!targetUnit) {
@@ -688,9 +781,10 @@ function decideEscort(
 
   // Filter to positions within 2 tiles of escort target
   const nearTargetPositions = movablePositions.filter(
-    (pos) => getManhattanDistance(pos, targetUnit.position) <= 2
+    (pos) => getManhattanDistance(pos, targetUnit.position) <= 2,
   );
-  const candidatePositions = nearTargetPositions.length > 0 ? nearTargetPositions : movablePositions;
+  const candidatePositions =
+    nearTargetPositions.length > 0 ? nearTargetPositions : movablePositions;
 
   // Check if any enemy threatens the target (within 2 tiles)
   const threats: Unit[] = [];
@@ -712,7 +806,13 @@ function decideEscort(
 
     if (bestOptions.length > 0) {
       const best = bestOptions[0];
-      return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast, weaponIndex: best.weaponIndex };
+      return {
+        unitId: unit.id,
+        moveTo: best.moveTo,
+        attackTargetId: best.targetId,
+        forecast: best.forecast,
+        weaponIndex: best.weaponIndex,
+      };
     }
   }
 
@@ -727,7 +827,10 @@ function decideEscort(
     let nearestDist = Infinity;
     for (const h of hostiles) {
       const d = getManhattanDistance(targetUnit.position, h.position);
-      if (d < nearestDist) { nearestDist = d; nearestHostile = h; }
+      if (d < nearestDist) {
+        nearestDist = d;
+        nearestHostile = h;
+      }
     }
 
     // Pick position closest to the line between target and nearest hostile
@@ -738,7 +841,10 @@ function decideEscort(
       const distToEnemy = getManhattanDistance(pos, nearestHostile.position);
       const distToTarget = getManhattanDistance(pos, targetUnit.position);
       const score = -distToEnemy - distToTarget; // closer to both is better
-      if (score > bestScore) { bestScore = score; bestPos = pos; }
+      if (score > bestScore) {
+        bestScore = score;
+        bestPos = pos;
+      }
     }
     return waitAction(unit.id, bestPos);
   }
@@ -749,7 +855,10 @@ function decideEscort(
     let bestDist = Infinity;
     for (const pos of candidatePositions) {
       const d = getManhattanDistance(pos, targetUnit.position);
-      if (d < bestDist) { bestDist = d; bestPos = pos; }
+      if (d < bestDist) {
+        bestDist = d;
+        bestPos = pos;
+      }
     }
     return waitAction(unit.id, bestPos);
   }
@@ -765,7 +874,8 @@ function decideCoordinated(
   wm?: { movPenalty?: number; terrainCostMod?: number },
   wt?: WeatherType,
 ): AIAction {
-  if (unit.aiBehavior?.type !== 'coordinated') return decideAggressive(unit, gameMap, allUnits, classFlags, wm, wt);
+  if (unit.aiBehavior?.type !== 'coordinated')
+    return decideAggressive(unit, gameMap, allUnits, classFlags, wm, wt);
 
   const groupId = unit.aiBehavior.groupId;
 
@@ -784,7 +894,14 @@ function decideCoordinated(
 
   // Find the highest-priority target across all player units
   const movablePositions = getMovablePositions(unit, gameMap, allUnits, classFlags, wm);
-  const allOptions = collectAttackOptions(unit, movablePositions, gameMap, allUnits, wt, 'coordinated');
+  const allOptions = collectAttackOptions(
+    unit,
+    movablePositions,
+    gameMap,
+    allUnits,
+    wt,
+    'coordinated',
+  );
 
   // Score all hostiles to find focus target
   let bestTargetId: string | null = null;
@@ -806,11 +923,23 @@ function decideCoordinated(
 
   if (allOptions.length > 0) {
     const best = allOptions[0];
-    return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast, weaponIndex: best.weaponIndex };
+    return {
+      unitId: unit.id,
+      moveTo: best.moveTo,
+      attackTargetId: best.targetId,
+      forecast: best.forecast,
+      weaponIndex: best.weaponIndex,
+    };
   }
 
   // Can't reach anyone — move toward nearest hostile
-  const moveToward = findMoveTowardNearestPlayer(unit, movablePositions, allUnits, gameMap, classFlags);
+  const moveToward = findMoveTowardNearestPlayer(
+    unit,
+    movablePositions,
+    allUnits,
+    gameMap,
+    classFlags,
+  );
   return waitAction(unit.id, moveToward);
 }
 
@@ -822,7 +951,8 @@ function decideAmbush(
   wm?: { movPenalty?: number; terrainCostMod?: number },
   wt?: WeatherType,
 ): AIAction {
-  if (unit.aiBehavior?.type !== 'ambush') return decideAggressive(unit, gameMap, allUnits, classFlags, wm, wt);
+  if (unit.aiBehavior?.type !== 'ambush')
+    return decideAggressive(unit, gameMap, allUnits, classFlags, wm, wt);
 
   const triggerRadius = unit.aiBehavior.triggerRadius;
 
@@ -853,10 +983,23 @@ function decideAmbush(
 
   if (options.length > 0) {
     const best = options[0];
-    return { unitId: unit.id, moveTo: best.moveTo, attackTargetId: best.targetId, forecast: best.forecast, reveal: true, weaponIndex: best.weaponIndex };
+    return {
+      unitId: unit.id,
+      moveTo: best.moveTo,
+      attackTargetId: best.targetId,
+      forecast: best.forecast,
+      reveal: true,
+      weaponIndex: best.weaponIndex,
+    };
   }
 
   // Can attack nobody — move toward nearest hostile, still reveal
-  const moveToward = findMoveTowardNearestPlayer(unit, movablePositions, allUnits, gameMap, classFlags);
+  const moveToward = findMoveTowardNearestPlayer(
+    unit,
+    movablePositions,
+    allUnits,
+    gameMap,
+    classFlags,
+  );
   return { ...waitAction(unit.id, moveToward), reveal: true };
 }

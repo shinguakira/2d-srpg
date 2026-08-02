@@ -14,7 +14,7 @@ export function getWeatherCombatModifiers(weather: WeatherType, weapon: Weapon):
   switch (weather) {
     case 'rain':
       return {
-        hitMod: (weapon.type === 'bow' || weapon.type === 'fire') ? -15 : 0,
+        hitMod: weapon.type === 'bow' || weapon.type === 'fire' ? -15 : 0,
         mightMod: weapon.type === 'fire' ? -2 : 0,
         spdMod: 0,
       };
@@ -82,11 +82,19 @@ export function getWeatherInfo(weather: WeatherType): WeatherInfo {
     case 'clear':
       return { name: 'Clear', icon: '☀', effects: ['No weather effects'] };
     case 'rain':
-      return { name: 'Rain', icon: '🌧', effects: ['-15 Hit (bows/fire)', 'Fire magic -2 Might', '-1 MOV (mounted)'] };
+      return {
+        name: 'Rain',
+        icon: '🌧',
+        effects: ['-15 Hit (bows/fire)', 'Fire magic -2 Might', '-1 MOV (mounted)'],
+      };
     case 'fog':
       return { name: 'Fog', icon: '🌫', effects: ['Vision capped at 3', 'Thief sight unaffected'] };
     case 'snow':
-      return { name: 'Snow', icon: '❄', effects: ['+1 movement cost (ground)', '-2 SPD all units'] };
+      return {
+        name: 'Snow',
+        icon: '❄',
+        effects: ['+1 movement cost (ground)', '-2 SPD all units'],
+      };
     case 'sandstorm':
       return { name: 'Sandstorm', icon: '🏜', effects: ['-20 Hit (ranged)', 'Vision capped at 2'] };
     case 'corruption_storm':

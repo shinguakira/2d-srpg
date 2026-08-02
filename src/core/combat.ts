@@ -11,7 +11,12 @@ import {
   resolveDefenseSkills,
   hasSkill,
 } from './skills';
-import { getEffectiveStats, getMemoryBladeMight, getLightMagicBonus, applySyncHitBonus } from './metaStats';
+import {
+  getEffectiveStats,
+  getMemoryBladeMight,
+  getLightMagicBonus,
+  applySyncHitBonus,
+} from './metaStats';
 import { getBossImmunity, applyBossImmunity } from './bossPhase';
 import { getTraumaStatMods } from './traumaSkills';
 import { getWeatherCombatModifiers } from './weather';
@@ -35,12 +40,12 @@ const WEAPON_ADVANTAGE: Partial<Record<WeaponType, WeaponType>> = {
 
 export function getWeaponTriangle(attacker: WeaponType, defender: WeaponType): TriangleResult {
   if (WEAPON_ADVANTAGE[attacker] === defender) {
-    return { hitMod: 15, dmgMod: 1 };   // advantage
+    return { hitMod: 15, dmgMod: 1 }; // advantage
   }
   if (WEAPON_ADVANTAGE[defender] === attacker) {
-    return { hitMod: -15, dmgMod: -1 };  // disadvantage
+    return { hitMod: -15, dmgMod: -1 }; // disadvantage
   }
-  return { hitMod: 0, dmgMod: 0 };       // neutral
+  return { hitMod: 0, dmgMod: 0 }; // neutral
 }
 
 // ===== Combat Forecast =====
@@ -53,8 +58,32 @@ export type CombatRound = {
 };
 
 export type CombatForecast = {
-  attacker: { unitId: string; name: string; currentHp: number; maxHp: number; faction: Faction; classId: string; weaponId: string; weaponName: string; weaponType: WeaponType; weaponDurability?: number | null; weaponMaxDurability?: number | null };
-  defender: { unitId: string; name: string; currentHp: number; maxHp: number; faction: Faction; classId: string; weaponId: string; weaponName: string; weaponType: WeaponType; weaponDurability?: number | null; weaponMaxDurability?: number | null };
+  attacker: {
+    unitId: string;
+    name: string;
+    currentHp: number;
+    maxHp: number;
+    faction: Faction;
+    classId: string;
+    weaponId: string;
+    weaponName: string;
+    weaponType: WeaponType;
+    weaponDurability?: number | null;
+    weaponMaxDurability?: number | null;
+  };
+  defender: {
+    unitId: string;
+    name: string;
+    currentHp: number;
+    maxHp: number;
+    faction: Faction;
+    classId: string;
+    weaponId: string;
+    weaponName: string;
+    weaponType: WeaponType;
+    weaponDurability?: number | null;
+    weaponMaxDurability?: number | null;
+  };
   attackerDamage: number;
   attackerHit: number;
   attackerCrit: number;
@@ -74,8 +103,13 @@ export type CombatForecast = {
 };
 
 export function isMagicWeapon(weapon: Weapon): boolean {
-  return weapon.type === 'fire' || weapon.type === 'thunder' || weapon.type === 'wind'
-    || weapon.type === 'dark' || weapon.type === 'light';
+  return (
+    weapon.type === 'fire' ||
+    weapon.type === 'thunder' ||
+    weapon.type === 'wind' ||
+    weapon.type === 'dark' ||
+    weapon.type === 'light'
+  );
 }
 
 /** Check if a unit's class is proficient with the given weapon type */
@@ -92,7 +126,10 @@ export function canHealWithStaff(unit: Unit): boolean {
 }
 
 /** Get effective weapon range — non-proficient magic/staff users are limited to range 1 (melee bonk) */
-export function getEffectiveWeaponRange(unit: Unit, weapon: Weapon): { minRange: number; maxRange: number } {
+export function getEffectiveWeaponRange(
+  unit: Unit,
+  weapon: Weapon,
+): { minRange: number; maxRange: number } {
   if ((isMagicWeapon(weapon) || weapon.type === 'staff') && !isWeaponProficient(unit, weapon)) {
     return { minRange: 1, maxRange: 1 };
   }
@@ -193,7 +230,15 @@ export function calculateCombatForecast(
   attackerTerrain: TerrainType,
   defenderTerrain: TerrainType,
   distance: number,
-  options?: { attackerNearRen?: boolean; defenderNearRen?: boolean; weather?: WeatherType; attackerSupport?: SupportCombatBonuses; defenderSupport?: SupportCombatBonuses; attackerHasIronwallAlly?: boolean; defenderHasIronwallAlly?: boolean },
+  options?: {
+    attackerNearRen?: boolean;
+    defenderNearRen?: boolean;
+    weather?: WeatherType;
+    attackerSupport?: SupportCombatBonuses;
+    defenderSupport?: SupportCombatBonuses;
+    attackerHasIronwallAlly?: boolean;
+    defenderHasIronwallAlly?: boolean;
+  },
 ): CombatForecast {
   const atkNearRen = options?.attackerNearRen ?? false;
   const defNearRen = options?.defenderNearRen ?? false;
@@ -209,10 +254,18 @@ export function calculateCombatForecast(
   const atkTrauma = getTraumaStatMods(attacker);
   const defTrauma = getTraumaStatMods(defender);
   for (const [key, val] of Object.entries(atkTrauma)) {
-    if (val && key in atkEffStats) (atkEffStats as Record<string, number>)[key] = Math.max(0, (atkEffStats as Record<string, number>)[key] + val);
+    if (val && key in atkEffStats)
+      (atkEffStats as Record<string, number>)[key] = Math.max(
+        0,
+        (atkEffStats as Record<string, number>)[key] + val,
+      );
   }
   for (const [key, val] of Object.entries(defTrauma)) {
-    if (val && key in defEffStats) (defEffStats as Record<string, number>)[key] = Math.max(0, (defEffStats as Record<string, number>)[key] + val);
+    if (val && key in defEffStats)
+      (defEffStats as Record<string, number>)[key] = Math.max(
+        0,
+        (defEffStats as Record<string, number>)[key] + val,
+      );
   }
 
   const atkEff = { ...attacker, stats: atkEffStats };
@@ -221,8 +274,10 @@ export function calculateCombatForecast(
   // Weather: apply SPD modifier
   const atkWeatherMods = getWeatherCombatModifiers(weather, attacker.equippedWeapon);
   const defWeatherMods = getWeatherCombatModifiers(weather, defender.equippedWeapon);
-  if (atkWeatherMods.spdMod) atkEff.stats = { ...atkEff.stats, spd: Math.max(0, atkEff.stats.spd + atkWeatherMods.spdMod) };
-  if (defWeatherMods.spdMod) defEff.stats = { ...defEff.stats, spd: Math.max(0, defEff.stats.spd + defWeatherMods.spdMod) };
+  if (atkWeatherMods.spdMod)
+    atkEff.stats = { ...atkEff.stats, spd: Math.max(0, atkEff.stats.spd + atkWeatherMods.spdMod) };
+  if (defWeatherMods.spdMod)
+    defEff.stats = { ...defEff.stats, spd: Math.max(0, defEff.stats.spd + defWeatherMods.spdMod) };
 
   // Memory Blade: dynamic might based on LOOP
   if (attacker.equippedWeapon.id === 'memory_blade') {
@@ -236,19 +291,29 @@ export function calculateCombatForecast(
 
   // Echo's Interface: dynamic might = target's CRP value
   if (attacker.equippedWeapon.id === 'echos_interface') {
-    atkEff.equippedWeapon = { ...attacker.equippedWeapon, might: Math.max(1, defender.metaStats.crp) };
+    atkEff.equippedWeapon = {
+      ...attacker.equippedWeapon,
+      might: Math.max(1, defender.metaStats.crp),
+    };
   }
   if (defender.equippedWeapon.id === 'echos_interface') {
-    defEff.equippedWeapon = { ...defender.equippedWeapon, might: Math.max(1, attacker.metaStats.crp) };
+    defEff.equippedWeapon = {
+      ...defender.equippedWeapon,
+      might: Math.max(1, attacker.metaStats.crp),
+    };
   }
 
-  let atkDmg = calcDamage(atkEff, defEff, defenderTerrain) + atkWeatherMods.mightMod + atkSupport.dmg;
+  let atkDmg =
+    calcDamage(atkEff, defEff, defenderTerrain) + atkWeatherMods.mightMod + atkSupport.dmg;
   // Tri-Magic: ×1.5 tome damage
   if (isMagicWeapon(atkEff.equippedWeapon) && hasSkill(attacker, 'tri_magic')) {
     atkDmg = Math.floor(atkDmg * 1.5);
   }
   // Vengeance trauma: +30% damage when HP ≤ 25%
-  if (hasSkill(attacker, 'vengeance_trauma') && (attacker.currentHp / attacker.stats.hp) * 100 <= 25) {
+  if (
+    hasSkill(attacker, 'vengeance_trauma') &&
+    (attacker.currentHp / attacker.stats.hp) * 100 <= 25
+  ) {
     atkDmg = Math.floor(atkDmg * 1.3);
   }
   // Ironwall: if defender has adjacent ally with Ironwall, -50% damage
@@ -264,17 +329,30 @@ export function calculateCombatForecast(
   if (hasSkill(defender, 'numb')) defNumbPenalty = -10;
   let atkNumbPenalty = 0;
   if (hasSkill(attacker, 'numb')) atkNumbPenalty = -10;
-  const atkHit = Math.max(0, Math.min(100, calcHit(atkEff, defEff, defenderTerrain) + applySyncHitBonus(attacker.metaStats.sync) + atkWeatherMods.hitMod + atkSupport.hit - defSupport.avoid - defNumbPenalty));
+  const atkHit = Math.max(
+    0,
+    Math.min(
+      100,
+      calcHit(atkEff, defEff, defenderTerrain) +
+        applySyncHitBonus(attacker.metaStats.sync) +
+        atkWeatherMods.hitMod +
+        atkSupport.hit -
+        defSupport.avoid -
+        defNumbPenalty,
+    ),
+  );
   const atkCrit = Math.max(0, calcCrit(atkEff, defEff) + atkSupport.crit);
   const atkDouble = canDouble(atkEff, defEff);
 
   // Light magic +50% damage vs corrupted units
-  if ((attacker.equippedWeapon.type === 'light') && defender.metaStats.crp > 0) {
+  if (attacker.equippedWeapon.type === 'light' && defender.metaStats.crp > 0) {
     atkDmg = Math.floor(atkDmg * getLightMagicBonus(defender.metaStats.crp));
   }
 
   const canCounter = canCounterattack(atkEff, defEff, distance);
-  let defDmg = canCounter ? calcDamage(defEff, atkEff, attackerTerrain) + defWeatherMods.mightMod + defSupport.dmg : 0;
+  let defDmg = canCounter
+    ? calcDamage(defEff, atkEff, attackerTerrain) + defWeatherMods.mightMod + defSupport.dmg
+    : 0;
   // Tri-Magic: ×1.5 tome damage for defender counter
   if (canCounter && isMagicWeapon(defEff.equippedWeapon) && hasSkill(defender, 'tri_magic')) {
     defDmg = Math.floor(defDmg * 1.5);
@@ -287,7 +365,20 @@ export function calculateCombatForecast(
   const atkImmunity = getBossImmunity(atkEff);
   if (canCounter) defDmg = applyBossImmunity(defDmg, defEff.equippedWeapon.type, atkImmunity);
   defDmg = Math.max(0, defDmg);
-  const defHit = canCounter ? Math.max(0, Math.min(100, calcHit(defEff, atkEff, attackerTerrain) + applySyncHitBonus(defender.metaStats.sync) + defWeatherMods.hitMod + defSupport.hit - atkSupport.avoid - atkNumbPenalty)) : 0;
+  const defHit = canCounter
+    ? Math.max(
+        0,
+        Math.min(
+          100,
+          calcHit(defEff, atkEff, attackerTerrain) +
+            applySyncHitBonus(defender.metaStats.sync) +
+            defWeatherMods.hitMod +
+            defSupport.hit -
+            atkSupport.avoid -
+            atkNumbPenalty,
+        ),
+      )
+    : 0;
   const defCrit = canCounter ? Math.max(0, calcCrit(defEff, atkEff) + defSupport.crit) : 0;
   const defDouble = canCounter && canDouble(defEff, atkEff);
 
@@ -306,8 +397,18 @@ export function calculateCombatForecast(
 
   // Build round sequence
   const rounds: CombatRound[] = [];
-  const atkRound: CombatRound = { attackerIsInitiator: true, damage: atkDmg, hitChance: atkHit, critChance: atkCrit };
-  const defRound: CombatRound = { attackerIsInitiator: false, damage: defDmg, hitChance: defHit, critChance: defCrit };
+  const atkRound: CombatRound = {
+    attackerIsInitiator: true,
+    damage: atkDmg,
+    hitChance: atkHit,
+    critChance: atkCrit,
+  };
+  const defRound: CombatRound = {
+    attackerIsInitiator: false,
+    damage: defDmg,
+    hitChance: defHit,
+    critChance: defCrit,
+  };
 
   if (vantageActive) {
     // Defender strikes first
@@ -319,15 +420,49 @@ export function calculateCombatForecast(
   }
 
   if (atkDouble) {
-    rounds.push({ attackerIsInitiator: true, damage: atkDmg, hitChance: atkHit, critChance: atkCrit });
+    rounds.push({
+      attackerIsInitiator: true,
+      damage: atkDmg,
+      hitChance: atkHit,
+      critChance: atkCrit,
+    });
   }
   if (effectiveDefDouble && canCounter) {
-    rounds.push({ attackerIsInitiator: false, damage: defDmg, hitChance: defHit, critChance: defCrit });
+    rounds.push({
+      attackerIsInitiator: false,
+      damage: defDmg,
+      hitChance: defHit,
+      critChance: defCrit,
+    });
   }
 
   return {
-    attacker: { unitId: attacker.id, name: attacker.name, currentHp: attacker.currentHp, maxHp: attacker.stats.hp, faction: attacker.faction, classId: attacker.classId, weaponId: attacker.equippedWeapon.id, weaponName: attacker.equippedWeapon.name, weaponType: attacker.equippedWeapon.type, weaponDurability: attacker.equippedWeapon.durability, weaponMaxDurability: attacker.equippedWeapon.maxDurability },
-    defender: { unitId: defender.id, name: defender.name, currentHp: defender.currentHp, maxHp: defender.stats.hp, faction: defender.faction, classId: defender.classId, weaponId: defender.equippedWeapon.id, weaponName: defender.equippedWeapon.name, weaponType: defender.equippedWeapon.type, weaponDurability: defender.equippedWeapon.durability, weaponMaxDurability: defender.equippedWeapon.maxDurability },
+    attacker: {
+      unitId: attacker.id,
+      name: attacker.name,
+      currentHp: attacker.currentHp,
+      maxHp: attacker.stats.hp,
+      faction: attacker.faction,
+      classId: attacker.classId,
+      weaponId: attacker.equippedWeapon.id,
+      weaponName: attacker.equippedWeapon.name,
+      weaponType: attacker.equippedWeapon.type,
+      weaponDurability: attacker.equippedWeapon.durability,
+      weaponMaxDurability: attacker.equippedWeapon.maxDurability,
+    },
+    defender: {
+      unitId: defender.id,
+      name: defender.name,
+      currentHp: defender.currentHp,
+      maxHp: defender.stats.hp,
+      faction: defender.faction,
+      classId: defender.classId,
+      weaponId: defender.equippedWeapon.id,
+      weaponName: defender.equippedWeapon.name,
+      weaponType: defender.equippedWeapon.type,
+      weaponDurability: defender.equippedWeapon.durability,
+      weaponMaxDurability: defender.equippedWeapon.maxDurability,
+    },
     attackerDamage: atkDmg,
     attackerHit: atkHit,
     attackerCrit: atkCrit,
@@ -406,10 +541,11 @@ export function resolveCombat(
     }
 
     // Vanish (Deadeye): guaranteed hit — check before hit roll
-    const vanishGuarantee = actingUnit != null
-      && hasSkill(actingUnit, 'vanish')
-      && !usedSkills?.has(actingUnit.id + ':vanish')
-      && !newActivatedSkillKeys.includes(actingUnit.id + ':vanish'); // not already used this combat
+    const vanishGuarantee =
+      actingUnit != null &&
+      hasSkill(actingUnit, 'vanish') &&
+      !usedSkills?.has(actingUnit.id + ':vanish') &&
+      !newActivatedSkillKeys.includes(actingUnit.id + ':vanish'); // not already used this combat
     const didHit = vanishGuarantee || rng.roll(roundHitChance);
     const didCrit = didHit && rng.roll(round.critChance);
     let baseDamage = didHit ? (didCrit ? roundDamage * 3 : roundDamage) : 0;
@@ -422,13 +558,19 @@ export function resolveCombat(
       // Attacker per-hit skills (disabled if defender has Nihil)
       if (didHit && baseDamage > 0 && attackerUnit && !defNihil) {
         const skillResult = resolvePerHitSkills(
-          attackerUnit, defenderUnit ?? attackerUnit, baseDamage, rng, defIsBoss, usedSkills
+          attackerUnit,
+          defenderUnit ?? attackerUnit,
+          baseDamage,
+          rng,
+          defIsBoss,
+          usedSkills,
         );
         if (skillResult.skillId) {
           activatedSkill = skillResult.skillId;
           baseDamage = skillResult.modifiedDamage;
           healedAmount = skillResult.healAmount;
-          if (skillResult.skillId === 'vanish') newActivatedSkillKeys.push(attackerUnit.id + ':vanish');
+          if (skillResult.skillId === 'vanish')
+            newActivatedSkillKeys.push(attackerUnit.id + ':vanish');
 
           if (skillResult.instantKill) {
             baseDamage = defHp; // kill
@@ -446,22 +588,30 @@ export function resolveCombat(
               if (defenderUnit && !atkNihil) {
                 const bonusDefResult = resolveDefenseSkills(
                   { ...defenderUnit, currentHp: defHp } as Unit,
-                  bonusDmg, isMagic, rng, usedSkills,
+                  bonusDmg,
+                  isMagic,
+                  rng,
+                  usedSkills,
                 );
                 if (bonusDefResult.skillId) {
                   bonusDmg = bonusDefResult.reducedDamage;
                   bonusMiracled = bonusDefResult.miracleSaved;
-                  if (bonusDefResult.skillId === 'cycle_authority') newActivatedSkillKeys.push(defenderUnit.id + ':cycle_authority');
+                  if (bonusDefResult.skillId === 'cycle_authority')
+                    newActivatedSkillKeys.push(defenderUnit.id + ':cycle_authority');
                 }
               }
 
               defHp = Math.max(0, defHp - bonusDmg);
               hits.push({
-                attackerIsInitiator: true, hit: true, crit: false,
-                damage: bonusDmg, targetHpAfter: defHp,
+                attackerIsInitiator: true,
+                hit: true,
+                crit: false,
+                damage: bonusDmg,
+                targetHpAfter: defHp,
                 targetKilled: defHp <= 0,
                 activatedSkill: skillResult.skillId,
-                healedAmount: 0, miracleSaved: bonusMiracled,
+                healedAmount: 0,
+                miracleSaved: bonusMiracled,
               });
             }
           }
@@ -473,7 +623,7 @@ export function resolveCombat(
         const defResult = resolveDefenseSkills(
           { ...defenderUnit, currentHp: defHp } as Unit,
           baseDamage,
-          isMagicWeapon(attackerUnit?.equippedWeapon ?? { type: 'sword' } as Weapon),
+          isMagicWeapon(attackerUnit?.equippedWeapon ?? ({ type: 'sword' } as Weapon)),
           rng,
           usedSkills,
         );
@@ -481,7 +631,8 @@ export function resolveCombat(
           activatedSkill = activatedSkill ?? defResult.skillId;
           baseDamage = defResult.reducedDamage;
           miracleSaved = defResult.miracleSaved;
-          if (defResult.skillId === 'cycle_authority') newActivatedSkillKeys.push(defenderUnit.id + ':cycle_authority');
+          if (defResult.skillId === 'cycle_authority')
+            newActivatedSkillKeys.push(defenderUnit.id + ':cycle_authority');
         }
       }
 
@@ -512,13 +663,19 @@ export function resolveCombat(
       // Defender per-hit skills (disabled if attacker has Nihil)
       if (didHit && baseDamage > 0 && defenderUnit && !atkNihil) {
         const skillResult = resolvePerHitSkills(
-          defenderUnit, attackerUnit ?? defenderUnit, baseDamage, rng, atkIsBoss, usedSkills
+          defenderUnit,
+          attackerUnit ?? defenderUnit,
+          baseDamage,
+          rng,
+          atkIsBoss,
+          usedSkills,
         );
         if (skillResult.skillId) {
           activatedSkill = skillResult.skillId;
           baseDamage = skillResult.modifiedDamage;
           healedAmount = skillResult.healAmount;
-          if (skillResult.skillId === 'vanish') newActivatedSkillKeys.push(defenderUnit.id + ':vanish');
+          if (skillResult.skillId === 'vanish')
+            newActivatedSkillKeys.push(defenderUnit.id + ':vanish');
 
           if (skillResult.instantKill) {
             baseDamage = atkHp;
@@ -536,22 +693,30 @@ export function resolveCombat(
               if (attackerUnit && !defNihil) {
                 const bonusDefResult = resolveDefenseSkills(
                   { ...attackerUnit, currentHp: atkHp } as Unit,
-                  bonusDmg, isMagic, rng, usedSkills,
+                  bonusDmg,
+                  isMagic,
+                  rng,
+                  usedSkills,
                 );
                 if (bonusDefResult.skillId) {
                   bonusDmg = bonusDefResult.reducedDamage;
                   bonusMiracled = bonusDefResult.miracleSaved;
-                  if (bonusDefResult.skillId === 'cycle_authority') newActivatedSkillKeys.push(attackerUnit.id + ':cycle_authority');
+                  if (bonusDefResult.skillId === 'cycle_authority')
+                    newActivatedSkillKeys.push(attackerUnit.id + ':cycle_authority');
                 }
               }
 
               atkHp = Math.max(0, atkHp - bonusDmg);
               hits.push({
-                attackerIsInitiator: false, hit: true, crit: false,
-                damage: bonusDmg, targetHpAfter: atkHp,
+                attackerIsInitiator: false,
+                hit: true,
+                crit: false,
+                damage: bonusDmg,
+                targetHpAfter: atkHp,
                 targetKilled: atkHp <= 0,
                 activatedSkill: skillResult.skillId,
-                healedAmount: 0, miracleSaved: bonusMiracled,
+                healedAmount: 0,
+                miracleSaved: bonusMiracled,
               });
             }
           }
@@ -563,7 +728,7 @@ export function resolveCombat(
         const defResult = resolveDefenseSkills(
           { ...attackerUnit, currentHp: atkHp } as Unit,
           baseDamage,
-          isMagicWeapon(defenderUnit?.equippedWeapon ?? { type: 'sword' } as Weapon),
+          isMagicWeapon(defenderUnit?.equippedWeapon ?? ({ type: 'sword' } as Weapon)),
           rng,
           usedSkills,
         );
@@ -571,7 +736,8 @@ export function resolveCombat(
           activatedSkill = activatedSkill ?? defResult.skillId;
           baseDamage = defResult.reducedDamage;
           miracleSaved = defResult.miracleSaved;
-          if (defResult.skillId === 'cycle_authority') newActivatedSkillKeys.push(attackerUnit.id + ':cycle_authority');
+          if (defResult.skillId === 'cycle_authority')
+            newActivatedSkillKeys.push(attackerUnit.id + ':cycle_authority');
         }
       }
 
@@ -602,7 +768,15 @@ export function resolveCombat(
 
   // Counter skill: when defender has Counter, was hit at range > 1, and is still alive,
   // reflect 50% of total damage dealt to defender back onto attacker
-  if (defenderUnit && attackerUnit && defHp > 0 && atkHp > 0 && forecast.distance > 1 && hasSkill(defenderUnit, 'counter') && !atkNihil) {
+  if (
+    defenderUnit &&
+    attackerUnit &&
+    defHp > 0 &&
+    atkHp > 0 &&
+    forecast.distance > 1 &&
+    hasSkill(defenderUnit, 'counter') &&
+    !atkNihil
+  ) {
     // Sum all damage dealt to defender
     let totalDmgToDefender = 0;
     for (const h of hits) {
@@ -626,7 +800,8 @@ export function resolveCombat(
   }
 
   // Divine Wings (Galeforce): extra turn if attacker killed defender
-  const galeforceTriggered = defHp <= 0 && atkHp > 0 && attackerUnit != null && hasSkill(attackerUnit, 'divine_wings');
+  const galeforceTriggered =
+    defHp <= 0 && atkHp > 0 && attackerUnit != null && hasSkill(attackerUnit, 'divine_wings');
 
   return {
     hits,

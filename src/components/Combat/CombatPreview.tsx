@@ -10,9 +10,17 @@ import { getSupportCombatBonuses, getSupportRank } from '../../core/support';
 import { applySyncHitBonus } from '../../core/metaStats';
 import { getManhattanDistance } from '../../core/pathfinding';
 const WEAPON_NAMES: Record<string, string> = {
-  sword: 'Sword', axe: 'Axe', lance: 'Lance',
-  fire: 'Fire', thunder: 'Thunder', wind: 'Wind', staff: 'Staff',
-  light: 'Light', dark: 'Dark', bow: 'Bow', knife: 'Knife',
+  sword: 'Sword',
+  axe: 'Axe',
+  lance: 'Lance',
+  fire: 'Fire',
+  thunder: 'Thunder',
+  wind: 'Wind',
+  staff: 'Staff',
+  light: 'Light',
+  dark: 'Dark',
+  bow: 'Bow',
+  knife: 'Knife',
 };
 
 function getTriangleText(atkType: string, defType: string): { text: string; color: string } | null {
@@ -21,7 +29,10 @@ function getTriangleText(atkType: string, defType: string): { text: string; colo
     return { text: `▲ ${WEAPON_NAMES[atkType]} beats ${WEAPON_NAMES[defType]}`, color: '#22c55e' };
   }
   if (triangle.dmgMod < 0) {
-    return { text: `▼ ${WEAPON_NAMES[atkType]} loses to ${WEAPON_NAMES[defType]}`, color: '#ef4444' };
+    return {
+      text: `▼ ${WEAPON_NAMES[atkType]} loses to ${WEAPON_NAMES[defType]}`,
+      color: '#ef4444',
+    };
   }
   return null;
 }
@@ -36,7 +47,8 @@ export function CombatPreview() {
   const [showModifiers, setShowModifiers] = useState(false);
 
   // Show forecast when hovering enemies during attack_target or action_menu
-  if ((playerAction !== 'attack_target' && playerAction !== 'action_menu') || !forecast) return null;
+  if ((playerAction !== 'attack_target' && playerAction !== 'action_menu') || !forecast)
+    return null;
 
   // Always show player on left, enemy on right
   const attackerIsPlayer = forecast.attacker.faction === 'player';
@@ -51,19 +63,24 @@ export function CombatPreview() {
   let cycleHint: string | null = null;
   if (enemyFullUnit?.weaponCycleOrder && enemyFullUnit.weaponCycleOrder.length > 0) {
     const idx = enemyFullUnit.weaponCycleIndex ?? 0;
-    const current = WEAPON_NAMES[enemyFullUnit.weaponCycleOrder[idx]] ?? enemyFullUnit.weaponCycleOrder[idx];
+    const current =
+      WEAPON_NAMES[enemyFullUnit.weaponCycleOrder[idx]] ?? enemyFullUnit.weaponCycleOrder[idx];
     const nextIdx = (idx + 1) % enemyFullUnit.weaponCycleOrder.length;
-    const next = WEAPON_NAMES[enemyFullUnit.weaponCycleOrder[nextIdx]] ?? enemyFullUnit.weaponCycleOrder[nextIdx];
+    const next =
+      WEAPON_NAMES[enemyFullUnit.weaponCycleOrder[nextIdx]] ??
+      enemyFullUnit.weaponCycleOrder[nextIdx];
     cycleHint = `Cycle: ${current} \u2192 Next: ${next}`;
   }
 
   // Effectiveness checks (Task 1)
-  const playerEffective = playerFullUnit && enemyFullUnit
-    ? isEffectiveAgainst(playerFullUnit.equippedWeapon, enemyFullUnit)
-    : false;
-  const enemyEffective = enemyFullUnit && playerFullUnit
-    ? isEffectiveAgainst(enemyFullUnit.equippedWeapon, playerFullUnit)
-    : false;
+  const playerEffective =
+    playerFullUnit && enemyFullUnit
+      ? isEffectiveAgainst(playerFullUnit.equippedWeapon, enemyFullUnit)
+      : false;
+  const enemyEffective =
+    enemyFullUnit && playerFullUnit
+      ? isEffectiveAgainst(enemyFullUnit.equippedWeapon, playerFullUnit)
+      : false;
 
   const playerUnit = attackerIsPlayer ? forecast.attacker : forecast.defender;
   const enemyUnit = attackerIsPlayer ? forecast.defender : forecast.attacker;
@@ -82,7 +99,12 @@ export function CombatPreview() {
 
   // Predictive HP after combat
   const playerPredictedHp = estimateHp(playerUnit.currentHp, enemyDmg, enemyCanAttack, enemyDouble);
-  const enemyPredictedHp = estimateHp(enemyUnit.currentHp, playerDmg, playerCanAttack, playerDouble);
+  const enemyPredictedHp = estimateHp(
+    enemyUnit.currentHp,
+    playerDmg,
+    playerCanAttack,
+    playerDouble,
+  );
 
   // Weapon triangle — from player's perspective
   const triangle = getTriangleText(playerUnit.weaponType, enemyUnit.weaponType);
@@ -98,7 +120,8 @@ export function CombatPreview() {
     const nextPhase = enemyFullUnit.bossPhases.find((_p, i) => i > currentPhase);
     if (nextPhase) {
       const parts: string[] = [];
-      if (nextPhase.immunity) parts.push(`+${nextPhase.immunity === 'physical' ? 'Physical' : 'Magical'} Immunity`);
+      if (nextPhase.immunity)
+        parts.push(`+${nextPhase.immunity === 'physical' ? 'Physical' : 'Magical'} Immunity`);
       if (nextPhase.selfHeal) parts.push(`Self Heal ${nextPhase.selfHeal}/turn`);
       if (nextPhase.weaponId) parts.push('Weapon swap');
       const desc = parts.length > 0 ? parts.join(', ') : 'Phase change';
@@ -114,7 +137,9 @@ export function CombatPreview() {
     // Weapon triangle
     const tri = getWeaponTriangle(playerUnit.weaponType as any, enemyUnit.weaponType as any);
     if (tri.hitMod !== 0 || tri.dmgMod !== 0) {
-      playerModifiers.push({ label: `Triangle: HIT ${tri.hitMod > 0 ? '+' : ''}${tri.hitMod}, DMG ${tri.dmgMod > 0 ? '+' : ''}${tri.dmgMod}` });
+      playerModifiers.push({
+        label: `Triangle: HIT ${tri.hitMod > 0 ? '+' : ''}${tri.hitMod}, DMG ${tri.dmgMod > 0 ? '+' : ''}${tri.dmgMod}`,
+      });
     }
     // Weather (player)
     if (weather && weather !== 'clear' && playerFullUnit) {
@@ -127,9 +152,17 @@ export function CombatPreview() {
     }
     // Support
     if (playerFullUnit && supportPairs) {
-      let totalHit = 0, totalAvo = 0, totalCrit = 0, totalDmg = 0;
+      let totalHit = 0,
+        totalAvo = 0,
+        totalCrit = 0,
+        totalDmg = 0;
       for (const pair of supportPairs) {
-        const partnerId = pair.unitA === playerFullUnit.id ? pair.unitB : pair.unitB === playerFullUnit.id ? pair.unitA : null;
+        const partnerId =
+          pair.unitA === playerFullUnit.id
+            ? pair.unitB
+            : pair.unitB === playerFullUnit.id
+              ? pair.unitA
+              : null;
         if (!partnerId) continue;
         const partner = units.get(partnerId);
         if (!partner || partner.currentHp <= 0) continue;
@@ -137,7 +170,10 @@ export function CombatPreview() {
         const rank = getSupportRank(pair.points);
         if (!rank) continue;
         const b = getSupportCombatBonuses(rank);
-        totalHit += b.hit; totalAvo += b.avoid; totalCrit += b.crit; totalDmg += b.dmg;
+        totalHit += b.hit;
+        totalAvo += b.avoid;
+        totalCrit += b.crit;
+        totalDmg += b.dmg;
       }
       if (totalHit > 0 || totalAvo > 0 || totalCrit > 0 || totalDmg > 0) {
         const parts: string[] = [];
@@ -150,7 +186,10 @@ export function CombatPreview() {
     }
     // SYNC hit bonus
     if (playerFullUnit && applySyncHitBonus(playerFullUnit.metaStats.sync) > 0) {
-      playerModifiers.push({ label: `SYNC ${playerFullUnit.metaStats.sync}: HIT +5`, color: '#22d3ee' });
+      playerModifiers.push({
+        label: `SYNC ${playerFullUnit.metaStats.sync}: HIT +5`,
+        color: '#22d3ee',
+      });
     }
     // STA penalties (player)
     if (playerStaNote) playerModifiers.push({ label: playerStaNote, color: '#f97316' });
@@ -168,7 +207,10 @@ export function CombatPreview() {
       if (defTile) {
         const td = getTerrainData(defTile.terrain);
         if (td.defenseBonus > 0 || td.avoidBonus > 0) {
-          enemyModifiers.push({ label: `Terrain (${td.name}): ${td.avoidBonus > 0 ? `AVO +${td.avoidBonus}` : ''}${td.defenseBonus > 0 ? ` DEF +${td.defenseBonus}` : ''}`.trim() });
+          enemyModifiers.push({
+            label:
+              `Terrain (${td.name}): ${td.avoidBonus > 0 ? `AVO +${td.avoidBonus}` : ''}${td.defenseBonus > 0 ? ` DEF +${td.defenseBonus}` : ''}`.trim(),
+          });
         }
       }
     }
@@ -199,13 +241,16 @@ export function CombatPreview() {
         <span className="combat-forecast__skill-label">{isPlayerSide ? 'You' : 'Foe'}:</span>
         {skillIds.map((s) => {
           const skill = SKILLS[s];
-          const activationText = skill && combatant ? getSkillActivationText(skill, combatant.stats) : null;
+          const activationText =
+            skill && combatant ? getSkillActivationText(skill, combatant.stats) : null;
           return (
             <div key={s}>
               <span className="combat-forecast__skill-name">
                 {skill?.name ?? s}
                 {activationText && activationText !== 'Passive' && (
-                  <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', marginLeft: 4 }}>({activationText})</span>
+                  <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', marginLeft: 4 }}>
+                    ({activationText})
+                  </span>
                 )}
               </span>
               {skill && (
@@ -234,7 +279,14 @@ export function CombatPreview() {
           <div className="combat-forecast__weapon-type">
             {playerUnit.weaponName}
             {playerUnit.weaponDurability != null && playerUnit.weaponMaxDurability != null && (
-              <span data-testid="weapon-durability" style={{ marginLeft: 4, fontSize: '0.85em', color: getDurabilityColor(playerUnit.weaponDurability) }}>
+              <span
+                data-testid="weapon-durability"
+                style={{
+                  marginLeft: 4,
+                  fontSize: '0.85em',
+                  color: getDurabilityColor(playerUnit.weaponDurability),
+                }}
+              >
                 ({playerUnit.weaponDurability}/{playerUnit.weaponMaxDurability})
               </span>
             )}
@@ -242,32 +294,51 @@ export function CombatPreview() {
           <div className="combat-forecast__hp">
             HP {playerUnit.currentHp}/{playerUnit.maxHp}
             {playerCanAttack === false || enemyCanAttack ? (
-              <span className="combat-forecast__predicted-hp" style={{ color: playerPredictedHp <= 0 ? '#ef4444' : playerPredictedHp < playerUnit.currentHp ? '#eab308' : undefined }}>
+              <span
+                className="combat-forecast__predicted-hp"
+                style={{
+                  color:
+                    playerPredictedHp <= 0
+                      ? '#ef4444'
+                      : playerPredictedHp < playerUnit.currentHp
+                        ? '#eab308'
+                        : undefined,
+                }}
+              >
                 {enemyCanAttack && ` →${Math.max(0, playerPredictedHp)}`}
               </span>
             ) : null}
           </div>
-          {enemyEffective && (
-            <div className="combat-forecast__effective--weak">Weak!</div>
-          )}
+          {enemyEffective && <div className="combat-forecast__effective--weak">Weak!</div>}
           {playerCanAttack ? (
             <>
               <div className="combat-forecast__stat">
                 <span className="combat-forecast__label">DMG</span>
-                <span className="combat-forecast__value" data-testid="forecast-atk-damage">{playerDmg}</span>
+                <span className="combat-forecast__value" data-testid="forecast-atk-damage">
+                  {playerDmg}
+                </span>
               </div>
               {playerEffective && (
-                <div className="combat-forecast__effective" data-testid="forecast-effective">EFFECTIVE!</div>
+                <div className="combat-forecast__effective" data-testid="forecast-effective">
+                  EFFECTIVE!
+                </div>
               )}
               <div className="combat-forecast__stat">
                 <span className="combat-forecast__label">HIT</span>
-                <span className="combat-forecast__value" data-testid="forecast-atk-hit">{playerHit}%</span>
+                <span className="combat-forecast__value" data-testid="forecast-atk-hit">
+                  {playerHit}%
+                </span>
               </div>
               <div className="combat-forecast__stat">
                 <span className="combat-forecast__label">CRIT</span>
-                <span className="combat-forecast__value" data-testid="forecast-atk-crit">{playerCrit}%</span>
+                <span className="combat-forecast__value" data-testid="forecast-atk-crit">
+                  {playerCrit}%
+                </span>
               </div>
-              <div className={playerDouble ? 'combat-forecast__double' : 'combat-forecast__no-double'} data-testid="forecast-atk-double">
+              <div
+                className={playerDouble ? 'combat-forecast__double' : 'combat-forecast__no-double'}
+                data-testid="forecast-atk-double"
+              >
                 {playerDouble ? 'x2' : '—'}
               </div>
             </>
@@ -284,21 +355,55 @@ export function CombatPreview() {
           <div className="combat-forecast__weapon-type">
             {enemyUnit.weaponName}
             {enemyUnit.weaponDurability != null && enemyUnit.weaponMaxDurability != null && (
-              <span data-testid="weapon-durability" style={{ marginLeft: 4, fontSize: '0.85em', color: getDurabilityColor(enemyUnit.weaponDurability) }}>
+              <span
+                data-testid="weapon-durability"
+                style={{
+                  marginLeft: 4,
+                  fontSize: '0.85em',
+                  color: getDurabilityColor(enemyUnit.weaponDurability),
+                }}
+              >
                 ({enemyUnit.weaponDurability}/{enemyUnit.weaponMaxDurability})
               </span>
             )}
           </div>
           <div className="combat-forecast__hp">
             HP {enemyUnit.currentHp}/{enemyUnit.maxHp}
-            <span className="combat-forecast__predicted-hp" style={{ color: enemyPredictedHp <= 0 ? '#ef4444' : enemyPredictedHp < enemyUnit.currentHp ? '#eab308' : undefined }}>
+            <span
+              className="combat-forecast__predicted-hp"
+              style={{
+                color:
+                  enemyPredictedHp <= 0
+                    ? '#ef4444'
+                    : enemyPredictedHp < enemyUnit.currentHp
+                      ? '#eab308'
+                      : undefined,
+              }}
+            >
               {` →${Math.max(0, enemyPredictedHp)}`}
             </span>
           </div>
           {/* Boss phase HP tick marks (Task 8) */}
           {enemyFullUnit?.bossPhases && enemyFullUnit.bossPhases.length > 0 && (
-            <div className="combat-forecast__hp-bar" style={{ position: 'relative', width: '100%', height: 6, background: 'rgba(255,255,255,0.15)', borderRadius: 3, marginTop: 2 }}>
-              <div style={{ width: `${Math.max(0, (enemyUnit.currentHp / enemyUnit.maxHp) * 100)}%`, height: '100%', background: '#ef4444', borderRadius: 3 }} />
+            <div
+              className="combat-forecast__hp-bar"
+              style={{
+                position: 'relative',
+                width: '100%',
+                height: 6,
+                background: 'rgba(255,255,255,0.15)',
+                borderRadius: 3,
+                marginTop: 2,
+              }}
+            >
+              <div
+                style={{
+                  width: `${Math.max(0, (enemyUnit.currentHp / enemyUnit.maxHp) * 100)}%`,
+                  height: '100%',
+                  background: '#ef4444',
+                  borderRadius: 3,
+                }}
+              />
               {enemyFullUnit.bossPhases.map((phase, i) => {
                 const pct = phase.hpThreshold;
                 const current = enemyFullUnit.currentBossPhase ?? 0;
@@ -308,7 +413,11 @@ export function CombatPreview() {
                     key={i}
                     data-testid={`boss-phase-tick-${i}`}
                     style={{
-                      position: 'absolute', left: `${pct}%`, top: -2, width: 2, height: 10,
+                      position: 'absolute',
+                      left: `${pct}%`,
+                      top: -2,
+                      width: 2,
+                      height: 10,
                       background: isPast ? '#666' : i === current ? '#fbbf24' : '#fff',
                       opacity: isPast ? 0.4 : 0.9,
                     }}
@@ -319,26 +428,46 @@ export function CombatPreview() {
             </div>
           )}
           {playerEffective && (
-            <div className="combat-forecast__effective--weak" style={{ color: '#22c55e', fontSize: 10 }}>Eff. target</div>
+            <div
+              className="combat-forecast__effective--weak"
+              style={{ color: '#22c55e', fontSize: 10 }}
+            >
+              Eff. target
+            </div>
           )}
           {enemyCanAttack ? (
             <>
               <div className="combat-forecast__stat">
                 <span className="combat-forecast__label">DMG</span>
-                <span className="combat-forecast__value" data-testid="forecast-def-damage">{enemyDmg}</span>
+                <span className="combat-forecast__value" data-testid="forecast-def-damage">
+                  {enemyDmg}
+                </span>
               </div>
               {enemyEffective && (
-                <div className="combat-forecast__effective" data-testid="forecast-effective-enemy" style={{ color: '#ef4444' }}>EFFECTIVE!</div>
+                <div
+                  className="combat-forecast__effective"
+                  data-testid="forecast-effective-enemy"
+                  style={{ color: '#ef4444' }}
+                >
+                  EFFECTIVE!
+                </div>
               )}
               <div className="combat-forecast__stat">
                 <span className="combat-forecast__label">HIT</span>
-                <span className="combat-forecast__value" data-testid="forecast-def-hit">{enemyHit}%</span>
+                <span className="combat-forecast__value" data-testid="forecast-def-hit">
+                  {enemyHit}%
+                </span>
               </div>
               <div className="combat-forecast__stat">
                 <span className="combat-forecast__label">CRIT</span>
-                <span className="combat-forecast__value" data-testid="forecast-def-crit">{enemyCrit}%</span>
+                <span className="combat-forecast__value" data-testid="forecast-def-crit">
+                  {enemyCrit}%
+                </span>
               </div>
-              <div className={enemyDouble ? 'combat-forecast__double' : 'combat-forecast__no-double'} data-testid="forecast-def-double">
+              <div
+                className={enemyDouble ? 'combat-forecast__double' : 'combat-forecast__no-double'}
+                data-testid="forecast-def-double"
+              >
                 {enemyDouble ? 'x2' : '—'}
               </div>
             </>
@@ -365,7 +494,11 @@ export function CombatPreview() {
 
       {/* Weapon cycle hint for cycling bosses */}
       {cycleHint && (
-        <div className="combat-forecast__cycle-hint" data-testid="forecast-cycle-hint" style={{ color: '#f59e0b', fontSize: '0.75rem', textAlign: 'center', marginTop: 4 }}>
+        <div
+          className="combat-forecast__cycle-hint"
+          data-testid="forecast-cycle-hint"
+          style={{ color: '#f59e0b', fontSize: '0.75rem', textAlign: 'center', marginTop: 4 }}
+        >
           {cycleHint}
         </div>
       )}
@@ -412,9 +545,18 @@ export function CombatPreview() {
         <div className="combat-forecast__modifiers" data-testid="forecast-modifiers">
           {playerModifiers.length > 0 && (
             <>
-              <div className="combat-forecast__modifier-line" style={{ color: '#60a5fa', fontWeight: 600 }}>You</div>
+              <div
+                className="combat-forecast__modifier-line"
+                style={{ color: '#60a5fa', fontWeight: 600 }}
+              >
+                You
+              </div>
               {playerModifiers.map((m, i) => (
-                <div key={`p${i}`} className="combat-forecast__modifier-line" style={m.color ? { color: m.color } : undefined}>
+                <div
+                  key={`p${i}`}
+                  className="combat-forecast__modifier-line"
+                  style={m.color ? { color: m.color } : undefined}
+                >
                   {m.label}
                 </div>
               ))}
@@ -422,9 +564,22 @@ export function CombatPreview() {
           )}
           {enemyModifiers.length > 0 && (
             <>
-              <div className="combat-forecast__modifier-line" style={{ color: '#ef4444', fontWeight: 600, marginTop: playerModifiers.length > 0 ? 4 : 0 }}>Foe</div>
+              <div
+                className="combat-forecast__modifier-line"
+                style={{
+                  color: '#ef4444',
+                  fontWeight: 600,
+                  marginTop: playerModifiers.length > 0 ? 4 : 0,
+                }}
+              >
+                Foe
+              </div>
               {enemyModifiers.map((m, i) => (
-                <div key={`e${i}`} className="combat-forecast__modifier-line" style={m.color ? { color: m.color } : undefined}>
+                <div
+                  key={`e${i}`}
+                  className="combat-forecast__modifier-line"
+                  style={m.color ? { color: m.color } : undefined}
+                >
                   {m.label}
                 </div>
               ))}

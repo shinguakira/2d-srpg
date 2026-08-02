@@ -47,7 +47,9 @@
   padding: 8px 12px;
   color: #e2e8f0;
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
   font-size: 14px;
   text-align: left;
 }

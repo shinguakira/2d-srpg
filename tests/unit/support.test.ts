@@ -12,11 +12,28 @@ import type { Unit, SupportPair } from '../../src/core/types';
 
 function makeUnit(id: string, x: number, y: number, overrides: Partial<Unit> = {}): Unit {
   return {
-    id, name: id, classId: 'soldier', faction: 'player',
-    level: 1, exp: 0, position: { x, y }, startPosition: { x, y },
+    id,
+    name: id,
+    classId: 'soldier',
+    faction: 'player',
+    level: 1,
+    exp: 0,
+    position: { x, y },
+    startPosition: { x, y },
     stats: { hp: 30, str: 10, mag: 0, skl: 5, spd: 5, lck: 5, def: 5, res: 5, mov: 5, con: 10 },
-    currentHp: 30, hasActed: false,
-    equippedWeapon: { id: 'w', name: 'W', type: 'sword', might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1 },
+    currentHp: 30,
+    hasActed: false,
+    equippedWeapon: {
+      id: 'w',
+      name: 'W',
+      type: 'sword',
+      might: 5,
+      hit: 90,
+      crit: 0,
+      weight: 5,
+      minRange: 1,
+      maxRange: 1,
+    },
     inventory: [],
     items: [],
     metaStats: { crp: 0, sta: 50, loy: 50, awr: 50, sync: 50, loop: 100 },
@@ -106,7 +123,10 @@ describe('canFormSupport', () => {
 
   it('Ren is unlimited partners', () => {
     const pairs: SupportPair[] = Array.from({ length: 10 }, (_, i) => ({
-      unitA: 'ren', unitB: `p${i}`, points: 10, rank: null,
+      unitA: 'ren',
+      unitB: `p${i}`,
+      points: 10,
+      rank: null,
     }));
     expect(canFormSupport('ren', 'p99', pairs)).toBe(true);
   });

@@ -22,8 +22,12 @@ export function ItemsView({
   subTab: 'weapons' | 'consumables';
   onSubTabChange: (tab: 'weapons' | 'consumables') => void;
 }) {
-  const selectedWeapon = subTab === 'weapons' && selectedId ? ALL_WEAPONS.find((w) => w.id === selectedId) : null;
-  const selectedConsumable = subTab === 'consumables' && selectedId ? ALL_CONSUMABLES.find((c) => c.id === selectedId) : null;
+  const selectedWeapon =
+    subTab === 'weapons' && selectedId ? ALL_WEAPONS.find((w) => w.id === selectedId) : null;
+  const selectedConsumable =
+    subTab === 'consumables' && selectedId
+      ? ALL_CONSUMABLES.find((c) => c.id === selectedId)
+      : null;
 
   return (
     <div className="debug-screen__split">
@@ -51,50 +55,50 @@ export function ItemsView({
           </button>
         </div>
 
-        {subTab === 'weapons' ? (
-          ALL_WEAPONS.map((weapon) => (
-            <button
-              key={weapon.id}
-              className={`debug-screen__entry ${weapon.id === selectedId ? 'debug-screen__entry--selected' : ''}`}
-              data-testid={`debug-weapon-${weapon.id}`}
-              onClick={() => onSelect(weapon.id)}
-            >
-              <WeaponIcon type={weapon.type} size={24} />
-              <div className="debug-screen__entry-info">
-                <span className="debug-screen__entry-name">{weapon.name}</span>
-                <span className="debug-screen__entry-meta">
-                  <span
-                    className="debug-screen__badge"
-                    style={{ background: WEAPON_TYPE_COLORS[weapon.type] ?? '#888' }}
-                  >
-                    {weapon.type}
+        {subTab === 'weapons'
+          ? ALL_WEAPONS.map((weapon) => (
+              <button
+                key={weapon.id}
+                className={`debug-screen__entry ${weapon.id === selectedId ? 'debug-screen__entry--selected' : ''}`}
+                data-testid={`debug-weapon-${weapon.id}`}
+                onClick={() => onSelect(weapon.id)}
+              >
+                <WeaponIcon type={weapon.type} size={24} />
+                <div className="debug-screen__entry-info">
+                  <span className="debug-screen__entry-name">{weapon.name}</span>
+                  <span className="debug-screen__entry-meta">
+                    <span
+                      className="debug-screen__badge"
+                      style={{ background: WEAPON_TYPE_COLORS[weapon.type] ?? '#888' }}
+                    >
+                      {weapon.type}
+                    </span>
+                    <span className="debug-screen__entry-class">Mt {weapon.might}</span>
                   </span>
-                  <span className="debug-screen__entry-class">Mt {weapon.might}</span>
-                </span>
-              </div>
-            </button>
-          ))
-        ) : (
-          ALL_CONSUMABLES.map((item) => (
-            <button
-              key={item.id}
-              className={`debug-screen__entry ${item.id === selectedId ? 'debug-screen__entry--selected' : ''}`}
-              data-testid={`debug-item-${item.id}`}
-              onClick={() => onSelect(item.id)}
-            >
-              <ItemIcon item={item} size={24} />
-              <div className="debug-screen__entry-info">
-                <span className="debug-screen__entry-name">{item.name}</span>
-                <span className="debug-screen__entry-meta">
-                  <span className="debug-screen__badge" style={{ background: '#22c55e' }}>
-                    consumable
+                </div>
+              </button>
+            ))
+          : ALL_CONSUMABLES.map((item) => (
+              <button
+                key={item.id}
+                className={`debug-screen__entry ${item.id === selectedId ? 'debug-screen__entry--selected' : ''}`}
+                data-testid={`debug-item-${item.id}`}
+                onClick={() => onSelect(item.id)}
+              >
+                <ItemIcon item={item} size={24} />
+                <div className="debug-screen__entry-info">
+                  <span className="debug-screen__entry-name">{item.name}</span>
+                  <span className="debug-screen__entry-meta">
+                    <span className="debug-screen__badge" style={{ background: '#22c55e' }}>
+                      consumable
+                    </span>
+                    <span className="debug-screen__entry-class">
+                      ({item.uses}/{item.maxUses})
+                    </span>
                   </span>
-                  <span className="debug-screen__entry-class">({item.uses}/{item.maxUses})</span>
-                </span>
-              </div>
-            </button>
-          ))
-        )}
+                </div>
+              </button>
+            ))}
       </div>
 
       <div className="debug-screen__detail">
@@ -135,28 +139,40 @@ function WeaponDetail({ weapon }: { weapon: Weapon }) {
             <span className="debug-screen__stat-label">Might</span>
             <span className="debug-screen__stat-value">{weapon.might}</span>
             <div className="debug-screen__stat-bar-track">
-              <div className="debug-screen__stat-bar-fill debug-screen__stat-bar-fill--red" style={{ width: `${Math.min(100, (weapon.might / 15) * 100)}%` }} />
+              <div
+                className="debug-screen__stat-bar-fill debug-screen__stat-bar-fill--red"
+                style={{ width: `${Math.min(100, (weapon.might / 15) * 100)}%` }}
+              />
             </div>
           </div>
           <div className="debug-screen__stat-row">
             <span className="debug-screen__stat-label">Hit</span>
             <span className="debug-screen__stat-value">{weapon.hit}%</span>
             <div className="debug-screen__stat-bar-track">
-              <div className="debug-screen__stat-bar-fill debug-screen__stat-bar-fill--blue" style={{ width: `${weapon.hit}%` }} />
+              <div
+                className="debug-screen__stat-bar-fill debug-screen__stat-bar-fill--blue"
+                style={{ width: `${weapon.hit}%` }}
+              />
             </div>
           </div>
           <div className="debug-screen__stat-row">
             <span className="debug-screen__stat-label">Crit</span>
             <span className="debug-screen__stat-value">{weapon.crit}%</span>
             <div className="debug-screen__stat-bar-track">
-              <div className="debug-screen__stat-bar-fill debug-screen__stat-bar-fill--gold" style={{ width: `${Math.min(100, weapon.crit * 5)}%` }} />
+              <div
+                className="debug-screen__stat-bar-fill debug-screen__stat-bar-fill--gold"
+                style={{ width: `${Math.min(100, weapon.crit * 5)}%` }}
+              />
             </div>
           </div>
           <div className="debug-screen__stat-row">
             <span className="debug-screen__stat-label">Weight</span>
             <span className="debug-screen__stat-value">{weapon.weight}</span>
             <div className="debug-screen__stat-bar-track">
-              <div className="debug-screen__stat-bar-fill debug-screen__stat-bar-fill--gray" style={{ width: `${Math.min(100, (weapon.weight / 15) * 100)}%` }} />
+              <div
+                className="debug-screen__stat-bar-fill debug-screen__stat-bar-fill--gray"
+                style={{ width: `${Math.min(100, (weapon.weight / 15) * 100)}%` }}
+              />
             </div>
           </div>
           <div className="debug-screen__stat-row">
@@ -194,7 +210,10 @@ function ConsumableDetail({ item }: { item: ConsumableItem }) {
         </div>
         <div className="debug-screen__detail-header-info">
           <h2 className="debug-screen__detail-name">{item.name}</h2>
-          <span className="debug-screen__badge debug-screen__badge--large" style={{ background: '#22c55e' }}>
+          <span
+            className="debug-screen__badge debug-screen__badge--large"
+            style={{ background: '#22c55e' }}
+          >
             consumable
           </span>
         </div>
@@ -205,7 +224,9 @@ function ConsumableDetail({ item }: { item: ConsumableItem }) {
         <div className="debug-screen__stats-grid">
           <div className="debug-screen__stat-row">
             <span className="debug-screen__stat-label">Uses</span>
-            <span className="debug-screen__stat-value">{item.uses}/{item.maxUses}</span>
+            <span className="debug-screen__stat-value">
+              {item.uses}/{item.maxUses}
+            </span>
           </div>
           <div className="debug-screen__stat-row">
             <span className="debug-screen__stat-label">Effect</span>

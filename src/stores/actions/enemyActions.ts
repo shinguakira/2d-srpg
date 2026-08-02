@@ -40,11 +40,17 @@ export function computeEnemyActions(get: Get, set: Set) {
   for (const unit of units.values()) {
     if (unit.faction === 'enemy' && !unit.hasActed) {
       const flags = getClassFlags(unit);
-      const weatherMods = weather !== 'clear' ? {
-        movPenalty: getWeatherMovPenalty(weather, flags),
-        terrainCostMod: getWeatherTerrainCostMod(weather, flags),
-      } : undefined;
-      const action = decideAction(simUnits.get(unit.id)!, gameMap, simUnits, flags, { ...ctx, weatherMods });
+      const weatherMods =
+        weather !== 'clear'
+          ? {
+              movPenalty: getWeatherMovPenalty(weather, flags),
+              terrainCostMod: getWeatherTerrainCostMod(weather, flags),
+            }
+          : undefined;
+      const action = decideAction(simUnits.get(unit.id)!, gameMap, simUnits, flags, {
+        ...ctx,
+        weatherMods,
+      });
       actions.push(action);
 
       // Simulate the move so the next enemy sees the updated position
@@ -99,7 +105,11 @@ export function executeNextEnemyAction(get: Get, set: Set) {
 
 /** Finalize enemy action after walk animation completes (or was skipped) */
 function finalizeEnemyAction(
-  get: Get, set: Set, action: AIAction, unit: ReturnType<Get>['units'] extends Map<string, infer U> ? U : never, destination: { x: number; y: number }
+  get: Get,
+  set: Set,
+  action: AIAction,
+  unit: ReturnType<Get>['units'] extends Map<string, infer U> ? U : never,
+  destination: { x: number; y: number },
 ) {
   const { units, gameMap, rng, enemyActionIndex } = get();
 
@@ -144,7 +154,12 @@ function finalizeEnemyAction(
       const newItems = [...movedUnit.items];
       newItems[action.useItemIndex] = { ...item, uses: item.uses - 1 };
       if (newItems[action.useItemIndex].uses <= 0) newItems.splice(action.useItemIndex, 1);
-      newUnits.set(unit.id, { ...movedUnit, currentHp: movedUnit.currentHp + healAmount, items: newItems, hasActed: true });
+      newUnits.set(unit.id, {
+        ...movedUnit,
+        currentHp: movedUnit.currentHp + healAmount,
+        items: newItems,
+        hasActed: true,
+      });
     } else {
       newUnits.set(unit.id, { ...movedUnit, hasActed: true });
     }
@@ -209,7 +224,10 @@ function finalizeEnemyAction(
     const defenderTerrain = newTiles[target.position.y][target.position.x].terrain;
     const distance = getManhattanDistance(destination, target.position);
 
-    if (distance < movedUnit.equippedWeapon.minRange || distance > movedUnit.equippedWeapon.maxRange) {
+    if (
+      distance < movedUnit.equippedWeapon.minRange ||
+      distance > movedUnit.equippedWeapon.maxRange
+    ) {
       newUnits.set(unit.id, { ...movedUnit, hasActed: true });
       set({
         units: newUnits,
@@ -226,8 +244,18 @@ function finalizeEnemyAction(
     const attackerNearRen = combatUnit.id !== 'ren' && isNearRen(destination, newUnits);
     const defenderNearRen = target.id !== 'ren' && isNearRen(target.position, newUnits);
     const { weather: w, supportPairs } = get();
-    const defenderSupport = target.faction === 'player' ? getTotalSupportBonuses(target.id, target.position, newUnits, supportPairs) : undefined;
-    const forecast = calculateCombatForecast(combatUnit, target, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen, weather: w, defenderSupport });
+    const defenderSupport =
+      target.faction === 'player'
+        ? getTotalSupportBonuses(target.id, target.position, newUnits, supportPairs)
+        : undefined;
+    const forecast = calculateCombatForecast(
+      combatUnit,
+      target,
+      attackerTerrain,
+      defenderTerrain,
+      distance,
+      { attackerNearRen, defenderNearRen, weather: w, defenderSupport },
+    );
     const { cycleAuthorityUsed, vanishUsed } = get();
     const combinedUsedSkills = new Set([...cycleAuthorityUsed, ...vanishUsed]);
     const result = resolveCombat(forecast, rng, combatUnit, target, combinedUsedSkills);
@@ -258,7 +286,15 @@ export function finishEnemyCombat(get: Get, set: Set) {
 
   const { chapterData } = get();
   const difficulty = useCampaignStore.getState().difficulty;
-  const resolution = applyCombatResult(units, gameMap, selectedUnitId, attackTargetId, combatResult, chapterData, difficulty);
+  const resolution = applyCombatResult(
+    units,
+    gameMap,
+    selectedUnitId,
+    attackTargetId,
+    combatResult,
+    chapterData,
+    difficulty,
+  );
 
   if (resolution.lordDied || resolution.victoryResult) {
     set({
@@ -299,7 +335,11 @@ export function finishEnemyCombat(get: Get, set: Set) {
 
   // Fire events after enemy combat (e.g., unit_killed)
   checkAndFireEvents(get, set, {
-    lastKilledUnitId: combatResult.defenderDied ? attackTargetId : (combatResult.attackerDied ? selectedUnitId : undefined),
+    lastKilledUnitId: combatResult.defenderDied
+      ? attackTargetId
+      : combatResult.attackerDied
+        ? selectedUnitId
+        : undefined,
   });
 }
 
@@ -324,7 +364,10 @@ export function endEnemyTurn(get: Get, set: Set) {
   // Check if there are ally units — if so, start ally phase
   let hasAlly = false;
   for (const u of newUnits.values()) {
-    if (u.faction === 'ally') { hasAlly = true; break; }
+    if (u.faction === 'ally') {
+      hasAlly = true;
+      break;
+    }
   }
 
   if (hasAlly) {

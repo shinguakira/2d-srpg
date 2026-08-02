@@ -24,8 +24,18 @@ export type UIState = {
 export type UIActions = {
   panCamera: (dx: number, dy: number) => void;
   setCameraOffset: (offset: CameraOffset) => void;
-  clampCamera: (mapWidth: number, mapHeight: number, viewportWidth: number, viewportHeight: number) => void;
-  computeTileSize: (mapWidth: number, mapHeight: number, viewportWidth: number, viewportHeight: number) => void;
+  clampCamera: (
+    mapWidth: number,
+    mapHeight: number,
+    viewportWidth: number,
+    viewportHeight: number,
+  ) => void;
+  computeTileSize: (
+    mapWidth: number,
+    mapHeight: number,
+    viewportWidth: number,
+    viewportHeight: number,
+  ) => void;
   setCursor: (pos: CursorPosition) => void;
   moveCursor: (dx: number, dy: number, mapWidth: number, mapHeight: number) => void;
   setKeyboardMode: (enabled: boolean) => void;
@@ -37,9 +47,12 @@ export type UIActions = {
 /** Get the duration multiplier for the current animation speed */
 export function getSpeedMultiplier(speed: AnimationSpeed): number {
   switch (speed) {
-    case '1x': return 1;
-    case '2x': return 0.5;
-    case 'skip': return 0;
+    case '1x':
+      return 1;
+    case '2x':
+      return 0.5;
+    case 'skip':
+      return 0;
   }
 }
 
@@ -50,7 +63,10 @@ export function getScaledDuration(baseDuration: number, speed: AnimationSpeed): 
 }
 
 // Load persisted animation speed
-const savedSpeed = (typeof localStorage !== 'undefined' && localStorage.getItem('animationSpeed') as AnimationSpeed) || '1x';
+const savedSpeed =
+  (typeof localStorage !== 'undefined' &&
+    (localStorage.getItem('animationSpeed') as AnimationSpeed)) ||
+  '1x';
 
 export const useUIStore = create<UIState & UIActions>((set, get) => ({
   cameraOffset: { x: 0, y: 0 },

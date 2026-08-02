@@ -40,7 +40,7 @@ export const CHAPTER_5: ChapterData = {
   mapHeight: 16,
   terrain,
   playerUnits: [
-    { unitId: 'ren',  position: { x: 6, y: 14 } },
+    { unitId: 'ren', position: { x: 6, y: 14 } },
     { unitId: 'kael', position: { x: 7, y: 14 } },
     { unitId: 'senna', position: { x: 6, y: 15 } },
     { unitId: 'bram', position: { x: 5, y: 13 } },
@@ -51,17 +51,17 @@ export const CHAPTER_5: ChapterData = {
     { unitId: 'yuel', position: { x: 4, y: 14 } },
   ],
   enemyUnits: [
-    { unitId: 'ch5_boss',      position: { x: 7,  y: 1 } },  // Aldric on throne
-    { unitId: 'ch5_knight_1',  position: { x: 6,  y: 2 } },  // escort left
-    { unitId: 'ch5_knight_2',  position: { x: 8,  y: 2 } },  // escort right
-    { unitId: 'ch5_soldier_1', position: { x: 5,  y: 4 } },  // gate left
-    { unitId: 'ch5_soldier_2', position: { x: 9,  y: 4 } },  // gate right
-    { unitId: 'ch5_archer_1',  position: { x: 3,  y: 3 } },  // wall archer left
-    { unitId: 'ch5_archer_2',  position: { x: 11, y: 3 } },  // wall archer right
-    { unitId: 'ch5_cavalier_1', position: { x: 2, y: 7 } },  // flank cav left
-    { unitId: 'ch5_cavalier_2', position: { x: 10, y: 7 } },  // flank cav right
-    { unitId: 'ch5_mage_1',    position: { x: 7,  y: 5 } },  // courtyard mage
-    { unitId: 'ch5_brigand_1', position: { x: 4,  y: 10 } }, // approach brigand left
+    { unitId: 'ch5_boss', position: { x: 7, y: 1 } }, // Aldric on throne
+    { unitId: 'ch5_knight_1', position: { x: 6, y: 2 } }, // escort left
+    { unitId: 'ch5_knight_2', position: { x: 8, y: 2 } }, // escort right
+    { unitId: 'ch5_soldier_1', position: { x: 5, y: 4 } }, // gate left
+    { unitId: 'ch5_soldier_2', position: { x: 9, y: 4 } }, // gate right
+    { unitId: 'ch5_archer_1', position: { x: 3, y: 3 } }, // wall archer left
+    { unitId: 'ch5_archer_2', position: { x: 11, y: 3 } }, // wall archer right
+    { unitId: 'ch5_cavalier_1', position: { x: 2, y: 7 } }, // flank cav left
+    { unitId: 'ch5_cavalier_2', position: { x: 10, y: 7 } }, // flank cav right
+    { unitId: 'ch5_mage_1', position: { x: 7, y: 5 } }, // courtyard mage
+    { unitId: 'ch5_brigand_1', position: { x: 4, y: 10 } }, // approach brigand left
     { unitId: 'ch5_brigand_2', position: { x: 10, y: 10 } }, // approach brigand right
   ],
   objective: {
@@ -75,29 +75,70 @@ export const CHAPTER_5: ChapterData = {
   recruitableUnits: ['yuel'],
   prologue: {
     lines: [
-      { speaker: 'Narrator', text: 'Dawn. The party camps on a ridge overlooking the highland fortress. Clouds hang unnaturally low. A pegasus knight descends, lance drawn.' },
-      { speaker: 'Yuel', text: "DON'T go up there. Please. Something is wrong with the sky.", speakerFaction: 'player' },
+      {
+        speaker: 'Narrator',
+        text: 'Dawn. The party camps on a ridge overlooking the highland fortress. Clouds hang unnaturally low. A pegasus knight descends, lance drawn.',
+      },
+      {
+        speaker: 'Yuel',
+        text: "DON'T go up there. Please. Something is wrong with the sky.",
+        speakerFaction: 'player',
+      },
       { speaker: 'Ren', text: 'Wrong how?', speakerFaction: 'player' },
-      { speaker: 'Yuel', text: "The clouds were loading in SQUARES. Like tiles. I watched a patch of sky just... not render. For three seconds. Then it came back wrong.", speakerFaction: 'player' },
+      {
+        speaker: 'Yuel',
+        text: 'The clouds were loading in SQUARES. Like tiles. I watched a patch of sky just... not render. For three seconds. Then it came back wrong.',
+        speakerFaction: 'player',
+      },
       { speaker: 'Kael', text: "Clouds don't load. They're clouds.", speakerFaction: 'player' },
       { speaker: 'Yuel', text: 'I know what I saw.', speakerFaction: 'player' },
       { speaker: 'Ren', text: '...I believe you.', speakerFaction: 'player' },
-      { speaker: 'Senna', text: "The fortress is well-defended. General Aldric has knights on every approach. If we're doing this, we need the aerial route. Which means we need her.", speakerFaction: 'player' },
+      {
+        speaker: 'Senna',
+        text: "The fortress is well-defended. General Aldric has knights on every approach. If we're doing this, we need the aerial route. Which means we need her.",
+        speakerFaction: 'player',
+      },
     ],
   },
   epilogue: {
     lines: [
-      { speaker: 'Narrator', text: 'The fortress courtyard, after battle. The Data Void has closed, but the tiles it occupied are still wrong.' },
-      { speaker: 'Senna', text: "I need to say something. I've been tracking the combat seed since Chapter 1. Every random number, every hit roll \u2014 I had the pattern mapped. All of it.", speakerFaction: 'player' },
+      {
+        speaker: 'Narrator',
+        text: 'The fortress courtyard, after battle. The Data Void has closed, but the tiles it occupied are still wrong.',
+      },
+      {
+        speaker: 'Senna',
+        text: "I need to say something. I've been tracking the combat seed since Chapter 1. Every random number, every hit roll \u2014 I had the pattern mapped. All of it.",
+        speakerFaction: 'player',
+      },
       { speaker: 'Ren', text: 'Had?', speakerFaction: 'player' },
-      { speaker: 'Senna', text: 'It changed. Mid-battle. Something reached into the system and REWROTE the seed. My entire model is compromised.', speakerFaction: 'player' },
+      {
+        speaker: 'Senna',
+        text: 'It changed. Mid-battle. Something reached into the system and REWROTE the seed. My entire model is compromised.',
+        speakerFaction: 'player',
+      },
       { speaker: 'Yuel', text: 'I told you. The sky was wrong.', speakerFaction: 'player' },
-      { speaker: 'Coda', text: 'And the ground. And the walls. And Senna\'s math.', speakerFaction: 'player' },
+      {
+        speaker: 'Coda',
+        text: "And the ground. And the walls. And Senna's math.",
+        speakerFaction: 'player',
+      },
       { speaker: 'Lira', text: 'So what does this mean? For us?', speakerFaction: 'player' },
-      { speaker: 'Ren', text: "It means the script isn't safe anymore. Whatever's running this world... it's editing in real time.", speakerFaction: 'player' },
-      { speaker: 'Kael', text: "Then we adapt. We've fought bandits, pirates, and a general. We can handle a few broken tiles.", speakerFaction: 'player' },
+      {
+        speaker: 'Ren',
+        text: "It means the script isn't safe anymore. Whatever's running this world... it's editing in real time.",
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Kael',
+        text: "Then we adapt. We've fought bandits, pirates, and a general. We can handle a few broken tiles.",
+        speakerFaction: 'player',
+      },
       { speaker: 'Ren', text: '...Yeah. A few broken tiles.', speakerFaction: 'player' },
-      { speaker: 'Narrator', text: 'As Arc 1 draws to a close, the company gazes at a sky that no longer obeys its own laws.' },
+      {
+        speaker: 'Narrator',
+        text: 'As Arc 1 draws to a close, the company gazes at a sky that no longer obeys its own laws.',
+      },
     ],
   },
   villages: [
@@ -106,7 +147,8 @@ export const CHAPTER_5: ChapterData = {
       reward: {
         type: 'weapon',
         weaponId: 'steel_sword',
-        dialogue: 'This blade was forged for mountain warfare. Take it — you will need it up there.',
+        dialogue:
+          'This blade was forged for mountain warfare. Take it — you will need it up there.',
         speaker: 'Mountain Smith',
       },
     },
@@ -133,9 +175,7 @@ export const CHAPTER_5: ChapterData = {
     },
     {
       turn: 8,
-      units: [
-        { unitId: 'ch5_reinforce_3', position: { x: 0, y: 10 } },
-      ],
+      units: [{ unitId: 'ch5_reinforce_3', position: { x: 0, y: 10 } }],
       message: 'An enemy cavalier charges from the west!',
     },
   ],
@@ -149,19 +189,31 @@ export const CHAPTER_5: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Bram', text: 'Did that TREE just turn into a RIVER?', speakerFaction: 'player' },
-              { speaker: 'Senna', text: 'That\'s impossible. Terrain values are fixed. I mapped this entire grid.', speakerFaction: 'player' },
+              {
+                speaker: 'Bram',
+                text: 'Did that TREE just turn into a RIVER?',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Senna',
+                text: "That's impossible. Terrain values are fixed. I mapped this entire grid.",
+                speakerFaction: 'player',
+              },
               { speaker: 'Ren', text: 'Senna. Your map.', speakerFaction: 'player' },
-              { speaker: 'Senna', text: 'It\'s... wrong now. My movement cost calculations are all wrong. The terrain changed AFTER I analyzed it.', speakerFaction: 'player' },
+              {
+                speaker: 'Senna',
+                text: "It's... wrong now. My movement cost calculations are all wrong. The terrain changed AFTER I analyzed it.",
+                speakerFaction: 'player',
+              },
             ],
           },
         },
-        { type: 'change_terrain', position: { x: 4, y: 8 }, terrain: 'plain' },     // water → plain
-        { type: 'change_terrain', position: { x: 5, y: 6 }, terrain: 'mountain' },   // plain → mountain
-        { type: 'change_terrain', position: { x: 9, y: 6 }, terrain: 'water' },      // plain → water
-        { type: 'change_terrain', position: { x: 3, y: 9 }, terrain: 'forest' },     // plain → forest
-        { type: 'change_terrain', position: { x: 10, y: 9 }, terrain: 'mountain' },  // plain → mountain
-        { type: 'change_terrain', position: { x: 7, y: 8 }, terrain: 'forest' },     // plain → forest
+        { type: 'change_terrain', position: { x: 4, y: 8 }, terrain: 'plain' }, // water → plain
+        { type: 'change_terrain', position: { x: 5, y: 6 }, terrain: 'mountain' }, // plain → mountain
+        { type: 'change_terrain', position: { x: 9, y: 6 }, terrain: 'water' }, // plain → water
+        { type: 'change_terrain', position: { x: 3, y: 9 }, terrain: 'forest' }, // plain → forest
+        { type: 'change_terrain', position: { x: 10, y: 9 }, terrain: 'mountain' }, // plain → mountain
+        { type: 'change_terrain', position: { x: 7, y: 8 }, terrain: 'forest' }, // plain → forest
       ],
       once: true,
     },
@@ -174,10 +226,26 @@ export const CHAPTER_5: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Yuel', text: 'THAT. That\'s what I saw in the sky. The nothing.', speakerFaction: 'player' },
-              { speaker: 'Coda', text: 'That\'s not "nothing." That\'s... unloaded. Like a texture that got deleted.', speakerFaction: 'player' },
-              { speaker: 'Senna', text: 'I can\'t analyze what isn\'t there. My formulas need INPUT. That void has no data.', speakerFaction: 'player' },
-              { speaker: 'Ren', text: 'Everyone stay away from it. Push toward Aldric.', speakerFaction: 'player' },
+              {
+                speaker: 'Yuel',
+                text: "THAT. That's what I saw in the sky. The nothing.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Coda',
+                text: 'That\'s not "nothing." That\'s... unloaded. Like a texture that got deleted.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Senna',
+                text: "I can't analyze what isn't there. My formulas need INPUT. That void has no data.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Ren',
+                text: 'Everyone stay away from it. Push toward Aldric.',
+                speakerFaction: 'player',
+              },
             ],
           },
         },
@@ -203,10 +271,25 @@ export const CHAPTER_5: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Narrator', text: 'For a brief moment, the combat forecast display flickers — showing impossible numbers before snapping back to normal.' },
-              { speaker: 'Senna', text: 'The seed changed. Mid-battle. That doesn\'t happen. The seed is set at the start and it NEVER changes.', speakerFaction: 'player' },
-              { speaker: 'Bram', text: 'Can we worry about math AFTER the guys with lances stop charging us?', speakerFaction: 'player' },
-              { speaker: 'Senna', text: 'You don\'t understand. If the seed can change, NOTHING I\'ve calculated this entire campaign is reliable.', speakerFaction: 'player' },
+              {
+                speaker: 'Narrator',
+                text: 'For a brief moment, the combat forecast display flickers — showing impossible numbers before snapping back to normal.',
+              },
+              {
+                speaker: 'Senna',
+                text: "The seed changed. Mid-battle. That doesn't happen. The seed is set at the start and it NEVER changes.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Bram',
+                text: 'Can we worry about math AFTER the guys with lances stop charging us?',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Senna',
+                text: "You don't understand. If the seed can change, NOTHING I've calculated this entire campaign is reliable.",
+                speakerFaction: 'player',
+              },
             ],
           },
         },
@@ -222,9 +305,21 @@ export const CHAPTER_5: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Aldric', text: 'You\'ve fought bandits and pirates. Now face a real army.', speakerFaction: 'enemy' },
-              { speaker: 'Ren', text: 'Your walls just REWROTE themselves. Half your courtyard is a void. How are you not concerned?', speakerFaction: 'player' },
-              { speaker: 'Aldric', text: 'I don\'t answer to anomalies. I answer to the Empire.', speakerFaction: 'enemy' },
+              {
+                speaker: 'Aldric',
+                text: "You've fought bandits and pirates. Now face a real army.",
+                speakerFaction: 'enemy',
+              },
+              {
+                speaker: 'Ren',
+                text: 'Your walls just REWROTE themselves. Half your courtyard is a void. How are you not concerned?',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Aldric',
+                text: "I don't answer to anomalies. I answer to the Empire.",
+                speakerFaction: 'enemy',
+              },
             ],
           },
         },
@@ -240,9 +335,21 @@ export const CHAPTER_5: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Aldric', text: 'A real army... and you still broke through.', speakerFaction: 'enemy' },
-              { speaker: 'Ren', text: "It wasn't us. Your fortress was falling apart before we got here.", speakerFaction: 'player' },
-              { speaker: 'Aldric', text: '...I noticed. I chose not to see it. Easier that way.', speakerFaction: 'enemy' },
+              {
+                speaker: 'Aldric',
+                text: 'A real army... and you still broke through.',
+                speakerFaction: 'enemy',
+              },
+              {
+                speaker: 'Ren',
+                text: "It wasn't us. Your fortress was falling apart before we got here.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Aldric',
+                text: '...I noticed. I chose not to see it. Easier that way.',
+                speakerFaction: 'enemy',
+              },
             ],
           },
         },
@@ -255,10 +362,22 @@ export const CHAPTER_5: ChapterData = {
       unitA: 'ren',
       unitB: 'yuel',
       lines: [
-        { speaker: 'Yuel', text: 'Princess, may I speak freely? From the sky, the battlefield looks... different. Like a pattern.', speakerFaction: 'player' },
+        {
+          speaker: 'Yuel',
+          text: 'Princess, may I speak freely? From the sky, the battlefield looks... different. Like a pattern.',
+          speakerFaction: 'player',
+        },
         { speaker: 'Ren', text: 'A pattern? What do you mean?', speakerFaction: 'player' },
-        { speaker: 'Yuel', text: 'The enemies, the terrain, even our movements — they fit together too neatly. As if someone arranged them.', speakerFaction: 'player' },
-        { speaker: 'Ren', text: 'You see it too. I was beginning to think I was the only one.', speakerFaction: 'player' },
+        {
+          speaker: 'Yuel',
+          text: 'The enemies, the terrain, even our movements — they fit together too neatly. As if someone arranged them.',
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Ren',
+          text: 'You see it too. I was beginning to think I was the only one.',
+          speakerFaction: 'player',
+        },
       ],
       reward: { type: 'stat', unitId: 'yuel', stat: 'spd', amount: 1 },
     },
@@ -266,10 +385,26 @@ export const CHAPTER_5: ChapterData = {
       unitA: 'kael',
       unitB: 'bram',
       lines: [
-        { speaker: 'Kael', text: 'Bram, your axework is... unconventional. But effective.', speakerFaction: 'player' },
-        { speaker: 'Bram', text: 'Hah! No one ever taught me proper form. I just hit things until they stop moving.', speakerFaction: 'player' },
-        { speaker: 'Kael', text: 'Here — widen your stance when you swing overhead. It will add power without sacrificing balance.', speakerFaction: 'player' },
-        { speaker: 'Bram', text: 'A knight teaching a brawler? I like this army.', speakerFaction: 'player' },
+        {
+          speaker: 'Kael',
+          text: 'Bram, your axework is... unconventional. But effective.',
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Bram',
+          text: 'Hah! No one ever taught me proper form. I just hit things until they stop moving.',
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Kael',
+          text: 'Here — widen your stance when you swing overhead. It will add power without sacrificing balance.',
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Bram',
+          text: 'A knight teaching a brawler? I like this army.',
+          speakerFaction: 'player',
+        },
       ],
       reward: { type: 'stat', unitId: 'bram', stat: 'skl', amount: 1 },
     },

@@ -3,8 +3,14 @@ import { useGameStore } from '../../stores/gameStore';
 import { BattleSprite } from './BattleSprite';
 
 const STAT_LABELS: Record<string, string> = {
-  hp: 'HP', str: 'STR', mag: 'MAG', def: 'DEF',
-  res: 'RES', spd: 'SPD', skl: 'SKL', lck: 'LCK',
+  hp: 'HP',
+  str: 'STR',
+  mag: 'MAG',
+  def: 'DEF',
+  res: 'RES',
+  spd: 'SPD',
+  skl: 'SKL',
+  lck: 'LCK',
 };
 
 const STAT_ORDER = ['hp', 'str', 'mag', 'skl', 'spd', 'def', 'res', 'lck'];
@@ -61,9 +67,7 @@ export function LevelUpPopup() {
   return (
     <div className="level-up-popup" data-testid="level-up-popup" onClick={handleClick}>
       <div className="level-up-popup__panel">
-        <div className="level-up-popup__header">
-          ★ LEVEL UP! ★
-        </div>
+        <div className="level-up-popup__header">★ LEVEL UP! ★</div>
 
         <div className="level-up-popup__identity">
           <div className="level-up-popup__sprite">

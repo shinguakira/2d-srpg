@@ -34,7 +34,10 @@ export const ITEMS: Record<string, ConsumableItem> = {
     type: 'consumable',
     uses: 1,
     maxUses: 1,
-    effect: { kind: 'promote', eligibleClasses: ['mage', 'cleric', 'shaman', 'monk', 'troubadour'] },
+    effect: {
+      kind: 'promote',
+      eligibleClasses: ['mage', 'cleric', 'shaman', 'monk', 'troubadour'],
+    },
   },
   elysian_whip: {
     id: 'elysian_whip',

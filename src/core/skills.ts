@@ -35,17 +35,24 @@ export function checkSkillActivation(unit: Unit, skillId: string, rng: RNG): boo
 
   const act = skill.activation;
   switch (act.type) {
-    case 'passive': return true;
-    case 'skl_pct': return rng.roll(unit.stats.skl);
-    case 'spd_pct': return rng.roll(unit.stats.spd);
-    case 'lck_pct': return rng.roll(unit.stats.lck);
-    case 'skl_half_pct': return rng.roll(Math.floor(unit.stats.skl / 2));
-    case 'skl_quarter_pct': return rng.roll(Math.floor(unit.stats.skl / 4));
+    case 'passive':
+      return true;
+    case 'skl_pct':
+      return rng.roll(unit.stats.skl);
+    case 'spd_pct':
+      return rng.roll(unit.stats.spd);
+    case 'lck_pct':
+      return rng.roll(unit.stats.lck);
+    case 'skl_half_pct':
+      return rng.roll(Math.floor(unit.stats.skl / 2));
+    case 'skl_quarter_pct':
+      return rng.roll(Math.floor(unit.stats.skl / 4));
     case 'hp_threshold': {
       const hpPct = (unit.currentHp / unit.stats.hp) * 100;
       return hpPct <= act.threshold;
     }
-    default: return false;
+    default:
+      return false;
   }
 }
 
@@ -105,7 +112,9 @@ export function resolvePerHitSkills(
 
   // Bloodlust (Aether): Sol+Luna combined at SKL%
   if (hasSkill(attacker, 'bloodlust') && rng.roll(attacker.stats.skl)) {
-    const isMagic = ['fire', 'thunder', 'wind', 'dark', 'light'].includes(attacker.equippedWeapon.type);
+    const isMagic = ['fire', 'thunder', 'wind', 'dark', 'light'].includes(
+      attacker.equippedWeapon.type,
+    );
     const defStat = isMagic ? defender.stats.res : defender.stats.def;
     const lunaBonus = Math.floor(defStat / 2);
     const modDmg = baseDamage + lunaBonus;
@@ -166,7 +175,9 @@ export function resolvePerHitSkills(
   if (hasSkill(attacker, 'luna') && rng.roll(attacker.stats.skl)) {
     // Recalculate damage with halved defense
     // We approximate: damage increases by half the defender's relevant def stat
-    const isMagic = ['fire', 'thunder', 'wind', 'dark', 'light'].includes(attacker.equippedWeapon.type);
+    const isMagic = ['fire', 'thunder', 'wind', 'dark', 'light'].includes(
+      attacker.equippedWeapon.type,
+    );
     const defStat = isMagic ? defender.stats.res : defender.stats.def;
     const lunaBonus = Math.floor(defStat / 2);
     return {
@@ -230,7 +241,11 @@ export function resolveDefenseSkills(
   }
 
   // Cycle Authority: negate one lethal hit per chapter (passive, no RNG — once per chapter)
-  if (damage >= defender.currentHp && hasSkill(defender, 'cycle_authority') && !usedSkills?.has(defender.id + ':cycle_authority')) {
+  if (
+    damage >= defender.currentHp &&
+    hasSkill(defender, 'cycle_authority') &&
+    !usedSkills?.has(defender.id + ':cycle_authority')
+  ) {
     return {
       reducedDamage: defender.currentHp - 1,
       miracleSaved: true,
@@ -239,7 +254,11 @@ export function resolveDefenseSkills(
   }
 
   // Miracle: survive lethal hit at 1 HP
-  if (damage >= defender.currentHp && hasSkill(defender, 'miracle') && rng.roll(defender.stats.lck)) {
+  if (
+    damage >= defender.currentHp &&
+    hasSkill(defender, 'miracle') &&
+    rng.roll(defender.stats.lck)
+  ) {
     return {
       reducedDamage: defender.currentHp - 1,
       miracleSaved: true,

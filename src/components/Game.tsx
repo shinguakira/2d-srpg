@@ -76,26 +76,29 @@ export function Game() {
   useMovementAnimation();
 
   // Right-click: cancel action, open unit detail, or open system menu during idle
-  const handleContextMenu = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    if (playerAction !== 'idle') {
-      cancelAction();
-      return;
-    }
+  const handleContextMenu = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      if (playerAction !== 'idle') {
+        cancelAction();
+        return;
+      }
 
-    // Idle: resolve tile from mouse position
-    const { tileSize, cameraOffset: camOff, setDetailUnitId } = useUIStore.getState();
-    const gameRect = e.currentTarget.getBoundingClientRect();
-    const tileX = Math.floor((e.clientX - gameRect.left - camOff.x) / tileSize);
-    const tileY = Math.floor((e.clientY - gameRect.top - camOff.y) / tileSize);
+      // Idle: resolve tile from mouse position
+      const { tileSize, cameraOffset: camOff, setDetailUnitId } = useUIStore.getState();
+      const gameRect = e.currentTarget.getBoundingClientRect();
+      const tileX = Math.floor((e.clientX - gameRect.left - camOff.x) / tileSize);
+      const tileY = Math.floor((e.clientY - gameRect.top - camOff.y) / tileSize);
 
-    const unitAtTile = useGameStore.getState().getUnitAt({ x: tileX, y: tileY });
-    if (unitAtTile) {
-      setDetailUnitId(unitAtTile.id);
-    } else {
-      useGameStore.getState().openSystemMenu();
-    }
-  }, [playerAction, cancelAction]);
+      const unitAtTile = useGameStore.getState().getUnitAt({ x: tileX, y: tileY });
+      if (unitAtTile) {
+        setDetailUnitId(unitAtTile.id);
+      } else {
+        useGameStore.getState().openSystemMenu();
+      }
+    },
+    [playerAction, cancelAction],
+  );
 
   return (
     <div
@@ -104,11 +107,7 @@ export function Game() {
       onMouseLeave={() => hoverTile(null)}
       onContextMenu={handleContextMenu}
     >
-      <div
-        className="game__viewport"
-        data-testid="viewport"
-        ref={viewportRef}
-      >
+      <div className="game__viewport" data-testid="viewport" ref={viewportRef}>
         <div
           className="game__camera"
           style={{
@@ -187,27 +186,37 @@ function GameOverOverlay() {
   })();
 
   // Victory: varies by objective type. Defeat: no player units remaining.
-  const victory = escapeVictory || (hasPlayer && (
-    !hasEnemy || // rout win or all enemies killed
-    (chapterData?.objective.type === 'seize' && (() => {
-      if (!chapterData.seizePosition) return false;
-      for (const u of units.values()) {
-        if (u.isLord && u.position.x === chapterData.seizePosition.x && u.position.y === chapterData.seizePosition.y) {
-          return true;
-        }
-      }
-      return false;
-    })()) ||
-    (chapterData?.objective.type === 'boss_kill' && bossDefeated) ||
-    (chapterData?.objective.type === 'survive' && !!chapterData.objective.turns && currentTurn > chapterData.objective.turns) ||
-    (chapterData?.objective.type === 'protect' && bossDefeated)
-  ));
+  const victory =
+    escapeVictory ||
+    (hasPlayer &&
+      (!hasEnemy || // rout win or all enemies killed
+        (chapterData?.objective.type === 'seize' &&
+          (() => {
+            if (!chapterData.seizePosition) return false;
+            for (const u of units.values()) {
+              if (
+                u.isLord &&
+                u.position.x === chapterData.seizePosition.x &&
+                u.position.y === chapterData.seizePosition.y
+              ) {
+                return true;
+              }
+            }
+            return false;
+          })()) ||
+        (chapterData?.objective.type === 'boss_kill' && bossDefeated) ||
+        (chapterData?.objective.type === 'survive' &&
+          !!chapterData.objective.turns &&
+          currentTurn > chapterData.objective.turns) ||
+        (chapterData?.objective.type === 'protect' && bossDefeated)));
 
   const handleVictoryContinue = useCallback(() => {
     // Bridge battle event flags to campaign flags (e.g., kael_dead from ch8)
     const eventFlags = useGameStore.getState().eventFlags;
     if (eventFlags.get('kael_dead') === 'true') {
-      useCampaignStore.setState((s) => ({ campaignFlags: { ...s.campaignFlags, kael_dead: true } }));
+      useCampaignStore.setState((s) => ({
+        campaignFlags: { ...s.campaignFlags, kael_dead: true },
+      }));
     }
 
     const progress: Record<string, UnitProgress> = {};
@@ -234,22 +243,29 @@ function GameOverOverlay() {
       data-testid={victory ? 'victory-screen' : 'defeat-screen'}
     >
       <div className="game-over__panel">
-        <div className="game-over__title">
-          {victory ? 'Victory!' : 'Defeat'}
-        </div>
+        <div className="game-over__title">{victory ? 'Victory!' : 'Defeat'}</div>
         <div className="game-over__subtitle">
           {victory
-            ? (chapterData?.objective.type === 'seize' ? 'The throne has been seized!'
-              : chapterData?.objective.type === 'escape' ? 'Your army has escaped safely!'
-              : chapterData?.objective.type === 'boss_kill' ? 'The commander has been defeated!'
-              : chapterData?.objective.type === 'survive' ? 'You survived the onslaught!'
-              : chapterData?.objective.type === 'protect' ? 'The village is safe!'
-              : 'All enemies have been defeated.')
+            ? chapterData?.objective.type === 'seize'
+              ? 'The throne has been seized!'
+              : chapterData?.objective.type === 'escape'
+                ? 'Your army has escaped safely!'
+                : chapterData?.objective.type === 'boss_kill'
+                  ? 'The commander has been defeated!'
+                  : chapterData?.objective.type === 'survive'
+                    ? 'You survived the onslaught!'
+                    : chapterData?.objective.type === 'protect'
+                      ? 'The village is safe!'
+                      : 'All enemies have been defeated.'
             : 'Your army has fallen.'}
         </div>
         <div className="game-over__actions">
           {victory ? (
-            <button className="game-over__btn" data-testid="victory-continue" onClick={handleVictoryContinue}>
+            <button
+              className="game-over__btn"
+              data-testid="victory-continue"
+              onClick={handleVictoryContinue}
+            >
               Continue
             </button>
           ) : (

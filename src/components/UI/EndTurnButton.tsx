@@ -19,11 +19,7 @@ export function EndTurnButton() {
       >
         {isAutoBattle ? 'Auto...' : 'Auto Battle'}
       </button>
-      <button
-        className="end-turn-btn"
-        data-testid="end-turn-button"
-        onClick={endPlayerTurn}
-      >
+      <button className="end-turn-btn" data-testid="end-turn-button" onClick={endPlayerTurn}>
         End Turn
       </button>
     </div>

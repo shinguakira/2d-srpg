@@ -6,29 +6,57 @@ function makeMap(terrain: TerrainType[][]): GameMap {
   const height = terrain.length;
   const width = terrain[0].length;
   const tiles: Tile[][] = terrain.map((row, y) =>
-    row.map((t, x) => ({ position: { x, y }, terrain: t, occupantId: null }))
+    row.map((t, x) => ({ position: { x, y }, terrain: t, occupantId: null })),
   );
   return { width, height, tiles };
 }
 
 function makeWeapon(overrides: Partial<Weapon> = {}): Weapon {
   return {
-    id: 'iron_sword', name: 'Iron Sword', type: 'sword',
-    might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1,
+    id: 'iron_sword',
+    name: 'Iron Sword',
+    type: 'sword',
+    might: 5,
+    hit: 90,
+    crit: 0,
+    weight: 5,
+    minRange: 1,
+    maxRange: 1,
     ...overrides,
   };
 }
 
 function makeUnit(id: string, pos: Position, overrides: Partial<Unit> = {}): Unit {
   return {
-    id, name: id, classId: 'lord', faction: 'player',
+    id,
+    name: id,
+    classId: 'lord',
+    faction: 'player',
     position: pos,
-    stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
-    currentHp: 20, level: 1, exp: 0,
+    stats: {
+      hp: 20,
+      str: 8,
+      mag: 0,
+      def: 5,
+      res: 0,
+      spd: 7,
+      skl: 5,
+      lck: 3,
+      mov: 5,
+      cha: 0,
+      wil: 0,
+    },
+    currentHp: 20,
+    level: 1,
+    exp: 0,
     equippedWeapon: makeWeapon(),
     inventory: [makeWeapon()],
-    items: [], hasActed: false, facing: 'down' as const, sprite: '',
-    skills: [], learnedSkills: [],
+    items: [],
+    hasActed: false,
+    facing: 'down' as const,
+    sprite: '',
+    skills: [],
+    learnedSkills: [],
     metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
     ...overrides,
   };

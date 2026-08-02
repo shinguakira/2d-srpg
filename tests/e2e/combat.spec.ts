@@ -61,7 +61,9 @@ test.describe('Combat System', () => {
     // Wait for combat animation to complete
     await page.waitForTimeout(5000);
 
-    await expect(page.locator('[data-testid="combat-animation"]')).not.toBeVisible({ timeout: 10000 });
+    await expect(page.locator('[data-testid="combat-animation"]')).not.toBeVisible({
+      timeout: 10000,
+    });
 
     // Kael should still exist
     const kael = page.locator('[data-testid="unit-kael"]');

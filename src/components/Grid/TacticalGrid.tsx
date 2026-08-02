@@ -43,12 +43,13 @@ export function TacticalGrid() {
   if (gameMap.width === 0) return null;
 
   // Build lookup: posKey -> unit (skip hidden and carried units; in fog, hide non-visible enemies)
-  const unitsByPos = new Map<string, (typeof units extends Map<string, infer U> ? U : never)>();
+  const unitsByPos = new Map<string, typeof units extends Map<string, infer U> ? U : never>();
   for (const unit of units.values()) {
     if (unit.isHidden || unit.isCarried) continue;
     const key = posKey(unit.position);
     // In fog of war, hide enemy/neutral units not on visible tiles
-    if (fogOfWar && unit.faction !== 'player' && unit.faction !== 'ally' && !visibleTiles.has(key)) continue;
+    if (fogOfWar && unit.faction !== 'player' && unit.faction !== 'ally' && !visibleTiles.has(key))
+      continue;
     unitsByPos.set(key, unit);
   }
 

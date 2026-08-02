@@ -14,7 +14,17 @@ import {
 import type { Unit, Weapon } from '../../src/core/types';
 
 function makeWeapon(type: 'sword' | 'axe' | 'fire' = 'sword'): Weapon {
-  return { id: type, name: type, type, might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1 };
+  return {
+    id: type,
+    name: type,
+    type,
+    might: 5,
+    hit: 90,
+    crit: 0,
+    weight: 5,
+    minRange: 1,
+    maxRange: 1,
+  };
 }
 
 function makeUnit(overrides: Partial<Unit> = {}): Unit {
@@ -24,7 +34,19 @@ function makeUnit(overrides: Partial<Unit> = {}): Unit {
     classId: 'lord',
     faction: 'player',
     position: { x: 0, y: 0 },
-    stats: { hp: 30, str: 10, mag: 2, def: 8, res: 4, spd: 10, skl: 10, lck: 10, mov: 5, cha: 0, wil: 0 },
+    stats: {
+      hp: 30,
+      str: 10,
+      mag: 2,
+      def: 8,
+      res: 4,
+      spd: 10,
+      skl: 10,
+      lck: 10,
+      mov: 5,
+      cha: 0,
+      wil: 0,
+    },
     currentHp: 30,
     level: 1,
     exp: 0,
@@ -175,7 +197,21 @@ describe('resolvePerHitSkills', () => {
 
   it('Luna: halves DEF', () => {
     const unit = makeUnit({ skills: ['luna'] });
-    const defender = makeUnit({ stats: { hp: 30, str: 10, mag: 2, def: 10, res: 4, spd: 10, skl: 10, lck: 10, mov: 5, cha: 0, wil: 0 } });
+    const defender = makeUnit({
+      stats: {
+        hp: 30,
+        str: 10,
+        mag: 2,
+        def: 10,
+        res: 4,
+        spd: 10,
+        skl: 10,
+        lck: 10,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
+    });
     const result = resolvePerHitSkills(unit, defender, 8, alwaysRng);
     expect(result.skillId).toBe('luna');
     // Luna adds floor(def/2) = 5 to damage
@@ -339,7 +375,19 @@ describe('getRenewalHeal', () => {
   it('minimum heal is 1', () => {
     const unit = makeUnit({
       skills: ['renewal'],
-      stats: { hp: 5, str: 10, mag: 2, def: 8, res: 4, spd: 10, skl: 10, lck: 10, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 5,
+        str: 10,
+        mag: 2,
+        def: 8,
+        res: 4,
+        spd: 10,
+        skl: 10,
+        lck: 10,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
     });
     expect(getRenewalHeal(unit)).toBe(1); // floor(5 * 0.1) = 0, clamped to 1
   });

@@ -33,16 +33,21 @@ export function HealNotification() {
           minWidth: '240px',
         }}
       >
-        <div style={{ fontSize: '18px', color: '#fbbf24', marginBottom: '12px' }}>
-          Healed
-        </div>
+        <div style={{ fontSize: '18px', color: '#fbbf24', marginBottom: '12px' }}>Healed</div>
         <div style={{ fontSize: '14px', color: 'white', marginBottom: '8px' }}>
           {healResult.healerName} → {healResult.targetName}
         </div>
         <div style={{ fontSize: '16px', color: '#22c55e' }}>
           HP: {healResult.hpBefore} → {healResult.hpAfter}
         </div>
-        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', fontStyle: 'italic', marginTop: '12px' }}>
+        <div
+          style={{
+            fontSize: '12px',
+            color: 'rgba(255,255,255,0.4)',
+            fontStyle: 'italic',
+            marginTop: '12px',
+          }}
+        >
           Click to continue
         </div>
       </div>

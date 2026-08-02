@@ -1,20 +1,63 @@
 import { describe, it, expect } from 'vitest';
-import { matchesTrigger, evaluateEvents, resolveEffects, type EventContext } from '../../src/core/events';
+import {
+  matchesTrigger,
+  evaluateEvents,
+  resolveEffects,
+  type EventContext,
+} from '../../src/core/events';
 import type { ChapterEvent, Unit, Position } from '../../src/core/types';
 
-function makeUnit(id: string, faction: 'player' | 'enemy' = 'player', pos: Position = { x: 0, y: 0 }): Unit {
+function makeUnit(
+  id: string,
+  faction: 'player' | 'enemy' = 'player',
+  pos: Position = { x: 0, y: 0 },
+): Unit {
   return {
     id,
     name: id,
     classId: 'lord',
     faction,
     position: pos,
-    stats: { hp: 20, str: 5, mag: 0, def: 5, res: 0, spd: 5, skl: 5, lck: 5, mov: 5, cha: 0, wil: 0 },
+    stats: {
+      hp: 20,
+      str: 5,
+      mag: 0,
+      def: 5,
+      res: 0,
+      spd: 5,
+      skl: 5,
+      lck: 5,
+      mov: 5,
+      cha: 0,
+      wil: 0,
+    },
     currentHp: 20,
     level: 1,
     exp: 0,
-    equippedWeapon: { id: 'iron_sword', name: 'Iron Sword', type: 'sword', might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1 },
-    inventory: [{ id: 'iron_sword', name: 'Iron Sword', type: 'sword', might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1 }],
+    equippedWeapon: {
+      id: 'iron_sword',
+      name: 'Iron Sword',
+      type: 'sword',
+      might: 5,
+      hit: 90,
+      crit: 0,
+      weight: 5,
+      minRange: 1,
+      maxRange: 1,
+    },
+    inventory: [
+      {
+        id: 'iron_sword',
+        name: 'Iron Sword',
+        type: 'sword',
+        might: 5,
+        hit: 90,
+        crit: 0,
+        weight: 5,
+        minRange: 1,
+        maxRange: 1,
+      },
+    ],
     items: [],
     hasActed: false,
     skills: [],
@@ -41,15 +84,25 @@ function makeContext(overrides: Partial<EventContext> = {}): EventContext {
 describe('matchesTrigger', () => {
   it('matches turn_start trigger', () => {
     const trigger = { type: 'turn_start' as const, turn: 2 };
-    expect(matchesTrigger(trigger, makeContext({ justStartedPhase: 'player', currentTurn: 2 }))).toBe(true);
-    expect(matchesTrigger(trigger, makeContext({ justStartedPhase: 'player', currentTurn: 1 }))).toBe(false);
-    expect(matchesTrigger(trigger, makeContext({ justStartedPhase: 'enemy', currentTurn: 2 }))).toBe(false);
+    expect(
+      matchesTrigger(trigger, makeContext({ justStartedPhase: 'player', currentTurn: 2 })),
+    ).toBe(true);
+    expect(
+      matchesTrigger(trigger, makeContext({ justStartedPhase: 'player', currentTurn: 1 })),
+    ).toBe(false);
+    expect(
+      matchesTrigger(trigger, makeContext({ justStartedPhase: 'enemy', currentTurn: 2 })),
+    ).toBe(false);
   });
 
   it('matches turn_end trigger', () => {
     const trigger = { type: 'turn_end' as const, turn: 3 };
-    expect(matchesTrigger(trigger, makeContext({ justStartedPhase: 'enemy', currentTurn: 3 }))).toBe(true);
-    expect(matchesTrigger(trigger, makeContext({ justStartedPhase: 'player', currentTurn: 3 }))).toBe(false);
+    expect(
+      matchesTrigger(trigger, makeContext({ justStartedPhase: 'enemy', currentTurn: 3 })),
+    ).toBe(true);
+    expect(
+      matchesTrigger(trigger, makeContext({ justStartedPhase: 'player', currentTurn: 3 })),
+    ).toBe(false);
   });
 
   it('matches phase_start trigger', () => {
@@ -92,7 +145,10 @@ describe('matchesTrigger', () => {
   });
 
   it('matches custom trigger function', () => {
-    const trigger = { type: 'custom' as const, fn: (ctx: { currentTurn: number }) => ctx.currentTurn >= 3 };
+    const trigger = {
+      type: 'custom' as const,
+      fn: (ctx: { currentTurn: number }) => ctx.currentTurn >= 3,
+    };
     expect(matchesTrigger(trigger, makeContext({ currentTurn: 3 }))).toBe(true);
     expect(matchesTrigger(trigger, makeContext({ currentTurn: 2 }))).toBe(false);
     expect(matchesTrigger(trigger, makeContext({ currentTurn: 5 }))).toBe(true);
@@ -178,14 +234,22 @@ describe('resolveEffects', () => {
   });
 
   it('resolves change_terrain effect', () => {
-    const result = resolveEffects([{ type: 'change_terrain', position: { x: 3, y: 4 }, terrain: 'water' }]);
+    const result = resolveEffects([
+      { type: 'change_terrain', position: { x: 3, y: 4 }, terrain: 'water' },
+    ]);
     expect(result.terrainChanges).toEqual([{ position: { x: 3, y: 4 }, terrain: 'water' }]);
   });
 
   it('resolves spawn_units effect', () => {
     const result = resolveEffects([
-      { type: 'spawn_units', units: [{ unitId: 'bandit1', position: { x: 1, y: 1 } }], faction: 'enemy' },
+      {
+        type: 'spawn_units',
+        units: [{ unitId: 'bandit1', position: { x: 1, y: 1 } }],
+        faction: 'enemy',
+      },
     ]);
-    expect(result.unitsToSpawn).toEqual([{ unitId: 'bandit1', position: { x: 1, y: 1 }, faction: 'enemy' }]);
+    expect(result.unitsToSpawn).toEqual([
+      { unitId: 'bandit1', position: { x: 1, y: 1 }, faction: 'enemy' },
+    ]);
   });
 });

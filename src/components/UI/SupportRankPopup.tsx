@@ -31,9 +31,7 @@ export function SupportRankPopup() {
         <div className="support-rank-popup__names">
           {nameA} & {nameB}
         </div>
-        <div className="support-rank-popup__rank">
-          Rank {supportRankUp.rank}
-        </div>
+        <div className="support-rank-popup__rank">Rank {supportRankUp.rank}</div>
       </div>
     </div>
   );

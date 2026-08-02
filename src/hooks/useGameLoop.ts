@@ -41,12 +41,25 @@ export function useGameLoop() {
     }
 
     // Short delay between enemy actions so player can see each move
-    const timer = setTimeout(() => {
-      executeNextEnemyAction();
-    }, getScaledDuration(400, animationSpeed));
+    const timer = setTimeout(
+      () => {
+        executeNextEnemyAction();
+      },
+      getScaledDuration(400, animationSpeed),
+    );
 
     return () => clearTimeout(timer);
-  }, [currentPhase, enemyActionIndex, enemyActions.length, combatResult, deathQuote, movingUnit, eventDialogue, executeNextEnemyAction, animationSpeed]);
+  }, [
+    currentPhase,
+    enemyActionIndex,
+    enemyActions.length,
+    combatResult,
+    deathQuote,
+    movingUnit,
+    eventDialogue,
+    executeNextEnemyAction,
+    animationSpeed,
+  ]);
 
   // Execute auto-battle actions sequentially
   useEffect(() => {
@@ -65,12 +78,28 @@ export function useGameLoop() {
       return;
     }
 
-    const timer = setTimeout(() => {
-      executeNextAutoAction();
-    }, getScaledDuration(400, animationSpeed));
+    const timer = setTimeout(
+      () => {
+        executeNextAutoAction();
+      },
+      getScaledDuration(400, animationSpeed),
+    );
 
     return () => clearTimeout(timer);
-  }, [isAutoBattle, currentPhase, autoBattleIndex, autoBattleActions.length, combatResult, expBarData, levelUpGains, deathQuote, movingUnit, eventDialogue, executeNextAutoAction, animationSpeed]);
+  }, [
+    isAutoBattle,
+    currentPhase,
+    autoBattleIndex,
+    autoBattleActions.length,
+    combatResult,
+    expBarData,
+    levelUpGains,
+    deathQuote,
+    movingUnit,
+    eventDialogue,
+    executeNextAutoAction,
+    animationSpeed,
+  ]);
 
   // Execute ally actions sequentially
   useEffect(() => {
@@ -86,10 +115,23 @@ export function useGameLoop() {
       return;
     }
 
-    const timer = setTimeout(() => {
-      executeNextAllyAction();
-    }, getScaledDuration(400, animationSpeed));
+    const timer = setTimeout(
+      () => {
+        executeNextAllyAction();
+      },
+      getScaledDuration(400, animationSpeed),
+    );
 
     return () => clearTimeout(timer);
-  }, [currentPhase, allyActionIndex, allyActions.length, combatResult, deathQuote, movingUnit, eventDialogue, executeNextAllyAction, animationSpeed]);
+  }, [
+    currentPhase,
+    allyActionIndex,
+    allyActions.length,
+    combatResult,
+    deathQuote,
+    movingUnit,
+    eventDialogue,
+    executeNextAllyAction,
+    animationSpeed,
+  ]);
 }

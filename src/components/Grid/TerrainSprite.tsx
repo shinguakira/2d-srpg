@@ -10,7 +10,11 @@ type TerrainSpriteProps = {
 /**
  * SVG terrain tile sprites — rich, atmospheric style to match character art.
  */
-export const TerrainSprite = memo(function TerrainSprite({ terrain, size, visited }: TerrainSpriteProps) {
+export const TerrainSprite = memo(function TerrainSprite({
+  terrain,
+  size,
+  visited,
+}: TerrainSpriteProps) {
   return (
     <svg
       className="terrain-sprite"
@@ -84,20 +88,34 @@ export const TerrainSprite = memo(function TerrainSprite({ terrain, size, visite
 
 function renderTerrain(terrain: TerrainType) {
   switch (terrain) {
-    case 'plain': return <PlainTerrain />;
-    case 'forest': return <ForestTerrain />;
-    case 'mountain': return <MountainTerrain />;
-    case 'water': return <WaterTerrain />;
-    case 'wall': return <WallTerrain />;
-    case 'fort': return <FortTerrain />;
-    case 'village': return <VillageTerrain />;
-    case 'throne': return <ThroneTerrain />;
-    case 'glitched': return <GlitchedTerrain />;
-    case 'data_void': return <DataVoidTerrain />;
-    case 'corrupted_fort': return <CorruptedFortTerrain />;
-    case 'broken_throne': return <BrokenThroneTerrain />;
-    case 'memory': return <MemoryTerrain />;
-    default: return <rect width="48" height="48" fill="url(#t-grass)" />;
+    case 'plain':
+      return <PlainTerrain />;
+    case 'forest':
+      return <ForestTerrain />;
+    case 'mountain':
+      return <MountainTerrain />;
+    case 'water':
+      return <WaterTerrain />;
+    case 'wall':
+      return <WallTerrain />;
+    case 'fort':
+      return <FortTerrain />;
+    case 'village':
+      return <VillageTerrain />;
+    case 'throne':
+      return <ThroneTerrain />;
+    case 'glitched':
+      return <GlitchedTerrain />;
+    case 'data_void':
+      return <DataVoidTerrain />;
+    case 'corrupted_fort':
+      return <CorruptedFortTerrain />;
+    case 'broken_throne':
+      return <BrokenThroneTerrain />;
+    case 'memory':
+      return <MemoryTerrain />;
+    default:
+      return <rect width="48" height="48" fill="url(#t-grass)" />;
   }
 }
 
@@ -221,11 +239,41 @@ function WaterTerrain() {
       {/* Depth layering */}
       <rect x="3" y="3" width="42" height="42" fill="#2468b8" rx="4" opacity="0.5" />
       {/* Wave patterns — layered */}
-      <path d="M0,10 Q8,6 16,10 Q24,14 32,10 Q40,6 48,10" fill="none" stroke="#4a8ad0" strokeWidth="1.5" opacity="0.7" />
-      <path d="M0,18 Q10,14 20,18 Q30,22 40,18 Q48,14 48,18" fill="none" stroke="#4a8ad0" strokeWidth="1.8" opacity="0.6" />
-      <path d="M0,26 Q8,22 16,26 Q24,30 32,26 Q40,22 48,26" fill="none" stroke="#5098d8" strokeWidth="2" opacity="0.5" />
-      <path d="M0,34 Q10,30 20,34 Q30,38 40,34 Q48,30 48,34" fill="none" stroke="#4a8ad0" strokeWidth="1.5" opacity="0.4" />
-      <path d="M0,42 Q8,39 16,42 Q24,45 32,42 Q40,39 48,42" fill="none" stroke="#5898d0" strokeWidth="1.2" opacity="0.3" />
+      <path
+        d="M0,10 Q8,6 16,10 Q24,14 32,10 Q40,6 48,10"
+        fill="none"
+        stroke="#4a8ad0"
+        strokeWidth="1.5"
+        opacity="0.7"
+      />
+      <path
+        d="M0,18 Q10,14 20,18 Q30,22 40,18 Q48,14 48,18"
+        fill="none"
+        stroke="#4a8ad0"
+        strokeWidth="1.8"
+        opacity="0.6"
+      />
+      <path
+        d="M0,26 Q8,22 16,26 Q24,30 32,26 Q40,22 48,26"
+        fill="none"
+        stroke="#5098d8"
+        strokeWidth="2"
+        opacity="0.5"
+      />
+      <path
+        d="M0,34 Q10,30 20,34 Q30,38 40,34 Q48,30 48,34"
+        fill="none"
+        stroke="#4a8ad0"
+        strokeWidth="1.5"
+        opacity="0.4"
+      />
+      <path
+        d="M0,42 Q8,39 16,42 Q24,45 32,42 Q40,39 48,42"
+        fill="none"
+        stroke="#5898d0"
+        strokeWidth="1.2"
+        opacity="0.3"
+      />
       {/* Foam highlights */}
       <circle cx="10" cy="20" r="1.2" fill="rgba(255,255,255,0.3)" />
       <circle cx="38" cy="12" r="0.9" fill="rgba(255,255,255,0.25)" />
@@ -247,14 +295,54 @@ function WallTerrain() {
       {/* Brick rows */}
       <rect x="0" y="0" width="24" height="12" fill="#5a3828" stroke="#2a1810" strokeWidth="0.8" />
       <rect x="24" y="0" width="24" height="12" fill="#4e3020" stroke="#2a1810" strokeWidth="0.8" />
-      <rect x="12" y="12" width="24" height="12" fill="#5a3828" stroke="#2a1810" strokeWidth="0.8" />
+      <rect
+        x="12"
+        y="12"
+        width="24"
+        height="12"
+        fill="#5a3828"
+        stroke="#2a1810"
+        strokeWidth="0.8"
+      />
       <rect x="0" y="12" width="12" height="12" fill="#4e3020" stroke="#2a1810" strokeWidth="0.8" />
-      <rect x="36" y="12" width="12" height="12" fill="#4e3020" stroke="#2a1810" strokeWidth="0.8" />
+      <rect
+        x="36"
+        y="12"
+        width="12"
+        height="12"
+        fill="#4e3020"
+        stroke="#2a1810"
+        strokeWidth="0.8"
+      />
       <rect x="0" y="24" width="24" height="12" fill="#5a3828" stroke="#2a1810" strokeWidth="0.8" />
-      <rect x="24" y="24" width="24" height="12" fill="#4e3020" stroke="#2a1810" strokeWidth="0.8" />
-      <rect x="12" y="36" width="24" height="12" fill="#5a3828" stroke="#2a1810" strokeWidth="0.8" />
+      <rect
+        x="24"
+        y="24"
+        width="24"
+        height="12"
+        fill="#4e3020"
+        stroke="#2a1810"
+        strokeWidth="0.8"
+      />
+      <rect
+        x="12"
+        y="36"
+        width="24"
+        height="12"
+        fill="#5a3828"
+        stroke="#2a1810"
+        strokeWidth="0.8"
+      />
       <rect x="0" y="36" width="12" height="12" fill="#4e3020" stroke="#2a1810" strokeWidth="0.8" />
-      <rect x="36" y="36" width="12" height="12" fill="#4e3020" stroke="#2a1810" strokeWidth="0.8" />
+      <rect
+        x="36"
+        y="36"
+        width="12"
+        height="12"
+        fill="#4e3020"
+        stroke="#2a1810"
+        strokeWidth="0.8"
+      />
       {/* Brick texture variation */}
       <rect x="2" y="2" width="20" height="8" fill="rgba(255,255,255,0.04)" rx="1" />
       <rect x="14" y="14" width="20" height="8" fill="rgba(255,255,255,0.03)" rx="1" />
@@ -275,7 +363,15 @@ function FortTerrain() {
     <>
       <rect width="48" height="48" fill="url(#t-grass)" />
       {/* Fort base — stone with gradient */}
-      <rect x="6" y="20" width="36" height="24" fill="url(#t-stone)" stroke="#2a2a30" strokeWidth="1" />
+      <rect
+        x="6"
+        y="20"
+        width="36"
+        height="24"
+        fill="url(#t-stone)"
+        stroke="#2a2a30"
+        strokeWidth="1"
+      />
       {/* Stone texture */}
       <line x1="6" y1="30" x2="42" y2="30" stroke="#4a4a52" strokeWidth="0.5" opacity="0.4" />
       <line x1="6" y1="36" x2="42" y2="36" stroke="#4a4a52" strokeWidth="0.5" opacity="0.3" />
@@ -357,7 +453,15 @@ function ThroneTerrain() {
       <rect width="48" height="48" fill="#3a3a44" />
       {/* Floor tile pattern */}
       <rect x="0" y="0" width="24" height="24" fill="#343440" stroke="#2a2a34" strokeWidth="0.5" />
-      <rect x="24" y="24" width="24" height="24" fill="#343440" stroke="#2a2a34" strokeWidth="0.5" />
+      <rect
+        x="24"
+        y="24"
+        width="24"
+        height="24"
+        fill="#343440"
+        stroke="#2a2a34"
+        strokeWidth="0.5"
+      />
       <rect x="24" y="0" width="24" height="24" fill="#303038" stroke="#2a2a34" strokeWidth="0.5" />
       <rect x="0" y="24" width="24" height="24" fill="#303038" stroke="#2a2a34" strokeWidth="0.5" />
       {/* Red carpet */}
@@ -373,7 +477,16 @@ function ThroneTerrain() {
       <rect x="20" y="2" width="8" height="4" fill="#8a2020" rx="0.5" />
       <line x1="24" y1="2" x2="24" y2="6" stroke="#fbbf24" strokeWidth="0.4" opacity="0.5" />
       {/* Throne — golden frame */}
-      <rect x="17" y="14" width="14" height="20" fill="#a07a22" rx="2" stroke="#7a5a18" strokeWidth="0.8" />
+      <rect
+        x="17"
+        y="14"
+        width="14"
+        height="20"
+        fill="#a07a22"
+        rx="2"
+        stroke="#7a5a18"
+        strokeWidth="0.8"
+      />
       {/* Throne back */}
       <rect x="18" y="6" width="12" height="12" fill="#b8922e" rx="2" />
       <rect x="20" y="4" width="8" height="4" fill="#c4a035" rx="2" />
@@ -427,9 +540,15 @@ function DataVoidTerrain() {
     <>
       <rect width="48" height="48" fill="#06060c" />
       <rect x="2" y="2" width="44" height="44" fill="#030308" rx="2" />
-      <text x="6" y="16" fontSize="6" fill="#a855f7" opacity="0.2" fontFamily="monospace">01</text>
-      <text x="28" y="28" fontSize="6" fill="#a855f7" opacity="0.15" fontFamily="monospace">10</text>
-      <text x="14" y="40" fontSize="6" fill="#a855f7" opacity="0.1" fontFamily="monospace">00</text>
+      <text x="6" y="16" fontSize="6" fill="#a855f7" opacity="0.2" fontFamily="monospace">
+        01
+      </text>
+      <text x="28" y="28" fontSize="6" fill="#a855f7" opacity="0.15" fontFamily="monospace">
+        10
+      </text>
+      <text x="14" y="40" fontSize="6" fill="#a855f7" opacity="0.1" fontFamily="monospace">
+        00
+      </text>
       <circle cx="24" cy="24" r="10" fill="none" stroke="#a855f7" strokeWidth="0.5" opacity="0.2" />
       <circle cx="24" cy="24" r="5" fill="none" stroke="#a855f7" strokeWidth="0.5" opacity="0.3" />
       <circle cx="24" cy="24" r="2" fill="#a855f7" opacity="0.08" />
@@ -462,7 +581,15 @@ function BrokenThroneTerrain() {
     <>
       <rect width="48" height="48" fill="#2e2840" />
       <rect x="0" y="0" width="24" height="24" fill="#282238" stroke="#1e1830" strokeWidth="0.5" />
-      <rect x="24" y="24" width="24" height="24" fill="#282238" stroke="#1e1830" strokeWidth="0.5" />
+      <rect
+        x="24"
+        y="24"
+        width="24"
+        height="24"
+        fill="#282238"
+        stroke="#1e1830"
+        strokeWidth="0.5"
+      />
       <rect x="12" y="38" width="24" height="4" fill="#1e1830" />
       {/* Broken throne */}
       <rect x="17" y="18" width="14" height="16" fill="#6a5a22" rx="2" />

@@ -31,7 +31,10 @@ export function ExpBar() {
 
     function startFillPhase1() {
       const interval = setInterval(() => {
-        if (cancelled) { clearInterval(interval); return; }
+        if (cancelled) {
+          clearInterval(interval);
+          return;
+        }
         current += step;
 
         if (leveled && current >= 100) {
@@ -52,33 +55,46 @@ export function ExpBar() {
           setDisplayExp(totalTarget);
           setFilling(false);
           clearInterval(interval);
-          setTimeout(() => { if (!cancelled) dismissExpBar(); }, 600);
+          setTimeout(() => {
+            if (!cancelled) dismissExpBar();
+          }, 600);
           return;
         }
 
         setDisplayExp(Math.min(current, 100));
       }, 30);
 
-      cleanupRef.current = () => { cancelled = true; clearInterval(interval); };
+      cleanupRef.current = () => {
+        cancelled = true;
+        clearInterval(interval);
+      };
     }
 
     function startFillPhase2(remainder: number) {
       let cur2 = 0;
       const step2 = Math.max(1, Math.ceil(remainder / 15));
       const interval2 = setInterval(() => {
-        if (cancelled) { clearInterval(interval2); return; }
+        if (cancelled) {
+          clearInterval(interval2);
+          return;
+        }
         cur2 += step2;
         if (cur2 >= remainder) {
           setDisplayExp(remainder);
           setFilling(false);
           clearInterval(interval2);
-          setTimeout(() => { if (!cancelled) dismissExpBar(); }, 600);
+          setTimeout(() => {
+            if (!cancelled) dismissExpBar();
+          }, 600);
         } else {
           setDisplayExp(cur2);
         }
       }, 30);
 
-      cleanupRef.current = () => { cancelled = true; clearInterval(interval2); };
+      cleanupRef.current = () => {
+        cancelled = true;
+        clearInterval(interval2);
+      };
     }
 
     startFillPhase1();

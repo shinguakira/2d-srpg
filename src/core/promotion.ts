@@ -3,9 +3,45 @@ import { ALL_CLASSES, PROMOTION_BONUSES } from '../data/promotedClasses';
 
 // ===== Stat Caps =====
 
-const BASE_CAPS: UnitStats =     { hp: 60, str: 20, mag: 20, def: 20, res: 20, spd: 20, skl: 20, lck: 30, mov: 15, cha: 20, wil: 20 };
-const PROMOTED_CAPS: UnitStats = { hp: 80, str: 30, mag: 30, def: 30, res: 30, spd: 30, skl: 30, lck: 40, mov: 15, cha: 30, wil: 30 };
-const MASTER_CAPS: UnitStats =   { hp: 99, str: 35, mag: 35, def: 35, res: 35, spd: 35, skl: 35, lck: 45, mov: 15, cha: 35, wil: 35 };
+const BASE_CAPS: UnitStats = {
+  hp: 60,
+  str: 20,
+  mag: 20,
+  def: 20,
+  res: 20,
+  spd: 20,
+  skl: 20,
+  lck: 30,
+  mov: 15,
+  cha: 20,
+  wil: 20,
+};
+const PROMOTED_CAPS: UnitStats = {
+  hp: 80,
+  str: 30,
+  mag: 30,
+  def: 30,
+  res: 30,
+  spd: 30,
+  skl: 30,
+  lck: 40,
+  mov: 15,
+  cha: 30,
+  wil: 30,
+};
+const MASTER_CAPS: UnitStats = {
+  hp: 99,
+  str: 35,
+  mag: 35,
+  def: 35,
+  res: 35,
+  spd: 35,
+  skl: 35,
+  lck: 45,
+  mov: 15,
+  cha: 35,
+  wil: 35,
+};
 
 export function getDefaultStatCaps(tier: ClassTier): UnitStats {
   if (tier === 'master') return { ...MASTER_CAPS };
@@ -65,9 +101,7 @@ export function canPromote(unit: Unit): boolean {
 export function getPromotionOptions(unit: Unit): UnitClass[] {
   const cls = ALL_CLASSES[unit.classId];
   if (!cls?.promotesTo) return [];
-  return cls.promotesTo
-    .map(id => ALL_CLASSES[id])
-    .filter((c): c is UnitClass => c != null);
+  return cls.promotesTo.map((id) => ALL_CLASSES[id]).filter((c): c is UnitClass => c != null);
 }
 
 /**
@@ -77,7 +111,7 @@ export function getMatchingPromotionItem(unit: Unit): number {
   const cls = ALL_CLASSES[unit.classId];
   if (!cls) return -1;
 
-  return unit.items.findIndex(item => {
+  return unit.items.findIndex((item) => {
     if (item.effect.kind !== 'promote') return false;
     const eligible = item.effect.eligibleClasses;
     // Empty array = universal (master_seal / master_crown)

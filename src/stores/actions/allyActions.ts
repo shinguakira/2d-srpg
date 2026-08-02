@@ -93,7 +93,11 @@ export function executeNextAllyAction(get: Get, set: Set) {
 }
 
 function finalizeAllyAction(
-  get: Get, set: Set, action: AIAction, unit: ReturnType<Get>['units'] extends Map<string, infer U> ? U : never, destination: { x: number; y: number }
+  get: Get,
+  set: Set,
+  action: AIAction,
+  unit: ReturnType<Get>['units'] extends Map<string, infer U> ? U : never,
+  destination: { x: number; y: number },
 ) {
   const { units, gameMap, rng, allyActionIndex } = get();
 
@@ -133,7 +137,10 @@ function finalizeAllyAction(
     const defenderTerrain = newTiles[target.position.y][target.position.x].terrain;
     const distance = getManhattanDistance(destination, target.position);
 
-    if (distance < movedUnit.equippedWeapon.minRange || distance > movedUnit.equippedWeapon.maxRange) {
+    if (
+      distance < movedUnit.equippedWeapon.minRange ||
+      distance > movedUnit.equippedWeapon.maxRange
+    ) {
       newUnits.set(unit.id, { ...movedUnit, hasActed: true });
       set({
         units: newUnits,
@@ -149,7 +156,14 @@ function finalizeAllyAction(
 
     const attackerNearRen = combatUnit.id !== 'ren' && isNearRen(destination, newUnits);
     const defenderNearRen = target.id !== 'ren' && isNearRen(target.position, newUnits);
-    const forecast = calculateCombatForecast(combatUnit, target, attackerTerrain, defenderTerrain, distance, { attackerNearRen, defenderNearRen });
+    const forecast = calculateCombatForecast(
+      combatUnit,
+      target,
+      attackerTerrain,
+      defenderTerrain,
+      distance,
+      { attackerNearRen, defenderNearRen },
+    );
     const { cycleAuthorityUsed, vanishUsed } = get();
     const combinedUsedSkills = new Set([...cycleAuthorityUsed, ...vanishUsed]);
     const result = resolveCombat(forecast, rng, combatUnit, target, combinedUsedSkills);
@@ -180,7 +194,15 @@ export function finishAllyCombat(get: Get, set: Set) {
 
   const { chapterData } = get();
   const difficulty = useCampaignStore.getState().difficulty;
-  const resolution = applyCombatResult(units, gameMap, selectedUnitId, attackTargetId, combatResult, chapterData, difficulty);
+  const resolution = applyCombatResult(
+    units,
+    gameMap,
+    selectedUnitId,
+    attackTargetId,
+    combatResult,
+    chapterData,
+    difficulty,
+  );
 
   if (resolution.lordDied || resolution.victoryResult) {
     set({

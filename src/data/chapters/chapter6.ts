@@ -40,27 +40,27 @@ export const CHAPTER_6: ChapterData = {
   mapHeight: 18,
   terrain,
   playerUnits: [
-    { unitId: 'ren',   position: { x: 7, y: 15 } },
-    { unitId: 'kael',  position: { x: 8, y: 15 } },
+    { unitId: 'ren', position: { x: 7, y: 15 } },
+    { unitId: 'kael', position: { x: 8, y: 15 } },
     { unitId: 'senna', position: { x: 7, y: 16 } },
-    { unitId: 'bram',  position: { x: 6, y: 16 } },
-    { unitId: 'lira',  position: { x: 9, y: 16 } },
-    { unitId: 'rook',  position: { x: 6, y: 15 } },
-    { unitId: 'voss',  position: { x: 9, y: 15 } },
+    { unitId: 'bram', position: { x: 6, y: 16 } },
+    { unitId: 'lira', position: { x: 9, y: 16 } },
+    { unitId: 'rook', position: { x: 6, y: 15 } },
+    { unitId: 'voss', position: { x: 9, y: 15 } },
   ],
   enemyUnits: [
-    { unitId: 'ch6_boss',      position: { x: 7,  y: 3 } },  // Captain Sera on fort
-    { unitId: 'ch6_soldier_1', position: { x: 5,  y: 1 } },  // harbor guard
-    { unitId: 'ch6_soldier_2', position: { x: 10, y: 1 } },  // harbor guard
-    { unitId: 'ch6_soldier_3', position: { x: 4,  y: 4 } },  // corridor guard
-    { unitId: 'ch6_soldier_4', position: { x: 11, y: 4 } },  // corridor guard
-    { unitId: 'ch6_archer_1',  position: { x: 3,  y: 0 } },  // cliff archer (anti-air)
-    { unitId: 'ch6_archer_2',  position: { x: 12, y: 0 } },  // cliff archer (anti-air)
-    { unitId: 'ch6_fighter_1', position: { x: 5,  y: 6 } },  // town outskirts
-    { unitId: 'ch6_fighter_2', position: { x: 10, y: 6 } },  // town outskirts
-    { unitId: 'ch6_fighter_3', position: { x: 8,  y: 8 } },  // approach
-    { unitId: 'ch6_cavalier_1', position: { x: 3, y: 5 } },  // flank left
-    { unitId: 'ch6_cavalier_2', position: { x: 12, y: 5 } },  // flank right
+    { unitId: 'ch6_boss', position: { x: 7, y: 3 } }, // Captain Sera on fort
+    { unitId: 'ch6_soldier_1', position: { x: 5, y: 1 } }, // harbor guard
+    { unitId: 'ch6_soldier_2', position: { x: 10, y: 1 } }, // harbor guard
+    { unitId: 'ch6_soldier_3', position: { x: 4, y: 4 } }, // corridor guard
+    { unitId: 'ch6_soldier_4', position: { x: 11, y: 4 } }, // corridor guard
+    { unitId: 'ch6_archer_1', position: { x: 3, y: 0 } }, // cliff archer (anti-air)
+    { unitId: 'ch6_archer_2', position: { x: 12, y: 0 } }, // cliff archer (anti-air)
+    { unitId: 'ch6_fighter_1', position: { x: 5, y: 6 } }, // town outskirts
+    { unitId: 'ch6_fighter_2', position: { x: 10, y: 6 } }, // town outskirts
+    { unitId: 'ch6_fighter_3', position: { x: 8, y: 8 } }, // approach
+    { unitId: 'ch6_cavalier_1', position: { x: 3, y: 5 } }, // flank left
+    { unitId: 'ch6_cavalier_2', position: { x: 12, y: 5 } }, // flank right
   ],
   objective: {
     type: 'boss_kill',
@@ -72,26 +72,75 @@ export const CHAPTER_6: ChapterData = {
   recruitableUnits: ['rook', 'faye'],
   prologue: {
     lines: [
-      { speaker: 'Narrator', text: 'A coastal harbor town. Salt air mixes with smoke from distant fires. The party arrives at dawn, seeking passage south.' },
-      { speaker: 'Rook', text: "Name's Rook. Mercenary. My last employer got erased by a data void, so I'm between contracts.", speakerFaction: 'player' },
-      { speaker: 'Ren', text: "...Erased?", speakerFaction: 'player' },
-      { speaker: 'Rook', text: "You know what I mean. The anomalies. They're spreading from the highlands. Whole towns going wrong.", speakerFaction: 'player' },
-      { speaker: 'Senna', text: "He's right. My readings show corruption expanding geographically since the seed destabilized. It's no longer localized.", speakerFaction: 'player' },
+      {
+        speaker: 'Narrator',
+        text: 'A coastal harbor town. Salt air mixes with smoke from distant fires. The party arrives at dawn, seeking passage south.',
+      },
+      {
+        speaker: 'Rook',
+        text: "Name's Rook. Mercenary. My last employer got erased by a data void, so I'm between contracts.",
+        speakerFaction: 'player',
+      },
+      { speaker: 'Ren', text: '...Erased?', speakerFaction: 'player' },
+      {
+        speaker: 'Rook',
+        text: "You know what I mean. The anomalies. They're spreading from the highlands. Whole towns going wrong.",
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Senna',
+        text: "He's right. My readings show corruption expanding geographically since the seed destabilized. It's no longer localized.",
+        speakerFaction: 'player',
+      },
       { speaker: 'Kael', text: "So we're heading into it?", speakerFaction: 'player' },
-      { speaker: 'Ren', text: "We're heading through it. Rook, you said you're between contracts?", speakerFaction: 'player' },
-      { speaker: 'Rook', text: "You're doing something new. That's worth my blade. For now.", speakerFaction: 'player' },
-      { speaker: 'Narrator', text: "An Imperial patrol blocks the harbor. Captain Sera's aerial unit circles overhead — a pegasus knight with a divebomb pattern." },
+      {
+        speaker: 'Ren',
+        text: "We're heading through it. Rook, you said you're between contracts?",
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Rook',
+        text: "You're doing something new. That's worth my blade. For now.",
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Narrator',
+        text: "An Imperial patrol blocks the harbor. Captain Sera's aerial unit circles overhead — a pegasus knight with a divebomb pattern.",
+      },
     ],
   },
   epilogue: {
     lines: [
-      { speaker: 'Narrator', text: "The harbor is clear. Imperial banners hang torn in the sea wind." },
-      { speaker: 'Rook', text: "So. This is what you do. Fight Imperials, recruit strays, keep moving.", speakerFaction: 'player' },
-      { speaker: 'Ren', text: "Something like that.", speakerFaction: 'player' },
-      { speaker: 'Faye', text: "That soldier I healed — he was barely older than us. Why are they fighting?", speakerFaction: 'player' },
-      { speaker: 'Rook', text: "Because someone told them to. That's how it works.", speakerFaction: 'player' },
-      { speaker: 'Senna', text: "The anomalies are spreading faster than my models predicted. Whatever changed the seed... it's accelerating.", speakerFaction: 'player' },
-      { speaker: 'Ren', text: "Then we move faster. Next stop — the coastal fortress.", speakerFaction: 'player' },
+      {
+        speaker: 'Narrator',
+        text: 'The harbor is clear. Imperial banners hang torn in the sea wind.',
+      },
+      {
+        speaker: 'Rook',
+        text: 'So. This is what you do. Fight Imperials, recruit strays, keep moving.',
+        speakerFaction: 'player',
+      },
+      { speaker: 'Ren', text: 'Something like that.', speakerFaction: 'player' },
+      {
+        speaker: 'Faye',
+        text: 'That soldier I healed — he was barely older than us. Why are they fighting?',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Rook',
+        text: "Because someone told them to. That's how it works.",
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Senna',
+        text: "The anomalies are spreading faster than my models predicted. Whatever changed the seed... it's accelerating.",
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Ren',
+        text: 'Then we move faster. Next stop — the coastal fortress.',
+        speakerFaction: 'player',
+      },
     ],
   },
   villages: [
@@ -139,9 +188,17 @@ export const CHAPTER_6: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Rook', text: "Pegasus knights, wall sentries, and cavalry on the flanks. What did I sign up for?", speakerFaction: 'player' },
-              { speaker: 'Bram', text: "You signed up for coin. Still want it?", speakerFaction: 'player' },
-              { speaker: 'Rook', text: "...Double the rate.", speakerFaction: 'player' },
+              {
+                speaker: 'Rook',
+                text: 'Pegasus knights, wall sentries, and cavalry on the flanks. What did I sign up for?',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Bram',
+                text: 'You signed up for coin. Still want it?',
+                speakerFaction: 'player',
+              },
+              { speaker: 'Rook', text: '...Double the rate.', speakerFaction: 'player' },
             ],
           },
         },
@@ -157,16 +214,43 @@ export const CHAPTER_6: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Narrator', text: 'A mounted figure approaches from the southern docks, staff raised in peace.' },
-              { speaker: 'Faye', text: "Wait — please! There are wounded soldiers on both sides. I can help!", speakerFaction: 'player' },
-              { speaker: 'Kael', text: "She's healing an Imperial soldier. Is she... on their side?", speakerFaction: 'player' },
-              { speaker: 'Lira', text: "No. She's on the side of the hurt. I understand that.", speakerFaction: 'player' },
-              { speaker: 'Faye', text: "People are hurting. I can help. That's enough, isn't it?", speakerFaction: 'player' },
-              { speaker: 'Ren', text: "More than enough. Welcome, Faye.", speakerFaction: 'player' },
+              {
+                speaker: 'Narrator',
+                text: 'A mounted figure approaches from the southern docks, staff raised in peace.',
+              },
+              {
+                speaker: 'Faye',
+                text: 'Wait — please! There are wounded soldiers on both sides. I can help!',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Kael',
+                text: "She's healing an Imperial soldier. Is she... on their side?",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Lira',
+                text: "No. She's on the side of the hurt. I understand that.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Faye',
+                text: "People are hurting. I can help. That's enough, isn't it?",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Ren',
+                text: 'More than enough. Welcome, Faye.',
+                speakerFaction: 'player',
+              },
             ],
           },
         },
-        { type: 'spawn_units', units: [{ unitId: 'faye', position: { x: 8, y: 13 } }], faction: 'player' },
+        {
+          type: 'spawn_units',
+          units: [{ unitId: 'faye', position: { x: 8, y: 13 } }],
+          faction: 'player',
+        },
       ],
       once: true,
     },
@@ -179,8 +263,16 @@ export const CHAPTER_6: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Rook', text: "Cavalry from the north road. Heavy armor — these aren't scouts.", speakerFaction: 'player' },
-              { speaker: 'Ren', text: "Reinforcements! We need to finish this and pull back!", speakerFaction: 'player' },
+              {
+                speaker: 'Rook',
+                text: "Cavalry from the north road. Heavy armor — these aren't scouts.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Ren',
+                text: 'Reinforcements! We need to finish this and pull back!',
+                speakerFaction: 'player',
+              },
             ],
           },
         },
@@ -196,8 +288,12 @@ export const CHAPTER_6: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Senna', text: "The north road — I'm counting at least a full company. We cannot hold this position.", speakerFaction: 'player' },
-              { speaker: 'Ren', text: "Everyone fall back! South, now!", speakerFaction: 'player' },
+              {
+                speaker: 'Senna',
+                text: "The north road — I'm counting at least a full company. We cannot hold this position.",
+                speakerFaction: 'player',
+              },
+              { speaker: 'Ren', text: 'Everyone fall back! South, now!', speakerFaction: 'player' },
             ],
           },
         },
@@ -213,12 +309,32 @@ export const CHAPTER_6: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Sera', text: "Do you even understand ALTITUDE? Tactical positioning is a three-dimensional problem — you ground-crawlers think in two dimensions!", speakerFaction: 'enemy' },
-              { speaker: 'Ren', text: "She's... talking about flight sims?", speakerFaction: 'player' },
-              { speaker: 'Sera', text: "COMBAT AVIATION. There's a DIFFERENCE.", speakerFaction: 'enemy' },
-              { speaker: 'Sera', text: "The sky... something is wrong with the sky. I've seen it from above — the clouds move in patterns that shouldn't exist.", speakerFaction: 'enemy' },
+              {
+                speaker: 'Sera',
+                text: 'Do you even understand ALTITUDE? Tactical positioning is a three-dimensional problem — you ground-crawlers think in two dimensions!',
+                speakerFaction: 'enemy',
+              },
+              {
+                speaker: 'Ren',
+                text: "She's... talking about flight sims?",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Sera',
+                text: "COMBAT AVIATION. There's a DIFFERENCE.",
+                speakerFaction: 'enemy',
+              },
+              {
+                speaker: 'Sera',
+                text: "The sky... something is wrong with the sky. I've seen it from above — the clouds move in patterns that shouldn't exist.",
+                speakerFaction: 'enemy',
+              },
               { speaker: 'Ren', text: "I know. It's spreading.", speakerFaction: 'player' },
-              { speaker: 'Sera', text: "Then why are you walking INTO it?", speakerFaction: 'enemy' },
+              {
+                speaker: 'Sera',
+                text: 'Then why are you walking INTO it?',
+                speakerFaction: 'enemy',
+              },
             ],
           },
         },
@@ -231,10 +347,18 @@ export const CHAPTER_6: ChapterData = {
       unitA: 'ren',
       unitB: 'rook',
       lines: [
-        { speaker: 'Rook', text: "You fight like someone who's done this before. Many times before.", speakerFaction: 'player' },
-        { speaker: 'Ren', text: "What makes you say that?", speakerFaction: 'player' },
-        { speaker: 'Rook', text: "You never hesitate. Not once. Either you're fearless or you already know what's going to happen.", speakerFaction: 'player' },
-        { speaker: 'Ren', text: "...Maybe a bit of both.", speakerFaction: 'player' },
+        {
+          speaker: 'Rook',
+          text: "You fight like someone who's done this before. Many times before.",
+          speakerFaction: 'player',
+        },
+        { speaker: 'Ren', text: 'What makes you say that?', speakerFaction: 'player' },
+        {
+          speaker: 'Rook',
+          text: "You never hesitate. Not once. Either you're fearless or you already know what's going to happen.",
+          speakerFaction: 'player',
+        },
+        { speaker: 'Ren', text: '...Maybe a bit of both.', speakerFaction: 'player' },
       ],
       reward: { type: 'exp_both', amount: 20 },
     },
@@ -242,10 +366,26 @@ export const CHAPTER_6: ChapterData = {
       unitA: 'lira',
       unitB: 'faye',
       lines: [
-        { speaker: 'Lira', text: "You healed that enemy soldier without hesitation. Most healers choose sides.", speakerFaction: 'player' },
-        { speaker: 'Faye', text: "Pain doesn't choose sides. Why should I?", speakerFaction: 'player' },
-        { speaker: 'Lira', text: "That's... a different philosophy than mine. But I respect it deeply.", speakerFaction: 'player' },
-        { speaker: 'Faye', text: "We'll make a good team. You guard the soul, I'll guard the body.", speakerFaction: 'player' },
+        {
+          speaker: 'Lira',
+          text: 'You healed that enemy soldier without hesitation. Most healers choose sides.',
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Faye',
+          text: "Pain doesn't choose sides. Why should I?",
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Lira',
+          text: "That's... a different philosophy than mine. But I respect it deeply.",
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Faye',
+          text: "We'll make a good team. You guard the soul, I'll guard the body.",
+          speakerFaction: 'player',
+        },
       ],
       reward: { type: 'stat', unitId: 'faye', stat: 'mag', amount: 1 },
     },

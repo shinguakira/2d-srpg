@@ -36,17 +36,33 @@
 }
 
 @keyframes screen-flash-hit {
-  0% { opacity: 0; }
-  20% { opacity: 0.25; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes screen-flash-crit {
-  0% { opacity: 0; }
-  10% { opacity: 0.5; }
-  30% { opacity: 0.1; }
-  50% { opacity: 0.4; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  30% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 /* Crit dramatic darken — dark overlay before crit dash */
@@ -63,10 +79,18 @@
 }
 
 @keyframes crit-darken-pulse {
-  0% { opacity: 0; }
-  30% { opacity: 0.5; }
-  70% { opacity: 0.5; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.5;
+  }
+  70% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 /* Modal container */
@@ -76,14 +100,22 @@
   border-radius: 12px;
   overflow: hidden;
   width: 1100px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 60px rgba(251, 191, 36, 0.1);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(251, 191, 36, 0.1);
   animation: modal-appear 0.3s ease;
   position: relative;
 }
 
 @keyframes modal-appear {
-  0% { opacity: 0; transform: scale(0.95); }
-  100% { opacity: 1; transform: scale(1); }
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Title bar */
@@ -143,8 +175,13 @@
 }
 
 @keyframes fighter-breathe {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-2px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
 }
 
 /* ===== PHYSICAL ATTACK CHOREOGRAPHY ===== */
@@ -155,8 +192,12 @@
 }
 
 @keyframes fighter-windup {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(3px) scaleY(0.95); }
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(3px) scaleY(0.95);
+  }
 }
 
 /* Dash — attacker runs across to opponent (left side attacks right) */
@@ -170,13 +211,21 @@
 
 /* Dash distances: fighters are ~788px apart (1100 - 100*2 - 112), land right next to defender */
 @keyframes dash-right {
-  0% { transform: translateX(0) translateY(3px); }
-  100% { transform: translateX(676px); }
+  0% {
+    transform: translateX(0) translateY(3px);
+  }
+  100% {
+    transform: translateX(676px);
+  }
 }
 
 @keyframes dash-left {
-  0% { transform: translateX(0) translateY(3px); }
-  100% { transform: translateX(-676px); }
+  0% {
+    transform: translateX(0) translateY(3px);
+  }
+  100% {
+    transform: translateX(-676px);
+  }
 }
 
 /* Strike — hold at opponent's position with slight push */
@@ -191,15 +240,27 @@
 }
 
 @keyframes strike-push-right {
-  0% { transform: translateX(676px) scale(1); }
-  50% { transform: translateX(684px) scale(1.1); }
-  100% { transform: translateX(676px) scale(1.05); }
+  0% {
+    transform: translateX(676px) scale(1);
+  }
+  50% {
+    transform: translateX(684px) scale(1.1);
+  }
+  100% {
+    transform: translateX(676px) scale(1.05);
+  }
 }
 
 @keyframes strike-push-left {
-  0% { transform: translateX(-676px) scale(1); }
-  50% { transform: translateX(-684px) scale(1.1); }
-  100% { transform: translateX(-676px) scale(1.05); }
+  0% {
+    transform: translateX(-676px) scale(1);
+  }
+  50% {
+    transform: translateX(-684px) scale(1.1);
+  }
+  100% {
+    transform: translateX(-676px) scale(1.05);
+  }
 }
 
 /* Return — run back to starting position */
@@ -212,13 +273,21 @@
 }
 
 @keyframes return-left {
-  0% { transform: translateX(676px); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(676px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 @keyframes return-right {
-  0% { transform: translateX(-676px); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(-676px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 /* ===== MAGIC ATTACK ===== */
@@ -229,9 +298,15 @@
 }
 
 @keyframes casting-glow {
-  0% { filter: brightness(1); }
-  50% { filter: brightness(1.4) drop-shadow(0 0 8px rgba(147, 197, 253, 0.6)); }
-  100% { filter: brightness(1.1) drop-shadow(0 0 4px rgba(147, 197, 253, 0.3)); }
+  0% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.4) drop-shadow(0 0 8px rgba(147, 197, 253, 0.6));
+  }
+  100% {
+    filter: brightness(1.1) drop-shadow(0 0 4px rgba(147, 197, 253, 0.3));
+  }
 }
 
 /* ===== CRIT PAUSE ===== */
@@ -240,11 +315,21 @@
 }
 
 @keyframes crit-flash-unit {
-  0% { filter: brightness(1); }
-  25% { filter: brightness(2); }
-  50% { filter: brightness(0.8); }
-  75% { filter: brightness(1.8); }
-  100% { filter: brightness(1); }
+  0% {
+    filter: brightness(1);
+  }
+  25% {
+    filter: brightness(2);
+  }
+  50% {
+    filter: brightness(0.8);
+  }
+  75% {
+    filter: brightness(1.8);
+  }
+  100% {
+    filter: brightness(1);
+  }
 }
 
 /* ===== DEFENDER REACTIONS ===== */
@@ -255,13 +340,27 @@
 }
 
 @keyframes unit-hit-violent {
-  0% { transform: translateX(0); }
-  15% { transform: translateX(-12px) rotate(-2deg); }
-  30% { transform: translateX(12px) rotate(2deg); }
-  45% { transform: translateX(-8px); }
-  60% { transform: translateX(8px); }
-  80% { transform: translateX(-3px); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(0);
+  }
+  15% {
+    transform: translateX(-12px) rotate(-2deg);
+  }
+  30% {
+    transform: translateX(12px) rotate(2deg);
+  }
+  45% {
+    transform: translateX(-8px);
+  }
+  60% {
+    transform: translateX(8px);
+  }
+  80% {
+    transform: translateX(-3px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 /* Dodge — leap backward */
@@ -274,15 +373,27 @@
 }
 
 @keyframes dodge-left {
-  0% { transform: translateX(0) translateY(0); }
-  40% { transform: translateX(-52px) translateY(-35px); }
-  100% { transform: translateX(-35px) translateY(0); }
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  40% {
+    transform: translateX(-52px) translateY(-35px);
+  }
+  100% {
+    transform: translateX(-35px) translateY(0);
+  }
 }
 
 @keyframes dodge-right {
-  0% { transform: translateX(0) translateY(0); }
-  40% { transform: translateX(52px) translateY(-35px); }
-  100% { transform: translateX(35px) translateY(0); }
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  40% {
+    transform: translateX(52px) translateY(-35px);
+  }
+  100% {
+    transform: translateX(35px) translateY(0);
+  }
 }
 
 /* Death — collapse downward */
@@ -291,10 +402,24 @@
 }
 
 @keyframes unit-death-collapse {
-  0% { opacity: 1; transform: translateY(0) scale(1); filter: brightness(1); }
-  20% { filter: brightness(2); }
-  40% { opacity: 1; transform: translateY(0) scale(1); filter: brightness(0.5); }
-  100% { opacity: 0; transform: translateY(25px) scaleY(0.3) scaleX(1.3); filter: brightness(0); }
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: brightness(1);
+  }
+  20% {
+    filter: brightness(2);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: brightness(0.5);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(25px) scaleY(0.3) scaleX(1.3);
+    filter: brightness(0);
+  }
 }
 
 /* ===== WEAPON EFFECT POSITIONING ===== */
@@ -326,18 +451,44 @@
 }
 
 @keyframes spell-fly-right {
-  0% { left: 170px; right: auto; opacity: 0.5; transform: scale(0.5); }
-  100% { left: 830px; right: auto; opacity: 1; transform: scale(1); }
+  0% {
+    left: 170px;
+    right: auto;
+    opacity: 0.5;
+    transform: scale(0.5);
+  }
+  100% {
+    left: 830px;
+    right: auto;
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes spell-fly-left {
-  0% { right: 170px; left: auto; opacity: 0.5; transform: scale(0.5); }
-  100% { right: 830px; left: auto; opacity: 1; transform: scale(1); }
+  0% {
+    right: 170px;
+    left: auto;
+    opacity: 0.5;
+    transform: scale(0.5);
+  }
+  100% {
+    right: 830px;
+    left: auto;
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes effect-pop {
-  0% { transform: scale(0.3); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* ===== FLOATING DAMAGE NUMBER ===== */
@@ -349,7 +500,9 @@
   font-size: 56px;
   font-weight: bold;
   color: #fff;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.5);
+  text-shadow:
+    2px 2px 4px rgba(0, 0, 0, 0.8),
+    0 0 8px rgba(0, 0, 0, 0.5);
   animation: dmg-float-up 0.6s ease-out forwards;
   pointer-events: none;
   text-align: center;
@@ -366,7 +519,9 @@
 .combat-animation__dmg-float--crit {
   color: #fbbf24;
   font-size: 68px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 16px rgba(251, 191, 36, 0.6);
+  text-shadow:
+    2px 2px 4px rgba(0, 0, 0, 0.8),
+    0 0 16px rgba(251, 191, 36, 0.6);
 }
 
 .combat-animation__dmg-float--miss {
@@ -392,7 +547,9 @@
   font-size: 24px;
   font-weight: bold;
   color: #fbbf24;
-  text-shadow: 0 0 10px rgba(251, 191, 36, 0.6), 0 2px 4px rgba(0, 0, 0, 0.8);
+  text-shadow:
+    0 0 10px rgba(251, 191, 36, 0.6),
+    0 2px 4px rgba(0, 0, 0, 0.8);
   letter-spacing: 2px;
   animation: skill-flash 0.8s ease-out forwards;
   z-index: 5;
@@ -408,17 +565,41 @@
 }
 
 @keyframes skill-flash {
-  0% { opacity: 0; transform: scale(0.5); }
-  20% { opacity: 1; transform: scale(1.2); }
-  40% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: translateY(-30px); }
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
 }
 
 @keyframes dmg-float-up {
-  0% { transform: translateY(0) scale(0.5); opacity: 0; }
-  30% { transform: translateY(-16px) scale(1.3); opacity: 1; }
-  60% { transform: translateY(-34px) scale(1); opacity: 1; }
-  100% { transform: translateY(-50px); opacity: 0.7; }
+  0% {
+    transform: translateY(0) scale(0.5);
+    opacity: 0;
+  }
+  30% {
+    transform: translateY(-16px) scale(1.3);
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(-34px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-50px);
+    opacity: 0.7;
+  }
 }
 
 /* ===== INFO PANEL ===== */
@@ -541,13 +722,23 @@
 }
 
 @keyframes magic-glow-pulse {
-  0% { opacity: 0.3; }
-  100% { opacity: 0.6; }
+  0% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.6;
+  }
 }
 
 @keyframes magic-core-pulse {
-  0% { opacity: 0.5; r: 1.5; }
-  100% { opacity: 0.9; r: 2.5; }
+  0% {
+    opacity: 0.5;
+    r: 1.5;
+  }
+  100% {
+    opacity: 0.9;
+    r: 2.5;
+  }
 }
 
 /* ===== Memory Blade Special Effects ===== */
@@ -569,11 +760,24 @@
 }
 
 @keyframes memory-blade-pulse {
-  0%, 100% { opacity: 0.5; filter: drop-shadow(0 0 1px #93c5fd); }
-  50% { opacity: 0.85; filter: drop-shadow(0 0 3px #60a5fa); }
+  0%,
+  100% {
+    opacity: 0.5;
+    filter: drop-shadow(0 0 1px #93c5fd);
+  }
+  50% {
+    opacity: 0.85;
+    filter: drop-shadow(0 0 3px #60a5fa);
+  }
 }
 
 @keyframes memory-particle-float {
-  0% { transform: translateY(0); opacity: 0.2; }
-  100% { transform: translateY(-3px); opacity: 0.6; }
+  0% {
+    transform: translateY(0);
+    opacity: 0.2;
+  }
+  100% {
+    transform: translateY(-3px);
+    opacity: 0.6;
+  }
 }

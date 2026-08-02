@@ -5,14 +5,35 @@ import type { Unit } from '../../src/core/types';
 
 function makeUnit(overrides: Partial<Unit> = {}): Unit {
   return {
-    id: 'player1', name: 'Player', classId: 'lord', faction: 'player',
+    id: 'player1',
+    name: 'Player',
+    classId: 'lord',
+    faction: 'player',
     position: { x: 0, y: 0 },
-    stats: { hp: 30, str: 12, mag: 15, def: 8, res: 8, spd: 12, skl: 14, lck: 8, mov: 5, cha: 0, wil: 0 },
-    currentHp: 30, level: 15, exp: 0,
+    stats: {
+      hp: 30,
+      str: 12,
+      mag: 15,
+      def: 8,
+      res: 8,
+      spd: 12,
+      skl: 14,
+      lck: 8,
+      mov: 5,
+      cha: 0,
+      wil: 0,
+    },
+    currentHp: 30,
+    level: 15,
+    exp: 0,
     equippedWeapon: { ...WEAPONS.iron_sword },
     inventory: [{ ...WEAPONS.iron_sword }],
-    items: [], hasActed: false, skills: [], learnedSkills: [],
-    facing: 'down', sprite: '',
+    items: [],
+    hasActed: false,
+    skills: [],
+    learnedSkills: [],
+    facing: 'down',
+    sprite: '',
     metaStats: { awr: 50, loop: 347, sync: 70, loy: 50, crp: 0, sta: 0 },
     ...overrides,
   };
@@ -25,7 +46,11 @@ describe('Late-Game Weapons', () => {
         equippedWeapon: { ...WEAPONS.memory_blade },
         metaStats: { awr: 50, loop: 347, sync: 70, loy: 50, crp: 0, sta: 0 },
       });
-      const defender = makeUnit({ id: 'enemy', faction: 'enemy', equippedWeapon: { ...WEAPONS.iron_lance } });
+      const defender = makeUnit({
+        id: 'enemy',
+        faction: 'enemy',
+        equippedWeapon: { ...WEAPONS.iron_lance },
+      });
       const forecast = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1);
       // Memory Blade dynamic might = 1 + floor(347 / 30) = 1 + 11 = 12
       // Damage = str(12) + might(12) - def(8) + triangle(sword vs lance = -1) = 15
@@ -49,12 +74,14 @@ describe('Late-Game Weapons', () => {
         equippedWeapon: { ...WEAPONS.cycle_breaker_bow },
       });
       const construct = makeUnit({
-        id: 'enemy', faction: 'enemy',
+        id: 'enemy',
+        faction: 'enemy',
         equippedWeapon: { ...WEAPONS.iron_sword },
         tags: ['system_construct'],
       });
       const normalEnemy = makeUnit({
-        id: 'enemy2', faction: 'enemy',
+        id: 'enemy2',
+        faction: 'enemy',
         equippedWeapon: { ...WEAPONS.iron_sword },
       });
       const forecastVsConstruct = calculateCombatForecast(attacker, construct, 'plain', 'plain', 2);
@@ -79,17 +106,25 @@ describe('Late-Game Weapons', () => {
         equippedWeapon: { ...WEAPONS.echos_interface },
       });
       const corruptedEnemy = makeUnit({
-        id: 'enemy', faction: 'enemy',
+        id: 'enemy',
+        faction: 'enemy',
         equippedWeapon: { ...WEAPONS.iron_sword },
         metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 40, sta: 0 },
       });
       const cleanEnemy = makeUnit({
-        id: 'enemy2', faction: 'enemy',
+        id: 'enemy2',
+        faction: 'enemy',
         equippedWeapon: { ...WEAPONS.iron_sword },
         metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
       });
 
-      const forecastCorrupt = calculateCombatForecast(attacker, corruptedEnemy, 'plain', 'plain', 1);
+      const forecastCorrupt = calculateCombatForecast(
+        attacker,
+        corruptedEnemy,
+        'plain',
+        'plain',
+        1,
+      );
       const forecastClean = calculateCombatForecast(attacker, cleanEnemy, 'plain', 'plain', 1);
 
       // vs corrupted: mag(15) + might(40) - res(8) = 47, + light magic bonus on top
@@ -104,11 +139,15 @@ describe('Late-Game Weapons', () => {
         equippedWeapon: { ...WEAPONS.rapier },
       });
       const armored = makeUnit({
-        id: 'enemy', faction: 'enemy', classId: 'knight',
+        id: 'enemy',
+        faction: 'enemy',
+        classId: 'knight',
         equippedWeapon: { ...WEAPONS.iron_lance },
       });
       const normal = makeUnit({
-        id: 'enemy2', faction: 'enemy', classId: 'soldier',
+        id: 'enemy2',
+        faction: 'enemy',
+        classId: 'soldier',
         equippedWeapon: { ...WEAPONS.iron_lance },
       });
       const forecastArmored = calculateCombatForecast(attacker, armored, 'plain', 'plain', 1);

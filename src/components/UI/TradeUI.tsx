@@ -58,9 +58,7 @@ export function TradeUI() {
         <div className="trade-ui__column" data-testid="trade-column-a">
           <div className="trade-ui__unit-name">{unitA.name}</div>
           <div className="trade-ui__items">
-            {previewItemsA.length === 0 && (
-              <div className="trade-ui__empty">No items</div>
-            )}
+            {previewItemsA.length === 0 && <div className="trade-ui__empty">No items</div>}
             {previewItemsA.map((item, i) => (
               <button
                 key={`a-${i}-${item.id}`}
@@ -69,7 +67,9 @@ export function TradeUI() {
                 onClick={() => handleTransfer('a', i)}
               >
                 <span>{item.name}</span>
-                <span className="trade-ui__uses">({item.uses}/{item.maxUses})</span>
+                <span className="trade-ui__uses">
+                  ({item.uses}/{item.maxUses})
+                </span>
                 <span className="trade-ui__arrow">&rarr;</span>
               </button>
             ))}
@@ -79,9 +79,7 @@ export function TradeUI() {
         <div className="trade-ui__column" data-testid="trade-column-b">
           <div className="trade-ui__unit-name">{unitB.name}</div>
           <div className="trade-ui__items">
-            {previewItemsB.length === 0 && (
-              <div className="trade-ui__empty">No items</div>
-            )}
+            {previewItemsB.length === 0 && <div className="trade-ui__empty">No items</div>}
             {previewItemsB.map((item, i) => (
               <button
                 key={`b-${i}-${item.id}`}
@@ -91,7 +89,9 @@ export function TradeUI() {
               >
                 <span className="trade-ui__arrow">&larr;</span>
                 <span>{item.name}</span>
-                <span className="trade-ui__uses">({item.uses}/{item.maxUses})</span>
+                <span className="trade-ui__uses">
+                  ({item.uses}/{item.maxUses})
+                </span>
               </button>
             ))}
           </div>

@@ -36,7 +36,11 @@ export function applyCombatResult(
   const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
 
   // Apply HP changes
-  newUnits.set(attackerId, { ...attacker, currentHp: combatResult.attackerHpAfter, hasActed: true });
+  newUnits.set(attackerId, {
+    ...attacker,
+    currentHp: combatResult.attackerHpAfter,
+    hasActed: true,
+  });
   newUnits.set(defenderId, { ...defender, currentHp: combatResult.defenderHpAfter });
 
   let deathQuote: CombatResolutionResult['deathQuote'] = null;
@@ -108,11 +112,14 @@ export function applyCombatResult(
   // Trauma skill assignment on permadeath
   const permadeath = difficulty ? isPermadeath(difficulty) : true;
   if (permadeath) {
-    let runningDeaths = ((useCampaignStore.getState().campaignFlags.total_deaths as number) ?? 0);
+    let runningDeaths = (useCampaignStore.getState().campaignFlags.total_deaths as number) ?? 0;
     if (combatResult.defenderDied && defender.faction === 'player' && !defender.isLord) {
       runningDeaths += 1;
       useCampaignStore.setState({
-        campaignFlags: { ...useCampaignStore.getState().campaignFlags, total_deaths: runningDeaths },
+        campaignFlags: {
+          ...useCampaignStore.getState().campaignFlags,
+          total_deaths: runningDeaths,
+        },
       });
       const assignment = assignTraumaSkill(runningDeaths, defenderId, newUnits, defender.position);
       if (assignment) {
@@ -127,7 +134,10 @@ export function applyCombatResult(
     if (combatResult.attackerDied && attacker.faction === 'player' && !attacker.isLord) {
       runningDeaths += 1;
       useCampaignStore.setState({
-        campaignFlags: { ...useCampaignStore.getState().campaignFlags, total_deaths: runningDeaths },
+        campaignFlags: {
+          ...useCampaignStore.getState().campaignFlags,
+          total_deaths: runningDeaths,
+        },
       });
       const assignment = assignTraumaSkill(runningDeaths, attackerId, newUnits, attacker.position);
       if (assignment) {
@@ -147,16 +157,32 @@ export function applyCombatResult(
   const dmgToDefender = defender.currentHp - combatResult.defenderHpAfter;
   const dmgToAttacker = attacker.currentHp - combatResult.attackerHpAfter;
   if (dmgToDefender > 0 && !combatResult.defenderDied) {
-    floatingNumbers.push({ id: floatId++, x: defender.position.x, y: defender.position.y, text: `-${dmgToDefender}`, color: '#ef4444' });
+    floatingNumbers.push({
+      id: floatId++,
+      x: defender.position.x,
+      y: defender.position.y,
+      text: `-${dmgToDefender}`,
+      color: '#ef4444',
+    });
   }
   if (dmgToAttacker > 0 && !combatResult.attackerDied) {
-    floatingNumbers.push({ id: floatId++, x: attacker.position.x, y: attacker.position.y, text: `-${dmgToAttacker}`, color: '#ef4444' });
+    floatingNumbers.push({
+      id: floatId++,
+      x: attacker.position.x,
+      y: attacker.position.y,
+      text: `-${dmgToAttacker}`,
+      color: '#ef4444',
+    });
   }
 
   // LOY -5 for adjacent player allies when Ren takes damage
   const renDamaged =
-    (attackerId === 'ren' && combatResult.attackerHpAfter < attacker.currentHp && !combatResult.attackerDied) ||
-    (defenderId === 'ren' && combatResult.defenderHpAfter < defender.currentHp && !combatResult.defenderDied);
+    (attackerId === 'ren' &&
+      combatResult.attackerHpAfter < attacker.currentHp &&
+      !combatResult.attackerDied) ||
+    (defenderId === 'ren' &&
+      combatResult.defenderHpAfter < defender.currentHp &&
+      !combatResult.defenderDied);
   if (renDamaged) {
     const ren = newUnits.get('ren');
     if (ren) {
@@ -165,7 +191,13 @@ export function applyCombatResult(
         if (getManhattanDistance(u.position, ren.position) <= 1) {
           const newMeta = clampMetaStats({ ...u.metaStats, loy: u.metaStats.loy - 5 });
           newUnits.set(uid, { ...u, metaStats: newMeta });
-          floatingNumbers.push({ id: floatId++, x: u.position.x, y: u.position.y, text: 'LOY -5', color: '#eab308' });
+          floatingNumbers.push({
+            id: floatId++,
+            x: u.position.x,
+            y: u.position.y,
+            text: 'LOY -5',
+            color: '#eab308',
+          });
         }
       }
     }
@@ -178,7 +210,10 @@ export function applyCombatResult(
 }
 
 /** Check if the game should end based on objective and current state */
-function checkVictorySimple(units: Map<string, Unit>, chapterData: ChapterData | null): 'victory' | 'defeat' | null {
+function checkVictorySimple(
+  units: Map<string, Unit>,
+  chapterData: ChapterData | null,
+): 'victory' | 'defeat' | null {
   let hasPlayer = false;
   let hasEnemy = false;
   for (const u of units.values()) {

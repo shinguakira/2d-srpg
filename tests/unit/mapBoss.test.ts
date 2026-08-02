@@ -1,5 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { getMapBossEnemyHealRate, getMapBossSpawnRate } from '../../src/stores/actions/mapBossActions';
+import {
+  getMapBossEnemyHealRate,
+  getMapBossSpawnRate,
+} from '../../src/stores/actions/mapBossActions';
 import { checkVictory } from '../../src/stores/helpers/mapHelpers';
 import type { MapBossState, Unit, ChapterData } from '../../src/core/types';
 
@@ -8,7 +11,11 @@ function makeMapBossState(overrides: Partial<MapBossState> = {}): MapBossState {
     maxHp: 300,
     currentHp: 300,
     currentPhase: 0,
-    checkpointPositions: [{ x: 5, y: 5 }, { x: 10, y: 10 }, { x: 15, y: 15 }],
+    checkpointPositions: [
+      { x: 5, y: 5 },
+      { x: 10, y: 10 },
+      { x: 15, y: 15 },
+    ],
     phases: [
       { hpThreshold: 300, terrainChanges: [], enemyHealRate: 5, spawnRate: 1 },
       { hpThreshold: 200, terrainChanges: [], enemyHealRate: 10, spawnRate: 2 },
@@ -90,13 +97,60 @@ describe('Map-as-Boss System', () => {
   describe('edge case: all units dead in survive chapter', () => {
     function makeUnit(id: string, faction: 'player' | 'enemy', overrides?: Partial<Unit>): Unit {
       return {
-        id, name: id, classId: 'lord', level: 1, exp: 0, faction,
-        stats: { hp: 20, str: 5, mag: 0, def: 5, res: 0, spd: 5, skl: 5, lck: 5, mov: 5, cha: 0, wil: 0 },
-        currentHp: 20, position: { x: 0, y: 0 }, startPosition: { x: 0, y: 0 },
-        equippedWeapon: { id: 'iron_sword', name: 'Iron Sword', type: 'sword', might: 5, hit: 90, crit: 0, range: [1], weight: 5, rank: 'E', uses: 40, maxUses: 40 },
-        inventory: [], items: [], skills: [], learnedSkills: [], traumaSkills: [],
-        hasActed: false, facing: 'right' as const,
-        growthRates: { hp: 0, str: 0, mag: 0, def: 0, res: 0, spd: 0, skl: 0, lck: 0, cha: 0, wil: 0 },
+        id,
+        name: id,
+        classId: 'lord',
+        level: 1,
+        exp: 0,
+        faction,
+        stats: {
+          hp: 20,
+          str: 5,
+          mag: 0,
+          def: 5,
+          res: 0,
+          spd: 5,
+          skl: 5,
+          lck: 5,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
+        currentHp: 20,
+        position: { x: 0, y: 0 },
+        startPosition: { x: 0, y: 0 },
+        equippedWeapon: {
+          id: 'iron_sword',
+          name: 'Iron Sword',
+          type: 'sword',
+          might: 5,
+          hit: 90,
+          crit: 0,
+          range: [1],
+          weight: 5,
+          rank: 'E',
+          uses: 40,
+          maxUses: 40,
+        },
+        inventory: [],
+        items: [],
+        skills: [],
+        learnedSkills: [],
+        traumaSkills: [],
+        hasActed: false,
+        facing: 'right' as const,
+        growthRates: {
+          hp: 0,
+          str: 0,
+          mag: 0,
+          def: 0,
+          res: 0,
+          spd: 0,
+          skl: 0,
+          lck: 0,
+          cha: 0,
+          wil: 0,
+        },
         metaStats: { awr: 0, loop: 347, sync: 80, loy: 50, crp: 0, sta: 0 },
         ...overrides,
       } as Unit;

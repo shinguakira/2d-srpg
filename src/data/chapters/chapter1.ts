@@ -54,9 +54,20 @@ export const CHAPTER_1: ChapterData = {
   seizePosition: { x: 11, y: 1 },
   prologue: {
     lines: [
-      { speaker: 'Narrator', text: 'A village. Smoke rising. Bandits approaching. The classic opening.' },
-      { speaker: 'Kael', text: 'Lord Ren! Bandits are attacking the village! We must\u2014', speakerFaction: 'player' },
-      { speaker: 'Ren', text: 'Defend the east bridge, route the enemies, save the villager at the west end. I know.', speakerFaction: 'player' },
+      {
+        speaker: 'Narrator',
+        text: 'A village. Smoke rising. Bandits approaching. The classic opening.',
+      },
+      {
+        speaker: 'Kael',
+        text: 'Lord Ren! Bandits are attacking the village! We must\u2014',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Ren',
+        text: 'Defend the east bridge, route the enemies, save the villager at the west end. I know.',
+        speakerFaction: 'player',
+      },
       { speaker: 'Kael', text: '...How do you know about the villager?', speakerFaction: 'player' },
       { speaker: 'Ren', text: "Lucky guess. Let's go.", speakerFaction: 'player' },
     ],
@@ -83,14 +94,29 @@ export const CHAPTER_1: ChapterData = {
   ],
   epilogue: {
     lines: [
-      { speaker: 'Kael', text: 'A fine victory! Our first battle together!', speakerFaction: 'player' },
+      {
+        speaker: 'Kael',
+        text: 'A fine victory! Our first battle together!',
+        speakerFaction: 'player',
+      },
       { speaker: 'Ren', text: '...Yeah. The first.', speakerFaction: 'player' },
-      { speaker: 'Lira', text: 'Excuse me! Is this where the story starts? I heard there would be character development and meaningful bonds!', speakerFaction: 'player' },
+      {
+        speaker: 'Lira',
+        text: 'Excuse me! Is this where the story starts? I heard there would be character development and meaningful bonds!',
+        speakerFaction: 'player',
+      },
       { speaker: 'Ren', text: '...Who are you?', speakerFaction: 'player' },
-      { speaker: 'Lira', text: "I'm your healer! And possibly your love interest? The game hasn't decided yet.", speakerFaction: 'player' },
+      {
+        speaker: 'Lira',
+        text: "I'm your healer! And possibly your love interest? The game hasn't decided yet.",
+        speakerFaction: 'player',
+      },
       { speaker: 'Ren', text: "We don't have a romance system.", speakerFaction: 'player' },
       { speaker: 'Lira', text: '...We WHAT?', speakerFaction: 'player' },
-      { speaker: 'Narrator', text: "Ren's company presses onward, their ranks growing in unexpected ways." },
+      {
+        speaker: 'Narrator',
+        text: "Ren's company presses onward, their ranks growing in unexpected ways.",
+      },
     ],
   },
   deploymentSlots: 5,
@@ -107,10 +133,26 @@ export const CHAPTER_1: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Bram', text: "FINALLY! A BATTLE! Where's the combo meter??", speakerFaction: 'player' },
-              { speaker: 'Ren', text: "There's no combo meter. You get one attack per turn.", speakerFaction: 'player' },
-              { speaker: 'Bram', text: '...What kind of sick game is this?', speakerFaction: 'player' },
-              { speaker: 'Ren', text: "The kind with 5-tile movement and weapon triangles. Stay behind Kael.", speakerFaction: 'player' },
+              {
+                speaker: 'Bram',
+                text: "FINALLY! A BATTLE! Where's the combo meter??",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Ren',
+                text: "There's no combo meter. You get one attack per turn.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Bram',
+                text: '...What kind of sick game is this?',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Ren',
+                text: 'The kind with 5-tile movement and weapon triangles. Stay behind Kael.',
+                speakerFaction: 'player',
+              },
             ],
           },
         },
@@ -126,9 +168,21 @@ export const CHAPTER_1: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Bram', text: "Why did I hit like a WET NAPKIN? I have the highest STR!", speakerFaction: 'player' },
-              { speaker: 'Senna', text: 'Weapon triangle. Axes lose to lances, lances lose to swords, swords lose to axes.', speakerFaction: 'player' },
-              { speaker: 'Bram', text: "That's ROCK PAPER SCISSORS. This game is ROCK PAPER SCISSORS.", speakerFaction: 'player' },
+              {
+                speaker: 'Bram',
+                text: 'Why did I hit like a WET NAPKIN? I have the highest STR!',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Senna',
+                text: 'Weapon triangle. Axes lose to lances, lances lose to swords, swords lose to axes.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Bram',
+                text: "That's ROCK PAPER SCISSORS. This game is ROCK PAPER SCISSORS.",
+                speakerFaction: 'player',
+              },
               { speaker: 'Ren', text: 'Welcome to tactical RPGs.', speakerFaction: 'player' },
             ],
           },
@@ -145,11 +199,31 @@ export const CHAPTER_1: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Garrek', text: "I am Garrek the Terr\u2014 stop YAWNING. This is my INTRO SPEECH.", speakerFaction: 'enemy' },
-              { speaker: 'Ren', text: "I've heard it 347 times, Garrek.", speakerFaction: 'player' },
-              { speaker: 'Garrek', text: "Well I've GIVEN it 347 times and it still deserves RESPECT.", speakerFaction: 'enemy' },
-              { speaker: 'Ren', text: 'Can we skip to the part where I beat you with the Rapier?', speakerFaction: 'player' },
-              { speaker: 'Garrek', text: 'NO. We do the speech. We do the fight. We do this PROPERLY.', speakerFaction: 'enemy' },
+              {
+                speaker: 'Garrek',
+                text: 'I am Garrek the Terr\u2014 stop YAWNING. This is my INTRO SPEECH.',
+                speakerFaction: 'enemy',
+              },
+              {
+                speaker: 'Ren',
+                text: "I've heard it 347 times, Garrek.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Garrek',
+                text: "Well I've GIVEN it 347 times and it still deserves RESPECT.",
+                speakerFaction: 'enemy',
+              },
+              {
+                speaker: 'Ren',
+                text: 'Can we skip to the part where I beat you with the Rapier?',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Garrek',
+                text: 'NO. We do the speech. We do the fight. We do this PROPERLY.',
+                speakerFaction: 'enemy',
+              },
             ],
           },
         },
@@ -165,9 +239,13 @@ export const CHAPTER_1: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Garrek', text: 'You remember too, don\'t you?', speakerFaction: 'enemy' },
+              { speaker: 'Garrek', text: "You remember too, don't you?", speakerFaction: 'enemy' },
               { speaker: 'Ren', text: '...How long have you known?', speakerFaction: 'player' },
-              { speaker: 'Garrek', text: "Every cycle. All 347. I've been the tutorial boss since the beginning. You at least get to MOVE. I stand on this throne and wait to die.", speakerFaction: 'enemy' },
+              {
+                speaker: 'Garrek',
+                text: "Every cycle. All 347. I've been the tutorial boss since the beginning. You at least get to MOVE. I stand on this throne and wait to die.",
+                speakerFaction: 'enemy',
+              },
               { speaker: 'Ren', text: "I'm sorry.", speakerFaction: 'player' },
               { speaker: 'Garrek', text: 'Just make it quick.', speakerFaction: 'enemy' },
             ],
@@ -200,11 +278,27 @@ export const CHAPTER_1: ChapterData = {
       unitA: 'ren',
       unitB: 'kael',
       lines: [
-        { speaker: 'Kael', text: "Ren, you knew exactly where every enemy was. Before we even started.", speakerFaction: 'player' },
-        { speaker: 'Ren', text: "I pay attention.", speakerFaction: 'player' },
-        { speaker: 'Kael', text: "Nobody pays THAT much attention. You called the bandit by name.", speakerFaction: 'player' },
-        { speaker: 'Ren', text: "Kael... when the time is right, I'll explain everything. For now, just trust me.", speakerFaction: 'player' },
-        { speaker: 'Kael', text: '...Very well. I trust you, Ren. Always.', speakerFaction: 'player' },
+        {
+          speaker: 'Kael',
+          text: 'Ren, you knew exactly where every enemy was. Before we even started.',
+          speakerFaction: 'player',
+        },
+        { speaker: 'Ren', text: 'I pay attention.', speakerFaction: 'player' },
+        {
+          speaker: 'Kael',
+          text: 'Nobody pays THAT much attention. You called the bandit by name.',
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Ren',
+          text: "Kael... when the time is right, I'll explain everything. For now, just trust me.",
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Kael',
+          text: '...Very well. I trust you, Ren. Always.',
+          speakerFaction: 'player',
+        },
       ],
       reward: { type: 'exp_both', amount: 20 },
     },
@@ -212,10 +306,22 @@ export const CHAPTER_1: ChapterData = {
       unitA: 'senna',
       unitB: 'lira',
       lines: [
-        { speaker: 'Lira', text: "Senna! I've been meaning to ask \u2014 do you believe in love at first sight?", speakerFaction: 'player' },
-        { speaker: 'Senna', text: "I believe in observable phenomena with reproducible results. 'Love at first sight' is a confirmation bias.", speakerFaction: 'player' },
-        { speaker: 'Lira', text: "That's... the most romantic thing anyone has ever said to me.", speakerFaction: 'player' },
-        { speaker: 'Senna', text: "...How?", speakerFaction: 'player' },
+        {
+          speaker: 'Lira',
+          text: "Senna! I've been meaning to ask \u2014 do you believe in love at first sight?",
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Senna',
+          text: "I believe in observable phenomena with reproducible results. 'Love at first sight' is a confirmation bias.",
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Lira',
+          text: "That's... the most romantic thing anyone has ever said to me.",
+          speakerFaction: 'player',
+        },
+        { speaker: 'Senna', text: '...How?', speakerFaction: 'player' },
       ],
       reward: { type: 'stat', unitId: 'lira', stat: 'mag', amount: 1 },
     },

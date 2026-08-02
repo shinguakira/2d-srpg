@@ -60,11 +60,7 @@ export function CreditsScreen() {
           >
             New Game+
           </button>
-          <button
-            className="credits-screen__btn"
-            data-testid="credits-title"
-            onClick={goToTitle}
-          >
+          <button className="credits-screen__btn" data-testid="credits-title" onClick={goToTitle}>
             Return to Title
           </button>
         </div>

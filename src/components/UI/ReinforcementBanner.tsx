@@ -32,13 +32,15 @@ export function ReinforcementBanner() {
         animation: 'slide-down 0.3s ease-out',
       }}
     >
-      <span style={{
-        color: '#ef4444',
-        fontSize: '20px',
-        fontWeight: 'bold',
-        letterSpacing: '2px',
-        textTransform: 'uppercase',
-      }}>
+      <span
+        style={{
+          color: '#ef4444',
+          fontSize: '20px',
+          fontWeight: 'bold',
+          letterSpacing: '2px',
+          textTransform: 'uppercase',
+        }}
+      >
         {message}
       </span>
     </div>

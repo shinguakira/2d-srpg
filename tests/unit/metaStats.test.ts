@@ -23,20 +23,52 @@ import type { Unit, UnitStats, Weapon, MetaStats } from '../../src/core/types';
 import { SeededRandom } from '../../src/core/rng';
 
 const BASE_STATS: UnitStats = {
-  hp: 20, str: 8, mag: 4, def: 5, res: 3, spd: 7, skl: 6, lck: 4, mov: 5, cha: 0, wil: 0,
+  hp: 20,
+  str: 8,
+  mag: 4,
+  def: 5,
+  res: 3,
+  spd: 7,
+  skl: 6,
+  lck: 4,
+  mov: 5,
+  cha: 0,
+  wil: 0,
 };
 
 function makeWeapon(): Weapon {
-  return { id: 'iron_sword', name: 'Iron Sword', type: 'sword', might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1 };
+  return {
+    id: 'iron_sword',
+    name: 'Iron Sword',
+    type: 'sword',
+    might: 5,
+    hit: 90,
+    crit: 0,
+    weight: 5,
+    minRange: 1,
+    maxRange: 1,
+  };
 }
 
 function makeUnit(meta: Partial<MetaStats> = {}): Unit {
   return {
-    id: 'test', name: 'Test', classId: 'lord', faction: 'player',
-    position: { x: 0, y: 0 }, stats: { ...BASE_STATS }, currentHp: 20,
-    level: 1, exp: 0, equippedWeapon: makeWeapon(), inventory: [makeWeapon()],
-    items: [], hasActed: false, facing: 'down', sprite: '',
-    skills: [], learnedSkills: [],
+    id: 'test',
+    name: 'Test',
+    classId: 'lord',
+    faction: 'player',
+    position: { x: 0, y: 0 },
+    stats: { ...BASE_STATS },
+    currentHp: 20,
+    level: 1,
+    exp: 0,
+    equippedWeapon: makeWeapon(),
+    inventory: [makeWeapon()],
+    items: [],
+    hasActed: false,
+    facing: 'down',
+    sprite: '',
+    skills: [],
+    learnedSkills: [],
     metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0, ...meta },
   };
 }

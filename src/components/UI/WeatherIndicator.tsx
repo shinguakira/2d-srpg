@@ -22,7 +22,9 @@ export function WeatherIndicator() {
       {showTooltip && (
         <div className="weather-indicator__tooltip" data-testid="weather-tooltip">
           {info.effects.map((e, i) => (
-            <div key={i} className="weather-indicator__effect">{e}</div>
+            <div key={i} className="weather-indicator__effect">
+              {e}
+            </div>
           ))}
         </div>
       )}

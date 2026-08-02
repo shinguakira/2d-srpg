@@ -19,7 +19,10 @@ async function endTurnAndWait(page: import('@playwright/test').Page) {
   for (let i = 0; i < 10; i++) {
     const combat = page.locator('[data-testid="combat-animation"]');
     if (await combat.isVisible().catch(() => false)) {
-      await page.waitForSelector('[data-testid="combat-animation"]', { state: 'hidden', timeout: 20000 });
+      await page.waitForSelector('[data-testid="combat-animation"]', {
+        state: 'hidden',
+        timeout: 20000,
+      });
       await page.waitForTimeout(500);
     } else {
       break;
@@ -348,7 +351,10 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
       await page.screenshot({ path: 'screenshots/e2e/18a-combat-animation.png' });
       await page.waitForTimeout(1000);
       await page.screenshot({ path: 'screenshots/e2e/18b-combat-mid.png' });
-      await page.waitForSelector('[data-testid="combat-animation"]', { state: 'hidden', timeout: 15000 });
+      await page.waitForSelector('[data-testid="combat-animation"]', {
+        state: 'hidden',
+        timeout: 15000,
+      });
       await page.waitForTimeout(300);
 
       const levelUp = page.locator('[data-testid="level-up-popup"]');
@@ -392,7 +398,10 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     if (await combat.isVisible().catch(() => false)) {
       await page.waitForTimeout(600);
       await page.screenshot({ path: 'screenshots/e2e/19a-enemy-combat-anim.png' });
-      await page.waitForSelector('[data-testid="combat-animation"]', { state: 'hidden', timeout: 15000 });
+      await page.waitForSelector('[data-testid="combat-animation"]', {
+        state: 'hidden',
+        timeout: 15000,
+      });
       await page.waitForTimeout(200);
     }
 
@@ -408,7 +417,10 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     // Wait for more combat animations
     for (let i = 0; i < 5; i++) {
       if (await combat.isVisible().catch(() => false)) {
-        await page.waitForSelector('[data-testid="combat-animation"]', { state: 'hidden', timeout: 15000 });
+        await page.waitForSelector('[data-testid="combat-animation"]', {
+          state: 'hidden',
+          timeout: 15000,
+        });
         await page.waitForTimeout(200);
         const lu = page.locator('[data-testid="level-up-popup"]');
         if (await lu.isVisible().catch(() => false)) {
@@ -567,7 +579,10 @@ test.describe('Screenshot Report — Chapter 3', () => {
       if (await combat.isVisible().catch(() => false)) {
         await page.waitForTimeout(600);
         await page.screenshot({ path: 'screenshots/e2e/25-ch3-combat.png' });
-        await page.waitForSelector('[data-testid="combat-animation"]', { state: 'hidden', timeout: 20000 });
+        await page.waitForSelector('[data-testid="combat-animation"]', {
+          state: 'hidden',
+          timeout: 20000,
+        });
         await page.waitForTimeout(300);
         // Dismiss level-up
         const lu = page.locator('[data-testid="level-up-popup"]');
@@ -645,7 +660,10 @@ test.describe('Screenshot Report — Chapter 4', () => {
       if (await combat.isVisible().catch(() => false)) {
         await page.waitForTimeout(600);
         await page.screenshot({ path: 'screenshots/e2e/31-ch4-combat.png' });
-        await page.waitForSelector('[data-testid="combat-animation"]', { state: 'hidden', timeout: 20000 });
+        await page.waitForSelector('[data-testid="combat-animation"]', {
+          state: 'hidden',
+          timeout: 20000,
+        });
         await page.waitForTimeout(300);
         const lu = page.locator('[data-testid="level-up-popup"]');
         if (await lu.isVisible().catch(() => false)) {

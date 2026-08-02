@@ -7,29 +7,57 @@ function makeMap(terrain: TerrainType[][]): GameMap {
   const height = terrain.length;
   const width = terrain[0].length;
   const tiles: Tile[][] = terrain.map((row, y) =>
-    row.map((t, x) => ({ position: { x, y }, terrain: t, occupantId: null }))
+    row.map((t, x) => ({ position: { x, y }, terrain: t, occupantId: null })),
   );
   return { width, height, tiles };
 }
 
 function makeWeapon(overrides: Partial<Weapon> = {}): Weapon {
   return {
-    id: 'iron_sword', name: 'Iron Sword', type: 'sword',
-    might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1,
+    id: 'iron_sword',
+    name: 'Iron Sword',
+    type: 'sword',
+    might: 5,
+    hit: 90,
+    crit: 0,
+    weight: 5,
+    minRange: 1,
+    maxRange: 1,
     ...overrides,
   };
 }
 
 function makeUnit(id: string, pos: Position, overrides: Partial<Unit> = {}): Unit {
   return {
-    id, name: id, classId: 'lord', faction: 'player',
+    id,
+    name: id,
+    classId: 'lord',
+    faction: 'player',
     position: pos,
-    stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
-    currentHp: 20, level: 1, exp: 0,
+    stats: {
+      hp: 20,
+      str: 8,
+      mag: 0,
+      def: 5,
+      res: 0,
+      spd: 7,
+      skl: 5,
+      lck: 3,
+      mov: 5,
+      cha: 0,
+      wil: 0,
+    },
+    currentHp: 20,
+    level: 1,
+    exp: 0,
     equippedWeapon: makeWeapon(),
     inventory: [makeWeapon()],
-    items: [], hasActed: false, facing: 'down' as const, sprite: '',
-    skills: [], learnedSkills: [],
+    items: [],
+    hasActed: false,
+    facing: 'down' as const,
+    sprite: '',
+    skills: [],
+    learnedSkills: [],
     metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
     ...overrides,
   };
@@ -64,19 +92,49 @@ describe('Canto after combat (Bug 1)', () => {
 
   it('activates after dismissExpBar for cavalier with canto', () => {
     // Cavalier has innate canto skill
-    const map = makeMap([
-      ['plain', 'plain', 'plain', 'plain', 'plain'],
-    ]);
-    const cavalier = makeUnit('cav', { x: 0, y: 0 }, {
-      classId: 'cavalier',
-      stats: { hp: 30, str: 12, mag: 0, def: 8, res: 3, spd: 10, skl: 8, lck: 5, mov: 7, cha: 0, wil: 0 },
-      currentHp: 30,
-    });
-    const enemy = makeUnit('enemy', { x: 2, y: 0 }, {
-      faction: 'enemy',
-      stats: { hp: 20, str: 5, mag: 0, def: 3, res: 0, spd: 5, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
-      currentHp: 20,
-    });
+    const map = makeMap([['plain', 'plain', 'plain', 'plain', 'plain']]);
+    const cavalier = makeUnit(
+      'cav',
+      { x: 0, y: 0 },
+      {
+        classId: 'cavalier',
+        stats: {
+          hp: 30,
+          str: 12,
+          mag: 0,
+          def: 8,
+          res: 3,
+          spd: 10,
+          skl: 8,
+          lck: 5,
+          mov: 7,
+          cha: 0,
+          wil: 0,
+        },
+        currentHp: 30,
+      },
+    );
+    const enemy = makeUnit(
+      'enemy',
+      { x: 2, y: 0 },
+      {
+        faction: 'enemy',
+        stats: {
+          hp: 20,
+          str: 5,
+          mag: 0,
+          def: 3,
+          res: 0,
+          spd: 5,
+          skl: 5,
+          lck: 3,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
+        currentHp: 20,
+      },
+    );
 
     setupStore([cavalier, enemy], map);
 
@@ -87,8 +145,11 @@ describe('Canto after combat (Bug 1)', () => {
       pendingPosition: { x: 1, y: 0 },
       playerAction: 'idle',
       expBarData: {
-        unitId: 'cav', unitName: 'cav',
-        expBefore: 0, expGain: 30, leveled: false,
+        unitId: 'cav',
+        unitName: 'cav',
+        expBefore: 0,
+        expGain: 30,
+        leveled: false,
       },
       levelUpGains: null,
       levelUpUnitId: null,
@@ -104,19 +165,49 @@ describe('Canto after combat (Bug 1)', () => {
   });
 
   it('activates after dismissLevelUp for cavalier with canto', () => {
-    const map = makeMap([
-      ['plain', 'plain', 'plain', 'plain', 'plain'],
-    ]);
-    const cavalier = makeUnit('cav', { x: 0, y: 0 }, {
-      classId: 'cavalier',
-      stats: { hp: 30, str: 12, mag: 0, def: 8, res: 3, spd: 10, skl: 8, lck: 5, mov: 7, cha: 0, wil: 0 },
-      currentHp: 30,
-    });
-    const enemy = makeUnit('enemy', { x: 2, y: 0 }, {
-      faction: 'enemy',
-      stats: { hp: 20, str: 5, mag: 0, def: 3, res: 0, spd: 5, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
-      currentHp: 20,
-    });
+    const map = makeMap([['plain', 'plain', 'plain', 'plain', 'plain']]);
+    const cavalier = makeUnit(
+      'cav',
+      { x: 0, y: 0 },
+      {
+        classId: 'cavalier',
+        stats: {
+          hp: 30,
+          str: 12,
+          mag: 0,
+          def: 8,
+          res: 3,
+          spd: 10,
+          skl: 8,
+          lck: 5,
+          mov: 7,
+          cha: 0,
+          wil: 0,
+        },
+        currentHp: 30,
+      },
+    );
+    const enemy = makeUnit(
+      'enemy',
+      { x: 2, y: 0 },
+      {
+        faction: 'enemy',
+        stats: {
+          hp: 20,
+          str: 5,
+          mag: 0,
+          def: 3,
+          res: 0,
+          spd: 5,
+          skl: 5,
+          lck: 3,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
+        currentHp: 20,
+      },
+    );
 
     setupStore([cavalier, enemy], map);
 
@@ -144,16 +235,22 @@ describe('Canto after combat (Bug 1)', () => {
   });
 
   it('does NOT activate for non-canto units', () => {
-    const map = makeMap([
-      ['plain', 'plain', 'plain', 'plain', 'plain'],
-    ]);
+    const map = makeMap([['plain', 'plain', 'plain', 'plain', 'plain']]);
     // Lord has no canto
-    const lord = makeUnit('lord', { x: 0, y: 0 }, {
-      classId: 'lord',
-    });
-    const enemy = makeUnit('enemy', { x: 2, y: 0 }, {
-      faction: 'enemy',
-    });
+    const lord = makeUnit(
+      'lord',
+      { x: 0, y: 0 },
+      {
+        classId: 'lord',
+      },
+    );
+    const enemy = makeUnit(
+      'enemy',
+      { x: 2, y: 0 },
+      {
+        faction: 'enemy',
+      },
+    );
 
     setupStore([lord, enemy], map);
 
@@ -162,8 +259,11 @@ describe('Canto after combat (Bug 1)', () => {
       pendingPosition: { x: 1, y: 0 },
       playerAction: 'idle',
       expBarData: {
-        unitId: 'lord', unitName: 'lord',
-        expBefore: 0, expGain: 30, leveled: false,
+        unitId: 'lord',
+        unitName: 'lord',
+        expBefore: 0,
+        expGain: 30,
+        leveled: false,
       },
       levelUpGains: null,
       levelUpUnitId: null,
@@ -188,8 +288,11 @@ describe('Canto after combat (Bug 1)', () => {
       selectedUnitId: 'cav',
       pendingPosition: { x: 1, y: 0 },
       expBarData: {
-        unitId: 'cav', unitName: 'cav',
-        expBefore: 0, expGain: 20, leveled: false,
+        unitId: 'cav',
+        unitName: 'cav',
+        expBefore: 0,
+        expGain: 20,
+        leveled: false,
       },
     });
 

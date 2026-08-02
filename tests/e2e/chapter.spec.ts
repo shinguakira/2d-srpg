@@ -54,12 +54,18 @@ test.describe('Chapter 1 — Full Game Flow', () => {
     // Ren at (10, 10)
     await expect(page.locator('[data-testid="tile-10-10"] [data-testid="unit-ren"]')).toBeVisible();
     // Kael at (13, 10)
-    await expect(page.locator('[data-testid="tile-13-10"] [data-testid="unit-kael"]')).toBeVisible();
+    await expect(
+      page.locator('[data-testid="tile-13-10"] [data-testid="unit-kael"]'),
+    ).toBeVisible();
     // Senna at (9, 11)
-    await expect(page.locator('[data-testid="tile-9-11"] [data-testid="unit-senna"]')).toBeVisible();
+    await expect(
+      page.locator('[data-testid="tile-9-11"] [data-testid="unit-senna"]'),
+    ).toBeVisible();
 
     // fighter_3 at (11, 4)
-    await expect(page.locator('[data-testid="tile-11-4"] [data-testid="unit-fighter_3"]')).toBeVisible();
+    await expect(
+      page.locator('[data-testid="tile-11-4"] [data-testid="unit-fighter_3"]'),
+    ).toBeVisible();
   });
 
   test('terrain types are correctly rendered', async ({ page }) => {
@@ -68,7 +74,10 @@ test.describe('Chapter 1 — Full Game Flow', () => {
     await page.waitForTimeout(300);
 
     // Top-left is mountain
-    await expect(page.locator('[data-testid="tile-0-0"]')).toHaveAttribute('data-terrain', 'mountain');
+    await expect(page.locator('[data-testid="tile-0-0"]')).toHaveAttribute(
+      'data-terrain',
+      'mountain',
+    );
 
     // Fort at (11, 4)
     await expect(page.locator('[data-testid="tile-11-4"]')).toHaveAttribute('data-terrain', 'fort');
@@ -77,7 +86,10 @@ test.describe('Chapter 1 — Full Game Flow', () => {
     await expect(page.locator('[data-testid="tile-4-5"]')).toHaveAttribute('data-terrain', 'water');
 
     // Village at (3, 3)
-    await expect(page.locator('[data-testid="tile-3-3"]')).toHaveAttribute('data-terrain', 'village');
+    await expect(page.locator('[data-testid="tile-3-3"]')).toHaveAttribute(
+      'data-terrain',
+      'village',
+    );
   });
 
   test('seeded RNG produces deterministic results', async ({ page }) => {
@@ -99,7 +111,9 @@ test.describe('Chapter 1 — Full Game Flow', () => {
 
     // Wait for combat to fully resolve
     await page.waitForTimeout(6000);
-    await expect(page.locator('[data-testid="combat-animation"]')).not.toBeVisible({ timeout: 10000 });
+    await expect(page.locator('[data-testid="combat-animation"]')).not.toBeVisible({
+      timeout: 10000,
+    });
 
     // Capture Kael's HP after combat
     const kaelHp1 = await page.locator('[data-testid="unit-kael"]').getAttribute('data-hp');
@@ -121,7 +135,9 @@ test.describe('Chapter 1 — Full Game Flow', () => {
     // Combat starts immediately — no confirm step
 
     await page.waitForTimeout(6000);
-    await expect(page.locator('[data-testid="combat-animation"]')).not.toBeVisible({ timeout: 10000 });
+    await expect(page.locator('[data-testid="combat-animation"]')).not.toBeVisible({
+      timeout: 10000,
+    });
 
     const kaelHp2 = await page.locator('[data-testid="unit-kael"]').getAttribute('data-hp');
 

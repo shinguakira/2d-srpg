@@ -33,7 +33,9 @@ export function ChaptersView({
               onClick={() => onSelect(chId)}
             >
               <div className="debug-screen__entry-info">
-                <span className="debug-screen__entry-name">Ch.{ch.chapterNumber}: {ch.name.replace(/^Chapter \d+:\s*/, '')}</span>
+                <span className="debug-screen__entry-name">
+                  Ch.{ch.chapterNumber}: {ch.name.replace(/^Chapter \d+:\s*/, '')}
+                </span>
                 <span className="debug-screen__entry-meta">
                   <span
                     className="debug-screen__badge"
@@ -41,7 +43,9 @@ export function ChaptersView({
                   >
                     {ch.objective.type}
                   </span>
-                  <span className="debug-screen__entry-class">{ch.mapWidth}x{ch.mapHeight}</span>
+                  <span className="debug-screen__entry-class">
+                    {ch.mapWidth}x{ch.mapHeight}
+                  </span>
                 </span>
               </div>
             </button>
@@ -50,7 +54,11 @@ export function ChaptersView({
       </div>
 
       <div className="debug-screen__detail">
-        {selected ? <ChapterDetail chapter={selected} /> : <div className="debug-screen__empty">Select a chapter to view details</div>}
+        {selected ? (
+          <ChapterDetail chapter={selected} />
+        ) : (
+          <div className="debug-screen__empty">Select a chapter to view details</div>
+        )}
       </div>
     </div>
   );
@@ -90,8 +98,14 @@ function ChapterDetail({ chapter }: { chapter: ChapterData }) {
 
       <div className="debug-screen__section">
         <h3 className="debug-screen__section-title">Map</h3>
-        <p className="debug-screen__desc-text">{chapter.mapWidth} x {chapter.mapHeight} tiles</p>
-        {chapter.fogOfWar && <p className="debug-screen__desc-text" style={{ color: '#a855f7' }}>Fog of War enabled</p>}
+        <p className="debug-screen__desc-text">
+          {chapter.mapWidth} x {chapter.mapHeight} tiles
+        </p>
+        {chapter.fogOfWar && (
+          <p className="debug-screen__desc-text" style={{ color: '#a855f7' }}>
+            Fog of War enabled
+          </p>
+        )}
         {chapter.weather && <p className="debug-screen__desc-text">Weather: {chapter.weather}</p>}
       </div>
 
@@ -99,7 +113,10 @@ function ChapterDetail({ chapter }: { chapter: ChapterData }) {
         <h3 className="debug-screen__section-title">Player Units ({chapter.playerUnits.length})</h3>
         <table className="debug-screen__table">
           <thead>
-            <tr><th>Unit</th><th>Position</th></tr>
+            <tr>
+              <th>Unit</th>
+              <th>Position</th>
+            </tr>
           </thead>
           <tbody>
             {chapter.playerUnits.map((pu) => {
@@ -107,7 +124,9 @@ function ChapterDetail({ chapter }: { chapter: ChapterData }) {
               return (
                 <tr key={pu.unitId}>
                   <td>{unit?.name ?? pu.unitId}</td>
-                  <td>({pu.position.x}, {pu.position.y})</td>
+                  <td>
+                    ({pu.position.x}, {pu.position.y})
+                  </td>
                 </tr>
               );
             })}
@@ -125,7 +144,11 @@ function ChapterDetail({ chapter }: { chapter: ChapterData }) {
         <h3 className="debug-screen__section-title">Enemy Units ({chapter.enemyUnits.length})</h3>
         <table className="debug-screen__table">
           <thead>
-            <tr><th>Unit</th><th>Position</th><th>AI</th></tr>
+            <tr>
+              <th>Unit</th>
+              <th>Position</th>
+              <th>AI</th>
+            </tr>
           </thead>
           <tbody>
             {chapter.enemyUnits.map((eu, i) => {
@@ -133,7 +156,9 @@ function ChapterDetail({ chapter }: { chapter: ChapterData }) {
               return (
                 <tr key={`${eu.unitId}-${i}`}>
                   <td>{unit?.name ?? eu.unitId}</td>
-                  <td>({eu.position.x}, {eu.position.y})</td>
+                  <td>
+                    ({eu.position.x}, {eu.position.y})
+                  </td>
                   <td>
                     {unit?.aiBehavior ? (
                       <span className="debug-screen__badge" style={{ background: '#7c3aed' }}>
@@ -152,16 +177,23 @@ function ChapterDetail({ chapter }: { chapter: ChapterData }) {
 
       {chapter.reinforcements && chapter.reinforcements.length > 0 && (
         <div className="debug-screen__section">
-          <h3 className="debug-screen__section-title">Reinforcements ({chapter.reinforcements.length} waves)</h3>
+          <h3 className="debug-screen__section-title">
+            Reinforcements ({chapter.reinforcements.length} waves)
+          </h3>
           <table className="debug-screen__table">
             <thead>
-              <tr><th>Turn</th><th>Units</th></tr>
+              <tr>
+                <th>Turn</th>
+                <th>Units</th>
+              </tr>
             </thead>
             <tbody>
               {chapter.reinforcements.map((wave, i) => (
                 <tr key={i}>
                   <td>Turn {wave.turn}</td>
-                  <td>{wave.units.length} unit{wave.units.length !== 1 ? 's' : ''}</td>
+                  <td>
+                    {wave.units.length} unit{wave.units.length !== 1 ? 's' : ''}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -174,12 +206,17 @@ function ChapterDetail({ chapter }: { chapter: ChapterData }) {
           <h3 className="debug-screen__section-title">Villages ({chapter.villages.length})</h3>
           <table className="debug-screen__table">
             <thead>
-              <tr><th>Position</th><th>Reward</th></tr>
+              <tr>
+                <th>Position</th>
+                <th>Reward</th>
+              </tr>
             </thead>
             <tbody>
               {chapter.villages.map((v, i) => (
                 <tr key={i}>
-                  <td>({v.position.x}, {v.position.y})</td>
+                  <td>
+                    ({v.position.x}, {v.position.y})
+                  </td>
                   <td>{v.reward.weaponId}</td>
                 </tr>
               ))}
@@ -193,12 +230,18 @@ function ChapterDetail({ chapter }: { chapter: ChapterData }) {
           <h3 className="debug-screen__section-title">Events ({chapter.events.length})</h3>
           <table className="debug-screen__table">
             <thead>
-              <tr><th>Trigger</th><th>Type</th></tr>
+              <tr>
+                <th>Trigger</th>
+                <th>Type</th>
+              </tr>
             </thead>
             <tbody>
               {chapter.events.map((evt, i) => (
                 <tr key={i}>
-                  <td>{evt.trigger.type}{'turn' in evt.trigger ? ` ${evt.trigger.turn}` : ''}</td>
+                  <td>
+                    {evt.trigger.type}
+                    {'turn' in evt.trigger ? ` ${evt.trigger.turn}` : ''}
+                  </td>
                   <td>{evt.effects.map((e) => e.type).join(', ')}</td>
                 </tr>
               ))}

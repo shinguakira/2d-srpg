@@ -2,7 +2,14 @@ import { useState, useEffect } from 'react';
 import type { Faction, WeaponType } from '../../core/types';
 import { FACTION_COLORS } from '../sprites/classSprites';
 import { renderBattlePose } from '../sprites/battlePoses';
-import { getSheetConfig, sheetFrameW, sheetCols, sheetPxW, sheetPxH, sheetFrameH } from '../sprites/spriteSheetConfig';
+import {
+  getSheetConfig,
+  sheetFrameW,
+  sheetCols,
+  sheetPxW,
+  sheetPxH,
+  sheetFrameH,
+} from '../sprites/spriteSheetConfig';
 
 type BattleSpriteProps = {
   classId: string;
@@ -19,8 +26,8 @@ type BattleSpriteProps = {
 };
 
 /* ===== Battle display constants ===== */
-const DISPLAY = 120;           // display size in battle stage (px)
-const SHEET_IDLE_MS   = 150;
+const DISPLAY = 120; // display size in battle stage (px)
+const SHEET_IDLE_MS = 150;
 const SHEET_ATTACK_MS = 70;
 
 function buildSeq(row: number, cols: number): readonly [number, number][] {
@@ -34,14 +41,26 @@ const SVG_IDLE_MS = 300;
 function svgAttackFrame(phase?: string): number {
   switch (phase) {
     case 'crit-pause':
-    case 'windup': return 0;
+    case 'windup':
+      return 0;
     case 'dash':
-    case 'spell-fly': return 1;
-    default: return 2;
+    case 'spell-fly':
+      return 1;
+    default:
+      return 2;
   }
 }
 
-export function BattleSprite({ classId, faction, mirrored, pose = 'idle', phase, weaponId, unitId, static: isStatic }: BattleSpriteProps) {
+export function BattleSprite({
+  classId,
+  faction,
+  mirrored,
+  pose = 'idle',
+  phase,
+  weaponId,
+  unitId,
+  static: isStatic,
+}: BattleSpriteProps) {
   const cfg = getSheetConfig(classId, unitId);
   const cfgCols = sheetCols(cfg);
   const cfgFrameW = sheetFrameW(cfg);
@@ -54,15 +73,14 @@ export function BattleSprite({ classId, faction, mirrored, pose = 'idle', phase,
 
   /* --- Sprite sheet frame state --- */
   const [sheetFrame, setSheetFrame] = useState(0);
-  const sheetSeq = pose === 'attack'
-    ? buildSeq(cfg.attackRow, cfgCols)
-    : buildSeq(cfg.idleRow, cfgCols);
+  const sheetSeq =
+    pose === 'attack' ? buildSeq(cfg.attackRow, cfgCols) : buildSeq(cfg.idleRow, cfgCols);
   const sheetMs = pose === 'attack' ? SHEET_ATTACK_MS : SHEET_IDLE_MS;
 
   useEffect(() => {
     if (!useSpriteSheet || isStatic) return;
     setSheetFrame(0);
-    const id = setInterval(() => setSheetFrame(f => (f + 1) % sheetSeq.length), sheetMs);
+    const id = setInterval(() => setSheetFrame((f) => (f + 1) % sheetSeq.length), sheetMs);
     return () => clearInterval(id);
   }, [useSpriteSheet, isStatic, pose, sheetSeq.length, sheetMs]);
 
@@ -71,7 +89,7 @@ export function BattleSprite({ classId, faction, mirrored, pose = 'idle', phase,
   useEffect(() => {
     if (useSpriteSheet) return;
     if (pose === 'idle') {
-      const id = setInterval(() => setSvgIdleFrame(f => (f + 1) % SVG_IDLE_FRAMES), SVG_IDLE_MS);
+      const id = setInterval(() => setSvgIdleFrame((f) => (f + 1) % SVG_IDLE_FRAMES), SVG_IDLE_MS);
       return () => clearInterval(id);
     }
     setSvgIdleFrame(0);

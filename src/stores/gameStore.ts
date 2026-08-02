@@ -7,25 +7,69 @@ import type { GameState, GameActions } from './gameStoreTypes';
 
 // Action modules
 import { initChapter } from './actions/initActions';
-import { selectUnit, deselectUnit, hoverTile, clickTile, cancelAction } from './actions/selectionActions';
+import {
+  selectUnit,
+  deselectUnit,
+  hoverTile,
+  clickTile,
+  cancelAction,
+} from './actions/selectionActions';
 import { confirmMove, advanceMovement } from './actions/movementActions';
-import { toggleDangerZone, dismissDeathQuote, dismissReinforcementMessage, selectWeapon, dismissLevelUp, dismissHealResult, dismissExpBar } from './actions/miscActions';
+import {
+  toggleDangerZone,
+  dismissDeathQuote,
+  dismissReinforcementMessage,
+  selectWeapon,
+  dismissLevelUp,
+  dismissHealResult,
+  dismissExpBar,
+} from './actions/miscActions';
 import { seize, escape } from './actions/seizeActions';
 import { useItem, finishItemAnimation } from './actions/itemActions';
 import { visitVillage, dismissVillageReward } from './actions/villageActions';
-import { startHealTargeting, confirmHeal, finishHealAnimation, useBalance } from './actions/healActions';
+import {
+  startHealTargeting,
+  confirmHeal,
+  finishHealAnimation,
+  useBalance,
+} from './actions/healActions';
 import { endPlayerTurn, dismissPhaseBanner } from './actions/turnActions';
-import { startAttackTargeting, selectAttackTarget, confirmAttack, advanceCombatAnimation, finishCombat } from './actions/combatActions';
-import { computeEnemyActions, executeNextEnemyAction, finishEnemyCombat, endEnemyTurn } from './actions/enemyActions';
-import { computeAllyActions, executeNextAllyAction, finishAllyCombat, endAllyTurn } from './actions/allyActions';
-import { startAutoBattle, executeNextAutoAction, finishAutoCombat } from './actions/autoBattleActions';
+import {
+  startAttackTargeting,
+  selectAttackTarget,
+  confirmAttack,
+  advanceCombatAnimation,
+  finishCombat,
+} from './actions/combatActions';
+import {
+  computeEnemyActions,
+  executeNextEnemyAction,
+  finishEnemyCombat,
+  endEnemyTurn,
+} from './actions/enemyActions';
+import {
+  computeAllyActions,
+  executeNextAllyAction,
+  finishAllyCombat,
+  endAllyTurn,
+} from './actions/allyActions';
+import {
+  startAutoBattle,
+  executeNextAutoAction,
+  finishAutoCombat,
+} from './actions/autoBattleActions';
 import { advanceEventDialogue, dismissEventDialogue } from './actions/eventActions';
 import { startTalk } from './actions/recruitActions';
 import { executeShove, executeSwap, executeReposition } from './actions/movementSkillActions';
 import { confirmCantoMove } from './actions/cantoActions';
 import { startDanceTargeting, confirmDance } from './actions/danceActions';
 import { startStealTargeting, confirmSteal } from './actions/stealActions';
-import { startRescueTargeting, confirmRescue, startDropTargeting, confirmDrop } from './actions/rescueActions';
+import {
+  startRescueTargeting,
+  confirmRescue,
+  startDropTargeting,
+  confirmDrop,
+} from './actions/rescueActions';
 import { executeLockpick } from './actions/lockpickActions';
 import { startTradeTargeting, confirmTrade } from './actions/tradeActions';
 import { rest } from './actions/metaStatActions';
@@ -141,7 +185,8 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   splitParty: null,
 
   // Init
-  initChapter: (chapter, seed = 12345, unitProgress?, deployedUnitIds?, supportPairs?) => initChapter(get, set, chapter, seed, unitProgress, deployedUnitIds, supportPairs),
+  initChapter: (chapter, seed = 12345, unitProgress?, deployedUnitIds?, supportPairs?) =>
+    initChapter(get, set, chapter, seed, unitProgress, deployedUnitIds, supportPairs),
 
   // Selection & navigation
   selectUnit: (unitId) => selectUnit(get, set, unitId),

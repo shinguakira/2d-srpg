@@ -8,5 +8,5 @@
     "builtin": true,
     "browser": true
   },
-  "ignorePatterns": ["dist", "screenshots"]
+  "ignorePatterns": ["/dist", "/public", "/screenshots", "/test-results", "/specs", "/.claude"]
 }

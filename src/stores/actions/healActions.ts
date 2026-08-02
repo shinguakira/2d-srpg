@@ -112,8 +112,14 @@ export function confirmHeal(get: Get, set: Set, targetId: string) {
   if (staff.type === 'light' || staff.type === 'staff') {
     const targetUnit = newUnits.get(targetId)!;
     if (targetUnit.metaStats.crp > 0) {
-      const crpReduction = Math.min(targetUnit.metaStats.crp, Math.max(1, Math.floor(result.targetHpAfter - result.targetHpBefore)));
-      const newMeta = clampMetaStats({ ...targetUnit.metaStats, crp: targetUnit.metaStats.crp - crpReduction });
+      const crpReduction = Math.min(
+        targetUnit.metaStats.crp,
+        Math.max(1, Math.floor(result.targetHpAfter - result.targetHpBefore)),
+      );
+      const newMeta = clampMetaStats({
+        ...targetUnit.metaStats,
+        crp: targetUnit.metaStats.crp - crpReduction,
+      });
       newUnits.set(targetId, { ...targetUnit, metaStats: newMeta });
     }
   }
@@ -204,7 +210,13 @@ export function useBalance(get: Get, set: Set): void {
     const healed = newHp - ally.currentHp;
     if (healed > 0) {
       newUnits.set(uid, { ...ally, currentHp: newHp });
-      floatingNumbers.push({ id: floatId++, x: ally.position.x, y: ally.position.y, text: `+${healed}`, color: '#22c55e' });
+      floatingNumbers.push({
+        id: floatId++,
+        x: ally.position.x,
+        y: ally.position.y,
+        text: `+${healed}`,
+        color: '#22c55e',
+      });
     }
   }
 

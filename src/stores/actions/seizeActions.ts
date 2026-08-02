@@ -16,7 +16,11 @@ export function seize(get: Get, set: Set) {
 
   // Verify on seize position
   if (!chapterData.seizePosition) return;
-  if (pendingPosition.x !== chapterData.seizePosition.x || pendingPosition.y !== chapterData.seizePosition.y) return;
+  if (
+    pendingPosition.x !== chapterData.seizePosition.x ||
+    pendingPosition.y !== chapterData.seizePosition.y
+  )
+    return;
 
   // Verify boss is defeated
   if (!isBossDefeated(units)) return;
@@ -28,7 +32,12 @@ export function seize(get: Get, set: Set) {
   newTiles[pendingPosition.y][pendingPosition.x].occupantId = selectedUnitId;
 
   const facing = deriveFacing(unit.position, pendingPosition);
-  newUnits.set(selectedUnitId, { ...unit, position: { ...pendingPosition }, hasActed: true, facing });
+  newUnits.set(selectedUnitId, {
+    ...unit,
+    position: { ...pendingPosition },
+    hasActed: true,
+    facing,
+  });
 
   // Check if Ren has Final Save Crystal — set campaign flag
   if (unit.items.some((i) => i.effect.kind === 'key_item' && i.id === 'final_save_crystal')) {

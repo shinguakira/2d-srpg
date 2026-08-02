@@ -1,27 +1,97 @@
 import { describe, it, expect } from 'vitest';
-import { calculateVisibleTiles, updateFogMap, initializeFogMap, getVisionRange } from '../../src/core/fogOfWar';
-import { getWeatherCombatModifiers, getWeatherMovPenalty, getWeatherTerrainCostMod, getWeatherVisionCap, getWeatherInfo } from '../../src/core/weather';
-import { calcTerrainDamage, resolveBridgeCollapse, canAttackTerrain } from '../../src/core/destructibleTerrain';
-import type { Unit, GameMap, Position, Tile, TerrainType, FogState, WeatherType } from '../../src/core/types';
+import {
+  calculateVisibleTiles,
+  updateFogMap,
+  initializeFogMap,
+  getVisionRange,
+} from '../../src/core/fogOfWar';
+import {
+  getWeatherCombatModifiers,
+  getWeatherMovPenalty,
+  getWeatherTerrainCostMod,
+  getWeatherVisionCap,
+  getWeatherInfo,
+} from '../../src/core/weather';
+import {
+  calcTerrainDamage,
+  resolveBridgeCollapse,
+  canAttackTerrain,
+} from '../../src/core/destructibleTerrain';
+import type {
+  Unit,
+  GameMap,
+  Position,
+  Tile,
+  TerrainType,
+  FogState,
+  WeatherType,
+} from '../../src/core/types';
 
 // ===== Helpers =====
 
 function makeUnit(id: string, pos: Position, overrides: Partial<Unit> = {}): Unit {
   return {
-    id, name: id, classId: 'lord', faction: 'player',
+    id,
+    name: id,
+    classId: 'lord',
+    faction: 'player',
     position: pos,
-    stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 5, skl: 5, lck: 5, mov: 5, cha: 0, wil: 0 },
-    currentHp: 20, level: 1, exp: 0,
-    equippedWeapon: { id: 'iron_sword', name: 'Iron Sword', type: 'sword', might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1 },
-    inventory: [{ id: 'iron_sword', name: 'Iron Sword', type: 'sword', might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1 }],
-    items: [], hasActed: false, skills: [], learnedSkills: [],
-    facing: 'down', sprite: '',
+    stats: {
+      hp: 20,
+      str: 8,
+      mag: 0,
+      def: 5,
+      res: 0,
+      spd: 5,
+      skl: 5,
+      lck: 5,
+      mov: 5,
+      cha: 0,
+      wil: 0,
+    },
+    currentHp: 20,
+    level: 1,
+    exp: 0,
+    equippedWeapon: {
+      id: 'iron_sword',
+      name: 'Iron Sword',
+      type: 'sword',
+      might: 5,
+      hit: 90,
+      crit: 0,
+      weight: 5,
+      minRange: 1,
+      maxRange: 1,
+    },
+    inventory: [
+      {
+        id: 'iron_sword',
+        name: 'Iron Sword',
+        type: 'sword',
+        might: 5,
+        hit: 90,
+        crit: 0,
+        weight: 5,
+        minRange: 1,
+        maxRange: 1,
+      },
+    ],
+    items: [],
+    hasActed: false,
+    skills: [],
+    learnedSkills: [],
+    facing: 'down',
+    sprite: '',
     metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
     ...overrides,
   };
 }
 
-function makeMap(width: number, height: number, terrainFn?: (x: number, y: number) => TerrainType): GameMap {
+function makeMap(
+  width: number,
+  height: number,
+  terrainFn?: (x: number, y: number) => TerrainType,
+): GameMap {
   const tiles: Tile[][] = [];
   for (let y = 0; y < height; y++) {
     const row: Tile[] = [];
@@ -65,7 +135,7 @@ describe('Fog of War Integration', () => {
     // Initial fog
     const init = initializeFogMap(map, [player]);
     expect(init.visibleTiles.has('0,0')).toBe(true);
-    expect(init.visibleTiles.has('3,0')).toBe(true);  // vision 3
+    expect(init.visibleTiles.has('3,0')).toBe(true); // vision 3
     expect(init.visibleTiles.has('4,0')).toBe(false); // too far
 
     // Player moves to x=5
@@ -123,7 +193,11 @@ describe('Fog of War Integration', () => {
   });
 
   it('AWR 61+ gives +1 vision', () => {
-    const player = makeUnit('ren', { x: 0, y: 0 }, { metaStats: { awr: 61, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 } });
+    const player = makeUnit(
+      'ren',
+      { x: 0, y: 0 },
+      { metaStats: { awr: 61, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 } },
+    );
     expect(getVisionRange(player)).toBe(4); // 3 + 1
   });
 
@@ -139,7 +213,9 @@ describe('Fog of War Integration', () => {
       makeUnit('e2', { x: 7, y: 7 }, { faction: 'enemy' }), // hidden
     ];
 
-    const visibleEnemies = enemies.filter((e) => visibleTiles.has(`${e.position.x},${e.position.y}`));
+    const visibleEnemies = enemies.filter((e) =>
+      visibleTiles.has(`${e.position.x},${e.position.y}`),
+    );
     expect(visibleEnemies).toHaveLength(1);
     expect(visibleEnemies[0].id).toBe('e1');
   });
@@ -149,8 +225,28 @@ describe('Fog of War Integration', () => {
 
 describe('Weather Integration', () => {
   it('rain reduces bow hit, mounted MOV, and fire might', () => {
-    const bow = { id: 'iron_bow', name: 'Iron Bow', type: 'bow' as const, might: 6, hit: 85, crit: 0, weight: 5, minRange: 2, maxRange: 2 };
-    const fire = { id: 'fire', name: 'Fire', type: 'fire' as const, might: 4, hit: 90, crit: 0, weight: 3, minRange: 1, maxRange: 2 };
+    const bow = {
+      id: 'iron_bow',
+      name: 'Iron Bow',
+      type: 'bow' as const,
+      might: 6,
+      hit: 85,
+      crit: 0,
+      weight: 5,
+      minRange: 2,
+      maxRange: 2,
+    };
+    const fire = {
+      id: 'fire',
+      name: 'Fire',
+      type: 'fire' as const,
+      might: 4,
+      hit: 90,
+      crit: 0,
+      weight: 3,
+      minRange: 1,
+      maxRange: 2,
+    };
 
     const bowMods = getWeatherCombatModifiers('rain', bow);
     expect(bowMods.hitMod).toBe(-15);
@@ -166,7 +262,17 @@ describe('Weather Integration', () => {
   });
 
   it('snow adds terrain cost and SPD penalty', () => {
-    const sword = { id: 'iron_sword', name: 'Iron Sword', type: 'sword' as const, might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1 };
+    const sword = {
+      id: 'iron_sword',
+      name: 'Iron Sword',
+      type: 'sword' as const,
+      might: 5,
+      hit: 90,
+      crit: 0,
+      weight: 5,
+      minRange: 1,
+      maxRange: 1,
+    };
 
     const mods = getWeatherCombatModifiers('snow', sword);
     expect(mods.spdMod).toBe(-2);
@@ -178,8 +284,28 @@ describe('Weather Integration', () => {
   });
 
   it('sandstorm reduces ranged hit and caps vision', () => {
-    const bow = { id: 'iron_bow', name: 'Iron Bow', type: 'bow' as const, might: 6, hit: 85, crit: 0, weight: 5, minRange: 2, maxRange: 2 };
-    const sword = { id: 'iron_sword', name: 'Iron Sword', type: 'sword' as const, might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1 };
+    const bow = {
+      id: 'iron_bow',
+      name: 'Iron Bow',
+      type: 'bow' as const,
+      might: 6,
+      hit: 85,
+      crit: 0,
+      weight: 5,
+      minRange: 2,
+      maxRange: 2,
+    };
+    const sword = {
+      id: 'iron_sword',
+      name: 'Iron Sword',
+      type: 'sword' as const,
+      might: 5,
+      hit: 90,
+      crit: 0,
+      weight: 5,
+      minRange: 1,
+      maxRange: 1,
+    };
 
     expect(getWeatherCombatModifiers('sandstorm', bow).hitMod).toBe(-20);
     expect(getWeatherCombatModifiers('sandstorm', sword).hitMod).toBe(0);
@@ -187,7 +313,17 @@ describe('Weather Integration', () => {
   });
 
   it('clear weather has no modifiers', () => {
-    const sword = { id: 'iron_sword', name: 'Iron Sword', type: 'sword' as const, might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1 };
+    const sword = {
+      id: 'iron_sword',
+      name: 'Iron Sword',
+      type: 'sword' as const,
+      might: 5,
+      hit: 90,
+      crit: 0,
+      weight: 5,
+      minRange: 1,
+      maxRange: 1,
+    };
     const mods = getWeatherCombatModifiers('clear', sword);
     expect(mods.hitMod).toBe(0);
     expect(mods.mightMod).toBe(0);
@@ -211,7 +347,7 @@ describe('Weather Integration', () => {
 describe('Bridge Collapse Integration', () => {
   it('unit on bridge takes damage and is displaced when bridge destroyed', () => {
     // 5x1 map: plain, bridge, bridge, bridge, plain
-    const map = makeMap(5, 1, (x) => (x >= 1 && x <= 3) ? 'bridge' : 'plain');
+    const map = makeMap(5, 1, (x) => (x >= 1 && x <= 3 ? 'bridge' : 'plain'));
     const units = new Map<string, Unit>();
     const victim = makeUnit('victim', { x: 2, y: 0 }, { currentHp: 20 });
     units.set('victim', victim);
@@ -226,7 +362,7 @@ describe('Bridge Collapse Integration', () => {
   });
 
   it('flying unit on bridge is safe from collapse', () => {
-    const map = makeMap(5, 1, (x) => (x >= 1 && x <= 3) ? 'bridge' : 'plain');
+    const map = makeMap(5, 1, (x) => (x >= 1 && x <= 3 ? 'bridge' : 'plain'));
     const units = new Map<string, Unit>();
     const flyer = makeUnit('pegasus', { x: 2, y: 0 });
     units.set('pegasus', flyer);
@@ -254,22 +390,72 @@ describe('Bridge Collapse Integration', () => {
     if (results[0].displacedTo) {
       // Should be displaced to one of the plain tiles
       const dp = results[0].displacedTo;
-      expect(
-        (dp.x === 0 && dp.y === 0) || (dp.x === 2 && dp.y === 2)
-      ).toBe(true);
+      expect((dp.x === 0 && dp.y === 0) || (dp.x === 2 && dp.y === 2)).toBe(true);
     }
   });
 
   it('axe gets +5 bonus damage to terrain', () => {
     // Same weapon might to isolate the axe bonus
-    const axeUnit = makeUnit('fighter', { x: 0, y: 0 }, {
-      stats: { hp: 20, str: 10, mag: 0, def: 5, res: 0, spd: 5, skl: 5, lck: 5, mov: 5, cha: 0, wil: 0 },
-      equippedWeapon: { id: 'iron_axe', name: 'Iron Axe', type: 'axe', might: 5, hit: 75, crit: 0, weight: 8, minRange: 1, maxRange: 1 },
-    });
-    const swordUnit = makeUnit('swordie', { x: 0, y: 0 }, {
-      stats: { hp: 20, str: 10, mag: 0, def: 5, res: 0, spd: 5, skl: 5, lck: 5, mov: 5, cha: 0, wil: 0 },
-      equippedWeapon: { id: 'iron_sword', name: 'Iron Sword', type: 'sword', might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1 },
-    });
+    const axeUnit = makeUnit(
+      'fighter',
+      { x: 0, y: 0 },
+      {
+        stats: {
+          hp: 20,
+          str: 10,
+          mag: 0,
+          def: 5,
+          res: 0,
+          spd: 5,
+          skl: 5,
+          lck: 5,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
+        equippedWeapon: {
+          id: 'iron_axe',
+          name: 'Iron Axe',
+          type: 'axe',
+          might: 5,
+          hit: 75,
+          crit: 0,
+          weight: 8,
+          minRange: 1,
+          maxRange: 1,
+        },
+      },
+    );
+    const swordUnit = makeUnit(
+      'swordie',
+      { x: 0, y: 0 },
+      {
+        stats: {
+          hp: 20,
+          str: 10,
+          mag: 0,
+          def: 5,
+          res: 0,
+          spd: 5,
+          skl: 5,
+          lck: 5,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
+        equippedWeapon: {
+          id: 'iron_sword',
+          name: 'Iron Sword',
+          type: 'sword',
+          might: 5,
+          hit: 90,
+          crit: 0,
+          weight: 5,
+          minRange: 1,
+          maxRange: 1,
+        },
+      },
+    );
 
     const axeDmg = calcTerrainDamage(axeUnit);
     const swordDmg = calcTerrainDamage(swordUnit);
@@ -281,9 +467,23 @@ describe('Bridge Collapse Integration', () => {
   });
 
   it('fire magic can attack forest terrain', () => {
-    const fireMage = makeUnit('mage', { x: 0, y: 0 }, {
-      equippedWeapon: { id: 'fire', name: 'Fire', type: 'fire', might: 4, hit: 90, crit: 0, weight: 3, minRange: 1, maxRange: 2 },
-    });
+    const fireMage = makeUnit(
+      'mage',
+      { x: 0, y: 0 },
+      {
+        equippedWeapon: {
+          id: 'fire',
+          name: 'Fire',
+          type: 'fire',
+          might: 4,
+          hit: 90,
+          crit: 0,
+          weight: 3,
+          minRange: 1,
+          maxRange: 2,
+        },
+      },
+    );
     const swordUser = makeUnit('fighter', { x: 0, y: 0 });
 
     expect(canAttackTerrain(fireMage, 'forest')).toBe(true);

@@ -53,7 +53,7 @@ export function EventDialogue() {
   if (!line) return null;
 
   const speakerColor = line.speakerFaction
-    ? FACTION_COLORS[line.speakerFaction] ?? NARRATOR_COLOR
+    ? (FACTION_COLORS[line.speakerFaction] ?? NARRATOR_COLOR)
     : NARRATOR_COLOR;
 
   const portrait = SPEAKER_PORTRAITS[line.speaker];
@@ -64,7 +64,12 @@ export function EventDialogue() {
       <div className="event-dialogue__panel">
         {portrait && (
           <div className="event-dialogue__portrait">
-            <BattleSprite classId={portrait.classId} faction={portrait.faction} unitId={portrait.unitId} static />
+            <BattleSprite
+              classId={portrait.classId}
+              faction={portrait.faction}
+              unitId={portrait.unitId}
+              static
+            />
           </div>
         )}
         <div className="event-dialogue__content">

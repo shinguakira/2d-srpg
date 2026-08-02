@@ -1,6 +1,11 @@
 import type { Faction } from '../../core/types';
 import { posKey } from '../../core/types';
-import { evaluateEvents, resolveEffects, type EventContext, type EffectResult } from '../../core/events';
+import {
+  evaluateEvents,
+  resolveEffects,
+  type EventContext,
+  type EffectResult,
+} from '../../core/events';
 import type { GameState, GameActions } from '../gameStoreTypes';
 import { refreshDangerZone } from '../helpers/dangerZoneHelpers';
 import { ENEMY_UNITS, PLAYER_UNITS } from '../../data/units';
@@ -15,11 +20,7 @@ type Set = (partial: Partial<GameState>) => void;
  * Check for events that should fire and process them.
  * Called from turnActions, movementActions, combatActions, etc.
  */
-export function checkAndFireEvents(
-  get: Get,
-  set: Set,
-  overrides: Partial<EventContext>,
-) {
+export function checkAndFireEvents(get: Get, set: Set, overrides: Partial<EventContext>) {
   const { chapterEvents, firedEventIds, eventFlags, units, currentTurn, currentPhase } = get();
   if (chapterEvents.length === 0) return;
 

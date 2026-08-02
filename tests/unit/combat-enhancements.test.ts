@@ -1,9 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  getWeaponTriangle,
-  calculateCombatForecast,
-  resolveHealing,
-} from '../../src/core/combat';
+import { getWeaponTriangle, calculateCombatForecast, resolveHealing } from '../../src/core/combat';
 import type { Unit, Weapon, WeaponType } from '../../src/core/types';
 
 function makeWeapon(type: WeaponType, overrides: Partial<Weapon> = {}): Weapon {
@@ -28,7 +24,19 @@ function makeUnit(id: string, overrides: Partial<Unit> = {}): Unit {
     classId: 'lord',
     faction: 'player',
     position: { x: 0, y: 0 },
-    stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+    stats: {
+      hp: 20,
+      str: 8,
+      mag: 0,
+      def: 5,
+      res: 0,
+      spd: 7,
+      skl: 5,
+      lck: 3,
+      mov: 5,
+      cha: 0,
+      wil: 0,
+    },
     currentHp: 20,
     level: 1,
     exp: 0,
@@ -83,8 +91,40 @@ describe('CombatForecast metadata', () => {
   });
 
   it('includes unitId, name, currentHp, maxHp, faction', () => {
-    const attacker = makeUnit('ren', { currentHp: 15, stats: { hp: 24, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 } });
-    const defender = makeUnit('bandit', { faction: 'enemy', currentHp: 18, stats: { hp: 20, str: 6, mag: 0, def: 4, res: 0, spd: 5, skl: 3, lck: 2, mov: 5, cha: 0, wil: 0 }, equippedWeapon: makeWeapon('axe') });
+    const attacker = makeUnit('ren', {
+      currentHp: 15,
+      stats: {
+        hp: 24,
+        str: 8,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 7,
+        skl: 5,
+        lck: 3,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
+    });
+    const defender = makeUnit('bandit', {
+      faction: 'enemy',
+      currentHp: 18,
+      stats: {
+        hp: 20,
+        str: 6,
+        mag: 0,
+        def: 4,
+        res: 0,
+        spd: 5,
+        skl: 3,
+        lck: 2,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
+      equippedWeapon: makeWeapon('axe'),
+    });
 
     const forecast = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1);
 
@@ -141,12 +181,36 @@ describe('Weapon triangle with staff type', () => {
 describe('resolveHealing', () => {
   it('heals for mag + weapon might', () => {
     const healer = makeUnit('lira', {
-      stats: { hp: 18, str: 1, mag: 6, def: 2, res: 6, spd: 5, skl: 3, lck: 5, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 18,
+        str: 1,
+        mag: 6,
+        def: 2,
+        res: 6,
+        spd: 5,
+        skl: 3,
+        lck: 5,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('staff', { name: 'Heal', might: 10, hit: 100, crit: 0 }),
     });
     const target = makeUnit('kael', {
       currentHp: 10,
-      stats: { hp: 30, str: 12, mag: 2, def: 9, res: 5, spd: 10, skl: 13, lck: 8, mov: 7, cha: 0, wil: 0 },
+      stats: {
+        hp: 30,
+        str: 12,
+        mag: 2,
+        def: 9,
+        res: 5,
+        spd: 10,
+        skl: 13,
+        lck: 8,
+        mov: 7,
+        cha: 0,
+        wil: 0,
+      },
     });
 
     const result = resolveHealing(healer, target);
@@ -159,12 +223,36 @@ describe('resolveHealing', () => {
 
   it('caps healing at max HP', () => {
     const healer = makeUnit('lira', {
-      stats: { hp: 18, str: 1, mag: 6, def: 2, res: 6, spd: 5, skl: 3, lck: 5, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 18,
+        str: 1,
+        mag: 6,
+        def: 2,
+        res: 6,
+        spd: 5,
+        skl: 3,
+        lck: 5,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('staff', { name: 'Heal', might: 10 }),
     });
     const target = makeUnit('kael', {
       currentHp: 28,
-      stats: { hp: 30, str: 12, mag: 2, def: 9, res: 5, spd: 10, skl: 13, lck: 8, mov: 7, cha: 0, wil: 0 },
+      stats: {
+        hp: 30,
+        str: 12,
+        mag: 2,
+        def: 9,
+        res: 5,
+        spd: 10,
+        skl: 13,
+        lck: 8,
+        mov: 7,
+        cha: 0,
+        wil: 0,
+      },
     });
 
     const result = resolveHealing(healer, target);
@@ -176,12 +264,36 @@ describe('resolveHealing', () => {
 
   it('heals 0 when target is at full HP', () => {
     const healer = makeUnit('lira', {
-      stats: { hp: 18, str: 1, mag: 6, def: 2, res: 6, spd: 5, skl: 3, lck: 5, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 18,
+        str: 1,
+        mag: 6,
+        def: 2,
+        res: 6,
+        spd: 5,
+        skl: 3,
+        lck: 5,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('staff', { name: 'Heal', might: 10 }),
     });
     const target = makeUnit('kael', {
       currentHp: 30,
-      stats: { hp: 30, str: 12, mag: 2, def: 9, res: 5, spd: 10, skl: 13, lck: 8, mov: 7, cha: 0, wil: 0 },
+      stats: {
+        hp: 30,
+        str: 12,
+        mag: 2,
+        def: 9,
+        res: 5,
+        spd: 10,
+        skl: 13,
+        lck: 8,
+        mov: 7,
+        cha: 0,
+        wil: 0,
+      },
     });
 
     const result = resolveHealing(healer, target);
@@ -192,16 +304,52 @@ describe('resolveHealing', () => {
 
   it('healer with high mag heals more', () => {
     const weakHealer = makeUnit('novice', {
-      stats: { hp: 18, str: 1, mag: 2, def: 2, res: 4, spd: 5, skl: 3, lck: 5, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 18,
+        str: 1,
+        mag: 2,
+        def: 2,
+        res: 4,
+        spd: 5,
+        skl: 3,
+        lck: 5,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('staff', { might: 10 }),
     });
     const strongHealer = makeUnit('bishop', {
-      stats: { hp: 18, str: 1, mag: 12, def: 2, res: 10, spd: 5, skl: 3, lck: 5, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 18,
+        str: 1,
+        mag: 12,
+        def: 2,
+        res: 10,
+        spd: 5,
+        skl: 3,
+        lck: 5,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('staff', { might: 10 }),
     });
     const target = makeUnit('wounded', {
       currentHp: 5,
-      stats: { hp: 40, str: 10, mag: 0, def: 8, res: 3, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 40,
+        str: 10,
+        mag: 0,
+        def: 8,
+        res: 3,
+        spd: 7,
+        skl: 5,
+        lck: 3,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
     });
 
     const weakResult = resolveHealing(weakHealer, target);
@@ -219,12 +367,36 @@ describe('resolveHealing', () => {
 describe('CombatForecast terrain interactions', () => {
   it('fort gives +3 defense bonus', () => {
     const attacker = makeUnit('atk', {
-      stats: { hp: 20, str: 10, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 20,
+        str: 10,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 7,
+        skl: 5,
+        lck: 3,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('sword', { might: 5 }),
     });
     const defender = makeUnit('def', {
       faction: 'enemy',
-      stats: { hp: 20, str: 6, mag: 0, def: 5, res: 0, spd: 5, skl: 3, lck: 2, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 20,
+        str: 6,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 5,
+        skl: 3,
+        lck: 2,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('sword'),
     });
 
@@ -237,12 +409,36 @@ describe('CombatForecast terrain interactions', () => {
 
   it('throne gives +5 defense bonus', () => {
     const attacker = makeUnit('atk', {
-      stats: { hp: 20, str: 15, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 20,
+        str: 15,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 7,
+        skl: 5,
+        lck: 3,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('sword', { might: 5 }),
     });
     const defender = makeUnit('boss', {
       faction: 'enemy',
-      stats: { hp: 30, str: 10, mag: 0, def: 8, res: 3, spd: 5, skl: 3, lck: 2, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 30,
+        str: 10,
+        mag: 0,
+        def: 8,
+        res: 3,
+        spd: 5,
+        skl: 3,
+        lck: 2,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('axe'),
     });
 

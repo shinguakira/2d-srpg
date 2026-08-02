@@ -1,35 +1,73 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { useGameStore } from '../../src/stores/gameStore';
 import { canRescueUnit } from '../../src/core/rescue';
-import type { Unit, GameMap, Tile, TerrainType, Position, Weapon, ChapterData, ChestData, VillageReward } from '../../src/core/types';
+import type {
+  Unit,
+  GameMap,
+  Tile,
+  TerrainType,
+  Position,
+  Weapon,
+  ChapterData,
+  ChestData,
+  VillageReward,
+} from '../../src/core/types';
 
 function makeMap(terrain: TerrainType[][]): GameMap {
   const height = terrain.length;
   const width = terrain[0].length;
   const tiles: Tile[][] = terrain.map((row, y) =>
-    row.map((t, x) => ({ position: { x, y }, terrain: t, occupantId: null }))
+    row.map((t, x) => ({ position: { x, y }, terrain: t, occupantId: null })),
   );
   return { width, height, tiles };
 }
 
 function makeWeapon(overrides: Partial<Weapon> = {}): Weapon {
   return {
-    id: 'iron_sword', name: 'Iron Sword', type: 'sword',
-    might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1,
+    id: 'iron_sword',
+    name: 'Iron Sword',
+    type: 'sword',
+    might: 5,
+    hit: 90,
+    crit: 0,
+    weight: 5,
+    minRange: 1,
+    maxRange: 1,
     ...overrides,
   };
 }
 
 function makeUnit(id: string, pos: Position, overrides: Partial<Unit> = {}): Unit {
   return {
-    id, name: id, classId: 'lord', faction: 'player',
+    id,
+    name: id,
+    classId: 'lord',
+    faction: 'player',
     position: pos,
-    stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
-    currentHp: 20, level: 1, exp: 0,
+    stats: {
+      hp: 20,
+      str: 8,
+      mag: 0,
+      def: 5,
+      res: 0,
+      spd: 7,
+      skl: 5,
+      lck: 3,
+      mov: 5,
+      cha: 0,
+      wil: 0,
+    },
+    currentHp: 20,
+    level: 1,
+    exp: 0,
     equippedWeapon: makeWeapon(),
     inventory: [makeWeapon()],
-    items: [], hasActed: false, facing: 'down' as const, sprite: '',
-    skills: [], learnedSkills: [],
+    items: [],
+    hasActed: false,
+    facing: 'down' as const,
+    sprite: '',
+    skills: [],
+    learnedSkills: [],
     metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
     ...overrides,
   };
@@ -56,14 +94,50 @@ function setupStore(units: Unit[], map: GameMap) {
 
 describe('canRescueUnit', () => {
   it('returns true when STR > target weight', () => {
-    const rescuer = makeUnit('r', { x: 0, y: 0 }, { stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 } });
+    const rescuer = makeUnit(
+      'r',
+      { x: 0, y: 0 },
+      {
+        stats: {
+          hp: 20,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 0,
+          spd: 7,
+          skl: 5,
+          lck: 3,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
+      },
+    );
     // lord class has base mov=5, so weight=5. STR 8 > 5 → true
     const target = makeUnit('t', { x: 1, y: 0 }, { classId: 'lord' });
     expect(canRescueUnit(rescuer, target)).toBe(true);
   });
 
   it('returns false when STR ≤ target weight', () => {
-    const rescuer = makeUnit('r', { x: 0, y: 0 }, { stats: { hp: 20, str: 4, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 } });
+    const rescuer = makeUnit(
+      'r',
+      { x: 0, y: 0 },
+      {
+        stats: {
+          hp: 20,
+          str: 4,
+          mag: 0,
+          def: 5,
+          res: 0,
+          spd: 7,
+          skl: 5,
+          lck: 3,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
+      },
+    );
     // lord base mov=5. STR 4 <= 5 → false
     const target = makeUnit('t', { x: 1, y: 0 }, { classId: 'lord' });
     expect(canRescueUnit(rescuer, target)).toBe(false);
@@ -77,9 +151,25 @@ describe('Rescue action', () => {
 
   it('applies stat penalties when rescuing', () => {
     const map = makeMap([['plain', 'plain', 'plain']]);
-    const rescuer = makeUnit('rescuer1', { x: 0, y: 0 }, {
-      stats: { hp: 20, str: 10, mag: 0, def: 5, res: 0, spd: 8, skl: 5, lck: 3, mov: 6, cha: 0, wil: 0 },
-    });
+    const rescuer = makeUnit(
+      'rescuer1',
+      { x: 0, y: 0 },
+      {
+        stats: {
+          hp: 20,
+          str: 10,
+          mag: 0,
+          def: 5,
+          res: 0,
+          spd: 8,
+          skl: 5,
+          lck: 3,
+          mov: 6,
+          cha: 0,
+          wil: 0,
+        },
+      },
+    );
     const ally = makeUnit('ally1', { x: 1, y: 0 }, { classId: 'lord' });
 
     setupStore([rescuer, ally], map);
@@ -117,11 +207,39 @@ describe('Drop action', () => {
 
   it('restores original stats after dropping', () => {
     const map = makeMap([['plain', 'plain', 'plain']]);
-    const rescuer = makeUnit('rescuer1', { x: 0, y: 0 }, {
-      stats: { hp: 20, str: 5, mag: 0, def: 5, res: 0, spd: 4, skl: 5, lck: 3, mov: 4, cha: 0, wil: 0 },
-      originalStats: { hp: 20, str: 10, mag: 0, def: 5, res: 0, spd: 8, skl: 5, lck: 3, mov: 6, cha: 0, wil: 0 },
-      carriedUnitId: 'ally1',
-    });
+    const rescuer = makeUnit(
+      'rescuer1',
+      { x: 0, y: 0 },
+      {
+        stats: {
+          hp: 20,
+          str: 5,
+          mag: 0,
+          def: 5,
+          res: 0,
+          spd: 4,
+          skl: 5,
+          lck: 3,
+          mov: 4,
+          cha: 0,
+          wil: 0,
+        },
+        originalStats: {
+          hp: 20,
+          str: 10,
+          mag: 0,
+          def: 5,
+          res: 0,
+          spd: 8,
+          skl: 5,
+          lck: 3,
+          mov: 6,
+          cha: 0,
+          wil: 0,
+        },
+        carriedUnitId: 'ally1',
+      },
+    );
     const ally = makeUnit('ally1', { x: 0, y: 0 }, { isCarried: true });
 
     // Setup: place rescuer on map, ally is carried (not on map)
@@ -172,21 +290,34 @@ describe('Lockpick action', () => {
 
   it('opens adjacent chest', () => {
     const map = makeMap([['plain', 'chest']]);
-    const thief = makeUnit('thief1', { x: 0, y: 0 }, {
-      classId: 'thief',
-      skills: ['lockpick_skill'],
-    });
+    const thief = makeUnit(
+      'thief1',
+      { x: 0, y: 0 },
+      {
+        classId: 'thief',
+        skills: ['lockpick_skill'],
+      },
+    );
 
-    const chestReward: VillageReward = { type: 'weapon', weaponId: 'steel_sword', dialogue: 'Found a sword!', speaker: 'Narrator' };
+    const chestReward: VillageReward = {
+      type: 'weapon',
+      weaponId: 'steel_sword',
+      dialogue: 'Found a sword!',
+      speaker: 'Narrator',
+    };
     const chestData: ChestData = { position: { x: 1, y: 0 }, reward: chestReward };
 
     setupStore([thief], map);
     useGameStore.setState({
       chapterData: {
-        id: 'ch_test', name: 'Test', chapterNumber: 1,
-        mapWidth: 2, mapHeight: 1,
+        id: 'ch_test',
+        name: 'Test',
+        chapterNumber: 1,
+        mapWidth: 2,
+        mapHeight: 1,
         terrain: [['plain', 'chest']],
-        playerUnits: [], enemyUnits: [],
+        playerUnits: [],
+        enemyUnits: [],
         objective: { type: 'rout', description: 'Defeat all enemies' },
         chests: [chestData],
       },
@@ -204,10 +335,14 @@ describe('Lockpick action', () => {
 
   it('opens adjacent door (terrain → indoor)', () => {
     const map = makeMap([['plain', 'door']]);
-    const thief = makeUnit('thief1', { x: 0, y: 0 }, {
-      classId: 'thief',
-      skills: ['lockpick_skill'],
-    });
+    const thief = makeUnit(
+      'thief1',
+      { x: 0, y: 0 },
+      {
+        classId: 'thief',
+        skills: ['lockpick_skill'],
+      },
+    );
 
     setupStore([thief], map);
 

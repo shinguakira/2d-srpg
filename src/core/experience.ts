@@ -14,7 +14,18 @@ export type StatGains = {
   wil: number;
 };
 
-const EMPTY_GAINS: StatGains = { hp: 0, str: 0, mag: 0, def: 0, res: 0, spd: 0, skl: 0, lck: 0, cha: 0, wil: 0 };
+const EMPTY_GAINS: StatGains = {
+  hp: 0,
+  str: 0,
+  mag: 0,
+  def: 0,
+  res: 0,
+  spd: 0,
+  skl: 0,
+  lck: 0,
+  cha: 0,
+  wil: 0,
+};
 
 /**
  * Calculate EXP gain from combat.
@@ -50,7 +61,11 @@ export function rollLevelUp(growthRates: GrowthRates, rng: SeededRandom): StatGa
 /**
  * Apply stat gains to a unit's stats.
  */
-export function applyStatGains(stats: UnitStats, gains: StatGains, caps?: Partial<UnitStats>): UnitStats {
+export function applyStatGains(
+  stats: UnitStats,
+  gains: StatGains,
+  caps?: Partial<UnitStats>,
+): UnitStats {
   const clamp = (val: number, key: keyof UnitStats) =>
     caps?.[key] != null ? Math.min(val, caps[key]) : val;
 
@@ -73,7 +88,10 @@ export function applyStatGains(stats: UnitStats, gains: StatGains, caps?: Partia
  * Check if gained enough EXP to level up.
  * Returns whether a level up happened.
  */
-export function checkLevelUp(currentExp: number, expGain: number): { newExp: number; newLevel: number; leveled: boolean } {
+export function checkLevelUp(
+  currentExp: number,
+  expGain: number,
+): { newExp: number; newLevel: number; leveled: boolean } {
   const totalExp = currentExp + expGain;
   if (totalExp >= 100) {
     return { newExp: totalExp - 100, newLevel: 1, leveled: true };

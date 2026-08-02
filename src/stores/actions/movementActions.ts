@@ -120,7 +120,8 @@ function teleportUnit(
   });
 
   // STA gain from movement (+1 per tile moved)
-  const tilesMoved = Math.abs(destination.x - unit.position.x) + Math.abs(destination.y - unit.position.y);
+  const tilesMoved =
+    Math.abs(destination.x - unit.position.x) + Math.abs(destination.y - unit.position.y);
   if (tilesMoved > 0) {
     applyMovementSta(get, set, unitId, tilesMoved);
   }

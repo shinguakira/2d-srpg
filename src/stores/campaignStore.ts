@@ -1,5 +1,13 @@
 import { create } from 'zustand';
-import type { AppScreen, ChapterData, DialogueScene, UnitProgress, SupportPair, DifficultyMode, EndingType } from '../core/types';
+import type {
+  AppScreen,
+  ChapterData,
+  DialogueScene,
+  UnitProgress,
+  SupportPair,
+  DifficultyMode,
+  EndingType,
+} from '../core/types';
 import { writeSave, readSave, deleteSave, hasAnySave, getSlotSummary } from '../core/saveManager';
 import { CHAPTERS, CHAPTER_ORDER } from '../data/chapters';
 import { PLAYER_UNITS } from '../data/units';
@@ -54,7 +62,11 @@ type CampaignState = {
   startBattle: () => void;
   startDialogue: (scene: DialogueScene, phase: DialoguePhase) => void;
   advanceDialogue: () => void;
-  onChapterVictory: (unitProgress: Record<string, UnitProgress>, actualTurns?: number, updatedSupportPairs?: SupportPair[]) => void;
+  onChapterVictory: (
+    unitProgress: Record<string, UnitProgress>,
+    actualTurns?: number,
+    updatedSupportPairs?: SupportPair[],
+  ) => void;
 
   // Save/Load
   saveToSlot: (slot: number) => void;
@@ -99,12 +111,13 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
   showSavePrompt: false,
   pendingNextChapterId: null,
 
-  goToTitle: () => set({
-    currentScreen: 'title',
-    dialogueScene: null,
-    dialogueLineIndex: 0,
-    dialoguePhase: null,
-  }),
+  goToTitle: () =>
+    set({
+      currentScreen: 'title',
+      dialogueScene: null,
+      dialogueLineIndex: 0,
+      dialoguePhase: null,
+    }),
 
   goToDebug: () => set({ currentScreen: 'debug' }),
 
@@ -116,11 +129,20 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
     const ch1 = CHAPTERS['ch1'];
     const initialRoster = ch1 ? ch1.playerUnits.map((p) => p.unitId) : [];
     set({
-      completedChapters: [], unitProgress: {}, deadUnitIds: [], roster: initialRoster,
-      deployedUnitIds: [], storage: [], viewedSupports: [], supportPairs: [],
-      bonusExp: 0, forgeMaterials: [], gold: 1000,
+      completedChapters: [],
+      unitProgress: {},
+      deadUnitIds: [],
+      roster: initialRoster,
+      deployedUnitIds: [],
+      storage: [],
+      viewedSupports: [],
+      supportPairs: [],
+      bonusExp: 0,
+      forgeMaterials: [],
+      gold: 1000,
       difficulty: difficulty ?? get().difficulty,
-      campaignFlags: {}, currentEnding: null,
+      campaignFlags: {},
+      currentEnding: null,
     });
     get().startChapter('ch1');
   },
@@ -188,7 +210,12 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
         if (chapter?.skipPreparation) {
           const allPlayerIds = chapter.playerUnits.map((p) => p.unitId);
           get().saveCurrentToSlot(0);
-          set({ currentScreen: 'battle', deployedUnitIds: allPlayerIds, dialogueScene: null, dialoguePhase: null });
+          set({
+            currentScreen: 'battle',
+            deployedUnitIds: allPlayerIds,
+            dialogueScene: null,
+            dialoguePhase: null,
+          });
         } else {
           set({ currentScreen: 'preparation', dialogueScene: null, dialoguePhase: null });
         }
@@ -198,7 +225,12 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
         const { currentChapterId } = get();
         const nextId = getNextChapterId(currentChapterId, []);
         if (nextId !== currentChapterId && CHAPTERS[nextId]) {
-          set({ dialogueScene: null, dialoguePhase: null, showSavePrompt: true, pendingNextChapterId: nextId });
+          set({
+            dialogueScene: null,
+            dialoguePhase: null,
+            showSavePrompt: true,
+            pendingNextChapterId: nextId,
+          });
         } else {
           set({ currentScreen: 'title', dialogueScene: null, dialoguePhase: null });
         }
@@ -206,7 +238,11 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
     }
   },
 
-  onChapterVictory: (progress: Record<string, UnitProgress>, actualTurns?: number, updatedSupportPairs?: SupportPair[]) => {
+  onChapterVictory: (
+    progress: Record<string, UnitProgress>,
+    actualTurns?: number,
+    updatedSupportPairs?: SupportPair[],
+  ) => {
     const { currentChapterId, completedChapters, currentChapterData, roster } = get();
     if (!currentChapterId) return;
 
@@ -303,7 +339,13 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
       }
     }
 
-    const newState: Partial<CampaignState> = { completedChapters: newCompleted, unitProgress: progress, roster: newRoster, bonusExp: newBonusExp, gold: newGold };
+    const newState: Partial<CampaignState> = {
+      completedChapters: newCompleted,
+      unitProgress: progress,
+      roster: newRoster,
+      bonusExp: newBonusExp,
+      gold: newGold,
+    };
     if (updatedSupportPairs) {
       newState.supportPairs = updatedSupportPairs;
     }
@@ -402,7 +444,8 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
     if (!progress) return;
     // Catch-up bonus: +20% if unit is 3+ levels below roster average
     const allLevels = Object.values(unitProgress).map((p) => p.level);
-    const avgLevel = allLevels.length > 0 ? allLevels.reduce((a, b) => a + b, 0) / allLevels.length : 0;
+    const avgLevel =
+      allLevels.length > 0 ? allLevels.reduce((a, b) => a + b, 0) / allLevels.length : 0;
     const catchUpBonus = progress.level + 3 <= avgLevel ? Math.ceil(alloc * 0.2) : 0;
     const totalAlloc = alloc + catchUpBonus;
 
@@ -446,7 +489,10 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
     const baseWeapon = WEAPONS[weaponId];
     if (!baseWeapon) return;
     // Reconstruct weapon with current forge level
-    const weapon: import('../core/types').Weapon = { ...baseWeapon, forgeLevel: progress.weaponForgeLevel?.[weaponIndex] ?? 0 };
+    const weapon: import('../core/types').Weapon = {
+      ...baseWeapon,
+      forgeLevel: progress.weaponForgeLevel?.[weaponIndex] ?? 0,
+    };
     const goldCost = getForgeGoldCost(weapon);
     if (!canForge(weapon, forgeMaterials, gold)) return;
     const materialId = getRequiredMaterial(weapon);
@@ -486,9 +532,10 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
 
   goToCredits: () => {
     const { currentEnding, endingsSeen } = get();
-    const newSeen = currentEnding && !endingsSeen.includes(currentEnding)
-      ? [...endingsSeen, currentEnding]
-      : endingsSeen;
+    const newSeen =
+      currentEnding && !endingsSeen.includes(currentEnding)
+        ? [...endingsSeen, currentEnding]
+        : endingsSeen;
     set({ currentScreen: 'credits', endingsSeen: newSeen, newGamePlusUnlocked: true });
   },
 
@@ -497,7 +544,16 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
     const { unitProgress } = get();
     const renProgress = unitProgress['ren'];
     const newProgress = renProgress
-      ? { ...unitProgress, ren: { ...renProgress, metaStats: { ...(renProgress.metaStats ?? { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 }), loop: (renProgress.metaStats?.loop ?? 347) + 1 } } }
+      ? {
+          ...unitProgress,
+          ren: {
+            ...renProgress,
+            metaStats: {
+              ...(renProgress.metaStats ?? { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 }),
+              loop: (renProgress.metaStats?.loop ?? 347) + 1,
+            },
+          },
+        }
       : unitProgress;
 
     set({ newGamePlusUnlocked: true, unitProgress: newProgress });

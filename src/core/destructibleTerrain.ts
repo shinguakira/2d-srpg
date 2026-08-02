@@ -11,11 +11,16 @@ export type DestructibleConfig = {
 /** Get the destructible config for a terrain type, or null if not destructible. */
 export function getDestructibleConfig(terrain: TerrainType): DestructibleConfig | null {
   switch (terrain) {
-    case 'wall': return { hp: 30, destroyedTerrain: 'rubble' };
-    case 'bridge': return { hp: 20, destroyedTerrain: 'water' };
-    case 'door': return { hp: 15, destroyedTerrain: 'indoor' };
-    case 'forest': return { hp: 20, destroyedTerrain: 'plain' }; // fire magic only
-    default: return null;
+    case 'wall':
+      return { hp: 30, destroyedTerrain: 'rubble' };
+    case 'bridge':
+      return { hp: 20, destroyedTerrain: 'water' };
+    case 'door':
+      return { hp: 15, destroyedTerrain: 'indoor' };
+    case 'forest':
+      return { hp: 20, destroyedTerrain: 'plain' }; // fire magic only
+    default:
+      return null;
   }
 }
 
@@ -78,7 +83,12 @@ export function resolveBridgeCollapse(
       if (adj.x < 0 || adj.x >= map.width || adj.y < 0 || adj.y >= map.height) continue;
       const terrain = map.tiles[adj.y][adj.x].terrain;
       // Must be passable land (not water/wall/lava)
-      if (terrain !== 'water' && terrain !== 'wall' && terrain !== 'lava' && terrain !== 'data_void') {
+      if (
+        terrain !== 'water' &&
+        terrain !== 'wall' &&
+        terrain !== 'lava' &&
+        terrain !== 'data_void'
+      ) {
         // Must not be occupied
         if (!map.tiles[adj.y][adj.x].occupantId) {
           displaced = adj;

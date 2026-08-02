@@ -1,5 +1,11 @@
 import { getManhattanDistance } from '../../core/pathfinding';
-import { getSupportRank, getSupportPointGain, canFormSupport, hasMaxSRank, type SupportEvent } from '../../core/support';
+import {
+  getSupportRank,
+  getSupportPointGain,
+  canFormSupport,
+  hasMaxSRank,
+  type SupportEvent,
+} from '../../core/support';
 import type { GameState, GameActions } from '../gameStoreTypes';
 
 type Get = () => GameState & GameActions;
@@ -9,7 +15,13 @@ type Set = (partial: Partial<GameState>) => void;
  * Add support points between two units for a given event.
  * Creates the pair if it doesn't exist yet.
  */
-export function addSupportPoints(get: Get, set: Set, unitAId: string, unitBId: string, event: SupportEvent) {
+export function addSupportPoints(
+  get: Get,
+  set: Set,
+  unitAId: string,
+  unitBId: string,
+  event: SupportEvent,
+) {
   const { supportPairs } = get();
 
   // Normalize order
@@ -56,7 +68,9 @@ export function addSupportPoints(get: Get, set: Set, unitAId: string, unitBId: s
 export function processTurnEndSupports(get: Get, set: Set) {
   const { units } = get();
 
-  const playerUnits = Array.from(units.values()).filter((u) => u.faction === 'player' && !u.isCarried);
+  const playerUnits = Array.from(units.values()).filter(
+    (u) => u.faction === 'player' && !u.isCarried,
+  );
 
   // Check all player unit pairs for adjacency
   for (let i = 0; i < playerUnits.length; i++) {

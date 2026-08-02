@@ -2,7 +2,13 @@ import type { Faction, MetaStats } from '../../core/types';
 import type { GameState, GameActions } from '../gameStoreTypes';
 import { IDLE_RESET } from '../helpers/constants';
 import { allPlayersDone } from '../helpers/mapHelpers';
-import { clampMetaStats, getTerrainCrpGain, getTerrainSyncChange, getTerrainStaRecovery, shouldCommentOnAnomaly } from '../../core/metaStats';
+import {
+  clampMetaStats,
+  getTerrainCrpGain,
+  getTerrainSyncChange,
+  getTerrainStaRecovery,
+  shouldCommentOnAnomaly,
+} from '../../core/metaStats';
 import { getManhattanDistance } from '../../core/pathfinding';
 import { useCampaignStore } from '../campaignStore';
 
@@ -84,7 +90,12 @@ export function updateTurnMetaStats(get: Get, set: Set, faction: Faction) {
     // AWR +2 if adjacent to glitched tile
     let adjacentToGlitch = false;
     if (faction === 'player') {
-      const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+      const dirs = [
+        { x: 0, y: -1 },
+        { x: 0, y: 1 },
+        { x: -1, y: 0 },
+        { x: 1, y: 0 },
+      ];
       for (const d of dirs) {
         const adj = { x: unit.position.x + d.x, y: unit.position.y + d.y };
         const adjTile = gameMap.tiles[adj.y]?.[adj.x];
@@ -116,17 +127,27 @@ export function updateTurnMetaStats(get: Get, set: Set, faction: Faction) {
       corruptedUnitId = id;
     }
 
-    const changed = meta.awr !== oldMeta.awr || meta.loop !== oldMeta.loop ||
-      meta.sync !== oldMeta.sync || meta.loy !== oldMeta.loy ||
-      meta.crp !== oldMeta.crp || meta.sta !== oldMeta.sta;
+    const changed =
+      meta.awr !== oldMeta.awr ||
+      meta.loop !== oldMeta.loop ||
+      meta.sync !== oldMeta.sync ||
+      meta.loy !== oldMeta.loy ||
+      meta.crp !== oldMeta.crp ||
+      meta.sta !== oldMeta.sta;
     if (changed) {
       newUnits.set(id, { ...unit, metaStats: meta });
     }
   }
 
-  const stateUpdate: Partial<GameState> = { units: newUnits, floatingNumbers: newFloats, eventFlags: newFlags };
+  const stateUpdate: Partial<GameState> = {
+    units: newUnits,
+    floatingNumbers: newFloats,
+    eventFlags: newFlags,
+  };
   if (anomalyDialogue) {
-    stateUpdate.eventDialogue = { lines: [{ speaker: anomalyDialogue.speaker, text: anomalyDialogue.text }] };
+    stateUpdate.eventDialogue = {
+      lines: [{ speaker: anomalyDialogue.speaker, text: anomalyDialogue.text }],
+    };
     stateUpdate.eventDialogueLineIndex = 0;
   }
   set(stateUpdate);
@@ -202,13 +223,16 @@ export function rest(get: Get, set: Set) {
     ...IDLE_RESET,
     units: newUnits,
     gameMap: { ...gameMap, tiles: newTiles },
-    floatingNumbers: [...get().floatingNumbers, {
-      id: floatId,
-      x: pendingPosition.x,
-      y: pendingPosition.y,
-      text: 'STA -10',
-      color: '#f97316',
-    }],
+    floatingNumbers: [
+      ...get().floatingNumbers,
+      {
+        id: floatId,
+        x: pendingPosition.x,
+        y: pendingPosition.y,
+        text: 'STA -10',
+        color: '#f97316',
+      },
+    ],
   });
 
   if (allPlayersDone(get().units)) {
@@ -228,7 +252,11 @@ function handleCorruptionEvent(get: Get, set: Set, unitId: string) {
     eventDialogue: {
       lines: [
         { speaker: unit.name, text: `The corruption... it's consuming me...` },
-        { speaker: 'System', text: `${unit.name} has been lost to corruption!`, speakerFaction: 'enemy' },
+        {
+          speaker: 'System',
+          text: `${unit.name} has been lost to corruption!`,
+          speakerFaction: 'enemy',
+        },
       ],
     },
     eventDialogueLineIndex: 0,
@@ -253,6 +281,12 @@ function handleCorruptionEvent(get: Get, set: Set, unitId: string) {
 
 // ===== Helpers =====
 
-function addFloat(floats: GameState['floatingNumbers'], x: number, y: number, text: string, color: string) {
+function addFloat(
+  floats: GameState['floatingNumbers'],
+  x: number,
+  y: number,
+  text: string,
+  color: string,
+) {
   floats.push({ id: Date.now() + Math.random(), x, y, text, color });
 }

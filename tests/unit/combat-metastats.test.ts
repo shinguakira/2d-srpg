@@ -25,7 +25,19 @@ function makeUnit(id: string, overrides: Partial<Unit> = {}): Unit {
     classId: 'lord',
     faction: 'player',
     position: { x: 0, y: 0 },
-    stats: { hp: 20, str: 8, mag: 4, def: 5, res: 3, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+    stats: {
+      hp: 20,
+      str: 8,
+      mag: 4,
+      def: 5,
+      res: 3,
+      spd: 7,
+      skl: 5,
+      lck: 3,
+      mov: 5,
+      cha: 0,
+      wil: 0,
+    },
     currentHp: 20,
     level: 1,
     exp: 0,
@@ -96,13 +108,37 @@ describe('Combat + Meta-Stats Integration', () => {
     it('deals +50% damage against units with CRP > 0', () => {
       const attacker = makeUnit('mage', {
         classId: 'monk',
-        stats: { hp: 20, str: 0, mag: 10, def: 3, res: 5, spd: 6, skl: 8, lck: 4, mov: 5, cha: 0, wil: 0 },
+        stats: {
+          hp: 20,
+          str: 0,
+          mag: 10,
+          def: 3,
+          res: 5,
+          spd: 6,
+          skl: 8,
+          lck: 4,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
         equippedWeapon: makeWeapon('light', { might: 6 }),
       });
       const defender = makeUnit('enemy', {
         faction: 'enemy',
         position: { x: 1, y: 0 },
-        stats: { hp: 20, str: 8, mag: 0, def: 5, res: 4, spd: 5, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+        stats: {
+          hp: 20,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 4,
+          spd: 5,
+          skl: 5,
+          lck: 3,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
         metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 30, sta: 0 },
       });
 
@@ -115,13 +151,37 @@ describe('Combat + Meta-Stats Integration', () => {
     it('no bonus when defender CRP is 0', () => {
       const attacker = makeUnit('mage', {
         classId: 'monk',
-        stats: { hp: 20, str: 0, mag: 10, def: 3, res: 5, spd: 6, skl: 8, lck: 4, mov: 5, cha: 0, wil: 0 },
+        stats: {
+          hp: 20,
+          str: 0,
+          mag: 10,
+          def: 3,
+          res: 5,
+          spd: 6,
+          skl: 8,
+          lck: 4,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
         equippedWeapon: makeWeapon('light', { might: 6 }),
       });
       const defender = makeUnit('enemy', {
         faction: 'enemy',
         position: { x: 1, y: 0 },
-        stats: { hp: 20, str: 8, mag: 0, def: 5, res: 4, spd: 5, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+        stats: {
+          hp: 20,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 4,
+          spd: 5,
+          skl: 5,
+          lck: 3,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
         metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
       });
 
@@ -135,13 +195,37 @@ describe('Combat + Meta-Stats Integration', () => {
     it('reduces SPD at STA >= 30, preventing doubles', () => {
       // Attacker SPD 7, defender SPD 4 → normally doubles (diff >= 4)
       const attacker = makeUnit('player1', {
-        stats: { hp: 20, str: 8, mag: 0, def: 5, res: 3, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+        stats: {
+          hp: 20,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 3,
+          spd: 7,
+          skl: 5,
+          lck: 3,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
         metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 30 },
       });
       const defender = makeUnit('enemy', {
         faction: 'enemy',
         position: { x: 1, y: 0 },
-        stats: { hp: 20, str: 8, mag: 0, def: 5, res: 3, spd: 4, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+        stats: {
+          hp: 20,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 3,
+          spd: 4,
+          skl: 5,
+          lck: 3,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
       });
 
       const forecast = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1);
@@ -152,11 +236,35 @@ describe('Combat + Meta-Stats Integration', () => {
     it('reduces damage via lower SKL at STA >= 45', () => {
       // STA 45 → -2 SPD, -1 SKL
       const attacker = makeUnit('player1', {
-        stats: { hp: 20, str: 8, mag: 0, def: 5, res: 3, spd: 10, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+        stats: {
+          hp: 20,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 3,
+          spd: 10,
+          skl: 5,
+          lck: 3,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
         metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 45 },
       });
       const noStaAttacker = makeUnit('player2', {
-        stats: { hp: 20, str: 8, mag: 0, def: 5, res: 3, spd: 10, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+        stats: {
+          hp: 20,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 3,
+          spd: 10,
+          skl: 5,
+          lck: 3,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
         metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
       });
       const defender = makeUnit('enemy', {
@@ -175,18 +283,48 @@ describe('Combat + Meta-Stats Integration', () => {
   describe('CRP drain in combat', () => {
     it('reduces combat stats at CRP >= 60', () => {
       const corruptedAttacker = makeUnit('corrupted', {
-        stats: { hp: 20, str: 8, mag: 0, def: 5, res: 3, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+        stats: {
+          hp: 20,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 3,
+          spd: 7,
+          skl: 5,
+          lck: 3,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
         metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 60, sta: 0 },
       });
       const cleanAttacker = makeUnit('clean', {
-        stats: { hp: 20, str: 8, mag: 0, def: 5, res: 3, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+        stats: {
+          hp: 20,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 3,
+          spd: 7,
+          skl: 5,
+          lck: 3,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
       });
       const defender = makeUnit('enemy', {
         faction: 'enemy',
         position: { x: 1, y: 0 },
       });
 
-      const forecastCorrupted = calculateCombatForecast(corruptedAttacker, defender, 'plain', 'plain', 1);
+      const forecastCorrupted = calculateCombatForecast(
+        corruptedAttacker,
+        defender,
+        'plain',
+        'plain',
+        1,
+      );
       const forecastClean = calculateCombatForecast(cleanAttacker, defender, 'plain', 'plain', 1);
 
       // CRP 60: -1 str → -1 damage
@@ -195,11 +333,35 @@ describe('Combat + Meta-Stats Integration', () => {
 
     it('reduces combat stats more at CRP >= 80', () => {
       const corrupted80 = makeUnit('corrupted80', {
-        stats: { hp: 20, str: 8, mag: 0, def: 5, res: 3, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+        stats: {
+          hp: 20,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 3,
+          spd: 7,
+          skl: 5,
+          lck: 3,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
         metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 80, sta: 0 },
       });
       const cleanAttacker = makeUnit('clean', {
-        stats: { hp: 20, str: 8, mag: 0, def: 5, res: 3, spd: 7, skl: 5, lck: 5, mov: 5, cha: 0, wil: 0 },
+        stats: {
+          hp: 20,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 3,
+          spd: 7,
+          skl: 5,
+          lck: 5,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
       });
       const defender = makeUnit('enemy', {
         faction: 'enemy',
@@ -255,7 +417,19 @@ describe('Combat + Meta-Stats Integration', () => {
   describe('LOY bonus in combat', () => {
     it('grants +1 all stats when LOY >= 80 and near Ren', () => {
       const attacker = makeUnit('ally', {
-        stats: { hp: 20, str: 8, mag: 4, def: 5, res: 3, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+        stats: {
+          hp: 20,
+          str: 8,
+          mag: 4,
+          def: 5,
+          res: 3,
+          spd: 7,
+          skl: 5,
+          lck: 3,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
         metaStats: { awr: 0, loop: 0, sync: 70, loy: 80, crp: 0, sta: 0 },
       });
       const defender = makeUnit('enemy', {
@@ -264,9 +438,13 @@ describe('Combat + Meta-Stats Integration', () => {
       });
 
       // Without nearRen
-      const forecastFar = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1, { attackerNearRen: false });
+      const forecastFar = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1, {
+        attackerNearRen: false,
+      });
       // With nearRen
-      const forecastNear = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1, { attackerNearRen: true });
+      const forecastNear = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1, {
+        attackerNearRen: true,
+      });
 
       // LOY 80 + nearRen: +1 str → +1 damage
       expect(forecastNear.attackerDamage).toBe(forecastFar.attackerDamage + 1);
@@ -281,8 +459,12 @@ describe('Combat + Meta-Stats Integration', () => {
         position: { x: 1, y: 0 },
       });
 
-      const forecastFar = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1, { attackerNearRen: false });
-      const forecastNear = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1, { attackerNearRen: true });
+      const forecastFar = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1, {
+        attackerNearRen: false,
+      });
+      const forecastNear = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1, {
+        attackerNearRen: true,
+      });
 
       expect(forecastNear.attackerDamage).toBe(forecastFar.attackerDamage);
     });
@@ -292,14 +474,38 @@ describe('Combat + Meta-Stats Integration', () => {
     it('applies damage variance when attacker SYNC < 30', () => {
       // Run many combats to verify variance appears
       const attacker = makeUnit('unstable', {
-        stats: { hp: 20, str: 8, mag: 0, def: 5, res: 3, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+        stats: {
+          hp: 20,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 3,
+          spd: 7,
+          skl: 5,
+          lck: 3,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
         equippedWeapon: makeWeapon('sword', { hit: 100, crit: 0, might: 5 }),
         metaStats: { awr: 0, loop: 0, sync: 20, loy: 50, crp: 0, sta: 0 },
       });
       const defender = makeUnit('enemy', {
         faction: 'enemy',
         position: { x: 1, y: 0 },
-        stats: { hp: 50, str: 8, mag: 0, def: 5, res: 3, spd: 3, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+        stats: {
+          hp: 50,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 3,
+          spd: 3,
+          skl: 5,
+          lck: 3,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
         equippedWeapon: makeWeapon('sword', { hit: 0, might: 5 }), // never hits back
       });
 
@@ -310,7 +516,7 @@ describe('Combat + Meta-Stats Integration', () => {
       for (let seed = 0; seed < 50; seed++) {
         const rng = new SeededRandom(seed);
         const result = resolveCombat(forecast, rng, attacker, defender);
-        const hit = result.hits.find(h => h.attackerIsInitiator && h.hit);
+        const hit = result.hits.find((h) => h.attackerIsInitiator && h.hit);
         if (hit) damages.add(hit.damage);
       }
 
@@ -331,7 +537,19 @@ describe('Combat + Meta-Stats Integration', () => {
       const defender = makeUnit('enemy', {
         faction: 'enemy',
         position: { x: 1, y: 0 },
-        stats: { hp: 50, str: 8, mag: 0, def: 5, res: 3, spd: 3, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+        stats: {
+          hp: 50,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 3,
+          spd: 3,
+          skl: 5,
+          lck: 3,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
         equippedWeapon: makeWeapon('sword', { hit: 0, might: 5 }),
       });
 
@@ -342,7 +560,7 @@ describe('Combat + Meta-Stats Integration', () => {
       for (let seed = 0; seed < 50; seed++) {
         const rng = new SeededRandom(seed);
         const result = resolveCombat(forecast, rng, attacker, defender);
-        const hit = result.hits.find(h => h.attackerIsInitiator && h.hit);
+        const hit = result.hits.find((h) => h.attackerIsInitiator && h.hit);
         if (hit) damages.add(hit.damage);
       }
 
@@ -356,13 +574,30 @@ describe('Combat + Meta-Stats Integration', () => {
     it('Memory Blade damage applies to actual hits', () => {
       const rng = new SeededRandom(42);
       const attacker = makeUnit('ren', {
-        equippedWeapon: makeWeapon('sword', { id: 'memory_blade', name: 'Memory Blade', might: 1, hit: 100 }),
+        equippedWeapon: makeWeapon('sword', {
+          id: 'memory_blade',
+          name: 'Memory Blade',
+          might: 1,
+          hit: 100,
+        }),
         metaStats: { awr: 0, loop: 300, sync: 70, loy: 50, crp: 0, sta: 0 },
       });
       const defender = makeUnit('enemy', {
         faction: 'enemy',
         position: { x: 1, y: 0 },
-        stats: { hp: 30, str: 8, mag: 0, def: 5, res: 3, spd: 5, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+        stats: {
+          hp: 30,
+          str: 8,
+          mag: 0,
+          def: 5,
+          res: 3,
+          spd: 5,
+          skl: 5,
+          lck: 3,
+          mov: 5,
+          cha: 0,
+          wil: 0,
+        },
       });
 
       const forecast = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1);
@@ -372,7 +607,7 @@ describe('Combat + Meta-Stats Integration', () => {
 
       const result = resolveCombat(forecast, rng, attacker, defender);
       // At least the first hit should deal the forecast damage (if it hits)
-      const firstHit = result.hits.find(h => h.attackerIsInitiator && h.hit);
+      const firstHit = result.hits.find((h) => h.attackerIsInitiator && h.hit);
       if (firstHit) {
         expect(firstHit.damage).toBeGreaterThan(0);
       }

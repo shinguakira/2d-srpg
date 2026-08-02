@@ -17,7 +17,9 @@ describe('Chapter Preparation Flow', () => {
       deadUnitIds: [],
       gameMode: 'classic',
       unitProgress: {},
-    } as Partial<ReturnType<typeof useCampaignStore.getState>> as ReturnType<typeof useCampaignStore.getState>);
+    } as Partial<ReturnType<typeof useCampaignStore.getState>> as ReturnType<
+      typeof useCampaignStore.getState
+    >);
   });
 
   describe('startChapter', () => {

@@ -50,7 +50,7 @@ export function DialogueBox() {
   if (!line) return null;
 
   const speakerColor = line.speakerFaction
-    ? FACTION_COLORS[line.speakerFaction] ?? NARRATOR_COLOR
+    ? (FACTION_COLORS[line.speakerFaction] ?? NARRATOR_COLOR)
     : NARRATOR_COLOR;
 
   const portrait = SPEAKER_PORTRAITS[line.speaker];
@@ -59,7 +59,12 @@ export function DialogueBox() {
     <div className="dialogue" data-testid="dialogue-box" onClick={handleAdvance}>
       {portrait && (
         <div className="dialogue__portrait" key={line.speaker}>
-          <BattleSprite classId={portrait.classId} faction={portrait.faction} unitId={portrait.unitId} static />
+          <BattleSprite
+            classId={portrait.classId}
+            faction={portrait.faction}
+            unitId={portrait.unitId}
+            static
+          />
         </div>
       )}
       <div className="dialogue__panel">

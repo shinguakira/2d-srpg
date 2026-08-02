@@ -21,13 +21,13 @@ describe('sortAndTruncateEffects', () => {
   it('sorts by priority: panic first, then poison, then dazed', () => {
     const effects = [effect('dazed'), effect('panic'), effect('poison')];
     const result = sortAndTruncateEffects(effects);
-    expect(result.map(e => e.type)).toEqual(['panic', 'poison', 'dazed']);
+    expect(result.map((e) => e.type)).toEqual(['panic', 'poison', 'dazed']);
   });
 
   it('sorts break effects after dazed', () => {
     const effects = [effect('mov_break'), effect('dazed'), effect('atk_break')];
     const result = sortAndTruncateEffects(effects);
-    expect(result.map(e => e.type)).toEqual(['dazed', 'atk_break', 'mov_break']);
+    expect(result.map((e) => e.type)).toEqual(['dazed', 'atk_break', 'mov_break']);
   });
 
   it('returns exactly 3 effects when given 3', () => {
@@ -37,15 +37,10 @@ describe('sortAndTruncateEffects', () => {
   });
 
   it('truncates to 3 when given 4+ effects, keeping highest priority', () => {
-    const effects = [
-      effect('spd_break'),
-      effect('mov_break'),
-      effect('dazed'),
-      effect('panic'),
-    ];
+    const effects = [effect('spd_break'), effect('mov_break'), effect('dazed'), effect('panic')];
     const result = sortAndTruncateEffects(effects);
     expect(result).toHaveLength(3);
-    expect(result.map(e => e.type)).toEqual(['panic', 'dazed', 'spd_break']);
+    expect(result.map((e) => e.type)).toEqual(['panic', 'dazed', 'spd_break']);
     // mov_break (lowest priority) should be dropped
   });
 
@@ -61,7 +56,7 @@ describe('sortAndTruncateEffects', () => {
     ];
     const result = sortAndTruncateEffects(effects);
     expect(result).toHaveLength(3);
-    expect(result.map(e => e.type)).toEqual(['panic', 'poison', 'dazed']);
+    expect(result.map((e) => e.type)).toEqual(['panic', 'poison', 'dazed']);
   });
 
   it('does not mutate the original array', () => {

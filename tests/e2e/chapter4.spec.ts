@@ -28,17 +28,39 @@ test.describe('Chapter 4 — Ancient Horrors', () => {
     await page.waitForTimeout(300);
 
     // 11 enemies total
-    await expect(page.locator('[data-testid="tile-4-7"] [data-testid="unit-ch4_soldier_1"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-13-7"] [data-testid="unit-ch4_soldier_2"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-15-5"] [data-testid="unit-ch4_soldier_3"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-8-5"] [data-testid="unit-ch4_fighter_1"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-3-5"] [data-testid="unit-ch4_fighter_2"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-13-3"] [data-testid="unit-ch4_fighter_3"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-11-3"] [data-testid="unit-ch4_mage_1"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-5-3"] [data-testid="unit-ch4_mage_2"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-7-4"] [data-testid="unit-ch4_guard_1"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-4-1"] [data-testid="unit-ch4_guard_2"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-8-0"] [data-testid="unit-ch4_boss"]')).toBeVisible();
+    await expect(
+      page.locator('[data-testid="tile-4-7"] [data-testid="unit-ch4_soldier_1"]'),
+    ).toBeVisible();
+    await expect(
+      page.locator('[data-testid="tile-13-7"] [data-testid="unit-ch4_soldier_2"]'),
+    ).toBeVisible();
+    await expect(
+      page.locator('[data-testid="tile-15-5"] [data-testid="unit-ch4_soldier_3"]'),
+    ).toBeVisible();
+    await expect(
+      page.locator('[data-testid="tile-8-5"] [data-testid="unit-ch4_fighter_1"]'),
+    ).toBeVisible();
+    await expect(
+      page.locator('[data-testid="tile-3-5"] [data-testid="unit-ch4_fighter_2"]'),
+    ).toBeVisible();
+    await expect(
+      page.locator('[data-testid="tile-13-3"] [data-testid="unit-ch4_fighter_3"]'),
+    ).toBeVisible();
+    await expect(
+      page.locator('[data-testid="tile-11-3"] [data-testid="unit-ch4_mage_1"]'),
+    ).toBeVisible();
+    await expect(
+      page.locator('[data-testid="tile-5-3"] [data-testid="unit-ch4_mage_2"]'),
+    ).toBeVisible();
+    await expect(
+      page.locator('[data-testid="tile-7-4"] [data-testid="unit-ch4_guard_1"]'),
+    ).toBeVisible();
+    await expect(
+      page.locator('[data-testid="tile-4-1"] [data-testid="unit-ch4_guard_2"]'),
+    ).toBeVisible();
+    await expect(
+      page.locator('[data-testid="tile-8-0"] [data-testid="unit-ch4_boss"]'),
+    ).toBeVisible();
   });
 
   test('dungeon terrain — walls and corridors', async ({ page }) => {
@@ -52,19 +74,28 @@ test.describe('Chapter 4 — Ancient Horrors', () => {
     await expect(page.locator('[data-testid="tile-0-5"]')).toHaveAttribute('data-terrain', 'wall');
 
     // Throne at (8,0)
-    await expect(page.locator('[data-testid="tile-8-0"]')).toHaveAttribute('data-terrain', 'throne');
+    await expect(page.locator('[data-testid="tile-8-0"]')).toHaveAttribute(
+      'data-terrain',
+      'throne',
+    );
 
     // Forts inside corridors
     await expect(page.locator('[data-testid="tile-7-4"]')).toHaveAttribute('data-terrain', 'fort');
     await expect(page.locator('[data-testid="tile-7-7"]')).toHaveAttribute('data-terrain', 'fort');
 
     // Village in side alcove
-    await expect(page.locator('[data-testid="tile-14-6"]')).toHaveAttribute('data-terrain', 'village');
+    await expect(page.locator('[data-testid="tile-14-6"]')).toHaveAttribute(
+      'data-terrain',
+      'village',
+    );
 
     // Corridor passable tiles (row 5 main east-west corridor)
     await expect(page.locator('[data-testid="tile-1-5"]')).toHaveAttribute('data-terrain', 'plain');
     await expect(page.locator('[data-testid="tile-8-5"]')).toHaveAttribute('data-terrain', 'plain');
-    await expect(page.locator('[data-testid="tile-14-5"]')).toHaveAttribute('data-terrain', 'plain');
+    await expect(page.locator('[data-testid="tile-14-5"]')).toHaveAttribute(
+      'data-terrain',
+      'plain',
+    );
   });
 
   test('objective displays as seize', async ({ page }) => {

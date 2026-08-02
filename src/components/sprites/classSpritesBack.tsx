@@ -3,13 +3,20 @@ import type { Palette } from './classSprites';
 /** Back-facing sprites — no facial features, back of head/helmet/cape visible */
 export function renderClassSpriteBack(classId: string, c: Palette) {
   switch (classId) {
-    case 'lord': return <LordBack c={c} />;
-    case 'cavalier': return <CavalierBack c={c} />;
-    case 'mage': return <MageBack c={c} />;
-    case 'fighter': return <FighterBack c={c} />;
-    case 'soldier': return <SoldierBack c={c} />;
-    case 'cleric': return <ClericBack c={c} />;
-    default: return <GenericBack c={c} />;
+    case 'lord':
+      return <LordBack c={c} />;
+    case 'cavalier':
+      return <CavalierBack c={c} />;
+    case 'mage':
+      return <MageBack c={c} />;
+    case 'fighter':
+      return <FighterBack c={c} />;
+    case 'soldier':
+      return <SoldierBack c={c} />;
+    case 'cleric':
+      return <ClericBack c={c} />;
+    default:
+      return <GenericBack c={c} />;
   }
 }
 
@@ -18,7 +25,13 @@ function LordBack({ c }: { c: Palette }) {
     <g>
       {/* Cape — wide flowing back, dominant visual — with flutter */}
       <g>
-        <animateTransform attributeName="transform" type="translate" values="0 0; -0.4 -0.3; 0 0; 0.3 0.2; 0 0" dur="2.5s" repeatCount="indefinite" />
+        <animateTransform
+          attributeName="transform"
+          type="translate"
+          values="0 0; -0.4 -0.3; 0 0; 0.3 0.2; 0 0"
+          dur="2.5s"
+          repeatCount="indefinite"
+        />
         <polygon points="9,16 4,36 28,36 23,16" fill={c.dark} opacity="0.55" />
         <line x1="10" y1="20" x2="8" y2="32" stroke={c.primary} strokeWidth="0.5" opacity="0.2" />
         <line x1="22" y1="20" x2="24" y2="32" stroke={c.primary} strokeWidth="0.5" opacity="0.2" />
@@ -27,13 +40,28 @@ function LordBack({ c }: { c: Palette }) {
 
       {/* Upper body — breathing group */}
       <g>
-        <animateTransform attributeName="transform" type="translate" values="0 0; 0 -0.4; 0 0" dur="2s" repeatCount="indefinite" />
+        <animateTransform
+          attributeName="transform"
+          type="translate"
+          values="0 0; 0 -0.4; 0 0"
+          dur="2s"
+          repeatCount="indefinite"
+        />
 
         {/* Shoulder pauldrons from behind */}
         <ellipse cx="11" cy="17" rx="3" ry="2" fill={c.dark} stroke={c.outline} strokeWidth="0.5" />
         <ellipse cx="21" cy="17" rx="3" ry="2" fill={c.dark} stroke={c.outline} strokeWidth="0.5" />
         {/* Body/armor */}
-        <rect x="11" y="16" width="10" height="12" rx="2" fill={c.primary} stroke={c.outline} strokeWidth="0.8" />
+        <rect
+          x="11"
+          y="16"
+          width="10"
+          height="12"
+          rx="2"
+          fill={c.primary}
+          stroke={c.outline}
+          strokeWidth="0.8"
+        />
         <line x1="16" y1="17" x2="16" y2="27" stroke={c.dark} strokeWidth="0.5" opacity="0.3" />
         {/* Gold belt from behind */}
         <rect x="11" y="25" width="10" height="2" rx="0.5" fill="#d97706" />
@@ -41,10 +69,33 @@ function LordBack({ c }: { c: Palette }) {
         <circle cx="16" cy="10" r="6" fill="#d4a060" stroke={c.outline} strokeWidth="0.8" />
         <path d="M10,10 Q10,3 16,2 Q22,3 22,10 Q20,7 16,6 Q12,7 10,10 Z" fill={c.dark} />
         {/* Crown from behind */}
-        <polygon points="10.5,5.5 12.5,1 14.5,4 16,0.5 17.5,4 19.5,1 21.5,5.5" fill="#fbbf24" stroke="#b45309" strokeWidth="0.5" />
+        <polygon
+          points="10.5,5.5 12.5,1 14.5,4 16,0.5 17.5,4 19.5,1 21.5,5.5"
+          fill="#fbbf24"
+          stroke="#b45309"
+          strokeWidth="0.5"
+        />
         {/* Sword hilt over right shoulder */}
-        <rect x="22" y="8" width="2" height="14" rx="0.5" fill="#c0c0c0" stroke="#888" strokeWidth="0.4" />
-        <rect x="20" y="14" width="7" height="2.5" rx="0.8" fill="#d4a574" stroke="#a07850" strokeWidth="0.3" />
+        <rect
+          x="22"
+          y="8"
+          width="2"
+          height="14"
+          rx="0.5"
+          fill="#c0c0c0"
+          stroke="#888"
+          strokeWidth="0.4"
+        />
+        <rect
+          x="20"
+          y="14"
+          width="7"
+          height="2.5"
+          rx="0.8"
+          fill="#d4a574"
+          stroke="#a07850"
+          strokeWidth="0.3"
+        />
       </g>
 
       {/* Legs — grounded */}
@@ -72,7 +123,16 @@ function CavalierBack({ c }: { c: Palette }) {
       <rect x="18" y="33" width="3" height="3" rx="0.5" fill="#7a5c12" />
       <rect x="23" y="32" width="3" height="4" rx="0.5" fill="#7a5c12" />
       {/* Rider body */}
-      <rect x="12" y="14" width="8" height="10" rx="2" fill={c.primary} stroke={c.outline} strokeWidth="0.8" />
+      <rect
+        x="12"
+        y="14"
+        width="8"
+        height="10"
+        rx="2"
+        fill={c.primary}
+        stroke={c.outline}
+        strokeWidth="0.8"
+      />
       {/* Back of head — hair */}
       <circle cx="16" cy="9" r="5" fill="#d4a060" stroke={c.outline} strokeWidth="0.8" />
       <path d="M11,8 Q16,4 21,8" fill={c.dark} />
@@ -87,7 +147,12 @@ function MageBack({ c }: { c: Palette }) {
   return (
     <g>
       {/* Robe from behind */}
-      <polygon points="10,16 6,34 26,34 22,16" fill={c.primary} stroke={c.outline} strokeWidth="0.8" />
+      <polygon
+        points="10,16 6,34 26,34 22,16"
+        fill={c.primary}
+        stroke={c.outline}
+        strokeWidth="0.8"
+      />
       {/* Robe detail — back seam */}
       <line x1="16" y1="16" x2="16" y2="34" stroke={c.dark} strokeWidth="0.5" opacity="0.5" />
       {/* Back of pointed hat */}
@@ -97,7 +162,16 @@ function MageBack({ c }: { c: Palette }) {
       <circle cx="16" cy="10" r="5.5" fill="#d4a060" stroke={c.outline} strokeWidth="0.8" />
       <ellipse cx="16" cy="14" rx="7" ry="3" fill={c.dark} />
       {/* Book strapped to back */}
-      <rect x="18" y="18" width="5" height="7" rx="1" fill="#8B4513" stroke="#5c2e0a" strokeWidth="0.5" />
+      <rect
+        x="18"
+        y="18"
+        width="5"
+        height="7"
+        rx="1"
+        fill="#8B4513"
+        stroke="#5c2e0a"
+        strokeWidth="0.5"
+      />
       <line x1="20.5" y1="18" x2="20.5" y2="25" stroke="#d4a574" strokeWidth="0.5" />
       {/* Feet */}
       <rect x="10" y="32" width="5" height="3" rx="1" fill="#5c3a1e" />
@@ -110,7 +184,16 @@ function FighterBack({ c }: { c: Palette }) {
   return (
     <g>
       {/* Broad back/torso */}
-      <rect x="9" y="14" width="14" height="14" rx="2" fill={c.primary} stroke={c.outline} strokeWidth="0.8" />
+      <rect
+        x="9"
+        y="14"
+        width="14"
+        height="14"
+        rx="2"
+        fill={c.primary}
+        stroke={c.outline}
+        strokeWidth="0.8"
+      />
       {/* Belt */}
       <rect x="9" y="24" width="14" height="2" fill="#5c3a1e" />
       {/* Back of head — headband visible */}
@@ -135,7 +218,16 @@ function SoldierBack({ c }: { c: Palette }) {
   return (
     <g>
       {/* Body armor from behind */}
-      <rect x="10" y="14" width="12" height="14" rx="2" fill={c.primary} stroke={c.outline} strokeWidth="0.8" />
+      <rect
+        x="10"
+        y="14"
+        width="12"
+        height="14"
+        rx="2"
+        fill={c.primary}
+        stroke={c.outline}
+        strokeWidth="0.8"
+      />
       {/* Back armor plate detail */}
       <rect x="12" y="16" width="8" height="6" rx="1" fill={c.light} opacity="0.3" />
       {/* Back of helmet */}
@@ -163,7 +255,12 @@ function ClericBack({ c }: { c: Palette }) {
   return (
     <g>
       {/* Robe from behind */}
-      <polygon points="10,16 7,34 25,34 22,16" fill="#f0e6d0" stroke={c.outline} strokeWidth="0.8" />
+      <polygon
+        points="10,16 7,34 25,34 22,16"
+        fill="#f0e6d0"
+        stroke={c.outline}
+        strokeWidth="0.8"
+      />
       {/* Back seam */}
       <line x1="16" y1="16" x2="16" y2="34" stroke={c.dark} strokeWidth="0.3" opacity="0.3" />
       {/* Sash */}
@@ -185,7 +282,16 @@ function ClericBack({ c }: { c: Palette }) {
 function GenericBack({ c }: { c: Palette }) {
   return (
     <g>
-      <rect x="10" y="14" width="12" height="14" rx="2" fill={c.primary} stroke={c.outline} strokeWidth="0.8" />
+      <rect
+        x="10"
+        y="14"
+        width="12"
+        height="14"
+        rx="2"
+        fill={c.primary}
+        stroke={c.outline}
+        strokeWidth="0.8"
+      />
       <circle cx="16" cy="9" r="5.5" fill="#d4a060" stroke={c.outline} strokeWidth="0.8" />
       <rect x="11" y="28" width="4" height="6" rx="1" fill={c.dark} />
       <rect x="17" y="28" width="4" height="6" rx="1" fill={c.dark} />

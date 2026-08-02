@@ -29,7 +29,9 @@ export function recalculateFog(get: Get, set: Set) {
 
   if (newlyVisible.size > 0) {
     set({ fogRevealTiles: newlyVisible });
-    setTimeout(() => { set({ fogRevealTiles: new Set<string>() }); }, 500);
+    setTimeout(() => {
+      set({ fogRevealTiles: new Set<string>() });
+    }, 500);
   }
 }
 

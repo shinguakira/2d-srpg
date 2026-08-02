@@ -12,75 +12,305 @@ export function WeaponEffect({ weaponType, side }: WeaponEffectProps) {
   switch (weaponType) {
     case 'sword':
       return (
-        <svg className="weapon-effect weapon-effect--slash" width="60" height="60" viewBox="0 0 60 60" style={{ transform: mirror }}>
+        <svg
+          className="weapon-effect weapon-effect--slash"
+          width="60"
+          height="60"
+          viewBox="0 0 60 60"
+          style={{ transform: mirror }}
+        >
           {/* Blue glow trail on primary slash */}
-          <line x1="10" y1="50" x2="50" y2="10" stroke="#93c5fd" strokeWidth="5" strokeLinecap="round" className="weapon-effect__line--glow" opacity="0.4" />
+          <line
+            x1="10"
+            y1="50"
+            x2="50"
+            y2="10"
+            stroke="#93c5fd"
+            strokeWidth="5"
+            strokeLinecap="round"
+            className="weapon-effect__line--glow"
+            opacity="0.4"
+          />
           {/* Primary diagonal slash */}
-          <line x1="10" y1="50" x2="50" y2="10" stroke="#fff" strokeWidth="3" strokeLinecap="round" className="weapon-effect__line weapon-effect__slash-1" />
+          <line
+            x1="10"
+            y1="50"
+            x2="50"
+            y2="10"
+            stroke="#fff"
+            strokeWidth="3"
+            strokeLinecap="round"
+            className="weapon-effect__line weapon-effect__slash-1"
+          />
           {/* Secondary slash — offset X pattern */}
-          <line x1="15" y1="10" x2="48" y2="45" stroke="#fff" strokeWidth="2" strokeLinecap="round" className="weapon-effect__line weapon-effect__slash-2" />
+          <line
+            x1="15"
+            y1="10"
+            x2="48"
+            y2="45"
+            stroke="#fff"
+            strokeWidth="2"
+            strokeLinecap="round"
+            className="weapon-effect__line weapon-effect__slash-2"
+          />
           {/* Tertiary horizontal accent */}
-          <line x1="8" y1="30" x2="52" y2="28" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" className="weapon-effect__line weapon-effect__slash-3" />
+          <line
+            x1="8"
+            y1="30"
+            x2="52"
+            y2="28"
+            stroke="rgba(255,255,255,0.6)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            className="weapon-effect__line weapon-effect__slash-3"
+          />
           {/* Speed lines from impact center */}
-          <line x1="30" y1="30" x2="55" y2="15" stroke="rgba(255,255,255,0.3)" strokeWidth="1" className="weapon-effect__speed-line" />
-          <line x1="30" y1="30" x2="10" y2="55" stroke="rgba(255,255,255,0.3)" strokeWidth="1" className="weapon-effect__speed-line" />
-          <line x1="30" y1="30" x2="55" y2="40" stroke="rgba(255,255,255,0.25)" strokeWidth="0.8" className="weapon-effect__speed-line" />
+          <line
+            x1="30"
+            y1="30"
+            x2="55"
+            y2="15"
+            stroke="rgba(255,255,255,0.3)"
+            strokeWidth="1"
+            className="weapon-effect__speed-line"
+          />
+          <line
+            x1="30"
+            y1="30"
+            x2="10"
+            y2="55"
+            stroke="rgba(255,255,255,0.3)"
+            strokeWidth="1"
+            className="weapon-effect__speed-line"
+          />
+          <line
+            x1="30"
+            y1="30"
+            x2="55"
+            y2="40"
+            stroke="rgba(255,255,255,0.25)"
+            strokeWidth="0.8"
+            className="weapon-effect__speed-line"
+          />
           {/* Impact spark at center */}
-          <circle cx="30" cy="30" r="4" fill="#fff" opacity="0.7" className="weapon-effect__spark" />
-          <circle cx="30" cy="30" r="8" fill="rgba(147,197,253,0.3)" className="weapon-effect__spark-glow" />
+          <circle
+            cx="30"
+            cy="30"
+            r="4"
+            fill="#fff"
+            opacity="0.7"
+            className="weapon-effect__spark"
+          />
+          <circle
+            cx="30"
+            cy="30"
+            r="8"
+            fill="rgba(147,197,253,0.3)"
+            className="weapon-effect__spark-glow"
+          />
         </svg>
       );
 
     case 'lance':
       return (
-        <svg className="weapon-effect weapon-effect--thrust" width="80" height="20" viewBox="0 0 80 20" style={{ transform: mirror }}>
-          <line x1="0" y1="10" x2="70" y2="10" stroke="#fff" strokeWidth="3" strokeLinecap="round" className="weapon-effect__line" />
+        <svg
+          className="weapon-effect weapon-effect--thrust"
+          width="80"
+          height="20"
+          viewBox="0 0 80 20"
+          style={{ transform: mirror }}
+        >
+          <line
+            x1="0"
+            y1="10"
+            x2="70"
+            y2="10"
+            stroke="#fff"
+            strokeWidth="3"
+            strokeLinecap="round"
+            className="weapon-effect__line"
+          />
           <polygon points="70,4 80,10 70,16" fill="#c0c0c0" className="weapon-effect__tip" />
         </svg>
       );
 
     case 'axe':
       return (
-        <svg className="weapon-effect weapon-effect--arc" width="60" height="60" viewBox="0 0 60 60" style={{ transform: mirror }}>
-          <path d="M 15,50 Q 10,25 30,10 Q 50,25 45,50" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" className="weapon-effect__arc" />
-          <path d="M 15,50 Q 10,25 30,10 Q 50,25 45,50" fill="none" stroke="#fca5a5" strokeWidth="1.5" strokeLinecap="round" className="weapon-effect__arc weapon-effect__arc--glow" />
+        <svg
+          className="weapon-effect weapon-effect--arc"
+          width="60"
+          height="60"
+          viewBox="0 0 60 60"
+          style={{ transform: mirror }}
+        >
+          <path
+            d="M 15,50 Q 10,25 30,10 Q 50,25 45,50"
+            fill="none"
+            stroke="#fff"
+            strokeWidth="3"
+            strokeLinecap="round"
+            className="weapon-effect__arc"
+          />
+          <path
+            d="M 15,50 Q 10,25 30,10 Q 50,25 45,50"
+            fill="none"
+            stroke="#fca5a5"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            className="weapon-effect__arc weapon-effect__arc--glow"
+          />
         </svg>
       );
 
     case 'fire':
       return (
-        <svg className="weapon-effect weapon-effect--fire" width="50" height="50" viewBox="0 0 50 50">
-          <circle cx="25" cy="25" r="8" fill="#ef4444" opacity="0.8" className="weapon-effect__flame weapon-effect__flame--outer" />
-          <circle cx="25" cy="25" r="5" fill="#fbbf24" opacity="0.9" className="weapon-effect__flame weapon-effect__flame--mid" />
-          <circle cx="25" cy="25" r="2" fill="#fff" opacity="0.9" className="weapon-effect__flame weapon-effect__flame--core" />
-          <circle cx="25" cy="20" r="4" fill="#ef4444" opacity="0.5" className="weapon-effect__flame weapon-effect__flame--flicker" />
+        <svg
+          className="weapon-effect weapon-effect--fire"
+          width="50"
+          height="50"
+          viewBox="0 0 50 50"
+        >
+          <circle
+            cx="25"
+            cy="25"
+            r="8"
+            fill="#ef4444"
+            opacity="0.8"
+            className="weapon-effect__flame weapon-effect__flame--outer"
+          />
+          <circle
+            cx="25"
+            cy="25"
+            r="5"
+            fill="#fbbf24"
+            opacity="0.9"
+            className="weapon-effect__flame weapon-effect__flame--mid"
+          />
+          <circle
+            cx="25"
+            cy="25"
+            r="2"
+            fill="#fff"
+            opacity="0.9"
+            className="weapon-effect__flame weapon-effect__flame--core"
+          />
+          <circle
+            cx="25"
+            cy="20"
+            r="4"
+            fill="#ef4444"
+            opacity="0.5"
+            className="weapon-effect__flame weapon-effect__flame--flicker"
+          />
         </svg>
       );
 
     case 'thunder':
       return (
-        <svg className="weapon-effect weapon-effect--thunder" width="40" height="70" viewBox="0 0 40 70">
-          <polyline points="20,0 15,20 25,25 12,45 22,48 18,70" fill="none" stroke="#fbbf24" strokeWidth="3" strokeLinejoin="round" className="weapon-effect__bolt" />
-          <polyline points="20,0 15,20 25,25 12,45 22,48 18,70" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinejoin="round" className="weapon-effect__bolt weapon-effect__bolt--core" />
+        <svg
+          className="weapon-effect weapon-effect--thunder"
+          width="40"
+          height="70"
+          viewBox="0 0 40 70"
+        >
+          <polyline
+            points="20,0 15,20 25,25 12,45 22,48 18,70"
+            fill="none"
+            stroke="#fbbf24"
+            strokeWidth="3"
+            strokeLinejoin="round"
+            className="weapon-effect__bolt"
+          />
+          <polyline
+            points="20,0 15,20 25,25 12,45 22,48 18,70"
+            fill="none"
+            stroke="#fff"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+            className="weapon-effect__bolt weapon-effect__bolt--core"
+          />
         </svg>
       );
 
     case 'wind':
       return (
-        <svg className="weapon-effect weapon-effect--wind" width="50" height="50" viewBox="0 0 50 50" style={{ transform: mirror }}>
-          <path d="M 5,20 Q 20,10 35,20 Q 50,30 35,40" fill="none" stroke="#86efac" strokeWidth="2" className="weapon-effect__gust weapon-effect__gust--1" />
-          <path d="M 8,30 Q 25,18 40,30 Q 52,40 38,45" fill="none" stroke="#22c55e" strokeWidth="1.5" className="weapon-effect__gust weapon-effect__gust--2" />
-          <path d="M 3,35 Q 18,28 33,35" fill="none" stroke="#86efac" strokeWidth="1" className="weapon-effect__gust weapon-effect__gust--3" />
+        <svg
+          className="weapon-effect weapon-effect--wind"
+          width="50"
+          height="50"
+          viewBox="0 0 50 50"
+          style={{ transform: mirror }}
+        >
+          <path
+            d="M 5,20 Q 20,10 35,20 Q 50,30 35,40"
+            fill="none"
+            stroke="#86efac"
+            strokeWidth="2"
+            className="weapon-effect__gust weapon-effect__gust--1"
+          />
+          <path
+            d="M 8,30 Q 25,18 40,30 Q 52,40 38,45"
+            fill="none"
+            stroke="#22c55e"
+            strokeWidth="1.5"
+            className="weapon-effect__gust weapon-effect__gust--2"
+          />
+          <path
+            d="M 3,35 Q 18,28 33,35"
+            fill="none"
+            stroke="#86efac"
+            strokeWidth="1"
+            className="weapon-effect__gust weapon-effect__gust--3"
+          />
         </svg>
       );
 
     case 'staff':
       return (
-        <svg className="weapon-effect weapon-effect--heal" width="50" height="50" viewBox="0 0 50 50">
-          <circle cx="25" cy="25" r="15" fill="none" stroke="#fbbf24" strokeWidth="2" opacity="0.6" className="weapon-effect__glow weapon-effect__glow--outer" />
-          <circle cx="25" cy="25" r="8" fill="none" stroke="#fff" strokeWidth="1.5" opacity="0.8" className="weapon-effect__glow weapon-effect__glow--inner" />
-          <line x1="25" y1="15" x2="25" y2="35" stroke="#fbbf24" strokeWidth="2" className="weapon-effect__cross" />
-          <line x1="15" y1="25" x2="35" y2="25" stroke="#fbbf24" strokeWidth="2" className="weapon-effect__cross" />
+        <svg
+          className="weapon-effect weapon-effect--heal"
+          width="50"
+          height="50"
+          viewBox="0 0 50 50"
+        >
+          <circle
+            cx="25"
+            cy="25"
+            r="15"
+            fill="none"
+            stroke="#fbbf24"
+            strokeWidth="2"
+            opacity="0.6"
+            className="weapon-effect__glow weapon-effect__glow--outer"
+          />
+          <circle
+            cx="25"
+            cy="25"
+            r="8"
+            fill="none"
+            stroke="#fff"
+            strokeWidth="1.5"
+            opacity="0.8"
+            className="weapon-effect__glow weapon-effect__glow--inner"
+          />
+          <line
+            x1="25"
+            y1="15"
+            x2="25"
+            y2="35"
+            stroke="#fbbf24"
+            strokeWidth="2"
+            className="weapon-effect__cross"
+          />
+          <line
+            x1="15"
+            y1="25"
+            x2="35"
+            y2="25"
+            stroke="#fbbf24"
+            strokeWidth="2"
+            className="weapon-effect__cross"
+          />
         </svg>
       );
 

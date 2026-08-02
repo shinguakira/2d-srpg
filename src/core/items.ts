@@ -21,13 +21,23 @@ export function canUseItem(unit: Unit, item: ConsumableItem, context?: UseItemCo
   if (item.effect.kind === 'unlock') {
     if (!context) return false;
     const { gameMap, position, openedChests } = context;
-    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+    const dirs = [
+      { x: 0, y: -1 },
+      { x: 0, y: 1 },
+      { x: -1, y: 0 },
+      { x: 1, y: 0 },
+    ];
     for (const d of dirs) {
       const adj = { x: position.x + d.x, y: position.y + d.y };
       if (adj.x < 0 || adj.y < 0 || adj.x >= gameMap.width || adj.y >= gameMap.height) continue;
       const tile = gameMap.tiles[adj.y][adj.x];
       if (item.effect.targetTerrain === 'door' && tile.terrain === 'door') return true;
-      if (item.effect.targetTerrain === 'chest' && tile.terrain === 'chest' && !openedChests?.has(posKey(adj))) return true;
+      if (
+        item.effect.targetTerrain === 'chest' &&
+        tile.terrain === 'chest' &&
+        !openedChests?.has(posKey(adj))
+      )
+        return true;
     }
     return false;
   }

@@ -1,5 +1,9 @@
 import { posKey } from '../../core/types';
-import { calcTerrainDamage, canAttackTerrain, resolveBridgeCollapse } from '../../core/destructibleTerrain';
+import {
+  calcTerrainDamage,
+  canAttackTerrain,
+  resolveBridgeCollapse,
+} from '../../core/destructibleTerrain';
 import type { GameState, GameActions } from '../gameStoreTypes';
 import { IDLE_RESET } from '../helpers/constants';
 import { getClassFlags, allPlayersDone } from '../helpers/mapHelpers';
@@ -80,7 +84,10 @@ export function attackTerrain(get: Get, set: Set) {
       else if (oldTerrain === 'forest') destroyedTerrain = 'plain';
     }
 
-    newTiles[targetPos.y][targetPos.x] = { ...newTiles[targetPos.y][targetPos.x], terrain: destroyedTerrain as any };
+    newTiles[targetPos.y][targetPos.x] = {
+      ...newTiles[targetPos.y][targetPos.x],
+      terrain: destroyedTerrain as any,
+    };
 
     floats.push({
       id: Date.now(),
@@ -92,7 +99,12 @@ export function attackTerrain(get: Get, set: Set) {
 
     // Handle bridge collapse
     if (oldTerrain === 'bridge') {
-      const collapseResults = resolveBridgeCollapse(targetPos, { ...gameMap, tiles: newTiles }, newUnits, (u) => getClassFlags(u));
+      const collapseResults = resolveBridgeCollapse(
+        targetPos,
+        { ...gameMap, tiles: newTiles },
+        newUnits,
+        (u) => getClassFlags(u),
+      );
       for (const cr of collapseResults) {
         const collapseUnit = newUnits.get(cr.unitId);
         if (!collapseUnit) continue;
@@ -100,7 +112,11 @@ export function attackTerrain(get: Get, set: Set) {
         if (cr.displacedTo) {
           newTiles[collapseUnit.position.y][collapseUnit.position.x].occupantId = null;
           newTiles[cr.displacedTo.y][cr.displacedTo.x].occupantId = cr.unitId;
-          newUnits.set(cr.unitId, { ...collapseUnit, currentHp: newHpAfter, position: { ...cr.displacedTo } });
+          newUnits.set(cr.unitId, {
+            ...collapseUnit,
+            currentHp: newHpAfter,
+            position: { ...cr.displacedTo },
+          });
         } else {
           // No displacement available — unit stays and takes damage
           newUnits.set(cr.unitId, { ...collapseUnit, currentHp: newHpAfter });

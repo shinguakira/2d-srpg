@@ -17,7 +17,9 @@ export function BossPhaseTransition() {
       <div className="boss-phase-transition__content">
         <div className="boss-phase-transition__header">
           <span className="boss-phase-transition__boss-name">{boss?.name ?? 'Boss'}</span>
-          <span className="boss-phase-transition__phase-label">Phase {transition.phaseIndex + 1}</span>
+          <span className="boss-phase-transition__phase-label">
+            Phase {transition.phaseIndex + 1}
+          </span>
         </div>
         <div className="boss-phase-transition__dialogue">
           {lines.map((line, i) => (

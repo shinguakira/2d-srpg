@@ -72,9 +72,16 @@ export function applyForge(weapon: Weapon): Weapon {
 }
 
 /** Preview the stats of a weapon after forging (without applying). */
-export function previewForge(weapon: Weapon): { name: string; might: number; hit: number; forgeLevel: number } | null {
+export function previewForge(
+  weapon: Weapon,
+): { name: string; might: number; hit: number; forgeLevel: number } | null {
   const currentLevel = weapon.forgeLevel ?? 0;
   if (currentLevel >= MAX_FORGE_LEVEL) return null;
   const forged = applyForge(weapon);
-  return { name: forged.name, might: forged.might, hit: forged.hit, forgeLevel: forged.forgeLevel ?? 0 };
+  return {
+    name: forged.name,
+    might: forged.might,
+    hit: forged.hit,
+    forgeLevel: forged.forgeLevel ?? 0,
+  };
 }

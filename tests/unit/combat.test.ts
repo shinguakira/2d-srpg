@@ -26,7 +26,19 @@ function makeUnit(id: string, overrides: Partial<Unit> = {}): Unit {
     classId: 'lord',
     faction: 'player',
     position: { x: 0, y: 0 },
-    stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+    stats: {
+      hp: 20,
+      str: 8,
+      mag: 0,
+      def: 5,
+      res: 0,
+      spd: 7,
+      skl: 5,
+      lck: 3,
+      mov: 5,
+      cha: 0,
+      wil: 0,
+    },
     currentHp: 20,
     level: 1,
     exp: 0,
@@ -100,11 +112,37 @@ describe('getWeaponTriangle', () => {
 describe('calculateCombatForecast', () => {
   it('calculates physical damage correctly', () => {
     // STR 8 + Might 5 - DEF 5 - Terrain 0 = 8 damage
-    const attacker = makeUnit('atk', { stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 } });
+    const attacker = makeUnit('atk', {
+      stats: {
+        hp: 20,
+        str: 8,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 7,
+        skl: 5,
+        lck: 3,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
+    });
     const defender = makeUnit('def', {
       classId: 'fighter',
       faction: 'enemy',
-      stats: { hp: 20, str: 6, mag: 0, def: 5, res: 0, spd: 5, skl: 3, lck: 2, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 20,
+        str: 6,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 5,
+        skl: 3,
+        lck: 2,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('axe'),
     });
 
@@ -117,13 +155,37 @@ describe('calculateCombatForecast', () => {
   it('calculates magical damage against RES', () => {
     const attacker = makeUnit('mage', {
       classId: 'mage',
-      stats: { hp: 18, str: 0, mag: 8, def: 3, res: 5, spd: 6, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 18,
+        str: 0,
+        mag: 8,
+        def: 3,
+        res: 5,
+        spd: 6,
+        skl: 5,
+        lck: 3,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('fire', { might: 5, hit: 90 }),
     });
     const defender = makeUnit('def', {
       classId: 'fighter',
       faction: 'enemy',
-      stats: { hp: 20, str: 6, mag: 0, def: 5, res: 2, spd: 5, skl: 3, lck: 2, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 20,
+        str: 6,
+        mag: 0,
+        def: 5,
+        res: 2,
+        spd: 5,
+        skl: 3,
+        lck: 2,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('axe'),
     });
 
@@ -153,7 +215,19 @@ describe('calculateCombatForecast', () => {
       classId: 'fighter',
       faction: 'enemy',
       equippedWeapon: makeWeapon('axe'),
-      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 20,
+        str: 8,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 7,
+        skl: 5,
+        lck: 3,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
     });
 
     const forecast = calculateCombatForecast(swordUser, axeUser, 'plain', 'plain', 1);
@@ -168,11 +242,35 @@ describe('calculateCombatForecast', () => {
 
   it('detects double attack when speed diff >= 5', () => {
     const fast = makeUnit('fast', {
-      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 12, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 20,
+        str: 8,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 12,
+        skl: 5,
+        lck: 3,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
     });
     const slow = makeUnit('slow', {
       faction: 'enemy',
-      stats: { hp: 20, str: 6, mag: 0, def: 5, res: 0, spd: 5, skl: 3, lck: 2, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 20,
+        str: 6,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 5,
+        skl: 3,
+        lck: 2,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('sword'),
     });
 
@@ -188,10 +286,36 @@ describe('calculateCombatForecast', () => {
   });
 
   it('no double when speed diff < 5', () => {
-    const a = makeUnit('a', { stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 } });
+    const a = makeUnit('a', {
+      stats: {
+        hp: 20,
+        str: 8,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 7,
+        skl: 5,
+        lck: 3,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
+    });
     const b = makeUnit('b', {
       faction: 'enemy',
-      stats: { hp: 20, str: 6, mag: 0, def: 5, res: 0, spd: 5, skl: 3, lck: 2, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 20,
+        str: 6,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 5,
+        skl: 3,
+        lck: 2,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('sword'),
     });
 
@@ -205,7 +329,19 @@ describe('calculateCombatForecast', () => {
   it('no counterattack when defender out of range', () => {
     const ranged = makeUnit('ranged', {
       equippedWeapon: makeWeapon('fire', { minRange: 1, maxRange: 2 }),
-      stats: { hp: 18, str: 0, mag: 8, def: 3, res: 5, spd: 6, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 18,
+        str: 0,
+        mag: 8,
+        def: 3,
+        res: 5,
+        spd: 6,
+        skl: 5,
+        lck: 3,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
     });
     const melee = makeUnit('melee', {
       faction: 'enemy',
@@ -221,12 +357,36 @@ describe('calculateCombatForecast', () => {
 
   it('hit chance is clamped between 1 and 99', () => {
     const godlike = makeUnit('god', {
-      stats: { hp: 99, str: 30, mag: 0, def: 30, res: 30, spd: 30, skl: 30, lck: 30, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 99,
+        str: 30,
+        mag: 0,
+        def: 30,
+        res: 30,
+        spd: 30,
+        skl: 30,
+        lck: 30,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('sword', { hit: 200 }),
     });
     const weak = makeUnit('weak', {
       faction: 'enemy',
-      stats: { hp: 10, str: 1, mag: 0, def: 0, res: 0, spd: 0, skl: 0, lck: 0, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 10,
+        str: 1,
+        mag: 0,
+        def: 0,
+        res: 0,
+        spd: 0,
+        skl: 0,
+        lck: 0,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('sword', { hit: 0 }),
     });
 
@@ -238,12 +398,36 @@ describe('calculateCombatForecast', () => {
 
   it('damage cannot go below 0', () => {
     const weak = makeUnit('weak', {
-      stats: { hp: 20, str: 1, mag: 0, def: 0, res: 0, spd: 5, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 20,
+        str: 1,
+        mag: 0,
+        def: 0,
+        res: 0,
+        spd: 5,
+        skl: 5,
+        lck: 3,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('sword', { might: 1 }),
     });
     const tank = makeUnit('tank', {
       faction: 'enemy',
-      stats: { hp: 30, str: 5, mag: 0, def: 20, res: 20, spd: 5, skl: 3, lck: 2, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 30,
+        str: 5,
+        mag: 0,
+        def: 20,
+        res: 20,
+        spd: 5,
+        skl: 3,
+        lck: 2,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('sword'),
     });
 
@@ -275,13 +459,37 @@ describe('resolveCombat', () => {
 
   it('stops combat when a unit dies', () => {
     const attacker = makeUnit('atk', {
-      stats: { hp: 20, str: 30, mag: 0, def: 5, res: 0, spd: 15, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 20,
+        str: 30,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 15,
+        skl: 5,
+        lck: 3,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('sword', { might: 20, hit: 100, crit: 0 }),
     });
     const defender = makeUnit('def', {
       faction: 'enemy',
       currentHp: 5,
-      stats: { hp: 20, str: 6, mag: 0, def: 0, res: 0, spd: 5, skl: 3, lck: 0, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 20,
+        str: 6,
+        mag: 0,
+        def: 0,
+        res: 0,
+        spd: 5,
+        skl: 3,
+        lck: 0,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('sword', { hit: 100 }),
     });
 
@@ -303,13 +511,37 @@ describe('resolveCombat', () => {
 
   it('critical hit triples damage', () => {
     const attacker = makeUnit('atk', {
-      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 50, lck: 3, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 20,
+        str: 8,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 7,
+        skl: 50,
+        lck: 3,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('sword', { might: 5, hit: 100, crit: 100 }),
     });
     const defender = makeUnit('def', {
       faction: 'enemy',
       currentHp: 100,
-      stats: { hp: 100, str: 6, mag: 0, def: 5, res: 0, spd: 5, skl: 3, lck: 0, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 100,
+        str: 6,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 5,
+        skl: 3,
+        lck: 0,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('sword', { hit: 0 }),
     });
 
@@ -329,11 +561,35 @@ describe('resolveCombat', () => {
   it('miss deals 0 damage', () => {
     const attacker = makeUnit('atk', {
       equippedWeapon: makeWeapon('sword', { hit: 1 }), // nearly impossible to hit
-      stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 0, lck: 0, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 20,
+        str: 8,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 7,
+        skl: 0,
+        lck: 0,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
     });
     const defender = makeUnit('def', {
       faction: 'enemy',
-      stats: { hp: 20, str: 6, mag: 0, def: 5, res: 0, spd: 30, skl: 30, lck: 30, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 20,
+        str: 6,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 30,
+        skl: 30,
+        lck: 30,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       equippedWeapon: makeWeapon('sword', { hit: 1 }),
     });
 
@@ -386,7 +642,19 @@ describe('Sol heals post-defense damage (Bug 3)', () => {
   it('Sol heal amount is reduced when defender has Aegis/Pavise', () => {
     // Attacker with Sol, using physical weapon
     const attacker = makeUnit('atk', {
-      stats: { hp: 30, str: 15, mag: 0, def: 5, res: 0, spd: 10, skl: 30, lck: 30, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 30,
+        str: 15,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 10,
+        skl: 30,
+        lck: 30,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       currentHp: 20, // damaged so we can see healing
       skills: ['sol'],
       equippedWeapon: makeWeapon('sword', { might: 10 }),
@@ -395,7 +663,19 @@ describe('Sol heals post-defense damage (Bug 3)', () => {
     // Defender with Pavise (halves physical damage)
     const defender = makeUnit('def', {
       faction: 'enemy',
-      stats: { hp: 40, str: 5, mag: 0, def: 5, res: 0, spd: 1, skl: 30, lck: 30, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 40,
+        str: 5,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 1,
+        skl: 30,
+        lck: 30,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       currentHp: 40,
       skills: ['pavise'],
       equippedWeapon: makeWeapon('sword'),
@@ -407,7 +687,9 @@ describe('Sol heals post-defense damage (Bug 3)', () => {
     rng.roll = () => true; // all skills activate
 
     const result = resolveCombat(forecast, rng, attacker, defender);
-    const solHit = result.hits.find(h => h.attackerIsInitiator && h.activatedSkill && h.healedAmount > 0);
+    const solHit = result.hits.find(
+      (h) => h.attackerIsInitiator && h.activatedSkill && h.healedAmount > 0,
+    );
 
     if (solHit) {
       // Sol heal should match the actual damage dealt (post-Pavise), not the pre-Pavise amount
@@ -419,7 +701,19 @@ describe('Sol heals post-defense damage (Bug 3)', () => {
 describe('Astra bonus hits (Bugs 4+5)', () => {
   it('records all 5 hits in hits[] array', () => {
     const attacker = makeUnit('atk', {
-      stats: { hp: 30, str: 15, mag: 0, def: 5, res: 0, spd: 15, skl: 30, lck: 30, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 30,
+        str: 15,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 15,
+        skl: 30,
+        lck: 30,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       currentHp: 30,
       skills: ['astra'],
       equippedWeapon: makeWeapon('sword', { might: 6 }),
@@ -428,7 +722,19 @@ describe('Astra bonus hits (Bugs 4+5)', () => {
     const defender = makeUnit('def', {
       faction: 'enemy',
       // HP high enough to survive all Astra hits including crits across both rounds
-      stats: { hp: 400, str: 5, mag: 0, def: 3, res: 0, spd: 1, skl: 5, lck: 5, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 400,
+        str: 5,
+        mag: 0,
+        def: 3,
+        res: 0,
+        spd: 1,
+        skl: 5,
+        lck: 5,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       currentHp: 400,
       equippedWeapon: makeWeapon('sword'),
       inventory: [makeWeapon('sword')],
@@ -440,16 +746,28 @@ describe('Astra bonus hits (Bugs 4+5)', () => {
 
     const result = resolveCombat(forecast, rng, attacker, defender);
     // Astra: 1 main hit + 4 bonus = 5 per attacker round. Attacker doubles = 10 total.
-    const atkHits = result.hits.filter(h => h.attackerIsInitiator);
+    const atkHits = result.hits.filter((h) => h.attackerIsInitiator);
     expect(atkHits.length).toBeGreaterThanOrEqual(5);
     // Every attacker hit should have astra since alwaysRng fires it every round
-    const astraHits = atkHits.filter(h => h.activatedSkill === 'astra');
+    const astraHits = atkHits.filter((h) => h.activatedSkill === 'astra');
     expect(astraHits.length).toBe(atkHits.length);
   });
 
   it('bonus hits go through defense skills (Pavise)', () => {
     const attacker = makeUnit('atk', {
-      stats: { hp: 30, str: 15, mag: 0, def: 5, res: 0, spd: 15, skl: 30, lck: 30, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 30,
+        str: 15,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 15,
+        skl: 30,
+        lck: 30,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       currentHp: 30,
       skills: ['astra'],
       equippedWeapon: makeWeapon('sword', { might: 10 }),
@@ -458,7 +776,19 @@ describe('Astra bonus hits (Bugs 4+5)', () => {
     const defender = makeUnit('def', {
       faction: 'enemy',
       // HP high enough to survive all Astra hits including crits
-      stats: { hp: 500, str: 5, mag: 0, def: 5, res: 0, spd: 1, skl: 30, lck: 30, mov: 5, cha: 0, wil: 0 },
+      stats: {
+        hp: 500,
+        str: 5,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 1,
+        skl: 30,
+        lck: 30,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
       currentHp: 500,
       skills: ['pavise'],
       equippedWeapon: makeWeapon('sword'),
@@ -470,7 +800,7 @@ describe('Astra bonus hits (Bugs 4+5)', () => {
     rng.roll = () => true; // Pavise activates on every bonus hit
 
     const result = resolveCombat(forecast, rng, attacker, defender);
-    const atkHits = result.hits.filter(h => h.attackerIsInitiator);
+    const atkHits = result.hits.filter((h) => h.attackerIsInitiator);
     // With alwaysRng, Astra fires: 4 bonus + 1 main per round
     expect(atkHits.length).toBeGreaterThanOrEqual(5);
     // Bonus hits (first 4) should have Pavise reducing damage
@@ -487,18 +817,27 @@ describe('Astra bonus hits (Bugs 4+5)', () => {
 describe('Carrier death removes carried unit (Bug 8)', () => {
   it('carried unit dies when carrier dies', () => {
     const map: GameMap = {
-      width: 3, height: 1,
-      tiles: [[
-        { position: { x: 0, y: 0 }, terrain: 'plain', occupantId: 'carrier' },
-        { position: { x: 1, y: 0 }, terrain: 'plain', occupantId: 'enemy' },
-        { position: { x: 2, y: 0 }, terrain: 'plain', occupantId: null },
-      ]] as Tile[][],
+      width: 3,
+      height: 1,
+      tiles: [
+        [
+          { position: { x: 0, y: 0 }, terrain: 'plain', occupantId: 'carrier' },
+          { position: { x: 1, y: 0 }, terrain: 'plain', occupantId: 'enemy' },
+          { position: { x: 2, y: 0 }, terrain: 'plain', occupantId: null },
+        ],
+      ] as Tile[][],
     };
 
-    const carried = makeUnit('carried', { faction: 'player', position: { x: 0, y: 0 }, isCarried: true });
+    const carried = makeUnit('carried', {
+      faction: 'player',
+      position: { x: 0, y: 0 },
+      isCarried: true,
+    });
     const carrier = makeUnit('carrier', {
-      faction: 'player', position: { x: 0, y: 0 },
-      carriedUnitId: 'carried', currentHp: 1,
+      faction: 'player',
+      position: { x: 0, y: 0 },
+      carriedUnitId: 'carried',
+      currentHp: 1,
     });
     const enemy = makeUnit('enemy', { faction: 'enemy', position: { x: 1, y: 0 } });
 

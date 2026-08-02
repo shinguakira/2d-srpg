@@ -12,9 +12,9 @@ import { BattleSprite } from './BattleSprite';
 
 type HealPhase =
   | 'idle'
-  | 'cast'        // Healer raises staff, glow builds
-  | 'spell-fly'   // Green heal orb flies to target
-  | 'receive'     // Target glows, HP restores
+  | 'cast' // Healer raises staff, glow builds
+  | 'spell-fly' // Green heal orb flies to target
+  | 'receive' // Target glows, HP restores
   | 'done';
 
 export function HealingAnimation() {
@@ -32,7 +32,9 @@ export function HealingAnimation() {
     if (currentPhase !== 'heal_animation' || !healData) return;
 
     const timers: ReturnType<typeof setTimeout>[] = [];
-    const t = (fn: () => void, ms: number) => { timers.push(setTimeout(fn, ms)); };
+    const t = (fn: () => void, ms: number) => {
+      timers.push(setTimeout(fn, ms));
+    };
 
     // Reset
     setPhase('idle');
@@ -83,8 +85,8 @@ export function HealingAnimation() {
     return '#ef4444';
   };
 
-  const healerPose = (phase === 'cast' || phase === 'spell-fly') ? 'attack' : 'idle';
-  const healerCls = (phase === 'cast' || phase === 'spell-fly') ? 'heal-casting' : 'idle';
+  const healerPose = phase === 'cast' || phase === 'spell-fly' ? 'attack' : 'idle';
+  const healerCls = phase === 'cast' || phase === 'spell-fly' ? 'heal-casting' : 'idle';
   const targetCls = phase === 'receive' ? 'heal-receive' : 'idle';
 
   const displayTargetHp = hpAnimated ? healData.targetHpAfter : healData.targetHpBefore;
@@ -92,9 +94,7 @@ export function HealingAnimation() {
   return (
     <div className="combat-animation" data-testid="heal-animation">
       {/* Green heal flash */}
-      {flashActive && (
-        <div className="heal-animation__flash" key={`heal-flash-${phase}`} />
-      )}
+      {flashActive && <div className="heal-animation__flash" key={`heal-flash-${phase}`} />}
 
       <div className="combat-animation__modal heal-animation__modal">
         <div className="combat-animation__title heal-animation__title-bar">Heal</div>
@@ -102,7 +102,9 @@ export function HealingAnimation() {
         {/* Battle stage */}
         <div className="combat-animation__stage">
           {/* Healer (left) */}
-          <div className={`combat-animation__fighter combat-animation__fighter--left heal-animation__fighter--${healerCls}`}>
+          <div
+            className={`combat-animation__fighter combat-animation__fighter--left heal-animation__fighter--${healerCls}`}
+          >
             <BattleSprite
               classId={healData.healerClassId}
               faction="player"
@@ -114,9 +116,7 @@ export function HealingAnimation() {
           </div>
 
           {/* Heal effect — green orb flying */}
-          {phase === 'spell-fly' && (
-            <div className="heal-animation__orb" key="heal-orb" />
-          )}
+          {phase === 'spell-fly' && <div className="heal-animation__orb" key="heal-orb" />}
 
           {/* Heal particles around target during receive */}
           {phase === 'receive' && (
@@ -130,13 +130,19 @@ export function HealingAnimation() {
 
           {/* Heal number — floats near target */}
           {healVisible && (
-            <div className="heal-animation__number" key="heal-num" data-testid="heal-amount-display">
+            <div
+              className="heal-animation__number"
+              key="heal-num"
+              data-testid="heal-amount-display"
+            >
               +{healData.healAmount}
             </div>
           )}
 
           {/* Target (right) */}
-          <div className={`combat-animation__fighter combat-animation__fighter--right heal-animation__fighter--${targetCls}`}>
+          <div
+            className={`combat-animation__fighter combat-animation__fighter--right heal-animation__fighter--${targetCls}`}
+          >
             <BattleSprite
               classId={healData.targetClassId}
               faction={healData.targetFaction}
@@ -159,10 +165,15 @@ export function HealingAnimation() {
             <div className="combat-animation__hp-bar">
               <div
                 className="combat-animation__hp-fill combat-animation__hp-fill--player"
-                style={{ width: `${Math.max(0, (healData.healerHp / healData.healerMaxHp) * 100)}%` }}
+                style={{
+                  width: `${Math.max(0, (healData.healerHp / healData.healerMaxHp) * 100)}%`,
+                }}
               />
             </div>
-            <div className="combat-animation__hp-text" style={{ color: hpColor(healData.healerHp, healData.healerMaxHp) }}>
+            <div
+              className="combat-animation__hp-text"
+              style={{ color: hpColor(healData.healerHp, healData.healerMaxHp) }}
+            >
               {healData.healerHp}/{healData.healerMaxHp}
             </div>
           </div>
@@ -182,7 +193,10 @@ export function HealingAnimation() {
                 style={{ width: `${Math.max(0, (displayTargetHp / healData.targetMaxHp) * 100)}%` }}
               />
             </div>
-            <div className="combat-animation__hp-text" style={{ color: hpColor(displayTargetHp, healData.targetMaxHp) }}>
+            <div
+              className="combat-animation__hp-text"
+              style={{ color: hpColor(displayTargetHp, healData.targetMaxHp) }}
+            >
               {displayTargetHp}/{healData.targetMaxHp}
             </div>
           </div>

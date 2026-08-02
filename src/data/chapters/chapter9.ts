@@ -33,13 +33,13 @@ export const CHAPTER_9: ChapterData = {
   mapHeight: 14,
   terrain,
   playerUnits: [
-    { unitId: 'ren',   position: { x: 6, y: 12 } },
+    { unitId: 'ren', position: { x: 6, y: 12 } },
     { unitId: 'senna', position: { x: 7, y: 12 } },
-    { unitId: 'bram',  position: { x: 5, y: 13 } },
-    { unitId: 'lira',  position: { x: 8, y: 13 } },
-    { unitId: 'voss',  position: { x: 6, y: 13 } },
-    { unitId: 'nira',  position: { x: 7, y: 13 } },
-    { unitId: 'rook',  position: { x: 5, y: 12 } },
+    { unitId: 'bram', position: { x: 5, y: 13 } },
+    { unitId: 'lira', position: { x: 8, y: 13 } },
+    { unitId: 'voss', position: { x: 6, y: 13 } },
+    { unitId: 'nira', position: { x: 7, y: 13 } },
+    { unitId: 'rook', position: { x: 5, y: 12 } },
   ],
   enemyUnits: [
     { unitId: 'ch9_raider_captain', position: { x: 7, y: 0 } },
@@ -61,28 +61,73 @@ export const CHAPTER_9: ChapterData = {
   parTurns: 18,
   prologue: {
     lines: [
-      { speaker: 'Narrator', text: 'A narrow forest pass. The party retreats south in silence. One formation slot stands empty.' },
+      {
+        speaker: 'Narrator',
+        text: 'A narrow forest pass. The party retreats south in silence. One formation slot stands empty.',
+      },
       { speaker: 'Bram', text: '...', speakerFaction: 'player' },
-      { speaker: 'Senna', text: "I've plotted the route. It's linear — forest cover on both sides, a few defensive positions. We should be through in a day.", speakerFaction: 'player' },
-      { speaker: 'Ren', text: "Everyone stays close. No heroics. We move as a group.", speakerFaction: 'player' },
-      { speaker: 'Voss', text: "He would have been on point. Kael always took point.", speakerFaction: 'player' },
-      { speaker: 'Lira', text: "...I know.", speakerFaction: 'player' },
-      { speaker: 'Rook', text: "Raiders ahead. Scouts, by the look of them. Not organized enough to be Imperial.", speakerFaction: 'player' },
-      { speaker: 'Ren', text: "Then we clear the path. Together.", speakerFaction: 'player' },
+      {
+        speaker: 'Senna',
+        text: "I've plotted the route. It's linear — forest cover on both sides, a few defensive positions. We should be through in a day.",
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Ren',
+        text: 'Everyone stays close. No heroics. We move as a group.',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Voss',
+        text: 'He would have been on point. Kael always took point.',
+        speakerFaction: 'player',
+      },
+      { speaker: 'Lira', text: '...I know.', speakerFaction: 'player' },
+      {
+        speaker: 'Rook',
+        text: 'Raiders ahead. Scouts, by the look of them. Not organized enough to be Imperial.',
+        speakerFaction: 'player',
+      },
+      { speaker: 'Ren', text: 'Then we clear the path. Together.', speakerFaction: 'player' },
     ],
   },
   epilogue: {
     lines: [
-      { speaker: 'Narrator', text: "The forest thins. The party emerges into open ground, bruised but intact." },
-      { speaker: 'Orin', text: "That was... not what I expected when I joined a traveling company.", speakerFaction: 'player' },
+      {
+        speaker: 'Narrator',
+        text: 'The forest thins. The party emerges into open ground, bruised but intact.',
+      },
+      {
+        speaker: 'Orin',
+        text: 'That was... not what I expected when I joined a traveling company.',
+        speakerFaction: 'player',
+      },
       { speaker: 'Bram', text: "We're not a traveling company.", speakerFaction: 'player' },
-      { speaker: 'Orin', text: "No. You're not. You're something that lost its heart and keeps walking anyway.", speakerFaction: 'player' },
-      { speaker: 'Narrator', text: "For a moment, the performer's mask slips. Orin's eyes hold something older than comedy." },
-      { speaker: 'Orin', text: "...I've seen that look before. In better stories than mine. It doesn't go away. But it gets quieter.", speakerFaction: 'player' },
-      { speaker: 'Ren', text: "Thank you, Orin.", speakerFaction: 'player' },
+      {
+        speaker: 'Orin',
+        text: "No. You're not. You're something that lost its heart and keeps walking anyway.",
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Narrator',
+        text: "For a moment, the performer's mask slips. Orin's eyes hold something older than comedy.",
+      },
+      {
+        speaker: 'Orin',
+        text: "...I've seen that look before. In better stories than mine. It doesn't go away. But it gets quieter.",
+        speakerFaction: 'player',
+      },
+      { speaker: 'Ren', text: 'Thank you, Orin.', speakerFaction: 'player' },
       { speaker: 'Bram', text: "...You're alright, performer.", speakerFaction: 'player' },
-      { speaker: 'Lira', text: "Stay with us. We could use someone who still knows how to smile.", speakerFaction: 'player' },
-      { speaker: 'Senna', text: "The grief is still weighing on us. Our stats won't recover until after the next engagement.", speakerFaction: 'player' },
+      {
+        speaker: 'Lira',
+        text: 'Stay with us. We could use someone who still knows how to smile.',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Senna',
+        text: "The grief is still weighing on us. Our stats won't recover until after the next engagement.",
+        speakerFaction: 'player',
+      },
     ],
   },
   villages: [
@@ -106,8 +151,16 @@ export const CHAPTER_9: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Nira', text: "The left flank is exposed. Kael would have covered it.", speakerFaction: 'player' },
-              { speaker: 'Rook', text: "I'll take it. Not as fast, but I can hold.", speakerFaction: 'player' },
+              {
+                speaker: 'Nira',
+                text: 'The left flank is exposed. Kael would have covered it.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Rook',
+                text: "I'll take it. Not as fast, but I can hold.",
+                speakerFaction: 'player',
+              },
             ],
           },
         },
@@ -123,17 +176,40 @@ export const CHAPTER_9: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Narrator', text: 'A figure steps out of the treeline, arms spread wide as if expecting applause.' },
-              { speaker: 'Orin', text: "At LAST! The ensemble arrives! I've been waiting for the second act to start!", speakerFaction: 'player' },
-              { speaker: 'Bram', text: "...Who is this?", speakerFaction: 'player' },
-              { speaker: 'Orin', text: "Orin! Performer, dancer, morale specialist! You all look like you need a song.", speakerFaction: 'player' },
+              {
+                speaker: 'Narrator',
+                text: 'A figure steps out of the treeline, arms spread wide as if expecting applause.',
+              },
+              {
+                speaker: 'Orin',
+                text: "At LAST! The ensemble arrives! I've been waiting for the second act to start!",
+                speakerFaction: 'player',
+              },
+              { speaker: 'Bram', text: '...Who is this?', speakerFaction: 'player' },
+              {
+                speaker: 'Orin',
+                text: 'Orin! Performer, dancer, morale specialist! You all look like you need a song.',
+                speakerFaction: 'player',
+              },
               { speaker: 'Ren', text: "We really don't.", speakerFaction: 'player' },
-              { speaker: 'Orin', text: "That's exactly what someone who needs a song would say. I'm joining you. No arguments!", speakerFaction: 'player' },
-              { speaker: 'Senna', text: "A dancer... the Dance action lets an adjacent ally act again. That could compensate for our reduced mobility.", speakerFaction: 'player' },
+              {
+                speaker: 'Orin',
+                text: "That's exactly what someone who needs a song would say. I'm joining you. No arguments!",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Senna',
+                text: 'A dancer... the Dance action lets an adjacent ally act again. That could compensate for our reduced mobility.',
+                speakerFaction: 'player',
+              },
             ],
           },
         },
-        { type: 'spawn_units', units: [{ unitId: 'orin', position: { x: 7, y: 3 } }], faction: 'player' },
+        {
+          type: 'spawn_units',
+          units: [{ unitId: 'orin', position: { x: 7, y: 3 } }],
+          faction: 'player',
+        },
       ],
       once: true,
     },
@@ -146,9 +222,20 @@ export const CHAPTER_9: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Senna', text: "Orin — move next to an ally who has already acted. Your Dance command will let them move and act again.", speakerFaction: 'player' },
-              { speaker: 'Orin', text: "An encore! Everyone deserves an encore. Just say the word and I'll get them back on their feet.", speakerFaction: 'player' },
-              { speaker: 'Narrator', text: "Tip: Select Orin, move adjacent to an exhausted ally, then choose Dance. That ally can take another full turn." },
+              {
+                speaker: 'Senna',
+                text: 'Orin — move next to an ally who has already acted. Your Dance command will let them move and act again.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Orin',
+                text: "An encore! Everyone deserves an encore. Just say the word and I'll get them back on their feet.",
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Narrator',
+                text: 'Tip: Select Orin, move adjacent to an exhausted ally, then choose Dance. That ally can take another full turn.',
+              },
             ],
           },
         },
@@ -164,8 +251,12 @@ export const CHAPTER_9: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Voss', text: "I keep looking for him at the flank. Every turn.", speakerFaction: 'player' },
-              { speaker: 'Lira', text: "Me too.", speakerFaction: 'player' },
+              {
+                speaker: 'Voss',
+                text: 'I keep looking for him at the flank. Every turn.',
+                speakerFaction: 'player',
+              },
+              { speaker: 'Lira', text: 'Me too.', speakerFaction: 'player' },
             ],
           },
         },
@@ -178,10 +269,22 @@ export const CHAPTER_9: ChapterData = {
       unitA: 'ren',
       unitB: 'orin',
       lines: [
-        { speaker: 'Orin', text: "You carry yourself like a lead who's already read the script. Is this the part where you tell me the terrible secret?", speakerFaction: 'player' },
+        {
+          speaker: 'Orin',
+          text: "You carry yourself like a lead who's already read the script. Is this the part where you tell me the terrible secret?",
+          speakerFaction: 'player',
+        },
         { speaker: 'Ren', text: "There's no script, Orin.", speakerFaction: 'player' },
-        { speaker: 'Orin', text: "Darling, there's ALWAYS a script. The question is whether we're reading the same one.", speakerFaction: 'player' },
-        { speaker: 'Ren', text: "...You might be more right than you know.", speakerFaction: 'player' },
+        {
+          speaker: 'Orin',
+          text: "Darling, there's ALWAYS a script. The question is whether we're reading the same one.",
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Ren',
+          text: '...You might be more right than you know.',
+          speakerFaction: 'player',
+        },
       ],
       reward: { type: 'exp_both', amount: 20 },
     },
@@ -189,10 +292,18 @@ export const CHAPTER_9: ChapterData = {
       unitA: 'bram',
       unitB: 'rook',
       lines: [
-        { speaker: 'Bram', text: "You fight clean. Too clean. Where'd you learn?", speakerFaction: 'player' },
-        { speaker: 'Rook', text: "Two hundred cycles of practice. Give or take.", speakerFaction: 'player' },
-        { speaker: 'Bram', text: "Two hundred WHAT?", speakerFaction: 'player' },
-        { speaker: 'Rook', text: "Jobs. I meant jobs.", speakerFaction: 'player' },
+        {
+          speaker: 'Bram',
+          text: "You fight clean. Too clean. Where'd you learn?",
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Rook',
+          text: 'Two hundred cycles of practice. Give or take.',
+          speakerFaction: 'player',
+        },
+        { speaker: 'Bram', text: 'Two hundred WHAT?', speakerFaction: 'player' },
+        { speaker: 'Rook', text: 'Jobs. I meant jobs.', speakerFaction: 'player' },
       ],
       reward: { type: 'stat', unitId: 'bram', stat: 'str', amount: 1 },
     },

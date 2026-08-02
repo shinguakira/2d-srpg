@@ -10,15 +10,32 @@ type Props = {
   onCancel: () => void;
 };
 
-const STAT_LABELS: (keyof UnitStats)[] = ['hp', 'str', 'mag', 'def', 'res', 'spd', 'skl', 'lck', 'mov'];
+const STAT_LABELS: (keyof UnitStats)[] = [
+  'hp',
+  'str',
+  'mag',
+  'def',
+  'res',
+  'spd',
+  'skl',
+  'lck',
+  'mov',
+];
 
 export function PromotionScreen({ unitName, options, onConfirm, onCancel }: Props) {
-  const [selected, setSelected] = useState<string | null>(options.length === 1 ? options[0].id : null);
+  const [selected, setSelected] = useState<string | null>(
+    options.length === 1 ? options[0].id : null,
+  );
   const isMaster = options.some((cls) => cls.tier === 'master');
 
   return (
-    <div className={`promotion-screen ${isMaster ? 'promotion-screen--master' : ''}`} data-testid="promotion-screen">
-      <div className={`promotion-screen__title ${isMaster ? 'promotion-screen__title--master' : ''}`}>
+    <div
+      className={`promotion-screen ${isMaster ? 'promotion-screen--master' : ''}`}
+      data-testid="promotion-screen"
+    >
+      <div
+        className={`promotion-screen__title ${isMaster ? 'promotion-screen__title--master' : ''}`}
+      >
         {isMaster ? 'Master Promotion' : `Promote ${unitName}`}
       </div>
       <div className="promotion-screen__subtitle">
@@ -52,7 +69,8 @@ export function PromotionScreen({ unitName, options, onConfirm, onCancel }: Prop
                       key={stat}
                       className={`promotion-screen__stat-delta ${val > 0 ? 'promotion-screen__stat-delta--positive' : 'promotion-screen__stat-delta--negative'}`}
                     >
-                      {stat.toUpperCase()} {val > 0 ? '+' : ''}{val}
+                      {stat.toUpperCase()} {val > 0 ? '+' : ''}
+                      {val}
                     </div>
                   );
                 })}

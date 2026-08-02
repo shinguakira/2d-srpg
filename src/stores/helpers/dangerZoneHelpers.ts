@@ -27,7 +27,10 @@ export function buildDangerZoneAttribution(
 }
 
 /** Recompute danger zone if it's currently shown */
-export function refreshDangerZone(get: () => GameState & GameActions, set: (s: Partial<GameState>) => void) {
+export function refreshDangerZone(
+  get: () => GameState & GameActions,
+  set: (s: Partial<GameState>) => void,
+) {
   if (!get().showDangerZone) return;
   const { units, gameMap, fogOfWar, visibleTiles } = get();
   const enemies: Unit[] = [];

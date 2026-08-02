@@ -10,7 +10,17 @@ import {
 import type { Weapon, WeatherType } from '../../src/core/types';
 
 function makeWeapon(type: Weapon['type'], range: number = 1): Weapon {
-  return { id: 'w', name: 'W', type, might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: range };
+  return {
+    id: 'w',
+    name: 'W',
+    type,
+    might: 5,
+    hit: 90,
+    crit: 0,
+    weight: 5,
+    minRange: 1,
+    maxRange: range,
+  };
 }
 
 describe('getWeatherCombatModifiers', () => {

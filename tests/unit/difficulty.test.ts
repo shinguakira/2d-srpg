@@ -10,7 +10,17 @@ import {
 import type { UnitStats, EndingType } from '../../src/core/types';
 
 const BASE_STATS: UnitStats = {
-  hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 5, skl: 5, lck: 5, mov: 5, cha: 0, wil: 0,
+  hp: 20,
+  str: 8,
+  mag: 0,
+  def: 5,
+  res: 0,
+  spd: 5,
+  skl: 5,
+  lck: 5,
+  mov: 5,
+  cha: 0,
+  wil: 0,
 };
 
 describe('Difficulty system', () => {
@@ -35,11 +45,11 @@ describe('Difficulty system', () => {
     });
     it('scales combat stats by 1.1 for hard, MOV unchanged', () => {
       const scaled = scaleEnemyStats(BASE_STATS, 'hard');
-      expect(scaled.hp).toBe(22);   // floor(20 * 1.1)
-      expect(scaled.str).toBe(8);   // floor(8 * 1.1)
-      expect(scaled.def).toBe(5);   // floor(5 * 1.1)
-      expect(scaled.spd).toBe(5);   // floor(5 * 1.1)
-      expect(scaled.mov).toBe(5);   // unchanged
+      expect(scaled.hp).toBe(22); // floor(20 * 1.1)
+      expect(scaled.str).toBe(8); // floor(8 * 1.1)
+      expect(scaled.def).toBe(5); // floor(5 * 1.1)
+      expect(scaled.spd).toBe(5); // floor(5 * 1.1)
+      expect(scaled.mov).toBe(5); // unchanged
     });
   });
 

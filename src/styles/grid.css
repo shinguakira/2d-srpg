@@ -33,9 +33,15 @@
 }
 
 @keyframes terrain-flicker {
-  0% { filter: brightness(2) saturate(0); }
-  30% { filter: brightness(1.5) saturate(0.5); }
-  100% { filter: brightness(1) saturate(1); }
+  0% {
+    filter: brightness(2) saturate(0);
+  }
+  30% {
+    filter: brightness(1.5) saturate(0.5);
+  }
+  100% {
+    filter: brightness(1) saturate(1);
+  }
 }
 
 /* ===== Fog of War ===== */
@@ -56,9 +62,15 @@
 }
 
 @keyframes fog-reveal-flash {
-  0% { filter: brightness(2.5) saturate(0); }
-  40% { filter: brightness(1.5) saturate(0.5); }
-  100% { filter: brightness(1) saturate(1); }
+  0% {
+    filter: brightness(2.5) saturate(0);
+  }
+  40% {
+    filter: brightness(1.5) saturate(0.5);
+  }
+  100% {
+    filter: brightness(1) saturate(1);
+  }
 }
 
 /* ===== Terrain Destruction Animation ===== */
@@ -67,13 +79,33 @@
 }
 
 @keyframes terrain-destroy {
-  0% { transform: scale(1); filter: brightness(1); }
-  10% { transform: scale(1.05) translateX(-2px); filter: brightness(2); }
-  20% { transform: scale(1.03) translateX(2px); }
-  30% { transform: scale(1) translateX(-1px); filter: brightness(1.5) saturate(0.3); }
-  50% { transform: scale(0.98) translateX(1px); filter: brightness(0.8) saturate(0.5); }
-  70% { transform: scale(1); filter: brightness(0.6) saturate(0.8); }
-  100% { transform: scale(1); filter: brightness(1) saturate(1); }
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  10% {
+    transform: scale(1.05) translateX(-2px);
+    filter: brightness(2);
+  }
+  20% {
+    transform: scale(1.03) translateX(2px);
+  }
+  30% {
+    transform: scale(1) translateX(-1px);
+    filter: brightness(1.5) saturate(0.3);
+  }
+  50% {
+    transform: scale(0.98) translateX(1px);
+    filter: brightness(0.8) saturate(0.5);
+  }
+  70% {
+    transform: scale(1);
+    filter: brightness(0.6) saturate(0.8);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1) saturate(1);
+  }
 }
 
 /* ===== Terrain HP Bar ===== */
@@ -97,6 +129,11 @@
 
 /* ===== Keyboard Cursor ===== */
 @keyframes cursor-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }

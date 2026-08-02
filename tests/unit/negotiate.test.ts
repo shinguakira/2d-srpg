@@ -6,14 +6,58 @@ import type { GameState, GameActions } from '../../src/stores/gameStoreTypes';
 
 function makeUnit(overrides: Partial<Unit> = {}): Unit {
   return {
-    id: 'ren', name: 'Ren', classId: 'lord', faction: 'player',
+    id: 'ren',
+    name: 'Ren',
+    classId: 'lord',
+    faction: 'player',
     position: { x: 3, y: 3 },
-    stats: { hp: 30, str: 10, mag: 5, def: 8, res: 5, spd: 10, skl: 10, lck: 8, mov: 5, cha: 0, wil: 0 },
-    currentHp: 30, level: 5, exp: 0,
-    equippedWeapon: { id: 'iron_sword', name: 'Iron Sword', type: 'sword', might: 8, hit: 90, crit: 5, weight: 7, minRange: 1, maxRange: 1 },
-    inventory: [{ id: 'iron_sword', name: 'Iron Sword', type: 'sword', might: 8, hit: 90, crit: 5, weight: 7, minRange: 1, maxRange: 1 }],
-    items: [], hasActed: false, isLord: true, skills: [], learnedSkills: [],
-    facing: 'down', sprite: '',
+    stats: {
+      hp: 30,
+      str: 10,
+      mag: 5,
+      def: 8,
+      res: 5,
+      spd: 10,
+      skl: 10,
+      lck: 8,
+      mov: 5,
+      cha: 0,
+      wil: 0,
+    },
+    currentHp: 30,
+    level: 5,
+    exp: 0,
+    equippedWeapon: {
+      id: 'iron_sword',
+      name: 'Iron Sword',
+      type: 'sword',
+      might: 8,
+      hit: 90,
+      crit: 5,
+      weight: 7,
+      minRange: 1,
+      maxRange: 1,
+    },
+    inventory: [
+      {
+        id: 'iron_sword',
+        name: 'Iron Sword',
+        type: 'sword',
+        might: 8,
+        hit: 90,
+        crit: 5,
+        weight: 7,
+        minRange: 1,
+        maxRange: 1,
+      },
+    ],
+    items: [],
+    hasActed: false,
+    isLord: true,
+    skills: [],
+    learnedSkills: [],
+    facing: 'down',
+    sprite: '',
     metaStats: { awr: 80, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
     ...overrides,
   };
@@ -21,14 +65,57 @@ function makeUnit(overrides: Partial<Unit> = {}): Unit {
 
 function makeBoss(overrides: Partial<Unit> = {}): Unit {
   return {
-    id: 'boss1', name: 'Boss', classId: 'lord', faction: 'enemy',
+    id: 'boss1',
+    name: 'Boss',
+    classId: 'lord',
+    faction: 'enemy',
     position: { x: 4, y: 3 },
-    stats: { hp: 40, str: 15, mag: 5, def: 10, res: 5, spd: 10, skl: 10, lck: 5, mov: 3, cha: 0, wil: 0 },
-    currentHp: 20, level: 10, exp: 0,
-    equippedWeapon: { id: 'iron_lance', name: 'Iron Lance', type: 'lance', might: 7, hit: 85, crit: 0, weight: 8, minRange: 1, maxRange: 1 },
-    inventory: [{ id: 'iron_lance', name: 'Iron Lance', type: 'lance', might: 7, hit: 85, crit: 0, weight: 8, minRange: 1, maxRange: 1 }],
-    items: [], hasActed: false, skills: [], learnedSkills: [],
-    facing: 'down', sprite: '',
+    stats: {
+      hp: 40,
+      str: 15,
+      mag: 5,
+      def: 10,
+      res: 5,
+      spd: 10,
+      skl: 10,
+      lck: 5,
+      mov: 3,
+      cha: 0,
+      wil: 0,
+    },
+    currentHp: 20,
+    level: 10,
+    exp: 0,
+    equippedWeapon: {
+      id: 'iron_lance',
+      name: 'Iron Lance',
+      type: 'lance',
+      might: 7,
+      hit: 85,
+      crit: 0,
+      weight: 8,
+      minRange: 1,
+      maxRange: 1,
+    },
+    inventory: [
+      {
+        id: 'iron_lance',
+        name: 'Iron Lance',
+        type: 'lance',
+        might: 7,
+        hit: 85,
+        crit: 0,
+        weight: 8,
+        minRange: 1,
+        maxRange: 1,
+      },
+    ],
+    items: [],
+    hasActed: false,
+    skills: [],
+    learnedSkills: [],
+    facing: 'down',
+    sprite: '',
     aiBehavior: { type: 'boss' },
     metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
     ...overrides,
@@ -40,8 +127,20 @@ function makeState(overrides: Partial<GameState> = {}): () => GameState & GameAc
   const ren = makeUnit();
   const boss = makeBoss();
   // Add more allies with high AWR to meet the 70 threshold
-  const ally1 = makeUnit({ id: 'ally1', name: 'Ally1', isLord: false, position: { x: 2, y: 3 }, metaStats: { awr: 75, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 } });
-  const ally2 = makeUnit({ id: 'ally2', name: 'Ally2', isLord: false, position: { x: 3, y: 2 }, metaStats: { awr: 75, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 } });
+  const ally1 = makeUnit({
+    id: 'ally1',
+    name: 'Ally1',
+    isLord: false,
+    position: { x: 2, y: 3 },
+    metaStats: { awr: 75, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
+  });
+  const ally2 = makeUnit({
+    id: 'ally2',
+    name: 'Ally2',
+    isLord: false,
+    position: { x: 3, y: 2 },
+    metaStats: { awr: 75, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
+  });
 
   units.set('ren', ren);
   units.set('boss1', boss);
@@ -88,7 +187,15 @@ describe('Negotiate Action', () => {
       const units = new Map<string, Unit>();
       units.set('ren', makeUnit());
       units.set('boss1', makeBoss({ currentHp: 30 })); // 30/40 = 75%
-      units.set('ally1', makeUnit({ id: 'ally1', isLord: false, position: { x: 2, y: 3 }, metaStats: { awr: 80, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 } }));
+      units.set(
+        'ally1',
+        makeUnit({
+          id: 'ally1',
+          isLord: false,
+          position: { x: 2, y: 3 },
+          metaStats: { awr: 80, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
+        }),
+      );
       const get = makeState({ units });
       const result = checkNegotiateCondition(get);
       expect(result.available).toBe(false);
@@ -98,7 +205,15 @@ describe('Negotiate Action', () => {
       const units = new Map<string, Unit>();
       units.set('ren', makeUnit());
       units.set('boss1', makeBoss({ position: { x: 6, y: 6 } })); // far away
-      units.set('ally1', makeUnit({ id: 'ally1', isLord: false, position: { x: 2, y: 3 }, metaStats: { awr: 80, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 } }));
+      units.set(
+        'ally1',
+        makeUnit({
+          id: 'ally1',
+          isLord: false,
+          position: { x: 2, y: 3 },
+          metaStats: { awr: 80, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
+        }),
+      );
       const get = makeState({ units });
       const result = checkNegotiateCondition(get);
       expect(result.available).toBe(false);
@@ -106,9 +221,20 @@ describe('Negotiate Action', () => {
 
     it('returns unavailable when party AWR average < 70', () => {
       const units = new Map<string, Unit>();
-      units.set('ren', makeUnit({ metaStats: { awr: 30, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 } }));
+      units.set(
+        'ren',
+        makeUnit({ metaStats: { awr: 30, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 } }),
+      );
       units.set('boss1', makeBoss());
-      units.set('ally1', makeUnit({ id: 'ally1', isLord: false, position: { x: 2, y: 3 }, metaStats: { awr: 30, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 } }));
+      units.set(
+        'ally1',
+        makeUnit({
+          id: 'ally1',
+          isLord: false,
+          position: { x: 2, y: 3 },
+          metaStats: { awr: 30, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
+        }),
+      );
       const get = makeState({ units });
       const result = checkNegotiateCondition(get);
       expect(result.available).toBe(false);
@@ -151,7 +277,9 @@ describe('Negotiate Action', () => {
     it('does nothing when conditions not met', () => {
       const get = makeState({ selectedUnitId: null });
       let setCalled = false;
-      const set = () => { setCalled = true; };
+      const set = () => {
+        setCalled = true;
+      };
 
       negotiate(get, set as any);
 

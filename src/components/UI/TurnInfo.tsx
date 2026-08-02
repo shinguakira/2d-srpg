@@ -9,10 +9,14 @@ export function TurnInfo() {
   const chapterData = useGameStore((s) => s.chapterData);
   const units = useGameStore((s) => s.units);
 
-  const phaseLabel = currentPhase === 'player_phase' ? 'Player Phase' :
-                     currentPhase === 'enemy_phase' ? 'Enemy Phase' :
-                     currentPhase === 'combat_animation' ? 'Combat' :
-                     'Game Over';
+  const phaseLabel =
+    currentPhase === 'player_phase'
+      ? 'Player Phase'
+      : currentPhase === 'enemy_phase'
+        ? 'Enemy Phase'
+        : currentPhase === 'combat_animation'
+          ? 'Combat'
+          : 'Game Over';
 
   // Build objective status text
   let objectiveText = objectiveDescription;
@@ -45,11 +49,7 @@ export function TurnInfo() {
     <div className="turn-info" data-testid="turn-info">
       <div className="turn-info__chapter">{chapterName}</div>
       <div className="turn-info__turn">Turn {currentTurn}</div>
-      <div
-        className="turn-info__phase"
-        data-testid="phase-indicator"
-        data-phase={currentPhase}
-      >
+      <div className="turn-info__phase" data-testid="phase-indicator" data-phase={currentPhase}>
         {phaseLabel}
       </div>
       <div

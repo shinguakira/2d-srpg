@@ -32,10 +32,17 @@ export function TitleScreen() {
           <button
             className="title-screen__btn"
             data-testid="mode-classic"
-            onClick={() => { setSelectedMode('classic'); setSelectedDifficulty('classic'); }}
+            onClick={() => {
+              setSelectedMode('classic');
+              setSelectedDifficulty('classic');
+            }}
             style={{
-              border: selectedDifficulty === 'classic' ? '2px solid #fbbf24' : '1px solid rgba(255,255,255,0.12)',
-              boxShadow: selectedDifficulty === 'classic' ? '0 0 12px rgba(251,191,36,0.2)' : 'none',
+              border:
+                selectedDifficulty === 'classic'
+                  ? '2px solid #fbbf24'
+                  : '1px solid rgba(255,255,255,0.12)',
+              boxShadow:
+                selectedDifficulty === 'classic' ? '0 0 12px rgba(251,191,36,0.2)' : 'none',
               background: 'rgba(255,255,255,0.06)',
               textAlign: 'left',
               padding: '12px 16px',
@@ -49,9 +56,15 @@ export function TitleScreen() {
           <button
             className="title-screen__btn"
             data-testid="mode-casual"
-            onClick={() => { setSelectedMode('casual'); setSelectedDifficulty('casual'); }}
+            onClick={() => {
+              setSelectedMode('casual');
+              setSelectedDifficulty('casual');
+            }}
             style={{
-              border: selectedDifficulty === 'casual' ? '2px solid #fbbf24' : '1px solid rgba(255,255,255,0.12)',
+              border:
+                selectedDifficulty === 'casual'
+                  ? '2px solid #fbbf24'
+                  : '1px solid rgba(255,255,255,0.12)',
               boxShadow: selectedDifficulty === 'casual' ? '0 0 12px rgba(251,191,36,0.2)' : 'none',
               background: 'rgba(255,255,255,0.06)',
               textAlign: 'left',
@@ -73,7 +86,10 @@ export function TitleScreen() {
               setSelectedMode('classic');
             }}
             style={{
-              border: selectedDifficulty === 'hard' ? '2px solid #ef4444' : '1px solid rgba(255,255,255,0.12)',
+              border:
+                selectedDifficulty === 'hard'
+                  ? '2px solid #ef4444'
+                  : '1px solid rgba(255,255,255,0.12)',
               boxShadow: selectedDifficulty === 'hard' ? '0 0 12px rgba(239,68,68,0.2)' : 'none',
               background: 'rgba(255,255,255,0.06)',
               textAlign: 'left',
@@ -83,7 +99,9 @@ export function TitleScreen() {
           >
             <div style={{ fontWeight: 'bold', marginBottom: '4px', color: '#ef4444' }}>HARD</div>
             <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>
-              {isHardLocked(endingsSeen) ? 'Complete the game to unlock.' : 'Stronger enemies, faster reinforcements.'}
+              {isHardLocked(endingsSeen)
+                ? 'Complete the game to unlock.'
+                : 'Stronger enemies, faster reinforcements.'}
             </div>
           </button>
           <button
@@ -154,7 +172,7 @@ export function TitleScreen() {
 
   if (subMenu === 'chapter_select') {
     const available = CAMPAIGN.filter(
-      (c) => c.implemented && (c.id === 'ch1' || completedChapters.includes(c.id))
+      (c) => c.implemented && (c.id === 'ch1' || completedChapters.includes(c.id)),
     );
     return (
       <div className="title-screen" data-testid="title-screen">
@@ -209,11 +227,7 @@ export function TitleScreen() {
         >
           Chapter Select
         </button>
-        <button
-          className="title-screen__btn"
-          data-testid="debug-btn"
-          onClick={goToDebug}
-        >
+        <button className="title-screen__btn" data-testid="debug-btn" onClick={goToDebug}>
           Debug
         </button>
       </div>

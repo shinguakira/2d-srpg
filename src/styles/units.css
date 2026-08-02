@@ -20,13 +20,23 @@
 }
 
 @keyframes unit-idle-bob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-2px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
 }
 
 @keyframes unit-selected-pulse {
-  0%, 100% { filter: drop-shadow(0 0 4px gold) brightness(1.1); }
-  50% { filter: drop-shadow(0 0 8px gold) brightness(1.2); }
+  0%,
+  100% {
+    filter: drop-shadow(0 0 4px gold) brightness(1.1);
+  }
+  50% {
+    filter: drop-shadow(0 0 8px gold) brightness(1.2);
+  }
 }
 
 /* Event animations — spawn (fade in) and removal (fade out) */
@@ -39,13 +49,25 @@
 }
 
 @keyframes unit-spawn-fade-in {
-  0% { opacity: 0; transform: scale(0.5); }
-  100% { opacity: 1; transform: scale(1); }
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes unit-remove-fade-out {
-  0% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(0.5); }
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
 }
 
 /* Dance sparkle effect on refreshed units */
@@ -54,12 +76,24 @@
 }
 
 @keyframes unit-dance-sparkle {
-  0% { filter: brightness(1) drop-shadow(0 0 0 transparent); }
-  15% { filter: brightness(1.8) drop-shadow(0 0 12px rgba(255, 215, 0, 0.9)); }
-  30% { filter: brightness(1.2) drop-shadow(0 0 6px rgba(255, 215, 0, 0.5)); }
-  50% { filter: brightness(1.6) drop-shadow(0 0 10px rgba(180, 255, 180, 0.8)); }
-  70% { filter: brightness(1.1) drop-shadow(0 0 4px rgba(255, 215, 0, 0.3)); }
-  100% { filter: brightness(1) drop-shadow(0 0 0 transparent); }
+  0% {
+    filter: brightness(1) drop-shadow(0 0 0 transparent);
+  }
+  15% {
+    filter: brightness(1.8) drop-shadow(0 0 12px rgba(255, 215, 0, 0.9));
+  }
+  30% {
+    filter: brightness(1.2) drop-shadow(0 0 6px rgba(255, 215, 0, 0.5));
+  }
+  50% {
+    filter: brightness(1.6) drop-shadow(0 0 10px rgba(180, 255, 180, 0.8));
+  }
+  70% {
+    filter: brightness(1.1) drop-shadow(0 0 4px rgba(255, 215, 0, 0.3));
+  }
+  100% {
+    filter: brightness(1) drop-shadow(0 0 0 transparent);
+  }
 }
 
 /* Carry badge on rescuer */
@@ -84,8 +118,15 @@
 }
 
 @keyframes support-heart-pulse {
-  0%, 100% { opacity: 0.9; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(0.85); }
+  0%,
+  100% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.85);
+  }
 }
 
 /* Steal flash effect */
@@ -94,9 +135,15 @@
 }
 
 @keyframes steal-flash {
-  0% { filter: brightness(1); }
-  30% { filter: brightness(2) drop-shadow(0 0 6px rgba(255, 200, 0, 0.8)); }
-  100% { filter: brightness(1); }
+  0% {
+    filter: brightness(1);
+  }
+  30% {
+    filter: brightness(2) drop-shadow(0 0 6px rgba(255, 200, 0, 0.8));
+  }
+  100% {
+    filter: brightness(1);
+  }
 }
 
 /* Rescue/Drop effect */
@@ -105,9 +152,17 @@
 }
 
 @keyframes rescue-effect {
-  0% { transform: scale(1); }
-  30% { transform: scale(1.15); filter: drop-shadow(0 0 8px rgba(100, 180, 255, 0.8)); }
-  100% { transform: scale(1); filter: none; }
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 8px rgba(100, 180, 255, 0.8));
+  }
+  100% {
+    transform: scale(1);
+    filter: none;
+  }
 }
 
 /* CRP flicker (30-59) — subtle purple shimmer */
@@ -116,8 +171,13 @@
 }
 
 @keyframes crp-flicker {
-  0%, 100% { filter: none; }
-  50% { filter: drop-shadow(0 0 3px rgba(168, 85, 247, 0.5)); }
+  0%,
+  100% {
+    filter: none;
+  }
+  50% {
+    filter: drop-shadow(0 0 3px rgba(168, 85, 247, 0.5));
+  }
 }
 
 /* CRP medium (60-79) — stronger purple flicker */
@@ -126,8 +186,13 @@
 }
 
 @keyframes crp-medium-flicker {
-  0%, 100% { filter: drop-shadow(0 0 2px rgba(168, 85, 247, 0.4)); }
-  50% { filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.7)) hue-rotate(5deg); }
+  0%,
+  100% {
+    filter: drop-shadow(0 0 2px rgba(168, 85, 247, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.7)) hue-rotate(5deg);
+  }
 }
 
 /* CRP heavy (80+) — intense purple pulse */
@@ -136,8 +201,13 @@
 }
 
 @keyframes crp-heavy-pulse {
-  0%, 100% { filter: drop-shadow(0 0 4px rgba(168, 85, 247, 0.6)) hue-rotate(10deg); }
-  50% { filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.8)) hue-rotate(-10deg); }
+  0%,
+  100% {
+    filter: drop-shadow(0 0 4px rgba(168, 85, 247, 0.6)) hue-rotate(10deg);
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.8)) hue-rotate(-10deg);
+  }
 }
 
 /* CRP warning overlay (80+) — red pulse */
@@ -151,8 +221,13 @@
 }
 
 @keyframes crp-warning-pulse {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.7; }
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 /* STA dim (30-44) — slight dim on unit */
@@ -170,8 +245,15 @@
 }
 
 @keyframes sta-sweat-drip {
-  0%, 100% { transform: translateY(0); opacity: 0.8; }
-  50% { transform: translateY(3px); opacity: 0.4; }
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(3px);
+    opacity: 0.4;
+  }
 }
 
 /* ===== Status Effect Icons ===== */

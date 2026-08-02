@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Debug Screen Screenshots', () => {
-
   test('01 - Characters list with sprites', async ({ page }) => {
     await page.goto('/');
     await page.waitForSelector('[data-testid="title-screen"]', { timeout: 10000 });

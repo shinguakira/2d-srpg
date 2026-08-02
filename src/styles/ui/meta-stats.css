@@ -42,12 +42,20 @@
 }
 
 /* AWR — blue */
-.meta-stats__fill--awr { background: #3b82f6; }
-.meta-stats__label--awr { color: #3b82f6; }
+.meta-stats__fill--awr {
+  background: #3b82f6;
+}
+.meta-stats__label--awr {
+  color: #3b82f6;
+}
 
 /* LOOP — gold (Ren only) */
-.meta-stats__fill--loop { background: #fbbf24; }
-.meta-stats__label--loop { color: #fbbf24; }
+.meta-stats__fill--loop {
+  background: #fbbf24;
+}
+.meta-stats__label--loop {
+  color: #fbbf24;
+}
 .meta-stats__loop-value {
   color: #fbbf24;
   font-weight: 700;
@@ -56,20 +64,36 @@
 }
 
 /* SYNC — green */
-.meta-stats__fill--sync { background: #22c55e; }
-.meta-stats__label--sync { color: #22c55e; }
+.meta-stats__fill--sync {
+  background: #22c55e;
+}
+.meta-stats__label--sync {
+  color: #22c55e;
+}
 
 /* LOY — yellow */
-.meta-stats__fill--loy { background: #eab308; }
-.meta-stats__label--loy { color: #eab308; }
+.meta-stats__fill--loy {
+  background: #eab308;
+}
+.meta-stats__label--loy {
+  color: #eab308;
+}
 
 /* CRP — purple */
-.meta-stats__fill--crp { background: #a855f7; }
-.meta-stats__label--crp { color: #a855f7; }
+.meta-stats__fill--crp {
+  background: #a855f7;
+}
+.meta-stats__label--crp {
+  color: #a855f7;
+}
 
 /* STA — orange */
-.meta-stats__fill--sta { background: #f97316; }
-.meta-stats__label--sta { color: #f97316; }
+.meta-stats__fill--sta {
+  background: #f97316;
+}
+.meta-stats__label--sta {
+  color: #f97316;
+}
 
 /* CRP bar flash at 60+ */
 .meta-stats__fill--crp-danger {
@@ -78,6 +102,11 @@
 }
 
 @keyframes crp-bar-flash {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
 }

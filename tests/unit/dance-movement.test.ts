@@ -6,29 +6,57 @@ function makeMap(terrain: TerrainType[][]): GameMap {
   const height = terrain.length;
   const width = terrain[0].length;
   const tiles: Tile[][] = terrain.map((row, y) =>
-    row.map((t, x) => ({ position: { x, y }, terrain: t, occupantId: null }))
+    row.map((t, x) => ({ position: { x, y }, terrain: t, occupantId: null })),
   );
   return { width, height, tiles };
 }
 
 function makeWeapon(overrides: Partial<Weapon> = {}): Weapon {
   return {
-    id: 'iron_sword', name: 'Iron Sword', type: 'sword',
-    might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1,
+    id: 'iron_sword',
+    name: 'Iron Sword',
+    type: 'sword',
+    might: 5,
+    hit: 90,
+    crit: 0,
+    weight: 5,
+    minRange: 1,
+    maxRange: 1,
     ...overrides,
   };
 }
 
 function makeUnit(id: string, pos: Position, overrides: Partial<Unit> = {}): Unit {
   return {
-    id, name: id, classId: 'lord', faction: 'player',
+    id,
+    name: id,
+    classId: 'lord',
+    faction: 'player',
     position: pos,
-    stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5, cha: 0, wil: 0 },
-    currentHp: 20, level: 1, exp: 0,
+    stats: {
+      hp: 20,
+      str: 8,
+      mag: 0,
+      def: 5,
+      res: 0,
+      spd: 7,
+      skl: 5,
+      lck: 3,
+      mov: 5,
+      cha: 0,
+      wil: 0,
+    },
+    currentHp: 20,
+    level: 1,
+    exp: 0,
     equippedWeapon: makeWeapon(),
     inventory: [makeWeapon()],
-    items: [], hasActed: false, facing: 'down' as const, sprite: '',
-    skills: [], learnedSkills: [],
+    items: [],
+    hasActed: false,
+    facing: 'down' as const,
+    sprite: '',
+    skills: [],
+    learnedSkills: [],
     metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
     ...overrides,
   };
@@ -64,18 +92,24 @@ describe('Dance + Movement Integration', () => {
   });
 
   it('danced unit gets a full turn: can move and then wait', () => {
-    const map = makeMap([
-      ['plain', 'plain', 'plain', 'plain', 'plain'],
-    ]);
-    const dancer = makeUnit('dancer1', { x: 0, y: 0 }, {
-      classId: 'dancer',
-      skills: ['dance'],
-      equippedWeapon: makeWeapon({ id: 'knife', name: 'Knife', type: 'knife' }),
-      inventory: [makeWeapon({ id: 'knife', name: 'Knife', type: 'knife' })],
-    });
-    const ally = makeUnit('ally1', { x: 1, y: 0 }, {
-      hasActed: true, // already acted this turn
-    });
+    const map = makeMap([['plain', 'plain', 'plain', 'plain', 'plain']]);
+    const dancer = makeUnit(
+      'dancer1',
+      { x: 0, y: 0 },
+      {
+        classId: 'dancer',
+        skills: ['dance'],
+        equippedWeapon: makeWeapon({ id: 'knife', name: 'Knife', type: 'knife' }),
+        inventory: [makeWeapon({ id: 'knife', name: 'Knife', type: 'knife' })],
+      },
+    );
+    const ally = makeUnit(
+      'ally1',
+      { x: 1, y: 0 },
+      {
+        hasActed: true, // already acted this turn
+      },
+    );
 
     setupStore([dancer, ally], map);
 
@@ -113,23 +147,45 @@ describe('Dance + Movement Integration', () => {
   });
 
   it('danced unit can attack after being refreshed', () => {
-    const map = makeMap([
-      ['plain', 'plain', 'plain', 'plain', 'plain'],
-    ]);
-    const dancer = makeUnit('dancer1', { x: 0, y: 0 }, {
-      classId: 'dancer',
-      skills: ['dance'],
-      equippedWeapon: makeWeapon({ id: 'knife', name: 'Knife', type: 'knife' }),
-      inventory: [makeWeapon({ id: 'knife', name: 'Knife', type: 'knife' })],
-    });
-    const ally = makeUnit('ally1', { x: 1, y: 0 }, {
-      hasActed: true,
-    });
-    const enemy = makeUnit('enemy1', { x: 3, y: 0 }, {
-      faction: 'enemy',
-      stats: { hp: 20, str: 5, mag: 0, def: 3, res: 0, spd: 5, skl: 5, lck: 3, mov: 3, cha: 0, wil: 0 },
-      currentHp: 20,
-    });
+    const map = makeMap([['plain', 'plain', 'plain', 'plain', 'plain']]);
+    const dancer = makeUnit(
+      'dancer1',
+      { x: 0, y: 0 },
+      {
+        classId: 'dancer',
+        skills: ['dance'],
+        equippedWeapon: makeWeapon({ id: 'knife', name: 'Knife', type: 'knife' }),
+        inventory: [makeWeapon({ id: 'knife', name: 'Knife', type: 'knife' })],
+      },
+    );
+    const ally = makeUnit(
+      'ally1',
+      { x: 1, y: 0 },
+      {
+        hasActed: true,
+      },
+    );
+    const enemy = makeUnit(
+      'enemy1',
+      { x: 3, y: 0 },
+      {
+        faction: 'enemy',
+        stats: {
+          hp: 20,
+          str: 5,
+          mag: 0,
+          def: 3,
+          res: 0,
+          spd: 5,
+          skl: 5,
+          lck: 3,
+          mov: 3,
+          cha: 0,
+          wil: 0,
+        },
+        currentHp: 20,
+      },
+    );
 
     setupStore([dancer, ally, enemy], map);
 

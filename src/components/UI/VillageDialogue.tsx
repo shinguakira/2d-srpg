@@ -12,11 +12,7 @@ export function VillageDialogue() {
   const weaponName = weapon ? weapon.name : villageReward.weaponId;
 
   return (
-    <div
-      className="village-dialogue"
-      data-testid="village-dialogue"
-      onClick={dismissVillageReward}
-    >
+    <div className="village-dialogue" data-testid="village-dialogue" onClick={dismissVillageReward}>
       <div className="village-dialogue__panel">
         <div className="village-dialogue__speaker" data-testid="village-speaker">
           {villageReward.speaker}

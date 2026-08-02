@@ -14,10 +14,18 @@
 }
 
 @keyframes heal-flash {
-  0% { opacity: 0; }
-  20% { opacity: 0.2; }
-  50% { opacity: 0.1; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 /* Title bar green accent */
@@ -30,7 +38,9 @@
 /* Modal green border accent */
 .heal-animation__modal {
   border-color: rgba(34, 197, 94, 0.4) !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 60px rgba(34, 197, 94, 0.15) !important;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(34, 197, 94, 0.15) !important;
 }
 
 /* ===== Healer casting glow ===== */
@@ -39,9 +49,15 @@
 }
 
 @keyframes heal-cast-glow {
-  0% { filter: brightness(1); }
-  40% { filter: brightness(1.5) drop-shadow(0 0 12px rgba(34, 197, 94, 0.8)); }
-  100% { filter: brightness(1.2) drop-shadow(0 0 8px rgba(34, 197, 94, 0.5)); }
+  0% {
+    filter: brightness(1);
+  }
+  40% {
+    filter: brightness(1.5) drop-shadow(0 0 12px rgba(34, 197, 94, 0.8));
+  }
+  100% {
+    filter: brightness(1.2) drop-shadow(0 0 8px rgba(34, 197, 94, 0.5));
+  }
 }
 
 /* ===== Target receive glow ===== */
@@ -50,10 +66,18 @@
 }
 
 @keyframes heal-receive-glow {
-  0% { filter: brightness(1); }
-  30% { filter: brightness(1.6) drop-shadow(0 0 16px rgba(34, 197, 94, 0.9)); }
-  60% { filter: brightness(1.3) drop-shadow(0 0 10px rgba(34, 197, 94, 0.6)); }
-  100% { filter: brightness(1); }
+  0% {
+    filter: brightness(1);
+  }
+  30% {
+    filter: brightness(1.6) drop-shadow(0 0 16px rgba(34, 197, 94, 0.9));
+  }
+  60% {
+    filter: brightness(1.3) drop-shadow(0 0 10px rgba(34, 197, 94, 0.6));
+  }
+  100% {
+    filter: brightness(1);
+  }
 }
 
 /* ===== Green heal orb flying across stage ===== */
@@ -64,7 +88,9 @@
   height: 20px;
   border-radius: 50%;
   background: radial-gradient(circle, #86efac 0%, #22c55e 50%, transparent 70%);
-  box-shadow: 0 0 16px rgba(34, 197, 94, 0.8), 0 0 32px rgba(34, 197, 94, 0.4);
+  box-shadow:
+    0 0 16px rgba(34, 197, 94, 0.8),
+    0 0 32px rgba(34, 197, 94, 0.4);
   z-index: 15;
   pointer-events: none;
   animation: heal-orb-fly 0.5s ease-out forwards;
@@ -163,7 +189,9 @@
   font-size: 36px;
   font-weight: bold;
   color: #22c55e;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 12px rgba(34, 197, 94, 0.5);
+  text-shadow:
+    2px 2px 4px rgba(0, 0, 0, 0.8),
+    0 0 12px rgba(34, 197, 94, 0.5);
   animation: heal-number-float 0.8s ease-out forwards;
   pointer-events: none;
 }

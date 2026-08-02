@@ -103,12 +103,15 @@ export function confirmSteal(get: Get, set: Set, targetId: string) {
     stealableTiles: new Set(),
     levelUpGains: gains,
     levelUpUnitId: levelUpUnit,
-    floatingNumbers: [...get().floatingNumbers, {
-      id: floatId,
-      x: target.position.x,
-      y: target.position.y,
-      text: `Stole ${stolenItem.name}!`,
-      color: '#fbbf24',
-    }],
+    floatingNumbers: [
+      ...get().floatingNumbers,
+      {
+        id: floatId,
+        x: target.position.x,
+        y: target.position.y,
+        text: `Stole ${stolenItem.name}!`,
+        color: '#fbbf24',
+      },
+    ],
   });
 }

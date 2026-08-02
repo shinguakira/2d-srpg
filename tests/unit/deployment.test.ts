@@ -8,24 +8,48 @@ describe('computeAutoDeploy', () => {
   });
 
   it('fills remaining slots from roster in order', () => {
-    const result = computeAutoDeploy(['ren'], ['ren', 'kael', 'senna', 'lira', 'bram'], 5, [], 'classic');
+    const result = computeAutoDeploy(
+      ['ren'],
+      ['ren', 'kael', 'senna', 'lira', 'bram'],
+      5,
+      [],
+      'classic',
+    );
     expect(result).toEqual(['ren', 'kael', 'senna', 'lira', 'bram']);
   });
 
   it('respects maxDeploy cap', () => {
-    const result = computeAutoDeploy(['ren'], ['ren', 'kael', 'senna', 'lira', 'bram'], 3, [], 'classic');
+    const result = computeAutoDeploy(
+      ['ren'],
+      ['ren', 'kael', 'senna', 'lira', 'bram'],
+      3,
+      [],
+      'classic',
+    );
     expect(result).toEqual(['ren', 'kael', 'senna']);
     expect(result.length).toBe(3);
   });
 
   it('skips dead units in classic mode', () => {
-    const result = computeAutoDeploy(['ren'], ['ren', 'kael', 'senna', 'lira', 'bram'], 5, ['kael'], 'classic');
+    const result = computeAutoDeploy(
+      ['ren'],
+      ['ren', 'kael', 'senna', 'lira', 'bram'],
+      5,
+      ['kael'],
+      'classic',
+    );
     expect(result).not.toContain('kael');
     expect(result).toEqual(['ren', 'senna', 'lira', 'bram']);
   });
 
   it('does NOT skip dead units in casual mode', () => {
-    const result = computeAutoDeploy(['ren'], ['ren', 'kael', 'senna', 'lira', 'bram'], 5, ['kael'], 'casual');
+    const result = computeAutoDeploy(
+      ['ren'],
+      ['ren', 'kael', 'senna', 'lira', 'bram'],
+      5,
+      ['kael'],
+      'casual',
+    );
     expect(result).toContain('kael');
     expect(result).toEqual(['ren', 'kael', 'senna', 'lira', 'bram']);
   });

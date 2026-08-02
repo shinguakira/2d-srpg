@@ -1,5 +1,12 @@
 import { describe, it, expect } from 'vitest';
-import { getForgeBonus, canForge, applyForge, getRequiredMaterial, previewForge, getForgeGoldCost } from '../../src/core/forging';
+import {
+  getForgeBonus,
+  canForge,
+  applyForge,
+  getRequiredMaterial,
+  previewForge,
+  getForgeGoldCost,
+} from '../../src/core/forging';
 import type { Weapon } from '../../src/core/types';
 
 function makeWeapon(overrides: Partial<Weapon> = {}): Weapon {

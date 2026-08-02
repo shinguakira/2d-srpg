@@ -76,7 +76,9 @@
   font-family: monospace;
   font-size: 13px;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
 }
 
 .trade-ui__item:hover {

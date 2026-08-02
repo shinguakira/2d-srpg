@@ -4,6 +4,11 @@
   "categories": {
     "correctness": "error"
   },
+  "rules": {
+    "react/exhaustive-deps": "off",
+    "react/rules-of-hooks": "error",
+    "react/only-export-components": "error"
+  },
   "env": {
     "builtin": true,
     "browser": true

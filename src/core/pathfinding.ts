@@ -1,15 +1,111 @@
-import type { Position, GameMap, Unit, Weapon } from './types';
+import type { Position, GameMap, Unit, Weapon, Faction } from './types';
 import { posKey } from './types';
-import { getMovementCost, isPassable } from './terrain';
+import { getClassMovementCost, isPassableForClass, type ClassFlags } from './terrain';
+import { getEffectiveWeaponRange } from './combat';
+
+/** Returns true if faction `a` considers faction `b` hostile (cannot pass through). */
+function isHostileFaction(a: Faction, b: Faction): boolean {
+  if (a === 'neutral' || b === 'neutral') return true;
+  if (a === 'player' || a === 'ally') return b === 'enemy';
+  if (a === 'enemy') return b === 'player' || b === 'ally';
+  return false;
+}
 
 export function getManhattanDistance(a: Position, b: Position): number {
   return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 }
 
+// ===== BFS Distance Map (Dijkstra, terrain-aware, ignores units) =====
+
+const distanceMapCache = new Map<string, Map<string, number>>();
+
+function flagsKey(flags?: ClassFlags): string {
+  return `${flags?.flying ? 'F' : ''}${flags?.mounted ? 'M' : ''}${flags?.armored ? 'A' : ''}`;
+}
+
+/** Clear the BFS distance map cache. Call once per AI computation batch. */
+export function clearDistanceMapCache(): void {
+  distanceMapCache.clear();
+}
+
+/**
+ * Dijkstra BFS from origin across entire map (terrain-only, ignores units).
+ * Returns Map of posKey -> minimum terrain cost to reach from origin.
+ */
+function computeDistanceMap(
+  origin: Position,
+  map: GameMap,
+  classFlags?: ClassFlags,
+): Map<string, number> {
+  const flags = classFlags ?? {};
+  const dist = new Map<string, number>();
+  dist.set(posKey(origin), 0);
+
+  const queue: [Position, number][] = [[origin, 0]];
+
+  while (queue.length > 0) {
+    // Extract minimum cost entry
+    let minIdx = 0;
+    for (let i = 1; i < queue.length; i++) {
+      if (queue[i][1] < queue[minIdx][1]) minIdx = i;
+    }
+    const [pos, cost] = queue.splice(minIdx, 1)[0];
+
+    // Skip if we already found a better path
+    if (dist.get(posKey(pos))! < cost) continue;
+
+    for (const dir of DIRECTIONS) {
+      const next: Position = { x: pos.x + dir.x, y: pos.y + dir.y };
+      if (next.x < 0 || next.x >= map.width || next.y < 0 || next.y >= map.height) continue;
+
+      const terrain = map.tiles[next.y][next.x].terrain;
+      if (!isPassableForClass(terrain, flags)) continue;
+
+      const moveCost = getClassMovementCost(terrain, flags);
+      const newCost = cost + moveCost;
+      const nextKey = posKey(next);
+
+      if (!dist.has(nextKey) || dist.get(nextKey)! > newCost) {
+        dist.set(nextKey, newCost);
+        queue.push([next, newCost]);
+      }
+    }
+  }
+
+  return dist;
+}
+
+/** Get cached distance map from origin. Same origin+flags = cache hit. */
+export function getDistanceMap(
+  origin: Position,
+  map: GameMap,
+  classFlags?: ClassFlags,
+): Map<string, number> {
+  const key = `${posKey(origin)}|${flagsKey(classFlags)}`;
+  let cached = distanceMapCache.get(key);
+  if (!cached) {
+    cached = computeDistanceMap(origin, map, classFlags);
+    distanceMapCache.set(key, cached);
+  }
+  return cached;
+}
+
+/** Get terrain-aware pathfinding distance between two positions. Returns Infinity if unreachable. */
+export function getPathfindingDistance(
+  from: Position,
+  to: Position,
+  map: GameMap,
+  classFlags?: ClassFlags,
+): number {
+  if (from.x === to.x && from.y === to.y) return 0;
+  const distMap = getDistanceMap(from, map, classFlags);
+  return distMap.get(posKey(to)) ?? Infinity;
+}
+
 const DIRECTIONS: Position[] = [
   { x: 0, y: -1 }, // up
-  { x: 1, y: 0 },  // right
-  { x: 0, y: 1 },  // down
+  { x: 1, y: 0 }, // right
+  { x: 0, y: 1 }, // down
   { x: -1, y: 0 }, // left
 ];
 
@@ -24,14 +120,19 @@ export function getMovementRange(
   unit: Unit,
   map: GameMap,
   allUnits: Map<string, Unit>,
+  classFlags?: ClassFlags,
+  canPass?: boolean,
+  weatherMods?: { movPenalty?: number; terrainCostMod?: number },
 ): Set<string> {
   const startKey = posKey(unit.position);
-  const mov = unit.stats.mov;
+  const mov = Math.max(1, unit.stats.mov + (weatherMods?.movPenalty ?? 0));
+  const flags = classFlags ?? {};
+  const extraCost = weatherMods?.terrainCostMod ?? 0;
 
-  // occupant lookup
-  const occupantFaction = new Map<string, string>();
+  // occupant lookup (hidden/carried units don't block movement)
+  const occupantFaction = new Map<string, Faction>();
   for (const u of allUnits.values()) {
-    if (u.id !== unit.id) {
+    if (u.id !== unit.id && !u.isHidden && !u.isCarried) {
       occupantFaction.set(posKey(u.position), u.faction);
     }
   }
@@ -52,17 +153,17 @@ export function getMovementRange(
       if (next.x < 0 || next.x >= map.width || next.y < 0 || next.y >= map.height) continue;
 
       const terrain = map.tiles[next.y][next.x].terrain;
-      if (!isPassable(terrain)) continue;
+      if (!isPassableForClass(terrain, flags)) continue;
 
-      const cost = getMovementCost(terrain);
+      const cost = getClassMovementCost(terrain, flags) + extraCost;
       const nextRemaining = remaining - cost;
       if (nextRemaining < 0) continue;
 
       const nextKey = posKey(next);
 
-      // Cannot pass through enemy units
+      // Cannot pass through hostile units (unless unit has Pass skill)
       const occupant = occupantFaction.get(nextKey);
-      if (occupant && occupant !== unit.faction) continue;
+      if (occupant && isHostileFaction(unit.faction, occupant) && !canPass) continue;
 
       // Only enqueue if this is a better path
       if (best.has(nextKey) && best.get(nextKey)! >= nextRemaining) continue;
@@ -71,7 +172,7 @@ export function getMovementRange(
     }
   }
 
-  // Build result: all reachable tiles except those occupied by allies
+  // Build result: all reachable tiles except those occupied by other units
   const result = new Set<string>();
   for (const [key] of best) {
     if (key === startKey) {
@@ -79,8 +180,8 @@ export function getMovementRange(
       continue;
     }
     const occupant = occupantFaction.get(key);
-    // Can't stop on a tile occupied by an ally
-    if (occupant && occupant === unit.faction) continue;
+    // Can't stop on a tile occupied by any other unit
+    if (occupant) continue;
     result.add(key);
   }
 
@@ -98,14 +199,16 @@ export function getPath(
   unit: Unit,
   map: GameMap,
   allUnits: Map<string, Unit>,
+  classFlags?: ClassFlags,
 ): Position[] {
   const startKey = posKey(from);
   const endKey = posKey(to);
   if (startKey === endKey) return [from];
 
   const mov = unit.stats.mov;
+  const flags = classFlags ?? {};
 
-  const occupantFaction = new Map<string, string>();
+  const occupantFaction = new Map<string, Faction>();
   for (const u of allUnits.values()) {
     if (u.id !== unit.id) {
       occupantFaction.set(posKey(u.position), u.faction);
@@ -130,15 +233,15 @@ export function getPath(
       if (next.x < 0 || next.x >= map.width || next.y < 0 || next.y >= map.height) continue;
 
       const terrain = map.tiles[next.y][next.x].terrain;
-      if (!isPassable(terrain)) continue;
+      if (!isPassableForClass(terrain, flags)) continue;
 
-      const cost = getMovementCost(terrain);
+      const cost = getClassMovementCost(terrain, flags);
       const nextRemaining = remaining - cost;
       if (nextRemaining < 0) continue;
 
       const nextKey = posKey(next);
       const occupant = occupantFaction.get(nextKey);
-      if (occupant && occupant !== unit.faction) continue;
+      if (occupant && isHostileFaction(unit.faction, occupant)) continue;
 
       if (best.has(nextKey) && best.get(nextKey)! >= nextRemaining) continue;
       best.set(nextKey, nextRemaining);
@@ -171,12 +274,15 @@ export function getAttackTilesFrom(
   pos: Position,
   weapon: Weapon,
   map: GameMap,
+  rangeOverride?: { minRange: number; maxRange: number },
 ): Set<string> {
+  const minRange = rangeOverride?.minRange ?? weapon.minRange;
+  const maxRange = rangeOverride?.maxRange ?? weapon.maxRange;
   const result = new Set<string>();
-  for (let dx = -weapon.maxRange; dx <= weapon.maxRange; dx++) {
-    for (let dy = -weapon.maxRange; dy <= weapon.maxRange; dy++) {
+  for (let dx = -maxRange; dx <= maxRange; dx++) {
+    for (let dy = -maxRange; dy <= maxRange; dy++) {
       const dist = Math.abs(dx) + Math.abs(dy);
-      if (dist < weapon.minRange || dist > weapon.maxRange) continue;
+      if (dist < minRange || dist > maxRange) continue;
       const tx = pos.x + dx;
       const ty = pos.y + dy;
       if (tx < 0 || tx >= map.width || ty < 0 || ty >= map.height) continue;
@@ -194,14 +300,17 @@ export function getDangerZone(
   enemies: Unit[],
   map: GameMap,
   allUnits: Map<string, Unit>,
+  classFlagsLookup?: (unit: Unit) => ClassFlags,
 ): Set<string> {
   const dangerZone = new Set<string>();
   for (const enemy of enemies) {
-    const moveRange = getMovementRange(enemy, map, allUnits);
+    const flags = classFlagsLookup?.(enemy);
+    const moveRange = getMovementRange(enemy, map, allUnits, flags);
     for (const moveKey of moveRange) {
       dangerZone.add(moveKey); // enemy can occupy this tile
       const [x, y] = moveKey.split(',').map(Number);
-      const atkTiles = getAttackTilesFrom({ x, y }, enemy.equippedWeapon, map);
+      const rangeOverride = getEffectiveWeaponRange(enemy, enemy.equippedWeapon);
+      const atkTiles = getAttackTilesFrom({ x, y }, enemy.equippedWeapon, map, rangeOverride);
       for (const atkKey of atkTiles) {
         dangerZone.add(atkKey);
       }
@@ -223,7 +332,8 @@ export function getFullAttackRange(
   const attackOnly = new Set<string>();
   for (const moveKey of movementRange) {
     const [x, y] = moveKey.split(',').map(Number);
-    const attackTiles = getAttackTilesFrom({ x, y }, unit.equippedWeapon, map);
+    const rangeOverride = getEffectiveWeaponRange(unit, unit.equippedWeapon);
+    const attackTiles = getAttackTilesFrom({ x, y }, unit.equippedWeapon, map, rangeOverride);
     for (const atkKey of attackTiles) {
       if (!movementRange.has(atkKey)) {
         attackOnly.add(atkKey);

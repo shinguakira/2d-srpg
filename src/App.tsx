@@ -2,7 +2,11 @@ import { useEffect } from 'react';
 import { Game } from './components/Game';
 import { TitleScreen } from './components/TitleScreen';
 import { DialogueBox } from './components/DialogueBox';
+import { PreparationScreen } from './components/PreparationScreen';
 import { DebugScreen } from './components/Debug/DebugScreen';
+import { EndingScreen } from './components/UI/EndingScreen';
+import { CreditsScreen } from './components/UI/CreditsScreen';
+import { SavePromptOverlay } from './components/UI/SavePromptOverlay';
 import { useCampaignStore } from './stores/campaignStore';
 import './styles/grid.css';
 import './styles/units.css';
@@ -12,24 +16,41 @@ import './styles/ui/index.css';
 function App() {
   const currentScreen = useCampaignStore((s) => s.currentScreen);
 
-  // Backward compat: if ?seed param exists, skip title and go direct to battle
+  // If ?seed param exists, skip title and go direct to battle
+  // Optional ?chapter=ch3 to start a specific chapter (defaults to ch1)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.has('seed')) {
-      useCampaignStore.getState().startChapterDirect('ch1');
+      const chapterId = params.get('chapter') || 'ch1';
+      useCampaignStore.getState().startChapterDirect(chapterId);
     }
   }, []);
 
-  switch (currentScreen) {
-    case 'title':
-      return <TitleScreen />;
-    case 'dialogue':
-      return <DialogueBox />;
-    case 'battle':
-      return <Game />;
-    case 'debug':
-      return <DebugScreen />;
-  }
+  const screen = (() => {
+    switch (currentScreen) {
+      case 'title':
+        return <TitleScreen />;
+      case 'dialogue':
+        return <DialogueBox />;
+      case 'preparation':
+        return <PreparationScreen />;
+      case 'battle':
+        return <Game />;
+      case 'debug':
+        return <DebugScreen />;
+      case 'ending':
+        return <EndingScreen />;
+      case 'credits':
+        return <CreditsScreen />;
+    }
+  })();
+
+  return (
+    <>
+      {screen}
+      <SavePromptOverlay />
+    </>
+  );
 }
 
 export default App;

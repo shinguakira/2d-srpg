@@ -10,10 +10,21 @@ import { CombatPreview } from './Combat/CombatPreview';
 import { VillageDialogue } from './UI/VillageDialogue';
 import { DeathQuoteOverlay } from './UI/DeathQuoteOverlay';
 import { HealNotification } from './UI/HealNotification';
+import { HealingAnimation } from './Combat/HealingAnimation';
+import { ItemAnimation } from './Combat/ItemAnimation';
 import { ReinforcementBanner } from './UI/ReinforcementBanner';
 import { LevelUpPopup } from './Combat/LevelUpPopup';
-import { TerrainInfoPanel } from './UI/TerrainInfoPanel';
+import { ExpBar } from './Combat/ExpBar';
+import { EventDialogue } from './UI/EventDialogue';
 import { UnitDetailScreen } from './UI/UnitDetailScreen';
+import { TradeUI } from './UI/TradeUI';
+import { WeatherOverlay } from './UI/WeatherOverlay';
+import { WeatherIndicator } from './UI/WeatherIndicator';
+import { SupportRankPopup } from './UI/SupportRankPopup';
+import { BossPhaseTransition } from './UI/BossPhaseTransition';
+import { MapBossHPBar } from './UI/MapBossHPBar';
+import { SystemMenu } from './UI/SystemMenu';
+import { Minimap } from './UI/Minimap';
 import { useGameStore } from '../stores/gameStore';
 import { useUIStore } from '../stores/uiStore';
 import { useCampaignStore } from '../stores/campaignStore';
@@ -36,12 +47,16 @@ export function Game() {
 
   const chapterData = useCampaignStore((s) => s.currentChapterData);
   const unitProgress = useCampaignStore((s) => s.unitProgress);
+  const deployedUnitIds = useCampaignStore((s) => s.deployedUnitIds);
+  const campaignSupportPairs = useCampaignStore((s) => s.supportPairs);
 
   useEffect(() => {
     if (!chapterData) return;
     const params = new URLSearchParams(window.location.search);
     const seed = Number(params.get('seed')) || Date.now();
-    initChapter(chapterData, seed, Object.keys(unitProgress).length > 0 ? unitProgress : undefined);
+    const progress = Object.keys(unitProgress).length > 0 ? unitProgress : undefined;
+    const deployed = deployedUnitIds.length > 0 ? deployedUnitIds : undefined;
+    initChapter(chapterData, seed, progress, deployed, campaignSupportPairs);
   }, [chapterData, initChapter]);
 
   // Compute tile size to fill viewport
@@ -60,13 +75,30 @@ export function Game() {
   useKeyboard();
   useMovementAnimation();
 
-  // Right-click to cancel
-  const handleContextMenu = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    if (playerAction !== 'idle') {
-      cancelAction();
-    }
-  }, [playerAction, cancelAction]);
+  // Right-click: cancel action, open unit detail, or open system menu during idle
+  const handleContextMenu = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      if (playerAction !== 'idle') {
+        cancelAction();
+        return;
+      }
+
+      // Idle: resolve tile from mouse position
+      const { tileSize, cameraOffset: camOff, setDetailUnitId } = useUIStore.getState();
+      const gameRect = e.currentTarget.getBoundingClientRect();
+      const tileX = Math.floor((e.clientX - gameRect.left - camOff.x) / tileSize);
+      const tileY = Math.floor((e.clientY - gameRect.top - camOff.y) / tileSize);
+
+      const unitAtTile = useGameStore.getState().getUnitAt({ x: tileX, y: tileY });
+      if (unitAtTile) {
+        setDetailUnitId(unitAtTile.id);
+      } else {
+        useGameStore.getState().openSystemMenu();
+      }
+    },
+    [playerAction, cancelAction],
+  );
 
   return (
     <div
@@ -75,11 +107,7 @@ export function Game() {
       onMouseLeave={() => hoverTile(null)}
       onContextMenu={handleContextMenu}
     >
-      <div
-        className="game__viewport"
-        data-testid="viewport"
-        ref={viewportRef}
-      >
+      <div className="game__viewport" data-testid="viewport" ref={viewportRef}>
         <div
           className="game__camera"
           style={{
@@ -90,24 +118,38 @@ export function Game() {
         </div>
       </div>
 
+      <WeatherOverlay />
+
+      <MapBossHPBar />
+
+      <Minimap />
+
       <div className="game__ui">
         <TurnInfo />
+        <WeatherIndicator />
         <ActionMenu />
         <EndTurnButton />
         <UnitStatsPanel />
-        <TerrainInfoPanel />
         <CombatPreview />
       </div>
 
       {/* Full-screen overlays */}
       <CombatAnimation />
+      <HealingAnimation />
+      <ItemAnimation />
       <VillageDialogue />
       <HealNotification />
       <DeathQuoteOverlay />
+      <EventDialogue />
+      <ExpBar />
       <LevelUpPopup />
       <ReinforcementBanner />
       <UnitDetailScreen />
+      <TradeUI />
+      <SupportRankPopup />
+      <BossPhaseTransition />
       <PhaseBanner />
+      <SystemMenu />
 
       {/* Game Over overlay */}
       {currentPhase === 'game_over' && <GameOverOverlay />}
@@ -118,8 +160,12 @@ export function Game() {
 function GameOverOverlay() {
   const units = useGameStore((s) => s.units);
   const chapterData = useGameStore((s) => s.chapterData);
+  const currentTurn = useGameStore((s) => s.currentTurn);
   const onChapterVictory = useCampaignStore((s) => s.onChapterVictory);
   const goToTitle = useCampaignStore((s) => s.goToTitle);
+
+  const supportPairs = useGameStore((s) => s.supportPairs);
+  const escapedUnitIds = useGameStore((s) => s.escapedUnitIds);
 
   let hasPlayer = false;
   let hasEnemy = false;
@@ -128,23 +174,51 @@ function GameOverOverlay() {
     if (u.faction === 'enemy') hasEnemy = true;
   }
 
-  // Victory: for rout, all enemies dead. For seize, Lord on throne (boss dead, enemies may remain).
-  // Defeat: no player units remaining.
-  const victory = hasPlayer && (
-    !hasEnemy || // rout win or all enemies killed
-    (chapterData?.objective.type === 'seize' && (() => {
-      // Check if Lord is on seize position (meaning seize action was used)
-      if (!chapterData.seizePosition) return false;
-      for (const u of units.values()) {
-        if (u.isLord && u.position.x === chapterData.seizePosition.x && u.position.y === chapterData.seizePosition.y) {
-          return true;
-        }
-      }
-      return false;
-    })())
-  );
+  // Escape victory: Lord escaped (escape action triggers game_over only when Lord escapes)
+  const escapeVictory = chapterData?.objective.type === 'escape' && escapedUnitIds.size > 0;
+
+  // Check if all boss-AI enemies are defeated
+  const bossDefeated = (() => {
+    for (const u of units.values()) {
+      if (u.faction === 'enemy' && u.aiBehavior?.type === 'boss') return false;
+    }
+    return true;
+  })();
+
+  // Victory: varies by objective type. Defeat: no player units remaining.
+  const victory =
+    escapeVictory ||
+    (hasPlayer &&
+      (!hasEnemy || // rout win or all enemies killed
+        (chapterData?.objective.type === 'seize' &&
+          (() => {
+            if (!chapterData.seizePosition) return false;
+            for (const u of units.values()) {
+              if (
+                u.isLord &&
+                u.position.x === chapterData.seizePosition.x &&
+                u.position.y === chapterData.seizePosition.y
+              ) {
+                return true;
+              }
+            }
+            return false;
+          })()) ||
+        (chapterData?.objective.type === 'boss_kill' && bossDefeated) ||
+        (chapterData?.objective.type === 'survive' &&
+          !!chapterData.objective.turns &&
+          currentTurn > chapterData.objective.turns) ||
+        (chapterData?.objective.type === 'protect' && bossDefeated)));
 
   const handleVictoryContinue = useCallback(() => {
+    // Bridge battle event flags to campaign flags (e.g., kael_dead from ch8)
+    const eventFlags = useGameStore.getState().eventFlags;
+    if (eventFlags.get('kael_dead') === 'true') {
+      useCampaignStore.setState((s) => ({
+        campaignFlags: { ...s.campaignFlags, kael_dead: true },
+      }));
+    }
+
     const progress: Record<string, UnitProgress> = {};
     for (const u of units.values()) {
       if (u.faction === 'player') {
@@ -152,11 +226,16 @@ function GameOverOverlay() {
           level: u.level,
           exp: u.exp,
           stats: { ...u.stats },
+          weaponIds: u.inventory.map((w) => w.id),
+          itemIds: u.items.map((i) => i.id),
+          classId: u.classId,
+          skillIds: u.skills ?? [],
+          learnedSkillIds: u.learnedSkills ?? [],
         };
       }
     }
-    onChapterVictory(progress);
-  }, [units, onChapterVictory]);
+    onChapterVictory(progress, currentTurn, supportPairs);
+  }, [units, onChapterVictory, currentTurn, supportPairs]);
 
   return (
     <div
@@ -164,17 +243,29 @@ function GameOverOverlay() {
       data-testid={victory ? 'victory-screen' : 'defeat-screen'}
     >
       <div className="game-over__panel">
-        <div className="game-over__title">
-          {victory ? 'Victory!' : 'Defeat'}
-        </div>
+        <div className="game-over__title">{victory ? 'Victory!' : 'Defeat'}</div>
         <div className="game-over__subtitle">
           {victory
-            ? (chapterData?.objective.type === 'seize' ? 'The throne has been seized!' : 'All enemies have been defeated.')
+            ? chapterData?.objective.type === 'seize'
+              ? 'The throne has been seized!'
+              : chapterData?.objective.type === 'escape'
+                ? 'Your army has escaped safely!'
+                : chapterData?.objective.type === 'boss_kill'
+                  ? 'The commander has been defeated!'
+                  : chapterData?.objective.type === 'survive'
+                    ? 'You survived the onslaught!'
+                    : chapterData?.objective.type === 'protect'
+                      ? 'The village is safe!'
+                      : 'All enemies have been defeated.'
             : 'Your army has fallen.'}
         </div>
         <div className="game-over__actions">
           {victory ? (
-            <button className="game-over__btn" data-testid="victory-continue" onClick={handleVictoryContinue}>
+            <button
+              className="game-over__btn"
+              data-testid="victory-continue"
+              onClick={handleVictoryContinue}
+            >
               Continue
             </button>
           ) : (

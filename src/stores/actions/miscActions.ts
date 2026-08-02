@@ -1,9 +1,11 @@
 import type { GameState, GameActions } from '../gameStoreTypes';
-import { getDangerZone } from '../../core/pathfinding';
-import { getAttackTilesFrom } from '../../core/pathfinding';
+import { getDangerZone, getAttackTilesFrom } from '../../core/pathfinding';
+import { getEffectiveWeaponRange } from '../../core/combat';
 import type { Unit } from '../../core/types';
-import { EMPTY_SET } from '../helpers/constants';
-import { allPlayersDone } from '../helpers/mapHelpers';
+import { EMPTY_SET, IDLE_RESET } from '../helpers/constants';
+import { allPlayersDone, getClassFlags } from '../helpers/mapHelpers';
+import { tryCantoAfterCombat } from '../helpers/cantoHelpers';
+import { buildDangerZoneAttribution } from '../helpers/dangerZoneHelpers';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -11,7 +13,7 @@ type Set = (partial: Partial<GameState>) => void;
 export function toggleDangerZone(get: Get, set: Set) {
   const { showDangerZone, units, gameMap } = get();
   if (showDangerZone) {
-    set({ showDangerZone: false, dangerZone: EMPTY_SET });
+    set({ showDangerZone: false, dangerZone: EMPTY_SET, dangerZoneAttribution: new Map() });
     return;
   }
   // Compute danger zone from all living enemies
@@ -19,8 +21,9 @@ export function toggleDangerZone(get: Get, set: Set) {
   for (const u of units.values()) {
     if (u.faction === 'enemy') enemies.push(u);
   }
-  const zone = getDangerZone(enemies, gameMap, units);
-  set({ showDangerZone: true, dangerZone: zone });
+  const zone = getDangerZone(enemies, gameMap, units, getClassFlags);
+  const attribution = buildDangerZoneAttribution(enemies, gameMap, units);
+  set({ showDangerZone: true, dangerZone: zone, dangerZoneAttribution: attribution });
 }
 
 export function dismissDeathQuote(_get: Get, set: Set) {
@@ -39,7 +42,8 @@ export function selectWeapon(get: Get, set: Set, index: number) {
   if (!unit || index < 0 || index >= unit.inventory.length) return;
 
   const weapon = unit.inventory[index];
-  const atkTiles = getAttackTilesFrom(pendingPosition, weapon, gameMap);
+  const rangeOverride = getEffectiveWeaponRange(unit, weapon);
+  const atkTiles = getAttackTilesFrom(pendingPosition, weapon, gameMap, rangeOverride);
 
   set({
     selectedWeaponIndex: index,
@@ -49,10 +53,55 @@ export function selectWeapon(get: Get, set: Set, index: number) {
 }
 
 export function dismissLevelUp(get: Get, set: Set) {
+  const { selectedUnitId, units: preUnits } = get();
   set({ levelUpGains: null, levelUpUnitId: null });
-  // Auto end turn after level up if all units done
+
+  // If unit hasn't acted yet (e.g. after steal), return to action menu
+  if (selectedUnitId) {
+    const unit = preUnits.get(selectedUnitId);
+    if (unit && !unit.hasActed) {
+      set({ playerAction: 'action_menu' });
+      return;
+    }
+  }
+
+  // Deferred victory: show game_over now that level-up is dismissed
+  if (get().pendingVictory) {
+    set({ currentPhase: 'game_over', pendingVictory: false, ...IDLE_RESET });
+    return;
+  }
+
+  // Check Canto after level-up dismissal
+  if (selectedUnitId && tryCantoAfterCombat(get, set, selectedUnitId)) return;
+
+  // No Canto — full reset and check auto-end
+  set({ ...IDLE_RESET });
   const { currentPhase, units } = get();
   if (currentPhase === 'player_phase' && allPlayersDone(units)) {
+    get().endPlayerTurn();
+  }
+}
+
+export function dismissExpBar(get: Get, set: Set) {
+  const { levelUpGains, levelUpUnitId, selectedUnitId } = get();
+  set({ expBarData: null });
+
+  // If level-up pending, let dismissLevelUp handle Canto + auto-end
+  if (levelUpGains || levelUpUnitId) return;
+
+  // Deferred victory: show game_over now that EXP bar is dismissed (no level-up)
+  if (get().pendingVictory) {
+    set({ currentPhase: 'game_over', pendingVictory: false, ...IDLE_RESET });
+    return;
+  }
+
+  // No level-up — check Canto now
+  if (selectedUnitId && tryCantoAfterCombat(get, set, selectedUnitId)) return;
+
+  // No Canto — full reset and check auto-end
+  set({ ...IDLE_RESET });
+  const { currentPhase, deathQuote, units } = get();
+  if (currentPhase === 'player_phase' && !deathQuote && allPlayersDone(units)) {
     get().endPlayerTurn();
   }
 }

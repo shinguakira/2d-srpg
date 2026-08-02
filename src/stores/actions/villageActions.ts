@@ -4,6 +4,7 @@ import { WEAPONS } from '../../data/weapons';
 import { IDLE_RESET } from '../helpers/constants';
 import { allPlayersDone } from '../helpers/mapHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
+import { checkAndFireEvents } from './eventActions';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -59,8 +60,14 @@ export function dismissVillageReward(get: Get, set: Set) {
     villageReward: null,
   });
 
-  // Auto end turn if all player units have acted
-  if (allPlayersDone(newUnits)) {
+  // Fire events for tile_visited (enables village recruitment via events)
+  checkAndFireEvents(get, set, {
+    lastMovedUnitId: selectedUnitId,
+    lastMovedPosition: { ...pendingPosition },
+  });
+
+  // Auto end turn if all player units have acted (skip if event dialogue showing)
+  if (!get().eventDialogue && allPlayersDone(get().units)) {
     get().endPlayerTurn();
   }
 }

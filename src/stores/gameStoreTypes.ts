@@ -9,6 +9,15 @@ import type {
   UnitProgress,
   VillageReward,
   VillageData,
+  Faction,
+  ChapterEvent,
+  DialogueScene,
+  EventEffect,
+  FogState,
+  WeatherType,
+  SupportPair,
+  SupportRank,
+  MapBossState,
 } from '../core/types';
 import type { SeededRandom } from '../core/rng';
 import type { CombatForecast, CombatResult } from '../core/combat';
@@ -19,12 +28,18 @@ export type GameState = {
   gameMap: GameMap;
   units: Map<string, Unit>;
   currentPhase: GamePhase;
+  pendingVictory: boolean;
   currentTurn: number;
   playerAction: PlayerAction;
   rng: SeededRandom;
 
   selectedUnitId: string | null;
   hoveredTile: Position | null;
+
+  // Hover range preview (idle phase)
+  hoverMovementRange: Set<string>;
+  hoverAttackRange: Set<string>;
+  hoverUnitFaction: Faction | null;
 
   // Movement
   movementRange: Set<string>;
@@ -43,10 +58,28 @@ export type GameState = {
   levelUpGains: StatGains | null;
   levelUpUnitId: string | null;
 
+  // EXP bar animation
+  expBarData: {
+    unitId: string;
+    unitName: string;
+    expBefore: number;
+    expGain: number;
+    leveled: boolean;
+  } | null;
+
   // Phase transitions
   phaseBanner: 'player_phase' | 'enemy_phase' | null;
   enemyActions: AIAction[];
   enemyActionIndex: number;
+
+  // Auto-battle
+  autoBattleActions: AIAction[];
+  autoBattleIndex: number;
+  isAutoBattle: boolean;
+
+  // Ally AI
+  allyActions: AIAction[];
+  allyActionIndex: number;
 
   chapterName: string;
   objectiveDescription: string;
@@ -61,6 +94,7 @@ export type GameState = {
 
   // Danger zone
   dangerZone: Set<string>;
+  dangerZoneAttribution: Map<string, string[]>;
   showDangerZone: boolean;
 
   // Chapter reference
@@ -69,6 +103,36 @@ export type GameState = {
   // Healing
   healableTiles: Set<string>;
   healResult: { healerName: string; targetName: string; hpBefore: number; hpAfter: number } | null;
+  healAnimationData: {
+    healerName: string;
+    healerClassId: string;
+    healerUnitId?: string;
+    targetName: string;
+    targetClassId: string;
+    targetUnitId?: string;
+    targetFaction: Faction;
+    healAmount: number;
+    targetHpBefore: number;
+    targetHpAfter: number;
+    targetMaxHp: number;
+    healerMaxHp: number;
+    healerHp: number;
+    staffName: string;
+  } | null;
+
+  // Item animation
+  itemAnimationData: {
+    unitId: string;
+    unitName: string;
+    unitClassId: string;
+    unitFaction: Faction;
+    itemName: string;
+    position: Position;
+    healAmount: number;
+    hpBefore: number;
+    hpAfter: number;
+    maxHp: number;
+  } | null;
 
   // Reinforcements
   reinforcementMessage: string | null;
@@ -80,11 +144,107 @@ export type GameState = {
   floatingNumbers: Array<{ id: number; x: number; y: number; text: string; color: string }>;
 
   // Walking animation
-  movingUnit: { unitId: string; path: Position[]; stepIndex: number; onComplete: 'wait' | 'combat' | 'heal' | 'item' | 'seize' | 'village' } | null;
+  movingUnit: {
+    unitId: string;
+    path: Position[];
+    stepIndex: number;
+    onComplete:
+      | 'wait'
+      | 'combat'
+      | 'heal'
+      | 'item'
+      | 'seize'
+      | 'village'
+      | 'enemy_action'
+      | 'auto_action';
+  } | null;
+
+  // Events
+  chapterEvents: ChapterEvent[];
+  firedEventIds: Set<string>;
+  eventFlags: Map<string, string>;
+  pendingEffects: EventEffect[][];
+  eventDialogue: DialogueScene | null;
+  eventDialogueLineIndex: number;
+
+  // Event animations
+  spawningUnitIds: Set<string>; // units currently fading in
+  removingUnitIds: Set<string>; // units currently fading out
+  terrainChangePositions: Set<string>; // tiles currently flashing
+
+  // Escape
+  escapedUnitIds: Set<string>; // units that have escaped the map
+
+  // Chests
+  openedChests: Set<string>; // chest positions that have been opened
+
+  // Canto (post-combat movement for cavalry)
+  cantoRange: Set<string>;
+  cantoRemainingMov: number;
+
+  // Dance / Steal targeting
+  danceableTiles: Set<string>;
+  stealableTiles: Set<string>;
+
+  // Rescue / Drop targeting
+  rescuableTiles: Set<string>;
+  droppableTiles: Set<string>;
+
+  // Trade
+  tradableTiles: Set<string>;
+  tradePartnerId: string | null;
+
+  // Visual effects
+  refreshedUnitIds: Set<string>; // units just danced — sparkle effect
+  stealAnimationData: { position: Position; itemName: string } | null;
+  rescueAnimationData: { position: Position; type: 'rescue' | 'drop' } | null;
+
+  // Fog of war
+  fogOfWar: boolean;
+  fogMap: Map<string, FogState>;
+  visibleTiles: Set<string>;
+  torchEffects: Map<string, number>; // unitId -> turns remaining
+
+  // Weather
+  weather: WeatherType;
+
+  // Destructible terrain
+  terrainHpMap: Map<string, { hp: number; maxHp: number }>;
+  terrainDestroyPositions: Set<string>; // tiles currently playing destroy animation
+
+  // Fog reveal
+  fogRevealTiles: Set<string>; // tiles that just became visible (flash animation)
+
+  // Support system
+  supportPairs: SupportPair[];
+  supportRankUp: { unitA: string; unitB: string; rank: SupportRank } | null;
+
+  // Boss phases
+  bossPhaseTransition: { bossId: string; dialogue: DialogueScene; phaseIndex: number } | null;
+  cycleAuthorityUsed: Set<string>;
+  vanishUsed: Set<string>;
+
+  // Map boss
+  mapBossState: MapBossState | null;
+
+  // Split party
+  splitParty: {
+    teamA: string[];
+    teamB: string[];
+    activeTeam: 'A' | 'B';
+    savedState: Partial<GameState> | null;
+    merged: boolean;
+  } | null;
 };
 
 export type GameActions = {
-  initChapter: (chapter: ChapterData, seed?: number, unitProgress?: Record<string, UnitProgress>) => void;
+  initChapter: (
+    chapter: ChapterData,
+    seed?: number,
+    unitProgress?: Record<string, UnitProgress>,
+    deployedUnitIds?: string[],
+    supportPairs?: SupportPair[],
+  ) => void;
   selectUnit: (unitId: string) => void;
   deselectUnit: () => void;
   hoverTile: (pos: Position | null) => void;
@@ -101,6 +261,7 @@ export type GameActions = {
   advanceCombatAnimation: () => void;
   finishCombat: () => void;
   dismissLevelUp: () => void;
+  dismissExpBar: () => void;
 
   // Weapon selection
   selectWeapon: (index: number) => void;
@@ -111,11 +272,13 @@ export type GameActions = {
 
   // Items
   useItem: (itemIndex: number) => void;
+  finishItemAnimation: () => void;
 
   // Healing
   startHealTargeting: () => void;
   confirmHeal: (targetId: string) => void;
   dismissHealResult: () => void;
+  finishHealAnimation: () => void;
 
   // Reinforcements
   dismissReinforcementMessage: () => void;
@@ -123,8 +286,13 @@ export type GameActions = {
   // Death quote
   dismissDeathQuote: () => void;
 
-  // Seize
+  // Seize / Escape
   seize: () => void;
+  escape: () => void;
+
+  // System menu
+  openSystemMenu: () => void;
+  closeSystemMenu: () => void;
 
   // Danger zone
   toggleDangerZone: () => void;
@@ -132,11 +300,77 @@ export type GameActions = {
   // Walking animation
   advanceMovement: () => void;
 
+  // Recruitment
+  startTalk: () => void;
+
+  // Events
+  advanceEventDialogue: () => void;
+  dismissEventDialogue: () => void;
+
   // Turn system
   endPlayerTurn: () => void;
+  startAutoBattle: () => void;
+  executeNextAutoAction: () => void;
+  finishAutoCombat: () => void;
   dismissPhaseBanner: () => void;
   computeEnemyActions: () => void;
   executeNextEnemyAction: () => void;
   finishEnemyCombat: () => void;
   endEnemyTurn: () => void;
+
+  // Ally AI
+  computeAllyActions: () => void;
+  executeNextAllyAction: () => void;
+  finishAllyCombat: () => void;
+  endAllyTurn: () => void;
+
+  // Movement skills
+  shove: () => void;
+  swap: () => void;
+  reposition: () => void;
+
+  // Canto
+  confirmCantoMove: (pos: Position) => void;
+
+  // Dance
+  startDanceTargeting: () => void;
+  confirmDance: (targetId: string) => void;
+
+  // Steal
+  startStealTargeting: () => void;
+  confirmSteal: (targetId: string) => void;
+
+  // Rescue / Drop
+  startRescueTargeting: () => void;
+  confirmRescue: (targetId: string) => void;
+  startDropTargeting: () => void;
+  confirmDrop: (pos: Position) => void;
+
+  // Lockpick
+  lockpick: () => void;
+
+  // Trade
+  startTradeTargeting: () => void;
+  confirmTrade: (targetId: string, swaps: Array<{ from: 'a' | 'b'; index: number }>) => void;
+
+  // Rest (STA recovery)
+  rest: () => void;
+
+  // Fog of war
+  useTorch: () => void;
+
+  // Destructible terrain
+  attackTerrain: () => void;
+
+  // Support
+  dismissSupportRankUp: () => void;
+
+  // Boss phases
+  dismissBossPhaseTransition: () => void;
+
+  // Negotiate
+  negotiate: () => void;
+
+  // Balance (Fortify)
+  useBalance: () => void;
 };

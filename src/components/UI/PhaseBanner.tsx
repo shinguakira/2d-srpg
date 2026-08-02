@@ -23,12 +23,8 @@ export function PhaseBanner() {
       data-testid="phase-banner"
       data-phase={phaseBanner}
     >
-      <div className="phase-banner__text">
-        {isPlayer ? 'Player Phase' : 'Enemy Phase'}
-      </div>
-      <div className="phase-banner__turn">
-        Turn {currentTurn}
-      </div>
+      <div className="phase-banner__text">{isPlayer ? 'Player Phase' : 'Enemy Phase'}</div>
+      <div className="phase-banner__turn">Turn {currentTurn}</div>
     </div>
   );
 }

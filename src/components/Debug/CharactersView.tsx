@@ -77,12 +77,18 @@ function UnitDetail({ unit }: { unit: Unit }) {
               {unit.faction}
             </span>
             {unit.isLord && (
-              <span className="debug-screen__badge debug-screen__badge--large" style={{ background: '#d97706' }}>
+              <span
+                className="debug-screen__badge debug-screen__badge--large"
+                style={{ background: '#d97706' }}
+              >
                 Lord
               </span>
             )}
             {unit.aiBehavior && (
-              <span className="debug-screen__badge debug-screen__badge--large" style={{ background: '#7c3aed' }}>
+              <span
+                className="debug-screen__badge debug-screen__badge--large"
+                style={{ background: '#7c3aed' }}
+              >
                 AI: {unit.aiBehavior.type}
               </span>
             )}
@@ -132,10 +138,7 @@ function UnitDetail({ unit }: { unit: Unit }) {
                   {val}%
                 </span>
                 <div className="debug-screen__growth-bar">
-                  <div
-                    className="debug-screen__growth-fill"
-                    style={{ width: `${val}%` }}
-                  />
+                  <div className="debug-screen__growth-fill" style={{ width: `${val}%` }} />
                 </div>
               </div>
             ))}
@@ -145,7 +148,11 @@ function UnitDetail({ unit }: { unit: Unit }) {
 
       <div className="debug-screen__section">
         <h3 className="debug-screen__section-title">
-          Equipment ({unit.inventory.length} weapon{unit.inventory.length !== 1 ? 's' : ''}{unit.items.length > 0 ? `, ${unit.items.length} item${unit.items.length !== 1 ? 's' : ''}` : ''})
+          Equipment ({unit.inventory.length} weapon{unit.inventory.length !== 1 ? 's' : ''}
+          {unit.items.length > 0
+            ? `, ${unit.items.length} item${unit.items.length !== 1 ? 's' : ''}`
+            : ''}
+          )
         </h3>
         <div className="debug-screen__inventory">
           {unit.inventory.map((weapon, i) => {
@@ -167,7 +174,8 @@ function UnitDetail({ unit }: { unit: Unit }) {
                   {weapon.type}
                 </span>
                 <span className="debug-screen__inv-stats">
-                  Mt {weapon.might} / Hit {weapon.hit} / Wt {weapon.weight} / Rng {weapon.minRange}-{weapon.maxRange}
+                  Mt {weapon.might} / Hit {weapon.hit} / Wt {weapon.weight} / Rng {weapon.minRange}-
+                  {weapon.maxRange}
                 </span>
               </div>
             );
@@ -185,7 +193,7 @@ function UnitDetail({ unit }: { unit: Unit }) {
                 ({item.uses}/{item.maxUses})
               </span>
               <span className="debug-screen__inv-stats">
-                Heals {item.effect.amount} HP
+                {item.effect.kind === 'heal' ? `Heals ${item.effect.amount} HP` : 'Promotion Item'}
               </span>
             </div>
           ))}
@@ -195,9 +203,7 @@ function UnitDetail({ unit }: { unit: Unit }) {
       {unit.deathQuote && (
         <div className="debug-screen__section">
           <h3 className="debug-screen__section-title">Death Quote</h3>
-          <div className="debug-screen__death-quote">
-            "{unit.deathQuote}"
-          </div>
+          <div className="debug-screen__death-quote">"{unit.deathQuote}"</div>
         </div>
       )}
     </div>

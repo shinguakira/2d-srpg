@@ -1,0 +1,80 @@
+/* ===== Item Animation (extends combat-animation layout) ===== */
+
+/* Title bar green accent */
+.item-animation__title-bar {
+  color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.1) !important;
+  border-bottom-color: rgba(34, 197, 94, 0.2) !important;
+}
+
+/* Modal green border accent */
+.item-animation__modal {
+  border-color: rgba(34, 197, 94, 0.4) !important;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(34, 197, 94, 0.15) !important;
+}
+
+/* Single unit centered on stage */
+.item-animation__fighter--center {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+/* Glow phase — unit pulses green */
+.item-animation__fighter--glow {
+  animation: item-use-glow 0.6s ease-in-out;
+}
+
+@keyframes item-use-glow {
+  0% {
+    filter: brightness(1);
+  }
+  40% {
+    filter: brightness(1.6) drop-shadow(0 0 16px rgba(34, 197, 94, 0.9));
+  }
+  70% {
+    filter: brightness(1.3) drop-shadow(0 0 10px rgba(34, 197, 94, 0.6));
+  }
+  100% {
+    filter: brightness(1.2) drop-shadow(0 0 8px rgba(34, 197, 94, 0.4));
+  }
+}
+
+/* Particles centered on unit */
+.item-animation__particles {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 84px;
+  height: 100px;
+  z-index: 12;
+  pointer-events: none;
+}
+
+/* Heal number centered above unit */
+.item-animation__number {
+  position: absolute;
+  bottom: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 36px;
+  font-weight: bold;
+  color: #22c55e;
+  text-shadow:
+    2px 2px 4px rgba(0, 0, 0, 0.8),
+    0 0 12px rgba(34, 197, 94, 0.5);
+  animation: heal-number-float 0.8s ease-out forwards;
+  pointer-events: none;
+}
+
+/* Info panel centered for single unit */
+.item-animation__info {
+  justify-content: center !important;
+}

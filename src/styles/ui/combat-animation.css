@@ -36,17 +36,33 @@
 }
 
 @keyframes screen-flash-hit {
-  0% { opacity: 0; }
-  20% { opacity: 0.25; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes screen-flash-crit {
-  0% { opacity: 0; }
-  10% { opacity: 0.5; }
-  30% { opacity: 0.1; }
-  50% { opacity: 0.4; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  30% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 /* Crit dramatic darken — dark overlay before crit dash */
@@ -63,10 +79,18 @@
 }
 
 @keyframes crit-darken-pulse {
-  0% { opacity: 0; }
-  30% { opacity: 0.5; }
-  70% { opacity: 0.5; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.5;
+  }
+  70% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 /* Modal container */
@@ -75,24 +99,32 @@
   border: 2px solid rgba(251, 191, 36, 0.5);
   border-radius: 12px;
   overflow: hidden;
-  width: 640px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 60px rgba(251, 191, 36, 0.1);
+  width: 1100px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(251, 191, 36, 0.1);
   animation: modal-appear 0.3s ease;
   position: relative;
 }
 
 @keyframes modal-appear {
-  0% { opacity: 0; transform: scale(0.95); }
-  100% { opacity: 1; transform: scale(1); }
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Title bar */
 .combat-animation__title {
   text-align: center;
-  font-size: 14px;
+  font-size: 20px;
   font-weight: bold;
   color: #fbbf24;
-  padding: 8px 0;
+  padding: 12px 0;
   background: rgba(251, 191, 36, 0.1);
   border-bottom: 1px solid rgba(251, 191, 36, 0.2);
   font-family: 'Segoe UI', system-ui, sans-serif;
@@ -103,7 +135,7 @@
 /* ===== WIDE BATTLE STAGE ===== */
 .combat-animation__stage {
   position: relative;
-  height: 160px;
+  height: 280px;
   overflow: hidden;
 }
 
@@ -113,7 +145,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 32px;
+  height: 56px;
   background: linear-gradient(180deg, #3a3a2e 0%, #2a2a20 100%);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -121,19 +153,19 @@
 /* ===== FIGHTER SPRITES ===== */
 .combat-animation__fighter {
   position: absolute;
-  bottom: 32px;
-  width: 64px;
-  height: 72px;
+  bottom: 56px;
+  width: 112px;
+  height: 126px;
   z-index: 10;
 }
 
 /* Starting positions — far apart, like FE GBA */
 .combat-animation__fighter--left {
-  left: 60px;
+  left: 100px;
 }
 
 .combat-animation__fighter--right {
-  right: 60px;
+  right: 100px;
 }
 
 /* ===== IDLE ===== */
@@ -143,8 +175,13 @@
 }
 
 @keyframes fighter-breathe {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-1px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
 }
 
 /* ===== PHYSICAL ATTACK CHOREOGRAPHY ===== */
@@ -155,8 +192,12 @@
 }
 
 @keyframes fighter-windup {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(2px) scaleY(0.95); }
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(3px) scaleY(0.95);
+  }
 }
 
 /* Dash — attacker runs across to opponent (left side attacks right) */
@@ -168,38 +209,58 @@
   animation: dash-left 0.25s cubic-bezier(0.2, 0, 0.4, 1) forwards;
 }
 
-/* Dash distances: fighters are ~456px apart (640 - 60*2 - 64), land right next to defender */
+/* Dash distances: fighters are ~788px apart (1100 - 100*2 - 112), land right next to defender */
 @keyframes dash-right {
-  0% { transform: translateX(0) translateY(2px); }
-  100% { transform: translateX(392px); }
+  0% {
+    transform: translateX(0) translateY(3px);
+  }
+  100% {
+    transform: translateX(676px);
+  }
 }
 
 @keyframes dash-left {
-  0% { transform: translateX(0) translateY(2px); }
-  100% { transform: translateX(-392px); }
+  0% {
+    transform: translateX(0) translateY(3px);
+  }
+  100% {
+    transform: translateX(-676px);
+  }
 }
 
 /* Strike — hold at opponent's position with slight push */
 .combat-animation__fighter--left.combat-animation__fighter--strike {
-  transform: translateX(392px);
+  transform: translateX(676px);
   animation: strike-push-right 0.12s ease forwards;
 }
 
 .combat-animation__fighter--right.combat-animation__fighter--strike {
-  transform: translateX(-392px);
+  transform: translateX(-676px);
   animation: strike-push-left 0.12s ease forwards;
 }
 
 @keyframes strike-push-right {
-  0% { transform: translateX(392px) scale(1); }
-  50% { transform: translateX(400px) scale(1.1); }
-  100% { transform: translateX(392px) scale(1.05); }
+  0% {
+    transform: translateX(676px) scale(1);
+  }
+  50% {
+    transform: translateX(684px) scale(1.1);
+  }
+  100% {
+    transform: translateX(676px) scale(1.05);
+  }
 }
 
 @keyframes strike-push-left {
-  0% { transform: translateX(-392px) scale(1); }
-  50% { transform: translateX(-400px) scale(1.1); }
-  100% { transform: translateX(-392px) scale(1.05); }
+  0% {
+    transform: translateX(-676px) scale(1);
+  }
+  50% {
+    transform: translateX(-684px) scale(1.1);
+  }
+  100% {
+    transform: translateX(-676px) scale(1.05);
+  }
 }
 
 /* Return — run back to starting position */
@@ -212,13 +273,21 @@
 }
 
 @keyframes return-left {
-  0% { transform: translateX(392px); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(676px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 @keyframes return-right {
-  0% { transform: translateX(-392px); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(-676px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 /* ===== MAGIC ATTACK ===== */
@@ -229,9 +298,15 @@
 }
 
 @keyframes casting-glow {
-  0% { filter: brightness(1); }
-  50% { filter: brightness(1.4) drop-shadow(0 0 8px rgba(147, 197, 253, 0.6)); }
-  100% { filter: brightness(1.1) drop-shadow(0 0 4px rgba(147, 197, 253, 0.3)); }
+  0% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.4) drop-shadow(0 0 8px rgba(147, 197, 253, 0.6));
+  }
+  100% {
+    filter: brightness(1.1) drop-shadow(0 0 4px rgba(147, 197, 253, 0.3));
+  }
 }
 
 /* ===== CRIT PAUSE ===== */
@@ -240,11 +315,21 @@
 }
 
 @keyframes crit-flash-unit {
-  0% { filter: brightness(1); }
-  25% { filter: brightness(2); }
-  50% { filter: brightness(0.8); }
-  75% { filter: brightness(1.8); }
-  100% { filter: brightness(1); }
+  0% {
+    filter: brightness(1);
+  }
+  25% {
+    filter: brightness(2);
+  }
+  50% {
+    filter: brightness(0.8);
+  }
+  75% {
+    filter: brightness(1.8);
+  }
+  100% {
+    filter: brightness(1);
+  }
 }
 
 /* ===== DEFENDER REACTIONS ===== */
@@ -255,13 +340,27 @@
 }
 
 @keyframes unit-hit-violent {
-  0% { transform: translateX(0); }
-  15% { transform: translateX(-8px) rotate(-2deg); }
-  30% { transform: translateX(8px) rotate(2deg); }
-  45% { transform: translateX(-6px); }
-  60% { transform: translateX(6px); }
-  80% { transform: translateX(-2px); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(0);
+  }
+  15% {
+    transform: translateX(-12px) rotate(-2deg);
+  }
+  30% {
+    transform: translateX(12px) rotate(2deg);
+  }
+  45% {
+    transform: translateX(-8px);
+  }
+  60% {
+    transform: translateX(8px);
+  }
+  80% {
+    transform: translateX(-3px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 /* Dodge — leap backward */
@@ -274,15 +373,27 @@
 }
 
 @keyframes dodge-left {
-  0% { transform: translateX(0) translateY(0); }
-  40% { transform: translateX(-30px) translateY(-20px); }
-  100% { transform: translateX(-20px) translateY(0); }
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  40% {
+    transform: translateX(-52px) translateY(-35px);
+  }
+  100% {
+    transform: translateX(-35px) translateY(0);
+  }
 }
 
 @keyframes dodge-right {
-  0% { transform: translateX(0) translateY(0); }
-  40% { transform: translateX(30px) translateY(-20px); }
-  100% { transform: translateX(20px) translateY(0); }
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  40% {
+    transform: translateX(52px) translateY(-35px);
+  }
+  100% {
+    transform: translateX(35px) translateY(0);
+  }
 }
 
 /* Death — collapse downward */
@@ -291,28 +402,42 @@
 }
 
 @keyframes unit-death-collapse {
-  0% { opacity: 1; transform: translateY(0) scale(1); filter: brightness(1); }
-  20% { filter: brightness(2); }
-  40% { opacity: 1; transform: translateY(0) scale(1); filter: brightness(0.5); }
-  100% { opacity: 0; transform: translateY(15px) scaleY(0.3) scaleX(1.3); filter: brightness(0); }
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: brightness(1);
+  }
+  20% {
+    filter: brightness(2);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: brightness(0.5);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(25px) scaleY(0.3) scaleX(1.3);
+    filter: brightness(0);
+  }
 }
 
 /* ===== WEAPON EFFECT POSITIONING ===== */
 .combat-animation__effect {
   position: absolute;
-  bottom: 52px;
+  bottom: 90px;
   z-index: 15;
   pointer-events: none;
 }
 
 /* Effect appears near the defender */
 .combat-animation__effect--right {
-  right: 60px;
+  right: 100px;
   animation: effect-pop 0.15s ease-out;
 }
 
 .combat-animation__effect--left {
-  left: 60px;
+  left: 100px;
   animation: effect-pop 0.15s ease-out;
 }
 
@@ -326,77 +451,162 @@
 }
 
 @keyframes spell-fly-right {
-  0% { left: 100px; right: auto; opacity: 0.5; transform: scale(0.5); }
-  100% { left: 480px; right: auto; opacity: 1; transform: scale(1); }
+  0% {
+    left: 170px;
+    right: auto;
+    opacity: 0.5;
+    transform: scale(0.5);
+  }
+  100% {
+    left: 830px;
+    right: auto;
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes spell-fly-left {
-  0% { right: 100px; left: auto; opacity: 0.5; transform: scale(0.5); }
-  100% { right: 480px; left: auto; opacity: 1; transform: scale(1); }
+  0% {
+    right: 170px;
+    left: auto;
+    opacity: 0.5;
+    transform: scale(0.5);
+  }
+  100% {
+    right: 830px;
+    left: auto;
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes effect-pop {
-  0% { transform: scale(0.3); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* ===== FLOATING DAMAGE NUMBER ===== */
 .combat-animation__dmg-float {
   position: absolute;
-  bottom: 100px;
+  bottom: 175px;
   z-index: 20;
   font-family: 'Segoe UI', system-ui, sans-serif;
-  font-size: 36px;
+  font-size: 56px;
   font-weight: bold;
   color: #fff;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.5);
+  text-shadow:
+    2px 2px 4px rgba(0, 0, 0, 0.8),
+    0 0 8px rgba(0, 0, 0, 0.5);
   animation: dmg-float-up 0.6s ease-out forwards;
   pointer-events: none;
   text-align: center;
 }
 
 .combat-animation__dmg-float--right {
-  right: 40px;
+  right: 70px;
 }
 
 .combat-animation__dmg-float--left {
-  left: 40px;
+  left: 70px;
 }
 
 .combat-animation__dmg-float--crit {
   color: #fbbf24;
-  font-size: 44px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 16px rgba(251, 191, 36, 0.6);
+  font-size: 68px;
+  text-shadow:
+    2px 2px 4px rgba(0, 0, 0, 0.8),
+    0 0 16px rgba(251, 191, 36, 0.6);
 }
 
 .combat-animation__dmg-float--miss {
   color: #64748b;
-  font-size: 24px;
+  font-size: 36px;
   font-style: italic;
 }
 
 .combat-animation__crit-label {
   display: block;
   color: #fbbf24;
-  font-size: 12px;
+  font-size: 18px;
   letter-spacing: 2px;
   text-transform: uppercase;
   text-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
   margin-top: 2px;
 }
 
+/* Skill activation text */
+.combat-animation__skill-text {
+  position: absolute;
+  top: 20%;
+  font-size: 24px;
+  font-weight: bold;
+  color: #fbbf24;
+  text-shadow:
+    0 0 10px rgba(251, 191, 36, 0.6),
+    0 2px 4px rgba(0, 0, 0, 0.8);
+  letter-spacing: 2px;
+  animation: skill-flash 0.8s ease-out forwards;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.combat-animation__skill-text--left {
+  left: 15%;
+}
+
+.combat-animation__skill-text--right {
+  right: 15%;
+}
+
+@keyframes skill-flash {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+}
+
 @keyframes dmg-float-up {
-  0% { transform: translateY(0) scale(0.5); opacity: 0; }
-  30% { transform: translateY(-10px) scale(1.3); opacity: 1; }
-  60% { transform: translateY(-20px) scale(1); opacity: 1; }
-  100% { transform: translateY(-30px); opacity: 0.7; }
+  0% {
+    transform: translateY(0) scale(0.5);
+    opacity: 0;
+  }
+  30% {
+    transform: translateY(-16px) scale(1.3);
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(-34px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-50px);
+    opacity: 0.7;
+  }
 }
 
 /* ===== INFO PANEL ===== */
 .combat-animation__info {
   display: flex;
   align-items: flex-start;
-  padding: 12px 24px 16px;
+  padding: 16px 32px 24px;
   color: #fff;
   font-family: 'Segoe UI', system-ui, sans-serif;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -409,20 +619,20 @@
 
 .combat-animation__name {
   font-weight: bold;
-  font-size: 16px;
+  font-size: 22px;
   margin-bottom: 2px;
 }
 
 .combat-animation__weapon-name {
-  font-size: 12px;
+  font-size: 16px;
   color: rgba(255, 255, 255, 0.5);
   margin-bottom: 8px;
 }
 
 .combat-animation__hp-bar {
-  height: 12px;
+  height: 18px;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
+  border-radius: 9px;
   overflow: hidden;
   margin-bottom: 4px;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -430,7 +640,7 @@
 
 .combat-animation__hp-fill {
   height: 100%;
-  border-radius: 6px;
+  border-radius: 9px;
   transition: width 0.5s ease;
 }
 
@@ -443,16 +653,63 @@
 }
 
 .combat-animation__hp-text {
-  font-size: 14px;
+  font-size: 20px;
   font-weight: bold;
 }
 
 .combat-animation__step {
-  font-size: 12px;
+  font-size: 16px;
   opacity: 0.4;
   align-self: center;
   white-space: nowrap;
-  padding: 0 12px;
+  padding: 0 16px;
+}
+
+/* Forecast stats row below HP */
+.combat-animation__forecast-stats {
+  display: flex;
+  gap: 14px;
+  margin-top: 4px;
+}
+
+.combat-animation__stat {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.5px;
+}
+
+.combat-animation__stat strong {
+  color: #fff;
+  font-size: 18px;
+}
+
+.combat-animation__stat--no-counter {
+  color: rgba(255, 255, 255, 0.35);
+  font-style: italic;
+}
+
+/* Weapon triangle indicator — top right of stage */
+.combat-animation__triangle {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  z-index: 5;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.combat-animation__triangle-arrow {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.combat-animation__triangle-weapons {
+  font-size: 15px;
+  opacity: 0.7;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* Battle pose magic glow animations (used in battlePoses.tsx) */
@@ -465,11 +722,62 @@
 }
 
 @keyframes magic-glow-pulse {
-  0% { opacity: 0.3; }
-  100% { opacity: 0.6; }
+  0% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.6;
+  }
 }
 
 @keyframes magic-core-pulse {
-  0% { opacity: 0.5; r: 1.5; }
-  100% { opacity: 0.9; r: 2.5; }
+  0% {
+    opacity: 0.5;
+    r: 1.5;
+  }
+  100% {
+    opacity: 0.9;
+    r: 2.5;
+  }
+}
+
+/* ===== Memory Blade Special Effects ===== */
+
+.memory-blade-glow {
+  animation: memory-blade-pulse 2s ease-in-out infinite;
+}
+
+.memory-blade-particle {
+  animation: memory-particle-float 1.5s ease-in-out infinite alternate;
+}
+
+.memory-blade-particle:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.memory-blade-particle:nth-child(3) {
+  animation-delay: 1s;
+}
+
+@keyframes memory-blade-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+    filter: drop-shadow(0 0 1px #93c5fd);
+  }
+  50% {
+    opacity: 0.85;
+    filter: drop-shadow(0 0 3px #60a5fa);
+  }
+}
+
+@keyframes memory-particle-float {
+  0% {
+    transform: translateY(0);
+    opacity: 0.2;
+  }
+  100% {
+    transform: translateY(-3px);
+    opacity: 0.6;
+  }
 }

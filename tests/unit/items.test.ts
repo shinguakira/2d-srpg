@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { canUseItem, useItem } from '../../src/core/items';
+import { canUseItem, useItem, getDurabilityColor } from '../../src/core/items';
 import type { Unit, ConsumableItem, Weapon, WeaponType } from '../../src/core/types';
 
 function makeWeapon(type: WeaponType): Weapon {
@@ -23,7 +23,19 @@ function makeUnit(id: string, overrides: Partial<Unit> = {}): Unit {
     classId: 'test',
     faction: 'player',
     position: { x: 0, y: 0 },
-    stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5 },
+    stats: {
+      hp: 20,
+      str: 8,
+      mag: 0,
+      def: 5,
+      res: 0,
+      spd: 7,
+      skl: 5,
+      lck: 3,
+      mov: 5,
+      cha: 0,
+      wil: 0,
+    },
     currentHp: 20,
     level: 1,
     exp: 0,
@@ -31,7 +43,10 @@ function makeUnit(id: string, overrides: Partial<Unit> = {}): Unit {
     inventory: [],
     items: [],
     hasActed: false,
+    skills: [],
+    learnedSkills: [],
     sprite: '',
+    metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
     ...overrides,
   };
 }
@@ -127,7 +142,22 @@ describe('useItem', () => {
   });
 
   it('successive uses deplete the item', () => {
-    let unit = makeUnit('hero', { currentHp: 5, stats: { hp: 50, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5 } });
+    let unit = makeUnit('hero', {
+      currentHp: 5,
+      stats: {
+        hp: 50,
+        str: 8,
+        mag: 0,
+        def: 5,
+        res: 0,
+        spd: 7,
+        skl: 5,
+        lck: 3,
+        mov: 5,
+        cha: 0,
+        wil: 0,
+      },
+    });
     let item: ConsumableItem | null = makeVulnerary(3);
 
     // Use 3 times
@@ -140,5 +170,23 @@ describe('useItem', () => {
 
     expect(item).toBeNull(); // depleted after 3 uses
     expect(unit.currentHp).toBe(35); // 5 + 10 + 10 + 10 = 35
+  });
+});
+
+describe('getDurabilityColor', () => {
+  it('returns red for durability <= 5', () => {
+    expect(getDurabilityColor(0)).toBe('#ef4444');
+    expect(getDurabilityColor(3)).toBe('#ef4444');
+    expect(getDurabilityColor(5)).toBe('#ef4444');
+  });
+
+  it('returns yellow for durability 6-10', () => {
+    expect(getDurabilityColor(6)).toBe('#eab308');
+    expect(getDurabilityColor(10)).toBe('#eab308');
+  });
+
+  it('returns undefined for durability > 10', () => {
+    expect(getDurabilityColor(11)).toBeUndefined();
+    expect(getDurabilityColor(40)).toBeUndefined();
   });
 });

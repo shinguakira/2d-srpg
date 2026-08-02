@@ -8,6 +8,11 @@ import { CLASSES } from '../../data/classes';
 import { IDLE_RESET } from '../helpers/constants';
 import { allPlayersDone } from '../helpers/mapHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
+import { addSupportPoints } from './supportActions';
+import { applyHealSta } from './metaStatActions';
+import { clampMetaStats } from '../../core/metaStats';
+import { hasSkill } from '../../core/skills';
+import { canHealWithStaff } from '../../core/combat';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -18,6 +23,9 @@ export function startHealTargeting(get: Get, set: Set) {
 
   const unit = units.get(selectedUnitId);
   if (!unit) return;
+
+  // Only proficient staff users can heal
+  if (!canHealWithStaff(unit)) return;
 
   // Find staff in inventory
   const staff = unit.inventory.find((w) => w.type === 'staff');
@@ -100,22 +108,126 @@ export function confirmHeal(get: Get, set: Set, targetId: string) {
     currentHp: result.targetHpAfter,
   });
 
+  // Light magic / purify staff: reduce target CRP
+  if (staff.type === 'light' || staff.type === 'staff') {
+    const targetUnit = newUnits.get(targetId)!;
+    if (targetUnit.metaStats.crp > 0) {
+      const crpReduction = Math.min(
+        targetUnit.metaStats.crp,
+        Math.max(1, Math.floor(result.targetHpAfter - result.targetHpBefore)),
+      );
+      const newMeta = clampMetaStats({
+        ...targetUnit.metaStats,
+        crp: targetUnit.metaStats.crp - crpReduction,
+      });
+      newUnits.set(targetId, { ...targetUnit, metaStats: newMeta });
+    }
+  }
+
+  // Transition to heal animation phase
   set({
     ...IDLE_RESET,
     units: newUnits,
     gameMap: { ...gameMap, tiles: newTiles },
-    healResult: {
+    currentPhase: 'heal_animation',
+    healAnimationData: {
       healerName: healer.name,
+      healerClassId: healer.classId,
+      healerUnitId: healer.id,
       targetName: target.name,
-      hpBefore: result.targetHpBefore,
-      hpAfter: result.targetHpAfter,
+      targetClassId: target.classId,
+      targetUnitId: target.id,
+      targetFaction: target.faction,
+      healAmount: result.targetHpAfter - result.targetHpBefore,
+      targetHpBefore: result.targetHpBefore,
+      targetHpAfter: result.targetHpAfter,
+      targetMaxHp: target.stats.hp,
+      healerMaxHp: healer.stats.hp,
+      healerHp: gains ? healer.currentHp + gains.hp : healer.currentHp,
+      staffName: staff.name,
     },
     levelUpGains: gains,
     levelUpUnitId: levelUpUnit,
   });
 
-  // Auto end turn if all player units have acted
-  if (!gains && allPlayersDone(newUnits)) {
+  // Award support points for healing
+  addSupportPoints(get, set, selectedUnitId, targetId, 'heal');
+}
+
+export function finishHealAnimation(get: Get, set: Set) {
+  const { levelUpGains, selectedUnitId } = get();
+
+  set({
+    currentPhase: 'player_phase',
+    healAnimationData: null,
+    healResult: null,
+  });
+
+  // STA +2 for the healer
+  if (selectedUnitId) {
+    applyHealSta(get, set, selectedUnitId);
+  }
+
+  // Auto end turn if all player units have acted (and no level-up pending)
+  if (!levelUpGains && allPlayersDone(get().units)) {
+    get().endPlayerTurn();
+  }
+}
+
+/**
+ * Balance (Fortify): heal all allies within 5 tiles by MAG amount.
+ * Oracle innate skill. Once-per-turn action (consumes unit's action).
+ */
+export function useBalance(get: Get, set: Set): void {
+  const { selectedUnitId, pendingPosition, units, gameMap } = get();
+  if (!selectedUnitId || !pendingPosition) return;
+
+  const healer = units.get(selectedUnitId);
+  if (!healer || !hasSkill(healer, 'balance')) return;
+
+  const healAmount = healer.stats.mag;
+  if (healAmount <= 0) return;
+
+  // Move healer to pending position first
+  const newUnits = new Map(units);
+  const newTiles = gameMap.tiles.map((row) => row.map((t) => ({ ...t })));
+  newTiles[healer.position.y][healer.position.x].occupantId = null;
+  newTiles[pendingPosition.y][pendingPosition.x].occupantId = selectedUnitId;
+
+  const movedHealer = { ...healer, position: { ...pendingPosition }, hasActed: true };
+  newUnits.set(selectedUnitId, movedHealer);
+
+  // Heal all allies within 5 tiles
+  const floatingNumbers: GameState['floatingNumbers'] = [];
+  let floatId = Date.now();
+  for (const [uid, ally] of newUnits) {
+    if (uid === selectedUnitId) continue;
+    if (ally.faction !== healer.faction || ally.currentHp <= 0) continue;
+    if (getManhattanDistance(pendingPosition, ally.position) > 5) continue;
+    if (ally.currentHp >= ally.stats.hp) continue;
+
+    const newHp = Math.min(ally.stats.hp, ally.currentHp + healAmount);
+    const healed = newHp - ally.currentHp;
+    if (healed > 0) {
+      newUnits.set(uid, { ...ally, currentHp: newHp });
+      floatingNumbers.push({
+        id: floatId++,
+        x: ally.position.x,
+        y: ally.position.y,
+        text: `+${healed}`,
+        color: '#22c55e',
+      });
+    }
+  }
+
+  set({
+    ...IDLE_RESET,
+    units: newUnits,
+    gameMap: { ...gameMap, tiles: newTiles },
+    floatingNumbers,
+  });
+
+  if (allPlayersDone(get().units)) {
     get().endPlayerTurn();
   }
 }

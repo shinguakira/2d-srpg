@@ -1,5 +1,5 @@
 import type { Unit, GrowthRates, UnitStats } from './types';
-import type { SeededRandom } from './rng';
+import { SeededRandom } from './rng';
 
 export type StatGains = {
   hp: number;
@@ -10,9 +10,9 @@ export type StatGains = {
   spd: number;
   skl: number;
   lck: number;
+  cha: number;
+  wil: number;
 };
-
-const EMPTY_GAINS: StatGains = { hp: 0, str: 0, mag: 0, def: 0, res: 0, spd: 0, skl: 0, lck: 0 };
 
 /**
  * Calculate EXP gain from combat.
@@ -40,23 +40,34 @@ export function rollLevelUp(growthRates: GrowthRates, rng: SeededRandom): StatGa
     spd: rng.roll(growthRates.spd) ? 1 : 0,
     skl: rng.roll(growthRates.skl) ? 1 : 0,
     lck: rng.roll(growthRates.lck) ? 1 : 0,
+    cha: rng.roll(growthRates.cha) ? 1 : 0,
+    wil: rng.roll(growthRates.wil) ? 1 : 0,
   };
 }
 
 /**
  * Apply stat gains to a unit's stats.
  */
-export function applyStatGains(stats: UnitStats, gains: StatGains): UnitStats {
+export function applyStatGains(
+  stats: UnitStats,
+  gains: StatGains,
+  caps?: Partial<UnitStats>,
+): UnitStats {
+  const clamp = (val: number, key: keyof UnitStats) =>
+    caps?.[key] != null ? Math.min(val, caps[key]) : val;
+
   return {
-    hp: stats.hp + gains.hp,
-    str: stats.str + gains.str,
-    mag: stats.mag + gains.mag,
-    def: stats.def + gains.def,
-    res: stats.res + gains.res,
-    spd: stats.spd + gains.spd,
-    skl: stats.skl + gains.skl,
-    lck: stats.lck + gains.lck,
+    hp: clamp(stats.hp + gains.hp, 'hp'),
+    str: clamp(stats.str + gains.str, 'str'),
+    mag: clamp(stats.mag + gains.mag, 'mag'),
+    def: clamp(stats.def + gains.def, 'def'),
+    res: clamp(stats.res + gains.res, 'res'),
+    spd: clamp(stats.spd + gains.spd, 'spd'),
+    skl: clamp(stats.skl + gains.skl, 'skl'),
+    lck: clamp(stats.lck + gains.lck, 'lck'),
     mov: stats.mov, // MOV doesn't grow on level up
+    cha: clamp(stats.cha + gains.cha, 'cha'),
+    wil: clamp(stats.wil + gains.wil, 'wil'),
   };
 }
 
@@ -64,7 +75,10 @@ export function applyStatGains(stats: UnitStats, gains: StatGains): UnitStats {
  * Check if gained enough EXP to level up.
  * Returns whether a level up happened.
  */
-export function checkLevelUp(currentExp: number, expGain: number): { newExp: number; newLevel: number; leveled: boolean } {
+export function checkLevelUp(
+  currentExp: number,
+  expGain: number,
+): { newExp: number; newLevel: number; leveled: boolean } {
   const totalExp = currentExp + expGain;
   if (totalExp >= 100) {
     return { newExp: totalExp - 100, newLevel: 1, leveled: true };
@@ -72,4 +86,23 @@ export function checkLevelUp(currentExp: number, expGain: number): { newExp: num
   return { newExp: totalExp, newLevel: 0, leveled: false };
 }
 
-export { EMPTY_GAINS };
+/**
+ * Preview the result of allocating bonus EXP to a unit.
+ * Returns whether it would trigger a level-up and the projected stat gains.
+ */
+export function previewBonusExp(
+  currentExp: number,
+  amount: number,
+  level: number,
+  growthRates: GrowthRates,
+): { wouldLevel: boolean; projectedGains: StatGains | null } {
+  const newExp = currentExp + amount;
+  if (newExp >= 100) {
+    // Use same seed formula as campaignStore.allocateBonusExp
+    const rng = new SeededRandom(level * 1000 + newExp);
+    const gains = rollLevelUp(growthRates, rng);
+    return { wouldLevel: true, projectedGains: gains };
+  }
+  return { wouldLevel: false, projectedGains: null };
+}
+

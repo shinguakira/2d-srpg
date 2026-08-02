@@ -23,11 +23,11 @@
   font-size: 13px;
 }
 
-.turn-info__phase[data-phase="player_phase"] {
+.turn-info__phase[data-phase='player_phase'] {
   background: #3b82f6;
 }
 
-.turn-info__phase[data-phase="enemy_phase"] {
+.turn-info__phase[data-phase='enemy_phase'] {
   background: #ef4444;
 }
 

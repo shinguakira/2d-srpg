@@ -28,7 +28,9 @@
   font-size: 12px;
   font-family: 'Segoe UI', system-ui, sans-serif;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
   white-space: nowrap;
 }
 
@@ -91,6 +93,15 @@
   background: rgba(34, 197, 94, 0.5);
 }
 
+.action-menu__btn--talk {
+  background: rgba(167, 139, 250, 0.3);
+  border-color: rgba(167, 139, 250, 0.5);
+}
+
+.action-menu__btn--talk:hover {
+  background: rgba(167, 139, 250, 0.5);
+}
+
 .action-menu__btn--seize {
   background: rgba(251, 191, 36, 0.3);
   border-color: rgba(251, 191, 36, 0.5);
@@ -99,4 +110,14 @@
 
 .action-menu__btn--seize:hover {
   background: rgba(251, 191, 36, 0.5);
+}
+
+.action-menu__btn--negotiate {
+  background: rgba(168, 85, 247, 0.3);
+  border-color: rgba(168, 85, 247, 0.5);
+  color: #c084fc;
+}
+
+.action-menu__btn--negotiate:hover {
+  background: rgba(168, 85, 247, 0.5);
 }

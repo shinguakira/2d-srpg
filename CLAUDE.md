@@ -100,3 +100,7 @@ src/
 - Unit tests in `tests/unit/` — test `src/core/` pure logic only
 - E2E tests in `tests/e2e/` — Playwright with `?seed=12345` for determinism
 - Screenshots saved to `screenshots/e2e/` and `screenshots/debug/`
+
+## ⚠️ PROTECTED FILES — DO NOT DELETE
+
+**`specs/old/`** — Frozen archive snapshot of game design specs. NEVER delete, modify, rename, or move this folder or any files inside it. This is a read-only reference. If you need a new snapshot, create a new folder (e.g. `specs/old-v2/`).

@@ -118,3 +118,114 @@
   align-self: center;
   padding: 0 2px;
 }
+
+/* Skills section */
+.combat-forecast__skills {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 11px;
+}
+
+.combat-forecast__skill-warning {
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.combat-forecast__skill-list {
+  color: #94a3b8;
+  margin-bottom: 2px;
+}
+
+.combat-forecast__skill-label {
+  color: #64748b;
+  margin-right: 4px;
+}
+
+.combat-forecast__skill-name {
+  color: #fbbf24;
+  margin-right: 4px;
+}
+
+.combat-forecast__skill-name::before {
+  content: '• ';
+  color: #475569;
+}
+
+/* Weapon effectiveness */
+.combat-forecast__effective {
+  color: #22c55e;
+  font-weight: bold;
+  font-size: 12px;
+  text-align: center;
+  animation: effectiveness-pulse 1.5s ease-in-out infinite;
+}
+
+.combat-forecast__effective--weak {
+  color: #ef4444;
+  font-weight: bold;
+  font-size: 12px;
+  text-align: center;
+}
+
+@keyframes effectiveness-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Skill descriptions */
+.combat-forecast__skill-desc {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 10px;
+  margin-left: 12px;
+  margin-bottom: 3px;
+}
+
+/* Combat modifier breakdown */
+.combat-forecast__modifier-toggle {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  cursor: pointer;
+  pointer-events: auto;
+  padding: 4px 0 2px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 4px;
+  user-select: none;
+}
+
+.combat-forecast__modifier-toggle:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.combat-forecast__modifiers {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 4px 0;
+}
+
+.combat-forecast__modifier-line {
+  padding: 1px 0;
+}
+
+/* Boss phase info */
+.combat-forecast__boss-phase {
+  font-size: 11px;
+  color: #fbbf24;
+  text-align: center;
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* STA warning in forecast */
+.combat-forecast__sta-note {
+  font-size: 10px;
+  text-align: center;
+  margin-top: 2px;
+}

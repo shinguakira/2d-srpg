@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { calculateExpGain, checkLevelUp, rollLevelUp, applyStatGains } from '../../src/core/experience';
+import {
+  calculateExpGain,
+  checkLevelUp,
+  rollLevelUp,
+  applyStatGains,
+} from '../../src/core/experience';
 import type { Unit, GrowthRates, UnitStats } from '../../src/core/types';
 import { SeededRandom } from '../../src/core/rng';
 
@@ -10,14 +15,39 @@ function makeUnit(level: number, faction: 'player' | 'enemy' = 'player'): Unit {
     classId: 'lord',
     faction,
     position: { x: 0, y: 0 },
-    stats: { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5 },
+    stats: {
+      hp: 20,
+      str: 8,
+      mag: 0,
+      def: 5,
+      res: 0,
+      spd: 7,
+      skl: 5,
+      lck: 3,
+      mov: 5,
+      cha: 0,
+      wil: 0,
+    },
     currentHp: 20,
     level,
     exp: 0,
-    equippedWeapon: { id: 'sw', name: 'Sword', type: 'sword', might: 5, hit: 90, crit: 0, weight: 5, minRange: 1, maxRange: 1 },
+    equippedWeapon: {
+      id: 'sw',
+      name: 'Sword',
+      type: 'sword',
+      might: 5,
+      hit: 90,
+      crit: 0,
+      weight: 5,
+      minRange: 1,
+      maxRange: 1,
+    },
     inventory: [],
     hasActed: false,
+    skills: [],
+    learnedSkills: [],
     sprite: '',
+    metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
   };
 }
 
@@ -78,7 +108,18 @@ describe('checkLevelUp', () => {
 
 describe('rollLevelUp', () => {
   it('returns deterministic gains with seeded RNG', () => {
-    const growths: GrowthRates = { hp: 80, str: 45, mag: 10, def: 30, res: 20, spd: 50, skl: 45, lck: 60 };
+    const growths: GrowthRates = {
+      hp: 80,
+      str: 45,
+      mag: 10,
+      def: 30,
+      res: 20,
+      spd: 50,
+      skl: 45,
+      lck: 60,
+      cha: 0,
+      wil: 0,
+    };
     const gains1 = rollLevelUp(growths, new SeededRandom(42));
     const gains2 = rollLevelUp(growths, new SeededRandom(42));
 
@@ -86,7 +127,18 @@ describe('rollLevelUp', () => {
   });
 
   it('all gains are 0 or 1', () => {
-    const growths: GrowthRates = { hp: 80, str: 45, mag: 10, def: 30, res: 20, spd: 50, skl: 45, lck: 60 };
+    const growths: GrowthRates = {
+      hp: 80,
+      str: 45,
+      mag: 10,
+      def: 30,
+      res: 20,
+      spd: 50,
+      skl: 45,
+      lck: 60,
+      cha: 0,
+      wil: 0,
+    };
     const gains = rollLevelUp(growths, new SeededRandom(123));
 
     for (const val of Object.values(gains)) {
@@ -98,8 +150,20 @@ describe('rollLevelUp', () => {
 
 describe('applyStatGains', () => {
   it('adds gains to stats correctly', () => {
-    const stats: UnitStats = { hp: 20, str: 8, mag: 0, def: 5, res: 0, spd: 7, skl: 5, lck: 3, mov: 5 };
-    const gains = { hp: 1, str: 1, mag: 0, def: 0, res: 1, spd: 1, skl: 0, lck: 1 };
+    const stats: UnitStats = {
+      hp: 20,
+      str: 8,
+      mag: 0,
+      def: 5,
+      res: 0,
+      spd: 7,
+      skl: 5,
+      lck: 3,
+      mov: 5,
+      cha: 0,
+      wil: 0,
+    };
+    const gains = { hp: 1, str: 1, mag: 0, def: 0, res: 1, spd: 1, skl: 0, lck: 1, cha: 0, wil: 0 };
     const result = applyStatGains(stats, gains);
 
     expect(result.hp).toBe(21);

@@ -2,6 +2,10 @@ import type { GameState, GameActions } from '../gameStoreTypes';
 import { IDLE_RESET } from '../helpers/constants';
 import { allPlayersDone } from '../helpers/mapHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
+import { checkAndFireEvents } from './eventActions';
+import { applyMovementSta } from './metaStatActions';
+import { recalculateFog } from './fogActions';
+import { checkMapBossCheckpoint, applyMapBossPhaseTransition } from './mapBossActions';
 
 type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
@@ -43,7 +47,7 @@ export function advanceMovement(get: Get, set: Set) {
   const { movingUnit, units, gameMap } = get();
   if (!movingUnit) return;
 
-  const { unitId, path, stepIndex, onComplete } = movingUnit;
+  const { unitId, path, stepIndex } = movingUnit;
   const unit = units.get(unitId);
   if (!unit) {
     set({ movingUnit: null });
@@ -55,7 +59,14 @@ export function advanceMovement(get: Get, set: Set) {
   if (nextIndex >= path.length) {
     // Walk complete — finalize
     const destination = path[path.length - 1];
+    const { onComplete } = movingUnit;
     set({ movingUnit: null });
+
+    // Enemy/auto-battle walk: just clear movingUnit, let the game loop proceed
+    if (onComplete === 'enemy_action' || onComplete === 'auto_action') {
+      return;
+    }
+
     teleportUnit(get, set, unitId, unit, destination, gameMap, units);
     return;
   }
@@ -108,7 +119,37 @@ function teleportUnit(
     gameMap: { ...gameMap, tiles: newTiles },
   });
 
-  if (allPlayersDone(newUnits)) {
+  // STA gain from movement (+1 per tile moved)
+  const tilesMoved =
+    Math.abs(destination.x - unit.position.x) + Math.abs(destination.y - unit.position.y);
+  if (tilesMoved > 0) {
+    applyMovementSta(get, set, unitId, tilesMoved);
+  }
+
+  // Recalculate fog of war after movement
+  recalculateFog(get, set);
+
+  // Map boss: check if unit reached a checkpoint
+  if (checkMapBossCheckpoint(get, set, unitId, destination)) {
+    applyMapBossPhaseTransition(get, set);
+    // Check if map boss is defeated
+    const { mapBossState: mbState } = get();
+    if (mbState && mbState.currentHp <= 0) {
+      set({ currentPhase: 'game_over' });
+      return;
+    }
+  }
+
+  // Fire events for unit movement
+  checkAndFireEvents(get, set, {
+    lastMovedUnitId: unitId,
+    lastMovedPosition: destination,
+  });
+
+  // Don't auto-end turn if event dialogue is showing
+  if (get().eventDialogue) return;
+
+  if (allPlayersDone(get().units)) {
     get().endPlayerTurn();
   }
 }

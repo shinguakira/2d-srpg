@@ -1,0 +1,202 @@
+/* ===== Promotion Screen Overlay ===== */
+.promotion-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 100;
+}
+
+.promotion-screen__title {
+  color: #fbbf24;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.promotion-screen__subtitle {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.promotion-screen__options {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.promotion-screen__option {
+  background: #1a1a2e;
+  border: 2px solid #334155;
+  border-radius: 8px;
+  padding: 1.25rem;
+  min-width: 220px;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.promotion-screen__option:hover {
+  border-color: #fbbf24;
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.3);
+}
+
+.promotion-screen__option--selected {
+  border-color: #fbbf24;
+  box-shadow: 0 0 16px rgba(251, 191, 36, 0.4);
+}
+
+.promotion-screen__option-name {
+  color: #f1f5f9;
+  font-size: 1.15rem;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.promotion-screen__option-tier {
+  color: #fbbf24;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.promotion-screen__stat-deltas {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.25rem 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.promotion-screen__stat-delta {
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.promotion-screen__stat-delta--positive {
+  color: #22c55e;
+}
+
+.promotion-screen__stat-delta--negative {
+  color: #ef4444;
+}
+
+.promotion-screen__weapons {
+  margin-top: 0.5rem;
+  color: #60a5fa;
+  font-size: 0.8rem;
+}
+
+.promotion-screen__actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.promotion-screen__confirm {
+  background: #fbbf24;
+  color: #1a1a2e;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.promotion-screen__confirm:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.promotion-screen__cancel {
+  background: transparent;
+  color: #94a3b8;
+  border: 1px solid #475569;
+  padding: 0.6rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.promotion-screen__cancel:hover {
+  border-color: #94a3b8;
+}
+
+/* ===== Master Promotion Fanfare ===== */
+
+.promotion-screen--master {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(168, 85, 247, 0.3) 0%,
+    rgba(0, 0, 0, 0.95) 70%
+  );
+  animation: master-fanfare-bg 2s ease-out;
+}
+
+.promotion-screen__title--master {
+  font-size: 2rem;
+  color: #c084fc;
+  text-shadow:
+    0 0 20px rgba(168, 85, 247, 0.8),
+    0 0 40px rgba(168, 85, 247, 0.4);
+  animation: master-title-glow 2s ease-in-out infinite alternate;
+}
+
+.promotion-screen--master .promotion-screen__subtitle {
+  color: #e9d5ff;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+}
+
+.promotion-screen--master .promotion-screen__option {
+  border-color: #7c3aed;
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+}
+
+.promotion-screen--master .promotion-screen__option:hover,
+.promotion-screen--master .promotion-screen__option--selected {
+  border-color: #c084fc;
+  box-shadow: 0 0 30px rgba(192, 132, 252, 0.5);
+}
+
+.promotion-screen--master .promotion-screen__confirm {
+  background: linear-gradient(135deg, #7c3aed, #c084fc);
+  color: #fff;
+  box-shadow: 0 0 16px rgba(124, 58, 237, 0.5);
+}
+
+@keyframes master-fanfare-bg {
+  0% {
+    background: rgba(0, 0, 0, 0.95);
+  }
+  30% {
+    background: radial-gradient(
+      ellipse at center,
+      rgba(251, 191, 36, 0.4) 0%,
+      rgba(0, 0, 0, 0.95) 60%
+    );
+  }
+  100% {
+    background: radial-gradient(
+      ellipse at center,
+      rgba(168, 85, 247, 0.3) 0%,
+      rgba(0, 0, 0, 0.95) 70%
+    );
+  }
+}
+
+@keyframes master-title-glow {
+  from {
+    text-shadow:
+      0 0 20px rgba(168, 85, 247, 0.8),
+      0 0 40px rgba(168, 85, 247, 0.4);
+  }
+  to {
+    text-shadow:
+      0 0 30px rgba(192, 132, 252, 1),
+      0 0 60px rgba(168, 85, 247, 0.6);
+  }
+}

@@ -8,11 +8,11 @@ test.describe('Combat System', () => {
   });
 
   test('attack option appears when enemy is in range after move', async ({ page }) => {
-    // Seth (cavalier, mov=7) at (8, 10) — move to (7, 5) which is adjacent to fighter_3 at (7, 4)
-    await page.click('[data-testid="tile-8-10"]');
+    // Kael (cavalier, mov=7) at (13, 10) — move to (11, 5) which is adjacent to fighter_3 at (11, 4)
+    await page.click('[data-testid="tile-13-10"]');
     await page.waitForTimeout(200);
 
-    await page.click('[data-testid="tile-7-5"]');
+    await page.click('[data-testid="tile-11-5"]');
     await page.waitForTimeout(200);
 
     // Action menu should show Attack button (fighter_3 is at distance 1)
@@ -21,11 +21,11 @@ test.describe('Combat System', () => {
   });
 
   test('clicking attack target starts combat animation directly', async ({ page }) => {
-    // Seth at (8, 10) — move to (7, 5) adjacent to fighter_3
-    await page.click('[data-testid="tile-8-10"]');
+    // Kael at (13, 10) — move to (11, 5) adjacent to fighter_3
+    await page.click('[data-testid="tile-13-10"]');
     await page.waitForTimeout(200);
 
-    await page.click('[data-testid="tile-7-5"]');
+    await page.click('[data-testid="tile-11-5"]');
     await page.waitForTimeout(200);
 
     // Click Attack
@@ -33,7 +33,7 @@ test.describe('Combat System', () => {
     await page.waitForTimeout(200);
 
     // Click on fighter_3's tile — combat starts immediately (no confirm step)
-    await page.click('[data-testid="tile-7-4"]');
+    await page.click('[data-testid="tile-11-4"]');
     await page.waitForTimeout(500);
 
     // Combat animation should appear directly
@@ -46,33 +46,35 @@ test.describe('Combat System', () => {
   });
 
   test('combat resolves and applies damage with seeded RNG', async ({ page }) => {
-    // Seth (lance) vs fighter_3 (axe) at (7,4)
-    await page.click('[data-testid="tile-8-10"]');
+    // Kael (lance) vs fighter_3 (axe) at (11,4)
+    await page.click('[data-testid="tile-13-10"]');
     await page.waitForTimeout(200);
 
-    await page.click('[data-testid="tile-7-5"]');
+    await page.click('[data-testid="tile-11-5"]');
     await page.waitForTimeout(200);
 
     await page.click('[data-testid="action-attack"]');
     await page.waitForTimeout(200);
 
-    await page.click('[data-testid="tile-7-4"]');
+    await page.click('[data-testid="tile-11-4"]');
 
     // Wait for combat animation to complete
     await page.waitForTimeout(5000);
 
-    await expect(page.locator('[data-testid="combat-animation"]')).not.toBeVisible({ timeout: 10000 });
+    await expect(page.locator('[data-testid="combat-animation"]')).not.toBeVisible({
+      timeout: 10000,
+    });
 
-    // Seth should still exist
-    const seth = page.locator('[data-testid="unit-seth"]');
-    await expect(seth).toBeVisible({ timeout: 5000 });
+    // Kael should still exist
+    const kael = page.locator('[data-testid="unit-kael"]');
+    await expect(kael).toBeVisible({ timeout: 5000 });
   });
 
   test('cancel from attack targeting returns to action menu', async ({ page }) => {
-    await page.click('[data-testid="tile-8-10"]');
+    await page.click('[data-testid="tile-13-10"]');
     await page.waitForTimeout(200);
 
-    await page.click('[data-testid="tile-7-5"]');
+    await page.click('[data-testid="tile-11-5"]');
     await page.waitForTimeout(200);
 
     await page.click('[data-testid="action-attack"]');

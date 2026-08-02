@@ -4,7 +4,16 @@ import type { TerrainType } from '../../src/core/types';
 
 describe('terrain', () => {
   it('has data for all terrain types', () => {
-    const types: TerrainType[] = ['plain', 'forest', 'mountain', 'water', 'wall', 'fort', 'village', 'throne'];
+    const types: TerrainType[] = [
+      'plain',
+      'forest',
+      'mountain',
+      'water',
+      'wall',
+      'fort',
+      'village',
+      'throne',
+    ];
     for (const t of types) {
       expect(TERRAIN[t]).toBeDefined();
       expect(TERRAIN[t].name).toBeTruthy();

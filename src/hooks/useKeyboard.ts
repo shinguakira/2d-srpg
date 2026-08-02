@@ -115,7 +115,11 @@ export function useKeyboard() {
 
       // X: toggle danger zone
       if (e.key === 'x' || e.key === 'X') {
-        if (playerAction === 'idle' || playerAction === 'unit_selected' || playerAction === 'move_target') {
+        if (
+          playerAction === 'idle' ||
+          playerAction === 'unit_selected' ||
+          playerAction === 'move_target'
+        ) {
           toggleDangerZone();
         }
         return;
@@ -170,7 +174,7 @@ export function useKeyboard() {
       selectUnit,
       endPlayerTurn,
       toggleDangerZone,
-    ]
+    ],
   );
 
   // Disable keyboard mode on mouse movement

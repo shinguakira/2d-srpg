@@ -4,6 +4,8 @@
 @import './action-menu.css';
 @import './combat-forecast.css';
 @import './combat-animation.css';
+@import './healing-animation.css';
+@import './item-animation.css';
 @import './level-up-popup.css';
 @import './game-over.css';
 @import './end-turn-button.css';
@@ -13,3 +15,16 @@
 @import './village-dialogue.css';
 @import './debug-screen.css';
 @import './weapon-effects.css';
+@import './preparation.css';
+@import './exp-bar.css';
+@import './event-dialogue.css';
+@import './promotion.css';
+@import './trade.css';
+@import './meta-stats.css';
+@import './weather.css';
+@import './boss.css';
+@import './ending.css';
+@import './team-selection.css';
+@import './save-modal.css';
+@import './system-menu.css';
+@import './minimap.css';

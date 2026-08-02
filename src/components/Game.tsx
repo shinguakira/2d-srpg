@@ -219,10 +219,15 @@ function GameOverOverlay() {
       }));
     }
 
-    const progress: Record<string, UnitProgress> = {};
+    // Start from the stored entry so campaign-only progress (crpLowChapters,
+    // supportPartners, and the retreat recorded for units that already left
+    // this battle) survives, then overwrite what the battle actually changed.
+    const priorProgress = useCampaignStore.getState().unitProgress;
+    const progress: Record<string, UnitProgress> = { ...priorProgress };
     for (const u of units.values()) {
       if (u.faction === 'player') {
         progress[u.id] = {
+          ...priorProgress[u.id],
           level: u.level,
           exp: u.exp,
           stats: { ...u.stats },
@@ -231,6 +236,11 @@ function GameOverOverlay() {
           classId: u.classId,
           skillIds: u.skills ?? [],
           learnedSkillIds: u.learnedSkills ?? [],
+          metaStats: { ...u.metaStats },
+          traumaSkills: u.traumaSkills ?? [],
+          weaponForgeLevel: u.inventory.map((w) => w.forgeLevel ?? 0),
+          currentHp: u.currentHp,
+          retreated: false,
         };
       }
     }

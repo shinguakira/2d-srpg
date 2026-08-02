@@ -8,6 +8,59 @@ import { assignTraumaSkill } from '../../core/traumaSkills';
 import { useCampaignStore } from '../campaignStore';
 import { isBossDefeated } from './mapHelpers';
 
+/**
+ * A player unit killed for good is only removed from the battle map; nothing
+ * else records it, so without this the campaign roster would happily redeploy
+ * it next chapter.
+ */
+function recordPermadeath(unit: Unit): void {
+  if (unit.faction !== 'player') return;
+  const { deadUnitIds } = useCampaignStore.getState();
+  if (deadUnitIds.includes(unit.id)) return;
+  useCampaignStore.setState({ deadUnitIds: [...deadUnitIds, unit.id] });
+}
+
+/**
+ * Casual-mode retreat. The unit leaves the battle entirely — leaving it in the
+ * units map made it still render, still be selectable once hasActed reset, and
+ * still count as a living player unit for the defeat check. Its progress is
+ * written straight to the campaign so it can be restored next chapter.
+ */
+function recordRetreat(unit: Unit): void {
+  const { unitProgress } = useCampaignStore.getState();
+  useCampaignStore.setState({
+    unitProgress: {
+      ...unitProgress,
+      [unit.id]: {
+        ...unitProgress[unit.id],
+        level: unit.level,
+        exp: unit.exp,
+        stats: { ...unit.stats },
+        weaponIds: unit.inventory.map((w) => w.id),
+        itemIds: unit.items.map((i) => i.id),
+        classId: unit.classId,
+        skillIds: unit.skills ?? [],
+        learnedSkillIds: unit.learnedSkills ?? [],
+        metaStats: { ...unit.metaStats },
+        traumaSkills: unit.traumaSkills ?? [],
+        weaponForgeLevel: unit.inventory.map((w) => w.forgeLevel ?? 0),
+        retreated: true,
+        currentHp: 1,
+      },
+    },
+  });
+}
+
+/** Take a defeated player unit out of the battle, recording why. */
+function removeDefeated(unit: Unit, newUnits: Map<string, Unit>, casualMode: boolean): void {
+  if (casualMode && unit.faction === 'player' && !unit.isLord) {
+    recordRetreat(unit);
+  } else {
+    recordPermadeath(unit);
+  }
+  newUnits.delete(unit.id);
+}
+
 export type CombatResolutionResult = {
   newUnits: Map<string, Unit>;
   newTiles: Tile[][];
@@ -56,12 +109,7 @@ export function applyCombatResult(
     if (defender.faction === 'player' && defender.isLord) {
       lordDied = true;
     }
-    if (casualMode && defender.faction === 'player' && !defender.isLord) {
-      // Casual mode: unit retreats instead of dying permanently
-      newUnits.set(defenderId, { ...defender, currentHp: 1, retreated: true, hasActed: true });
-    } else {
-      newUnits.delete(defenderId);
-    }
+    removeDefeated(defender, newUnits, casualMode);
     newTiles[defender.position.y][defender.position.x].occupantId = null;
     // Carrier death: carried unit also dies
     if (defender.carriedUnitId) {
@@ -71,11 +119,7 @@ export function applyCombatResult(
           deathQuote = { unitName: carried.name, quote: carried.deathQuote };
         }
         if (carried.faction === 'player' && carried.isLord) lordDied = true;
-        if (casualMode && carried.faction === 'player' && !carried.isLord) {
-          newUnits.set(defender.carriedUnitId, { ...carried, currentHp: 1, retreated: true });
-        } else {
-          newUnits.delete(defender.carriedUnitId);
-        }
+        removeDefeated(carried, newUnits, casualMode);
       }
     }
   }
@@ -86,11 +130,7 @@ export function applyCombatResult(
     if (attacker.faction === 'player' && attacker.isLord) {
       lordDied = true;
     }
-    if (casualMode && attacker.faction === 'player' && !attacker.isLord) {
-      newUnits.set(attackerId, { ...attacker, currentHp: 1, retreated: true, hasActed: true });
-    } else {
-      newUnits.delete(attackerId);
-    }
+    removeDefeated(attacker, newUnits, casualMode);
     newTiles[attacker.position.y][attacker.position.x].occupantId = null;
     // Carrier death: carried unit also dies
     if (attacker.carriedUnitId) {
@@ -100,11 +140,7 @@ export function applyCombatResult(
           deathQuote = { unitName: carried.name, quote: carried.deathQuote };
         }
         if (carried.faction === 'player' && carried.isLord) lordDied = true;
-        if (casualMode && carried.faction === 'player' && !carried.isLord) {
-          newUnits.set(attacker.carriedUnitId, { ...carried, currentHp: 1, retreated: true });
-        } else {
-          newUnits.delete(attacker.carriedUnitId);
-        }
+        removeDefeated(carried, newUnits, casualMode);
       }
     }
   }

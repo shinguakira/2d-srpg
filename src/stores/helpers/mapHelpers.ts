@@ -15,6 +15,7 @@ import { WEAPONS } from '../../data/weapons';
 import { ITEMS } from '../../data/items';
 import { ALL_CLASSES } from '../../data/promotedClasses';
 import { scaleEnemyStats, getBossArcBonus } from '../../core/difficulty';
+import { withForgeLevel } from '../../core/forging';
 import { useCampaignStore } from '../campaignStore';
 
 /** Extract flying/mounted/armored flags from a unit's class. */
@@ -66,13 +67,25 @@ export function placeUnits(
     // Restore inventory from progress if available
     let inventory: Weapon[];
     let items: ConsumableItem[];
-    if (progress?.weaponIds && progress.weaponIds.length > 0) {
-      inventory = progress.weaponIds.map((wid) => ({ ...WEAPONS[wid] })).filter(Boolean);
+    // A saved empty inventory is authoritative — a unit that used up every
+    // weapon or item must not be handed fresh copies of its starting kit.
+    if (progress?.weaponIds) {
+      inventory = progress.weaponIds
+        .map((wid, i) => {
+          const base = WEAPONS[wid];
+          return base ? withForgeLevel(base, progress.weaponForgeLevel?.[i] ?? 0) : null;
+        })
+        .filter((w): w is Weapon => w !== null);
     } else {
       inventory = template.inventory.map((w) => ({ ...w }));
     }
-    if (progress?.itemIds && progress.itemIds.length > 0) {
-      items = progress.itemIds.map((iid) => ({ ...ITEMS[iid] })).filter(Boolean);
+    if (progress?.itemIds) {
+      items = progress.itemIds
+        .map((iid) => {
+          const base = ITEMS[iid];
+          return base ? { ...base, effect: { ...base.effect } } : null;
+        })
+        .filter((it): it is ConsumableItem => it !== null);
     } else {
       items = template.items.map((i) => ({ ...i, effect: { ...i.effect } }));
     }

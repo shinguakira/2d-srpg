@@ -281,6 +281,7 @@ export function PreparationScreen() {
     const newProgress = { ...unitProgress };
     for (const u of units) {
       newProgress[u.id] = {
+        ...unitProgress[u.id],
         level: u.level,
         exp: u.exp,
         stats: { ...u.stats },
@@ -289,6 +290,7 @@ export function PreparationScreen() {
         classId: u.classId,
         skillIds: u.skills,
         learnedSkillIds: u.learnedSkills,
+        weaponForgeLevel: u.weapons.map((w) => w.forgeLevel ?? 0),
       };
     }
     const allViewed = [...viewedSupports, ...completedSupports];
@@ -316,6 +318,7 @@ export function PreparationScreen() {
       const newProgress = { ...unitProgress };
       for (const u of units) {
         newProgress[u.id] = {
+          ...unitProgress[u.id],
           level: u.level,
           exp: u.exp,
           stats: { ...u.stats },
@@ -324,6 +327,7 @@ export function PreparationScreen() {
           classId: u.classId,
           skillIds: u.skills,
           learnedSkillIds: u.learnedSkills,
+          weaponForgeLevel: u.weapons.map((w) => w.forgeLevel ?? 0),
         };
       }
       useCampaignStore.setState({

@@ -71,6 +71,26 @@ export function applyForge(weapon: Weapon): Weapon {
   };
 }
 
+/**
+ * Rebuild a forged weapon from its base definition and a stored forge level.
+ *
+ * Forge bonuses are baked into `might`/`hit` rather than read from `forgeLevel`
+ * at combat time, so a weapon rehydrated straight from the WEAPONS table would
+ * silently lose everything the player paid for.
+ */
+export function withForgeLevel(base: Weapon, level: number): Weapon {
+  const clamped = Math.max(0, Math.min(MAX_FORGE_LEVEL, level));
+  if (clamped === 0) return { ...base };
+  const bonus = getForgeBonus(clamped);
+  return {
+    ...base,
+    name: `Forged ${base.name}`,
+    might: base.might + bonus.mightBonus,
+    hit: base.hit + bonus.hitBonus,
+    forgeLevel: clamped,
+  };
+}
+
 /** Preview the stats of a weapon after forging (without applying). */
 export function previewForge(
   weapon: Weapon,

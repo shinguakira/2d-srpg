@@ -8,7 +8,7 @@ test.describe('System Menu (総合メニュー)', () => {
   });
 
   test('click empty tile during idle opens system menu', async ({ page }) => {
-    await page.click('[data-testid="tile-0-0"]');
+    await page.click('[data-testid="tile-5-6"]');
     await page.waitForTimeout(200);
 
     const menu = page.locator('[data-testid="system-menu"]');
@@ -16,7 +16,7 @@ test.describe('System Menu (総合メニュー)', () => {
   });
 
   test('system menu has all 5 items', async ({ page }) => {
-    await page.click('[data-testid="tile-0-0"]');
+    await page.click('[data-testid="tile-5-6"]');
     await page.waitForTimeout(200);
 
     await expect(page.locator('[data-testid="system-menu-units"]')).toBeVisible();
@@ -27,7 +27,7 @@ test.describe('System Menu (総合メニュー)', () => {
   });
 
   test('Escape closes system menu', async ({ page }) => {
-    await page.click('[data-testid="tile-0-0"]');
+    await page.click('[data-testid="tile-5-6"]');
     await page.waitForTimeout(200);
 
     const menu = page.locator('[data-testid="system-menu"]');
@@ -38,21 +38,40 @@ test.describe('System Menu (総合メニュー)', () => {
     await expect(menu).not.toBeVisible();
   });
 
-  test('click backdrop closes system menu', async ({ page }) => {
-    await page.click('[data-testid="tile-0-0"]');
+  test('clicking the map closes system menu', async ({ page }) => {
+    await page.click('[data-testid="tile-5-6"]');
     await page.waitForTimeout(200);
 
     const menu = page.locator('[data-testid="system-menu"]');
     await expect(menu).toBeVisible();
 
-    // Click far right side (backdrop area)
-    await page.click('[data-testid="system-menu-backdrop"]', { position: { x: 900, y: 400 } });
+    // There is no backdrop — the map itself stays clickable and dismisses.
+    await page.click('[data-testid="tile-8-8"]');
     await page.waitForTimeout(200);
     await expect(menu).not.toBeVisible();
   });
 
+  test('system menu does not dim or cover the map', async ({ page }) => {
+    await page.click('[data-testid="tile-5-6"]');
+    await page.waitForTimeout(200);
+    await expect(page.locator('[data-testid="system-menu"]')).toBeVisible();
+
+    // No blocking overlay should exist at all.
+    await expect(page.locator('[data-testid="system-menu-backdrop"]')).toHaveCount(0);
+
+    // A tile well away from the top-left menu must still be the topmost element.
+    const reachable = await page.evaluate(() => {
+      const t = document.querySelector('[data-testid="tile-8-8"]');
+      if (!t) return false;
+      const r = t.getBoundingClientRect();
+      const top = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+      return !!top && t.contains(top);
+    });
+    expect(reachable).toBe(true);
+  });
+
   test('unit list sub-panel opens and closes', async ({ page }) => {
-    await page.click('[data-testid="tile-0-0"]');
+    await page.click('[data-testid="tile-5-6"]');
     await page.waitForTimeout(200);
 
     await page.click('[data-testid="system-menu-units"]');
@@ -69,7 +88,7 @@ test.describe('System Menu (総合メニュー)', () => {
   });
 
   test('objective sub-panel opens and closes', async ({ page }) => {
-    await page.click('[data-testid="tile-0-0"]');
+    await page.click('[data-testid="tile-5-6"]');
     await page.waitForTimeout(200);
 
     await page.click('[data-testid="system-menu-objective"]');
@@ -84,7 +103,7 @@ test.describe('System Menu (総合メニュー)', () => {
   });
 
   test('settings sub-panel opens and closes', async ({ page }) => {
-    await page.click('[data-testid="tile-0-0"]');
+    await page.click('[data-testid="tile-5-6"]');
     await page.waitForTimeout(200);
 
     await page.click('[data-testid="system-menu-settings"]');
@@ -99,7 +118,7 @@ test.describe('System Menu (総合メニュー)', () => {
   });
 
   test('end turn button closes menu and advances to enemy phase', async ({ page }) => {
-    await page.click('[data-testid="tile-0-0"]');
+    await page.click('[data-testid="tile-5-6"]');
     await page.waitForTimeout(200);
 
     await page.click('[data-testid="system-menu-end-turn"]');
@@ -126,16 +145,15 @@ test.describe('System Menu (総合メニュー)', () => {
     await expect(moveRange).toBeVisible();
   });
 
-  test('clicking enemy unit opens system menu', async ({ page }) => {
-    // Click enemy fighter at (11, 4) — no selectable player unit, should open menu
+  test('clicking enemy unit does not open system menu', async ({ page }) => {
+    // Inspecting an enemy must not be treated as clicking empty ground.
     await page.click('[data-testid="tile-11-4"]');
     await page.waitForTimeout(200);
 
-    const menu = page.locator('[data-testid="system-menu"]');
-    await expect(menu).toBeVisible();
+    await expect(page.locator('[data-testid="system-menu"]')).not.toBeVisible();
   });
 
-  test('clicking already-acted player unit opens system menu', async ({ page }) => {
+  test('clicking already-acted player unit does not open system menu', async ({ page }) => {
     // Select Ren at (10, 10)
     await page.click('[data-testid="tile-10-10"]');
     await page.waitForTimeout(200);
@@ -150,11 +168,10 @@ test.describe('System Menu (総合メニュー)', () => {
     await waitBtn.click();
     await page.waitForTimeout(300);
 
-    // Now click the acted unit — should open system menu
+    // Clicking the spent unit is an inspect, not empty ground.
     await page.click('[data-testid="tile-9-10"]');
     await page.waitForTimeout(200);
 
-    const menu = page.locator('[data-testid="system-menu"]');
-    await expect(menu).toBeVisible();
+    await expect(page.locator('[data-testid="system-menu"]')).not.toBeVisible();
   });
 });

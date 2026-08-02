@@ -56,21 +56,10 @@ export function SystemMenu() {
     goToTitle();
   };
 
-  const handleBackdropClick = () => {
-    if (subPanel !== 'none') {
-      setSubPanel('none');
-    } else {
-      closeSystemMenu();
-    }
-  };
-
   return (
     <>
-      <div
-        className="system-menu__backdrop"
-        onClick={handleBackdropClick}
-        data-testid="system-menu-backdrop"
-      />
+      {/* No backdrop: the map stays visible and clickable behind the menu, the
+          way a Fire Emblem command window behaves. Clicking the map closes it. */}
       <div className="system-menu" data-testid="system-menu">
         <div className="system-menu__title">Menu</div>
         <div className="system-menu__items">

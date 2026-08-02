@@ -32,7 +32,7 @@ test.describe('Right-Click Unit Detail', () => {
 
   test('right-click empty tile during idle opens system menu', async ({ page }) => {
     // Right-click empty tile
-    await page.click('[data-testid="tile-0-0"]', { button: 'right' });
+    await page.click('[data-testid="tile-5-6"]', { button: 'right' });
     await page.waitForTimeout(200);
 
     const menu = page.locator('[data-testid="system-menu"]');

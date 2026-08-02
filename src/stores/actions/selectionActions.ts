@@ -196,13 +196,26 @@ export function clickTile(get: Get, set: Set, pos: Position) {
     pendingPosition,
   } = get();
 
+  // The system menu has no blocking backdrop, so the map stays clickable while
+  // it is open. Clicking the map dismisses it.
+  if (playerAction === 'system_menu') {
+    get().closeSystemMenu();
+    return;
+  }
+
   if (playerAction === 'idle') {
-    const key = posKey(pos);
-    for (const unit of units.values()) {
-      if (posKey(unit.position) === key && unit.faction === 'player' && !unit.hasActed) {
-        get().selectUnit(unit.id);
-        return;
+    // Read occupancy off the tile, not by scanning unit positions: undeployed
+    // roster units keep their {0,0} placeholder position and would make the
+    // top-left tile look permanently occupied.
+    const occupantId = gameMap.tiles[pos.y]?.[pos.x]?.occupantId;
+    const occupant = occupantId ? units.get(occupantId) : undefined;
+    if (occupant) {
+      // Only an idle player unit is selectable, but clicking *any* occupied tile
+      // is an inspect — it must never fall through to the system menu.
+      if (occupant.faction === 'player' && !occupant.hasActed) {
+        get().selectUnit(occupant.id);
       }
+      return;
     }
     get().openSystemMenu();
     return;

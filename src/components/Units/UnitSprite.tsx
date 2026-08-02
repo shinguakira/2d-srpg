@@ -1,14 +1,8 @@
-import { memo, useState, useEffect } from 'react';
+import { memo } from 'react';
 import type { Unit } from '../../core/types';
 import { sortAndTruncateEffects, renderStatusIcon } from '../sprites/statusEffectIcons';
-import {
-  getSheetConfig,
-  sheetFrameW,
-  sheetFrameH,
-  sheetCols,
-  sheetPxW,
-  sheetPxH,
-} from '../sprites/spriteSheetConfig';
+import { getSheet, spriteBox, framePosition } from '../sprites/spriteSheetConfig';
+import { useClipFrame, phaseOf } from '../sprites/useClipFrame';
 import '../../styles/ui/boss.css';
 
 const BOSS_PHASE_COLORS = [
@@ -21,7 +15,6 @@ function getBossPhaseFilter(unit: Unit): string {
   if (!unit.bossPhases || unit.bossPhases.length === 0) {
     return 'drop-shadow(0 0 3px rgba(251,191,36,0.6))';
   }
-  // Find current phase index based on HP thresholds
   let phaseIdx = 0;
   for (let i = unit.bossPhases.length - 1; i >= 0; i--) {
     if (unit.currentHp <= unit.bossPhases[i].hpThreshold) {
@@ -33,15 +26,15 @@ function getBossPhaseFilter(unit: Unit): string {
 }
 
 const WEAPON_ICONS: Record<string, string> = {
-  sword: '\u2694',
+  sword: '⚔',
   lance: '\u{1F531}',
   axe: '\u{1FA93}',
   fire: '\u{1F525}',
-  thunder: '\u26A1',
+  thunder: '⚡',
   wind: '\u{1F32C}',
   bow: '\u{1F3F9}',
   staff: '\u{1FA84}',
-  light: '\u2728',
+  light: '✨',
   dark: '\u{1F311}',
   knife: '\u{1F5E1}',
 };
@@ -56,7 +49,10 @@ type UnitSpriteProps = {
   hasActiveSupport?: boolean;
 };
 
-const MAP_IDLE_MS = 250; // frame cycle speed on map
+/** Character height as a fraction of the tile. */
+const CONTENT_RATIO = 0.72;
+/** Where the character's feet sit, as a fraction of the tile height. */
+const FOOT_RATIO = 0.9;
 
 export const UnitSprite = memo(function UnitSprite({
   unit,
@@ -69,7 +65,7 @@ export const UnitSprite = memo(function UnitSprite({
 }: UnitSpriteProps) {
   const hpPercent = Math.max(0, (unit.currentHp / unit.stats.hp) * 100);
   const hpColor = hpPercent > 50 ? '#22c55e' : hpPercent > 25 ? '#eab308' : '#ef4444';
-  const cfg = getSheetConfig(unit.classId, unit.id);
+  const sheet = getSheet(unit.classId, unit.id);
   const crp = unit.metaStats.crp;
   const sta = unit.metaStats.sta;
   const crpClass =
@@ -80,7 +76,6 @@ export const UnitSprite = memo(function UnitSprite({
         : crp >= 30
           ? 'unit-sprite--crp-flicker'
           : '';
-  const staClass = sta >= 30 && sta < 45 ? 'unit-sprite--sta-dim' : '';
   const animClass = isSpawning
     ? 'unit-sprite--spawning'
     : isRemoving
@@ -93,28 +88,21 @@ export const UnitSprite = memo(function UnitSprite({
             ? 'unit-sprite--idle'
             : '';
 
-  /* Sprite sheet idle frame cycling */
-  const cfgCols = sheetCols(cfg);
-  const cfgFrameW = sheetFrameW(cfg);
-  const cfgSheetW = sheetPxW(cfg);
-  const cfgSheetH = sheetPxH(cfg);
+  const frame = useClipFrame(sheet.clips.idle, undefined, phaseOf(unit.id));
+  const box = spriteBox(sheet, tileSize * CONTENT_RATIO);
+  const pos = framePosition(sheet, box, frame);
 
-  const [frame, setFrame] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setFrame((f) => (f + 1) % cfgCols), MAP_IDLE_MS);
-    return () => clearInterval(id);
-  }, [cfgCols]);
-
-  const spriteW = tileSize * 0.8;
-  const cfgFrameH = sheetFrameH(cfg);
-  const spriteH = spriteW * (cfgFrameH / cfgFrameW);
-  const scale = spriteW / cfgFrameW;
-  const col = frame;
-  const row = cfg.idleRow;
+  /* Every filter is composed here rather than split between inline styles and
+     CSS classes. Two classes both setting `filter` silently drop one of them,
+     which is how the STA dim used to disappear. */
+  const artFilters: string[] = [];
+  if (unit.aiBehavior?.type === 'boss') artFilters.push(getBossPhaseFilter(unit));
+  if (unit.hasActed) artFilters.push('grayscale(0.6)');
+  if (sta >= 30 && sta < 45) artFilters.push('brightness(0.85)');
 
   return (
     <div
-      className={`unit-sprite ${animClass} ${crpClass} ${staClass}`}
+      className={`unit-sprite ${animClass}`}
       data-testid={`unit-${unit.id}`}
       data-unit-id={unit.id}
       data-faction={unit.faction}
@@ -128,48 +116,59 @@ export const UnitSprite = memo(function UnitSprite({
         top: 0,
         left: 0,
         overflow: 'visible',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
         pointerEvents: 'none',
         opacity: unit.hasActed ? 0.5 : 1,
-        filter: unit.hasActed ? 'grayscale(0.6)' : 'none',
       }}
     >
+      {/* Anchored so the character's feet land on the tile regardless of how
+          the source art is framed. Absolute, so no flex parent can squash it.
+          The CRP class sits on this wrapper and the computed filters on the
+          child, so a keyframed `filter` composes with them instead of
+          replacing them. */}
       <div
+        className={`unit-sprite__anchor ${crpClass}`}
         style={{
-          width: spriteW,
-          height: spriteH,
-          backgroundImage: `url(${cfg.url})`,
-          backgroundPosition: `${-col * spriteW}px ${-row * spriteH}px`,
-          backgroundSize: `${cfgSheetW * scale}px ${cfgSheetH * scale}px`,
-          backgroundRepeat: 'no-repeat',
-          imageRendering: (cfgFrameW === cfgFrameH
-            ? 'pixelated'
-            : 'auto') as React.CSSProperties['imageRendering'],
-          filter: unit.aiBehavior?.type === 'boss' ? getBossPhaseFilter(unit) : undefined,
-          transform: unit.facing === 'left' ? 'scaleX(-1)' : undefined,
-          mixBlendMode: cfg.hasAlpha ? undefined : 'screen',
-          position: 'relative',
+          position: 'absolute',
+          left: tileSize / 2 - box.anchorX,
+          top: tileSize * FOOT_RATIO - box.anchorY,
+          width: box.w,
+          height: box.h,
         }}
       >
-        {unit.aiBehavior?.type === 'boss' && (
-          <svg
-            width={12}
-            height={10}
-            viewBox="0 0 6 6"
-            style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)' }}
-          >
-            <polygon
-              points="3,0 0,5 1.5,3 3,6 4.5,3 6,5"
-              fill="#fbbf24"
-              stroke="#d97706"
-              strokeWidth="0.4"
-            />
-          </svg>
-        )}
+        <div
+          className="unit-sprite__art"
+          data-testid={`unit-art-${unit.id}`}
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundImage: `url(${sheet.url})`,
+            backgroundPosition: `${pos.x}px ${pos.y}px`,
+            backgroundSize: `${box.bgW}px ${box.bgH}px`,
+            backgroundRepeat: 'no-repeat',
+            imageRendering: (sheet.pixelArt
+              ? 'pixelated'
+              : 'auto') as React.CSSProperties['imageRendering'],
+            transform: unit.facing === 'left' ? 'scaleX(-1)' : undefined,
+            filter: artFilters.length > 0 ? artFilters.join(' ') : undefined,
+          }}
+        />
       </div>
+
+      {unit.aiBehavior?.type === 'boss' && (
+        <svg
+          width={12}
+          height={10}
+          viewBox="0 0 6 6"
+          style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)' }}
+        >
+          <polygon
+            points="3,0 0,5 1.5,3 3,6 4.5,3 6,5"
+            fill="#fbbf24"
+            stroke="#d97706"
+            strokeWidth="0.4"
+          />
+        </svg>
+      )}
 
       {/* Weapon cycle indicator above boss */}
       {unit.weaponCycleOrder && unit.weaponCycleOrder.length > 0 && (
@@ -191,49 +190,39 @@ export const UnitSprite = memo(function UnitSprite({
         </div>
       )}
 
-      {/* HP bar */}
-      <div
-        className="unit-sprite__hp-bar"
-        style={{
-          width: '70%',
-          height: 3,
-          backgroundColor: '#222',
-          borderRadius: 1,
-          marginTop: -2,
-          marginBottom: 1,
-          overflow: 'hidden',
-        }}
-      >
-        <div
-          style={{
-            width: `${hpPercent}%`,
-            height: '100%',
-            backgroundColor: hpColor,
-            transition: 'width 0.3s ease',
-          }}
-        />
-      </div>
-
-      {/* Status effect icons */}
-      {unit.statusEffects && unit.statusEffects.length > 0 && (
-        <div className="unit-sprite__status-icons">
-          {sortAndTruncateEffects(unit.statusEffects).map((effect) => (
-            <svg
-              key={effect.type}
-              className="unit-sprite__status-icon"
-              viewBox="0 0 8 8"
-              width={8}
-              height={8}
-              data-testid={`status-icon-${effect.type}`}
-            >
-              {renderStatusIcon(effect.type)}
-            </svg>
-          ))}
-          {unit.statusEffects.length > 3 && (
-            <span className="unit-sprite__status-overflow">...</span>
-          )}
+      {/* Bottom-anchored UI stack — kept out of the sprite's layout entirely */}
+      <div className="unit-sprite__ui">
+        <div className="unit-sprite__hp-bar">
+          <div
+            style={{
+              width: `${hpPercent}%`,
+              height: '100%',
+              backgroundColor: hpColor,
+              transition: 'width 0.3s ease',
+            }}
+          />
         </div>
-      )}
+
+        {unit.statusEffects && unit.statusEffects.length > 0 && (
+          <div className="unit-sprite__status-icons">
+            {sortAndTruncateEffects(unit.statusEffects).map((effect) => (
+              <svg
+                key={effect.type}
+                className="unit-sprite__status-icon"
+                viewBox="0 0 8 8"
+                width={8}
+                height={8}
+                data-testid={`status-icon-${effect.type}`}
+              >
+                {renderStatusIcon(effect.type)}
+              </svg>
+            ))}
+            {unit.statusEffects.length > 3 && (
+              <span className="unit-sprite__status-overflow">...</span>
+            )}
+          </div>
+        )}
+      </div>
 
       {/* CRP warning overlay at 80+ */}
       {crp >= 80 && <div className="unit-sprite__crp-warning" />}

@@ -251,7 +251,7 @@ function ClassDetail({ cls }: { cls: UnitClass }) {
           <div className="debug-screen__used-by">
             {unitsOfClass.map((u) => (
               <span key={u.id} className="debug-screen__used-by-chip">
-                <BattleSprite classId={u.classId} faction={u.faction} />
+                <BattleSprite classId={u.classId} faction={u.faction} unitId={u.id} />
                 <span>{u.name}</span>
               </span>
             ))}

@@ -28,7 +28,7 @@ export function CharactersView({
             onClick={() => onSelect(unit.id)}
           >
             <div className="debug-screen__entry-sprite">
-              <BattleSprite classId={unit.classId} faction={unit.faction} />
+              <BattleSprite classId={unit.classId} faction={unit.faction} unitId={unit.id} />
             </div>
             <div className="debug-screen__entry-info">
               <span className="debug-screen__entry-name">{unit.name}</span>
@@ -62,7 +62,7 @@ function UnitDetail({ unit }: { unit: Unit }) {
     <div data-testid={`debug-detail-${unit.id}`}>
       <div className="debug-screen__detail-header">
         <div className="debug-screen__portrait" data-testid={`debug-portrait-${unit.id}`}>
-          <BattleSprite classId={unit.classId} faction={unit.faction} />
+          <BattleSprite classId={unit.classId} faction={unit.faction} unitId={unit.id} />
         </div>
         <div className="debug-screen__detail-header-info">
           <h2 className="debug-screen__detail-name">{unit.name}</h2>

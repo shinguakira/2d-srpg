@@ -191,7 +191,7 @@ function WeaponDetail({ weapon }: { weapon: Weapon }) {
         <div className="debug-screen__used-by">
           {ALL_UNITS.filter((u) => u.inventory.some((w) => w.id === weapon.id)).map((u) => (
             <span key={u.id} className="debug-screen__used-by-chip">
-              <BattleSprite classId={u.classId} faction={u.faction} />
+              <BattleSprite classId={u.classId} faction={u.faction} unitId={u.id} />
               <span>{u.name}</span>
             </span>
           ))}
@@ -242,7 +242,7 @@ function ConsumableDetail({ item }: { item: ConsumableItem }) {
         <div className="debug-screen__used-by">
           {ALL_UNITS.filter((u) => u.items.some((it) => it.id === item.id)).map((u) => (
             <span key={u.id} className="debug-screen__used-by-chip">
-              <BattleSprite classId={u.classId} faction={u.faction} />
+              <BattleSprite classId={u.classId} faction={u.faction} unitId={u.id} />
               <span>{u.name}</span>
             </span>
           ))}

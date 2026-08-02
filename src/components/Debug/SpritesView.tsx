@@ -1,89 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
-  getSheetConfig,
-  sheetFrameW,
-  sheetCols,
-  sheetPxW,
-  sheetPxH,
-  sheetRows,
-  sheetFrameH,
+  ALL_SHEETS,
+  spriteBox,
+  framePosition,
+  type SpriteSheet,
+  type ClipName,
 } from '../sprites/spriteSheetConfig';
-import type { SheetConfig } from '../sprites/spriteSheetConfig';
+import { useClipFrame } from '../sprites/useClipFrame';
 
-/** All unique base sprite sheets */
-const SHEET_ENTRIES: { id: string; label: string; cfg: SheetConfig; classes: string[] }[] = [
-  {
-    id: 'lord',
-    label: 'Lord (Ren)',
-    cfg: getSheetConfig('lord'),
-    classes: ['lord', 'great_lord', 'conqueror', 'overlord'],
-  },
-  {
-    id: 'cavalier',
-    label: 'Cavalier (Kael)',
-    cfg: getSheetConfig('cavalier'),
-    classes: ['cavalier', 'paladin', 'great_knight', 'mage_knight', 'nomad_trooper'],
-  },
-  {
-    id: 'mage',
-    label: 'Mage (Senna)',
-    cfg: getSheetConfig('mage'),
-    classes: ['mage', 'sage', 'dark_flier', 'druid', 'summoner', 'archsage'],
-  },
-  {
-    id: 'fighter',
-    label: 'Fighter (Enemy)',
-    cfg: getSheetConfig('fighter'),
-    classes: ['fighter', 'warrior', 'berserker', 'hero', 'war_monk', 'reaver'],
-  },
-  {
-    id: 'soldier',
-    label: 'Soldier (Enemy)',
-    cfg: getSheetConfig('soldier'),
-    classes: ['soldier', 'general_soldier', 'halberdier', 'general_knight'],
-  },
-  {
-    id: 'cleric',
-    label: 'Cleric',
-    cfg: getSheetConfig('cleric'),
-    classes: ['cleric', 'bishop', 'saint', 'oracle'],
-  },
-  {
-    id: 'generic',
-    label: 'Generic',
-    cfg: getSheetConfig('generic'),
-    classes: ['generic (fallback)'],
-  },
-  {
-    id: 'lira',
-    label: 'Lira (Pegasus)',
-    cfg: getSheetConfig('cleric', 'lira'),
-    classes: ['lira (unit override)'],
-  },
-  {
-    id: 'bram',
-    label: 'Bram (Fighter)',
-    cfg: getSheetConfig('fighter', 'bram'),
-    classes: ['bram (unit override)'],
-  },
-  {
-    id: 'garrek',
-    label: 'Garrek (Boss)',
-    cfg: getSheetConfig('fighter', 'garrek'),
-    classes: ['garrek (unit override)'],
-  },
-];
-
-const ROW_LABELS = ['Row 0', 'Row 1', 'Row 2', 'Row 3'];
-
-const SPEED_PRESETS = [
-  { label: 'Slow', ms: 400 },
-  { label: 'Normal', ms: 200 },
-  { label: 'Fast', ms: 100 },
-  { label: 'Battle', ms: 70 },
-];
-
-const DISPLAY_SIZES = [80, 120, 160];
+const CLIP_NAMES: ClipName[] = ['idle', 'attack'];
 
 export function SpritesView({
   selectedId,
@@ -92,12 +17,12 @@ export function SpritesView({
   selectedId: string | null;
   onSelect: (id: string) => void;
 }) {
-  const selected = SHEET_ENTRIES.find((e) => e.id === selectedId) ?? null;
+  const selected = ALL_SHEETS.find((e) => e.id === selectedId) ?? null;
 
   return (
     <div className="debug-screen__split">
       <div className="debug-screen__list">
-        {SHEET_ENTRIES.map((entry) => (
+        {ALL_SHEETS.map((entry) => (
           <button
             key={entry.id}
             className={`debug-screen__entry ${entry.id === selectedId ? 'debug-screen__entry--selected' : ''}`}
@@ -105,19 +30,19 @@ export function SpritesView({
             onClick={() => onSelect(entry.id)}
           >
             <div className="debug-screen__entry-sprite">
-              <SheetPreviewThumb cfg={entry.cfg} />
+              <ClipPlayer sheet={entry.sheet} clip="idle" contentPx={34} />
             </div>
             <div className="debug-screen__entry-info">
-              <span className="debug-screen__entry-name">{entry.label}</span>
+              <span className="debug-screen__entry-name">{entry.id}</span>
               <span className="debug-screen__entry-meta">
                 <span
                   className="debug-screen__badge"
-                  style={{ background: entry.cfg.hasAlpha ? '#22c55e' : '#d97706' }}
+                  style={{ background: entry.sheet.pixelArt ? '#d97706' : '#22c55e' }}
                 >
-                  {entry.cfg.hasAlpha ? 'RGBA' : 'RGB'}
+                  {entry.sheet.pixelArt ? 'pixel art' : 'hi-res'}
                 </span>
                 <span style={{ color: '#94a3b8', fontSize: 11 }}>
-                  {entry.classes.length} classes
+                  {entry.sheet.cols}x{entry.sheet.rows}
                 </span>
               </span>
             </div>
@@ -127,7 +52,7 @@ export function SpritesView({
 
       <div className="debug-screen__detail">
         {selected ? (
-          <SheetDetail entry={selected} />
+          <SheetDetail id={selected.id} sheet={selected.sheet} />
         ) : (
           <div className="debug-screen__empty">Select a sprite sheet to view animations</div>
         )}
@@ -136,222 +61,146 @@ export function SpritesView({
   );
 }
 
-/** Small animated thumbnail for the list */
-function SheetPreviewThumb({ cfg }: { cfg: SheetConfig }) {
-  const cols = sheetCols(cfg);
-  const [frame, setFrame] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setFrame((f) => (f + 1) % cols), 200);
-    return () => clearInterval(id);
-  }, [cols]);
+/** Plays one clip at its configured fps, sized the way the game sizes it. */
+function ClipPlayer({
+  sheet,
+  clip,
+  contentPx,
+}: {
+  sheet: SpriteSheet;
+  clip: ClipName;
+  contentPx: number;
+}) {
+  const frame = useClipFrame(sheet.clips[clip]);
+  return <FrameCell sheet={sheet} frame={frame} contentPx={contentPx} />;
+}
 
-  const fw = sheetFrameW(cfg);
-  const size = 48;
-  const scale = size / fw;
-  const fh = sheetFrameH(cfg);
-  const sizeH = size * (fh / fw);
+/** One fixed frame, sized so the artwork is `contentPx` tall. */
+function FrameCell({
+  sheet,
+  frame,
+  contentPx,
+}: {
+  sheet: SpriteSheet;
+  frame: number;
+  contentPx: number;
+}) {
+  const box = spriteBox(sheet, contentPx);
+  const pos = framePosition(sheet, box, frame);
   return (
     <div
       style={{
-        width: size,
-        height: sizeH,
-        backgroundImage: `url(${cfg.url})`,
-        backgroundPosition: `${-frame * size}px ${-cfg.idleRow * sizeH}px`,
-        backgroundSize: `${sheetPxW(cfg) * scale}px ${sheetPxH(cfg) * scale}px`,
+        width: box.w,
+        height: box.h,
+        backgroundImage: `url(${sheet.url})`,
+        backgroundPosition: `${pos.x}px ${pos.y}px`,
+        backgroundSize: `${box.bgW}px ${box.bgH}px`,
         backgroundRepeat: 'no-repeat',
-        imageRendering: 'pixelated',
-        mixBlendMode: cfg.hasAlpha ? undefined : 'screen',
+        imageRendering: (sheet.pixelArt
+          ? 'pixelated'
+          : 'auto') as React.CSSProperties['imageRendering'],
+        flexShrink: 0,
       }}
     />
   );
 }
 
-/** Full detail panel for a selected sprite sheet */
-function SheetDetail({ entry }: { entry: (typeof SHEET_ENTRIES)[number] }) {
-  const { cfg } = entry;
-  const cols = sheetCols(cfg);
-  const fw = sheetFrameW(cfg);
-  const sw = sheetPxW(cfg);
-  const sh = sheetPxH(cfg);
-  const rows = sheetRows(cfg);
-
-  const [speed, setSpeed] = useState(200);
-  const [displaySize, setDisplaySize] = useState(120);
-  const [activeRow, setActiveRow] = useState<number | null>(null);
-  const [paused, setPaused] = useState(false);
-  const [manualFrame, setManualFrame] = useState(0);
-
-  // Animation frame state
-  const [frame, setFrame] = useState(0);
-  useEffect(() => {
-    if (paused) return;
-    setFrame(0);
-    const id = setInterval(() => setFrame((f) => (f + 1) % cols), speed);
-    return () => clearInterval(id);
-  }, [speed, paused, cols]);
-
-  const currentFrame = paused ? manualFrame : frame;
-  const scale = displaySize / fw;
-  const frameH = sheetFrameH(cfg);
-  const displayH = displaySize * (frameH / fw);
+function SheetDetail({ id, sheet }: { id: string; sheet: SpriteSheet }) {
+  const [contentPx, setContentPx] = useState(96);
+  const frameW = sheet.sheetW / sheet.cols;
+  const frameH = sheet.sheetH / sheet.rows;
+  const box = spriteBox(sheet, contentPx);
 
   return (
-    <div data-testid={`debug-sprite-detail-${entry.id}`}>
+    <div data-testid={`debug-sprite-detail-${id}`}>
       <h2 className="debug-screen__detail-name" style={{ marginBottom: 8 }}>
-        {entry.label}
+        {id}
       </h2>
 
-      {/* Sheet metadata */}
       <div style={{ display: 'flex', gap: 12, marginBottom: 16, flexWrap: 'wrap' }}>
         <span
           className="debug-screen__badge debug-screen__badge--large"
-          style={{ background: cfg.hasAlpha ? '#22c55e' : '#d97706' }}
+          style={{ background: sheet.pixelArt ? '#d97706' : '#22c55e' }}
         >
-          {cfg.hasAlpha ? 'RGBA (transparent)' : 'RGB (blend: screen)'}
+          {sheet.pixelArt ? 'pixel art (nearest)' : 'hi-res (smooth)'}
         </span>
         <span
           className="debug-screen__badge debug-screen__badge--large"
           style={{ background: '#475569' }}
         >
-          {sw}x{sh}px
+          {sheet.sheetW}x{sheet.sheetH}px
         </span>
         <span
           className="debug-screen__badge debug-screen__badge--large"
           style={{ background: '#475569' }}
         >
-          {cols}x{rows} grid = {cols * rows} frames
+          {sheet.cols}x{sheet.rows} = {sheet.cols * sheet.rows} frames
         </span>
         <span
           className="debug-screen__badge debug-screen__badge--large"
           style={{ background: '#475569' }}
         >
-          {fw}x{frameH}px per frame
+          frame {frameW.toFixed(2)}x{frameH.toFixed(2)}px
         </span>
         <span
           className="debug-screen__badge debug-screen__badge--large"
           style={{ background: '#3b82f6' }}
         >
-          Idle: Row {cfg.idleRow}
+          anchor {sheet.content.cx.toFixed(3)}, {sheet.content.bottom.toFixed(3)}
         </span>
         <span
           className="debug-screen__badge debug-screen__badge--large"
-          style={{ background: '#ef4444' }}
+          style={{ background: '#8b5cf6' }}
         >
-          Attack: Row {cfg.attackRow}
+          content height {(sheet.content.height * 100).toFixed(0)}%
         </span>
       </div>
 
-      {/* Controls */}
       <div className="debug-screen__section">
-        <h3 className="debug-screen__section-title">Controls</h3>
-        <div
-          style={{
-            display: 'flex',
-            gap: 8,
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            marginBottom: 8,
-          }}
-        >
-          <span style={{ color: '#94a3b8', fontSize: 12 }}>Speed:</span>
-          {SPEED_PRESETS.map((p) => (
-            <button
-              key={p.label}
-              className={`debug-screen__sub-tab ${speed === p.ms && !paused ? 'debug-screen__sub-tab--active' : ''}`}
-              onClick={() => {
-                setSpeed(p.ms);
-                setPaused(false);
-              }}
-            >
-              {p.label} ({p.ms}ms)
-            </button>
-          ))}
-          <button
-            className={`debug-screen__sub-tab ${paused ? 'debug-screen__sub-tab--active' : ''}`}
-            onClick={() => setPaused(!paused)}
-          >
-            {paused ? 'Play' : 'Pause'}
-          </button>
-        </div>
-        {paused && (
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 8 }}>
-            <span style={{ color: '#94a3b8', fontSize: 12 }}>Frame:</span>
-            <input
-              type="range"
-              min={0}
-              max={cols - 1}
-              value={manualFrame}
-              onChange={(e) => setManualFrame(Number(e.target.value))}
-              style={{ width: 200 }}
-            />
-            <span style={{ color: '#fbbf24', fontWeight: 700, minWidth: 24 }}>{manualFrame}</span>
-          </div>
-        )}
+        <h3 className="debug-screen__section-title">Display size</h3>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
-          <span style={{ color: '#94a3b8', fontSize: 12 }}>Size:</span>
-          {DISPLAY_SIZES.map((s) => (
+          <span style={{ color: '#94a3b8', fontSize: 12 }}>character height:</span>
+          {[46, 96, 140].map((s) => (
             <button
               key={s}
-              className={`debug-screen__sub-tab ${displaySize === s ? 'debug-screen__sub-tab--active' : ''}`}
-              onClick={() => setDisplaySize(s)}
+              className={`debug-screen__sub-tab ${contentPx === s ? 'debug-screen__sub-tab--active' : ''}`}
+              onClick={() => setContentPx(s)}
             >
               {s}px
             </button>
           ))}
+          <span style={{ color: '#64748b', fontSize: 11 }}>
+            frame window {box.w.toFixed(0)}x{box.h.toFixed(0)}px
+          </span>
         </div>
       </div>
 
-      {/* Animated previews — all rows */}
       <div className="debug-screen__section">
-        <h3 className="debug-screen__section-title">Animations by Row</h3>
+        <h3 className="debug-screen__section-title">Clips</h3>
         <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
-          {Array.from({ length: rows }, (_, row) => {
-            const isIdle = row === cfg.idleRow;
-            const isAttack = row === cfg.attackRow;
-            const label =
-              isIdle && isAttack
-                ? 'Idle + Attack'
-                : isIdle
-                  ? 'Idle'
-                  : isAttack
-                    ? 'Attack'
-                    : ROW_LABELS[row];
-            const borderColor = isIdle ? '#3b82f6' : isAttack ? '#ef4444' : '#334155';
-
+          {CLIP_NAMES.map((name) => {
+            const clip = sheet.clips[name];
             return (
               <div
-                key={row}
+                key={name}
                 style={{
+                  border: `2px solid ${name === 'idle' ? '#3b82f6' : '#ef4444'}`,
+                  borderRadius: 8,
+                  padding: 8,
+                  background: 'rgba(0,0,0,0.3)',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  cursor: 'pointer',
-                  border: `2px solid ${activeRow === row ? '#fbbf24' : borderColor}`,
-                  borderRadius: 8,
-                  padding: 8,
-                  background: activeRow === row ? 'rgba(251,191,36,0.1)' : 'rgba(0,0,0,0.3)',
+                  gap: 4,
                 }}
-                onClick={() => setActiveRow(activeRow === row ? null : row)}
               >
-                <div style={{ fontSize: 11, color: '#94a3b8', marginBottom: 4 }}>
-                  {label}
-                  {isIdle && <span style={{ color: '#3b82f6' }}> (idle)</span>}
-                  {isAttack && !isIdle && <span style={{ color: '#ef4444' }}> (attack)</span>}
+                <div style={{ fontSize: 12, color: name === 'idle' ? '#3b82f6' : '#ef4444' }}>
+                  {name}
                 </div>
-                <div
-                  style={{
-                    width: displaySize,
-                    height: displayH,
-                    backgroundImage: `url(${cfg.url})`,
-                    backgroundPosition: `${-currentFrame * displaySize}px ${-row * displayH}px`,
-                    backgroundSize: `${sw * scale}px ${sh * scale}px`,
-                    backgroundRepeat: 'no-repeat',
-                    imageRendering: 'pixelated',
-                    mixBlendMode: cfg.hasAlpha ? undefined : 'screen',
-                  }}
-                />
-                <div style={{ fontSize: 10, color: '#fbbf24', marginTop: 4 }}>
-                  Frame {currentFrame}/{cols - 1}
+                <ClipPlayer sheet={sheet} clip={name} contentPx={contentPx} />
+                <div style={{ fontSize: 10, color: '#94a3b8' }}>
+                  frames {clip.frames[0]}-{clip.frames[clip.frames.length - 1]} · {clip.fps} fps ·{' '}
+                  {clip.loop ? 'loop' : 'once'}
                 </div>
               </div>
             );
@@ -359,141 +208,53 @@ function SheetDetail({ entry }: { entry: (typeof SHEET_ENTRIES)[number] }) {
         </div>
       </div>
 
-      {/* Frame strip for selected row */}
-      {activeRow != null && (
-        <div className="debug-screen__section">
-          <h3 className="debug-screen__section-title">Frame Strip — Row {activeRow}</h3>
+      {CLIP_NAMES.map((name) => (
+        <div className="debug-screen__section" key={name}>
+          <h3 className="debug-screen__section-title">Frame strip — {name}</h3>
           <div style={{ display: 'flex', gap: 4, overflowX: 'auto', padding: '4px 0' }}>
-            {Array.from({ length: cols }, (_, col) => (
+            {sheet.clips[name].frames.map((f) => (
               <div
-                key={col}
+                key={f}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  border: col === currentFrame ? '2px solid #fbbf24' : '1px solid #334155',
+                  border: '1px solid #334155',
                   borderRadius: 4,
                   padding: 2,
-                  background: col === currentFrame ? 'rgba(251,191,36,0.15)' : 'transparent',
-                  cursor: 'pointer',
                   flexShrink: 0,
                 }}
-                onClick={() => {
-                  setPaused(true);
-                  setManualFrame(col);
-                }}
               >
-                <div
-                  style={{
-                    width: fw,
-                    height: frameH,
-                    backgroundImage: `url(${cfg.url})`,
-                    backgroundPosition: `${-col * fw}px ${-activeRow * frameH}px`,
-                    backgroundSize: `${sw}px ${sh}px`,
-                    backgroundRepeat: 'no-repeat',
-                    imageRendering: 'pixelated',
-                    mixBlendMode: cfg.hasAlpha ? undefined : 'screen',
-                  }}
-                />
-                <span style={{ fontSize: 9, color: col === currentFrame ? '#fbbf24' : '#64748b' }}>
-                  {col}
-                </span>
+                <FrameCell sheet={sheet} frame={f} contentPx={54} />
+                <span style={{ fontSize: 9, color: '#64748b' }}>{f}</span>
               </div>
             ))}
           </div>
         </div>
-      )}
+      ))}
 
-      {/* Full sprite sheet */}
       <div className="debug-screen__section">
-        <h3 className="debug-screen__section-title">Full Sprite Sheet</h3>
+        <h3 className="debug-screen__section-title">Full sprite sheet</h3>
         <div
           style={{
             overflow: 'auto',
             maxWidth: '100%',
-            background: '#000',
+            background: '#0f172a',
             borderRadius: 8,
             padding: 4,
             border: '1px solid #334155',
           }}
         >
           <img
-            src={cfg.url}
-            alt={`${entry.label} sprite sheet`}
+            src={sheet.url}
+            alt={`${id} sprite sheet`}
             style={{
-              imageRendering: 'pixelated',
+              imageRendering: sheet.pixelArt ? 'pixelated' : 'auto',
               display: 'block',
               maxWidth: 'none',
             }}
           />
         </div>
-        <div style={{ fontSize: 11, color: '#64748b', marginTop: 4 }}>{cfg.url}</div>
-      </div>
-
-      {/* Classes using this sheet */}
-      <div className="debug-screen__section">
-        <h3 className="debug-screen__section-title">
-          Classes Using This Sheet ({entry.classes.length})
-        </h3>
-        <div className="debug-screen__used-by">
-          {entry.classes.map((cls) => (
-            <span key={cls} className="debug-screen__used-by-chip">
-              {cls}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Side-by-side: Idle vs Attack */}
-      {/* Idle vs Attack side by side */}
-      <div className="debug-screen__section">
-        <h3 className="debug-screen__section-title">Idle vs Attack (side by side)</h3>
-        {(() => {
-          const bigScale = 160 / fw;
-          const bigH = 160 * (frameH / fw);
-          return (
-            <div style={{ display: 'flex', gap: 32, alignItems: 'flex-end' }}>
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: 12, color: '#3b82f6', marginBottom: 4 }}>
-                  Idle (Row {cfg.idleRow})
-                </div>
-                <div
-                  style={{
-                    width: 160,
-                    height: bigH,
-                    backgroundImage: `url(${cfg.url})`,
-                    backgroundPosition: `${-currentFrame * 160}px ${-cfg.idleRow * bigH}px`,
-                    backgroundSize: `${sw * bigScale}px ${sh * bigScale}px`,
-                    backgroundRepeat: 'no-repeat',
-                    imageRendering: 'pixelated',
-                    mixBlendMode: cfg.hasAlpha ? undefined : 'screen',
-                    border: '1px solid #3b82f6',
-                    borderRadius: 8,
-                  }}
-                />
-              </div>
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: 12, color: '#ef4444', marginBottom: 4 }}>
-                  Attack (Row {cfg.attackRow})
-                </div>
-                <div
-                  style={{
-                    width: 160,
-                    height: bigH,
-                    backgroundImage: `url(${cfg.url})`,
-                    backgroundPosition: `${-currentFrame * 160}px ${-cfg.attackRow * bigH}px`,
-                    backgroundSize: `${sw * bigScale}px ${sh * bigScale}px`,
-                    backgroundRepeat: 'no-repeat',
-                    imageRendering: 'pixelated',
-                    mixBlendMode: cfg.hasAlpha ? undefined : 'screen',
-                    border: '1px solid #ef4444',
-                    borderRadius: 8,
-                  }}
-                />
-              </div>
-            </div>
-          );
-        })()}
       </div>
     </div>
   );

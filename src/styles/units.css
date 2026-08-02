@@ -1,9 +1,10 @@
-/* ===== Unit Sprite ===== */
+/* ===== Unit Sprite =====
+   The container only positions; it is deliberately NOT a flex column. The
+   sprite is absolutely positioned by its anchor, so no sibling badge can
+   shrink it. State animations live on the container, CRP animations on the
+   art layer, so the two never overwrite each other's `animation`. */
 .unit-sprite {
   pointer-events: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   z-index: 4;
 }
 
@@ -15,8 +16,24 @@
   animation: unit-selected-pulse 0.8s ease-in-out infinite;
 }
 
-.unit-sprite__body {
-  image-rendering: pixelated;
+/* Badges and bars stack upward from the bottom of the tile, clear of the art. */
+.unit-sprite__ui {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.unit-sprite__hp-bar {
+  width: 70%;
+  height: 3px;
+  background-color: #222;
+  border-radius: 1px;
+  overflow: hidden;
 }
 
 @keyframes unit-idle-bob {
@@ -228,11 +245,6 @@
   50% {
     opacity: 0.7;
   }
-}
-
-/* STA dim (30-44) — slight dim on unit */
-.unit-sprite--sta-dim {
-  filter: brightness(0.85);
 }
 
 /* STA sweat-drop (45+) */

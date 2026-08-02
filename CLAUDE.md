@@ -64,7 +64,10 @@ src/
     Grid/             TacticalGrid, Tile, TerrainSprite, RangeOverlay, FloatingNumber
     UI/               ActionMenu, TurnInfo, EndTurnButton, PhaseBanner, panels, overlays
     Units/            UnitSprite (grid avatar + HP bar), UnitStatsPanel
-    sprites/          Shared SVG sprite rendering (classSprites.tsx — all class visuals)
+    sprites/          Sprite sheet system — see "Sprites" below
+      spriteSheetConfig.ts  Sheet definitions: grid, clips, anchor + lookup helpers
+      useClipFrame.ts       Shared animation clock (one timer for the whole map)
+      statusEffectIcons.tsx Inline SVG status icons
     Game.tsx          Main game orchestrator (hooks + viewport + overlays)
     TitleScreen.tsx   Title screen + chapter selection + mode selection
 
@@ -85,9 +88,52 @@ src/
 - **State:** Zustand ONLY. Three stores: gameStore, uiStore, campaignStore
 - **Testing:** Vitest for unit tests, Playwright for E2E. ALL interactive elements have `data-testid`
 - **Seeded RNG:** `?seed=12345` URL param makes gameplay deterministic for E2E
-- **No external assets:** SVG sprites rendered inline (see `sprites/classSprites.tsx`)
+- **Assets:** PNG sprite sheets in `src/assets/sprites/`, imported through Vite so
+  they are hashed and only fetched when a unit using them is on screen. Icons and
+  status effects are still inline SVG.
 - **CSS:** BEM-style classes (`.action-menu__button`), dark navy theme (#1a1a2e)
 - **Action pattern:** Store actions are thin wrappers → `actions/{domain}Actions.ts` has the logic
+
+## Sprites
+
+Every unit visual comes from a PNG sprite sheet described in
+`components/sprites/spriteSheetConfig.ts`. Three things are kept separate on
+purpose — collapsing them is what caused the bugs this system replaced:
+
+1. **The sheet** — `cols`/`rows`/`sheetW`/`sheetH`. Frame size is derived as
+   `sheetW/cols` and stays **fractional**. Do not round it; `1536/7 = 219.43`
+   rounded to `219` drifts a visible amount by the last column.
+2. **Clips** — a named animation is an explicit list of frame numbers plus fps
+   and loop. It is *not* "a row". These sheets are AI-generated continuous
+   sequences: a row often starts with the character and ends in a full-frame
+   explosion with no character in it, and the real attack is rarely in the row
+   you would guess (the fighter's axe swing is frames 24-27, not row 1).
+3. **`content`** — the measured bounding box of the artwork inside an idle
+   frame, normalised 0..1. `cx`/`bottom` anchor the character's feet to the
+   tile; `height` scales by the *artwork* rather than the frame, so a sheet
+   whose character fills 55% of its frame renders the same size as one that
+   fills 99%.
+
+Rules when touching this:
+
+- **Sizing goes through `spriteBox(sheet, contentPx)`** where `contentPx` is the
+  desired on-screen height of the character. Never size by frame height.
+- **Never put the sprite in a flex container.** It is absolutely positioned from
+  its anchor. As a flex child it gets `flex-shrink`-ed and the feet are cropped.
+- **All sheets are RGBA.** There is no blend-mode transparency hack; if you add
+  a sheet with a black background, key it to real alpha first (`mix-blend-mode`
+  does not work here because `.unit-sprite` creates a stacking context).
+- **Animation uses the shared clock in `useClipFrame.ts`**, not per-component
+  timers. Pass `phaseOf(unit.id)` so identical units do not animate in lockstep.
+- **`pixelArt: true`** selects nearest-neighbour scaling. Only for genuinely
+  low-resolution art — the hi-res painted sheets are scaled *down* and want
+  smooth interpolation.
+- Filters are composed in JS and applied to `.unit-sprite__art`; CSS keyframes
+  that animate `filter` go on the `.unit-sprite__anchor` wrapper so the two
+  compose instead of silently overwriting each other.
+
+The **Debug → Sprites** screen renders every sheet with its clips, frame strips,
+anchor and content values — use it to verify after changing art or clips.
 
 ## Game Flow
 

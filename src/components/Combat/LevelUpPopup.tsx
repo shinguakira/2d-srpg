@@ -71,7 +71,7 @@ export function LevelUpPopup() {
 
         <div className="level-up-popup__identity">
           <div className="level-up-popup__sprite">
-            <BattleSprite classId={unit.classId} faction={unit.faction} />
+            <BattleSprite classId={unit.classId} faction={unit.faction} unitId={unit.id} />
           </div>
           <div className="level-up-popup__name-block">
             <div className="level-up-popup__name">{unit.name}</div>

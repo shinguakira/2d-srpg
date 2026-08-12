@@ -1,6 +1,8 @@
 import { useGameStore } from '../../stores/gameStore';
+import { useT } from '../../i18n/useT';
 
 export function HealNotification() {
+  const T = useT();
   const healResult = useGameStore((s) => s.healResult);
   const dismissHealResult = useGameStore((s) => s.dismissHealResult);
 
@@ -33,7 +35,9 @@ export function HealNotification() {
           minWidth: '240px',
         }}
       >
-        <div style={{ fontSize: '18px', color: '#fbbf24', marginBottom: '12px' }}>Healed</div>
+        <div style={{ fontSize: '18px', color: '#fbbf24', marginBottom: '12px' }}>
+          {T.ui('heal.healed', 'Healed')}
+        </div>
         <div style={{ fontSize: '14px', color: 'white', marginBottom: '8px' }}>
           {healResult.healerName} → {healResult.targetName}
         </div>
@@ -48,7 +52,7 @@ export function HealNotification() {
             marginTop: '12px',
           }}
         >
-          Click to continue
+          {T.ui('common.clickToContinue', 'Click to continue')}
         </div>
       </div>
     </div>

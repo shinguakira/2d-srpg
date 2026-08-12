@@ -411,7 +411,7 @@ export function PreparationScreen() {
           className={`prep-screen__tab ${tab === 'units' ? 'prep-screen__tab--active' : ''}`}
           onClick={() => setTab('units')}
         >
-          Units
+          {T.ui('prep.units', 'Units')}
         </button>
         <button
           className={`prep-screen__tab ${tab === 'storage' ? 'prep-screen__tab--active' : ''}`}
@@ -433,7 +433,7 @@ export function PreparationScreen() {
           data-testid="skill-tab"
           onClick={() => setTab('skills')}
         >
-          Skills
+          {T.ui('prep.skills', 'Skills')}
         </button>
         {roster.includes('shigeru') && (
           <button
@@ -441,7 +441,7 @@ export function PreparationScreen() {
             data-testid="teaching-tab"
             onClick={() => setTab('teaching')}
           >
-            Teaching
+            {T.ui('prep.teaching', 'Teaching')}
           </button>
         )}
         {bonusExp > 0 && (
@@ -498,7 +498,9 @@ export function PreparationScreen() {
                       {isForced ? 'Required' : isDeployed ? 'Deploy' : 'Bench'}
                     </button>
                   )}
-                  {isDead && <div className="prep-screen__dead-label">Fallen</div>}
+                  {isDead && (
+                    <div className="prep-screen__dead-label">{T.ui('prep.fallen', 'Fallen')}</div>
+                  )}
                   {!isDead &&
                     (() => {
                       const unitLike = prepToUnit(unit);
@@ -514,7 +516,7 @@ export function PreparationScreen() {
                             setPromotingUnit(unit);
                           }}
                         >
-                          Promote
+                          {T.ui('prep.promote', 'Promote')}
                         </button>
                       );
                     })()}
@@ -617,7 +619,9 @@ export function PreparationScreen() {
         {tab === 'support' && (
           <div className="prep-screen__support">
             {availableSupports.length === 0 ? (
-              <div className="prep-screen__empty">No support conversations available.</div>
+              <div className="prep-screen__empty">
+                {T.ui('prep.noSupports', 'No support conversations available.')}
+              </div>
             ) : (
               <div className="prep-screen__support-list">
                 {availableSupports.map((conv, idx) => {
@@ -692,7 +696,9 @@ export function PreparationScreen() {
                             className="prep-screen__skill-card prep-screen__skill-card--innate"
                           >
                             {skill.name}{' '}
-                            <span className="prep-screen__skill-innate-label">Innate</span>
+                            <span className="prep-screen__skill-innate-label">
+                              {T.ui('prep.innate', 'Innate')}
+                            </span>
                           </span>
                         );
                       })}
@@ -761,7 +767,9 @@ export function PreparationScreen() {
                   {unit.learnedSkills.length === 0 &&
                     innateSkills.length === 0 &&
                     unit.skills.length === 0 && (
-                      <div className="prep-screen__skill-empty">No skills learned</div>
+                      <div className="prep-screen__skill-empty">
+                        {T.ui('prep.noSkills', 'No skills learned')}
+                      </div>
                     )}
                 </div>
               );
@@ -837,7 +845,7 @@ export function PreparationScreen() {
                                 );
                               }}
                             >
-                              Forge
+                              {T.ui('prep.forge', 'Forge')}
                             </button>
                           </div>
                         );
@@ -919,7 +927,11 @@ export function PreparationScreen() {
           (() => {
             const lord = units.find((u) => u.id === 'shigeru');
             if (!lord)
-              return <div className="prep-screen__empty">Shigeru is not in your roster.</div>;
+              return (
+                <div className="prep-screen__empty">
+                  {T.ui('prep.lordMissing', 'Shigeru is not in your roster.')}
+                </div>
+              );
 
             // All skills Shigeru knows (equipped + learned)
             const lordSkills = [...new Set([...lord.skills, ...lord.learnedSkills])];
@@ -935,7 +947,9 @@ export function PreparationScreen() {
                     </span>
                   </div>
                   {lordSkills.length === 0 ? (
-                    <div className="prep-screen__skill-empty">Shigeru has no skills to teach</div>
+                    <div className="prep-screen__skill-empty">
+                      {T.ui('prep.lordNoSkills', 'Shigeru has no skills to teach')}
+                    </div>
                   ) : (
                     <div className="prep-screen__skill-section">
                       {lordSkills.map((sid) => {
@@ -1020,7 +1034,7 @@ export function PreparationScreen() {
           data-testid="prep-save-game"
           onClick={() => setShowSaveModal(true)}
         >
-          Save Game
+          {T.ui('prep.saveGame', 'Save Game')}
         </button>
         <button
           className="prep-screen__start-btn"

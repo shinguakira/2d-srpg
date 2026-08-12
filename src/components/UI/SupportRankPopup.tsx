@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
+import { useT } from '../../i18n/useT';
 import { useGameStore } from '../../stores/gameStore';
 
 export function SupportRankPopup() {
+  const T = useT();
   const supportRankUp = useGameStore((s) => s.supportRankUp);
   const dismissSupportRankUp = useGameStore((s) => s.dismissSupportRankUp);
   const units = useGameStore((s) => s.units);
@@ -27,7 +29,9 @@ export function SupportRankPopup() {
       onClick={dismissSupportRankUp}
     >
       <div className="support-rank-popup__content">
-        <div className="support-rank-popup__title">Support Rank Up!</div>
+        <div className="support-rank-popup__title">
+          {T.ui('support.rankUp', 'Support Rank Up!')}
+        </div>
         <div className="support-rank-popup__names">
           {nameA} & {nameB}
         </div>

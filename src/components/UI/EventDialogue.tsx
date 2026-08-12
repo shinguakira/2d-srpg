@@ -84,7 +84,7 @@ export function EventDialogue() {
         </div>
       </div>
       <div className="event-dialogue__hint">
-        {T.lang === 'ja' ? 'クリックまたはEnterで進む' : 'Click or press Enter to continue'}
+        {T.lang === 'ja' ? 'クリック / Enter で進む' : 'Click or press Enter to continue'}
       </div>
     </div>
   );

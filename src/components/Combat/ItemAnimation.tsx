@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useT } from '../../i18n/useT';
 import { useGameStore } from '../../stores/gameStore';
 import { BattleSprite } from './BattleSprite';
 
@@ -12,6 +13,7 @@ import { BattleSprite } from './BattleSprite';
 type ItemPhase = 'idle' | 'glow' | 'receive' | 'done';
 
 export function ItemAnimation() {
+  const T = useT();
   const currentPhase = useGameStore((s) => s.currentPhase);
   const data = useGameStore((s) => s.itemAnimationData);
   const finishItemAnimation = useGameStore((s) => s.finishItemAnimation);
@@ -143,7 +145,7 @@ export function ItemAnimation() {
           </div>
 
           <div className="combat-animation__step" style={{ color: '#22c55e' }}>
-            Recovery
+            {T.ui('item.recovery', 'Recovery')}
           </div>
 
           <div className="combat-animation__unit-info" style={{ visibility: 'hidden' }}>

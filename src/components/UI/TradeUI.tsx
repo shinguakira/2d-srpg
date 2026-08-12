@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useT } from '../../i18n/useT';
 import { useGameStore } from '../../stores/gameStore';
 
 type Swap = { from: 'a' | 'b'; index: number };
 
 export function TradeUI() {
+  const T = useT();
   const tradePartnerId = useGameStore((s) => s.tradePartnerId);
   const selectedUnitId = useGameStore((s) => s.selectedUnitId);
   const units = useGameStore((s) => s.units);
@@ -53,12 +55,14 @@ export function TradeUI() {
 
   return (
     <div className="trade-ui" data-testid="trade-ui">
-      <div className="trade-ui__header">Trade</div>
+      <div className="trade-ui__header">{T.ui('trade.title', 'Trade')}</div>
       <div className="trade-ui__columns">
         <div className="trade-ui__column" data-testid="trade-column-a">
           <div className="trade-ui__unit-name">{unitA.name}</div>
           <div className="trade-ui__items">
-            {previewItemsA.length === 0 && <div className="trade-ui__empty">No items</div>}
+            {previewItemsA.length === 0 && (
+              <div className="trade-ui__empty">{T.ui('trade.noItems', 'No items')}</div>
+            )}
             {previewItemsA.map((item, i) => (
               <button
                 key={`a-${i}-${item.id}`}
@@ -79,7 +83,9 @@ export function TradeUI() {
         <div className="trade-ui__column" data-testid="trade-column-b">
           <div className="trade-ui__unit-name">{unitB.name}</div>
           <div className="trade-ui__items">
-            {previewItemsB.length === 0 && <div className="trade-ui__empty">No items</div>}
+            {previewItemsB.length === 0 && (
+              <div className="trade-ui__empty">{T.ui('trade.noItems', 'No items')}</div>
+            )}
             {previewItemsB.map((item, i) => (
               <button
                 key={`b-${i}-${item.id}`}
@@ -104,14 +110,14 @@ export function TradeUI() {
           onClick={handleConfirm}
           disabled={pendingSwaps.length === 0}
         >
-          Confirm
+          {T.ui('common.confirm', 'Confirm')}
         </button>
         <button
           className="trade-ui__btn trade-ui__btn--cancel"
           data-testid="trade-cancel"
           onClick={handleCancel}
         >
-          Cancel
+          {T.ui('common.cancel', 'Cancel')}
         </button>
       </div>
     </div>

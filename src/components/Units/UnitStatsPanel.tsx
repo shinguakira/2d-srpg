@@ -93,6 +93,7 @@ function SupportSection({
   units: Map<string, Unit>;
   supportPairs: any[];
 }) {
+  const T = useT();
   if (unit.faction !== 'player' || !supportPairs?.length) return null;
 
   const activeSupports: {
@@ -131,7 +132,7 @@ function SupportSection({
           letterSpacing: 0.5,
         }}
       >
-        Support
+        {T.ui('panel.support', 'Support')}
       </div>
       {activeSupports.map((s) => (
         <div key={s.id} data-testid={`support-partner-${s.id}`} style={{ marginTop: 2 }}>

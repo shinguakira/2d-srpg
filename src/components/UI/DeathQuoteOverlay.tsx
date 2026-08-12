@@ -63,7 +63,7 @@ export function DeathQuoteOverlay() {
             marginTop: '16px',
           }}
         >
-          Click to continue
+          {T.ui('common.clickToContinue', 'Click to continue')}
         </div>
       </div>
     </div>

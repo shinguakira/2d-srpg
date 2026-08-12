@@ -28,14 +28,14 @@ export function PhaseBanner() {
       <div className="phase-banner__text">
         {T.lang === 'ja'
           ? isPlayer
-            ? '味方フェイズ'
-            : '敵フェイズ'
+            ? '自軍フェイズ'
+            : '敵軍フェイズ'
           : isPlayer
             ? 'Player Phase'
             : 'Enemy Phase'}
       </div>
       <div className="phase-banner__turn">
-        {T.lang === 'ja' ? `${currentTurn}ターン目` : `Turn ${currentTurn}`}
+        {T.lang === 'ja' ? `ターン ${currentTurn}` : `Turn ${currentTurn}`}
       </div>
     </div>
   );

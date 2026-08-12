@@ -30,7 +30,7 @@ export function TitleScreen() {
     return (
       <div className="title-screen" data-testid="title-screen">
         <h1 className="title-screen__title" style={{ color: '#fbbf24', fontSize: '24px' }}>
-          Select Difficulty
+          {T.ui('title.selectDifficulty', 'Select Difficulty')}
         </h1>
         <div className="title-screen__menu" style={{ gap: '12px', maxWidth: '320px' }}>
           <button
@@ -52,9 +52,11 @@ export function TitleScreen() {
               padding: '12px 16px',
             }}
           >
-            <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>CLASSIC</div>
+            <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
+              {T.ui('mode.classic', 'CLASSIC')}
+            </div>
             <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>
-              Fallen units are lost forever.
+              {T.ui('mode.classicDesc', 'Fallen units are lost forever.')}
             </div>
           </button>
           <button
@@ -75,9 +77,11 @@ export function TitleScreen() {
               padding: '12px 16px',
             }}
           >
-            <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>CASUAL</div>
+            <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
+              {T.ui('mode.casual', 'CASUAL')}
+            </div>
             <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>
-              Fallen units return next chapter.
+              {T.ui('mode.casualDesc', 'Fallen units return next chapter.')}
             </div>
           </button>
           <button
@@ -101,11 +105,13 @@ export function TitleScreen() {
               opacity: isHardLocked(endingsSeen) ? 0.4 : 1,
             }}
           >
-            <div style={{ fontWeight: 'bold', marginBottom: '4px', color: '#ef4444' }}>HARD</div>
+            <div style={{ fontWeight: 'bold', marginBottom: '4px', color: '#ef4444' }}>
+              {T.ui('mode.hard', 'HARD')}
+            </div>
             <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>
               {isHardLocked(endingsSeen)
-                ? 'Complete the game to unlock.'
-                : 'Stronger enemies, faster reinforcements.'}
+                ? T.ui('mode.hardLocked', 'Complete the game to unlock.')
+                : T.ui('mode.hardDesc', 'Stronger enemies, faster reinforcements.')}
             </div>
           </button>
           <button
@@ -123,14 +129,14 @@ export function TitleScreen() {
               marginTop: '8px',
             }}
           >
-            Confirm
+            {T.ui('common.confirm', 'Confirm')}
           </button>
           <button
             className="title-screen__btn"
             data-testid="mode-back"
             onClick={() => setSubMenu('none')}
           >
-            Back
+            {T.ui('common.back', 'Back')}
           </button>
         </div>
       </div>
@@ -140,7 +146,7 @@ export function TitleScreen() {
   if (subMenu === 'load') {
     return (
       <div className="title-screen" data-testid="title-screen">
-        <h1 className="title-screen__title">Load Game</h1>
+        <h1 className="title-screen__title">{T.ui('title.loadGame', 'Load Game')}</h1>
         <div className="title-screen__menu">
           {[0, 1, 2, 3].map((slot) => {
             const summary = getSlotSummary(slot);
@@ -158,7 +164,7 @@ export function TitleScreen() {
               >
                 {summary
                   ? `${label}: ${T.chapter(meta?.id, meta?.name) || summary.chapterId} — ${new Date(summary.timestamp).toLocaleDateString()}`
-                  : `${label}: Empty`}
+                  : `${label}: ${T.ui('save.empty', 'Empty')}`}
               </button>
             );
           })}
@@ -167,7 +173,7 @@ export function TitleScreen() {
             data-testid="load-back"
             onClick={() => setSubMenu('none')}
           >
-            Back
+            {T.ui('common.back', 'Back')}
           </button>
         </div>
       </div>
@@ -180,7 +186,7 @@ export function TitleScreen() {
     );
     return (
       <div className="title-screen" data-testid="title-screen">
-        <h1 className="title-screen__title">Chapter Select</h1>
+        <h1 className="title-screen__title">{T.ui('title.chapterSelect', 'Chapter Select')}</h1>
         <div className="title-screen__menu">
           {available.map((ch) => (
             <button
@@ -197,7 +203,7 @@ export function TitleScreen() {
             data-testid="chapter-select-back"
             onClick={() => setSubMenu('none')}
           >
-            Back
+            {T.ui('common.back', 'Back')}
           </button>
         </div>
       </div>

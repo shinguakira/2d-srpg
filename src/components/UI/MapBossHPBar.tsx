@@ -1,6 +1,8 @@
 import { useGameStore } from '../../stores/gameStore';
+import { useT } from '../../i18n/useT';
 
 export function MapBossHPBar() {
+  const T = useT();
   const mapBossState = useGameStore((s) => s.mapBossState);
 
   if (!mapBossState) return null;
@@ -10,7 +12,7 @@ export function MapBossHPBar() {
 
   return (
     <div className="map-boss-hp-bar" data-testid="map-boss-hp-bar">
-      <span className="map-boss-hp-bar__label">System Core</span>
+      <span className="map-boss-hp-bar__label">{T.ui('boss.core', 'Blackflame Core')}</span>
       <div className="map-boss-hp-bar__bar">
         <div className="map-boss-hp-bar__fill" style={{ width: `${hpPercent}%` }} />
       </div>

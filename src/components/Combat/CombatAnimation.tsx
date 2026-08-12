@@ -1,4 +1,5 @@
 import { useEffect, useCallback, useState, useRef } from 'react';
+import { useT } from '../../i18n/useT';
 import { useGameStore } from '../../stores/gameStore';
 import { useUIStore, getScaledDuration } from '../../stores/uiStore';
 import { BattleSprite } from './BattleSprite';
@@ -37,6 +38,7 @@ function isMagicType(wt: WeaponType): boolean {
 }
 
 export function CombatAnimation() {
+  const T = useT();
   const currentPhase = useGameStore((s) => s.currentPhase);
   const combatResult = useGameStore((s) => s.combatResult);
   const combatForecast = useGameStore((s) => s.combatForecast);
@@ -374,7 +376,7 @@ export function CombatAnimation() {
 
       <div className="combat-animation__modal">
         <div className="combat-animation__title">
-          Combat
+          {T.ui('combat.title', 'Combat')}
           <button
             data-testid="speed-toggle"
             onClick={cycleAnimationSpeed}
@@ -440,7 +442,7 @@ export function CombatAnimation() {
               className={`combat-animation__skill-text combat-animation__skill-text--${playerIsAttacking ? 'right' : 'left'}`}
               key={`miracle-${combatAnimationStep}`}
             >
-              MIRACLE!
+              {T.ui('combat.miracle', 'MIRACLE!')}
             </div>
           )}
 
@@ -453,7 +455,9 @@ export function CombatAnimation() {
             >
               {!currentHit.hit ? 'MISS' : currentHit.damage}
               {currentHit.crit && currentHit.hit && (
-                <span className="combat-animation__crit-label">CRITICAL!</span>
+                <span className="combat-animation__crit-label">
+                  {T.ui('combat.critical', 'CRITICAL!')}
+                </span>
               )}
             </div>
           )}
@@ -507,13 +511,13 @@ export function CombatAnimation() {
             </div>
             <div className="combat-animation__forecast-stats">
               <span className="combat-animation__stat">
-                Dmg <strong>{playerForecast.damage}</strong>
+                {T.ui('combat.dmg', 'Dmg')} <strong>{playerForecast.damage}</strong>
               </span>
               <span className="combat-animation__stat">
-                Hit <strong>{playerForecast.hit}%</strong>
+                {T.ui('combat.hit', 'Hit')} <strong>{playerForecast.hit}%</strong>
               </span>
               <span className="combat-animation__stat">
-                Crit <strong>{playerForecast.crit}%</strong>
+                {T.ui('combat.crit', 'Crit')} <strong>{playerForecast.crit}%</strong>
               </span>
             </div>
           </div>
@@ -542,18 +546,18 @@ export function CombatAnimation() {
               {enemyForecast.canCounter ? (
                 <>
                   <span className="combat-animation__stat">
-                    Dmg <strong>{enemyForecast.damage}</strong>
+                    {T.ui('combat.dmg', 'Dmg')} <strong>{enemyForecast.damage}</strong>
                   </span>
                   <span className="combat-animation__stat">
-                    Hit <strong>{enemyForecast.hit}%</strong>
+                    {T.ui('combat.hit', 'Hit')} <strong>{enemyForecast.hit}%</strong>
                   </span>
                   <span className="combat-animation__stat">
-                    Crit <strong>{enemyForecast.crit}%</strong>
+                    {T.ui('combat.crit', 'Crit')} <strong>{enemyForecast.crit}%</strong>
                   </span>
                 </>
               ) : (
                 <span className="combat-animation__stat combat-animation__stat--no-counter">
-                  No counter
+                  {T.ui('combat.noCounter', 'No counter')}
                 </span>
               )}
             </div>

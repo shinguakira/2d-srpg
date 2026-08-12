@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useT } from '../../i18n/useT';
 import { useCampaignStore } from '../../stores/campaignStore';
 import { CAMPAIGN } from '../../data/campaignConfig';
 
@@ -9,6 +10,7 @@ type Props = {
 };
 
 export function SaveSlotPicker({ onSave, onCancel, title = 'Save Game' }: Props) {
+  const T = useT();
   const getSlotSummary = useCampaignStore((s) => s.getSlotSummary);
   const [confirmingSlot, setConfirmingSlot] = useState<number | null>(null);
   const [savedSlot, setSavedSlot] = useState<number | null>(null);
@@ -47,7 +49,7 @@ export function SaveSlotPicker({ onSave, onCancel, title = 'Save Game' }: Props)
 
         {savedSlot !== null && (
           <div className="save-slot-picker__feedback" data-testid="save-feedback">
-            Saved!
+            {T.ui('save.saved', 'Saved!')}
           </div>
         )}
 
@@ -71,13 +73,13 @@ export function SaveSlotPicker({ onSave, onCancel, title = 'Save Game' }: Props)
 
                 {confirmingSlot === slot && (
                   <div className="save-slot-picker__confirm" data-testid={`save-confirm-${slot}`}>
-                    <span>Overwrite?</span>
+                    <span>{T.ui('save.overwrite', 'Overwrite?')}</span>
                     <button
                       className="save-slot-picker__confirm-btn save-slot-picker__confirm-btn--yes"
                       data-testid={`save-confirm-yes-${slot}`}
                       onClick={() => handleConfirmOverwrite(slot)}
                     >
-                      Yes
+                      {T.ui('common.yes', 'Yes')}
                     </button>
                     <button
                       className="save-slot-picker__confirm-btn save-slot-picker__confirm-btn--no"
@@ -99,7 +101,7 @@ export function SaveSlotPicker({ onSave, onCancel, title = 'Save Game' }: Props)
           onClick={onCancel}
           disabled={savedSlot !== null}
         >
-          Cancel
+          {T.ui('common.cancel', 'Cancel')}
         </button>
       </div>
     </div>

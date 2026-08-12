@@ -1,7 +1,9 @@
 import { useCampaignStore } from '../../stores/campaignStore';
+import { useT } from '../../i18n/useT';
 import { getEndingText } from '../../core/endings';
 
 export function EndingScreen() {
+  const T = useT();
   const currentEnding = useCampaignStore((s) => s.currentEnding);
   const goToCredits = useCampaignStore((s) => s.goToCredits);
 
@@ -19,7 +21,7 @@ export function EndingScreen() {
         <h1 className="ending-screen__title">{title}</h1>
         <p className="ending-screen__description">{description}</p>
         <button className="ending-screen__btn" data-testid="ending-continue" onClick={goToCredits}>
-          Continue
+          {T.ui('common.continue', 'Continue')}
         </button>
       </div>
     </div>

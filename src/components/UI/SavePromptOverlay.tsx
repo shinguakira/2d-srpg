@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useT } from '../../i18n/useT';
 import { useCampaignStore } from '../../stores/campaignStore';
 import { SaveSlotPicker } from './SaveSlotPicker';
 
 export function SavePromptOverlay() {
+  const T = useT();
   const showSavePrompt = useCampaignStore((s) => s.showSavePrompt);
   const dismissSavePrompt = useCampaignStore((s) => s.dismissSavePrompt);
   const saveToSlot = useCampaignStore((s) => s.saveToSlot);
@@ -28,22 +30,24 @@ export function SavePromptOverlay() {
   return (
     <div className="save-prompt" data-testid="save-prompt">
       <div className="save-prompt__panel">
-        <h2 className="save-prompt__title">Chapter Complete</h2>
-        <p className="save-prompt__text">Would you like to save your progress?</p>
+        <h2 className="save-prompt__title">{T.ui('save.chapterComplete', 'Chapter Complete')}</h2>
+        <p className="save-prompt__text">
+          {T.ui('save.prompt', 'Would you like to save your progress?')}
+        </p>
         <div className="save-prompt__actions">
           <button
             className="save-prompt__btn save-prompt__btn--save"
             data-testid="save-prompt-save"
             onClick={() => setShowPicker(true)}
           >
-            Save
+            {T.ui('save.save', 'Save')}
           </button>
           <button
             className="save-prompt__btn save-prompt__btn--skip"
             data-testid="save-prompt-continue"
             onClick={dismissSavePrompt}
           >
-            Continue
+            {T.ui('common.continue', 'Continue')}
           </button>
         </div>
       </div>

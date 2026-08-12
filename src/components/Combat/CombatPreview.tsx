@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useT } from '../../i18n/useT';
 import { useGameStore } from '../../stores/gameStore';
 import { getWeaponTriangle, isEffectiveAgainst, isWeaponProficient } from '../../core/combat';
 import { getDurabilityColor } from '../../core/items';
@@ -38,6 +39,7 @@ function getTriangleText(atkType: string, defType: string): { text: string; colo
 }
 
 export function CombatPreview() {
+  const T = useT();
   const forecast = useGameStore((s) => s.combatForecast);
   const playerAction = useGameStore((s) => s.playerAction);
   const units = useGameStore((s) => s.units);
@@ -271,7 +273,7 @@ export function CombatPreview() {
 
   return (
     <div className="combat-forecast" data-testid="combat-forecast">
-      <div className="combat-forecast__header">Combat Forecast</div>
+      <div className="combat-forecast__header">{T.ui('combat.forecast', 'Combat Forecast')}</div>
       <div className="combat-forecast__matchup">
         {/* Player side (always left, blue) */}
         <div className="combat-forecast__unit combat-forecast__unit--attacker">
@@ -309,7 +311,9 @@ export function CombatPreview() {
               </span>
             ) : null}
           </div>
-          {enemyEffective && <div className="combat-forecast__effective--weak">Weak!</div>}
+          {enemyEffective && (
+            <div className="combat-forecast__effective--weak">{T.ui('combat.weak', 'Weak!')}</div>
+          )}
           {playerCanAttack ? (
             <>
               <div className="combat-forecast__stat">
@@ -320,7 +324,7 @@ export function CombatPreview() {
               </div>
               {playerEffective && (
                 <div className="combat-forecast__effective" data-testid="forecast-effective">
-                  EFFECTIVE!
+                  {T.ui('combat.effective', 'EFFECTIVE!')}
                 </div>
               )}
               <div className="combat-forecast__stat">
@@ -343,7 +347,9 @@ export function CombatPreview() {
               </div>
             </>
           ) : (
-            <div className="combat-forecast__no-counter">Cannot counter</div>
+            <div className="combat-forecast__no-counter">
+              {T.ui('combat.cannotCounter', 'Cannot counter')}
+            </div>
           )}
         </div>
 
@@ -432,7 +438,7 @@ export function CombatPreview() {
               className="combat-forecast__effective--weak"
               style={{ color: '#22c55e', fontSize: 10 }}
             >
-              Eff. target
+              {T.ui('combat.effTarget', 'Eff. target')}
             </div>
           )}
           {enemyCanAttack ? (
@@ -449,7 +455,7 @@ export function CombatPreview() {
                   data-testid="forecast-effective-enemy"
                   style={{ color: '#ef4444' }}
                 >
-                  EFFECTIVE!
+                  {T.ui('combat.effective', 'EFFECTIVE!')}
                 </div>
               )}
               <div className="combat-forecast__stat">
@@ -472,7 +478,9 @@ export function CombatPreview() {
               </div>
             </>
           ) : (
-            <div className="combat-forecast__no-counter">Cannot counter</div>
+            <div className="combat-forecast__no-counter">
+              {T.ui('combat.cannotCounter', 'Cannot counter')}
+            </div>
           )}
         </div>
       </div>
@@ -549,7 +557,7 @@ export function CombatPreview() {
                 className="combat-forecast__modifier-line"
                 style={{ color: '#60a5fa', fontWeight: 600 }}
               >
-                You
+                {T.ui('combat.you', 'You')}
               </div>
               {playerModifiers.map((m, i) => (
                 <div
@@ -572,7 +580,7 @@ export function CombatPreview() {
                   marginTop: playerModifiers.length > 0 ? 4 : 0,
                 }}
               >
-                Foe
+                {T.ui('combat.foe', 'Foe')}
               </div>
               {enemyModifiers.map((m, i) => (
                 <div

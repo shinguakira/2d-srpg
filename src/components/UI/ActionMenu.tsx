@@ -425,13 +425,13 @@ export function ActionMenu() {
               data-testid={`weapon-${i}`}
               onClick={() => selectWeapon(i)}
             >
-              {weapon.name}
+              {T.weapon(weapon.name)}
               {weaponEffective.has(i) && (
                 <span
                   data-testid="weapon-effective"
                   style={{ marginLeft: 4, fontSize: '0.8em', color: '#22c55e', fontWeight: 'bold' }}
                 >
-                  Eff!
+                  {T.ui('combat.effShort', 'Eff!')}
                 </span>
               )}
               {weapon.durability != null && weapon.maxDurability != null && (
@@ -463,7 +463,7 @@ export function ActionMenu() {
                 setShowItemMenu(false);
               }}
             >
-              <span style={{ color: '#22c55e' }}>{item.name}</span>
+              <span style={{ color: '#22c55e' }}>{T.item(item.name)}</span>
               <span style={{ color: 'rgba(255,255,255,0.5)', marginLeft: '8px', fontSize: '12px' }}>
                 ({item.uses}/{item.maxUses})
               </span>
@@ -695,7 +695,7 @@ export function ActionMenu() {
             {T.action('View Info')}
           </button>
           <button className="action-menu__btn" data-testid="action-wait" onClick={confirmMove}>
-            Wait
+            {T.action('Wait')}
           </button>
           <button
             className="action-menu__btn action-menu__btn--cancel"

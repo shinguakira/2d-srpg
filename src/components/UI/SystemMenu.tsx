@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useT } from '../../i18n/useT';
 import { useGameStore } from '../../stores/gameStore';
 import { useCampaignStore } from '../../stores/campaignStore';
 import { useUIStore } from '../../stores/uiStore';
@@ -7,6 +8,7 @@ import type { AnimationSpeed } from '../../stores/uiStore';
 type SubPanel = 'none' | 'unit_list' | 'objective' | 'settings';
 
 export function SystemMenu() {
+  const T = useT();
   const playerAction = useGameStore((s) => s.playerAction);
   const closeSystemMenu = useGameStore((s) => s.closeSystemMenu);
   const endPlayerTurn = useGameStore((s) => s.endPlayerTurn);
@@ -61,7 +63,7 @@ export function SystemMenu() {
       {/* No backdrop: the map stays visible and clickable behind the menu, the
           way a Fire Emblem command window behaves. Clicking the map closes it. */}
       <div className="system-menu" data-testid="system-menu">
-        <div className="system-menu__title">Menu</div>
+        <div className="system-menu__title">{T.ui('menu.title', 'Menu')}</div>
         <div className="system-menu__items">
           <button
             className="system-menu__item"
@@ -133,6 +135,7 @@ function UnitListPanel({
   onClose: () => void;
   closeSystemMenu: () => void;
 }) {
+  const T = useT();
   const playerUnits = Array.from(units.values()).filter(
     (u) => u.faction === 'player' && !u.isCarried,
   );
@@ -160,12 +163,12 @@ function UnitListPanel({
         <table className="unit-list-table">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Class</th>
+              <th>{T.ui('menu.name', 'Name')}</th>
+              <th>{T.ui('menu.class', 'Class')}</th>
               <th>Lv</th>
               <th>HP</th>
-              <th>Weapon</th>
-              <th>Status</th>
+              <th>{T.ui('menu.weapon', 'Weapon')}</th>
+              <th>{T.ui('menu.status', 'Status')}</th>
             </tr>
           </thead>
           <tbody>
@@ -205,6 +208,7 @@ function ObjectivePanel({
   currentTurn: number;
   onClose: () => void;
 }) {
+  const T = useT();
   return (
     <div
       className="system-menu-panel__backdrop"
@@ -214,19 +218,19 @@ function ObjectivePanel({
       <div className="system-menu-panel" onClick={(e) => e.stopPropagation()}>
         <div className="system-menu-panel__title">勝敗条件</div>
         <div className="objective-panel__section">
-          <div className="objective-panel__label">Victory</div>
+          <div className="objective-panel__label">{T.ui('menu.victory', 'Victory')}</div>
           <div className="objective-panel__text objective-panel__text--victory">
             {objectiveDescription}
           </div>
         </div>
         <div className="objective-panel__section">
-          <div className="objective-panel__label">Defeat</div>
+          <div className="objective-panel__label">{T.ui('menu.defeat', 'Defeat')}</div>
           <div className="objective-panel__text objective-panel__text--defeat">
             主人公が倒される
           </div>
         </div>
         <div className="objective-panel__section">
-          <div className="objective-panel__label">Current Turn</div>
+          <div className="objective-panel__label">{T.ui('menu.currentTurn', 'Current Turn')}</div>
           <div className="objective-panel__text">{currentTurn}</div>
         </div>
       </div>

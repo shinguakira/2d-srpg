@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useT } from '../../i18n/useT';
 import type { UnitClass, UnitStats } from '../../core/types';
 import { PROMOTION_BONUSES } from '../../data/promotedClasses';
 import { BattleSprite } from '../Combat/BattleSprite';
@@ -23,6 +24,7 @@ const STAT_LABELS: (keyof UnitStats)[] = [
 ];
 
 export function PromotionScreen({ unitName, options, onConfirm, onCancel }: Props) {
+  const T = useT();
   const [selected, setSelected] = useState<string | null>(
     options.length === 1 ? options[0].id : null,
   );
@@ -93,14 +95,14 @@ export function PromotionScreen({ unitName, options, onConfirm, onCancel }: Prop
           disabled={!selected}
           onClick={() => selected && onConfirm(selected)}
         >
-          Confirm
+          {T.ui('common.confirm', 'Confirm')}
         </button>
         <button
           className="promotion-screen__cancel"
           data-testid="promotion-cancel"
           onClick={onCancel}
         >
-          Cancel
+          {T.ui('common.cancel', 'Cancel')}
         </button>
       </div>
     </div>

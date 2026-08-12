@@ -12,13 +12,15 @@ export function TurnInfo() {
   const units = useGameStore((s) => s.units);
 
   const JA_PHASE: Record<string, string> = {
-    player_phase: '味方フェイズ',
-    enemy_phase: '敵フェイズ',
+    player_phase: '自軍フェイズ',
+    enemy_phase: '敵軍フェイズ',
+    ally_phase: '同盟軍フェイズ',
     combat_animation: '戦闘',
   };
   const EN_PHASE: Record<string, string> = {
     player_phase: 'Player Phase',
     enemy_phase: 'Enemy Phase',
+    ally_phase: 'Ally Phase',
     combat_animation: 'Combat',
   };
   const table = T.lang === 'ja' ? JA_PHASE : EN_PHASE;
@@ -59,7 +61,7 @@ export function TurnInfo() {
     <div className="turn-info" data-testid="turn-info">
       <div className="turn-info__chapter">{T.chapter(chapterData?.id, chapterName)}</div>
       <div className="turn-info__turn">
-        {T.lang === 'ja' ? `${currentTurn}ターン目` : `Turn ${currentTurn}`}
+        {T.lang === 'ja' ? `ターン ${currentTurn}` : `Turn ${currentTurn}`}
       </div>
       <div className="turn-info__phase" data-testid="phase-indicator" data-phase={currentPhase}>
         {phaseLabel}

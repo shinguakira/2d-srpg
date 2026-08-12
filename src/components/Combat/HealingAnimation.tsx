@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { useT } from '../../i18n/useT';
 import { useGameStore } from '../../stores/gameStore';
 import { BattleSprite } from './BattleSprite';
 
@@ -18,6 +19,7 @@ type HealPhase =
   | 'done';
 
 export function HealingAnimation() {
+  const T = useT();
   const currentPhase = useGameStore((s) => s.currentPhase);
   const healData = useGameStore((s) => s.healAnimationData);
   const finishHealAnimation = useGameStore((s) => s.finishHealAnimation);
@@ -97,7 +99,9 @@ export function HealingAnimation() {
       {flashActive && <div className="heal-animation__flash" key={`heal-flash-${phase}`} />}
 
       <div className="combat-animation__modal heal-animation__modal">
-        <div className="combat-animation__title heal-animation__title-bar">Heal</div>
+        <div className="combat-animation__title heal-animation__title-bar">
+          {T.ui('heal.title', 'Heal')}
+        </div>
 
         {/* Battle stage */}
         <div className="combat-animation__stage">
@@ -179,13 +183,13 @@ export function HealingAnimation() {
           </div>
 
           <div className="combat-animation__step" style={{ color: '#22c55e' }}>
-            Healing
+            {T.ui('heal.healing', 'Healing')}
           </div>
 
           <div className="combat-animation__unit-info">
             <div className="combat-animation__name">{healData.targetName}</div>
             <div className="combat-animation__weapon-name" style={{ color: '#22c55e' }}>
-              HP Recovery
+              {T.ui('heal.hpRecovery', 'HP Recovery')}
             </div>
             <div className="combat-animation__hp-bar">
               <div

@@ -31,7 +31,9 @@ export function BossPhaseTransition() {
             </div>
           ))}
         </div>
-        <div className="boss-phase-transition__hint">Click to continue</div>
+        <div className="boss-phase-transition__hint">
+          {T.ui('common.clickToContinue', 'Click to continue')}
+        </div>
       </div>
     </div>
   );

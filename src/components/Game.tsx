@@ -1,4 +1,5 @@
 import { useEffect, useRef, useCallback } from 'react';
+import { useT } from '../i18n/useT';
 import { TacticalGrid } from './Grid/TacticalGrid';
 import { UnitStatsPanel } from './Units/UnitStatsPanel';
 import { TurnInfo } from './UI/TurnInfo';
@@ -158,6 +159,7 @@ export function Game() {
 }
 
 function GameOverOverlay() {
+  const T = useT();
   const units = useGameStore((s) => s.units);
   const chapterData = useGameStore((s) => s.chapterData);
   const currentTurn = useGameStore((s) => s.currentTurn);
@@ -276,11 +278,11 @@ function GameOverOverlay() {
               data-testid="victory-continue"
               onClick={handleVictoryContinue}
             >
-              Continue
+              {T.ui('common.continue', 'Continue')}
             </button>
           ) : (
             <button className="game-over__btn" data-testid="defeat-title" onClick={goToTitle}>
-              Return to Title
+              {T.ui('common.returnToTitle', 'Return to Title')}
             </button>
           )}
         </div>

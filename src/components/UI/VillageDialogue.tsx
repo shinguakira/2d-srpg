@@ -23,7 +23,7 @@ export function VillageDialogue() {
           {T.t(villageReward.dialogue)}
         </div>
         <div className="village-dialogue__reward" data-testid="village-reward">
-          {T.lang === 'ja' ? `${T.weapon(weaponName)}を　てにいれた！` : `Received ${weaponName}!`}
+          {T.lang === 'ja' ? `${T.weapon(weaponName)}を手に入れた！` : `Received ${weaponName}!`}
         </div>
         <div className="village-dialogue__hint">
           {T.lang === 'ja' ? 'クリックで進む' : 'Click to continue'}

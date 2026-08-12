@@ -1,4 +1,5 @@
 import { useEffect, useCallback, useState } from 'react';
+import { useT } from '../../i18n/useT';
 import { useGameStore } from '../../stores/gameStore';
 import { useUIStore } from '../../stores/uiStore';
 import { ALL_CLASSES } from '../../data/promotedClasses';
@@ -42,6 +43,7 @@ function getGrowthColor(rate: number): string {
 }
 
 export function UnitDetailScreen() {
+  const T = useT();
   const detailUnitId = useUIStore((s) => s.detailUnitId);
   const setDetailUnitId = useUIStore((s) => s.setDetailUnitId);
   const units = useGameStore((s) => s.units);
@@ -171,7 +173,7 @@ export function UnitDetailScreen() {
                     verticalAlign: 'middle',
                   }}
                 >
-                  Boss
+                  {T.ui('detail.boss', 'Boss')}
                 </span>
               )}
             </div>
@@ -234,7 +236,7 @@ export function UnitDetailScreen() {
 
         {/* Stats section */}
         <div style={{ marginBottom: 20 }}>
-          <div style={sectionHeader}>Stats</div>
+          <div style={sectionHeader}>{T.ui('detail.stats', 'Stats')}</div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px 20px' }}>
             {statEntries.map(([key, val]) => (
               <div
@@ -361,7 +363,7 @@ export function UnitDetailScreen() {
 
         {/* Equipment section */}
         <div style={{ marginBottom: 16 }}>
-          <div style={sectionHeader}>Equipment</div>
+          <div style={sectionHeader}>{T.ui('detail.equipment', 'Equipment')}</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             {unit.inventory.map((weapon, i) => {
               const isEquipped = weapon.id === unit.equippedWeapon.id;
@@ -442,10 +444,10 @@ export function UnitDetailScreen() {
         {/* Class Path / Promotion Preview (Task 10) */}
         {cls && (
           <div style={{ marginBottom: 16 }} data-testid="class-path">
-            <div style={sectionHeader}>Class Path</div>
+            <div style={sectionHeader}>{T.ui('detail.classPath', 'Class Path')}</div>
             {isMasterTier ? (
               <div style={{ fontSize: 13, opacity: 0.6, fontStyle: 'italic' }}>
-                Master tier reached
+                {T.ui('detail.masterTier', 'Master tier reached')}
               </div>
             ) : promotesTo && promotesTo.length > 0 ? (
               <div
@@ -491,7 +493,7 @@ export function UnitDetailScreen() {
               </div>
             ) : (
               <div style={{ fontSize: 13, opacity: 0.6, fontStyle: 'italic' }}>
-                No promotions available
+                {T.ui('detail.noPromotions', 'No promotions available')}
               </div>
             )}
           </div>
@@ -500,7 +502,7 @@ export function UnitDetailScreen() {
         {/* Skills section with descriptions (Task 2) */}
         {(unit.skills?.length > 0 || (cls?.innateSkills?.length ?? 0) > 0) && (
           <div style={{ marginBottom: 16 }}>
-            <div style={sectionHeader}>Skills</div>
+            <div style={sectionHeader}>{T.ui('prep.skills', 'Skills')}</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {cls?.innateSkills?.map((sid) => {
                 const skill = SKILLS[sid];
@@ -521,7 +523,9 @@ export function UnitDetailScreen() {
                       <span style={{ fontSize: 12, color: '#9ca3af', fontWeight: 600 }}>
                         {skill.name}
                       </span>
-                      <span style={{ fontSize: 10, color: '#6b7280' }}>Innate</span>
+                      <span style={{ fontSize: 10, color: '#6b7280' }}>
+                        {T.ui('prep.innate', 'Innate')}
+                      </span>
                       <span style={{ fontSize: 10, color: '#64748b', marginLeft: 'auto' }}>
                         {activation}
                       </span>
@@ -568,7 +572,7 @@ export function UnitDetailScreen() {
         {/* Boss Phases (Task 8) */}
         {bossPhases && bossPhases.length > 0 && (
           <div style={{ marginBottom: 16 }} data-testid="boss-phase-info">
-            <div style={sectionHeader}>Boss Phases</div>
+            <div style={sectionHeader}>{T.ui('detail.bossPhases', 'Boss Phases')}</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
               {bossPhases.map((phase, i) => {
                 const isCurrent = i === currentBossPhase;
@@ -603,7 +607,9 @@ export function UnitDetailScreen() {
                       {phase.hpThreshold > 0 ? `(${phase.hpThreshold}% HP)` : '(Start)'}
                     </span>
                     {isCurrent && (
-                      <span style={{ fontSize: 10, color: '#fbbf24', marginLeft: 6 }}>Current</span>
+                      <span style={{ fontSize: 10, color: '#fbbf24', marginLeft: 6 }}>
+                        {T.ui('detail.current', 'Current')}
+                      </span>
                     )}
                     {parts.length > 0 && (
                       <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: 11, marginTop: 2 }}>
@@ -620,7 +626,7 @@ export function UnitDetailScreen() {
         {/* Terrain section */}
         {terrain && (
           <div>
-            <div style={sectionHeader}>Terrain</div>
+            <div style={sectionHeader}>{T.ui('detail.terrain', 'Terrain')}</div>
             <div style={{ fontSize: 14, display: 'flex', gap: 16 }}>
               <span style={{ fontWeight: 600 }}>{terrain.name}</span>
               {terrain.defenseBonus > 0 && (

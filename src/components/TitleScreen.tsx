@@ -4,10 +4,14 @@ import type { GameMode } from '../stores/campaignStore';
 import type { DifficultyMode } from '../core/types';
 import { isHardLocked } from '../core/difficulty';
 import { CAMPAIGN } from '../data/campaignConfig';
+import { useUIStore } from '../stores/uiStore';
+import { useT } from '../i18n/useT';
 
 type SubMenu = 'none' | 'load' | 'chapter_select' | 'mode_select';
 
 export function TitleScreen() {
+  const T = useT();
+  const toggleLang = useUIStore((s) => s.toggleLang);
   const [subMenu, setSubMenu] = useState<SubMenu>('none');
   const [selectedMode, setSelectedMode] = useState<GameMode>('classic');
   const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyMode>('classic');
@@ -153,7 +157,7 @@ export function TitleScreen() {
                 }}
               >
                 {summary
-                  ? `${label}: ${meta?.name ?? summary.chapterId} — ${new Date(summary.timestamp).toLocaleDateString()}`
+                  ? `${label}: ${T.chapter(meta?.id, meta?.name) || summary.chapterId} — ${new Date(summary.timestamp).toLocaleDateString()}`
                   : `${label}: Empty`}
               </button>
             );
@@ -185,7 +189,7 @@ export function TitleScreen() {
               data-testid={`chapter-select-${ch.id}`}
               onClick={() => startChapter(ch.id)}
             >
-              {ch.name}
+              {T.chapter(ch.id, ch.name)}
             </button>
           ))}
           <button
@@ -203,14 +207,14 @@ export function TitleScreen() {
   return (
     <div className="title-screen" data-testid="title-screen">
       <h1 className="title-screen__title">The Sacred Flame</h1>
-      <p className="title-screen__subtitle">A Tale of Amagi</p>
+      <p className="title-screen__subtitle">{T.ui('title.subtitle', 'A Tale of Amagi')}</p>
       <div className="title-screen__menu">
         <button
           className="title-screen__btn"
           data-testid="new-game"
           onClick={() => setSubMenu('mode_select')}
         >
-          New Game
+          {T.ui('title.newGame', 'New Game')}
         </button>
         <button
           className="title-screen__btn"
@@ -218,17 +222,22 @@ export function TitleScreen() {
           disabled={!anySave()}
           onClick={() => setSubMenu('load')}
         >
-          Continue
+          {T.ui('title.continue', 'Continue')}
         </button>
         <button
           className="title-screen__btn"
           data-testid="chapter-select"
           onClick={() => setSubMenu('chapter_select')}
         >
-          Chapter Select
+          {T.ui('title.chapterSelect', 'Chapter Select')}
         </button>
         <button className="title-screen__btn" data-testid="debug-btn" onClick={goToDebug}>
-          Debug
+          {T.ui('title.debug', 'Debug')}
+        </button>
+        {/* Language toggle. Labelled in the language it switches *to*, which is
+            the convention every bilingual game menu uses. */}
+        <button className="title-screen__btn" data-testid="lang-toggle" onClick={toggleLang}>
+          {T.lang === 'en' ? '日本語' : 'English'}
         </button>
       </div>
     </div>

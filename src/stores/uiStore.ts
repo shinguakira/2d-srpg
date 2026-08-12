@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import type { Lang } from '../i18n';
 
 type CameraOffset = {
   x: number;
@@ -19,6 +20,7 @@ export type UIState = {
   keyboardMode: boolean;
   detailUnitId: string | null;
   animationSpeed: AnimationSpeed;
+  lang: Lang;
 };
 
 export type UIActions = {
@@ -42,6 +44,8 @@ export type UIActions = {
   setDetailUnitId: (id: string | null) => void;
   setAnimationSpeed: (speed: AnimationSpeed) => void;
   cycleAnimationSpeed: () => void;
+  setLang: (lang: Lang) => void;
+  toggleLang: () => void;
 };
 
 /** Get the duration multiplier for the current animation speed */
@@ -62,6 +66,10 @@ export function getScaledDuration(baseDuration: number, speed: AnimationSpeed): 
   return mult === 0 ? 16 : Math.max(16, baseDuration * mult);
 }
 
+// Load persisted preferences
+const savedLang: Lang =
+  (typeof localStorage !== 'undefined' && localStorage.getItem('lang')) === 'ja' ? 'ja' : 'en';
+
 // Load persisted animation speed
 const savedSpeed =
   (typeof localStorage !== 'undefined' &&
@@ -75,6 +83,7 @@ export const useUIStore = create<UIState & UIActions>((set, get) => ({
   keyboardMode: false,
   detailUnitId: null,
   animationSpeed: (['1x', '2x', 'skip'].includes(savedSpeed) ? savedSpeed : '1x') as AnimationSpeed,
+  lang: savedLang,
 
   panCamera: (dx, dy) => {
     set((state) => ({
@@ -137,6 +146,17 @@ export const useUIStore = create<UIState & UIActions>((set, get) => ({
   setAnimationSpeed: (speed) => {
     set({ animationSpeed: speed });
     localStorage.setItem('animationSpeed', speed);
+  },
+
+  setLang: (lang) => {
+    set({ lang });
+    localStorage.setItem('lang', lang);
+  },
+
+  toggleLang: () => {
+    const next: Lang = get().lang === 'en' ? 'ja' : 'en';
+    set({ lang: next });
+    localStorage.setItem('lang', next);
   },
 
   cycleAnimationSpeed: () => {

@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import { useGameStore } from '../../stores/gameStore';
+import { useT } from '../../i18n/useT';
 
 export function PhaseBanner() {
+  const T = useT();
   const phaseBanner = useGameStore((s) => s.phaseBanner);
   const currentTurn = useGameStore((s) => s.currentTurn);
   const dismissPhaseBanner = useGameStore((s) => s.dismissPhaseBanner);
@@ -23,8 +25,18 @@ export function PhaseBanner() {
       data-testid="phase-banner"
       data-phase={phaseBanner}
     >
-      <div className="phase-banner__text">{isPlayer ? 'Player Phase' : 'Enemy Phase'}</div>
-      <div className="phase-banner__turn">Turn {currentTurn}</div>
+      <div className="phase-banner__text">
+        {T.lang === 'ja'
+          ? isPlayer
+            ? '味方フェイズ'
+            : '敵フェイズ'
+          : isPlayer
+            ? 'Player Phase'
+            : 'Enemy Phase'}
+      </div>
+      <div className="phase-banner__turn">
+        {T.lang === 'ja' ? `${currentTurn}ターン目` : `Turn ${currentTurn}`}
+      </div>
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import { useGameStore } from '../../stores/gameStore';
+import { useT } from '../../i18n/useT';
 
 export function TurnInfo() {
+  const T = useT();
   const currentTurn = useGameStore((s) => s.currentTurn);
   const currentPhase = useGameStore((s) => s.currentPhase);
   const chapterName = useGameStore((s) => s.chapterName);
@@ -9,17 +11,21 @@ export function TurnInfo() {
   const chapterData = useGameStore((s) => s.chapterData);
   const units = useGameStore((s) => s.units);
 
-  const phaseLabel =
-    currentPhase === 'player_phase'
-      ? 'Player Phase'
-      : currentPhase === 'enemy_phase'
-        ? 'Enemy Phase'
-        : currentPhase === 'combat_animation'
-          ? 'Combat'
-          : 'Game Over';
+  const JA_PHASE: Record<string, string> = {
+    player_phase: '味方フェイズ',
+    enemy_phase: '敵フェイズ',
+    combat_animation: '戦闘',
+  };
+  const EN_PHASE: Record<string, string> = {
+    player_phase: 'Player Phase',
+    enemy_phase: 'Enemy Phase',
+    combat_animation: 'Combat',
+  };
+  const table = T.lang === 'ja' ? JA_PHASE : EN_PHASE;
+  const phaseLabel = table[currentPhase] ?? (T.lang === 'ja' ? 'ゲームオーバー' : 'Game Over');
 
   // Build objective status text
-  let objectiveText = objectiveDescription;
+  let objectiveText = T.objective(objectiveDescription);
   let objectiveReady = false;
   if (chapterData) {
     if (chapterData.objective.type === 'rout') {
@@ -29,7 +35,10 @@ export function TurnInfo() {
         if (u.faction === 'enemy') enemyCount++;
       }
       const defeated = totalEnemies - enemyCount;
-      objectiveText = `Rout: ${defeated}/${totalEnemies} defeated`;
+      objectiveText =
+        T.lang === 'ja'
+          ? `全滅：${defeated}/${totalEnemies}`
+          : `Rout: ${defeated}/${totalEnemies} defeated`;
       if (enemyCount === 0) objectiveReady = true;
     } else if (chapterData.objective.type === 'seize') {
       // Check if boss is still alive
@@ -40,15 +49,18 @@ export function TurnInfo() {
           break;
         }
       }
-      objectiveText = bossAlive ? 'Seize the throne' : 'Seize the throne \u2713';
+      const seize = T.objective('Seize the throne');
+      objectiveText = bossAlive ? seize : `${seize} \u2713`;
       objectiveReady = !bossAlive;
     }
   }
 
   return (
     <div className="turn-info" data-testid="turn-info">
-      <div className="turn-info__chapter">{chapterName}</div>
-      <div className="turn-info__turn">Turn {currentTurn}</div>
+      <div className="turn-info__chapter">{T.chapter(chapterData?.id, chapterName)}</div>
+      <div className="turn-info__turn">
+        {T.lang === 'ja' ? `${currentTurn}ターン目` : `Turn ${currentTurn}`}
+      </div>
       <div className="turn-info__phase" data-testid="phase-indicator" data-phase={currentPhase}>
         {phaseLabel}
       </div>

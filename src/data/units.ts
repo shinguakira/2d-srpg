@@ -716,14 +716,14 @@ export const ENEMY_UNITS: Record<string, Unit> = {
     aiBehavior: { type: 'guard', radius: 4 },
   }),
   // Ch7 corrupted spawns (shaman class, reinforcement waves)
-  ch7_corrupted_1: createUnit('ch7_corrupted_1', 'Corrupted', 'shaman', 'enemy', ['fire'], 6),
-  ch7_corrupted_2: createUnit('ch7_corrupted_2', 'Corrupted', 'shaman', 'enemy', ['thunder'], 6),
-  ch7_corrupted_3: createUnit('ch7_corrupted_3', 'Corrupted', 'shaman', 'enemy', ['fire'], 6),
-  ch7_corrupted_4: createUnit('ch7_corrupted_4', 'Corrupted', 'shaman', 'enemy', ['thunder'], 6),
-  ch7_corrupted_5: createUnit('ch7_corrupted_5', 'Corrupted', 'shaman', 'enemy', ['nosferatu'], 7),
-  ch7_corrupted_6: createUnit('ch7_corrupted_6', 'Corrupted', 'shaman', 'enemy', ['nosferatu'], 7),
-  ch7_corrupted_7: createUnit('ch7_corrupted_7', 'Corrupted', 'shaman', 'enemy', ['fire'], 7),
-  ch7_corrupted_8: createUnit('ch7_corrupted_8', 'Corrupted', 'shaman', 'enemy', ['thunder'], 7),
+  ch7_corrupted_1: createUnit('ch7_corrupted_1', 'Revenant', 'shaman', 'enemy', ['fire'], 6),
+  ch7_corrupted_2: createUnit('ch7_corrupted_2', 'Revenant', 'shaman', 'enemy', ['thunder'], 6),
+  ch7_corrupted_3: createUnit('ch7_corrupted_3', 'Revenant', 'shaman', 'enemy', ['fire'], 6),
+  ch7_corrupted_4: createUnit('ch7_corrupted_4', 'Revenant', 'shaman', 'enemy', ['thunder'], 6),
+  ch7_corrupted_5: createUnit('ch7_corrupted_5', 'Revenant', 'shaman', 'enemy', ['nosferatu'], 7),
+  ch7_corrupted_6: createUnit('ch7_corrupted_6', 'Revenant', 'shaman', 'enemy', ['nosferatu'], 7),
+  ch7_corrupted_7: createUnit('ch7_corrupted_7', 'Revenant', 'shaman', 'enemy', ['fire'], 7),
+  ch7_corrupted_8: createUnit('ch7_corrupted_8', 'Revenant', 'shaman', 'enemy', ['thunder'], 7),
 
   // ===== Chapter 8 enemies — Mountain Fortress (Akira's death) =====
 
@@ -830,7 +830,7 @@ export const ENEMY_UNITS: Record<string, Unit> = {
 
   ch10_boss: createUnit(
     'ch10_boss',
-    'General Ezrin',
+    'Grand Magus Ezrin',
     'sage',
     'enemy',
     ['elfire', 'mend'],
@@ -896,7 +896,7 @@ export const ENEMY_UNITS: Record<string, Unit> = {
   // System Construct — ch10 Turn 6 spawn, special high-stat enemy
   ch10_construct: createUnit(
     'ch10_construct',
-    'System Construct',
+    'Blackflame Colossus',
     'knight',
     'enemy',
     ['steel_lance'],

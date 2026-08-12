@@ -104,9 +104,9 @@ export const ITEMS: Record<string, ConsumableItem> = {
 
   // ===== Key Items =====
 
-  final_save_crystal: {
-    id: 'final_save_crystal',
-    name: 'Final Save Crystal',
+  ember_vessel: {
+    id: 'ember_vessel',
+    name: 'Ember Vessel',
     type: 'consumable',
     uses: 1,
     maxUses: 1,

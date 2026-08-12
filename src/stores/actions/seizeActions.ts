@@ -39,11 +39,11 @@ export function seize(get: Get, set: Set) {
     facing,
   });
 
-  // Check if Shigeru has Final Save Crystal — set campaign flag
-  if (unit.items.some((i) => i.effect.kind === 'key_item' && i.id === 'final_save_crystal')) {
+  // Check if Shigeru carries the Ember Vessel — set campaign flag
+  if (unit.items.some((i) => i.effect.kind === 'key_item' && i.id === 'ember_vessel')) {
     const campaignState = useCampaignStore.getState();
     useCampaignStore.setState({
-      campaignFlags: { ...campaignState.campaignFlags, final_save_crystal_used: true },
+      campaignFlags: { ...campaignState.campaignFlags, ember_vessel_used: true },
     });
   }
 

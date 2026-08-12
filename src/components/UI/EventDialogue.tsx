@@ -2,6 +2,7 @@ import { useEffect, useCallback } from 'react';
 import { useGameStore } from '../../stores/gameStore';
 import { BattleSprite } from '../Combat/BattleSprite';
 import type { Faction } from '../../core/types';
+import { useT } from '../../i18n/useT';
 
 const FACTION_COLORS: Record<string, string> = {
   player: '#60a5fa',
@@ -28,6 +29,7 @@ const SPEAKER_PORTRAITS: Record<string, { classId: string; faction: Faction; uni
 };
 
 export function EventDialogue() {
+  const T = useT();
   const eventDialogue = useGameStore((s) => s.eventDialogue);
   const lineIndex = useGameStore((s) => s.eventDialogueLineIndex);
   const advance = useGameStore((s) => s.advanceEventDialogue);
@@ -74,14 +76,16 @@ export function EventDialogue() {
         )}
         <div className="event-dialogue__content">
           <div className="event-dialogue__speaker" style={{ color: speakerColor }}>
-            {line.speaker}
+            {T.name(line.speaker)}
           </div>
           <div className="event-dialogue__text" data-testid="event-dialogue-text">
-            {line.text}
+            {T.t(line.text)}
           </div>
         </div>
       </div>
-      <div className="event-dialogue__hint">Click or press Enter to continue</div>
+      <div className="event-dialogue__hint">
+        {T.lang === 'ja' ? 'クリックまたはEnterで進む' : 'Click or press Enter to continue'}
+      </div>
     </div>
   );
 }

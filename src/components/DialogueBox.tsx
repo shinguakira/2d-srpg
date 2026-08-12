@@ -2,6 +2,7 @@ import { useEffect, useCallback } from 'react';
 import { useCampaignStore } from '../stores/campaignStore';
 import { BattleSprite } from './Combat/BattleSprite';
 import type { Faction } from '../core/types';
+import { useT } from '../i18n/useT';
 
 const FACTION_COLORS: Record<string, string> = {
   player: '#60a5fa',
@@ -26,6 +27,7 @@ const SPEAKER_PORTRAITS: Record<string, { classId: string; faction: Faction; uni
 };
 
 export function DialogueBox() {
+  const T = useT();
   const scene = useCampaignStore((s) => s.dialogueScene);
   const lineIndex = useCampaignStore((s) => s.dialogueLineIndex);
   const advance = useCampaignStore((s) => s.advanceDialogue);
@@ -69,9 +71,9 @@ export function DialogueBox() {
       )}
       <div className="dialogue__panel">
         <div className="dialogue__speaker" style={{ color: speakerColor }}>
-          {line.speaker}
+          {T.name(line.speaker)}
         </div>
-        <div className="dialogue__text">{line.text}</div>
+        <div className="dialogue__text">{T.t(line.text)}</div>
         <div className="dialogue__hint">
           {lineIndex + 1} / {scene.lines.length} — Click or press Enter
         </div>

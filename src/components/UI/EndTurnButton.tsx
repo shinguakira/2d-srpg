@@ -1,6 +1,8 @@
+import { useT } from '../../i18n/useT';
 import { useGameStore } from '../../stores/gameStore';
 
 export function EndTurnButton() {
+  const T = useT();
   const currentPhase = useGameStore((s) => s.currentPhase);
   const endPlayerTurn = useGameStore((s) => s.endPlayerTurn);
   const startAutoBattle = useGameStore((s) => s.startAutoBattle);
@@ -17,10 +19,12 @@ export function EndTurnButton() {
         onClick={startAutoBattle}
         disabled={isAutoBattle}
       >
-        {isAutoBattle ? 'Auto...' : 'Auto Battle'}
+        {isAutoBattle
+          ? T.ui('battle.autoBattleRunning', 'Auto...')
+          : T.ui('battle.autoBattle', 'Auto Battle')}
       </button>
       <button className="end-turn-btn" data-testid="end-turn-button" onClick={endPlayerTurn}>
-        End Turn
+        {T.ui('battle.endTurn', 'End Turn')}
       </button>
     </div>
   );

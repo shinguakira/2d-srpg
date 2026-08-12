@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useT } from '../../i18n/useT';
 import { useGameStore } from '../../stores/gameStore';
 import { useUIStore } from '../../stores/uiStore';
 import { posKey } from '../../core/types';
@@ -14,6 +15,7 @@ import { getDurabilityColor } from '../../core/items';
 import type { Weapon } from '../../core/types';
 
 export function ActionMenu() {
+  const T = useT();
   const playerAction = useGameStore((s) => s.playerAction);
   const confirmMove = useGameStore((s) => s.confirmMove);
   const cancelAction = useGameStore((s) => s.cancelAction);
@@ -472,7 +474,7 @@ export function ActionMenu() {
             data-testid="item-cancel"
             onClick={() => setShowItemMenu(false)}
           >
-            Cancel
+            {T.action('Cancel')}
           </button>
         </div>
       ) : (
@@ -498,7 +500,7 @@ export function ActionMenu() {
               data-testid="action-attack"
               onClick={startAttackTargeting}
             >
-              Attack
+              {T.action('Attack')}
             </button>
           )}
           {!exhausted && canHeal && (
@@ -507,7 +509,7 @@ export function ActionMenu() {
               data-testid="action-heal"
               onClick={startHealTargeting}
             >
-              Heal
+              {T.action('Heal')}
             </button>
           )}
           {!exhausted && canTalk && (
@@ -516,7 +518,7 @@ export function ActionMenu() {
               data-testid="action-talk"
               onClick={startTalkAction}
             >
-              Talk
+              {T.action('Talk')}
             </button>
           )}
           {!exhausted && hasUsableItems && (
@@ -525,7 +527,7 @@ export function ActionMenu() {
               data-testid="action-item"
               onClick={() => setShowItemMenu(true)}
             >
-              Item
+              {T.action('Item')}
             </button>
           )}
           {!exhausted && canSeize && (
@@ -534,7 +536,7 @@ export function ActionMenu() {
               data-testid="action-seize"
               onClick={seizeAction}
             >
-              Seize
+              {T.action('Seize')}
             </button>
           )}
           {!exhausted && canEscape && (
@@ -543,7 +545,7 @@ export function ActionMenu() {
               data-testid="action-escape"
               onClick={escapeAction}
             >
-              Escape
+              {T.action('Escape')}
             </button>
           )}
           {!exhausted && isUnvisitedVillage && (
@@ -552,7 +554,7 @@ export function ActionMenu() {
               data-testid="action-visit"
               onClick={visitVillage}
             >
-              Visit
+              {T.action('Visit')}
             </button>
           )}
           {!exhausted && canShove && (
@@ -561,7 +563,7 @@ export function ActionMenu() {
               data-testid="action-shove"
               onClick={shoveAction}
             >
-              Shove
+              {T.action('Shove')}
             </button>
           )}
           {!exhausted && canSwap && (
@@ -570,7 +572,7 @@ export function ActionMenu() {
               data-testid="action-swap"
               onClick={swapAction}
             >
-              Swap
+              {T.action('Swap')}
             </button>
           )}
           {!exhausted && canReposition && (
@@ -579,7 +581,7 @@ export function ActionMenu() {
               data-testid="action-reposition"
               onClick={repositionAction}
             >
-              Reposition
+              {T.action('Reposition')}
             </button>
           )}
           {!exhausted && canDance && (
@@ -588,7 +590,7 @@ export function ActionMenu() {
               data-testid="action-dance"
               onClick={startDanceTargeting}
             >
-              Dance
+              {T.action('Dance')}
             </button>
           )}
           {!exhausted && canSteal && (
@@ -597,7 +599,7 @@ export function ActionMenu() {
               data-testid="action-steal"
               onClick={startStealTargeting}
             >
-              Steal
+              {T.action('Steal')}
             </button>
           )}
           {!exhausted && canRescue && (
@@ -606,7 +608,7 @@ export function ActionMenu() {
               data-testid="action-rescue"
               onClick={startRescueTargeting}
             >
-              Rescue
+              {T.action('Rescue')}
             </button>
           )}
           {!exhausted && canDrop && (
@@ -615,7 +617,7 @@ export function ActionMenu() {
               data-testid="action-drop"
               onClick={startDropTargeting}
             >
-              Drop
+              {T.action('Drop')}
             </button>
           )}
           {!exhausted && canLockpick && (
@@ -624,7 +626,7 @@ export function ActionMenu() {
               data-testid="action-lockpick"
               onClick={lockpickAction}
             >
-              Lockpick
+              {T.action('Lockpick')}
             </button>
           )}
           {!exhausted && canTrade && (
@@ -633,7 +635,7 @@ export function ActionMenu() {
               data-testid="action-trade"
               onClick={startTradeTargeting}
             >
-              Trade
+              {T.action('Trade')}
             </button>
           )}
           {!exhausted && canBreak && (
@@ -642,7 +644,7 @@ export function ActionMenu() {
               data-testid="action-break"
               onClick={attackTerrainAction}
             >
-              Break
+              {T.action('Break')}
             </button>
           )}
           {canNegotiate && (
@@ -651,7 +653,7 @@ export function ActionMenu() {
               data-testid="action-negotiate"
               onClick={negotiateAction}
             >
-              Negotiate
+              {T.action('Negotiate')}
             </button>
           )}
           {!exhausted && canBalance && (
@@ -660,7 +662,7 @@ export function ActionMenu() {
               data-testid="action-balance"
               onClick={balanceUseAction}
             >
-              Balance
+              {T.action('Balance')}
             </button>
           )}
           {!exhausted && canUseTorch && (
@@ -669,7 +671,7 @@ export function ActionMenu() {
               data-testid="action-torch"
               onClick={torchUseAction}
             >
-              Torch
+              {T.action('Torch')}
             </button>
           )}
           {canRest && (
@@ -678,7 +680,7 @@ export function ActionMenu() {
               data-testid="action-rest"
               onClick={restAction}
             >
-              Rest
+              {T.action('Rest')}
             </button>
           )}
           <button
@@ -690,7 +692,7 @@ export function ActionMenu() {
               }
             }}
           >
-            View Info
+            {T.action('View Info')}
           </button>
           <button className="action-menu__btn" data-testid="action-wait" onClick={confirmMove}>
             Wait
@@ -700,7 +702,7 @@ export function ActionMenu() {
             data-testid="action-cancel"
             onClick={cancelAction}
           >
-            Cancel
+            {T.action('Cancel')}
           </button>
         </div>
       )}

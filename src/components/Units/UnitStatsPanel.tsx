@@ -11,6 +11,7 @@ import {
 } from '../../core/metaStats';
 import { getDurabilityColor } from '../../core/items';
 import { getSupportRank, getSupportCombatBonuses } from '../../core/support';
+import { useT } from '../../i18n/useT';
 import { getManhattanDistance } from '../../core/pathfinding';
 import { ALL_CLASSES } from '../../data/promotedClasses';
 import { useGameStore } from '../../stores/gameStore';
@@ -149,6 +150,7 @@ function SupportSection({
 }
 
 export function UnitStatsPanel() {
+  const T = useT();
   const selectedUnitId = useGameStore((s) => s.selectedUnitId);
   const hoveredTile = useGameStore((s) => s.hoveredTile);
   const units = useGameStore((s) => s.units);
@@ -208,9 +210,9 @@ export function UnitStatsPanel() {
     <div className="unit-stats-panel" data-testid="unit-stats-panel">
       {unit && (
         <div className="unit-stats-panel__unit" data-testid="unit-info">
-          <div className="unit-stats-panel__name">{unit.name}</div>
+          <div className="unit-stats-panel__name">{T.name(unit.name)}</div>
           <div className="unit-stats-panel__class">
-            {CLASSES[unit.classId]?.name ?? unit.classId} Lv.{unit.level}
+            {T.cls(CLASSES[unit.classId]?.name ?? unit.classId)} Lv.{unit.level}
           </div>
           <div className="unit-stats-panel__hp">
             HP: {unit.currentHp}/{unit.stats.hp}
@@ -228,7 +230,7 @@ export function UnitStatsPanel() {
             <span>WIL {unit.stats.wil}</span>
           </div>
           <div className="unit-stats-panel__weapon">
-            {unit.equippedWeapon.name} (Mt {unit.equippedWeapon.might})
+            {T.weapon(unit.equippedWeapon.name)} (Mt {unit.equippedWeapon.might})
             {unit.equippedWeapon.durability != null &&
               unit.equippedWeapon.maxDurability != null && (
                 <span
@@ -255,7 +257,7 @@ export function UnitStatsPanel() {
 
       {terrainInfo && (
         <div className="unit-stats-panel__terrain" data-testid="terrain-info">
-          <div className="unit-stats-panel__terrain-name">{terrainInfo.name}</div>
+          <div className="unit-stats-panel__terrain-name">{T.terrain(terrainInfo.name)}</div>
           <div>DEF +{terrainInfo.defenseBonus}</div>
           <div>AVO +{terrainInfo.avoidBonus}</div>
 
@@ -307,14 +309,16 @@ export function UnitStatsPanel() {
               data-testid={`danger-threat-${e.id}`}
               style={{ color: 'rgba(255,255,255,0.7)', marginTop: 1 }}
             >
-              {e.name} — {e.equippedWeapon.name}
+              {T.name(e.name)} — {T.weapon(e.equippedWeapon.name)}
             </div>
           ))}
         </div>
       )}
 
       {!unit && !terrainInfo && (
-        <div className="unit-stats-panel__empty">Hover a tile or select a unit</div>
+        <div className="unit-stats-panel__empty">
+          {T.ui('panel.hint', 'Hover a tile or select a unit')}
+        </div>
       )}
     </div>
   );

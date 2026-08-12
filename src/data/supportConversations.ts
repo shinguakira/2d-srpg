@@ -185,7 +185,7 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
     lines: [
       {
         speaker: 'Kanna',
-        text: 'Hina. Your staff work has improved by about a quarter since Minato. I have been counting.',
+        text: 'Hina. Your staff work has improved by about a quarter since Tsutsu. I have been counting.',
         speakerFaction: 'player',
       },
       {

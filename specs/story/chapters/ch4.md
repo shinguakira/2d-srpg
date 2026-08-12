@@ -1,10 +1,10 @@
-# Chapter 4: The Pickpocket
+# Chapter 4: The Cape of Tsutsu
 
 Exact dialogue lives in `src/data/chapters/chapter4.ts`.
 
 ## Summary
 
-Minato harbour. River pirates are burning the district's storehouses. A split-forces
+Tsutsu, the southern cape. Sea raiders are burning the district's storehouses. A split-forces
 chapter that teaches objective triage — the target is not the enemy, it is three
 roofs full of the town's winter grain.
 
@@ -37,16 +37,16 @@ intercept but will be overextended. The player is meant to take the risk.
 
 **Boss.** Zanba is a businessman. Kurogane pays for grain and asks no questions;
 Amagi is a name on a burnt map. Shigeru's counter is not moral, it is practical —
-ask your own crews why the fish are leaving the river.
+ask your own crews why the fish are leaving the bay.
 
 **Boss death — the political reveal.** Hachi searches him and finds a **signed,
-dated Kurogane pay chit.** The Empire is paying river pirates to starve the province
+dated Kurogane pay chit.** The Empire is paying sea raiders to starve the province
 it just conquered. Genzo, flatly: *"A hungry province does not raise an army. That is
 not cruelty, my lord. That is the manual."*
 
 **Epilogue — the third mark.** Hachi warns the party off a back lane behind the
-north storehouse: no cat in Minato will walk it. Asked which way it runs — *"North-
-north-east. Straight as a rule. Why has everyone gone quiet?"* Kanna walks it end to
+north storehouse: no cat in Tsutsu will walk it. Asked which way it runs — *"North-
+north-west. Straight as a rule. Why has everyone gone quiet?"* Kanna walks it end to
 end that night with a lamp and comes back without saying what she found.
 
 ## Supports

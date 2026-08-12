@@ -25,7 +25,7 @@ const terrain: TerrainType[][] = [
 
 export const CHAPTER_4: ChapterData = {
   id: 'ch4',
-  name: 'Chapter 4: The Pickpocket',
+  name: 'Chapter 4: The Cape of Tsutsu',
   chapterNumber: 4,
   mapWidth: 18,
   mapHeight: 10,
@@ -65,12 +65,12 @@ export const CHAPTER_4: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: "Shigeru's company arrives at the pirate stronghold of Minato. Overturned stalls and fleeing merchants paint a grim picture.",
+        text: "Shigeru's company arrives at the cape town of Tsutsu. Overturned stalls and fleeing merchants paint a grim picture.",
       },
-      { speaker: 'Akira', text: 'Pirates? This far inland?', speakerFaction: 'player' },
+      { speaker: 'Akira', text: 'Raiders? This far south?', speakerFaction: 'player' },
       {
         speaker: 'Kanna',
-        text: "River pirates. They've been raiding the district for weeks. Three storehouses are still holding out.",
+        text: 'Sea raiders. They have been working this cape for weeks. Three storehouses are still holding out.',
         speakerFaction: 'player',
       },
       {
@@ -130,7 +130,7 @@ export const CHAPTER_4: ChapterData = {
       { speaker: 'Kanna', text: 'Why not?', speakerFaction: 'player' },
       {
         speaker: 'Hachi',
-        text: 'Cats will not walk it. Every cat in Minato, and not one of them will set foot in that lane. I have been picking pockets in this town since I was six and I have learned to bet on the cats.',
+        text: 'Cats will not walk it. Every cat in Tsutsu, and not one of them will set foot in that lane. I have been picking pockets in this town since I was six and I have learned to bet on the cats.',
         speakerFaction: 'player',
       },
       {
@@ -140,7 +140,7 @@ export const CHAPTER_4: ChapterData = {
       },
       {
         speaker: 'Hachi',
-        text: 'North-north-east. Straight as a rule. Why has everyone gone quiet?',
+        text: 'West-north-west. Straight as a rule. Why has everyone gone quiet?',
         speakerFaction: 'player',
       },
       {

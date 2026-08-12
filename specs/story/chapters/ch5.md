@@ -1,4 +1,4 @@
-# Chapter 5: Above the Clouds
+# Chapter 5: Kaneda, Above the Clouds
 
 Exact dialogue lives in `src/data/chapters/chapter5.ts`.
 
@@ -20,10 +20,10 @@ Flamebrand*, and therefore toward the party. The company stops running south.
 ## Beats
 
 **Prologue — the fourth mark.** Yuki lands to warn them off: there is a hole in the
-sky above the north ridge, the size of a village, with no cloud and no colour, and
+sky out over the western cliffs, the size of a village, with no cloud and no colour, and
 her mare will not fly within a mile of it. Kanna asks the only question that
-matters — *what bearing?* — and gets north-north-east. *"Four marks on one bearing is
-not a line any more. It is an arrow, and the point of it is the northern shrine."*
+matters — *what bearing?* — and gets west-north-west. *"Four marks on one bearing is
+not a line any more. It is an arrow, and the point of it is the shrine at Are."*
 
 **Turn 3 — the ground changes.** Terrain rewrites itself under the party. Kanna's
 plotted routes are void; the working rule becomes "trust only ground you have just
@@ -47,13 +47,13 @@ edge of the rift for an hour, was not afraid of it, and said: *"Good. It is stil
 hungry."*
 
 **Epilogue — the turn.** Kanna lays every mark on the survey maps: a line being
-drawn from the northern shrine to *them*, past two cities to get here. Hina names
+drawn from the shrine at Are to *them*, past two cities to get here. Hina names
 what it is coming for — the Flamebrand. Genzo says the rest out loud, because nobody
-else will: the northern shrine held the Blackflame, Takeshi went in alone, and the
+else will: the shrine at Are held the Blackflame, Takeshi went in alone, and the
 thing that was sealed there knows where the sword is.
 
 Akira draws the consequence: every town they pass through is a town it burns after
-they leave. Shigeru turns the company north at the harbour.
+they leave. Shigeru turns the company west at the harbour.
 
 *"They had spent five chapters running from an empire. From that evening they were
 walking toward something older, and they knew its name."*

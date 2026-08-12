@@ -26,7 +26,7 @@ const terrain: TerrainType[][] = [
 
 export const CHAPTER_2: ChapterData = {
   id: 'ch2',
-  name: 'Chapter 2: The Defector',
+  name: 'Chapter 2: The Sasu Crossing',
   chapterNumber: 2,
   mapWidth: 18,
   mapHeight: 10,
@@ -60,7 +60,7 @@ export const CHAPTER_2: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'Dawn on the Kuze river. A Kurogane garrison holds the only bridge for thirty miles, and behind it the road runs south to the free cities.',
+        text: 'Dawn on the Sasu river. A Kurogane garrison holds the only bridge for thirty miles, and behind it the road runs south to Tsutsu and the last harbour still ours.',
       },
       {
         speaker: 'Akira',
@@ -109,12 +109,12 @@ export const CHAPTER_2: ChapterData = {
       { speaker: 'Shigeru', text: 'From which shrine?', speakerFaction: 'player' },
       {
         speaker: 'Kanna',
-        text: 'The northern one. And it is cracked clean through. Wards do not crack. They are cut from a single stone precisely so they cannot.',
+        text: 'The one at Are. And it is cracked clean through. Wards do not crack. They are cut from a single stone precisely so they cannot.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Genzo',
-        text: 'The northern shrine. That is where the Emperor went, before the war. Alone. He came back three days later and gave the order to march.',
+        text: 'The shrine at Are. That is where the Emperor went, before the war. Alone. He came back three days later and gave the order to march.',
         speakerFaction: 'player',
       },
       { speaker: 'Shigeru', text: 'Went there and did what?', speakerFaction: 'player' },
@@ -130,12 +130,12 @@ export const CHAPTER_2: ChapterData = {
       },
       {
         speaker: 'Kanna',
-        text: 'Give me the stone and time. If something is leaking out of the north, it will leave traces, and traces can be mapped.',
+        text: 'Give me the stone and time. If something is leaking out of the west, it will leave traces, and traces can be mapped.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Narrator',
-        text: 'The company crossed the Kuze that evening, carrying a cracked ward and a name none of them wanted to say twice.',
+        text: 'The company crossed the Sasu that evening, carrying a cracked ward and a name none of them wanted to say twice.',
       },
     ],
   },
@@ -269,7 +269,7 @@ export const CHAPTER_2: ChapterData = {
               },
               {
                 speaker: 'Kanna',
-                text: 'It runs in a line. Two paces wide, arrow-straight, and it points north-north-east. Toward the mountains.',
+                text: 'It runs in a line. Two paces wide, arrow-straight, and it points west-north-west. Toward the sea cliffs.',
                 speakerFaction: 'player',
               },
               {
@@ -319,7 +319,7 @@ export const CHAPTER_2: ChapterData = {
               },
               {
                 speaker: 'Shigeru',
-                text: 'Your emperor broke the northern shrine. Do your orders explain that?',
+                text: 'Your emperor broke the shrine at Are. Do your orders explain that?',
                 speakerFaction: 'player',
               },
               {

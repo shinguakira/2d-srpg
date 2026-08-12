@@ -29,7 +29,7 @@ const terrain: TerrainType[][] = [
 
 export const CHAPTER_1: ChapterData = {
   id: 'ch1',
-  name: 'Chapter 1: The Fall of Amagi',
+  name: 'Chapter 1: The Road to Kuta',
   chapterNumber: 1,
   mapWidth: 25,
   mapHeight: 12,
@@ -56,11 +56,11 @@ export const CHAPTER_1: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'The capital of Amagi burned before dawn. By noon the prince was on the south road with what was left of his father’s guard.',
+        text: 'The Kurogane fleet came ashore at Komoda Beach at first light, and the king rode west to meet them on the sand. By dusk he was dead and Izuhara was burning. By noon the next day the prince was on the coast road south with what was left of his father’s guard.',
       },
       {
         speaker: 'Akira',
-        text: 'My lord — the keep at Shirakawa has fallen. Brigands, flying Kurogane colours. They have the village pinned against the river.',
+        text: 'My lord — the keep at Kuta has fallen. Brigands, flying Kurogane colours. They have the village pinned against the river.',
         speakerFaction: 'player',
       },
       {
@@ -97,7 +97,7 @@ export const CHAPTER_1: ChapterData = {
         type: 'weapon',
         weaponId: 'wind',
         dialogue:
-          'The old scholar left this tome when he fled north. Not one of us can read a word of it. Perhaps your mage can.',
+          'The old scholar left this tome when he fled inland. Not one of us can read a word of it. Perhaps your mage can.',
         speaker: 'Villager',
       },
     },
@@ -116,7 +116,7 @@ export const CHAPTER_1: ChapterData = {
       },
       {
         speaker: 'Hina',
-        text: 'Excuse me! Is this the royal company? I have run here from the Hitotsu shrine and I have blisters in places I will not describe.',
+        text: 'Excuse me! Is this the royal company? I have run here from the Shiratake shrine and I have blisters in places I will not describe.',
         speakerFaction: 'player',
       },
       { speaker: 'Shigeru', text: '...Who are you?', speakerFaction: 'player' },
@@ -300,7 +300,7 @@ export const CHAPTER_1: ChapterData = {
             lines: [
               {
                 speaker: 'Baraku',
-                text: 'Shirakawa. The village is called Shirakawa. Somebody ought to know that.',
+                text: 'Kuta. The village is called Kuta. Somebody ought to know that.',
                 speakerFaction: 'enemy',
               },
               { speaker: 'Shigeru', text: 'I will remember it.', speakerFaction: 'player' },

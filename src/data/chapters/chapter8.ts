@@ -34,7 +34,7 @@ const terrain: TerrainType[][] = [
 
 export const CHAPTER_8: ChapterData = {
   id: 'ch8',
-  name: 'Chapter 8: The Last Stand',
+  name: 'Chapter 8: The Last Stand on Yatate',
   chapterNumber: 8,
   mapWidth: 18,
   mapHeight: 20,
@@ -77,7 +77,7 @@ export const CHAPTER_8: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'Night. The mountain fortress looms ahead. Two fronts — the throne room to the north, a corridor to the south where reinforcements will come.',
+        text: 'Night on Yatate, the highest ground on the island. The fortress commands the whole spine of the Lower Country. Two fronts — the throne room above, and a corridor below where the reinforcements will come.',
       },
       {
         speaker: 'Genzo',
@@ -108,7 +108,7 @@ export const CHAPTER_8: ChapterData = {
       },
       {
         speaker: 'Shigeru',
-        text: 'I said no. I have not lost anyone since Amagi and I am not starting tonight because it is efficient.',
+        text: 'I said no. I have not lost anyone since Izuhara and I am not starting tonight because it is efficient.',
         speakerFaction: 'player',
       },
       {

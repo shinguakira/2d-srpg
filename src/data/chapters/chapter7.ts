@@ -65,7 +65,7 @@ export const CHAPTER_7: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'The coastal fortress of Isonami. Waves have broken on these walls for two hundred years. Tonight something is moving inside the north wall itself.',
+        text: 'The fortress at the Cut, where the channel splits the island in two. These walls have stood two hundred years. Tonight something is moving inside the seaward wall itself.',
       },
       {
         speaker: 'Kanna',
@@ -80,7 +80,7 @@ export const CHAPTER_7: ChapterData = {
       },
       {
         speaker: 'Raiga',
-        text: 'Admiral Isonami holds the keep. Old garrison, disciplined, spread thin along the wall.',
+        text: 'Admiral Isonami holds the keep above the channel. Old garrison, disciplined, spread thin along the wall.',
         speakerFaction: 'player',
       },
       {
@@ -387,7 +387,7 @@ export const CHAPTER_7: ChapterData = {
             lines: [
               {
                 speaker: 'Isonami',
-                text: 'Two hundred years this keep has stood. It will stand after me.',
+                text: 'Two hundred years this keep has held the Cut. It will hold after me.',
                 speakerFaction: 'enemy',
               },
               {

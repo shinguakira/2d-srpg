@@ -1,4 +1,4 @@
-# Chapter 8: The Last Stand
+# Chapter 8: The Last Stand on Yatate
 
 Exact dialogue lives in `src/data/chapters/chapter8.ts`. **Genzo dies here.** This
 is the campaign's turning point and the chapter everything before it is building

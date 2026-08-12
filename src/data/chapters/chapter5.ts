@@ -34,7 +34,7 @@ const terrain: TerrainType[][] = [
 
 export const CHAPTER_5: ChapterData = {
   id: 'ch5',
-  name: 'Chapter 5: Above the Clouds',
+  name: 'Chapter 5: Kaneda, Above the Clouds',
   chapterNumber: 5,
   mapWidth: 14,
   mapHeight: 16,
@@ -77,7 +77,7 @@ export const CHAPTER_5: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'Dawn. The party camps on a ridge overlooking the highland fortress. Clouds hang unnaturally low. A pegasus knight descends, lance drawn.',
+        text: 'Dawn below Shiroyama. The old border fortress of Kaneda stands over the south shore of Aso Bay, built four centuries ago to watch the western sea. Clouds hang unnaturally low. A pegasus knight descends, lance drawn.',
       },
       {
         speaker: 'Yuki',
@@ -87,7 +87,7 @@ export const CHAPTER_5: ChapterData = {
       { speaker: 'Shigeru', text: 'Wrong how?', speakerFaction: 'player' },
       {
         speaker: 'Yuki',
-        text: 'There is a hole in it. Above the north ridge, a stretch of sky the size of a village where there is no cloud, no sun, no colour. My mare will not fly within a mile of it and she has flown through a storm front.',
+        text: 'There is a hole in it. Out over the western cliffs, a stretch of sky the size of a village where there is no cloud, no sun, no colour. My mare will not fly within a mile of it and she has flown through a storm front.',
         speakerFaction: 'player',
       },
       { speaker: 'Akira', text: 'Sky does not have holes in it.', speakerFaction: 'player' },
@@ -97,7 +97,7 @@ export const CHAPTER_5: ChapterData = {
         text: 'What bearing, rider? From the fortress — what bearing to the hole?',
         speakerFaction: 'player',
       },
-      { speaker: 'Yuki', text: '...North-north-east. Why?', speakerFaction: 'player' },
+      { speaker: 'Yuki', text: '...West-north-west. Why?', speakerFaction: 'player' },
       {
         speaker: 'Shigeru',
         text: 'Because that is the fourth one. Kanna?',
@@ -105,7 +105,7 @@ export const CHAPTER_5: ChapterData = {
       },
       {
         speaker: 'Kanna',
-        text: 'Four marks on one bearing is not a line any more, my lord. It is an arrow, and the point of it is the northern shrine.',
+        text: 'Four marks on one bearing is not a line any more, my lord. It is an arrow, and the point of it is the shrine at Are.',
         speakerFaction: 'player',
       },
       {
@@ -123,13 +123,13 @@ export const CHAPTER_5: ChapterData = {
       },
       {
         speaker: 'Kanna',
-        text: 'I have it. Every mark we have seen since the Kuze bridge, laid on the survey maps. It is not a spreading stain. It is a line, and it is being drawn.',
+        text: 'I have it. Every mark we have seen since the Sasu bridge, laid on the survey maps. It is not a spreading stain. It is a line, and it is being drawn.',
         speakerFaction: 'player',
       },
       { speaker: 'Shigeru', text: 'Drawn from where to where?', speakerFaction: 'player' },
       {
         speaker: 'Kanna',
-        text: 'From the northern shrine \u2014 to us. Every mark is nearer than the last. It has been walking toward this company since the day we found the cracked ward.',
+        text: 'From the shrine at Are \u2014 to us. Every mark is nearer than the last. It has been walking toward this company since the day we found the cracked ward.',
         speakerFaction: 'player',
       },
       { speaker: 'Yuki', text: 'Toward us. Not toward the cities?', speakerFaction: 'player' },
@@ -141,18 +141,18 @@ export const CHAPTER_5: ChapterData = {
       { speaker: 'Hina', text: 'The Flamebrand.', speakerFaction: 'player' },
       {
         speaker: 'Genzo',
-        text: 'Then say the rest of it, my lord, since nobody else will. The northern shrine held the Blackflame. Takeshi went into that shrine alone before the war and came out changed. And now the thing that was sealed there is walking south, and it knows where your sword is.',
+        text: 'Then say the rest of it, my lord, since nobody else will. The shrine at Are held the Blackflame. Takeshi went into that shrine alone before the war and came out changed. And now the thing that was sealed there is walking inland, and it knows where your sword is.',
         speakerFaction: 'player',
       },
       { speaker: 'Shigeru', text: '...Yes. That is the shape of it.', speakerFaction: 'player' },
       {
         speaker: 'Akira',
-        text: 'Then we stop running south. My lord \u2014 if it is following the Flamebrand, every town we pass through is a town it burns after we leave.',
+        text: 'Then we stop running. My lord \u2014 if it is following the Flamebrand, every town we pass through is a town it burns after we leave.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'I know. We turn north at the harbour. Kanna \u2014 I want to know what it is before I take it to my father\u2019s sword.',
+        text: 'I know. We turn west at the harbour. Kanna \u2014 I want to know what it is before I take it to my father\u2019s sword.',
         speakerFaction: 'player',
       },
       {

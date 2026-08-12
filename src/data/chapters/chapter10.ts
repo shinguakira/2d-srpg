@@ -35,7 +35,7 @@ const terrain: TerrainType[][] = [
 
 export const CHAPTER_10: ChapterData = {
   id: 'ch10',
-  name: 'Chapter 10: What We Carry',
+  name: 'Chapter 10: The Sands of Komoda',
   chapterNumber: 10,
   mapWidth: 16,
   mapHeight: 18,
@@ -88,7 +88,7 @@ export const CHAPTER_10: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'A border village. Farmland to the south, a fortified hill to the north. Grand Magus Sozen holds the heights, and he has not once sent a man down to take the village.',
+        text: 'Komoda, where the Sasu river meets the western sea. Flat sand and farmland below, a fortified hill above. Grand Magus Sozen holds the heights and has not once sent a man down to take the village.',
       },
       {
         speaker: 'Shigeru',
@@ -152,7 +152,7 @@ export const CHAPTER_10: ChapterData = {
       },
       {
         speaker: 'Kanna',
-        text: 'You broke the northern seal. You let that thing out into your own country.',
+        text: 'You broke the seal at Are. You let that thing out into your own country.',
         speakerFaction: 'player',
       },
       {
@@ -182,7 +182,7 @@ export const CHAPTER_10: ChapterData = {
       },
       {
         speaker: 'Takeshi',
-        text: 'Bring me the Flamebrand. It is the last thing in the world that still answers to the seal, and while it exists the thing inside me keeps reaching for it. Bring it north and I will let every one of these people walk away.',
+        text: 'Bring me the Flamebrand. It is the last thing in the world that still answers to the seal, and while it exists the thing inside me keeps reaching for it. Bring it to Are and I will let every one of these people walk away.',
         speakerFaction: 'enemy',
       },
       { speaker: 'Shigeru', text: 'And if I do not?', speakerFaction: 'player' },
@@ -197,7 +197,7 @@ export const CHAPTER_10: ChapterData = {
       },
       {
         speaker: 'Shigeru',
-        text: '...We go north. Not because he asked. Because he is right that it is coming, and I would rather meet it at the shrine than in somebody’s field.',
+        text: '...We go west. Not because he asked. Because he is right that it is coming, and I would rather meet it at the shrine than in somebody’s field.',
         speakerFaction: 'player',
       },
     ],
@@ -242,7 +242,7 @@ export const CHAPTER_10: ChapterData = {
               { speaker: 'Shigeru', text: "We won't let that happen.", speakerFaction: 'player' },
               {
                 speaker: 'Elder Toki',
-                text: 'I have outlived worse men than that general. But I cannot outwalk what is coming down from the north, and neither can you.',
+                text: 'I have outlived worse men than that general. But I cannot outwalk what is coming up out of the west, and neither can you.',
                 speakerFaction: 'ally',
               },
             ],
@@ -301,7 +301,7 @@ export const CHAPTER_10: ChapterData = {
             lines: [
               {
                 speaker: 'Sozen',
-                text: 'I felt it too. The wrongness in the north. I read the same signs your scholar reads.',
+                text: 'I felt it too. The wrongness out west. I read the same signs your scholar reads.',
                 speakerFaction: 'enemy',
               },
               { speaker: 'Shigeru', text: 'You could have helped us.', speakerFaction: 'player' },
@@ -332,7 +332,7 @@ export const CHAPTER_10: ChapterData = {
             lines: [
               {
                 speaker: 'Kanna',
-                text: 'It is coming apart. Look — the ash is not scattering. It is running back north, along the ground, against the wind.',
+                text: 'It is coming apart. Look — the ash is not scattering. It is running back west, along the ground, against the wind.',
                 speakerFaction: 'player',
               },
               { speaker: 'Shigeru', text: 'Going home.', speakerFaction: 'player' },

@@ -22,6 +22,26 @@ kingdom of Amagi, carries the **Flamebrand**; **Akira** is his sworn retainer;
 the sealed **Blackflame** into his own body because he intends to end war rather than
 postpone it again.
 
+### The stage is Tsushima; the genre is not Japan
+
+The campaign is laid over the real island of **Tsushima** and uses its real
+toponyms — Izuhara, Kuta, the Sasu river, Shiine, Tsutsu, Kaneda on Shiroyama, Aso
+Bay, Kechi, the Cut at Ōfunakoshi, Yatate, Shiratake, Tateragyama, Komoda Beach, and
+**Are**, where the campaign ends.
+
+**The period dressing stays Fire Emblem.** Knights, lances, cavalry, pegasus riders,
+castles, shrines, an empire across the water. No samurai, no Shinto/Buddhist
+specifics, no real history. If a scene would only work in a Japanese historical
+drama, it is wrong for this game.
+
+Two fixed facts of the geography:
+
+- Everything bad comes off the **western sea**. Kurogane landed at Komoda; the
+  Blackflame was sealed at Are. Every blight bearing in Arc 1 is **west-north-west**.
+  "The north" is never the direction of dread — that is a leftover from the old draft.
+- The story never leaves the **Lower Country**, south of the Cut. The **Upper
+  Country** is optional post-campaign content only.
+
 Rules when writing dialogue:
 
 - **No irony about the setting.** Nobody comments on tropes, mechanics, or narrative

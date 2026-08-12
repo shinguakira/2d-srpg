@@ -63,7 +63,7 @@ export const CHAPTER_9: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'A narrow forest pass. The company moves south in silence. Nobody has taken the empty place in the marching order.',
+        text: 'A pass through the old forest under Shiratake, where the trees have never been cut. The company moves in silence. Nobody has taken the empty place in the marching order.',
       },
       { speaker: 'Goro', text: '...', speakerFaction: 'player' },
       {
@@ -94,7 +94,7 @@ export const CHAPTER_9: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'The forest thins. The party emerges into open ground, bruised but intact.',
+        text: 'The old forest thins. The company comes out onto open ground above the bay, bruised and intact.',
       },
       {
         speaker: 'Kagura',

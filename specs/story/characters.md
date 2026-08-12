@@ -18,7 +18,7 @@ orders that spend people is getting easier.
 public, which his officers find reassuring and his enemies find readable.
 
 **Arc**: Ch1 flight → Ch5 realising the blight follows *him* → Ch8 giving Genzo
-permission to die → Ch10 refusing Takeshi to his face → Arc 3 walking north.
+permission to die → Ch10 refusing Takeshi to his face → Arc 3 walking west.
 
 **Key line** (Ch8): *"I have not lost anyone since Amagi and I am not starting
 tonight because it is efficient."*
@@ -40,7 +40,7 @@ will be there for that as well."*
 ## Kanna — Mage
 
 Court scholar of the shrine archives. Blunt, impatient, catalogues heraldry for
-fun. She is the one who notices the grey line at the Kuze bridge in Ch2 and spends
+fun. She is the one who notices the grey line at the Sasu bridge in Ch2 and spends
 five chapters proving it is a line and not a coincidence.
 
 **Arc — the spine of Arc 2.** She builds a model of where the blight will surface.
@@ -51,7 +51,7 @@ changing the question from *where will it go* to *what does it want*.
 
 ## Hina — Cleric
 
-Shrine maiden of Hitotsu, sent to find the Flamebrand's bearer. Warm, extremely
+Shrine maiden of Shiratake, sent to find the Flamebrand's bearer. Warm, extremely
 loud, physically fearless about grabbing wounded soldiers of either army. She prays
 for enemies and means it.
 
@@ -60,7 +60,7 @@ She is the one who supplies the setting's folklore — ashfall, the Abyss, reven
 
 ## Goro — Fighter
 
-Woodcutter from the northern hills. Big, loud, warm, and considerably sharper than
+Woodcutter out of the Sasu uplands. Big, loud, warm, and considerably sharper than
 he lets on: his questions are the ones that turn a lecture into a lesson ("So the
 slow ground is the safe ground"). Serves as the player's proxy for tutorial beats
 without ever being stupid.
@@ -84,13 +84,13 @@ to answer is whether it is somebody who chose it."*
 
 ## Sayo — Archer
 
-Huntress of the Kiri woods, found defending a village alone from high ground.
+Huntress of the Sasu woods, found defending a village alone from high ground.
 Answers in single words and does not consider this a personality flaw. Green. No.
 No.
 
 ## Hachi — Thief
 
-Pickpocket of Minato harbour, cheerful, morally flexible, feeds people with stolen
+Pickpocket of Tsutsu harbour, cheerful, morally flexible, feeds people with stolen
 keys. Hums when concentrating, which is how Shigeru catches them. Their thief's
 instinct — *watch which door the owner never opens* — is what unsticks Kanna in Ch7.
 

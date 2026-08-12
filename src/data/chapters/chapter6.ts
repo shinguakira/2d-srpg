@@ -34,7 +34,7 @@ const terrain: TerrainType[][] = [
 
 export const CHAPTER_6: ChapterData = {
   id: 'ch6',
-  name: 'Chapter 6: Blades for Hire',
+  name: 'Chapter 6: The Harbour at Kechi',
   chapterNumber: 6,
   mapWidth: 16,
   mapHeight: 18,
@@ -74,17 +74,17 @@ export const CHAPTER_6: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'A coastal harbor town. Salt air mixes with smoke from distant fires. The party arrives at dawn, seeking passage south.',
+        text: 'The harbour at Kechi, on the inner water of Aso Bay. Salt air and smoke off the headlands. The company arrives at dawn looking for a hull that will carry them.',
       },
       {
         speaker: 'Raiga',
-        text: 'Raiga. Sellsword. My last contract was guarding a caravan out of the highlands. There is no caravan and there are no highlands, so here I am.',
+        text: 'Raiga. Sellsword. My last contract was a pack train out of the Sasu valley. There is no pack train and there is no Sasu valley, so here I am.',
         speakerFaction: 'player',
       },
-      { speaker: 'Shigeru', text: 'No highlands.', speakerFaction: 'player' },
+      { speaker: 'Shigeru', text: 'No valley.', speakerFaction: 'player' },
       {
         speaker: 'Raiga',
-        text: 'Grey ground where the road was. I walked back the way I came and there was nothing to walk back to. Do not ask me to describe it better than that.',
+        text: 'Grey ground where the road was, from Shimobaru to the river mouth. I walked back the way I came and there was nothing to walk back to. Do not ask me to describe it better than that.',
         speakerFaction: 'player',
       },
       {
@@ -94,17 +94,17 @@ export const CHAPTER_6: ChapterData = {
       },
       {
         speaker: 'Akira',
-        text: 'Past us? Then it is between us and the south road.',
+        text: 'Past us? Then it is between us and every road south.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'Which settles the argument. We were turning north anyway. Raiga — you said you were between contracts.',
+        text: 'Which settles the argument. We were turning west anyway. Raiga — you said you were between contracts.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Raiga',
-        text: 'Everyone else on this coast is running from the north. You are the only fools walking at it. I want to see how that ends.',
+        text: 'Everyone else on this bay is running east. You are the only fools walking the other way. I want to see how that ends.',
         speakerFaction: 'player',
       },
       {
@@ -148,7 +148,7 @@ export const CHAPTER_6: ChapterData = {
       },
       {
         speaker: 'Shigeru',
-        text: 'Then we make time. The coastal fortress next — and after that, north.',
+        text: 'Then we make time. The Cut next — and after that, west.',
         speakerFaction: 'player',
       },
     ],

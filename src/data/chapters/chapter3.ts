@@ -26,7 +26,7 @@ const terrain: TerrainType[][] = [
 
 export const CHAPTER_3: ChapterData = {
   id: 'ch3',
-  name: 'Chapter 3: The Hills of Kiri',
+  name: 'Chapter 3: The Shiine Hills',
   chapterNumber: 3,
   mapWidth: 25,
   mapHeight: 12,
@@ -77,7 +77,7 @@ export const CHAPTER_3: ChapterData = {
       },
       {
         speaker: 'Kanna',
-        text: 'Brigands, then. The Kiri hills have carried them for generations, and a kingdom with no soldiers left is an invitation.',
+        text: 'Brigands, then. The Shiine hills have carried them for generations, and a kingdom with no soldiers left is an invitation.',
         speakerFaction: 'player',
       },
       {
@@ -141,7 +141,7 @@ export const CHAPTER_3: ChapterData = {
       },
       {
         speaker: 'Kanna',
-        text: 'I do not know yet. But it is not going north. It is coming south, and it is keeping pace with us.',
+        text: 'I do not know yet. But it is not running out to sea. It is coming inland, and it is keeping pace with us.',
         speakerFaction: 'player',
       },
       {
@@ -159,7 +159,7 @@ export const CHAPTER_3: ChapterData = {
         type: 'weapon',
         weaponId: 'steel_sword',
         dialogue: 'A fine blade, forged by our best smith. Use it to drive these bandits out!',
-        speaker: 'Kiri Blacksmith',
+        speaker: 'Sasu Blacksmith',
       },
     },
     {
@@ -168,7 +168,7 @@ export const CHAPTER_3: ChapterData = {
         type: 'weapon',
         weaponId: 'elfire',
         dialogue: 'This tome was left behind by a traveling sage. It holds powerful fire magic.',
-        speaker: 'Kiri Villager',
+        speaker: 'Sasu Villager',
       },
     },
   ],

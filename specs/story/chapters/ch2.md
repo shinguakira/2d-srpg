@@ -1,10 +1,10 @@
-# Chapter 2: The Defector
+# Chapter 2: The Sasu Crossing
 
 Exact dialogue lives in `src/data/chapters/chapter2.ts`.
 
 ## Summary
 
-The Kuze river garrison — the only bridge for thirty miles. Introduces a recruitable
+The Sasu river garrison — the only bridge for thirty miles. Introduces a recruitable
 enemy, chokepoint tactics, and the campaign's real plot: a **cracked shrine ward**
 taken off the enemy commander.
 
@@ -36,11 +36,11 @@ Goro: *"That is either the bravest thing I have heard or the stupidest."*
 Genzo: *"It is both, lad. Most true things are."*
 
 **Turn 4 — the first mark.** Kanna finds a two-pace-wide line of grey grass along
-the north wall, arrow-straight, bearing north-north-east. No scorch, no rot, no
+the north wall, arrow-straight, bearing west-north-west. No scorch, no rot, no
 insects. Hina names it from a shrine song — *ashfall* — and Kanna refuses to accept
 a song as evidence while accepting the straight line as evidence.
 
-**Boss pre-combat.** Shigeru tells Ryuji his emperor broke the northern shrine.
+**Boss pre-combat.** Shigeru tells Ryuji his emperor broke the shrine at Are.
 Ryuji's answer is the campaign's recurring note: *"A soldier who reads past his
 orders is a soldier looking for a reason to run."*
 
@@ -49,7 +49,7 @@ up from his orders — *"that is most of the men we are going to have to kill."*
 
 **Epilogue — the plot starts.** Ryuji was carrying a shrine ward, cracked clean
 through. Wards are cut from a single stone precisely so they cannot crack. Genzo
-supplies the missing half: Takeshi went to the northern shrine alone before the war
+supplies the missing half: Takeshi went to the shrine at Are alone before the war
 and came back three days later and gave the order to march. Nobody asked what he did
 there. *"You do not ask Takeshi things."*
 

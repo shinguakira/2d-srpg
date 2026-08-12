@@ -14,11 +14,11 @@ Master roster for the 25-chapter campaign. Units 1-12 are implemented in
 | 1 | **Shigeru** | `shigeru` | Lord | Ch1 | — | Protagonist. Bears the Flamebrand. Must survive every chapter. |
 | 2 | **Akira** | `akira` | Cavalier | Ch1 | — | Sworn retainer. Survives the campaign — deliberately. |
 | 3 | **Kanna** | `kanna` | Mage | Ch1 | — | Court scholar. Tracks the blight. Crisis chapter is Ch7. |
-| 4 | **Hina** | `hina` | Cleric | Ch1 (epilogue) | — | Shrine maiden of Hitotsu. Supplies the setting's folklore. |
+| 4 | **Hina** | `hina` | Cleric | Ch1 (epilogue) | — | Shrine maiden of Shiratake. Supplies the setting's folklore. |
 | 5 | **Goro** | `goro` | Fighter | Ch1 (turn 2) | — | Woodcutter. Asks the questions the player is thinking. |
 | 6 | **Genzo** | `genzo` | Soldier | Ch2 (defects) | **Ch8 (dies)** | Kurogane sergeant. His death is the campaign's turning point. |
-| 7 | **Sayo** | `sayo` | Archer | Ch3 | — | Kiri huntress. Speaks in single words. |
-| 8 | **Hachi** | `hachi` | Thief | Ch4 | — | Minato pickpocket. Feeds people with stolen keys. |
+| 7 | **Sayo** | `sayo` | Archer | Ch3 | — | Shiine huntress. Speaks in single words. |
+| 8 | **Hachi** | `hachi` | Thief | Ch4 | — | Tsutsu pickpocket. Feeds people with stolen keys. |
 | 9 | **Yuki** | `yuki` | Pegasus Knight | Ch5 | — | Sky Watch rider. Sees the blight from above first. |
 | 10 | **Raiga** | `raiga` | Mercenary | Ch6 | — | Sellsword. The company's memento mori. |
 | 11 | **Mio** | `mio` | Troubadour | Ch6 | — | Heals both armies and will not be argued out of it. |

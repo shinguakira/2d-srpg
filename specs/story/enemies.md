@@ -79,7 +79,7 @@ of several.
 - `ch10_construct` · knight frame · HP 50 / STR 15 / DEF 14 / RES 10 / SPD 3
 - Slow, nearly unkillable head-on, and single-minded: it goes for an objective, not
   for whoever is nearest
-- On death its ash runs north along the ground **against the wind**, which is the
+- On death its ash runs west along the ground **against the wind**, which is the
   first trail the party can actually follow
 
 ### Blighted terrain
@@ -103,7 +103,7 @@ Only one or two enemies per chapter get lines. Keep them short and human.
 - **Soldiers** mean it when they shout for their commander. They are not cynics.
 - **Brigands** are opportunists who took the winning side's coin and know exactly
   what that makes them.
-- **Officers** almost all know something is wrong in the north and have been told
+- **Officers** almost all know something is wrong in the west and have been told
   not to look at it. That order is the recurring note of the whole campaign.
 - **Revenants do not speak.** Ever. If a revenant says something, the scene is
   broken.

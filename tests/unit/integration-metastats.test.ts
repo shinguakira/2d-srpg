@@ -220,14 +220,14 @@ describe('Integration: LOY -5 when Shigeru takes damage near adjacent ally', () 
   it('non-adjacent ally is unaffected', () => {
     const lord = makeUnit('shigeru', { x: 1, y: 1 }, { isLord: true });
     const farAlly = makeUnit(
-      'kanna',
+      'lisette',
       { x: 3, y: 3 },
       { metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 } },
     );
     const enemy = makeUnit('enemy1', { x: 2, y: 1 }, { faction: 'enemy' });
     const units = new Map<string, Unit>([
       ['shigeru', lord],
-      ['kanna', farAlly],
+      ['lisette', farAlly],
       ['enemy1', enemy],
     ]);
     const gameMap = makeMap(4, 4);
@@ -253,21 +253,21 @@ describe('Integration: LOY -5 when Shigeru takes damage near adjacent ally', () 
     };
 
     const result = applyCombatResult(units, gameMap, 'enemy1', 'shigeru', combatResult, null);
-    const kanna = result.newUnits.get('kanna')!;
-    expect(kanna.metaStats.loy).toBe(50); // unchanged
+    const lisette = result.newUnits.get('lisette')!;
+    expect(lisette.metaStats.loy).toBe(50); // unchanged
   });
 
   it('LOY does not go below 0 from Shigeru damage penalty', () => {
     const lord = makeUnit('shigeru', { x: 1, y: 1 }, { isLord: true });
     const ally = makeUnit(
-      'genzo',
+      'halvar',
       { x: 1, y: 2 },
       { metaStats: { awr: 0, loop: 0, sync: 70, loy: 3, crp: 0, sta: 0 } },
     );
     const enemy = makeUnit('enemy1', { x: 2, y: 1 }, { faction: 'enemy' });
     const units = new Map<string, Unit>([
       ['shigeru', lord],
-      ['genzo', ally],
+      ['halvar', ally],
       ['enemy1', enemy],
     ]);
     const gameMap = makeMap(4, 4);
@@ -293,23 +293,23 @@ describe('Integration: LOY -5 when Shigeru takes damage near adjacent ally', () 
     };
 
     const result = applyCombatResult(units, gameMap, 'enemy1', 'shigeru', combatResult, null);
-    expect(result.newUnits.get('genzo')!.metaStats.loy).toBe(0);
+    expect(result.newUnits.get('halvar')!.metaStats.loy).toBe(0);
   });
 });
 
 describe('Integration: AWR 30 anomaly dialogue', () => {
   it('triggers dialogue when AWR >= 30 unit is adjacent to glitched tile', () => {
     const unit = makeUnit(
-      'kanna',
+      'lisette',
       { x: 1, y: 1 },
       {
         metaStats: { awr: 30, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
       },
     );
-    const units = new Map<string, Unit>([['kanna', unit]]);
+    const units = new Map<string, Unit>([['lisette', unit]]);
     // Glitched tile adjacent at (2,1)
     const gameMap = makeMap(3, 3, { '2,1': 'glitched' });
-    gameMap.tiles[1][1].occupantId = 'kanna';
+    gameMap.tiles[1][1].occupantId = 'lisette';
 
     const { get, set, getState } = createMockGetSet({
       units,
@@ -323,22 +323,22 @@ describe('Integration: AWR 30 anomaly dialogue', () => {
     const state = getState();
     // Should have event dialogue
     expect(state.eventDialogue).toBeDefined();
-    expect(state.eventDialogue!.lines[0].speaker).toBe('Kanna');
+    expect(state.eventDialogue!.lines[0].speaker).toBe('Lisette');
     // Should set flag to prevent repeat
-    expect(state.eventFlags.has('awr_comment_kanna')).toBe(true);
+    expect(state.eventFlags.has('awr_comment_lisette')).toBe(true);
   });
 
   it('does not trigger if AWR < 30', () => {
     const unit = makeUnit(
-      'sayo',
+      'bryn',
       { x: 1, y: 1 },
       {
         metaStats: { awr: 10, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
       },
     );
-    const units = new Map<string, Unit>([['sayo', unit]]);
+    const units = new Map<string, Unit>([['bryn', unit]]);
     const gameMap = makeMap(3, 3, { '2,1': 'glitched' });
-    gameMap.tiles[1][1].occupantId = 'sayo';
+    gameMap.tiles[1][1].occupantId = 'bryn';
 
     const { get, set, getState } = createMockGetSet({
       units,
@@ -355,18 +355,18 @@ describe('Integration: AWR 30 anomaly dialogue', () => {
 
   it('does not repeat for same unit', () => {
     const unit = makeUnit(
-      'goro',
+      'gareth',
       { x: 1, y: 1 },
       {
         metaStats: { awr: 40, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
       },
     );
-    const units = new Map<string, Unit>([['goro', unit]]);
+    const units = new Map<string, Unit>([['gareth', unit]]);
     const gameMap = makeMap(3, 3, { '2,1': 'glitched' });
-    gameMap.tiles[1][1].occupantId = 'goro';
+    gameMap.tiles[1][1].occupantId = 'gareth';
 
     const flags = new Map<string, string>();
-    flags.set('awr_comment_goro', 'true');
+    flags.set('awr_comment_gareth', 'true');
 
     const { get, set, getState } = createMockGetSet({
       units,

@@ -20,11 +20,11 @@ type Set = (partial: Partial<GameState>) => void;
 /** Canned remarks for INS >= 30 units standing next to blighted ground */
 const ANOMALY_LINES: Record<string, string> = {
   shigeru: "The ground here is wrong. My father's sword is warm against my back.",
-  kanna: 'The blight is measurable here. Appalling, and fascinating.',
-  goro: 'Something is off about this spot. My skin is crawling.',
-  hina: 'I can feel it seeping in. Stand somewhere else, please.',
+  lisette: 'The blight is measurable here. Appalling, and fascinating.',
+  gareth: 'Something is off about this spot. My skin is crawling.',
+  mirelle: 'I can feel it seeping in. Stand somewhere else, please.',
   akira: 'Stay sharp. The ground here is not right.',
-  genzo: 'I have seen ground like this before. On the other side of the border.',
+  halvar: 'I have seen ground like this before. On the other side of the border.',
 };
 const DEFAULT_ANOMALY_LINE = 'Something feels... wrong about this place.';
 

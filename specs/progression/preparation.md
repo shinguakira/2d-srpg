@@ -41,16 +41,16 @@ All steps are optional — the player can go straight to "Start Battle" at any t
 │  DEPLOY  (8/10 slots filled)        │
 │                                     │
 │  [1] Shigeru ★ Lv18 Lord         LOCKED │
-│  [2] Kanna   Lv16 Sage       [  ×]  │
-│  [3] Goro    Lv17 Warrior    [  ×]  │
-│  [4] Hina    Lv15 Bishop     [  ×]  │
-│  [5] Genzo    Lv16 General    [  ×]  │
-│  [6] Sayo    Lv14 Sniper     [  ×]  │
-│  [7] Hachi    Lv15 Assassin   [  ×]  │
-│  [8] Raiga    Lv16 Hero       [  ×]  │
+│  [2] Lisette   Lv16 Sage       [  ×]  │
+│  [3] Gareth    Lv17 Warrior    [  ×]  │
+│  [4] Mirelle    Lv15 Bishop     [  ×]  │
+│  [5] Halvar    Lv16 General    [  ×]  │
+│  [6] Bryn    Lv14 Sniper     [  ×]  │
+│  [7] Fenn    Lv15 Assassin   [  ×]  │
+│  [8] Corwin    Lv16 Hero       [  ×]  │
 │  ── available ──                     │
-│  [ ] Mio    Lv13 Valkyrie          │
-│  [ ] Kagura    Lv12 Dancer            │
+│  [ ] Nadine    Lv13 Valkyrie          │
+│  [ ] Viviane    Lv12 Dancer            │
 │  [ ] Kira    Lv14 Druid             │
 │                                     │
 │  [Start Battle]  [Shop]  [Forge]    │
@@ -185,9 +185,9 @@ Available from **Arc 2 (Ch6)** onward. Earned by completing chapters under par t
 │                                      │
 │  Distribute to deployed units:       │
 │  ─────────────────────               │
-│  Kanna   Lv16  [+0]  [▲] [▼]        │
-│  Goro    Lv17  [+0]  [▲] [▼]        │
-│  Kagura    Lv12  [+100][▲] [▼]  ← LOW │
+│  Lisette   Lv16  [+0]  [▲] [▼]        │
+│  Gareth    Lv17  [+0]  [▲] [▼]        │
+│  Viviane    Lv12  [+100][▲] [▼]  ← LOW │
 │  Kira    Lv14  [+100][▲] [▼]  ← LOW │
 │  ...                                 │
 │  Remaining: 40                       │
@@ -214,10 +214,10 @@ Available from **Ch3** onward. View and unlock support conversations between uni
 ┌──────────────────────────────────────┐
 │  SUPPORTS                            │
 │                                      │
-│  Shigeru × Kanna     [A] — NEW! View?   │
-│  Goro × Hina     [B] ██████░░ 72/100│
-│  Genzo × Sayo     [C] ██░░░░░░ 30/50 │
-│  Hachi × Raiga     [—] ░░░░░░░░  8/20 │
+│  Shigeru × Lisette     [A] — NEW! View?   │
+│  Gareth × Mirelle     [B] ██████░░ 72/100│
+│  Halvar × Bryn     [C] ██░░░░░░ 30/50 │
+│  Fenn × Corwin     [—] ░░░░░░░░  8/20 │
 │  ...                                 │
 │                                      │
 │  [View]  [Back]                      │

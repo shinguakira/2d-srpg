@@ -180,7 +180,7 @@ describe('Weapon triangle with staff type', () => {
 
 describe('resolveHealing', () => {
   it('heals for mag + weapon might', () => {
-    const healer = makeUnit('hina', {
+    const healer = makeUnit('mirelle', {
       stats: {
         hp: 18,
         str: 1,
@@ -222,7 +222,7 @@ describe('resolveHealing', () => {
   });
 
   it('caps healing at max HP', () => {
-    const healer = makeUnit('hina', {
+    const healer = makeUnit('mirelle', {
       stats: {
         hp: 18,
         str: 1,
@@ -263,7 +263,7 @@ describe('resolveHealing', () => {
   });
 
   it('heals 0 when target is at full HP', () => {
-    const healer = makeUnit('hina', {
+    const healer = makeUnit('mirelle', {
       stats: {
         hp: 18,
         str: 1,

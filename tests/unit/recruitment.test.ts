@@ -68,58 +68,58 @@ function makeUnit(
 describe('Recruitment — Talk availability', () => {
   it('Talk is available when recruitable unit is adjacent', () => {
     const lord = makeUnit('shigeru', 'player', { x: 3, y: 3 });
-    const genzo = makeUnit(
-      'genzo',
+    const halvar = makeUnit(
+      'halvar',
       'enemy',
       { x: 3, y: 4 },
       { recruitableBy: 'shigeru', recruitCondition: 'talk' },
     );
 
     const pendingPosition = lord.position;
-    const dist = getManhattanDistance(pendingPosition, genzo.position);
-    const canTalk = genzo.recruitableBy === lord.id && dist === 1;
+    const dist = getManhattanDistance(pendingPosition, halvar.position);
+    const canTalk = halvar.recruitableBy === lord.id && dist === 1;
     expect(canTalk).toBe(true);
   });
 
   it('Talk is NOT available when recruitable unit is too far', () => {
     const lord = makeUnit('shigeru', 'player', { x: 3, y: 3 });
-    const genzo = makeUnit(
-      'genzo',
+    const halvar = makeUnit(
+      'halvar',
       'enemy',
       { x: 5, y: 5 },
       { recruitableBy: 'shigeru', recruitCondition: 'talk' },
     );
 
-    const dist = getManhattanDistance(lord.position, genzo.position);
-    const canTalk = genzo.recruitableBy === lord.id && dist === 1;
+    const dist = getManhattanDistance(lord.position, halvar.position);
+    const canTalk = halvar.recruitableBy === lord.id && dist === 1;
     expect(canTalk).toBe(false);
   });
 
   it('Talk is NOT available when different unit is required', () => {
     const akira = makeUnit('akira', 'player', { x: 3, y: 3 });
-    const genzo = makeUnit(
-      'genzo',
+    const halvar = makeUnit(
+      'halvar',
       'enemy',
       { x: 3, y: 4 },
       { recruitableBy: 'shigeru', recruitCondition: 'talk' },
     );
 
-    const dist = getManhattanDistance(akira.position, genzo.position);
-    const canTalk = genzo.recruitableBy === akira.id && dist === 1;
+    const dist = getManhattanDistance(akira.position, halvar.position);
+    const canTalk = halvar.recruitableBy === akira.id && dist === 1;
     expect(canTalk).toBe(false);
   });
 });
 
 describe('Recruitment — Faction swap', () => {
   it('recruited unit becomes player faction', () => {
-    const genzo = makeUnit(
-      'genzo',
+    const halvar = makeUnit(
+      'halvar',
       'enemy',
       { x: 3, y: 4 },
       { recruitableBy: 'shigeru', recruitCondition: 'talk' },
     );
     const recruited = {
-      ...genzo,
+      ...halvar,
       faction: 'player' as const,
       hasActed: true,
       aiBehavior: undefined,
@@ -132,8 +132,8 @@ describe('Recruitment — Faction swap', () => {
   });
 
   it('recruited unit retains current HP and stats', () => {
-    const genzo = makeUnit(
-      'genzo',
+    const halvar = makeUnit(
+      'halvar',
       'enemy',
       { x: 3, y: 4 },
       {
@@ -154,7 +154,7 @@ describe('Recruitment — Faction swap', () => {
         },
       },
     );
-    const recruited = { ...genzo, faction: 'player' as const };
+    const recruited = { ...halvar, faction: 'player' as const };
     expect(recruited.currentHp).toBe(12);
     expect(recruited.level).toBe(3);
     expect(recruited.stats.def).toBe(8);

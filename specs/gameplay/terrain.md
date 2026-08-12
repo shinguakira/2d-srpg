@@ -64,7 +64,7 @@ Code reference: `src/core/terrain.ts`
 - HP regeneration triggers at the **start of the unit's turn** (before acting).
 - Forts heal +5 HP per turn. Thrones heal +10 HP per turn.
 - Does not exceed max HP.
-- STA recovery from Forts (-3) and Thrones (-5) triggers passively — does NOT require Wait. This is important for Goro (No Patience — cannot Wait).
+- STA recovery from Forts (-3) and Thrones (-5) triggers passively — does NOT require Wait. This is important for Gareth (No Patience — cannot Wait).
 - ATT bonus: healing at a fort/throne grants +2 ATT (see stats.md).
 
 ### Class-Specific Movement Rules

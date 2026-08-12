@@ -452,7 +452,7 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     await page.click('[data-testid="action-wait"]');
     await page.waitForTimeout(200);
 
-    // Move Hina close but safe (14,11 → 14,9)
+    // Move Mirelle close but safe (14,11 → 14,9)
     await clickTile(page, 14, 11);
     await clickTile(page, 14, 9);
     await page.waitForTimeout(200);
@@ -462,10 +462,10 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     // End turn — enemies attack Akira
     await endTurnAndWait(page);
 
-    // Turn 2: Try to heal Akira with Hina
+    // Turn 2: Try to heal Akira with Mirelle
     await clickTile(page, 14, 9);
     await page.waitForTimeout(200);
-    // Move Hina adjacent to where Akira might be
+    // Move Mirelle adjacent to where Akira might be
     await clickTile(page, 13, 8);
     await page.waitForTimeout(300);
 

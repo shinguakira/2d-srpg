@@ -25,7 +25,7 @@ const terrain: TerrainType[][] = [
   [P, P, P, P, P, P, P, B, B, P, P, P, P, P, P, P], // row 10 — bridge crossing
   [W, P, P, P, P, P, W, W, W, W, P, P, P, P, P, W], // row 11 — water channel
   [P, P, P, V, P, P, P, B, B, P, P, P, P, P, P, P], // row 12 — village at (3,12), south bridge
-  [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 13 — south approach (Mio appears)
+  [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 13 — south approach (Nadine appears)
   [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 14 — deployment area
   [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 15 — deployment row 1
   [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 16 — deployment row 2
@@ -42,14 +42,14 @@ export const CHAPTER_6: ChapterData = {
   playerUnits: [
     { unitId: 'shigeru', position: { x: 7, y: 15 } },
     { unitId: 'akira', position: { x: 8, y: 15 } },
-    { unitId: 'kanna', position: { x: 7, y: 16 } },
-    { unitId: 'goro', position: { x: 6, y: 16 } },
-    { unitId: 'hina', position: { x: 9, y: 16 } },
-    { unitId: 'raiga', position: { x: 6, y: 15 } },
-    { unitId: 'genzo', position: { x: 9, y: 15 } },
+    { unitId: 'lisette', position: { x: 7, y: 16 } },
+    { unitId: 'gareth', position: { x: 6, y: 16 } },
+    { unitId: 'mirelle', position: { x: 9, y: 16 } },
+    { unitId: 'corwin', position: { x: 6, y: 15 } },
+    { unitId: 'halvar', position: { x: 9, y: 15 } },
   ],
   enemyUnits: [
-    { unitId: 'ch6_boss', position: { x: 7, y: 3 } }, // Captain Tsubame on fort
+    { unitId: 'ch6_boss', position: { x: 7, y: 3 } }, // Captain Aeryn on fort
     { unitId: 'ch6_soldier_1', position: { x: 5, y: 1 } }, // harbor guard
     { unitId: 'ch6_soldier_2', position: { x: 10, y: 1 } }, // harbor guard
     { unitId: 'ch6_soldier_3', position: { x: 4, y: 4 } }, // corridor guard
@@ -64,12 +64,12 @@ export const CHAPTER_6: ChapterData = {
   ],
   objective: {
     type: 'boss_kill',
-    description: 'Defeat Captain Tsubame',
+    description: 'Defeat Captain Aeryn',
   },
   deploymentSlots: 7,
   forceDeploy: ['shigeru'],
   parTurns: 16,
-  recruitableUnits: ['raiga', 'mio'],
+  recruitableUnits: ['corwin', 'nadine'],
   prologue: {
     lines: [
       {
@@ -77,18 +77,18 @@ export const CHAPTER_6: ChapterData = {
         text: 'The harbour at Kechi, on the inner water of Aso Bay. Salt air and smoke off the headlands. The company arrives at dawn looking for a hull that will carry them.',
       },
       {
-        speaker: 'Raiga',
-        text: 'Raiga. Sellsword. My last contract was a pack train out of the Sasu valley. There is no pack train and there is no Sasu valley, so here I am.',
+        speaker: 'Corwin',
+        text: 'Corwin. Sellsword. My last contract was a pack train out of the Sasu valley. There is no pack train and there is no Sasu valley, so here I am.',
         speakerFaction: 'player',
       },
       { speaker: 'Shigeru', text: 'No valley.', speakerFaction: 'player' },
       {
-        speaker: 'Raiga',
+        speaker: 'Corwin',
         text: 'Grey ground where the road was, from Shimobaru to the river mouth. I walked back the way I came and there was nothing to walk back to. Do not ask me to describe it better than that.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: 'My lord, that is the fifth mark, and it is behind us now. It went past us in the night.',
         speakerFaction: 'player',
       },
@@ -99,11 +99,11 @@ export const CHAPTER_6: ChapterData = {
       },
       {
         speaker: 'Shigeru',
-        text: 'Which settles the argument. We were turning west anyway. Raiga — you said you were between contracts.',
+        text: 'Which settles the argument. We were turning west anyway. Corwin — you said you were between contracts.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Raiga',
+        speaker: 'Corwin',
         text: 'Everyone else on this bay is running east. You are the only fools walking the other way. I want to see how that ends.',
         speakerFaction: 'player',
       },
@@ -120,29 +120,29 @@ export const CHAPTER_6: ChapterData = {
         text: 'The harbor is clear. Kurogane banners hang torn in the sea wind.',
       },
       {
-        speaker: 'Raiga',
+        speaker: 'Corwin',
         text: 'So this is the work. Fight Kurogane, pick up strays, keep walking.',
         speakerFaction: 'player',
       },
       { speaker: 'Shigeru', text: 'Something like that.', speakerFaction: 'player' },
       {
-        speaker: 'Mio',
+        speaker: 'Nadine',
         text: 'The soldier I set a bone for — he was younger than me. He kept apologising while I worked. What is he even fighting for?',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Raiga',
+        speaker: 'Corwin',
         text: 'Because a man he has never met told him to. That is the whole of it, girl, in every war there has ever been.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Genzo',
+        speaker: 'Halvar',
         text: 'It is not quite the whole of it. He is fighting because Takeshi told him the war would be the last one. Every soldier in Kurogane believes that. It is why they march so well.',
         speakerFaction: 'player',
       },
       { speaker: 'Shigeru', text: 'And do you still believe it?', speakerFaction: 'player' },
       {
-        speaker: 'Genzo',
+        speaker: 'Halvar',
         text: '...I believe he believes it. That is the part that frightens me, my lord.',
         speakerFaction: 'player',
       },
@@ -189,9 +189,9 @@ export const CHAPTER_6: ChapterData = {
     },
   ],
   events: [
-    // Turn 2: Raiga combat callout
+    // Turn 2: Corwin combat callout
     {
-      id: 'ch6_raiga_callout',
+      id: 'ch6_corwin_callout',
       trigger: { type: 'turn_start', turn: 2 },
       effects: [
         {
@@ -199,25 +199,25 @@ export const CHAPTER_6: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Raiga',
+                speaker: 'Corwin',
                 text: 'Pegasus knights, wall sentries, and cavalry on the flanks. What did I sign up for?',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Goro',
+                speaker: 'Gareth',
                 text: 'You signed up for coin. Still want it?',
                 speakerFaction: 'player',
               },
-              { speaker: 'Raiga', text: '...Double the rate.', speakerFaction: 'player' },
+              { speaker: 'Corwin', text: '...Double the rate.', speakerFaction: 'player' },
             ],
           },
         },
       ],
       once: true,
     },
-    // Turn 4: Mio appears and joins
+    // Turn 4: Nadine appears and joins
     {
-      id: 'ch6_mio_joins',
+      id: 'ch6_nadine_joins',
       trigger: { type: 'turn_start', turn: 4 },
       effects: [
         {
@@ -229,7 +229,7 @@ export const CHAPTER_6: ChapterData = {
                 text: 'A mounted figure approaches from the southern docks, staff raised in peace.',
               },
               {
-                speaker: 'Mio',
+                speaker: 'Nadine',
                 text: 'Wait — please! There are wounded soldiers on both sides. I can help!',
                 speakerFaction: 'player',
               },
@@ -239,18 +239,18 @@ export const CHAPTER_6: ChapterData = {
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Hina',
+                speaker: 'Mirelle',
                 text: 'No. She is on the side of the hurt. I know that side.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Mio',
+                speaker: 'Nadine',
                 text: 'People are hurt and I can help. That has always been enough for me.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: 'More than enough. Welcome, Mio.',
+                text: 'More than enough. Welcome, Nadine.',
                 speakerFaction: 'player',
               },
             ],
@@ -258,7 +258,7 @@ export const CHAPTER_6: ChapterData = {
         },
         {
           type: 'spawn_units',
-          units: [{ unitId: 'mio', position: { x: 8, y: 13 } }],
+          units: [{ unitId: 'nadine', position: { x: 8, y: 13 } }],
           faction: 'player',
         },
       ],
@@ -274,7 +274,7 @@ export const CHAPTER_6: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Raiga',
+                speaker: 'Corwin',
                 text: "Cavalry from the north road. Heavy armor — these aren't scouts.",
                 speakerFaction: 'player',
               },
@@ -299,7 +299,7 @@ export const CHAPTER_6: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: "The north road — I'm counting at least a full company. We cannot hold this position.",
                 speakerFaction: 'player',
               },
@@ -324,23 +324,23 @@ export const CHAPTER_6: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Tsubame',
+                speaker: 'Aeryn',
                 text: 'Beaten out of the air by a girl on a farm pegasus. My instructors would weep.',
                 speakerFaction: 'enemy',
               },
               {
-                speaker: 'Yuki',
+                speaker: 'Elin',
                 text: 'Your riders held formation. That is why I could predict every one of you.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Tsubame',
+                speaker: 'Aeryn',
                 text: '...Noted. Rider — you have flown north. Tell me you have seen it too.',
                 speakerFaction: 'enemy',
               },
-              { speaker: 'Yuki', text: 'The hole in the sky. Yes.', speakerFaction: 'player' },
+              { speaker: 'Elin', text: 'The hole in the sky. Yes.', speakerFaction: 'player' },
               {
-                speaker: 'Tsubame',
+                speaker: 'Aeryn',
                 text: 'I reported it as weather. Twice. The second report came back with my commission attached to it and a note telling me to fly lower.',
                 speakerFaction: 'enemy',
               },
@@ -350,7 +350,7 @@ export const CHAPTER_6: ChapterData = {
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Tsubame',
+                speaker: 'Aeryn',
                 text: 'Then you are braver than my whole wing, boy, and I hope somebody writes it down.',
                 speakerFaction: 'enemy',
               },
@@ -364,59 +364,59 @@ export const CHAPTER_6: ChapterData = {
   supportConversations: [
     {
       unitA: 'shigeru',
-      unitB: 'raiga',
+      unitB: 'corwin',
       lines: [
         {
-          speaker: 'Raiga',
+          speaker: 'Corwin',
           text: 'You count your dead by name. Out loud, every night, when you think nobody is listening.',
           speakerFaction: 'player',
         },
         { speaker: 'Shigeru', text: 'Is that a criticism?', speakerFaction: 'player' },
         {
-          speaker: 'Raiga',
+          speaker: 'Corwin',
           text: 'It is an observation. I have served eleven captains. The good ones did that for about a year, and then they stopped.',
           speakerFaction: 'player',
         },
         { speaker: 'Shigeru', text: 'Why did they stop?', speakerFaction: 'player' },
         {
-          speaker: 'Raiga',
+          speaker: 'Corwin',
           text: 'Because the list gets long, lad. Every one of them thought they would be the exception too.',
           speakerFaction: 'player',
         },
         {
           speaker: 'Shigeru',
-          text: '...Then tell me when I stop. That is an order, Raiga.',
+          text: '...Then tell me when I stop. That is an order, Corwin.',
           speakerFaction: 'player',
         },
       ],
       reward: { type: 'exp_both', amount: 20 },
     },
     {
-      unitA: 'hina',
-      unitB: 'mio',
+      unitA: 'mirelle',
+      unitB: 'nadine',
       lines: [
         {
-          speaker: 'Hina',
+          speaker: 'Mirelle',
           text: 'You healed that enemy soldier without hesitation. Most healers choose sides.',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Mio',
+          speaker: 'Nadine',
           text: "Pain doesn't choose sides. Why should I?",
           speakerFaction: 'player',
         },
         {
-          speaker: 'Hina',
+          speaker: 'Mirelle',
           text: "That's... a different philosophy than mine. But I respect it deeply.",
           speakerFaction: 'player',
         },
         {
-          speaker: 'Mio',
+          speaker: 'Nadine',
           text: "We'll make a good team. You guard the soul, I'll guard the body.",
           speakerFaction: 'player',
         },
       ],
-      reward: { type: 'stat', unitId: 'mio', stat: 'mag', amount: 1 },
+      reward: { type: 'stat', unitId: 'nadine', stat: 'mag', amount: 1 },
     },
   ],
 };

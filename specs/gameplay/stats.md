@@ -39,7 +39,7 @@ These are computed on the fly from base stats + weapon + terrain.
 | **Crit Rate** | SKL/2 + weapon crit - enemy LCK | Clamped 0–100% |
 | **Crit Damage** | Normal damage × 3 | Only on crit hit |
 | **Terrain DEF** | terrain defenseBonus | Added to effective DEF |
-| **Charisma Aura** | Allies within floor(CHA/3) tiles: +CHA hit, +CHA avoid | Shigeru(9)=3tiles, Akira(7)=2, Goro(6)=2, Hina(5)=1, Kanna(3)=1, Genzo(2)=0 |
+| **Charisma Aura** | Allies within floor(CHA/3) tiles: +CHA hit, +CHA avoid | Shigeru(9)=3tiles, Akira(7)=2, Gareth(6)=2, Mirelle(5)=1, Lisette(3)=1, Halvar(2)=0 |
 | **Aggro Weight** | 10 + CHA×2 + (maxHP - currentHP)/2 | Wounded high-CHA units draw the most fire |
 | **WIL Check** | effect% = base% - WIL×5% (min 0%) | Mental effects: INS forced gain, Panic, Despair, Déjà Vu freeze |
 
@@ -157,16 +157,16 @@ Each map has a time-of-day setting. Some maps may shift time mid-chapter (e.g., 
 |-----------|----------|------|---------|-------|
 | **Shigeru** | Irregular | None | None | four centuries destroyed his body clock. |
 | **Akira** | Morning | Dawn/Day | Night | Soldier's discipline. Early riser. |
-| **Kanna** | Night | Night | Dawn | Researcher hours. |
-| **Goro** | Irregular | None | None | Runs on adrenaline. |
-| **Hina** | Morning | Dawn/Day | Night | Cheerful early bird. |
-| **Genzo** | Morning | Dawn/Day | Night | Military habit from 300 cycles. |
-| **Sayo** | Morning | Dawn/Day | Night | Village hunter. Best at dawn. |
-| **Hachi** | Night | Night | Dawn | Thief's hours. Works best in darkness. |
-| **Yuki** | Morning | Dawn/Day | Night | Pegasus knight. Flies at first light. |
-| **Raiga** | Irregular | None | None | Mercenary. Fights whenever paid. |
-| **Mio** | Morning | Dawn/Day | Night | Noble schedule. Proper hours. |
-| **Kagura** | Night | Night | Dawn | Dancer. Performs under moonlight. |
+| **Lisette** | Night | Night | Dawn | Researcher hours. |
+| **Gareth** | Irregular | None | None | Runs on adrenaline. |
+| **Mirelle** | Morning | Dawn/Day | Night | Cheerful early bird. |
+| **Halvar** | Morning | Dawn/Day | Night | Military habit from 300 cycles. |
+| **Bryn** | Morning | Dawn/Day | Night | Village hunter. Best at dawn. |
+| **Fenn** | Night | Night | Dawn | Thief's hours. Works best in darkness. |
+| **Elin** | Morning | Dawn/Day | Night | Pegasus knight. Flies at first light. |
+| **Corwin** | Irregular | None | None | Mercenary. Fights whenever paid. |
+| **Nadine** | Morning | Dawn/Day | Night | Noble schedule. Proper hours. |
+| **Viviane** | Night | Night | Dawn | Dancer. Performs under moonlight. |
 | **Kira** | Night | Night | Dawn | Dark mage. Studies the void at night. |
 | **Zael** | Morning | Dawn/Day | Night | Wyvern rider. Catches thermals at dawn. |
 | **Elara** | Morning | Dawn/Day | Night | Monastic prayers begin at dawn. |
@@ -175,9 +175,9 @@ Each map has a time-of-day setting. Some maps may shift time mid-chapter (e.g., 
 
 ### Time × Tactical Implications
 
-- **Night maps favor Kanna** — she gets +2 hit/+2 avoid/+1 SKL while Akira, Hina, and Genzo are weakened.
-- **Dawn maps favor the majority** — 3 Morning units (Akira/Hina/Genzo) all peak simultaneously.
-- **Shigeru and Goro are time-proof** — Irregular means no bonus but no weakness. Reliable anchors regardless of time.
+- **Night maps favor Lisette** — she gets +2 hit/+2 avoid/+1 SKL while Akira, Mirelle, and Halvar are weakened.
+- **Dawn maps favor the majority** — 3 Morning units (Akira/Mirelle/Halvar) all peak simultaneously.
+- **Shigeru and Gareth are time-proof** — Irregular means no bonus but no weakness. Reliable anchors regardless of time.
 - **Ch8 (Akira's death chapter)**: If set at night, Akira is weakened when he dies — adding tactical cruelty. If set at dawn, he's at peak strength when killed — adding narrative tragedy.
 
 ---
@@ -213,27 +213,27 @@ INS changes through story events and choices, not combat EXP.
 | Defeat an aware boss | +5 | Kill credit unit only |
 | Ally dies (permadeath) | +8 to +12 | ALL surviving units — trauma cracks the veil |
 | Defect from enemy side | +20 to +30 | Breaking AI code exposes system layer |
-| Successfully use Kanna's Seed Read | +2 | Kanna only |
+| Successfully use Lisette's Seed Read | +2 | Lisette only |
 | Dialogue choice: "choose not to know" | -5 to -10 | Player can deliberately keep a unit ignorant — sometimes tactically correct |
 
 ### INS Per Character (25-Chapter Pacing)
 
-INS spreads much more gradually across 25 chapters. Only Shigeru and Kanna reach high tiers early. Most units don't cross into "Decoded" until Arc 4.
+INS spreads much more gradually across 25 chapters. Only Shigeru and Lisette reach high tiers early. Most units don't cross into "Decoded" until Arc 4.
 
 | Character | Arc 1 (Ch1-5) | Arc 2 (Ch6-10) | Arc 3 (Ch11-15) | Arc 4 (Ch16-20) | Arc 5 (Ch21-25) | Notes |
 |-----------|--------------|----------------|-----------------|-----------------|-----------------|-------|
 | **Shigeru** | 95→96 | 96→97 | 97→98 | 98→99 | 99→100 | Near-max. Barely grows — he already knows everything. |
-| **Kanna** | 25→40 | 40→55 | 55→70 | 70→82 | 82→90 | Rapid analytical growth. Crosses "Reading" Arc 1, "Decoded" Arc 3. |
+| **Lisette** | 25→40 | 40→55 | 55→70 | 70→82 | 82→90 | Rapid analytical growth. Crosses "Reading" Arc 1, "Decoded" Arc 3. |
 | **Akira** | 0→5 | 5→18 (dies Ch8) | — | — | — | Stays Blind unless told. Dies before significant growth. |
-| **Goro** | 35→38 | 38→42 | 42→50 | 50→58 | 58→65 | Slow growth — resists understanding. Stays in "Reading" until late. |
-| **Hina** | 30→33 | 33→48 (+12 Akira) | 48→55 | 55→65 | 65→72 | Spikes on Akira's death. Gradual emotional growth. |
-| **Genzo** | 5→35 | 35→45 | 45→55 | 55→65 | 65→75 | Jumps massively on defection. Steady after. |
-| **Sayo** | 0→3 | 3→8 | 8→20 | 20→35 | 35→50 | Village girl. Slow natural growth. Crosses "Flickering" mid-game. |
-| **Hachi** | 10→15 | 15→25 | 25→40 | 40→55 | 55→68 | Street smart — picks up anomalies. |
-| **Yuki** | 0→2 | 2→10 | 10→25 | 25→40 | 40→55 | Idealist. Resists awareness at first. |
-| **Raiga** | — | 5→15 | 15→30 | 30→45 | 45→55 | Practical mercenary. Accepts what he sees. |
-| **Mio** | — | 0→10 | 10→25 | 25→40 | 40→50 | Sheltered noble. Slow awakening. |
-| **Kagura** | — | — (joins Ch9) 0→5 | 5→20 | 20→40 | 40→60 | Dances between awareness and denial. |
+| **Gareth** | 35→38 | 38→42 | 42→50 | 50→58 | 58→65 | Slow growth — resists understanding. Stays in "Reading" until late. |
+| **Mirelle** | 30→33 | 33→48 (+12 Akira) | 48→55 | 55→65 | 65→72 | Spikes on Akira's death. Gradual emotional growth. |
+| **Halvar** | 5→35 | 35→45 | 45→55 | 55→65 | 65→75 | Jumps massively on defection. Steady after. |
+| **Bryn** | 0→3 | 3→8 | 8→20 | 20→35 | 35→50 | Village girl. Slow natural growth. Crosses "Flickering" mid-game. |
+| **Fenn** | 10→15 | 15→25 | 25→40 | 40→55 | 55→68 | Street smart — picks up anomalies. |
+| **Elin** | 0→2 | 2→10 | 10→25 | 25→40 | 40→55 | Idealist. Resists awareness at first. |
+| **Corwin** | — | 5→15 | 15→30 | 30→45 | 45→55 | Practical mercenary. Accepts what he sees. |
+| **Nadine** | — | 0→10 | 10→25 | 25→40 | 40→50 | Sheltered noble. Slow awakening. |
+| **Viviane** | — | — (joins Ch9) 0→5 | 5→20 | 20→40 | 40→60 | Dances between awareness and denial. |
 | **Kira** | — | — | 60→65 | 65→75 | 75→85 | Joins at high INS — former dark mage saw things. |
 | **Zael** | — | — | 15→25 (conditional) | 25→45 | 45→60 | Wyvern rider. Joins corrupted. |
 | **Elara** | — | — | 40→50 | 50→65 | 65→80 | Monk. Spiritual awareness parallels meta-awareness. |
@@ -246,7 +246,7 @@ At certain dialogue points, the player can raise or lower a character's INS. The
 
 - "Tell [unit] the truth about the loops" → +15 INS (gains forecast info, loses Instinct Guard)
 - "Let [unit] believe this is real" → stays low INS (keeps +10% avoid, no forecast)
-- "Share Kanna's research data" → target +10 INS, Kanna +2 INS
+- "Share Lisette's research data" → target +10 INS, Lisette +2 INS
 - "Destroy the evidence" → target -5 INS
 
 Real tactical dilemma: more information vs better instinctive performance.
@@ -293,16 +293,16 @@ EMB does NOT regenerate between chapters normally. However, between **arcs** (ev
 | Character | Starting | Expected by Arc 5 | Max | Notes |
 |-----------|---------|-------------------|-----|-------|
 | **Shigeru** | 347 | 250-350 (depends on spending) | ~420 | Enormous reservoir. Must conserve — Ch25 boss scaling reads remaining EMB. |
-| **Kanna** | 0 | 60-80 | ~100 | Gains EMB through analysis. Reverse-engineers past-cycle data. |
+| **Lisette** | 0 | 60-80 | ~100 | Gains EMB through analysis. Reverse-engineers past-cycle data. |
 | **Akira** | 0 | — (dies Ch8) | ~25 | Gains modest EMB through combat. Lost when he dies — unless ???_CORRUPTED has it. |
-| **Goro** | 0 | 40-60 | ~80 | Muscle memory gains. "I've never fought this guy but my HANDS remember." |
-| **Hina** | 0 | 45-65 | ~85 | Emotional pattern memory. "I knew you'd do that because I KNOW you." |
-| **Genzo** | 150 | 160-200 | ~220 | 300 cycles of standing still. Gains slowly from new experiences. |
-| **Sayo** | 0 | 20-35 | ~50 | Low EMB potential. Archer instincts, not memories. |
-| **Hachi** | 0 | 30-50 | ~65 | Thief's gut feelings. "I've robbed this type of building before." |
-| **Raiga** | 0 | 25-45 | ~60 | Mercenary déjà vu. "This formation... I've broken it." |
-| **Mio** | 0 | 20-35 | ~50 | Noble's intuition. Low combat memories. |
-| **Kagura** | 0 | 30-50 | ~65 | Dance memories. Each performance echoes past cycles. |
+| **Gareth** | 0 | 40-60 | ~80 | Muscle memory gains. "I've never fought this guy but my HANDS remember." |
+| **Mirelle** | 0 | 45-65 | ~85 | Emotional pattern memory. "I knew you'd do that because I KNOW you." |
+| **Halvar** | 150 | 160-200 | ~220 | 300 cycles of standing still. Gains slowly from new experiences. |
+| **Bryn** | 0 | 20-35 | ~50 | Low EMB potential. Archer instincts, not memories. |
+| **Fenn** | 0 | 30-50 | ~65 | Thief's gut feelings. "I've robbed this type of building before." |
+| **Corwin** | 0 | 25-45 | ~60 | Mercenary déjà vu. "This formation... I've broken it." |
+| **Nadine** | 0 | 20-35 | ~50 | Noble's intuition. Low combat memories. |
+| **Viviane** | 0 | 30-50 | ~65 | Dance memories. Each performance echoes past cycles. |
 | **Kira** | 20 | 50-70 | ~90 | Dark magic studies revealed fragments. Starts with some. |
 | **Zael** | 0 | 15-30 | ~45 | Wyvern rider. Few intellectual memories. |
 | **Elara** | 10 | 40-60 | ~80 | Monastic meditation revealed echoes. |
@@ -356,16 +356,16 @@ ATT is NOT about genre — it's about how "clean" a unit's data is. Corrupted da
 |-----------|-------|------------|-------|
 | **Akira** | 100% | — (dies Ch8) | The most stable unit. His death is a ATT earthquake for the whole party. |
 | **Shigeru** | 75% | 80-90% | four centuries slightly corrupted his data. Slow recovery over 25 chapters. |
-| **Kanna** | 85% | 90-100% | Analytical mind keeps data organized. Trends toward Anchored. |
-| **Goro** | 40% | 55-70% | Corrupted initialization. Instability is part of his identity. |
-| **Hina** | 35% | 50-65% | Similar to Goro. Healing magic slowly stabilizes her data. |
-| **Genzo** | 55% | 65-80% | Defection scrambled his data. Gradually stabilizes through loyalty. |
-| **Sayo** | 80% | 85-95% | Clean village data. Naturally stable, rarely corrupted. |
-| **Hachi** | 50% | 55-70% | Street data is messy. Unstable but functional. |
-| **Yuki** | 90% | 85-95% | Pegasus knight — aerial data is clean. May drop from idealism crises. |
-| **Raiga** | 60% | 65-75% | Mercenary — practical stability. No highs, no lows. |
-| **Mio** | 75% | 70-85% | Noble data is well-structured. Drops if she witnesses corruption. |
-| **Kagura** | 45% | 50-65% | Dancer data is inherently fluid. Not corrupted, just... flexible. |
+| **Lisette** | 85% | 90-100% | Analytical mind keeps data organized. Trends toward Anchored. |
+| **Gareth** | 40% | 55-70% | Corrupted initialization. Instability is part of his identity. |
+| **Mirelle** | 35% | 50-65% | Similar to Gareth. Healing magic slowly stabilizes her data. |
+| **Halvar** | 55% | 65-80% | Defection scrambled his data. Gradually stabilizes through loyalty. |
+| **Bryn** | 80% | 85-95% | Clean village data. Naturally stable, rarely corrupted. |
+| **Fenn** | 50% | 55-70% | Street data is messy. Unstable but functional. |
+| **Elin** | 90% | 85-95% | Pegasus knight — aerial data is clean. May drop from idealism crises. |
+| **Corwin** | 60% | 65-75% | Mercenary — practical stability. No highs, no lows. |
+| **Nadine** | 75% | 70-85% | Noble data is well-structured. Drops if she witnesses corruption. |
+| **Viviane** | 45% | 50-65% | Dancer data is inherently fluid. Not corrupted, just... flexible. |
 | **Kira** | 30% | 40-55% | Dark magic has degraded her data significantly. High CRP risk. |
 | **Zael** | 35% | 45-60% | Partially corrupted from Ch13 recruitment. Can be cleansed. |
 | **Elara** | 70% | 75-90% | Monastic discipline = clean data. Light magic naturally purifies. |
@@ -420,16 +420,16 @@ How committed a unit is to the party and its cause. NOT a simple "good/bad" mete
 | Character | Start | Arc 5 Range | Notes |
 |-----------|-------|------------|-------|
 | **Akira** | 90 | — (dies Ch8) | Trusts Shigeru unconditionally. His death's LOY cascade hits everyone hard. |
-| **Kanna** | 40 | 60-80 | Doesn't trust — she verifies. LOY grows as Shigeru's knowledge proves accurate. |
-| **Goro** | 55 | 50-80 (volatile) | Loyal when fights are fun, drops fast when bored. |
-| **Hina** | 70 | 70-90 | Emotionally loyal. Drops hard on betrayal, forgives fast. |
-| **Genzo** | 25 | 50-70 | Former enemy. Low start is the cost of defection. Slow build. |
-| **Sayo** | 60 | 65-85 | Village loyalty. Grateful for rescue. Steady growth. |
-| **Hachi** | 30 | 40-65 | Trusts no one initially. Pragmatic — follows results. |
-| **Yuki** | 70 | 60-85 | Idealistic loyalty. Can drop sharply if disillusioned. |
-| **Raiga** | 35 | 45-70 | Mercenary — loyalty is earned, not given. Respects competence. |
-| **Mio** | 55 | 60-80 | Noble sense of duty. Loyal to the cause more than to Shigeru specifically. |
-| **Kagura** | 50 | 55-75 | Follows the best performance — wherever the drama is. |
+| **Lisette** | 40 | 60-80 | Doesn't trust — she verifies. LOY grows as Shigeru's knowledge proves accurate. |
+| **Gareth** | 55 | 50-80 (volatile) | Loyal when fights are fun, drops fast when bored. |
+| **Mirelle** | 70 | 70-90 | Emotionally loyal. Drops hard on betrayal, forgives fast. |
+| **Halvar** | 25 | 50-70 | Former enemy. Low start is the cost of defection. Slow build. |
+| **Bryn** | 60 | 65-85 | Village loyalty. Grateful for rescue. Steady growth. |
+| **Fenn** | 30 | 40-65 | Trusts no one initially. Pragmatic — follows results. |
+| **Elin** | 70 | 60-85 | Idealistic loyalty. Can drop sharply if disillusioned. |
+| **Corwin** | 35 | 45-70 | Mercenary — loyalty is earned, not given. Respects competence. |
+| **Nadine** | 55 | 60-80 | Noble sense of duty. Loyal to the cause more than to Shigeru specifically. |
+| **Viviane** | 50 | 55-75 | Follows the best performance — wherever the drama is. |
 | **Kira** | 20 | 35-60 | Dark mage defector. Deeply distrustful. Slow to warm. |
 | **Zael** | 15 (if recruited) | 30-55 | Conditional recruit. Starts hostile. Needs reason to stay. |
 | **Elara** | 65 | 70-90 | Monastic compassion. Believes in everyone. High floor. |
@@ -448,7 +448,7 @@ When a Devoted/Sworn unit is adjacent to an ally who would take a lethal blow:
 
 ### LOY Narrative Triggers
 
-- **Genzo at 15- LOY**: Re-defection risk. If LOY hits 0, Genzo leaves the party permanently. "I didn't leave one army to be mistreated in another."
+- **Halvar at 15- LOY**: Re-defection risk. If LOY hits 0, Halvar leaves the party permanently. "I didn't leave one army to be mistreated in another."
 - **Any unit at 90+ LOY**: Unlocks a unique dialogue with Shigeru where they acknowledge the loops. Even low-INS units sense something: "I don't know what you've been through. But I'll follow you."
 
 ---
@@ -486,7 +486,7 @@ CRP starts at 0 for all player units and only goes UP. It cannot be reduced to 0
 | Event | CRP Reduction | Notes |
 |-------|-------------|-------|
 | Heal at fort/throne for full turn | -2 | Safe zones cleanse slowly |
-| Hina's Heal (staff) on a corrupted ally | -1 per heal | Hina's empathy is the closest thing to an antivirus |
+| Mirelle's Heal (staff) on a corrupted ally | -1 per heal | Mirelle's empathy is the closest thing to an antivirus |
 | Elara's Light magic heal | -2 per heal | Light magic has purifying properties |
 | Chapter end | -3 | Rest between chapters cleanses some |
 | Arc transition (every 5 chapters) | -5 bonus | Extended rest between arcs allows deeper cleansing |
@@ -511,16 +511,16 @@ When a unit has both high CRP (16+) and low ATT (50%-), the stat penalties DO st
 |-----------|-------|--------------|-------|
 | **Shigeru** | 0 | Medium | four centuries of clean data, but EMB usage opens corruption channels. |
 | **Akira** | 0 | Very Low | 100% ATT = natural corruption resistance. Almost impossible to corrupt. |
-| **Kanna** | 0 | High | High INS = she can SEE corruption, which means it can see HER. |
-| **Goro** | 0 | High | Low ATT = poor data integrity. Corruption finds easy entry points. |
-| **Hina** | 0 | Medium | Low ATT but healing abilities give partial immunity. |
-| **Genzo** | 5 | Medium | Trace corruption from defection. |
-| **Sayo** | 0 | Low | Clean village data. High ATT protects her. |
-| **Hachi** | 0 | Medium | Mid ATT. Street-level corruption exposure. |
-| **Yuki** | 0 | Low | High ATT. Aerial units have natural resistance. |
-| **Raiga** | 0 | Medium | Practical resistance. Not immune, not vulnerable. |
-| **Mio** | 0 | Low | Well-structured noble data. |
-| **Kagura** | 0 | Medium | Fluid data is hard to corrupt but also hard to cleanse. |
+| **Lisette** | 0 | High | High INS = she can SEE corruption, which means it can see HER. |
+| **Gareth** | 0 | High | Low ATT = poor data integrity. Corruption finds easy entry points. |
+| **Mirelle** | 0 | Medium | Low ATT but healing abilities give partial immunity. |
+| **Halvar** | 5 | Medium | Trace corruption from defection. |
+| **Bryn** | 0 | Low | Clean village data. High ATT protects her. |
+| **Fenn** | 0 | Medium | Mid ATT. Street-level corruption exposure. |
+| **Elin** | 0 | Low | High ATT. Aerial units have natural resistance. |
+| **Corwin** | 0 | Medium | Practical resistance. Not immune, not vulnerable. |
+| **Nadine** | 0 | Low | Well-structured noble data. |
+| **Viviane** | 0 | Medium | Fluid data is hard to corrupt but also hard to cleanse. |
 | **Kira** | 15 | Very High | Joins with corruption from dark magic studies. Highest risk unit. |
 | **Zael** | 20 | Very High | Joins partially corrupted. Cleansing is a mini-quest. |
 | **Elara** | 0 | Very Low | Light magic = natural anti-corruption. Can cleanse self. |
@@ -564,9 +564,9 @@ STA primarily degrades body-related stats: STR, SPD, DEF, SKL. Mental/magical st
 | Action | STA Reduction | Notes |
 |--------|-------------|-------|
 | Wait (take no action for a turn) | -5 | Active rest. The main way to recover mid-chapter. |
-| Stand on Fort | -3 per turn (passive) | Automatic — triggers even without Wait. Goro can recover here. |
+| Stand on Fort | -3 per turn (passive) | Automatic — triggers even without Wait. Gareth can recover here. |
 | Stand on Throne | -5 per turn (passive) | Automatic — triggers even without Wait. Best rest point. |
-| Hina's heal | -2 (bonus) | Her healing soothes physical fatigue too. |
+| Mirelle's heal | -2 (bonus) | Her healing soothes physical fatigue too. |
 | Use Vulnerary | -3 (bonus) | Medicine helps fatigue alongside HP. |
 
 ### STA Per Character (Full Roster)
@@ -575,16 +575,16 @@ STA primarily degrades body-related stats: STR, SPD, DEF, SKL. Mental/magical st
 |-----------|---------|----------------|-------|
 | **Shigeru** | Normal (1.0×) | ~30 | four centuries of muscle memory = efficient, but still human. |
 | **Akira** | Low (0.8×) | ~38 | Cavalier endurance. Highest ceiling. |
-| **Kanna** | High (1.2×) | ~22 | Physically weak. Can't march AND cast. |
-| **Goro** | Low (0.8×) | ~38 | Raw conditioning. But No Patience = always moving. |
-| **Hina** | High (1.3×) | ~20 | Physically frail. Needs fort rotation. |
-| **Genzo** | Very Low (0.7×) | ~42 | 300 cycles standing still = incredible stamina. |
-| **Sayo** | Normal (1.0×) | ~30 | Village archer. Average endurance. |
-| **Hachi** | Low (0.85×) | ~35 | Thief conditioning. Quick and efficient. |
-| **Yuki** | Normal (1.0×) | ~30 | Pegasus knight — mount does the work. |
-| **Raiga** | Low (0.8×) | ~38 | Mercenary endurance. Battle-hardened. |
-| **Mio** | High (1.2×) | ~22 | Mounted healer but physically frail. |
-| **Kagura** | Normal (1.0×) | ~30 | Dancer stamina is average — Dance action costs STA. |
+| **Lisette** | High (1.2×) | ~22 | Physically weak. Can't march AND cast. |
+| **Gareth** | Low (0.8×) | ~38 | Raw conditioning. But No Patience = always moving. |
+| **Mirelle** | High (1.3×) | ~20 | Physically frail. Needs fort rotation. |
+| **Halvar** | Very Low (0.7×) | ~42 | 300 cycles standing still = incredible stamina. |
+| **Bryn** | Normal (1.0×) | ~30 | Village archer. Average endurance. |
+| **Fenn** | Low (0.85×) | ~35 | Thief conditioning. Quick and efficient. |
+| **Elin** | Normal (1.0×) | ~30 | Pegasus knight — mount does the work. |
+| **Corwin** | Low (0.8×) | ~38 | Mercenary endurance. Battle-hardened. |
+| **Nadine** | High (1.2×) | ~22 | Mounted healer but physically frail. |
+| **Viviane** | Normal (1.0×) | ~30 | Dancer stamina is average — Dance action costs STA. |
 | **Kira** | High (1.25×) | ~21 | Dark magic drains physically. Frail. |
 | **Zael** | Low (0.8×) | ~38 | Wyvern rider. Mount carries the load. |
 | **Elara** | Normal (1.1×) | ~27 | Monastic fitness. Slightly below average. |
@@ -606,8 +606,8 @@ STA creates a **pacing problem** the player must solve:
 - **Push hard, rest later**: Rush objectives but risk units Collapsing at the worst moment.
 - **Rotate units**: Swap frontline fighters with rested backline. Forces you to use your whole roster.
 - **Cavalry trap**: Akira/mounted units move far = high STA per turn. Their strength (mobility) becomes a cost.
-- **Healer dilemma**: Hina exhausts fastest but is most needed. Do you heal one more ally or let her rest?
-- **Genzo's niche**: His absurd stamina makes him the reliable late-fight anchor when everyone else is winded.
+- **Healer dilemma**: Mirelle exhausts fastest but is most needed. Do you heal one more ally or let her rest?
+- **Halvar's niche**: His absurd stamina makes him the reliable late-fight anchor when everyone else is winded.
 
 ---
 
@@ -630,40 +630,40 @@ Each character has unique passives tied to their narrative role — NOT genre-ba
 | **True Strike** | Attacks can never deal less than 1 damage, even against max-DEF enemies. |
 | **Stability Anchor** | While alive, all allies gain +2 ATT per chapter. On death: all allies -10 ATT immediately. |
 
-### Kanna — Mage
+### Lisette — Mage
 
 | Passive | Effect |
 |---------|--------|
 | **Exploit** | +25% damage against enemies whose full stats are visible (via INS threshold or ally reveal). |
 | **Data Dependency** | -15% hit rate against enemies whose stats are NOT visible. If an RNG outcome contradicts her expectations, -5 all stats for 1 turn. |
 
-### Goro — Fighter
+### Gareth — Fighter
 
 | Passive | Effect |
 |---------|--------|
-| **Reckless** | If Goro attacks an enemy and kills them, he can act again immediately (move + attack only). Chains up to 2 bonus turns. Each successive attack has -10% hit. |
+| **Reckless** | If Gareth attacks an enemy and kills them, he can act again immediately (move + attack only). Chains up to 2 bonus turns. Each successive attack has -10% hit. |
 | **No Patience** | Cannot use Wait. If no enemies are in attack range and no other actions available, auto-moves toward nearest enemy. |
 
-### Hina — Cleric
+### Mirelle — Cleric
 
 | Passive | Effect |
 |---------|--------|
-| **Empathy Aura** | Adjacent allies gain +10 hit and +10 avoid. (Stacks with CHA aura — Hina's is flat bonus on top of CHA-based scaling.) |
+| **Empathy Aura** | Adjacent allies gain +10 hit and +10 avoid. (Stacks with CHA aura — Mirelle's is flat bonus on top of CHA-based scaling.) |
 | **Devoted Healer** | Healing the same ally 3 times in one chapter grants that ally +2 to a random stat permanently (for that chapter). |
 
-### Genzo — Soldier
+### Halvar — Soldier
 
 | Passive | Effect |
 |---------|--------|
 | **Defector's Resolve** | +3 ATK when fighting enemy soldiers. |
-| **Faction Ghost** | Ally staff users heal Genzo for 5 less HP. Cannot enter villages or forts. |
+| **Faction Ghost** | Ally staff users heal Halvar for 5 less HP. Cannot enter villages or forts. |
 | **Residual Data** | Standing on a tile where an enemy died: +3 to that enemy's highest stat for 2 turns. |
 
 ---
 
 ## Body Targeting System (Unlocked Ch2+)
 
-Discovered by Kanna in Ch2 by reading enemy unit data structure. A universal combat upgrade — when attacking, the player can choose WHERE to hit.
+Discovered by Lisette in Ch2 by reading enemy unit data structure. A universal combat upgrade — when attacking, the player can choose WHERE to hit.
 
 | Target | Hit Mod | Damage Mod | Special Effect |
 |--------|---------|-----------|----------------|
@@ -675,10 +675,10 @@ Discovered by Kanna in Ch2 by reading enemy unit data structure. A universal com
 
 ### Body Targeting × Character Interactions
 
-- **Kanna**: Exploit passive (+25% on revealed enemies) stacks with Weak Point (+100%). Devastating if she can see enemy stats.
-- **Genzo**: Residual Data from death tiles halves body targeting hit penalties for 2 turns. "I know where their armor is thin."
+- **Lisette**: Exploit passive (+25% on revealed enemies) stacks with Weak Point (+100%). Devastating if she can see enemy stats.
+- **Halvar**: Residual Data from death tiles halves body targeting hit penalties for 2 turns. "I know where their armor is thin."
 - **Shigeru**: four centuries of experience. Permanent -5% reduction to ALL body targeting hit penalties.
-- **Goro**: High STR + Reckless chains mean he can target Legs on first hit (cripple MOV) then follow up with Head on the bonus turn.
+- **Gareth**: High STR + Reckless chains mean he can target Legs on first hit (cripple MOV) then follow up with Head on the bonus turn.
 
 ---
 
@@ -735,7 +735,7 @@ Fav Cuisine: 洋風 (Western)    Hate Cuisine: 和風 (Japanese)
 ```
 
 ```
-Kanna — Mage
+Lisette — Mage
 HP: 19  STR: 2  MAG: 10 SPD: 7  DEF: 3  RES: 8  SKL: 9  LCK: 4  CHA: 3  WIL: 7  MOV: 5
 INS: 25    EMB: 0      ATT: 85%    LOY: 40    CRP: 0    STA: 0
 Actions: Attack | Item | Wait
@@ -750,7 +750,7 @@ Fav Cuisine: 和風 (Japanese)   Hate Cuisine: 中華風 (Chinese)
 ```
 
 ```
-Goro — Fighter
+Gareth — Fighter
 HP: 28  STR: 12  MAG: 0  SPD: 6  DEF: 8  RES: 1  SKL: 5  LCK: 3  CHA: 6  WIL: 8  MOV: 5
 INS: 35    EMB: 0      ATT: 40%    LOY: 55    CRP: 0    STA: 0
 Actions: Attack | Item
@@ -765,7 +765,7 @@ Fav Cuisine: 中華風 (Chinese)   Hate Cuisine: 洋風 (Western)
 ```
 
 ```
-Hina — Cleric
+Mirelle — Cleric
 HP: 18  STR: 1  MAG: 8  SPD: 7  DEF: 3  RES: 9  SKL: 6  LCK: 8  CHA: 5  WIL: 3  MOV: 5
 INS: 30    EMB: 0      ATT: 35%    LOY: 70    CRP: 0    STA: 0
 Actions: Heal | Item | Wait
@@ -773,14 +773,14 @@ Passive: Empathy Aura | Devoted Healer
 Gender: Female
 Activity: Morning — cheerful early riser. Makes tea for everyone. "Morning is when the best story events happen!"
 MBTI: ENFJ — "The Protagonist." Ironic — she thinks she's the protagonist of a dating sim.
-       Reads people better than Kanna reads data. The emotional core of every room she's in.
+       Reads people better than Lisette reads data. The emotional core of every room she's in.
 Fav Category: Sweets       Fav Food: Caramel pudding ("It's sweet and warm and soft... like a hug you can eat!")
 Hate Category: Alcohol     Hate Food: Whiskey ("It BURNS. How is this a DRINK? This is an ATTACK.")
 Fav Cuisine: 南国風 (Tropical)  Hate Cuisine: 北国風 (Nordic)
 ```
 
 ```
-Genzo — Soldier
+Halvar — Soldier
 HP: 23  STR: 8  MAG: 1  SPD: 5  DEF: 10  RES: 2  SKL: 7  LCK: 3  CHA: 2  WIL: 6  MOV: 5
 INS: 5→35  EMB: 150    ATT: 55%    LOY: 25    CRP: 5    STA: 0
 Actions: Attack | Item | Wait
@@ -842,10 +842,10 @@ Worst case (hated taste + hated cuisine): -2 stat, -1 stat, LOY -3.
 |-----------|------------|-------------|-------|
 | **Shigeru** | 北国風 (Nordic) | 和風 (Japanese) | Loves Nordic — smoky, strong, warming. Hates Japanese — too delicate, too precise, reminds him of scripted elegance. "Every tea ceremony plays out the same way." |
 | **Akira** | 洋風 (Western) | 和風 (Japanese) | Western man through and through. Steak, bread, cheese. Raw fish is incomprehensible to him. |
-| **Kanna** | 和風 (Japanese) | 中華風 (Chinese) | Loves Japanese — clean, analytical flavors she can deconstruct. Chinese is chaos: "Too many spices. I can't isolate the variables." |
-| **Goro** | 中華風 (Chinese) | 洋風 (Western) | Chinese heat matches his personality. Western food is "too SLOW. Too much butter. Where's the FIRE?" |
-| **Hina** | 南国風 (Tropical) | 北国風 (Nordic) | Tropical — sweet, bright, romantic. Nordic is too heavy and grim: "This food has no LOVE in it." |
-| **Genzo** | 和風 (Japanese) | 南国風 (Tropical) | Japanese — simple, clean, respectful. Tropical is too sweet, too colorful. "I don't trust food that looks happy." |
+| **Lisette** | 和風 (Japanese) | 中華風 (Chinese) | Loves Japanese — clean, analytical flavors she can deconstruct. Chinese is chaos: "Too many spices. I can't isolate the variables." |
+| **Gareth** | 中華風 (Chinese) | 洋風 (Western) | Chinese heat matches his personality. Western food is "too SLOW. Too much butter. Where's the FIRE?" |
+| **Mirelle** | 南国風 (Tropical) | 北国風 (Nordic) | Tropical — sweet, bright, romantic. Nordic is too heavy and grim: "This food has no LOVE in it." |
+| **Halvar** | 和風 (Japanese) | 南国風 (Tropical) | Japanese — simple, clean, respectful. Tropical is too sweet, too colorful. "I don't trust food that looks happy." |
 
 ### Food as Items
 
@@ -893,13 +893,13 @@ Alcohol has unique bonuses and risks beyond normal food:
 
 ### Food × Character Interactions
 
-- **Shigeru** loves whiskey — it's one of the few things that still feels unpredictable after four centuries. Hina HATES whiskey. If Shigeru drinks near Hina: "That's not a beverage, that's a WAR CRIME."
+- **Shigeru** loves whiskey — it's one of the few things that still feels unpredictable after four centuries. Mirelle HATES whiskey. If Shigeru drinks near Mirelle: "That's not a beverage, that's a WAR CRIME."
 - **Shigeru** hates frosted cake — the same scripted banquet scene, 347 times, same cake. "I can tell you the exact position of every crumb."
-- **Goro** and **Kanna** are food rivals — Goro's favorite (chili oil dumplings) is close to Kanna's nightmare. Goro intentionally eats spicy food near Kanna to annoy her.
-- **Akira** refuses sashimi but loves grilled steak. Simple man. Kanna finds this baffling: "It's the same protein. The preparation is irrelevant." Akira: "It's NOT the same."
-- **Genzo** chose white rice as his first free meal after defection. It means everything to him. As his LOY rises, he starts trying new foods — each new food is a small act of freedom.
-- **Hina** tries to organize group meals as "bonding events." Mechanically useful — shared meals between two units boost both LOY. She keeps a mental ranking of everyone's favorites.
-- **Akira + Goro** drinking ale together is one of the highest LOY gain events in the game. Two soldiers, no pretense, just beer. (+8 LOY each)
+- **Gareth** and **Lisette** are food rivals — Gareth's favorite (chili oil dumplings) is close to Lisette's nightmare. Gareth intentionally eats spicy food near Lisette to annoy her.
+- **Akira** refuses sashimi but loves grilled steak. Simple man. Lisette finds this baffling: "It's the same protein. The preparation is irrelevant." Akira: "It's NOT the same."
+- **Halvar** chose white rice as his first free meal after defection. It means everything to him. As his LOY rises, he starts trying new foods — each new food is a small act of freedom.
+- **Mirelle** tries to organize group meals as "bonding events." Mechanically useful — shared meals between two units boost both LOY. She keeps a mental ranking of everyone's favorites.
+- **Akira + Gareth** drinking ale together is one of the highest LOY gain events in the game. Two soldiers, no pretense, just beer. (+8 LOY each)
 
 ---
 

@@ -26,7 +26,7 @@ const terrain: TerrainType[][] = [
   [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 13 — deployment row 2
   [M, M, P, P, P, X, X, P, P, P, P, X, X, P, P, P, M, M], // row 14 — south corridor entrance
   [M, M, M, P, P, X, P, P, P, P, P, P, X, P, P, M, M, M], // row 15 — corridor narrows
-  [M, M, M, P, P, X, P, P, T, P, P, P, X, P, P, M, M, M], // row 16 — Genzo's last stand position (8,16)
+  [M, M, M, P, P, X, P, P, T, P, P, P, X, P, P, M, M, M], // row 16 — Halvar's last stand position (8,16)
   [M, M, M, P, P, X, P, P, P, P, P, P, X, P, P, M, M, M], // row 17 — corridor
   [M, M, M, P, P, P, P, P, P, P, P, P, P, P, P, M, M, M], // row 18 — south gate (reinforcements)
   [M, M, M, M, P, P, P, P, P, P, P, P, P, P, M, M, M, M], // row 19 — south edge
@@ -42,12 +42,12 @@ export const CHAPTER_8: ChapterData = {
   playerUnits: [
     { unitId: 'shigeru', position: { x: 8, y: 12 } },
     { unitId: 'akira', position: { x: 9, y: 12 } },
-    { unitId: 'kanna', position: { x: 8, y: 13 } },
-    { unitId: 'goro', position: { x: 7, y: 13 } },
-    { unitId: 'hina', position: { x: 10, y: 13 } },
-    { unitId: 'genzo', position: { x: 7, y: 12 } },
-    { unitId: 'raiga', position: { x: 10, y: 12 } },
-    { unitId: 'mio', position: { x: 9, y: 13 } },
+    { unitId: 'lisette', position: { x: 8, y: 13 } },
+    { unitId: 'gareth', position: { x: 7, y: 13 } },
+    { unitId: 'mirelle', position: { x: 10, y: 13 } },
+    { unitId: 'halvar', position: { x: 7, y: 12 } },
+    { unitId: 'corwin', position: { x: 10, y: 12 } },
+    { unitId: 'nadine', position: { x: 9, y: 13 } },
   ],
   enemyUnits: [
     // Boss on throne
@@ -67,11 +67,11 @@ export const CHAPTER_8: ChapterData = {
   ],
   objective: {
     type: 'seize',
-    description: 'Defeat General Doumeki and seize the throne',
+    description: 'Defeat General Wulfram and seize the throne',
   },
   seizePosition: { x: 9, y: 1 },
   deploymentSlots: 8,
-  forceDeploy: ['shigeru', 'genzo'],
+  forceDeploy: ['shigeru', 'halvar'],
   parTurns: 20,
   prologue: {
     lines: [
@@ -80,14 +80,14 @@ export const CHAPTER_8: ChapterData = {
         text: 'Night on Yatate, the highest ground on the island. The fortress commands the whole spine of the Lower Country. Two fronts — the throne room above, and a corridor below where the reinforcements will come.',
       },
       {
-        speaker: 'Genzo',
+        speaker: 'Halvar',
         text: 'My lord. A word before we go in.',
         speakerFaction: 'player',
       },
       { speaker: 'Shigeru', text: 'Say it.', speakerFaction: 'player' },
       {
-        speaker: 'Genzo',
-        text: 'I served under Doumeki for six years. He does not defend a fortress — he opens the south gate, lets you commit, and closes it behind you.',
+        speaker: 'Halvar',
+        text: 'I served under Wulfram for six years. He does not defend a fortress — he opens the south gate, lets you commit, and closes it behind you.',
         speakerFaction: 'player',
       },
       {
@@ -96,13 +96,13 @@ export const CHAPTER_8: ChapterData = {
         speakerFaction: 'player',
       },
       {
-        speaker: 'Genzo',
-        text: 'No, lad. Half the company does not take Doumeki. You need everything you have going north, and one man in that corridor who knows how long it can be held.',
+        speaker: 'Halvar',
+        text: 'No, lad. Half the company does not take Wulfram. You need everything you have going north, and one man in that corridor who knows how long it can be held.',
         speakerFaction: 'player',
       },
       { speaker: 'Shigeru', text: 'No.', speakerFaction: 'player' },
       {
-        speaker: 'Genzo',
+        speaker: 'Halvar',
         text: 'My lord—',
         speakerFaction: 'player',
       },
@@ -112,7 +112,7 @@ export const CHAPTER_8: ChapterData = {
         speakerFaction: 'player',
       },
       {
-        speaker: 'Genzo',
+        speaker: 'Halvar',
         text: 'You will lose someone tonight either way. The only question you get to answer is whether it is somebody who chose it.',
         speakerFaction: 'player',
       },
@@ -120,18 +120,18 @@ export const CHAPTER_8: ChapterData = {
         speaker: 'Narrator',
         text: 'Nobody spoke for a long moment. Around them the company checked buckles and edges — small routine motions, done more slowly than usual.',
       },
-      { speaker: 'Hina', text: 'May the dawn find us all.', speakerFaction: 'player' },
+      { speaker: 'Mirelle', text: 'May the dawn find us all.', speakerFaction: 'player' },
       {
         speaker: 'Narrator',
-        text: 'Goro shifted his grip on his axe, looked at Genzo, and said nothing at all.',
+        text: 'Gareth shifted his grip on his axe, looked at Halvar, and said nothing at all.',
       },
       {
-        speaker: 'Mio',
+        speaker: 'Nadine',
         text: 'I will stay close to the corridor. I will.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Genzo',
+        speaker: 'Halvar',
         text: 'You will stay with the prince, girl. That is where the healing is needed.',
         speakerFaction: 'player',
       },
@@ -146,16 +146,16 @@ export const CHAPTER_8: ChapterData = {
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: 'You did. And the fortress is ours, and eleven of us are alive who would not be. Both of those are true at once, my lord. You will have to learn to hold them at once.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Narrator',
-        text: 'Goro put his fist into the fortress wall. His knuckles split. Nobody stopped him.',
+        text: 'Gareth put his fist into the fortress wall. His knuckles split. Nobody stopped him.',
       },
       {
-        speaker: 'Hina',
+        speaker: 'Mirelle',
         text: 'He was a Kurogane man for eleven years and an Amagi man for six weeks. I will pray for him as an Amagi man. I do not think he would mind.',
         speakerFaction: 'player',
       },
@@ -165,12 +165,12 @@ export const CHAPTER_8: ChapterData = {
         speakerFaction: 'player',
       },
       {
-        speaker: 'Mio',
+        speaker: 'Nadine',
         text: 'I could not reach him. I tried to get down the stair and there were too many and I could not—',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Raiga',
+        speaker: 'Corwin',
         text: 'None of us could. Girl — that was the entire idea. He picked a place where nobody could reach him so that nobody would have to try.',
         speakerFaction: 'player',
       },
@@ -218,13 +218,13 @@ export const CHAPTER_8: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Raiga',
+                speaker: 'Corwin',
                 text: 'Knights guarding the throne room. Heavy armor — axes or magic will do better than swords.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Akira',
-                text: 'I will draw them. Goro, Raiga — take the flank while their eyes are on a horse.',
+                text: 'I will draw them. Gareth, Corwin — take the flank while their eyes are on a horse.',
                 speakerFaction: 'player',
               },
             ],
@@ -243,13 +243,13 @@ export const CHAPTER_8: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Kanna',
-                text: 'Movement at the south gate. He is doing exactly what Genzo said he would.',
+                speaker: 'Lisette',
+                text: 'Movement at the south gate. He is doing exactly what Halvar said he would.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: 'Then we go faster. Take Doumeki before that corridor fills.',
+                text: 'Then we go faster. Take Wulfram before that corridor fills.',
                 speakerFaction: 'player',
               },
             ],
@@ -268,7 +268,7 @@ export const CHAPTER_8: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Genzo',
+                speaker: 'Halvar',
                 text: 'The corridor is filling, my lord. Someone holds it or they take us from behind.',
                 speakerFaction: 'player',
               },
@@ -285,7 +285,7 @@ export const CHAPTER_8: ChapterData = {
     },
     // Turn 8: GENZO'S SACRIFICE — remove from player, spawn as NPC ally
     {
-      id: 'ch8_genzo_to_npc',
+      id: 'ch8_halvar_to_npc',
       trigger: { type: 'turn_start', turn: 8 },
       effects: [
         {
@@ -296,30 +296,30 @@ export const CHAPTER_8: ChapterData = {
               scene: {
                 lines: [
                   { speaker: 'Akira', text: "I'll hold the corridor.", speakerFaction: 'player' },
-                  { speaker: 'Shigeru', text: 'Genzo. Stand down.', speakerFaction: 'player' },
+                  { speaker: 'Shigeru', text: 'Halvar. Stand down.', speakerFaction: 'player' },
                   {
-                    speaker: 'Genzo',
+                    speaker: 'Halvar',
                     text: 'I am afraid I am going to disobey an order, my lord. It is becoming a habit.',
                     speakerFaction: 'player',
                   },
                   {
-                    speaker: 'Genzo',
+                    speaker: 'Halvar',
                     text: 'Eleven years I stood a post because a man told me to. This one I picked.',
                     speakerFaction: 'player',
                   },
                   { speaker: 'Shigeru', text: 'Genzo—', speakerFaction: 'player' },
                   {
-                    speaker: 'Genzo',
+                    speaker: 'Halvar',
                     text: 'Go north, my lord. And when you get to Takeshi, tell him a sergeant of the second wall company stopped believing him.',
                     speakerFaction: 'player',
                   },
                 ],
               },
             },
-            { type: 'remove_unit', unitId: 'genzo' },
+            { type: 'remove_unit', unitId: 'halvar' },
             {
               type: 'spawn_units',
-              units: [{ unitId: 'genzo_npc', position: { x: 8, y: 16 } }],
+              units: [{ unitId: 'halvar_npc', position: { x: 8, y: 16 } }],
               faction: 'ally',
             },
           ],
@@ -327,9 +327,9 @@ export const CHAPTER_8: ChapterData = {
       ],
       once: true,
     },
-    // Turn 10: Genzo fighting alone — party watches
+    // Turn 10: Halvar fighting alone — party watches
     {
-      id: 'ch8_genzo_holding',
+      id: 'ch8_halvar_holding',
       trigger: { type: 'turn_start', turn: 10 },
       effects: [
         {
@@ -341,13 +341,13 @@ export const CHAPTER_8: ChapterData = {
                 text: 'From the south corridor: the flat ring of a lance being set, over and over, in a doorway one man wide.',
               },
               {
-                speaker: 'Hina',
+                speaker: 'Mirelle',
                 text: 'Can anyone see him? Is he still—',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Akira',
-                text: 'He is holding. Do not waste it, Hina. North.',
+                text: 'He is holding. Do not waste it, Mirelle. North.',
                 speakerFaction: 'player',
               },
             ],
@@ -356,9 +356,9 @@ export const CHAPTER_8: ChapterData = {
       ],
       once: true,
     },
-    // Turn 12: Genzo fading — urgency
+    // Turn 12: Halvar fading — urgency
     {
-      id: 'ch8_genzo_fading',
+      id: 'ch8_halvar_fading',
       trigger: { type: 'turn_start', turn: 12 },
       effects: [
         {
@@ -370,7 +370,7 @@ export const CHAPTER_8: ChapterData = {
                 text: 'The sounds from the south corridor are slowing. Fewer clashes. Longer pauses.',
               },
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: 'He is slowing. My lord, whatever we are going to do, it has to be now.',
                 speakerFaction: 'player',
               },
@@ -387,7 +387,7 @@ export const CHAPTER_8: ChapterData = {
     },
     // Turn 13: GENZO'S DEATH
     {
-      id: 'ch8_genzo_death',
+      id: 'ch8_halvar_death',
       trigger: { type: 'turn_start', turn: 13 },
       effects: [
         {
@@ -401,17 +401,17 @@ export const CHAPTER_8: ChapterData = {
                     speaker: 'Narrator',
                     text: 'In the south corridor the lance comes up one more time, more slowly than the last, and does not come down.',
                   },
-                  { speaker: 'Genzo', text: 'Post... held...', speakerFaction: 'player' },
+                  { speaker: 'Halvar', text: 'Post... held...', speakerFaction: 'player' },
                   { speaker: 'Narrator', text: 'The doorway goes quiet.' },
                   { speaker: 'Shigeru', text: 'GENZO!', speakerFaction: 'player' },
                   {
-                    speaker: 'Hina',
+                    speaker: 'Mirelle',
                     text: 'No — I can reach him, let me go, I can still—',
                     speakerFaction: 'player',
                   },
                   {
-                    speaker: 'Raiga',
-                    text: 'You cannot. Hold her, Goro.',
+                    speaker: 'Corwin',
+                    text: 'You cannot. Hold her, Gareth.',
                     speakerFaction: 'player',
                   },
                   {
@@ -421,14 +421,14 @@ export const CHAPTER_8: ChapterData = {
                 ],
               },
             },
-            { type: 'remove_unit', unitId: 'genzo_npc' },
-            { type: 'set_flag', key: 'genzo_dead', value: 'true' },
+            { type: 'remove_unit', unitId: 'halvar_npc' },
+            { type: 'set_flag', key: 'halvar_dead', value: 'true' },
           ],
         },
       ],
       once: true,
     },
-    // Boss killed: Doumeki
+    // Boss killed: Wulfram
     {
       id: 'ch8_doumeki_killed',
       trigger: { type: 'unit_killed', unitId: 'ch8_boss' },
@@ -438,22 +438,22 @@ export const CHAPTER_8: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Doumeki',
+                speaker: 'Wulfram',
                 text: 'The corridor. Nine turns. Who was it?',
                 speakerFaction: 'enemy',
               },
               {
                 speaker: 'Shigeru',
-                text: 'Sergeant Genzo. Second wall company. He served under you for six years.',
+                text: 'Sergeant Halvar. Second wall company. He served under you for six years.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Doumeki',
-                text: '...Genzo. He was the only man in my command who ever asked me a question. I had him posted to a wall for it.',
+                speaker: 'Wulfram',
+                text: '...Halvar. He was the only man in my command who ever asked me a question. I had him posted to a wall for it.',
                 speakerFaction: 'enemy',
               },
               {
-                speaker: 'Doumeki',
+                speaker: 'Wulfram',
                 text: 'Boy. Go west and look at what your Emperor is carrying. Then decide whether any of us were ever soldiers at all.',
                 speakerFaction: 'enemy',
               },
@@ -467,22 +467,22 @@ export const CHAPTER_8: ChapterData = {
   supportConversations: [
     {
       unitA: 'shigeru',
-      unitB: 'genzo',
+      unitB: 'halvar',
       lines: [
         {
-          speaker: 'Genzo',
+          speaker: 'Halvar',
           text: 'My lord. If it comes to it tonight — do not come back for me.',
           speakerFaction: 'player',
         },
         { speaker: 'Shigeru', text: 'I will not promise that.', speakerFaction: 'player' },
         {
-          speaker: 'Genzo',
+          speaker: 'Halvar',
           text: 'Then promise me the other thing. Do not let it be for nothing. That is all a soldier actually asks for, whatever the songs say.',
           speakerFaction: 'player',
         },
-        { speaker: 'Shigeru', text: 'Genzo...', speakerFaction: 'player' },
+        { speaker: 'Shigeru', text: 'Halvar...', speakerFaction: 'player' },
         {
-          speaker: 'Genzo',
+          speaker: 'Halvar',
           text: 'Say yes, my lord. It costs you nothing tonight and it will cost you a great deal later, which is how you will know it was worth saying.',
           speakerFaction: 'player',
         },
@@ -491,33 +491,33 @@ export const CHAPTER_8: ChapterData = {
       reward: { type: 'exp_both', amount: 30 },
     },
     {
-      unitA: 'genzo',
-      unitB: 'hina',
+      unitA: 'halvar',
+      unitB: 'mirelle',
       lines: [
         {
-          speaker: 'Hina',
-          text: 'Genzo. You have been settled all evening. Everyone else is sick with nerves and you have been mending a strap.',
+          speaker: 'Mirelle',
+          text: 'Halvar. You have been settled all evening. Everyone else is sick with nerves and you have been mending a strap.',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Genzo',
+          speaker: 'Halvar',
           text: 'It needed mending.',
           speakerFaction: 'player',
         },
-        { speaker: 'Hina', text: 'That is not what I asked.', speakerFaction: 'player' },
+        { speaker: 'Mirelle', text: 'That is not what I asked.', speakerFaction: 'player' },
         {
-          speaker: 'Genzo',
+          speaker: 'Halvar',
           text: 'I have been frightened for eleven years, girl — every day, on a wall, of the wrong things. Tonight I am frightened of something worth it. It is quite restful.',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Hina',
+          speaker: 'Mirelle',
           text: '...I am going to pray for you whether you like it or not.',
           speakerFaction: 'player',
         },
-        { speaker: 'Genzo', text: 'I would take it kindly.', speakerFaction: 'player' },
+        { speaker: 'Halvar', text: 'I would take it kindly.', speakerFaction: 'player' },
       ],
-      reward: { type: 'stat', unitId: 'genzo', stat: 'def', amount: 2 },
+      reward: { type: 'stat', unitId: 'halvar', stat: 'def', amount: 2 },
     },
   ],
 };

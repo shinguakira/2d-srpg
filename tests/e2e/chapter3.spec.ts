@@ -23,10 +23,10 @@ test.describe('Chapter 3 — The Bandits of Borgo', () => {
       page.locator('[data-testid="tile-14-10"] [data-testid="unit-akira"]'),
     ).toBeVisible();
     await expect(
-      page.locator('[data-testid="tile-10-11"] [data-testid="unit-kanna"]'),
+      page.locator('[data-testid="tile-10-11"] [data-testid="unit-lisette"]'),
     ).toBeVisible();
     await expect(
-      page.locator('[data-testid="tile-15-11"] [data-testid="unit-hina"]'),
+      page.locator('[data-testid="tile-15-11"] [data-testid="unit-mirelle"]'),
     ).toBeVisible();
   });
 

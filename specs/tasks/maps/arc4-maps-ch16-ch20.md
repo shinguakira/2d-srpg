@@ -149,7 +149,7 @@
 ### Enemies
 - [ ] Boss: Memory Guardian — Blackflame Colossus, Lv19, MAG 24, RES 22
   - 65 HP, summons ghost bosses every 3 turns
-- [ ] Ghost bosses (summons): Phantom Baraku, Phantom Ryuji, Phantom Doumeki
+- [ ] Ghost bosses (summons): Phantom Hagen, Phantom Vidar, Phantom Wulfram
   - Each Lv10-12, one weapon, aggressive AI, despawn after 3 turns
 - [ ] System Emissary — Blackflame Colossus, replica of Cycle #1 Shigeru
   - Non-hostile, Talk triggers dialogue

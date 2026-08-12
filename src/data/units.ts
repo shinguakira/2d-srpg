@@ -80,22 +80,32 @@ export const PLAYER_UNITS: Record<string, Unit> = {
       deathQuote: "I... I don't understand what's happening...",
     },
   ),
-  kanna: createUnit('kanna', 'Kanna', 'mage', 'player', ['fire', 'thunder'], 1, '', [], {
+  lisette: createUnit('lisette', 'Lisette', 'mage', 'player', ['fire', 'thunder'], 1, '', [], {
     deathQuote: "The data... it's fading...",
   }),
-  hina: createUnit('hina', 'Hina', 'cleric', 'player', ['heal_staff'], 1, '', ['vulnerary'], {
-    deathQuote: "This isn't... how the story ends...",
-  }),
+  mirelle: createUnit(
+    'mirelle',
+    'Mirelle',
+    'cleric',
+    'player',
+    ['heal_staff'],
+    1,
+    '',
+    ['vulnerary'],
+    {
+      deathQuote: "This isn't... how the story ends...",
+    },
+  ),
 
   // ===== Phase 0 — New player units =====
 
-  goro: createUnit('goro', 'Goro', 'fighter', 'player', ['iron_axe'], 1, '', ['vulnerary'], {
+  gareth: createUnit('gareth', 'Gareth', 'fighter', 'player', ['iron_axe'], 1, '', ['vulnerary'], {
     deathQuote: "Should've... hit harder...",
     statOverrides: { hp: 26, str: 9, def: 5 },
   }),
-  genzo: createUnit(
-    'genzo',
-    'Genzo',
+  halvar: createUnit(
+    'halvar',
+    'Halvar',
     'soldier',
     'player',
     ['iron_lance', 'garrison_lance'],
@@ -107,17 +117,17 @@ export const PLAYER_UNITS: Record<string, Unit> = {
       statOverrides: { hp: 22, def: 8, spd: 4 },
     },
   ),
-  sayo: createUnit('sayo', 'Sayo', 'archer', 'player', ['iron_bow', 'sightbow'], 1, '', [], {
+  bryn: createUnit('bryn', 'Bryn', 'archer', 'player', ['iron_bow', 'sightbow'], 1, '', [], {
     deathQuote: 'I missed... the one shot that mattered...',
     statOverrides: { skl: 8, spd: 7 },
   }),
-  hachi: createUnit('hachi', 'Hachi', 'thief', 'player', ['iron_knife', 'data_knife'], 1, '', [], {
+  fenn: createUnit('fenn', 'Fenn', 'thief', 'player', ['iron_knife', 'data_knife'], 1, '', [], {
     deathQuote: 'No more secrets... to find...',
     statOverrides: { spd: 9, skl: 7, lck: 6 },
   }),
-  yuki: createUnit(
-    'yuki',
-    'Yuki',
+  elin: createUnit(
+    'elin',
+    'Elin',
     'pegasus_knight',
     'player',
     ['iron_lance'],
@@ -132,9 +142,9 @@ export const PLAYER_UNITS: Record<string, Unit> = {
 
   // ===== Arc 2 — New player units =====
 
-  raiga: createUnit(
-    'raiga',
-    'Raiga',
+  corwin: createUnit(
+    'corwin',
+    'Corwin',
     'mercenary',
     'player',
     ['iron_sword', 'steel_sword'],
@@ -146,9 +156,9 @@ export const PLAYER_UNITS: Record<string, Unit> = {
       statOverrides: { hp: 22, str: 8, spd: 8, skl: 7, def: 6 },
     },
   ),
-  mio: createUnit(
-    'mio',
-    'Mio',
+  nadine: createUnit(
+    'nadine',
+    'Nadine',
     'troubadour',
     'player',
     ['heal_staff', 'mend'],
@@ -160,15 +170,15 @@ export const PLAYER_UNITS: Record<string, Unit> = {
       statOverrides: { mag: 7, spd: 8, res: 6 },
     },
   ),
-  kagura: createUnit('kagura', 'Kagura', 'dancer', 'player', [], 5, '', ['vulnerary'], {
+  viviane: createUnit('viviane', 'Viviane', 'dancer', 'player', [], 5, '', ['vulnerary'], {
     deathQuote: 'The music... stops...',
     statOverrides: { spd: 10, lck: 9 },
   }),
 
-  // Genzo NPC clone — ch8 turns Genzo into an ally NPC holding the south corridor
-  genzo_npc: createUnit(
-    'genzo_npc',
-    'Genzo',
+  // Halvar NPC clone — ch8 turns Halvar into an ally NPC holding the south corridor
+  halvar_npc: createUnit(
+    'halvar_npc',
+    'Halvar',
     'soldier',
     'ally',
     ['iron_lance', 'garrison_lance'],
@@ -182,8 +192,8 @@ export const PLAYER_UNITS: Record<string, Unit> = {
     },
   ),
 
-  // Elder Toki — ch10 protect target NPC
-  elder_toki: createUnit('elder_toki', 'Elder Toki', 'cleric', 'ally', ['heal_staff'], 1, '', [], {
+  // Elder Ilse — ch10 protect target NPC
+  elder_ilse: createUnit('elder_ilse', 'Elder Ilse', 'cleric', 'ally', ['heal_staff'], 1, '', [], {
     aiBehavior: { type: 'stationary' },
     statOverrides: { hp: 14, def: 2, res: 4, mag: 3 },
   }),
@@ -202,7 +212,7 @@ export const ENEMY_UNITS: Record<string, Unit> = {
     statOverrides: { str: 3, skl: 3 },
   }),
   // Ch1 Boss — tutorial boss, remembers all 347 cycles
-  baraku: createUnit('baraku', 'Baraku', 'fighter', 'enemy', ['iron_axe', 'hand_axe'], 2, '', [], {
+  hagen: createUnit('hagen', 'Hagen', 'fighter', 'enemy', ['iron_axe', 'hand_axe'], 2, '', [], {
     aiBehavior: { type: 'boss' },
     statOverrides: { str: 5, skl: 3 },
   }),
@@ -238,9 +248,9 @@ export const ENEMY_UNITS: Record<string, Unit> = {
     aiBehavior: { type: 'guard', radius: 3 },
     statOverrides: { str: 4, skl: 3 },
   }),
-  ryuji: createUnit(
-    'ryuji',
-    'Ryuji',
+  vidar: createUnit(
+    'vidar',
+    'Vidar',
     'cavalier',
     'enemy',
     ['iron_lance', 'steel_lance'],
@@ -308,7 +318,7 @@ export const ENEMY_UNITS: Record<string, Unit> = {
   }),
   ch3_boss: createUnit(
     'ch3_boss',
-    'Hyodo',
+    'Olrik',
     'soldier',
     'enemy',
     ['steel_lance', 'javelin'],
@@ -363,7 +373,7 @@ export const ENEMY_UNITS: Record<string, Unit> = {
   ),
   ch4_boss: createUnit(
     'ch4_boss',
-    'Zanba',
+    'Brask',
     'fighter',
     'enemy',
     ['steel_axe', 'hand_axe'],
@@ -381,7 +391,7 @@ export const ENEMY_UNITS: Record<string, Unit> = {
   // Chapter 5 enemies — Mountain Fortress (Arc 1 climax)
   ch5_boss: createUnit(
     'ch5_boss',
-    'General Tetsuzan',
+    'General Roderic',
     'general_knight',
     'enemy',
     ['steel_lance', 'javelin'],
@@ -497,7 +507,7 @@ export const ENEMY_UNITS: Record<string, Unit> = {
 
   ch6_boss: createUnit(
     'ch6_boss',
-    'Captain Tsubame',
+    'Captain Aeryn',
     'pegasus_knight',
     'enemy',
     ['steel_lance', 'javelin'],
@@ -655,11 +665,11 @@ export const ENEMY_UNITS: Record<string, Unit> = {
     9,
   ),
 
-  // ===== Chapter 7 enemies — Coastal Fortress (Kanna's crisis) =====
+  // ===== Chapter 7 enemies — Coastal Fortress (Lisette's crisis) =====
 
   ch7_boss: createUnit(
     'ch7_boss',
-    'Admiral Isonami',
+    'Admiral Varro',
     'general_soldier',
     'enemy',
     ['steel_lance'],
@@ -719,7 +729,7 @@ export const ENEMY_UNITS: Record<string, Unit> = {
 
   ch8_boss: createUnit(
     'ch8_boss',
-    'General Doumeki',
+    'General Wulfram',
     'halberdier',
     'enemy',
     ['steel_lance', 'javelin'],
@@ -820,7 +830,7 @@ export const ENEMY_UNITS: Record<string, Unit> = {
 
   ch10_boss: createUnit(
     'ch10_boss',
-    'General Sozen',
+    'General Ezrin',
     'sage',
     'enemy',
     ['elfire', 'mend'],

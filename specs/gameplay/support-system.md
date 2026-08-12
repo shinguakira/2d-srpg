@@ -87,16 +87,16 @@ Not all pairs have unique conversations. Priority pairs (with full 4-tier conver
 
 | Pair | Theme | Notes |
 |------|-------|-------|
-| Shigeru × Kanna | Knowledge vs ignorance | Kanna's analysis meets Shigeru's 347-cycle experience. Do you tell her everything? |
-| Shigeru × Hina | Exhaustion vs hope | Hina sees through Shigeru's cynicism. She reminds him why he started. |
-| Shigeru × Goro | Action vs planning | Goro challenges Shigeru's overthinking. "Sometimes you just hit the thing." |
-| Shigeru × Genzo | Former enemies | 300 cycles of opposing each other. Now allies. Trust building. |
+| Shigeru × Lisette | Knowledge vs ignorance | Lisette's analysis meets Shigeru's 347-cycle experience. Do you tell her everything? |
+| Shigeru × Mirelle | Exhaustion vs hope | Mirelle sees through Shigeru's cynicism. She reminds him why he started. |
+| Shigeru × Gareth | Action vs planning | Gareth challenges Shigeru's overthinking. "Sometimes you just hit the thing." |
+| Shigeru × Halvar | Former enemies | 300 cycles of opposing each other. Now allies. Trust building. |
 | Shigeru × Akira | Commander × soldier | The relationship that defines Shigeru's guilt. Akira's unwavering loyalty. |
-| Kanna × Hachi | Intellect vs street smarts | Kanna respects Hachi's practical intelligence. |
-| Goro × Raiga | Rival fighters | Competitive friendship. Who's stronger? |
-| Hina × Kagura | Healer × dancer | Two support-role characters bond over keeping everyone alive. |
+| Lisette × Fenn | Intellect vs street smarts | Lisette respects Fenn's practical intelligence. |
+| Gareth × Corwin | Rival fighters | Competitive friendship. Who's stronger? |
+| Mirelle × Viviane | Healer × dancer | Two support-role characters bond over keeping everyone alive. |
 | Kira × Elara | Dark × light | Former dark mage and monk. Opposing magic, finding balance. |
-| Genzo × Ghael | Former enemies | Both served the Blackflame. Different reasons for leaving. |
+| Halvar × Ghael | Former enemies | Both served the Blackflame. Different reasons for leaving. |
 | Echo × Shigeru | Creator × creation | The Blackflame made Echo. Shigeru must decide what Echo means. |
 
 All other unit pairs have generic C-rank conversations (personality interactions) and no higher-rank support.

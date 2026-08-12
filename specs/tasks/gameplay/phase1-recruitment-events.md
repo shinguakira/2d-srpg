@@ -48,7 +48,7 @@
 - [x] Recruited unit inherits current HP/stats (not reset)
 - [x] Unit tests: faction swap, Talk action availability (5 tests)
 - [x] Ally faction independent AI movement — `allyActions.ts`, ally_phase after enemy turn, aggressive AI targeting enemies
-- [x] Enemy defection: Genzo defects turn 3 in ch2 via `recruit_unit` event effect
+- [x] Enemy defection: Halvar defects turn 3 in ch2 via `recruit_unit` event effect
 - [x] Village recruitment: village action fires `checkAndFireEvents` with `tile_visited` trigger
 - [x] Conditional recruitment: Talk button only shows for `recruitCondition === 'talk'` (event/defection handled by event system)
 
@@ -81,7 +81,7 @@
 - [x] Victory check for protect (protected unit dies → defeat)
 - [x] Survive objective: victory at start of player phase after N enemy phases
 - [x] Lord death → defeat for non-rout objectives
-- [x] Sample events wired into ch1 (turn 2 dialogue) and ch2 (turn 2 hint + Genzo defection turn 3)
+- [x] Sample events wired into ch1 (turn 2 dialogue) and ch2 (turn 2 hint + Halvar defection turn 3)
 - [x] `recruitableUnits` field on ChapterData — optional cross-reference for chapter-defined recruitable units
 - [x] Escape objective action/resolution logic — Escape button in action menu, Lord escape triggers victory, remaining units auto-escape
 

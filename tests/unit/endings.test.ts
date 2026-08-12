@@ -80,15 +80,15 @@ describe('Endings', () => {
 
   describe('getCreditsRoster', () => {
     it('marks dead units correctly', () => {
-      const roster = getCreditsRoster(['shigeru', 'akira', 'sayo', 'genzo'], ['akira']);
+      const roster = getCreditsRoster(['shigeru', 'akira', 'bryn', 'halvar'], ['akira']);
       expect(roster).toHaveLength(4);
       expect(roster[0]).toEqual({ id: 'shigeru', alive: true });
       expect(roster[1]).toEqual({ id: 'akira', alive: false });
-      expect(roster[2]).toEqual({ id: 'sayo', alive: true });
+      expect(roster[2]).toEqual({ id: 'bryn', alive: true });
     });
 
     it('handles empty dead list', () => {
-      const roster = getCreditsRoster(['shigeru', 'sayo'], []);
+      const roster = getCreditsRoster(['shigeru', 'bryn'], []);
       expect(roster.every((r) => r.alive)).toBe(true);
     });
   });

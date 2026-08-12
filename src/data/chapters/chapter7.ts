@@ -12,7 +12,7 @@ const terrain: TerrainType[][] = [
   // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
   [W, W, P, P, P, P, P, P, P, P, P, P, P, P, W, W], // row 0  — blighted seaward edge (revenant spawns)
   [W, P, P, X, X, P, P, P, P, P, P, X, X, P, P, W], // row 1  — fortress walls
-  [M, P, P, X, T, P, P, P, P, P, P, T, X, P, P, M], // row 2  — forts inside walls (Isonami at 4,2)
+  [M, P, P, X, T, P, P, P, P, P, P, T, X, P, P, M], // row 2  — forts inside walls (Varro at 4,2)
   [M, P, P, P, P, P, X, P, P, X, P, P, P, P, P, M], // row 3  — inner corridors (2-wide)
   [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 4  — open courtyard
   [P, P, X, X, P, P, P, T, T, P, P, P, X, X, P, P], // row 5  — central fortifications
@@ -38,14 +38,14 @@ export const CHAPTER_7: ChapterData = {
   playerUnits: [
     { unitId: 'shigeru', position: { x: 7, y: 13 } },
     { unitId: 'akira', position: { x: 8, y: 13 } },
-    { unitId: 'kanna', position: { x: 7, y: 14 } },
-    { unitId: 'goro', position: { x: 6, y: 14 } },
-    { unitId: 'hina', position: { x: 9, y: 14 } },
-    { unitId: 'raiga', position: { x: 6, y: 13 } },
-    { unitId: 'mio', position: { x: 9, y: 13 } },
+    { unitId: 'lisette', position: { x: 7, y: 14 } },
+    { unitId: 'gareth', position: { x: 6, y: 14 } },
+    { unitId: 'mirelle', position: { x: 9, y: 14 } },
+    { unitId: 'corwin', position: { x: 6, y: 13 } },
+    { unitId: 'nadine', position: { x: 9, y: 13 } },
   ],
   enemyUnits: [
-    { unitId: 'ch7_boss', position: { x: 4, y: 2 } }, // Admiral Isonami on fort
+    { unitId: 'ch7_boss', position: { x: 4, y: 2 } }, // Admiral Varro on fort
     { unitId: 'ch7_soldier_1', position: { x: 7, y: 4 } }, // courtyard
     { unitId: 'ch7_soldier_2', position: { x: 8, y: 4 } }, // courtyard
     { unitId: 'ch7_fighter_1', position: { x: 5, y: 7 } }, // transition zone
@@ -68,28 +68,28 @@ export const CHAPTER_7: ChapterData = {
         text: 'The fortress at the Cut, where the channel splits the island in two. These walls have stood two hundred years. Tonight something is moving inside the seaward wall itself.',
       },
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: 'I have been at the ward readings all night. The blight is not spreading at random. It is answering.',
         speakerFaction: 'player',
       },
       { speaker: 'Akira', text: 'Answering what?', speakerFaction: 'player' },
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: 'Me. Every time I chart where it will surface next, it surfaces somewhere else. Not once. Eleven times in a row. That is not weather, that is a thing that knows it is being looked at.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Raiga',
-        text: 'Admiral Isonami holds the keep above the channel. Old garrison, disciplined, spread thin along the wall.',
+        speaker: 'Corwin',
+        text: 'Admiral Varro holds the keep above the channel. Old garrison, disciplined, spread thin along the wall.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'Hold the line and nobody chases. Kanna, stay at the rear — I need your eyes on the north wall, not on a lance.',
+        text: 'Hold the line and nobody chases. Lisette, stay at the rear — I need your eyes on the north wall, not on a lance.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: 'My eyes may be worth very little today, my lord. I want that said aloud before it matters.',
         speakerFaction: 'player',
       },
@@ -102,7 +102,7 @@ export const CHAPTER_7: ChapterData = {
         text: 'The revenants stop coming. The fortress goes quiet, and the quiet is worse than the noise was.',
       },
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: 'Six years of ward theory. Every book in the royal archive. All of it built on the one thing everyone agrees on — that a seal does not think. And it thinks, my lord. It waited for me to commit my readings and then it moved.',
         speakerFaction: 'player',
       },
@@ -112,7 +112,7 @@ export const CHAPTER_7: ChapterData = {
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: 'That is all I am. Take the predicting away and there is a small rude woman with bad eyesight and no lance.',
         speakerFaction: 'player',
       },
@@ -122,12 +122,12 @@ export const CHAPTER_7: ChapterData = {
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: '...That is not a measurement.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Hina',
+        speaker: 'Mirelle',
         text: 'No. It is a question. Those are allowed too.',
         speakerFaction: 'player',
       },
@@ -137,13 +137,13 @@ export const CHAPTER_7: ChapterData = {
         speakerFaction: 'player',
       },
       {
-        speaker: 'Goro',
+        speaker: 'Gareth',
         text: 'And you shouted the right things at the right people. That is most of what a commander does, and you did it without a horse.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Narrator',
-        text: 'That night Kanna burned two years of charts, and started a new book with one line at the top of it: WHAT DOES IT WANT?',
+        text: 'That night Lisette burned two years of charts, and started a new book with one line at the top of it: WHAT DOES IT WANT?',
       },
     ],
   },
@@ -180,9 +180,9 @@ export const CHAPTER_7: ChapterData = {
     },
   ],
   events: [
-    // Turn 1: Kanna's forecast is off
+    // Turn 1: Lisette's forecast is off
     {
-      id: 'ch7_kanna_off',
+      id: 'ch7_lisette_off',
       trigger: { type: 'turn_start', turn: 1 },
       effects: [
         {
@@ -190,7 +190,7 @@ export const CHAPTER_7: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: 'The ward-stone has gone cold. Not cracked — cold, as though there were nothing left out west for it to point at.',
                 speakerFaction: 'player',
               },
@@ -200,7 +200,7 @@ export const CHAPTER_7: ChapterData = {
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: 'It could. It could also mean it is no longer out west. Watch the wall, my lord.',
                 speakerFaction: 'player',
               },
@@ -210,9 +210,9 @@ export const CHAPTER_7: ChapterData = {
       ],
       once: true,
     },
-    // Turn 3: Corrupted spawn + Kanna crisis
+    // Turn 3: Corrupted spawn + Lisette crisis
     {
-      id: 'ch7_kanna_crisis',
+      id: 'ch7_lisette_crisis',
       trigger: { type: 'turn_start', turn: 3 },
       effects: [
         {
@@ -220,17 +220,17 @@ export const CHAPTER_7: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: 'The north wall. The stone is going grey and something is climbing out of it.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Goro',
+                speaker: 'Gareth',
                 text: 'Those are not soldiers. Gods — that one is wearing Amagi colours.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Hina',
+                speaker: 'Mirelle',
                 text: 'They are revenants. The Blackflame does not kill men, it hollows them and stands them back up. Do not look at their faces. Please do not look at their faces.',
                 speakerFaction: 'player',
               },
@@ -245,9 +245,9 @@ export const CHAPTER_7: ChapterData = {
       ],
       once: true,
     },
-    // Turn 6: Kanna breakdown
+    // Turn 6: Lisette breakdown
     {
-      id: 'ch7_kanna_breakdown',
+      id: 'ch7_lisette_breakdown',
       trigger: { type: 'turn_start', turn: 6 },
       effects: [
         {
@@ -255,27 +255,27 @@ export const CHAPTER_7: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: 'I called the east stair and it came up the west. I called the west and it came through the floor. It is not outrunning me — it is waiting to hear what I say.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Mio',
-                text: 'Kanna. Breathe. In, and out, and again.',
+                speaker: 'Nadine',
+                text: 'Lisette. Breathe. In, and out, and again.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: 'You do not understand. My whole use to this company is knowing. If I cannot know, what am I standing here for?',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Raiga',
+                speaker: 'Corwin',
                 text: 'Then stop calling it out loud, lass. Write it down and hand it to the prince. If the cursed thing is listening, make it work for what it hears.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: '...That is a horrible idea. Give me your chalk.',
                 speakerFaction: 'player',
               },
@@ -300,7 +300,7 @@ export const CHAPTER_7: ChapterData = {
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: '...Fewer of them each wave. Whatever is pushing them up through that wall is tiring.',
                 speakerFaction: 'player',
               },
@@ -311,10 +311,10 @@ export const CHAPTER_7: ChapterData = {
               },
               {
                 speaker: 'Shigeru',
-                text: 'Kanna. Keep writing. I will keep reading.',
+                text: 'Lisette. Keep writing. I will keep reading.',
                 speakerFaction: 'player',
               },
-              { speaker: 'Kanna', text: '...Thank you.', speakerFaction: 'player' },
+              { speaker: 'Lisette', text: '...Thank you.', speakerFaction: 'player' },
             ],
           },
         },
@@ -331,7 +331,7 @@ export const CHAPTER_7: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: 'Thinner again. Whatever fuel it had, it is nearly through it. One more turn!',
                 speakerFaction: 'player',
               },
@@ -360,7 +360,7 @@ export const CHAPTER_7: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: 'Nothing more is coming out of the wall. It is spent.',
                 speakerFaction: 'player',
               },
@@ -376,7 +376,7 @@ export const CHAPTER_7: ChapterData = {
       ],
       once: true,
     },
-    // Optional boss killed: Isonami
+    // Optional boss killed: Varro
     {
       id: 'ch7_isonami_killed',
       trigger: { type: 'unit_killed', unitId: 'ch7_boss' },
@@ -386,7 +386,7 @@ export const CHAPTER_7: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Isonami',
+                speaker: 'Varro',
                 text: 'Two hundred years this keep has held the Cut. It will hold after me.',
                 speakerFaction: 'enemy',
               },
@@ -397,7 +397,7 @@ export const CHAPTER_7: ChapterData = {
               },
               {
                 speaker: 'Narrator',
-                text: "Admiral Isonami's Hero Crest clatters to the stone floor.",
+                text: "Admiral Varro's Hero Crest clatters to the stone floor.",
               },
             ],
           },
@@ -410,10 +410,10 @@ export const CHAPTER_7: ChapterData = {
   supportConversations: [
     {
       unitA: 'shigeru',
-      unitB: 'kanna',
+      unitB: 'lisette',
       lines: [
         {
-          speaker: 'Kanna',
+          speaker: 'Lisette',
           text: 'My lord. When you were seven you fell off the archive ladder trying to reach the ward-theory shelf.',
           speakerFaction: 'player',
         },
@@ -423,7 +423,7 @@ export const CHAPTER_7: ChapterData = {
           speakerFaction: 'player',
         },
         {
-          speaker: 'Kanna',
+          speaker: 'Lisette',
           text: 'I was holding the ladder. Badly. Your father did not have me flogged, which surprised everyone including your father.',
           speakerFaction: 'player',
         },
@@ -433,37 +433,37 @@ export const CHAPTER_7: ChapterData = {
           speakerFaction: 'player',
         },
         {
-          speaker: 'Kanna',
+          speaker: 'Lisette',
           text: '...He said that? Well. Then I had better find another one.',
           speakerFaction: 'player',
         },
       ],
-      reward: { type: 'stat', unitId: 'kanna', stat: 'mag', amount: 1 },
+      reward: { type: 'stat', unitId: 'lisette', stat: 'mag', amount: 1 },
     },
     {
-      unitA: 'kanna',
-      unitB: 'hachi',
+      unitA: 'lisette',
+      unitB: 'fenn',
       lines: [
         {
-          speaker: 'Hachi',
+          speaker: 'Fenn',
           text: 'So your readings lie to you now. Welcome. That is how every day of my life has gone.',
           speakerFaction: 'player',
         },
-        { speaker: 'Kanna', text: 'That is not helpful, Hachi.', speakerFaction: 'player' },
+        { speaker: 'Lisette', text: 'That is not helpful, Fenn.', speakerFaction: 'player' },
         {
-          speaker: 'Hachi',
+          speaker: 'Fenn',
           text: 'It was not meant to be helpful, it was meant to be true. You want to know how a thief works a house that lies to them?',
           speakerFaction: 'player',
         },
-        { speaker: 'Kanna', text: '...Go on.', speakerFaction: 'player' },
+        { speaker: 'Lisette', text: '...Go on.', speakerFaction: 'player' },
         {
-          speaker: 'Hachi',
+          speaker: 'Fenn',
           text: 'You stop asking what is behind the door. You watch which door the owner never opens. Things give themselves away by what they protect.',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Kanna',
-          text: 'Hachi. That is genuinely the most useful thing anyone has said to me this month, and I resent it enormously.',
+          speaker: 'Lisette',
+          text: 'Fenn. That is genuinely the most useful thing anyone has said to me this month, and I resent it enormously.',
           speakerFaction: 'player',
         },
       ],

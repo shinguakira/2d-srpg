@@ -28,7 +28,7 @@
 ### Epilogue
 - [ ] System is not evil — it's grieving, trying to find a perfect playthrough
 - [ ] Party reassesses: "The Blackflame isn't our enemy. It's... desperate."
-- [ ] Kanna: "A save manager. It's a save manager trying to find the perfect save."
+- [ ] Lisette: "A save manager. It's a save manager trying to find the perfect save."
 - [ ] Shigeru: "I've known for a long time. But I couldn't tell you."
 - [ ] System Fragment acquired: partial insight into System's architecture
 
@@ -58,7 +58,7 @@
 
 ### Epilogue
 - [ ] Emotional processing: System is tragic, not villainous
-- [ ] Kanna: "Can we... help it? Instead of fighting it?"
+- [ ] Lisette: "Can we... help it? Instead of fighting it?"
 - [ ] Shigeru: "We can end the loop. That's the kindest thing."
 - [ ] Party debate: empathy vs necessity
 
@@ -96,7 +96,7 @@
 - [ ] Memory Guardian blocks the path: summons ghosts of past bosses
 
 ### Mid-Battle — The Choice
-- [ ] Ghost boss encounters: Phantom Baraku (callback), Phantom Doumeki (callback)
+- [ ] Ghost boss encounters: Phantom Hagen (callback), Phantom Wulfram (callback)
   - Brief recognition dialogue with each phantom
 - [ ] System Emissary encounter (Cycle #1 Shigeru replica):
   - "I am what you were. In the first cycle."
@@ -110,9 +110,9 @@
   - System: "You would choose grief over perfection?"
   - Shigeru: "There is no perfect save. There's just... the one we finish."
 - [ ] Party reactions (LOY shifts):
-  - Kanna: proud, vindicated
-  - Goro: relieved (didn't want to forget the fights)
-  - Hina: emotional, spiritual validation
+  - Lisette: proud, vindicated
+  - Gareth: relieved (didn't want to forget the fights)
+  - Mirelle: emotional, spiritual validation
   - Others: personalized reactions
 
 ### Epilogue

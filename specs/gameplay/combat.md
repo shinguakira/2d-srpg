@@ -51,7 +51,7 @@ Clamped: 1% minimum, 99% maximum (nothing is ever guaranteed)
 | Weapon triangle advantage | +15 hit | See below |
 | Weapon triangle disadvantage | -15 hit | |
 | CHA aura (ally within range) | +CHA hit | From the CHA source unit |
-| Empathy Aura (Hina adjacent) | +10 hit | Stacks with CHA |
+| Empathy Aura (Mirelle adjacent) | +10 hit | Stacks with CHA |
 | Time of Day (Morning units at Dawn) | +2 hit | See stats.md |
 | Time of Day (Night units at Night) | +2 hit | |
 | Support bonus (adjacent supported ally) | +5/+10/+15 hit (C/B/A rank) | See support-system.md |

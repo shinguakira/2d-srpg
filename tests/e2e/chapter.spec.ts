@@ -35,7 +35,7 @@ test.describe('Chapter 1 — Full Game Flow', () => {
     // Player units present
     await expect(page.locator('[data-testid="unit-shigeru"]')).toBeVisible();
     await expect(page.locator('[data-testid="unit-akira"]')).toBeVisible();
-    await expect(page.locator('[data-testid="unit-kanna"]')).toBeVisible();
+    await expect(page.locator('[data-testid="unit-lisette"]')).toBeVisible();
 
     // Enemy units present
     await expect(page.locator('[data-testid="unit-fighter_1"]')).toBeVisible();
@@ -59,9 +59,9 @@ test.describe('Chapter 1 — Full Game Flow', () => {
     await expect(
       page.locator('[data-testid="tile-13-10"] [data-testid="unit-akira"]'),
     ).toBeVisible();
-    // Kanna at (9, 11)
+    // Lisette at (9, 11)
     await expect(
-      page.locator('[data-testid="tile-9-11"] [data-testid="unit-kanna"]'),
+      page.locator('[data-testid="tile-9-11"] [data-testid="unit-lisette"]'),
     ).toBeVisible();
 
     // fighter_3 at (11, 4)

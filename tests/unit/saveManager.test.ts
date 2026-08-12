@@ -247,7 +247,7 @@ describe('saveManager', () => {
           crpLowChapters: 2,
         },
       },
-      roster: ['shigeru', 'kanna'],
+      roster: ['shigeru', 'lisette'],
       deadUnitIds: [],
     };
     localStorage.setItem('srpg_save_slot_0', JSON.stringify(v4Save));
@@ -274,7 +274,7 @@ describe('saveManager', () => {
   it('roster carries forward with correct units across save/load', () => {
     const save: SaveData = {
       ...SAMPLE_SAVE,
-      roster: ['shigeru', 'akira', 'kanna', 'sayo', 'genzo'],
+      roster: ['shigeru', 'akira', 'lisette', 'bryn', 'halvar'],
       deadUnitIds: ['akira'],
       unitProgress: {
         shigeru: {
@@ -315,7 +315,7 @@ describe('saveManager', () => {
           weaponIds: ['iron_lance'],
           itemIds: [],
         },
-        kanna: {
+        lisette: {
           level: 8,
           exp: 30,
           stats: {
@@ -334,7 +334,7 @@ describe('saveManager', () => {
           weaponIds: ['fire'],
           itemIds: [],
         },
-        sayo: {
+        bryn: {
           level: 7,
           exp: 20,
           stats: {
@@ -353,7 +353,7 @@ describe('saveManager', () => {
           weaponIds: ['iron_bow'],
           itemIds: [],
         },
-        genzo: {
+        halvar: {
           level: 6,
           exp: 10,
           stats: {
@@ -378,14 +378,14 @@ describe('saveManager', () => {
     const loaded = readSave(0);
     expect(loaded).not.toBeNull();
     // Roster preserved exactly
-    expect(loaded!.roster).toEqual(['shigeru', 'akira', 'kanna', 'sayo', 'genzo']);
+    expect(loaded!.roster).toEqual(['shigeru', 'akira', 'lisette', 'bryn', 'halvar']);
     // Dead units preserved
     expect(loaded!.deadUnitIds).toEqual(['akira']);
     // All unit progress preserved
     expect(Object.keys(loaded!.unitProgress)).toHaveLength(5);
     expect(loaded!.unitProgress.shigeru.level).toBe(15);
     expect(loaded!.unitProgress.akira.level).toBe(10);
-    expect(loaded!.unitProgress.kanna.stats.mag).toBe(10);
+    expect(loaded!.unitProgress.lisette.stats.mag).toBe(10);
   });
 
   it('migrates v5 save to current version on read', () => {
@@ -420,7 +420,7 @@ describe('saveManager', () => {
           supportPartners: ['akira'],
         },
       },
-      roster: ['shigeru', 'akira', 'kanna'],
+      roster: ['shigeru', 'akira', 'lisette'],
       deadUnitIds: [],
       supportPairs: [{ unitA: 'shigeru', unitB: 'akira', points: 25, rank: 'C' }],
       bonusExp: 50,
@@ -443,7 +443,7 @@ describe('saveManager', () => {
     expect(loaded!.bonusExp).toBe(50);
     expect(loaded!.forgeMaterials).toEqual(['adamant_ore']);
     expect(loaded!.gold).toBe(1500);
-    expect(loaded!.roster).toEqual(['shigeru', 'akira', 'kanna']);
+    expect(loaded!.roster).toEqual(['shigeru', 'akira', 'lisette']);
   });
 
   it('migrates v6 save to v7 on read', () => {
@@ -478,7 +478,7 @@ describe('saveManager', () => {
           supportPartners: ['akira'],
         },
       },
-      roster: ['shigeru', 'akira', 'kanna', 'hina'],
+      roster: ['shigeru', 'akira', 'lisette', 'mirelle'],
       deadUnitIds: [],
       supportPairs: [{ unitA: 'shigeru', unitB: 'akira', points: 50, rank: 'B' }],
       bonusExp: 100,
@@ -500,6 +500,6 @@ describe('saveManager', () => {
     expect(loaded!.difficulty).toBe('classic');
     expect(loaded!.campaignFlags).toEqual({ grief_chapters_remaining: 2 });
     expect(loaded!.gold).toBe(2500);
-    expect(loaded!.roster).toEqual(['shigeru', 'akira', 'kanna', 'hina']);
+    expect(loaded!.roster).toEqual(['shigeru', 'akira', 'lisette', 'mirelle']);
   });
 });

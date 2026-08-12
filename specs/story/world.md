@@ -100,20 +100,20 @@ Rules the game holds itself to, so the fiction and the mechanics agree:
   completion. No heat, no sound, no shadow. Impassable, and it drags at anyone near.
 - **It stands its dead back up.** Revenants keep their faces and their kit. This is
   the most upsetting fact in the setting and the writing should treat it that way.
-- **It will not cross running water.** Kanna's first proven rule, and the reason the
+- **It will not cross running water.** Lisette's first proven rule, and the reason the
   Sasu and the Are river matter tactically.
 - **It reaches for the Flamebrand.** The sword is the last thing tied to the seal, so
   the blight tracks it. Carrying it is what makes the party the target — which
   Shigeru works out in Ch5 and can do nothing about.
 - **It learns.** From Ch7 it stops behaving like weather and starts behaving like
-  something that notices being measured. This is Kanna's crisis.
+  something that notices being measured. This is Lisette's crisis.
 
 ## The Sacred Flames
 
 Three shrines, three flames, all in the Lower Country:
 
 - **Are** (west) — over the seal itself. Takeshi broke this one.
-- **Shiratake** (north) — above Aso Bay. Hina's shrine.
+- **Shiratake** (north) — above Aso Bay. Mirelle's shrine.
 - **Tsutsu** (south) — on the cape, the oldest shrine-town.
 
 While the other two burn, the seal is cracked rather than open. The endgame question

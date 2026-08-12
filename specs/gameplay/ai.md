@@ -241,7 +241,7 @@ score += target.aggroWeight × 0.3
 where: aggroWeight = 10 + CHA×2 + (maxHP - currentHP)/2
 ```
 
-This makes high-CHA units (Shigeru: CHA 9 → weight 28) natural aggro magnets, while low-CHA units (Genzo: CHA 2 → weight 14) are nearly ignored.
+This makes high-CHA units (Shigeru: CHA 9 → weight 28) natural aggro magnets, while low-CHA units (Halvar: CHA 2 → weight 14) are nearly ignored.
 
 ### Terrain Aggro Modifier (Design Spec)
 

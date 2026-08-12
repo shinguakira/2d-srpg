@@ -136,13 +136,13 @@ Every master promotion grants:
 Akira can theoretically be promoted at Ch7 (Hero Crest available, Akira could be Lv15 with heavy EXP investment). But:
 - He dies in Ch8 — the player loses the promotion item AND the promoted unit
 - This creates a gut-punch moment: the player invested resources into making Akira stronger, and it was all for nothing
-- OR the player learns (on repeat playthroughs) not to promote Akira, saving the item for Raiga/Goro
+- OR the player learns (on repeat playthroughs) not to promote Akira, saving the item for Corwin/Gareth
 
 ---
 
 ## Open Questions
 
-- **Promotion dialogue**: Should promotion trigger a short character moment? (e.g., Goro promoting to Berserker: "FINALLY, a class that GETS me!")
+- **Promotion dialogue**: Should promotion trigger a short character moment? (e.g., Gareth promoting to Berserker: "FINALLY, a class that GETS me!")
 - **Forced promotion**: Should any promotions be story-forced? (e.g., Shigeru promotes to Great Lord at a specific chapter regardless of level)
 - **Reverse promotion**: If a unit is corrupted (CRP 100) after promotion, does the corrupted enemy version use promoted or base class stats?
 - **Partial promotion**: Should Master Crown allow choosing ANY master class, or only ones that match the unit's promoted class tree?

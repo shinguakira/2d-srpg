@@ -88,14 +88,14 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
     reward: { type: 'exp_both', amount: 30 },
   },
 
-  // ===== Shigeru & Kanna =====
+  // ===== Shigeru & Lisette =====
   {
     unitA: 'shigeru',
-    unitB: 'kanna',
+    unitB: 'lisette',
     rank: 'C',
     lines: [
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: 'My lord, I took soil from where the blight met the river. It stopped at the water. It has never stopped at anything before.',
         speakerFaction: 'player',
       },
@@ -105,7 +105,7 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: 'One rule, my lord. One rule is a foothold. Give me ten and I will give you a strategy.',
         speakerFaction: 'player',
       },
@@ -115,20 +115,20 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
         speakerFaction: 'player',
       },
     ],
-    reward: { type: 'stat', unitId: 'kanna', stat: 'mag', amount: 1 },
+    reward: { type: 'stat', unitId: 'lisette', stat: 'mag', amount: 1 },
   },
   {
     unitA: 'shigeru',
-    unitB: 'kanna',
+    unitB: 'lisette',
     rank: 'B',
     lines: [
       {
         speaker: 'Shigeru',
-        text: 'Kanna. When did you last sleep?',
+        text: 'Lisette. When did you last sleep?',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: 'Sleep is a poor use of a night when the night is the only quiet I get.',
         speakerFaction: 'player',
       },
@@ -138,7 +138,7 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: '...You sound exactly like my mother. Very well. I will sleep. Only because a tired reading is a wrong reading.',
         speakerFaction: 'player',
       },
@@ -146,20 +146,20 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
     reward: { type: 'exp_both', amount: 20 },
   },
 
-  // ===== Shigeru & Hina =====
+  // ===== Shigeru & Mirelle =====
   {
     unitA: 'shigeru',
-    unitB: 'hina',
+    unitB: 'mirelle',
     rank: 'C',
     lines: [
       {
-        speaker: 'Hina',
+        speaker: 'Mirelle',
         text: 'Shigeru, may I ask you something personal?',
         speakerFaction: 'player',
       },
-      { speaker: 'Shigeru', text: 'Of course, Hina. What is it?', speakerFaction: 'player' },
+      { speaker: 'Shigeru', text: 'Of course, Mirelle. What is it?', speakerFaction: 'player' },
       {
-        speaker: 'Hina',
+        speaker: 'Mirelle',
         text: 'Do you keep count? Of the ones we have lost.',
         speakerFaction: 'player',
       },
@@ -169,104 +169,104 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
         speakerFaction: 'player',
       },
       {
-        speaker: 'Hina',
+        speaker: 'Mirelle',
         text: 'Then let me carry the list with you. A thing two people remember is a memory. A thing one person remembers is a haunting.',
         speakerFaction: 'player',
       },
     ],
-    reward: { type: 'stat', unitId: 'hina', stat: 'wil', amount: 1 },
+    reward: { type: 'stat', unitId: 'mirelle', stat: 'wil', amount: 1 },
   },
 
-  // ===== Kanna & Hina =====
+  // ===== Lisette & Mirelle =====
   {
-    unitA: 'kanna',
-    unitB: 'hina',
+    unitA: 'lisette',
+    unitB: 'mirelle',
     rank: 'C',
     lines: [
       {
-        speaker: 'Kanna',
-        text: 'Hina. Your staff work has improved by about a quarter since Tsutsu. I have been counting.',
+        speaker: 'Lisette',
+        text: 'Mirelle. Your staff work has improved by about a quarter since Tsutsu. I have been counting.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Hina',
+        speaker: 'Mirelle',
         text: 'Is that your way of saying I am getting better?',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: 'It is my way of saying the count agrees with how you feel about it, which is rarer than you would think.',
         speakerFaction: 'player',
       },
-      { speaker: 'Hina', text: 'I will take it. Thank you, Kanna.', speakerFaction: 'player' },
+      { speaker: 'Mirelle', text: 'I will take it. Thank you, Lisette.', speakerFaction: 'player' },
     ],
     reward: { type: 'exp_both', amount: 15 },
   },
   {
-    unitA: 'kanna',
-    unitB: 'hina',
+    unitA: 'lisette',
+    unitB: 'mirelle',
     rank: 'B',
     lines: [
       {
-        speaker: 'Hina',
-        text: 'Kanna, why must you put a number on everything? Some things do not take numbers.',
+        speaker: 'Mirelle',
+        text: 'Lisette, why must you put a number on everything? Some things do not take numbers.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: 'If I cannot measure it I cannot check it, and if I cannot check it I am simply hoping. I was raised to distrust hoping.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Hina',
+        speaker: 'Mirelle',
         text: 'What about friendship? Can you measure that?',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kanna',
-        text: '...I suppose I have been trying, in my own way. You are the closest thing to a friend I have, Hina.',
+        speaker: 'Lisette',
+        text: '...I suppose I have been trying, in my own way. You are the closest thing to a friend I have, Mirelle.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Hina',
+        speaker: 'Mirelle',
         text: 'Then stop trying to measure it and just enjoy it.',
         speakerFaction: 'player',
       },
     ],
-    reward: { type: 'stat', unitId: 'kanna', stat: 'skl', amount: 1 },
+    reward: { type: 'stat', unitId: 'lisette', stat: 'skl', amount: 1 },
   },
 
-  // ===== Akira & Goro =====
+  // ===== Akira & Gareth =====
   {
     unitA: 'akira',
-    unitB: 'goro',
+    unitB: 'gareth',
     rank: 'C',
     lines: [
       {
-        speaker: 'Goro',
+        speaker: 'Gareth',
         text: 'Oi, knight. That last cut was sloppy. You lean before you swing left. Everyone can read it.',
         speakerFaction: 'player',
       },
       { speaker: 'Akira', text: 'I beg your pardon? My form is—', speakerFaction: 'player' },
       {
-        speaker: 'Goro',
+        speaker: 'Gareth',
         text: 'Perfect for a parade. Terrible for staying alive. Come on, spar with me.',
         speakerFaction: 'player',
       },
       { speaker: 'Akira', text: '...Fine. But I will not hold back.', speakerFaction: 'player' },
-      { speaker: 'Goro', text: 'Ha! That is what I like to hear!', speakerFaction: 'player' },
+      { speaker: 'Gareth', text: 'Ha! That is what I like to hear!', speakerFaction: 'player' },
     ],
     reward: { type: 'exp_both', amount: 15 },
   },
 
-  // ===== Shigeru & Goro =====
+  // ===== Shigeru & Gareth =====
   {
     unitA: 'shigeru',
-    unitB: 'goro',
+    unitB: 'gareth',
     rank: 'C',
     lines: [
       {
-        speaker: 'Goro',
+        speaker: 'Gareth',
         text: 'Your Highness — Shigeru. You are a good deal smaller than I expected a war leader to be.',
         speakerFaction: 'player',
       },
@@ -276,27 +276,27 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
         speakerFaction: 'player',
       },
       {
-        speaker: 'Goro',
+        speaker: 'Gareth',
         text: 'Ha! Fair. You have a tongue on you. I like that in a commander.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'Then we should get along just fine. Welcome to the company, Goro.',
+        text: 'Then we should get along just fine. Welcome to the company, Gareth.',
         speakerFaction: 'player',
       },
     ],
     reward: { type: 'exp_both', amount: 15 },
   },
 
-  // ===== Akira & Genzo =====
+  // ===== Akira & Halvar =====
   {
     unitA: 'akira',
-    unitB: 'genzo',
+    unitB: 'halvar',
     rank: 'C',
     lines: [
       {
-        speaker: 'Genzo',
+        speaker: 'Halvar',
         text: 'Sir Akira. Your lance work is very fine. Parade-fine.',
         speakerFaction: 'player',
       },
@@ -306,7 +306,7 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
         speakerFaction: 'player',
       },
       {
-        speaker: 'Genzo',
+        speaker: 'Halvar',
         text: 'But a man who fights that beautifully has never had to fight tired. That is not a criticism, lad. It is a warning.',
         speakerFaction: 'player',
       },
@@ -316,6 +316,6 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
         speakerFaction: 'player',
       },
     ],
-    reward: { type: 'stat', unitId: 'genzo', stat: 'def', amount: 1 },
+    reward: { type: 'stat', unitId: 'halvar', stat: 'def', amount: 1 },
   },
 ];

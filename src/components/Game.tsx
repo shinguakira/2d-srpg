@@ -211,11 +211,11 @@ function GameOverOverlay() {
         (chapterData?.objective.type === 'protect' && bossDefeated)));
 
   const handleVictoryContinue = useCallback(() => {
-    // Bridge battle event flags to campaign flags (e.g., genzo_dead from ch8)
+    // Bridge battle event flags to campaign flags (e.g., halvar_dead from ch8)
     const eventFlags = useGameStore.getState().eventFlags;
-    if (eventFlags.get('genzo_dead') === 'true') {
+    if (eventFlags.get('halvar_dead') === 'true') {
       useCampaignStore.setState((s) => ({
-        campaignFlags: { ...s.campaignFlags, genzo_dead: true },
+        campaignFlags: { ...s.campaignFlags, halvar_dead: true },
       }));
     }
 

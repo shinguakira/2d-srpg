@@ -206,17 +206,17 @@ Story-critical or chapter-specific items. Cannot be sold or discarded.
 |------|---------|--------|-----------|
 | **Shigeru's Journal** | Ch1+ | View Cycle Memory choices at any time. UI item, no combat use. | Starting inventory |
 | **Village Map** | Ch2 | Reveals hidden village tile on Ch2 map. Consumed on use. | NPC dialogue in Ch2 |
-| **Broken Seed** | Ch2 | Kanna uses this to crack the RNG seed. Consumed in story event. | Dropped by Ryuji (Ch2 boss) |
+| **Broken Seed** | Ch2 | Lisette uses this to crack the RNG seed. Consumed in story event. | Dropped by Vidar (Ch2 boss) |
 | **Signal Flare** | Ch4 | Calls reinforcements to assist in Ch4 defense. Single use. | Ch3 village reward |
-| **Sayo's Pendant** | Ch3+ | Passive: +5 Hit for Sayo when equipped. Keepsake from her village. | Sayo's starting inventory |
+| **Bryn's Pendant** | Ch3+ | Passive: +5 Hit for Bryn when equipped. Keepsake from her village. | Bryn's starting inventory |
 
 ### Arc 2 — Fractures (Ch6-10)
 
 | Item | Chapter | Effect | How to Get |
 |------|---------|--------|-----------|
 | **Akira's Lance** | Ch8+ | +3 ATK, +10 LOY when equipped. Only usable by Shigeru after Akira's death. Carries Akira's data signature. | Recovered after Akira's death (Ch8) |
-| **Cipher Stone** | Ch7 | Kanna uses to decode encrypted enemy orders. Reveals enemy placement in Ch8 prep. | Ch7 treasure chest |
-| **Kagura's Tambourine** | Ch9+ | Required for Kagura's Dance action. Cannot be removed. | Kagura's starting inventory |
+| **Cipher Stone** | Ch7 | Lisette uses to decode encrypted enemy orders. Reveals enemy placement in Ch8 prep. | Ch7 treasure chest |
+| **Viviane's Tambourine** | Ch9+ | Required for Viviane's Dance action. Cannot be removed. | Viviane's starting inventory |
 | **Resistance Ledger** | Ch10 | Documents enemy troop movements. Grants +1 deployment slot for Ch11-12. | Ch10 quest reward |
 
 ### Arc 3 — Corruption (Ch11-15)
@@ -335,7 +335,7 @@ Torch available at chapter-start shop for any fog or night chapter regardless of
 ## Open Questions
 
 - **Cooking system**: Should there be a preparation-phase cooking mechanic where raw ingredients combine into meals? *Recommendation: No — adds complexity without enough depth for 25 chapters. Keep food as shop purchases.*
-- **Shared meals**: Hina's group meal mechanic — does sharing a food item split the effect or duplicate it? *Recommendation: Split HP heal (each gets half), share STA reduction (full -STA to each).*
+- **Shared meals**: Mirelle's group meal mechanic — does sharing a food item split the effect or duplicate it? *Recommendation: Split HP heal (each gets half), share STA reduction (full -STA to each).*
 - **Item drops**: Should regular enemies have a chance to drop items/gold, or only scripted drops? *Recommendation: Scripted only — random drops undermine economy balance.*
 - **Spoilage timer**: 3-chapter expiry for cooked meals feels right for 25 chapters. Too short at 2 (original 4-chapter design). Too long at 5 (no pressure to use them).
 - **Steal interaction**: Can Thieves/Rogues steal consumables and food from enemies? Or only weapons? *Recommendation: Steal any non-key item from enemy inventory. Creates tactical risk/reward.*

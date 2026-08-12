@@ -31,9 +31,9 @@
 - [x] Coordinated focus: all group members add +200 to the group's chosen target
 - [x] Healer priority: +80 for healing allies ≤ 30% HP
 
-## Dance Action (Kagura)
+## Dance Action (Viviane)
 
-> **Ref:** [`specs/gameplay/battle-logic.md`](specs/gameplay/battle-logic.md), [`specs/story/characters/kagura.md`](specs/story/characters/kagura.md)
+> **Ref:** [`specs/gameplay/battle-logic.md`](specs/gameplay/battle-logic.md), [`specs/story/characters/viviane.md`](specs/story/characters/viviane.md)
 
 - [x] Add `dance` to ActionType union
 - [x] Dance action: select adjacent ally who has already acted
@@ -45,9 +45,9 @@
 - [x] Dance animation: brief sparkle effect on target
 - [x] Dance EXP: dancer gains 15 EXP per dance — ⚠️ implemented as 20 EXP
 
-## Steal Action (Hachi/Thief)
+## Steal Action (Fenn/Thief)
 
-> **Ref:** [`specs/gameplay/battle-logic.md`](specs/gameplay/battle-logic.md), [`specs/story/characters/hachi.md`](specs/story/characters/hachi.md)
+> **Ref:** [`specs/gameplay/battle-logic.md`](specs/gameplay/battle-logic.md), [`specs/story/characters/fenn.md`](specs/story/characters/fenn.md)
 
 - [x] Add `steal` to ActionType union
 - [x] Steal action: select adjacent enemy with stealable item

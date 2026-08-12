@@ -33,12 +33,12 @@ export const CHAPTER_4: ChapterData = {
   playerUnits: [
     { unitId: 'shigeru', position: { x: 7, y: 9 } },
     { unitId: 'akira', position: { x: 10, y: 9 } },
-    { unitId: 'kanna', position: { x: 6, y: 9 } },
-    { unitId: 'hina', position: { x: 11, y: 9 } },
-    { unitId: 'goro', position: { x: 8, y: 9 } },
-    { unitId: 'genzo', position: { x: 9, y: 9 } },
-    { unitId: 'sayo', position: { x: 5, y: 9 } },
-    { unitId: 'hachi', position: { x: 4, y: 9 } },
+    { unitId: 'lisette', position: { x: 6, y: 9 } },
+    { unitId: 'mirelle', position: { x: 11, y: 9 } },
+    { unitId: 'gareth', position: { x: 8, y: 9 } },
+    { unitId: 'halvar', position: { x: 9, y: 9 } },
+    { unitId: 'bryn', position: { x: 5, y: 9 } },
+    { unitId: 'fenn', position: { x: 4, y: 9 } },
   ],
   enemyUnits: [
     { unitId: 'ch4_soldier_1', position: { x: 4, y: 7 } },
@@ -69,22 +69,22 @@ export const CHAPTER_4: ChapterData = {
       },
       { speaker: 'Akira', text: 'Raiders? This far south?', speakerFaction: 'player' },
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: 'Sea raiders. They have been working this cape for weeks. Three storehouses are still holding out.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Goro',
+        speaker: 'Gareth',
         text: 'Pirates. Do pirates keep good axes? Asking for professional reasons.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Hina',
-        text: 'Goro. These people are losing their homes.',
+        speaker: 'Mirelle',
+        text: 'Gareth. These people are losing their homes.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Goro',
+        speaker: 'Gareth',
         text: 'Aye, and I mean to take the axes off the men doing it. Where is the disagreement?',
         speakerFaction: 'player',
       },
@@ -98,54 +98,54 @@ export const CHAPTER_4: ChapterData = {
   epilogue: {
     lines: [
       {
-        speaker: 'Hina',
-        text: "Hachi, was it? You're really staying with us?",
+        speaker: 'Mirelle',
+        text: "Fenn, was it? You're really staying with us?",
         speakerFaction: 'player',
       },
       {
-        speaker: 'Hachi',
+        speaker: 'Fenn',
         text: 'You lot move through a town like a parade and somehow nobody has killed you. I want to see how far that goes.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Genzo',
+        speaker: 'Halvar',
         text: 'They took my belt pouch. Twice. During the battle.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Hachi',
+        speaker: 'Fenn',
         text: 'And gave it back twice. Consider it a lesson, grandfather.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Goro',
+        speaker: 'Gareth',
         text: 'I like them.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Hachi',
+        speaker: 'Fenn',
         text: 'One thing, though. The back lane behind the north storehouse. Do not go down it.',
         speakerFaction: 'player',
       },
-      { speaker: 'Kanna', text: 'Why not?', speakerFaction: 'player' },
+      { speaker: 'Lisette', text: 'Why not?', speakerFaction: 'player' },
       {
-        speaker: 'Hachi',
+        speaker: 'Fenn',
         text: 'Cats will not walk it. Every cat in Tsutsu, and not one of them will set foot in that lane. I have been picking pockets in this town since I was six and I have learned to bet on the cats.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: 'Which way does the lane run?',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Hachi',
+        speaker: 'Fenn',
         text: 'West-north-west. Straight as a rule. Why has everyone gone quiet?',
         speakerFaction: 'player',
       },
       {
         speaker: 'Narrator',
-        text: 'That night Kanna walked the lane end to end with a lamp, and came back without saying what she had found.',
+        text: 'That night Lisette walked the lane end to end with a lamp, and came back without saying what she had found.',
       },
     ],
   },
@@ -201,7 +201,7 @@ export const CHAPTER_4: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: "Raiders \u2014 heading for the storehouses. They're fast and they won't stop to fight.",
                 speakerFaction: 'player',
               },
@@ -211,7 +211,7 @@ export const CHAPTER_4: ChapterData = {
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Goro',
+                speaker: 'Gareth',
                 text: 'Split three ways? Against that many? We will be thin everywhere and strong nowhere.',
                 speakerFaction: 'player',
               },
@@ -231,9 +231,9 @@ export const CHAPTER_4: ChapterData = {
       ],
       once: true,
     },
-    // Turn 3 — Hachi encounter
+    // Turn 3 — Fenn encounter
     {
-      id: 'ch4_hachi_encounter',
+      id: 'ch4_fenn_encounter',
       trigger: { type: 'turn_start', turn: 3 },
       effects: [
         {
@@ -241,13 +241,13 @@ export const CHAPTER_4: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Hachi',
+                speaker: 'Fenn',
                 text: 'Purse. Purse. Ooh, a good purse. And what have we here \u2014 a very fine sword on a very tired prince\u2014',
                 speakerFaction: 'player',
               },
               { speaker: 'Shigeru', text: 'Put it down.', speakerFaction: 'player' },
               {
-                speaker: 'Hachi',
+                speaker: 'Fenn',
                 text: 'How did you even see me? I was behind a barrel!',
                 speakerFaction: 'player',
               },
@@ -257,7 +257,7 @@ export const CHAPTER_4: ChapterData = {
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Hachi',
+                speaker: 'Fenn',
                 text: '...I hum when I concentrate. It is a flaw. I am working on it.',
                 speakerFaction: 'player',
               },
@@ -267,13 +267,13 @@ export const CHAPTER_4: ChapterData = {
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Hachi',
+                speaker: 'Fenn',
                 text: 'Those are the only two choices? No third option where I take the sword and run?',
                 speakerFaction: 'player',
               },
               { speaker: 'Shigeru', text: 'No.', speakerFaction: 'player' },
               {
-                speaker: 'Hachi',
+                speaker: 'Fenn',
                 text: '...Fine. I know every alley in this town, which is more than your knight does. Follow me and try not to clank.',
                 speakerFaction: 'player',
               },
@@ -293,12 +293,12 @@ export const CHAPTER_4: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: "That raider is closing on the southern storehouse. If they reach it, it's lost.",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Sayo',
+                speaker: 'Bryn',
                 text: "I can intercept \u2014 but I'd be overextended.",
                 speakerFaction: 'player',
               },
@@ -313,7 +313,7 @@ export const CHAPTER_4: ChapterData = {
       ],
       once: true,
     },
-    // Boss pre-combat — Shigeru approaches Zanba
+    // Boss pre-combat — Shigeru approaches Brask
     {
       id: 'ch4_boss_precombat',
       trigger: { type: 'unit_at', unitId: 'shigeru', position: { x: 8, y: 1 } },
@@ -323,7 +323,7 @@ export const CHAPTER_4: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Zanba',
+                speaker: 'Brask',
                 text: 'A prince. In my town. Wearing a crown-sword worth more than this whole quarter.',
                 speakerFaction: 'enemy',
               },
@@ -333,7 +333,7 @@ export const CHAPTER_4: ChapterData = {
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Zanba',
+                speaker: 'Brask',
                 text: 'Kurogane pays for grain and asks no questions. Amagi is a name on a burnt map. Why would I go anywhere?',
                 speakerFaction: 'enemy',
               },
@@ -343,7 +343,7 @@ export const CHAPTER_4: ChapterData = {
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Zanba',
+                speaker: 'Brask',
                 text: '...Pretty speech. Draw, boy.',
                 speakerFaction: 'enemy',
               },
@@ -363,12 +363,12 @@ export const CHAPTER_4: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Goro',
+                speaker: 'Gareth',
                 text: 'Search him. A man like that keeps his coin close.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Hachi',
+                speaker: 'Fenn',
                 text: 'Already have. It is a Kurogane pay chit, signed, dated this month.',
                 speakerFaction: 'player',
               },
@@ -378,7 +378,7 @@ export const CHAPTER_4: ChapterData = {
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Genzo',
+                speaker: 'Halvar',
                 text: 'A hungry province does not raise an army. That is not cruelty, my lord. That is the manual.',
                 speakerFaction: 'player',
               },
@@ -391,60 +391,60 @@ export const CHAPTER_4: ChapterData = {
   ],
   supportConversations: [
     {
-      unitA: 'hachi',
-      unitB: 'goro',
+      unitA: 'fenn',
+      unitB: 'gareth',
       lines: [
         {
-          speaker: 'Goro',
-          text: 'Hachi. Best thing you ever lifted. Go.',
+          speaker: 'Gareth',
+          text: 'Fenn. Best thing you ever lifted. Go.',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Hachi',
+          speaker: 'Fenn',
           text: 'A ring of keys off a harbourmaster. Opened every warehouse on the north quay.',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Goro',
+          speaker: 'Gareth',
           text: 'Keys. That is not treasure, that is a tool. I meant weapons. Armour. Things that hit.',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Hachi',
+          speaker: 'Fenn',
           text: 'I fed forty families that winter with those keys. How many did your axe feed?',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Goro',
+          speaker: 'Gareth',
           text: '...Right. Fine. Keys. Good answer.',
           speakerFaction: 'player',
         },
       ],
-      reward: { type: 'stat', unitId: 'goro', stat: 'str', amount: 1 },
+      reward: { type: 'stat', unitId: 'gareth', stat: 'str', amount: 1 },
     },
     {
-      unitA: 'genzo',
-      unitB: 'sayo',
+      unitA: 'halvar',
+      unitB: 'bryn',
       lines: [
-        { speaker: 'Genzo', text: "You don't talk much.", speakerFaction: 'player' },
-        { speaker: 'Sayo', text: 'No.', speakerFaction: 'player' },
+        { speaker: 'Halvar', text: "You don't talk much.", speakerFaction: 'player' },
+        { speaker: 'Bryn', text: 'No.', speakerFaction: 'player' },
         {
-          speaker: 'Genzo',
+          speaker: 'Halvar',
           text: 'Eleven years on a wall and nobody said a word to me either. It is not the worst way to pass a life.',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Sayo',
+          speaker: 'Bryn',
           text: 'I prefer high ground and clear sightlines to conversation.',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Genzo',
+          speaker: 'Halvar',
           text: '...That might be the most relatable thing anyone in this company has said to me.',
           speakerFaction: 'player',
         },
       ],
-      reward: { type: 'stat', unitId: 'sayo', stat: 'skl', amount: 1 },
+      reward: { type: 'stat', unitId: 'bryn', stat: 'skl', amount: 1 },
     },
   ],
 };

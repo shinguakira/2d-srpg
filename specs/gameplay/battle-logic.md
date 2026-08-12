@@ -110,7 +110,7 @@ Available actions depend on context. All actions consume the unit's turn (hasAct
 | **Drop** | Carrying a rescued ally | Place carried ally on adjacent empty tile. Consumes turn. |
 | **Seize** | Lord class AND standing on throne/objective tile | Capture objective → chapter ends (victory) |
 | **Visit** | Standing on unvisited village tile | Trigger village event (reward: item, gold, or story) |
-| **Wait** | Always available (except Goro — No Patience passive) | End turn at current position |
+| **Wait** | Always available (except Gareth — No Patience passive) | End turn at current position |
 
 ### Attack Flow
 
@@ -147,7 +147,7 @@ Available actions depend on context. All actions consume the unit's turn (hasAct
 5. Dancer's turn ends
 ```
 
-Kagura's Dance is unique — only Dancers can use this action. The refreshed ally gets a full turn (move + act). A unit can only be Danced once per turn.
+Viviane's Dance is unique — only Dancers can use this action. The refreshed ally gets a full turn (move + act). A unit can only be Danced once per turn.
 
 ### Steal Flow
 
@@ -281,7 +281,7 @@ A unit's turn consists of:
 
 Once an action is taken, the unit is done for the turn. Exceptions:
 - **Canto** (mounted units) — after acting, can use remaining MOV to reposition
-- **Reckless** (Goro) — after killing, can act again (up to 2 bonus turns)
+- **Reckless** (Gareth) — after killing, can act again (up to 2 bonus turns)
 
 ---
 

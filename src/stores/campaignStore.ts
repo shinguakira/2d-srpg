@@ -150,7 +150,7 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
   startChapter: (id: string) => {
     const chapter = CHAPTERS[id];
     if (!chapter) return;
-    // Auto-add new chapter units to roster (e.g., Yuki joining in ch5)
+    // Auto-add new chapter units to roster (e.g., Elin joining in ch5)
     const { roster } = get();
     const chapterPlayerIds = chapter.playerUnits.map((p) => p.unitId);
     const newIds = chapterPlayerIds.filter((uid) => !roster.includes(uid) && PLAYER_UNITS[uid]);
@@ -309,15 +309,15 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
       set({ campaignFlags: newFlags });
     }
 
-    // Genzo's death is scripted, not a battle casualty: ch8 sets genzo_dead when
+    // Halvar's death is scripted, not a battle casualty: ch8 sets halvar_dead when
     // he falls holding the south corridor, and he leaves the roster for good.
-    const genzoDeadFlag = get().campaignFlags.genzo_dead;
-    if (genzoDeadFlag && !get().deadUnitIds.includes('genzo')) {
-      const updatedDead = [...get().deadUnitIds, 'genzo'];
+    const halvarDeadFlag = get().campaignFlags.halvar_dead;
+    if (halvarDeadFlag && !get().deadUnitIds.includes('halvar')) {
+      const updatedDead = [...get().deadUnitIds, 'halvar'];
       set({ deadUnitIds: updatedDead });
       // Remove from newRoster (mutates the local array before it's used below)
-      const genzoIdx = newRoster.indexOf('genzo');
-      if (genzoIdx !== -1) newRoster.splice(genzoIdx, 1);
+      const halvarIdx = newRoster.indexOf('halvar');
+      if (halvarIdx !== -1) newRoster.splice(halvarIdx, 1);
       // Set grief: 2 chapters remaining, assign grief trauma to all units
       const griefFlags = { ...get().campaignFlags, grief_chapters_remaining: 2 };
       set({ campaignFlags: griefFlags });

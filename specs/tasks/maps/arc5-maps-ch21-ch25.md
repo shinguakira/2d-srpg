@@ -67,14 +67,14 @@
 - [ ] Total: ~10 real enemies + phantom spawns
 
 ### Ghost Events
-- [ ] Ghost Baraku appears Turn 3: non-hostile, hints about weakness rotation, fades Turn 5
+- [ ] Ghost Hagen appears Turn 3: non-hostile, hints about weakness rotation, fades Turn 5
 - [ ] Phantom Akira appears Turn 8: non-combat, salutes, fades after 1 turn
   - Grants +3 all stats to all player units for 3 turns
 - [ ] Phantom enemies spawn every 4 turns from shelves
-- [ ] Master Crown #2: hidden tile, Thief (Hachi) detects when adjacent
+- [ ] Master Crown #2: hidden tile, Thief (Fenn) detects when adjacent
 
 ### Events
-- [ ] Turn 3: Ghost Baraku appearance + hint dialogue
+- [ ] Turn 3: Ghost Hagen appearance + hint dialogue
 - [ ] Turn 8: Phantom Akira silent salute + stat buff
 - [ ] Party dialogue: characters say things they've been holding back
 - [ ] Archivist defeat: library lore about cycle history
@@ -156,12 +156,12 @@
 - [ ] Non-advantage hits deal normal damage but do NOT strip layers
 - [ ] HUD: display boss's current weapon type prominently + hint showing which weapon type counters it
 - [ ] **Weapon availability guarantee:** By ch24, player must have access to all 6 counter-weapon types:
-  - Sword users: Shigeru (lord), Raiga (mercenary) — counter axe turns
-  - Lance users: Genzo (soldier), Zael/Yuki (if available) — counter sword turns
-  - Axe users: Goro (fighter) — counter lance turns
-  - Fire tome: Kanna (mage) or Kira (shaman via dark→fire access) — counter wind turns
-  - Thunder tome: Kanna or shop-purchased — counter fire turns
-  - Wind tome: Kanna or shop-purchased — counter thunder turns
+  - Sword users: Shigeru (lord), Corwin (mercenary) — counter axe turns
+  - Lance users: Halvar (soldier), Zael/Elin (if available) — counter sword turns
+  - Axe users: Gareth (fighter) — counter lance turns
+  - Fire tome: Lisette (mage) or Kira (shaman via dark→fire access) — counter wind turns
+  - Thunder tome: Lisette or shop-purchased — counter fire turns
+  - Wind tome: Lisette or shop-purchased — counter thunder turns
   - **Failsafe:** ch23 shop stocks at least 1 of each tome type + weapon type
   - **Failsafe:** if player lacks a weapon type, hint system suggests "Visit the shop before this battle"
 - [ ] Layer 1 stripped: reveals human form underneath glitch
@@ -214,10 +214,10 @@
   - Phase 2: 2 per turn (Lv22-24)
   - Phase 3: 1 per turn (Lv24-26)
 - [ ] Each unit has role:
-  - Kanna navigates (highest INS, sees paths)
-  - Goro breaks walls (axe bonus vs destructible)
-  - Hina heals through corruption (anti-CRP)
-  - Genzo holds chokepoints (highest DEF)
+  - Lisette navigates (highest INS, sees paths)
+  - Gareth breaks walls (axe bonus vs destructible)
+  - Mirelle heals through corruption (anti-CRP)
+  - Halvar holds chokepoints (highest DEF)
 - [ ] No traditional boss unit — map IS the boss
 
 ### Events & Ending

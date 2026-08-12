@@ -75,17 +75,17 @@ describe('getVisionRange', () => {
   });
 
   it('thief gets vision 5', () => {
-    const unit = makeUnit('hachi', { x: 0, y: 0 }, { classId: 'thief' });
+    const unit = makeUnit('fenn', { x: 0, y: 0 }, { classId: 'thief' });
     expect(getVisionRange(unit)).toBe(5);
   });
 
   it('assassin gets vision 5', () => {
-    const unit = makeUnit('hachi', { x: 0, y: 0 }, { classId: 'assassin' });
+    const unit = makeUnit('fenn', { x: 0, y: 0 }, { classId: 'assassin' });
     expect(getVisionRange(unit)).toBe(5);
   });
 
   it('rogue gets vision 5', () => {
-    const unit = makeUnit('hachi', { x: 0, y: 0 }, { classId: 'rogue' });
+    const unit = makeUnit('fenn', { x: 0, y: 0 }, { classId: 'rogue' });
     expect(getVisionRange(unit)).toBe(5);
   });
 
@@ -113,7 +113,7 @@ describe('getVisionRange', () => {
 
   it('thief + AWR 61 = 6', () => {
     const unit = makeUnit(
-      'hachi',
+      'fenn',
       { x: 0, y: 0 },
       {
         classId: 'thief',

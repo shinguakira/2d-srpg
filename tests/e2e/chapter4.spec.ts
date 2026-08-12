@@ -22,8 +22,12 @@ test.describe('Chapter 4 — Ancient Horrors', () => {
     await expect(
       page.locator('[data-testid="tile-10-9"] [data-testid="unit-akira"]'),
     ).toBeVisible();
-    await expect(page.locator('[data-testid="tile-6-9"] [data-testid="unit-kanna"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-11-9"] [data-testid="unit-hina"]')).toBeVisible();
+    await expect(
+      page.locator('[data-testid="tile-6-9"] [data-testid="unit-lisette"]'),
+    ).toBeVisible();
+    await expect(
+      page.locator('[data-testid="tile-11-9"] [data-testid="unit-mirelle"]'),
+    ).toBeVisible();
   });
 
   test('enemy units are present and at correct positions', async ({ page }) => {

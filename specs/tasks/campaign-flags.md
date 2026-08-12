@@ -54,15 +54,15 @@
 ### Earlier Recruits (Not Conditional — Always Join)
 | Unit | Chapter | Method | Notes |
 |------|---------|--------|-------|
-| Goro | ch1 | Mid-chapter event | Crashes into battle Turn 3 |
-| Hina | ch1 | Post-chapter | Joins in epilogue |
-| Genzo | ch2 | Enemy defection event | Switches sides Turn 4 |
-| Sayo | ch3 | Village visit | Visit specific village tile |
-| Hachi | ch4 | Event trigger | Player reaches tile in time |
-| Yuki | ch5 | Chapter start | Auto-joins roster |
-| Raiga | ch6 | Chapter start | Auto-joins roster |
-| Mio | ch6 | Mid-chapter NPC | Adjacent player unit recruits |
-| Kagura | ch9 | Mid-chapter event | Joins Turn 3 |
+| Gareth | ch1 | Mid-chapter event | Crashes into battle Turn 3 |
+| Mirelle | ch1 | Post-chapter | Joins in epilogue |
+| Halvar | ch2 | Enemy defection event | Switches sides Turn 4 |
+| Bryn | ch3 | Village visit | Visit specific village tile |
+| Fenn | ch4 | Event trigger | Player reaches tile in time |
+| Elin | ch5 | Chapter start | Auto-joins roster |
+| Corwin | ch6 | Chapter start | Auto-joins roster |
+| Nadine | ch6 | Mid-chapter NPC | Adjacent player unit recruits |
+| Viviane | ch9 | Mid-chapter event | Joins Turn 3 |
 | Kira | ch11 | Enemy defection event | Switches sides Turn 5 |
 | Elara | ch14 | Adjacent trigger | Any player unit moves adjacent to Elara |
 
@@ -224,15 +224,15 @@ Thresholds:
 ### Maximum Possible Roster at Ch23
 | Source | Units | Running Total |
 |--------|-------|---------------|
-| Ch1 start | Shigeru, Akira, Kanna | 3 |
-| Ch1 joins | Goro, Hina | 5 |
-| Ch2 | Genzo | 6 |
-| Ch3 | Sayo | 7 |
-| Ch4 | Hachi | 8 |
-| Ch5 | Yuki | 9 |
-| Ch6 | Raiga, Mio | 11 |
+| Ch1 start | Shigeru, Akira, Lisette | 3 |
+| Ch1 joins | Gareth, Mirelle | 5 |
+| Ch2 | Halvar | 6 |
+| Ch3 | Bryn | 7 |
+| Ch4 | Fenn | 8 |
+| Ch5 | Elin | 9 |
+| Ch6 | Corwin, Nadine | 11 |
 | Ch8 | -Akira (death) | 10 |
-| Ch9 | Kagura | 11 |
+| Ch9 | Viviane | 11 |
 | Ch11 | Kira | 12 |
 | Ch12 | -1 (corruption loss) | 11 |
 | Ch13 | +Zael (conditional) | 11-12 |

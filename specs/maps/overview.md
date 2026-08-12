@@ -165,7 +165,7 @@ Maps are tactical puzzles, not empty arenas. Every map should:
 | Pattern | Description | Used In |
 |---------|-------------|---------|
 | **Throne** | Boss on throne tile (+3 DEF, +10 Avoid, HP regen) | Ch1-3, Ch5, Ch7, Ch10, Ch14-16, Ch18, Ch20, Ch22, Ch25 |
-| **Roaming** | Boss moves toward party (Aggressive AI) | Ch4, Ch6, Ch8 boss Doumeki, Ch9, Ch21 |
+| **Roaming** | Boss moves toward party (Aggressive AI) | Ch4, Ch6, Ch8 boss Wulfram, Ch9, Ch21 |
 | **Flying** | Boss airborne, must be grounded | Ch5 (sub-boss), Ch6 |
 | **Arena** | Boss in open area, no terrain advantage | Ch24 |
 | **Multi-phase** | Boss changes behavior at HP thresholds | Ch20, Ch24, Ch25 |

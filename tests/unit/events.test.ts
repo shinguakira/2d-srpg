@@ -198,8 +198,8 @@ describe('evaluateEvents', () => {
 
 describe('resolveEffects', () => {
   it('resolves recruit_unit effect', () => {
-    const result = resolveEffects([{ type: 'recruit_unit', unitId: 'genzo' }]);
-    expect(result.unitsToRecruit).toEqual(['genzo']);
+    const result = resolveEffects([{ type: 'recruit_unit', unitId: 'halvar' }]);
+    expect(result.unitsToRecruit).toEqual(['halvar']);
     expect(result.dialogueToShow).toBeNull();
   });
 
@@ -210,8 +210,8 @@ describe('resolveEffects', () => {
   });
 
   it('resolves set_flag effect', () => {
-    const result = resolveEffects([{ type: 'set_flag', key: 'recruited_genzo', value: 'true' }]);
-    expect(result.flagChanges).toEqual([{ key: 'recruited_genzo', value: 'true' }]);
+    const result = resolveEffects([{ type: 'set_flag', key: 'recruited_halvar', value: 'true' }]);
+    expect(result.flagChanges).toEqual([{ key: 'recruited_halvar', value: 'true' }]);
   });
 
   it('resolves chain effects', () => {
@@ -219,13 +219,13 @@ describe('resolveEffects', () => {
       {
         type: 'chain',
         effects: [
-          { type: 'recruit_unit', unitId: 'genzo' },
-          { type: 'set_flag', key: 'genzo_joined', value: 'true' },
+          { type: 'recruit_unit', unitId: 'halvar' },
+          { type: 'set_flag', key: 'halvar_joined', value: 'true' },
         ],
       },
     ]);
-    expect(result.unitsToRecruit).toEqual(['genzo']);
-    expect(result.flagChanges).toEqual([{ key: 'genzo_joined', value: 'true' }]);
+    expect(result.unitsToRecruit).toEqual(['halvar']);
+    expect(result.flagChanges).toEqual([{ key: 'halvar_joined', value: 'true' }]);
   });
 
   it('resolves remove_unit effect', () => {

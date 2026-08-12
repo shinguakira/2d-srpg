@@ -47,7 +47,7 @@ If attacker level < party average level - 3:
   EXP bonus = +20% (multiplicative, applied after base calculation)
 ```
 
-This helps late-joining units (e.g., Kagura at Ch9, Kira at Ch11) catch up to the main roster without excessive babying.
+This helps late-joining units (e.g., Viviane at Ch9, Kira at Ch11) catch up to the main roster without excessive babying.
 
 ### Healing EXP
 

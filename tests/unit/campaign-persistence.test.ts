@@ -85,12 +85,12 @@ beforeEach(() => {
 describe('permadeath is recorded in the campaign', () => {
   it('adds a fallen player unit to deadUnitIds', () => {
     const attacker = makeUnit('enemy1', { x: 0, y: 0 }, { faction: 'enemy' });
-    const victim = makeUnit('goro', { x: 1, y: 0 });
+    const victim = makeUnit('gareth', { x: 1, y: 0 });
 
     const res = resolve(attacker, victim, 'classic');
 
-    expect(res.newUnits.has('goro')).toBe(false);
-    expect(useCampaignStore.getState().deadUnitIds).toContain('goro');
+    expect(res.newUnits.has('gareth')).toBe(false);
+    expect(useCampaignStore.getState().deadUnitIds).toContain('gareth');
   });
 
   it('does not record enemies as dead campaign units', () => {
@@ -106,21 +106,21 @@ describe('permadeath is recorded in the campaign', () => {
 describe('casual retreat leaves the battle', () => {
   it('removes the unit from the battle rather than leaving it standing', () => {
     const attacker = makeUnit('enemy1', { x: 0, y: 0 }, { faction: 'enemy' });
-    const victim = makeUnit('goro', { x: 1, y: 0 });
+    const victim = makeUnit('gareth', { x: 1, y: 0 });
 
     const res = resolve(attacker, victim, 'casual');
 
-    expect(res.newUnits.has('goro')).toBe(false);
+    expect(res.newUnits.has('gareth')).toBe(false);
     expect(res.newTiles[0][1].occupantId).toBeNull();
   });
 
   it('records the retreat and the unit progress for the next chapter', () => {
     const attacker = makeUnit('enemy1', { x: 0, y: 0 }, { faction: 'enemy' });
-    const victim = makeUnit('goro', { x: 1, y: 0 }, { level: 7, exp: 55 });
+    const victim = makeUnit('gareth', { x: 1, y: 0 }, { level: 7, exp: 55 });
 
     resolve(attacker, victim, 'casual');
 
-    const p = useCampaignStore.getState().unitProgress.goro;
+    const p = useCampaignStore.getState().unitProgress.gareth;
     expect(p.retreated).toBe(true);
     expect(p.currentHp).toBe(1);
     expect(p.level).toBe(7);
@@ -129,11 +129,11 @@ describe('casual retreat leaves the battle', () => {
 
   it('does not mark a retreated unit as permanently dead', () => {
     const attacker = makeUnit('enemy1', { x: 0, y: 0 }, { faction: 'enemy' });
-    const victim = makeUnit('goro', { x: 1, y: 0 });
+    const victim = makeUnit('gareth', { x: 1, y: 0 });
 
     resolve(attacker, victim, 'casual');
 
-    expect(useCampaignStore.getState().deadUnitIds).not.toContain('goro');
+    expect(useCampaignStore.getState().deadUnitIds).not.toContain('gareth');
   });
 
   it('still permakills the lord, who ends the run either way', () => {

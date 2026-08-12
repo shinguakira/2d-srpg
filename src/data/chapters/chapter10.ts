@@ -14,7 +14,7 @@ const B: TerrainType = 'bridge';
 const terrain: TerrainType[][] = [
   // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
   [M, M, M, P, P, P, P, P, P, P, P, P, P, M, M, M], // row 0  — hilltop edge
-  [M, M, P, P, P, P, P, H, P, P, P, P, P, P, M, M], // row 1  — throne at (7,1) — Sozen
+  [M, M, P, P, P, P, P, H, P, P, P, P, P, P, M, M], // row 1  — throne at (7,1) — Ezrin
   [M, P, P, P, X, P, P, P, P, P, X, P, P, P, P, M], // row 2  — hill fortifications
   [M, P, P, P, P, P, P, T, P, P, P, P, P, P, P, M], // row 3  — fort
   [P, P, P, F, F, P, P, P, P, P, F, F, P, P, P, P], // row 4  — forest flanks (left route)
@@ -28,7 +28,7 @@ const terrain: TerrainType[][] = [
   [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 12 — village outskirts
   [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 13
   [P, P, X, V, X, P, P, P, P, P, X, V, X, P, P, P], // row 14 — village buildings
-  [P, P, P, P, P, P, P, T, P, P, P, P, P, P, P, P], // row 15 — Elder Toki's position (fort at 7,15)
+  [P, P, P, P, P, P, P, T, P, P, P, P, P, P, P, P], // row 15 — Elder Ilse's position (fort at 7,15)
   [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 16 — deployment row 1
   [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 17 — deployment row 2
 ];
@@ -42,13 +42,13 @@ export const CHAPTER_10: ChapterData = {
   terrain,
   playerUnits: [
     { unitId: 'shigeru', position: { x: 7, y: 16 } },
-    { unitId: 'kanna', position: { x: 8, y: 16 } },
-    { unitId: 'goro', position: { x: 6, y: 17 } },
-    { unitId: 'hina', position: { x: 9, y: 17 } },
+    { unitId: 'lisette', position: { x: 8, y: 16 } },
+    { unitId: 'gareth', position: { x: 6, y: 17 } },
+    { unitId: 'mirelle', position: { x: 9, y: 17 } },
     { unitId: 'akira', position: { x: 7, y: 17 } },
-    { unitId: 'raiga', position: { x: 5, y: 16 } },
-    { unitId: 'sayo', position: { x: 10, y: 16 } },
-    { unitId: 'kagura', position: { x: 8, y: 17 } },
+    { unitId: 'corwin', position: { x: 5, y: 16 } },
+    { unitId: 'bryn', position: { x: 10, y: 16 } },
+    { unitId: 'viviane', position: { x: 8, y: 17 } },
   ],
   enemyUnits: [
     // Boss on throne
@@ -68,9 +68,9 @@ export const CHAPTER_10: ChapterData = {
     // Village raiders (approach from sides)
     { unitId: 'ch10_fighter_1', position: { x: 2, y: 12 } },
     { unitId: 'ch10_fighter_2', position: { x: 13, y: 12 } },
-    // Elder Toki — ally NPC at village center
+    // Elder Ilse — ally NPC at village center
     {
-      unitId: 'elder_toki',
+      unitId: 'elder_ilse',
       position: { x: 7, y: 15 },
       faction: 'ally',
       aiBehavior: { type: 'stationary' },
@@ -78,8 +78,8 @@ export const CHAPTER_10: ChapterData = {
   ],
   objective: {
     type: 'protect',
-    protectUnitId: 'elder_toki',
-    description: 'Defeat General Sozen while protecting Elder Toki',
+    protectUnitId: 'elder_ilse',
+    description: 'Defeat General Ezrin while protecting Elder Ilse',
   },
   deploymentSlots: 8,
   forceDeploy: ['shigeru'],
@@ -88,16 +88,16 @@ export const CHAPTER_10: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'Komoda, where the Sasu river meets the western sea. Flat sand and farmland below, a fortified hill above. Grand Magus Sozen holds the heights and has not once sent a man down to take the village.',
+        text: 'Komoda, where the Sasu river meets the western sea. Flat sand and farmland below, a fortified hill above. Grand Magus Ezrin holds the heights and has not once sent a man down to take the village.',
       },
       {
         speaker: 'Shigeru',
-        text: 'The elder here — Toki — keeps the village chronicle. Four hundred years of it, and every time the Blackflame stirred it went into that book.',
+        text: 'The elder here — Ilse — keeps the village chronicle. Four hundred years of it, and every time the Blackflame stirred it went into that book.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kanna',
-        text: 'Which is why Sozen is here. He is not garrisoning a hill, my lord. He came for the book.',
+        speaker: 'Lisette',
+        text: 'Which is why Ezrin is here. He is not garrisoning a hill, my lord. He came for the book.',
         speakerFaction: 'player',
       },
       {
@@ -106,16 +106,16 @@ export const CHAPTER_10: ChapterData = {
         speakerFaction: 'player',
       },
       {
-        speaker: 'Raiga',
+        speaker: 'Corwin',
         text: 'Three ways up — forest on the left, bridge in the centre, open ground right. He will have the centre covered and he will want us to know it.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'Protect Toki. Take Sozen. We do both. Genzo held a corridor for nine turns so that we could still afford to do both.',
+        text: 'Protect Ilse. Take Ezrin. We do both. Halvar held a corridor for nine turns so that we could still afford to do both.',
         speakerFaction: 'player',
       },
-      { speaker: 'Goro', text: '...Aye. Let us not waste it.', speakerFaction: 'player' },
+      { speaker: 'Gareth', text: '...Aye. Let us not waste it.', speakerFaction: 'player' },
     ],
   },
   epilogue: {
@@ -130,7 +130,7 @@ export const CHAPTER_10: ChapterData = {
       },
       {
         speaker: 'Narrator',
-        text: 'He was enormous — a head taller than Raiga, shaven bald, the skin of both arms burned to the elbow in a pattern like bark. He stopped at a polite distance and waited to be addressed.',
+        text: 'He was enormous — a head taller than Corwin, shaven bald, the skin of both arms burned to the elbow in a pattern like bark. He stopped at a polite distance and waited to be addressed.',
       },
       { speaker: 'Akira', text: 'My lord. Get behind me.', speakerFaction: 'player' },
       {
@@ -151,7 +151,7 @@ export const CHAPTER_10: ChapterData = {
         speakerFaction: 'enemy',
       },
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: 'You broke the seal at Are. You let that thing out into your own country.',
         speakerFaction: 'player',
       },
@@ -161,7 +161,7 @@ export const CHAPTER_10: ChapterData = {
         speakerFaction: 'enemy',
       },
       {
-        speaker: 'Hina',
+        speaker: 'Mirelle',
         text: 'The grey ground behind you says otherwise.',
         speakerFaction: 'player',
       },
@@ -225,9 +225,9 @@ export const CHAPTER_10: ChapterData = {
     },
   ],
   events: [
-    // Turn 3: Elder Toki speaks about the scrolls
+    // Turn 3: Elder Ilse speaks about the scrolls
     {
-      id: 'ch10_toki_speaks',
+      id: 'ch10_ilse_speaks',
       trigger: { type: 'turn_start', turn: 3 },
       effects: [
         {
@@ -235,13 +235,13 @@ export const CHAPTER_10: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Elder Toki',
-                text: 'This chronicle has four hundred years in it, and every time the Blackflame stirred, somebody here wrote it down. If Sozen takes it, the last account of the thing burns with my roof.',
+                speaker: 'Elder Ilse',
+                text: 'This chronicle has four hundred years in it, and every time the Blackflame stirred, somebody here wrote it down. If Ezrin takes it, the last account of the thing burns with my roof.',
                 speakerFaction: 'ally',
               },
               { speaker: 'Shigeru', text: "We won't let that happen.", speakerFaction: 'player' },
               {
-                speaker: 'Elder Toki',
+                speaker: 'Elder Ilse',
                 text: 'I have outlived worse men than that general. But I cannot outwalk what is coming up out of the west, and neither can you.',
                 speakerFaction: 'ally',
               },
@@ -265,12 +265,12 @@ export const CHAPTER_10: ChapterData = {
                 text: 'At the foot of the hill the grass turned grey in a widening ring, and something stood up out of the middle of it — huge, armoured, and put together wrong.',
               },
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: 'That is not a revenant. A revenant was a person once. This has been made — assembled, out of several.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Raiga',
+                speaker: 'Corwin',
                 text: 'It is going for the village. For the old woman.',
                 speakerFaction: 'player',
               },
@@ -290,7 +290,7 @@ export const CHAPTER_10: ChapterData = {
       ],
       once: true,
     },
-    // Boss killed: Sozen
+    // Boss killed: Ezrin
     {
       id: 'ch10_sozen_killed',
       trigger: { type: 'unit_killed', unitId: 'ch10_boss' },
@@ -300,19 +300,19 @@ export const CHAPTER_10: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Sozen',
+                speaker: 'Ezrin',
                 text: 'I felt it too. The wrongness out west. I read the same signs your scholar reads.',
                 speakerFaction: 'enemy',
               },
               { speaker: 'Shigeru', text: 'You could have helped us.', speakerFaction: 'player' },
               {
-                speaker: 'Sozen',
+                speaker: 'Ezrin',
                 text: 'Perhaps. But I serve the empire I was born in, not the truth I found too late to use.',
                 speakerFaction: 'enemy',
               },
               {
                 speaker: 'Narrator',
-                text: 'General Sozen falls. A Master Seal gleams among his effects.',
+                text: 'General Ezrin falls. A Master Seal gleams among his effects.',
               },
             ],
           },
@@ -331,13 +331,13 @@ export const CHAPTER_10: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: 'It is coming apart. Look — the ash is not scattering. It is running back west, along the ground, against the wind.',
                 speakerFaction: 'player',
               },
               { speaker: 'Shigeru', text: 'Going home.', speakerFaction: 'player' },
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: 'Being recalled. My lord, that is the first thing this campaign has shown me that I can actually follow. Whatever built that thing wants its pieces back — and it will lead us straight to the door.',
                 speakerFaction: 'player',
               },
@@ -372,28 +372,28 @@ export const CHAPTER_10: ChapterData = {
         },
         {
           speaker: 'Shigeru',
-          text: 'Genzo. His name was Genzo. ...Thank you, Akira.',
+          text: 'Halvar. His name was Halvar. ...Thank you, Akira.',
           speakerFaction: 'player',
         },
       ],
       reward: { type: 'stat', unitId: 'akira', stat: 'def', amount: 1 },
     },
     {
-      unitA: 'raiga',
-      unitB: 'sayo',
+      unitA: 'corwin',
+      unitB: 'bryn',
       lines: [
         {
-          speaker: 'Sayo',
+          speaker: 'Bryn',
           text: 'Five engagements now. Still telling people you are only here for the coin?',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Raiga',
+          speaker: 'Corwin',
           text: 'The pay is terrible. The hours are worse. The commander apologises to corpses.',
           speakerFaction: 'player',
         },
-        { speaker: 'Sayo', text: "And yet you're still here.", speakerFaction: 'player' },
-        { speaker: 'Raiga', text: '...Shut up and cover my left side.', speakerFaction: 'player' },
+        { speaker: 'Bryn', text: "And yet you're still here.", speakerFaction: 'player' },
+        { speaker: 'Corwin', text: '...Shut up and cover my left side.', speakerFaction: 'player' },
       ],
       reward: { type: 'exp_both', amount: 20 },
     },

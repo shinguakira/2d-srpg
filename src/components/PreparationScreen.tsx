@@ -1061,10 +1061,10 @@ function getRewardText(conv: SupportConversation): string {
 const SPEAKER_PORTRAITS: Record<string, { classId: string; faction: 'player' | 'enemy' }> = {
   Shigeru: { classId: 'lord', faction: 'player' },
   Akira: { classId: 'cavalier', faction: 'player' },
-  Kanna: { classId: 'mage', faction: 'player' },
-  Hina: { classId: 'cleric', faction: 'player' },
-  Goro: { classId: 'fighter', faction: 'player' },
-  Genzo: { classId: 'soldier', faction: 'player' },
-  Sayo: { classId: 'archer', faction: 'player' },
-  Hachi: { classId: 'thief', faction: 'player' },
+  Lisette: { classId: 'mage', faction: 'player' },
+  Mirelle: { classId: 'cleric', faction: 'player' },
+  Gareth: { classId: 'fighter', faction: 'player' },
+  Halvar: { classId: 'soldier', faction: 'player' },
+  Bryn: { classId: 'archer', faction: 'player' },
+  Fenn: { classId: 'thief', faction: 'player' },
 };

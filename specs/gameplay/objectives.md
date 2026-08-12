@@ -25,13 +25,13 @@ Victory conditions, optional objectives, and turn-based rewards across 25 chapte
 |---------|------------------|---------------------|-----------|-------|
 | Ch1 | Rout | — | 10 | Tutorial. Simple. |
 | Ch2 | Seize | Visit all villages (2) | 15 | Learn seize + villages |
-| Ch3 | Boss Kill | Recruit Sayo (visit village tile) | 14 | Sayo joins if visited |
+| Ch3 | Boss Kill | Recruit Bryn (visit village tile) | 14 | Bryn joins if visited |
 | Ch4 | Rout | Open all chests (3) before thieves | 16 | Enemy thieves race to chests |
-| Ch5 | Seize | Protect villagers (3 NPC survive) | 18 | Yuki recruitment chapter |
-| Ch6 | Boss Kill | Rout within par turns | 16 | Raiga/Mio join mid-chapter |
+| Ch5 | Seize | Protect villagers (3 NPC survive) | 18 | Elin recruitment chapter |
+| Ch6 | Boss Kill | Rout within par turns | 16 | Corwin/Nadine join mid-chapter |
 | Ch7 | Seize | Capture armory tile for bonus shop | 20 | First promotion items available |
 | Ch8 | Survive 12 turns | Keep Akira alive as long as possible | 12 | Akira dies scripted. Bonus if he survives 10+ turns. |
-| Ch9 | Escape (all units to exit) | Recruit Kagura (talk with Hina) | 18 | Retreat chapter. Dancer joins. |
+| Ch9 | Escape (all units to exit) | Recruit Viviane (talk with Mirelle) | 18 | Retreat chapter. Dancer joins. |
 | Ch10 | Boss Kill + Seize | Complete in ≤15 turns for Master Seal | 20 | Arc 2 finale. Multi-objective. |
 | Ch11 | Rout | No units gain CRP > 15 | 22 | Corruption introduction |
 | Ch12 | Protect NPC (monk) 8 turns | Defeat all mini-bosses (3) | 20 | Monastery defense |

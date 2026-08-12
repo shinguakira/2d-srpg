@@ -174,7 +174,7 @@ describe('Fog of War Integration', () => {
 
   it('thief has vision 5', () => {
     const map = makeMap(10, 1);
-    const thief = makeUnit('hachi', { x: 0, y: 0 }, { classId: 'thief' });
+    const thief = makeUnit('fenn', { x: 0, y: 0 }, { classId: 'thief' });
 
     expect(getVisionRange(thief)).toBe(5);
     const visible = calculateVisibleTiles([thief], map);

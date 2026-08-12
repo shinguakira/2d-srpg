@@ -11,7 +11,7 @@ See [promotion.md](promotion.md) for promotion mechanics and item requirements.
 ## New Base Classes (10)
 
 ### Archer
-Sayo's class. Ranged physical damage. Bows only — 2-range, no melee counter.
+Bryn's class. Ranged physical damage. Bows only — 2-range, no melee counter.
 
 | HP | STR | MAG | DEF | RES | SPD | SKL | LCK | CHA | WIL | MOV |
 |----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
@@ -26,7 +26,7 @@ Sayo's class. Ranged physical damage. Bows only — 2-range, no melee counter.
 - **Weakness**: Melee-vulnerable. If an enemy reaches her, she can't fight back. Low bulk.
 
 ### Thief
-Hachi's class. Utility specialist. Knives + Lockpick + Steal.
+Fenn's class. Utility specialist. Knives + Lockpick + Steal.
 
 | HP | STR | MAG | DEF | RES | SPD | SKL | LCK | CHA | WIL | MOV |
 |----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
@@ -43,7 +43,7 @@ Hachi's class. Utility specialist. Knives + Lockpick + Steal.
 - **Weakness**: Lowest combat stats. Cannot trade blows — hit-and-run only.
 
 ### Pegasus Knight
-Yuki's class. Flying lance user. High mobility, mage-killer.
+Elin's class. Flying lance user. High mobility, mage-killer.
 
 | HP | STR | MAG | DEF | RES | SPD | SKL | LCK | CHA | WIL | MOV |
 |----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
@@ -75,7 +75,7 @@ Zael's class. Flying heavy attacker. Axe + lance.
 - **Weakness**: Bows effective (×3). Very low RES (0 base, 5% growth). Mages and archers destroy Wyvern Riders.
 
 ### Troubadour
-Mio's class. Mounted healer. Staff only until promotion.
+Nadine's class. Mounted healer. Staff only until promotion.
 
 | HP | STR | MAG | DEF | RES | SPD | SKL | LCK | CHA | WIL | MOV |
 |----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
@@ -91,7 +91,7 @@ Mio's class. Mounted healer. Staff only until promotion.
 - **Weakness**: Cannot fight back. Mounted penalty in rough terrain. Low WIL.
 
 ### Mercenary
-Raiga's class. Balanced sword fighter. The "generic good unit."
+Corwin's class. Balanced sword fighter. The "generic good unit."
 
 | HP | STR | MAG | DEF | RES | SPD | SKL | LCK | CHA | WIL | MOV |
 |----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
@@ -139,7 +139,7 @@ Elara's class. Light magic user. Anti-corruption specialist.
 - **Weakness**: Low STR means no physical combat. Moderate stats — not the best at anything except fighting corruption.
 
 ### Dancer
-Kagura's class. Unique support. Cannot attack, cannot promote. Dance refreshes allies.
+Viviane's class. Unique support. Cannot attack, cannot promote. Dance refreshes allies.
 
 | HP | STR | MAG | DEF | RES | SPD | SKL | LCK | CHA | WIL | MOV |
 |----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
@@ -149,11 +149,11 @@ Kagura's class. Unique support. Cannot attack, cannot promote. Dance refreshes a
 |----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
 | 40 | 5 | 5 | 10 | 15 | 45 | 15 | 50 | 40 | 15 |
 
-- **Dance**: Adjacent ally who has already acted can act again this turn. Uses Kagura's action.
+- **Dance**: Adjacent ally who has already acted can act again this turn. Uses Viviane's action.
 - **No weapons**: Cannot attack or equip weapons. Period.
 - **No promotion**: Stays Dancer forever. This IS the class.
 - **High LCK/CHA**: 50% LCK growth helps Miracle skill activation. 40% CHA makes him an aggro magnet — dangerous.
-- **Weakness**: Cannot fight. Cannot take a hit. The most fragile unit. If Kagura dies, the party loses its strongest support action.
+- **Weakness**: Cannot fight. Cannot take a hit. The most fragile unit. If Viviane dies, the party loses its strongest support action.
 
 ### Armor Knight
 Ghael's class. Immovable wall. Highest DEF, lowest SPD.

@@ -17,7 +17,7 @@ orders that spend people is getting easier.
 **Voice**: short sentences, no rhetoric. Says "no" a lot and then reconsiders in
 public, which his officers find reassuring and his enemies find readable.
 
-**Arc**: Ch1 flight → Ch5 realising the blight follows *him* → Ch8 giving Genzo
+**Arc**: Ch1 flight → Ch5 realising the blight follows *him* → Ch8 giving Halvar
 permission to die → Ch10 refusing Takeshi to his face → Arc 3 walking west.
 
 **Key line** (Ch8): *"I have not lost anyone since Izuhara and I am not starting
@@ -30,14 +30,14 @@ completely immovable, and the only person who asks the prince how he is and wait
 for a real answer.
 
 He survives the whole campaign. That is deliberate: the companion who does not die
-is what makes Genzo's death land instead of feeling like a quota.
+is what makes Halvar's death land instead of feeling like a quota.
 
 **Voice**: "my lord" in every other sentence, doctrine-first, dryly funny about it.
 
 **Key line** (Ch1 support): *"Then I will keep your pace. And when you do stop, I
 will be there for that as well."*
 
-## Kanna — Mage
+## Lisette — Mage
 
 Court scholar of the shrine archives. Blunt, impatient, catalogues heraldry for
 fun. She is the one who notices the grey line at the Sasu bridge in Ch2 and spends
@@ -49,7 +49,7 @@ readings. Her crisis is identity, not competence: *"My whole use to this company
 knowing. If I cannot know, what am I standing here for?"* She resolves it by
 changing the question from *where will it go* to *what does it want*.
 
-## Hina — Cleric
+## Mirelle — Cleric
 
 Shrine maiden of Shiratake, sent to find the Flamebrand's bearer. Warm, extremely
 loud, physically fearless about grabbing wounded soldiers of either army. She prays
@@ -58,63 +58,63 @@ for enemies and means it.
 She is the one who supplies the setting's folklore — ashfall, the Abyss, revenants
 — from shrine songs everyone else dismissed as songs.
 
-## Goro — Fighter
+## Gareth — Fighter
 
 Woodcutter out of the Sasu uplands. Big, loud, warm, and considerably sharper than
 he lets on: his questions are the ones that turn a lecture into a lesson ("So the
 slow ground is the safe ground"). Serves as the player's proxy for tutorial beats
 without ever being stupid.
 
-## Genzo — Soldier *(dies Ch8)*
+## Halvar — Soldier *(dies Ch8)*
 
 Kurogane sergeant, second wall company, eleven years on a watch post. He defects in
 Ch2 because he watched his own army burn a village he could see from his post and
 did not leave his post, and has been unable to stop thinking about it since.
 
 He is the veteran who knows how the enemy actually operates, and he uses that
-knowledge exactly once: in Ch8 he tells Shigeru what General Doumeki will do,
+knowledge exactly once: in Ch8 he tells Shigeru what General Wulfram will do,
 volunteers to be the man in the corridor, and disobeys a direct order to stay.
 
 **Death**: scripted, Ch8 turn 13, after holding the south corridor alone for nine
-turns as an ally NPC. Sets `genzo_dead`; the campaign store removes him from the
+turns as an ally NPC. Sets `halvar_dead`; the campaign store removes him from the
 roster permanently and applies grief to everyone for two chapters.
 
 **Key line**: *"You will lose someone tonight either way. The only question you get
 to answer is whether it is somebody who chose it."*
 
-## Sayo — Archer
+## Bryn — Archer
 
 Huntress of the Sasu woods, found defending a village alone from high ground.
 Answers in single words and does not consider this a personality flaw. Green. No.
 No.
 
-## Hachi — Thief
+## Fenn — Thief
 
 Pickpocket of Tsutsu harbour, cheerful, morally flexible, feeds people with stolen
 keys. Hums when concentrating, which is how Shigeru catches them. Their thief's
-instinct — *watch which door the owner never opens* — is what unsticks Kanna in Ch7.
+instinct — *watch which door the owner never opens* — is what unsticks Lisette in Ch7.
 
-## Yuki — Pegasus Knight
+## Elin — Pegasus Knight
 
 Rider of the Sky Watch. Sees the hole in the sky before anyone sees anything on the
 ground. Her private fear is the inverse of Shigeru's: from the air, people are
 shapes, and she has noticed she can watch a shape stop moving and feel nothing.
 
-## Raiga — Mercenary
+## Corwin — Mercenary
 
 Grizzled sellsword, eleven captains' worth of experience, joins because the party
 is the only group on the coast walking *toward* the thing everyone else is running
 from. Serves as the company's memento mori: he has watched good commanders stop
 counting their dead, and Shigeru orders him to say so when it starts happening.
 
-## Mio — Troubadour
+## Nadine — Troubadour
 
 Travelling healer who treats both armies and will not be argued out of it. Young,
 stubborn, and the first person to ask out loud why Kurogane's soldiers are fighting
-at all — which is what lets Genzo explain that they all believe Takeshi when he
+at all — which is what lets Halvar explain that they all believe Takeshi when he
 says this war is the last one.
 
-## Kagura — Dancer
+## Viviane — Dancer
 
 Travelling performer who steps out of the treeline in Ch9 and attaches herself to
 the company on the grounds that they look like a funeral that has not finished
@@ -123,8 +123,8 @@ before, on better people than her, and says so once, quietly, and then never aga
 
 ## NPCs
 
-- **Genzo (ally NPC)** — `genzo_npc`, Ch8 only, spawns when he takes the corridor.
-- **Elder Toki** — `elder_toki`, Ch10 protect target. Keeper of a four-hundred-year
+- **Halvar (ally NPC)** — `halvar_npc`, Ch8 only, spawns when he takes the corridor.
+- **Elder Ilse** — `elder_ilse`, Ch10 protect target. Keeper of a four-hundred-year
   village chronicle that records every time the Blackflame stirred.
 - **King Sadao** — Shigeru's father. Dies before Ch1. Refused Takeshi the Flamebrand
   four times.

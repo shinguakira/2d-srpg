@@ -95,13 +95,13 @@ See [roster.md](../story/roster.md) for full recruitment timeline. Key condition
 
 | Character | Chapter | Condition |
 |-----------|---------|-----------|
-| Genzo | Ch2 | Automatic (enemy defection event) |
-| Sayo | Ch3 | Visit village tile |
-| Hachi | Ch4 | Catch thief event |
-| Yuki | Ch5 | Automatic (start of chapter) |
-| Raiga | Ch6 | Automatic (start of chapter) |
-| Mio | Ch6 | Automatic (mid-chapter) |
-| Kagura | Ch9 | Talk with Hina (secondary objective) |
+| Halvar | Ch2 | Automatic (enemy defection event) |
+| Bryn | Ch3 | Visit village tile |
+| Fenn | Ch4 | Catch thief event |
+| Elin | Ch5 | Automatic (start of chapter) |
+| Corwin | Ch6 | Automatic (start of chapter) |
+| Nadine | Ch6 | Automatic (mid-chapter) |
+| Viviane | Ch9 | Talk with Mirelle (secondary objective) |
 | Kira | Ch11 | Automatic (mid-chapter defection) |
 | Zael | Ch13 | Spare at ≤5 HP + dialogue (conditional) |
 | Elara | Ch14 | Automatic (start of chapter) |

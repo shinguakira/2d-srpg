@@ -13,48 +13,48 @@ their first close look at blighted ground.
 - **Map**: 25×12, rolling hills, forest belts, two forts (9,3) and (9,5)
 - **Objective**: Rout
 - **Deploy**: 6 slots, `shigeru` forced
-- **Boss**: Captain Hyodo, on the (9,5) fort
-- **Recruitable**: `sayo`
+- **Boss**: Captain Olrik, on the (9,5) fort
+- **Recruitable**: `bryn`
 - **Reinforcements**: turn 4, two brigands from the south corners
 - **Par**: 10 turns
 
 ## Beats
 
 **Prologue — terrain lesson.** Smoke over the eastern valley that has been going
-since yesterday. Genzo rules out Kurogane on procedural grounds ("we burn a village
-in one hour and move on"), so: brigands. Goro complains that forest costs double
-when he can see the other side; Kanna explains; Goro gets there himself — *"So the
-slow ground is the safe ground"* — and Kanna is briefly, genuinely pleased.
+since yesterday. Halvar rules out Kurogane on procedural grounds ("we burn a village
+in one hour and move on"), so: brigands. Gareth complains that forest costs double
+when he can see the other side; Lisette explains; Gareth gets there himself — *"So the
+slow ground is the safe ground"* — and Lisette is briefly, genuinely pleased.
 
 This is the template for every tutorial beat in the game: the character being taught
 is not stupid, and the lesson lands because *they* finish it.
 
-**Turn 2 — avoid.** Goro takes an arrow standing in the open. Fort tiles are flagged
+**Turn 2 — avoid.** Gareth takes an arrow standing in the open. Fort tiles are flagged
 as the boss's advantage before the player reaches them.
 
-**Turn 3 — Sayo.** Holding a village alone from high ground. Answers Hina's
+**Turn 3 — Bryn.** Holding a village alone from high ground. Answers Mirelle's
 interview in single words. Bow range 2, no melee counter — a rule she states as her
 only rule: *"So do not let them get close."*
 
 **Turn 5 — the second mark.** Blight reaches the battlefield: hillside going ash
-underfoot, visibly spreading. Hina's instruction is the one that sticks — *nobody
+underfoot, visibly spreading. Mirelle's instruction is the one that sticks — *nobody
 stands in the grey.*
 
-**Boss.** Hyodo is holding a hill fort in a kingdom that no longer exists. Told to
+**Boss.** Olrik is holding a hill fort in a kingdom that no longer exists. Told to
 look at the grey hillside behind him, he answers that he has been ordered not to,
 and that this is an order too.
 
-**Boss death.** Akira: *"He fought well. Just a soldier doing his duty."* Sayo asks
+**Boss death.** Akira: *"He fought well. Just a soldier doing his duty."* Bryn asks
 whether there was a way where he lives. Shigeru admits there wasn't one he could
 find in the time he had — and tells her to keep asking.
 
-**Epilogue.** Kanna's second mark: a stand of pines grey to the roots, no fire, same
+**Epilogue.** Lisette's second mark: a stand of pines grey to the roots, no fire, same
 bearing as the Sasu line. *"Two marks make a line, my lord. Three would make it a
 road."* And it is coming inland toward them, keeping pace.
 
 ## Supports
 
-- **Shigeru × Hina** — she argues for one evening's rest on the grounds that men who
-  never rest go brittle, and has already tricked Goro into digging the fire pit.
-- **Goro × Genzo** — "do you miss the other side?" Genzo misses the bread. He does
+- **Shigeru × Mirelle** — she argues for one evening's rest on the grounds that men who
+  never rest go brittle, and has already tricked Gareth into digging the fire pit.
+- **Gareth × Halvar** — "do you miss the other side?" Halvar misses the bread. He does
   not let himself miss the men, because he will be killing them.

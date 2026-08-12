@@ -46,10 +46,10 @@ at the western cliffs.
 
 ## The Blight Clock
 
-Kanna's running count is the spine of Arcs 1-2. Each mark is one chapter's worth of
+Lisette's running count is the spine of Arcs 1-2. Each mark is one chapter's worth of
 evidence, and the player should be able to follow the deduction without being told:
 
-| Chapter | Mark | What Kanna concludes |
+| Chapter | Mark | What Lisette concludes |
 |---|---|---|
 | Ch2 | Grey grass at the Sasu bridge, in a straight line | "Something drew that." |
 | Ch3 | A grey stand of pines on the same bearing | "Two marks make a line. Three would make it a road." |
@@ -70,33 +70,33 @@ Kurogane lands at Komoda; the king dies on the sand; Izuhara burns. The company 
 assembled on the run down the east coast and then west across the island.
 
 - **Ch1 — The Road to Kuta.** The coast-road gate keep south of Izuhara, held by
-  brigands on Kurogane pay. Boss: Baraku. Joins: Goro (turn 2), Hina (epilogue).
+  brigands on Kurogane pay. Boss: Hagen. Joins: Gareth (turn 2), Mirelle (epilogue).
 - **Ch2 — The Sasu Crossing.** The garrison on the only bridge for thirty miles.
-  Boss: Commander Ryuji. Joins: Genzo (turn 3, defects). Ryuji carries a **cracked
+  Boss: Commander Vidar. Joins: Halvar (turn 3, defects). Vidar carries a **cracked
   shrine ward from Are** — the first hard evidence.
-- **Ch3 — The Shiine Hills.** Brigands in the Sasu uplands. Boss: Captain Hyodo.
-  Joins: Sayo. Terrain tutorial; first blight underfoot.
+- **Ch3 — The Shiine Hills.** Brigands in the Sasu uplands. Boss: Captain Olrik.
+  Joins: Bryn. Terrain tutorial; first blight underfoot.
 - **Ch4 — The Cape of Tsutsu.** The southern cape's last free harbour, three
-  storehouses to hold. Boss: Zanba. Joins: Hachi. Zanba carries a Kurogane pay chit.
+  storehouses to hold. Boss: Brask. Joins: Fenn. Brask carries a Kurogane pay chit.
 - **Ch5 — Kaneda, Above the Clouds.** The old border fortress on Shiroyama above Aso
-  Bay, built four centuries ago to watch the western sea. Boss: General Tetsuzan.
-  Joins: Yuki. **Arc turn:** the rift moves toward Shigeru, and Genzo names Takeshi
+  Bay, built four centuries ago to watch the western sea. Boss: General Roderic.
+  Joins: Elin. **Arc turn:** the rift moves toward Shigeru, and Halvar names Takeshi
   and Are out loud. The company turns west.
 
 ## Arc 2 — The Broken Seal (Ch6-10)
 
-- **Ch6 — The Harbour at Kechi.** Aso Bay's inner water. Boss: Captain Tsubame.
-  Joins: Raiga, Mio. The blight has passed them; every road south is cut.
+- **Ch6 — The Harbour at Kechi.** Aso Bay's inner water. Boss: Captain Aeryn.
+  Joins: Corwin, Nadine. The blight has passed them; every road south is cut.
 - **Ch7 — What the Wall Held.** The fortress at the Cut. Survive 12 turns while
-  revenants come out of the seaward wall. Optional boss: Admiral Isonami.
-  **Kanna's crisis chapter.**
+  revenants come out of the seaward wall. Optional boss: Admiral Varro.
+  **Lisette's crisis chapter.**
 - **Ch8 — The Last Stand on Yatate.** The fortress on the island's highest ground,
-  two fronts. Boss: General Doumeki. **Genzo dies** holding the lower corridor for
+  two fronts. Boss: General Wulfram. **Halvar dies** holding the lower corridor for
   nine turns, by his own choice and against a direct order. Grief for two chapters.
-- **Ch9 — The Empty Place.** The uncut forest under Shiratake. Joins: Kagura.
+- **Ch9 — The Empty Place.** The uncut forest under Shiratake. Joins: Viviane.
 - **Ch10 — The Sands of Komoda.** The invasion beach, one arc later: village below,
-  fortified hill above. Boss: Grand Magus Sozen. A **Blackflame Colossus** spawns on
-  turn 6 and goes for Elder Toki's chronicle. **Arc close: Takeshi appears in
+  fortified hill above. Boss: Grand Magus Ezrin. A **Blackflame Colossus** spawns on
+  turn 6 and goes for Elder Ilse's chronicle. **Arc close: Takeshi appears in
   person**, unarmed, and asks for the Flamebrand. He is refused.
 
 ## Arc 3 — The Ash Road (Ch11-15)
@@ -137,7 +137,7 @@ Evaluated in `src/core/endings.ts`.
 
 | Ending | Condition | Title |
 |---|---|---|
-| Perfect | Seal relit + Blackflame ended + 0 deaths + Tsubame recruited + shrine keeper saved + **Takeshi spared** | *The Fourth Flame* |
+| Perfect | Seal relit + Blackflame ended + 0 deaths + Aeryn recruited + shrine keeper saved + **Takeshi spared** | *The Fourth Flame* |
 | True | Seal relit + Blackflame ended | *The Seal Restored* |
 | Bittersweet | Blackflame ended, seal never relit | *Ash and Aftermath* |
 | Tragic | 5 or more deaths | *What It Took* |

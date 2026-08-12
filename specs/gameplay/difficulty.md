@@ -39,12 +39,12 @@ Arc 5 (Ch21-25): The final push (hardest, but you have all tools)
 | **Expected player exit level** | 7-8 |
 | **Turns per chapter** | 8-12 (Ch1) → 12-18 (Ch5) |
 | **Deaths expected** | 0 (tutorial arc — forgiving) |
-| **New mechanics** | Ch1: movement, attack, weapon triangle, terrain. Ch2: body targeting, villages, items, Genzo joins. Ch3: archer recruitment (Sayo). Ch4: thief recruitment (Hachi). Ch5: Yuki (pegasus) |
+| **New mechanics** | Ch1: movement, attack, weapon triangle, terrain. Ch2: body targeting, villages, items, Halvar joins. Ch3: archer recruitment (Bryn). Ch4: thief recruitment (Fenn). Ch5: Elin (pegasus) |
 
 **Balance Notes:**
 - Ch1 is a true tutorial — enemies weaker than player units in 1v1
 - Position clear weapon triangle lessons (axe enemy near Shigeru's sword)
-- New recruits (Sayo Ch3, Hachi Ch4, Yuki Ch5) join at party-appropriate levels
+- New recruits (Bryn Ch3, Fenn Ch4, Elin Ch5) join at party-appropriate levels
 - No reinforcements in Ch1-2. Simple reinforcements in Ch3-5.
 - Villages and hidden chests teach exploration
 
@@ -58,7 +58,7 @@ Arc 5 (Ch21-25): The final push (hardest, but you have all tools)
 | **Expected player exit level** | 13-15 |
 | **Turns per chapter** | 14-20 |
 | **Deaths expected** | 1 mandatory (Akira, Ch8), 0-1 additional |
-| **New mechanics** | Promotions available (Ch7+), dark mages (CRP), support system, Kagura (dancer, Ch9) |
+| **New mechanics** | Promotions available (Ch7+), dark mages (CRP), support system, Viviane (dancer, Ch9) |
 
 **Balance Notes:**
 - **Akira's death (Ch8) is the emotional/mechanical core of this arc**
@@ -184,12 +184,12 @@ At expected levels, player units should survive:
 
 | Unit Role | Arc 1 | Arc 2 | Arc 3 | Arc 4 | Arc 5 |
 |-----------|-------|-------|-------|-------|-------|
-| **Tank** (Akira, Ghael, Genzo) | 4-5 hits | 3-4 hits | 3-4 hits | 3 hits | 2-3 hits |
-| **Bruiser** (Shigeru, Goro, Raiga) | 3-4 hits | 3 hits | 2-3 hits | 2-3 hits | 2 hits |
-| **Mage** (Kanna, Kira) | 1-2 hits | 1-2 hits | 1-2 hits | 1-2 hits | 1 hit |
-| **Healer** (Hina, Mio, Elara) | 1-2 hits | 1 hit | 1 hit | 1 hit | 1 hit |
-| **Flier** (Yuki, Zael) | 2-3 hits | 2-3 hits | 2 hits | 2 hits | 1-2 hits |
-| **Speed** (Hachi, Kagura) | 2-3 hits | 2 hits | 2 hits | 1-2 hits | 1 hit |
+| **Tank** (Akira, Ghael, Halvar) | 4-5 hits | 3-4 hits | 3-4 hits | 3 hits | 2-3 hits |
+| **Bruiser** (Shigeru, Gareth, Corwin) | 3-4 hits | 3 hits | 2-3 hits | 2-3 hits | 2 hits |
+| **Mage** (Lisette, Kira) | 1-2 hits | 1-2 hits | 1-2 hits | 1-2 hits | 1 hit |
+| **Healer** (Mirelle, Nadine, Elara) | 1-2 hits | 1 hit | 1 hit | 1 hit | 1 hit |
+| **Flier** (Elin, Zael) | 2-3 hits | 2-3 hits | 2 hits | 2 hits | 1-2 hits |
+| **Speed** (Fenn, Viviane) | 2-3 hits | 2 hits | 2 hits | 1-2 hits | 1 hit |
 
 "Hit" = average enemy attack at that arc's level. Mages and healers should always be at risk.
 
@@ -224,7 +224,7 @@ At expected levels, player units should kill average enemies in:
 - Catch-up EXP (+20%) prevents units from falling too far behind
 - Vulneraries always available at shops
 - Shigeru's Rapier is Prf (character-locked, strong) — always has a viable weapon
-- Genzo's Garrison Lance has infinite durability — always has a weapon
+- Halvar's Garrison Lance has infinite durability — always has a weapon
 - Supply convoy stores all items not in inventories — nothing is lost
 - At least one Heal staff available at shops in every arc
 
@@ -249,12 +249,12 @@ At expected levels, player units should kill average enemies in:
 
 | Character | Join Chapter | Join Level | Notes |
 |-----------|------------|-----------|-------|
-| Sayo | Ch3 | 3 | Slightly above party average |
-| Hachi | Ch4 | 4 | At party average |
-| Yuki | Ch5 | 6 | Slightly above, prepromote stats |
-| Raiga | Ch6 | 8 | At party average |
-| Mio | Ch6 | 7 | Slightly below but mounted |
-| Kagura | Ch9 | 11 | At party average, cannot promote |
+| Bryn | Ch3 | 3 | Slightly above party average |
+| Fenn | Ch4 | 4 | At party average |
+| Elin | Ch5 | 6 | Slightly above, prepromote stats |
+| Corwin | Ch6 | 8 | At party average |
+| Nadine | Ch6 | 7 | Slightly below but mounted |
+| Viviane | Ch9 | 11 | At party average, cannot promote |
 | Kira | Ch11 | 14 | Above average, compensates for frailty |
 | Zael | Ch13 | 15 (conditional) | At promoted threshold |
 | Elara | Ch14 | 15 | At promoted threshold |

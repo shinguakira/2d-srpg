@@ -42,16 +42,16 @@ export const CHAPTER_5: ChapterData = {
   playerUnits: [
     { unitId: 'shigeru', position: { x: 6, y: 14 } },
     { unitId: 'akira', position: { x: 7, y: 14 } },
-    { unitId: 'kanna', position: { x: 6, y: 15 } },
-    { unitId: 'goro', position: { x: 5, y: 13 } },
-    { unitId: 'hina', position: { x: 7, y: 15 } },
-    { unitId: 'genzo', position: { x: 8, y: 13 } },
-    { unitId: 'sayo', position: { x: 5, y: 15 } },
-    { unitId: 'hachi', position: { x: 9, y: 13 } },
-    { unitId: 'yuki', position: { x: 4, y: 14 } },
+    { unitId: 'lisette', position: { x: 6, y: 15 } },
+    { unitId: 'gareth', position: { x: 5, y: 13 } },
+    { unitId: 'mirelle', position: { x: 7, y: 15 } },
+    { unitId: 'halvar', position: { x: 8, y: 13 } },
+    { unitId: 'bryn', position: { x: 5, y: 15 } },
+    { unitId: 'fenn', position: { x: 9, y: 13 } },
+    { unitId: 'elin', position: { x: 4, y: 14 } },
   ],
   enemyUnits: [
-    { unitId: 'ch5_boss', position: { x: 7, y: 1 } }, // Tetsuzan on throne
+    { unitId: 'ch5_boss', position: { x: 7, y: 1 } }, // Roderic on throne
     { unitId: 'ch5_knight_1', position: { x: 6, y: 2 } }, // escort left
     { unitId: 'ch5_knight_2', position: { x: 8, y: 2 } }, // escort right
     { unitId: 'ch5_soldier_1', position: { x: 5, y: 4 } }, // gate left
@@ -66,13 +66,13 @@ export const CHAPTER_5: ChapterData = {
   ],
   objective: {
     type: 'seize',
-    description: 'Defeat General Tetsuzan and seize the throne',
+    description: 'Defeat General Roderic and seize the throne',
   },
   seizePosition: { x: 7, y: 1 },
   deploymentSlots: 6,
   forceDeploy: ['shigeru'],
   parTurns: 14,
-  recruitableUnits: ['yuki'],
+  recruitableUnits: ['elin'],
   prologue: {
     lines: [
       {
@@ -80,37 +80,37 @@ export const CHAPTER_5: ChapterData = {
         text: 'Dawn below Shiroyama. The old border fortress of Kaneda stands over the south shore of Aso Bay, built four centuries ago to watch the western sea. Clouds hang unnaturally low. A pegasus knight descends, lance drawn.',
       },
       {
-        speaker: 'Yuki',
+        speaker: 'Elin',
         text: "DON'T go up there. Please. Something is wrong with the sky.",
         speakerFaction: 'player',
       },
       { speaker: 'Shigeru', text: 'Wrong how?', speakerFaction: 'player' },
       {
-        speaker: 'Yuki',
+        speaker: 'Elin',
         text: 'There is a hole in it. Out over the western cliffs, a stretch of sky the size of a village where there is no cloud, no sun, no colour. My mare will not fly within a mile of it and she has flown through a storm front.',
         speakerFaction: 'player',
       },
       { speaker: 'Akira', text: 'Sky does not have holes in it.', speakerFaction: 'player' },
-      { speaker: 'Yuki', text: 'I know what I flew past.', speakerFaction: 'player' },
+      { speaker: 'Elin', text: 'I know what I flew past.', speakerFaction: 'player' },
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: 'What bearing, rider? From the fortress — what bearing to the hole?',
         speakerFaction: 'player',
       },
-      { speaker: 'Yuki', text: '...West-north-west. Why?', speakerFaction: 'player' },
+      { speaker: 'Elin', text: '...West-north-west. Why?', speakerFaction: 'player' },
       {
         speaker: 'Shigeru',
-        text: 'Because that is the fourth one. Kanna?',
+        text: 'Because that is the fourth one. Lisette?',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: 'Four marks on one bearing is not a line any more, my lord. It is an arrow, and the point of it is the shrine at Are.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kanna',
-        text: 'The fortress is held in strength. General Tetsuzan has knights on every approach. If we are taking it, we take it from above — which means we need her.',
+        speaker: 'Lisette',
+        text: 'The fortress is held in strength. General Roderic has knights on every approach. If we are taking it, we take it from above — which means we need her.',
         speakerFaction: 'player',
       },
     ],
@@ -122,25 +122,25 @@ export const CHAPTER_5: ChapterData = {
         text: 'The fortress courtyard, after the battle. The rift at its centre has closed. The stones where it stood are grey, and nothing casts a shadow on them.',
       },
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: 'I have it. Every mark we have seen since the Sasu bridge, laid on the survey maps. It is not a spreading stain. It is a line, and it is being drawn.',
         speakerFaction: 'player',
       },
       { speaker: 'Shigeru', text: 'Drawn from where to where?', speakerFaction: 'player' },
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: 'From the shrine at Are \u2014 to us. Every mark is nearer than the last. It has been walking toward this company since the day we found the cracked ward.',
         speakerFaction: 'player',
       },
-      { speaker: 'Yuki', text: 'Toward us. Not toward the cities?', speakerFaction: 'player' },
+      { speaker: 'Elin', text: 'Toward us. Not toward the cities?', speakerFaction: 'player' },
       {
-        speaker: 'Kanna',
+        speaker: 'Lisette',
         text: 'It went past two cities to get here. It wants something we are carrying.',
         speakerFaction: 'player',
       },
-      { speaker: 'Hina', text: 'The Flamebrand.', speakerFaction: 'player' },
+      { speaker: 'Mirelle', text: 'The Flamebrand.', speakerFaction: 'player' },
       {
-        speaker: 'Genzo',
+        speaker: 'Halvar',
         text: 'Then say the rest of it, my lord, since nobody else will. The shrine at Are held the Blackflame. Takeshi went into that shrine alone before the war and came out changed. And now the thing that was sealed there is walking inland, and it knows where your sword is.',
         speakerFaction: 'player',
       },
@@ -152,7 +152,7 @@ export const CHAPTER_5: ChapterData = {
       },
       {
         speaker: 'Shigeru',
-        text: 'I know. We turn west at the harbour. Kanna \u2014 I want to know what it is before I take it to my father\u2019s sword.',
+        text: 'I know. We turn west at the harbour. Lisette \u2014 I want to know what it is before I take it to my father\u2019s sword.',
         speakerFaction: 'player',
       },
       {
@@ -210,18 +210,18 @@ export const CHAPTER_5: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Goro',
+                speaker: 'Gareth',
                 text: 'Did that TREE just turn into a RIVER?',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: 'Ground does not do that. I surveyed this valley from the ridge two hours ago.',
                 speakerFaction: 'player',
               },
-              { speaker: 'Shigeru', text: 'Kanna. Your map.', speakerFaction: 'player' },
+              { speaker: 'Shigeru', text: 'Lisette. Your map.', speakerFaction: 'player' },
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: 'Useless, my lord. Every route I plotted has changed under us. Warn the men — nobody trusts the ground they have not just walked on.',
                 speakerFaction: 'player',
               },
@@ -247,28 +247,28 @@ export const CHAPTER_5: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Yuki',
+                speaker: 'Elin',
                 text: 'That. That is the hole. That is what is in the sky, and now it is on the ground.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Hachi',
+                speaker: 'Fenn',
                 text: 'I threw a stone into it. I did not hear it land.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: 'I cannot measure a thing that gives nothing back. No heat, no sound, no shadow. It is a hole in the world and I do not have a word for it.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Hina',
+                speaker: 'Mirelle',
                 text: 'The shrine songs have a word. They call it the Abyss, and they say the Blackflame leaves one behind wherever it has fed.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: 'Nobody goes near it. Push on to Tetsuzan.',
+                text: 'Nobody goes near it. Push on to Roderic.',
                 speakerFaction: 'player',
               },
             ],
@@ -301,17 +301,17 @@ export const CHAPTER_5: ChapterData = {
                 text: 'For the space of a breath the whole valley goes silent — no wind, no birds, no ring of steel — and then the noise of the battle rushes back in.',
               },
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: 'It moved. The rift. It was in the north corner and now it is thirty paces closer and nobody saw it cross.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Goro',
+                speaker: 'Gareth',
                 text: 'Can we be frightened of the hole after the men with lances stop charging us?',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: 'You are not listening. It is moving toward the prince. Not toward the fighting — toward him.',
                 speakerFaction: 'player',
               },
@@ -331,7 +331,7 @@ export const CHAPTER_5: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Tetsuzan',
+                speaker: 'Roderic',
                 text: 'You have beaten brigands and river scum. Now you meet a soldier.',
                 speakerFaction: 'enemy',
               },
@@ -341,7 +341,7 @@ export const CHAPTER_5: ChapterData = {
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Tetsuzan',
+                speaker: 'Roderic',
                 text: 'Nine. I reported it to the capital three times. The reply was: hold the fortress.',
                 speakerFaction: 'enemy',
               },
@@ -351,7 +351,7 @@ export const CHAPTER_5: ChapterData = {
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Tetsuzan',
+                speaker: 'Roderic',
                 text: 'It has to be. A man my age does not get to start asking questions. Come and take the gate.',
                 speakerFaction: 'enemy',
               },
@@ -361,7 +361,7 @@ export const CHAPTER_5: ChapterData = {
       ],
       once: true,
     },
-    // Boss killed — Tetsuzan's denial
+    // Boss killed — Roderic's denial
     {
       id: 'ch5_boss_killed',
       trigger: { type: 'unit_killed', unitId: 'ch5_boss' },
@@ -371,7 +371,7 @@ export const CHAPTER_5: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Tetsuzan',
+                speaker: 'Roderic',
                 text: 'Nine men to the hole. The rest to you. A fine account of a career.',
                 speakerFaction: 'enemy',
               },
@@ -381,7 +381,7 @@ export const CHAPTER_5: ChapterData = {
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Tetsuzan',
+                speaker: 'Roderic',
                 text: 'I know. Boy — the Emperor came through here in the spring. He walked to the edge of that hole and he stood at it for an hour and he was not afraid of it.',
                 speakerFaction: 'enemy',
               },
@@ -391,7 +391,7 @@ export const CHAPTER_5: ChapterData = {
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Tetsuzan',
+                speaker: 'Roderic',
                 text: '"Good. It is still hungry." ...Take the fortress. I have nothing else to give you.',
                 speakerFaction: 'enemy',
               },
@@ -405,16 +405,16 @@ export const CHAPTER_5: ChapterData = {
   supportConversations: [
     {
       unitA: 'shigeru',
-      unitB: 'yuki',
+      unitB: 'elin',
       lines: [
         {
-          speaker: 'Yuki',
+          speaker: 'Elin',
           text: 'My lord, may I speak plainly? From the air I can see the whole of a battle at once. It is not like being in one.',
           speakerFaction: 'player',
         },
         { speaker: 'Shigeru', text: 'How is it different?', speakerFaction: 'player' },
         {
-          speaker: 'Yuki',
+          speaker: 'Elin',
           text: 'From up there they are shapes. I can watch a shape stop moving and feel nothing about it. That frightens me more than the hole in the sky does.',
           speakerFaction: 'player',
         },
@@ -424,19 +424,19 @@ export const CHAPTER_5: ChapterData = {
           speakerFaction: 'player',
         },
       ],
-      reward: { type: 'stat', unitId: 'yuki', stat: 'spd', amount: 1 },
+      reward: { type: 'stat', unitId: 'elin', stat: 'spd', amount: 1 },
     },
     {
       unitA: 'akira',
-      unitB: 'goro',
+      unitB: 'gareth',
       lines: [
         {
           speaker: 'Akira',
-          text: 'Goro, your axework is... unconventional. But effective.',
+          text: 'Gareth, your axework is... unconventional. But effective.',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Goro',
+          speaker: 'Gareth',
           text: 'Hah! No one ever taught me proper form. I just hit things until they stop moving.',
           speakerFaction: 'player',
         },
@@ -446,12 +446,12 @@ export const CHAPTER_5: ChapterData = {
           speakerFaction: 'player',
         },
         {
-          speaker: 'Goro',
+          speaker: 'Gareth',
           text: 'A knight teaching a brawler? I like this army.',
           speakerFaction: 'player',
         },
       ],
-      reward: { type: 'stat', unitId: 'goro', stat: 'skl', amount: 1 },
+      reward: { type: 'stat', unitId: 'gareth', stat: 'skl', amount: 1 },
     },
   ],
 };

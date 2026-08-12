@@ -3,59 +3,71 @@ import { computeAutoDeploy } from '../../src/core/deployment';
 
 describe('computeAutoDeploy', () => {
   it('places forceDeploy units first', () => {
-    const result = computeAutoDeploy(['shigeru'], ['shigeru', 'akira', 'kanna'], 5, [], 'classic');
+    const result = computeAutoDeploy(
+      ['shigeru'],
+      ['shigeru', 'akira', 'lisette'],
+      5,
+      [],
+      'classic',
+    );
     expect(result[0]).toBe('shigeru');
   });
 
   it('fills remaining slots from roster in order', () => {
     const result = computeAutoDeploy(
       ['shigeru'],
-      ['shigeru', 'akira', 'kanna', 'hina', 'goro'],
+      ['shigeru', 'akira', 'lisette', 'mirelle', 'gareth'],
       5,
       [],
       'classic',
     );
-    expect(result).toEqual(['shigeru', 'akira', 'kanna', 'hina', 'goro']);
+    expect(result).toEqual(['shigeru', 'akira', 'lisette', 'mirelle', 'gareth']);
   });
 
   it('respects maxDeploy cap', () => {
     const result = computeAutoDeploy(
       ['shigeru'],
-      ['shigeru', 'akira', 'kanna', 'hina', 'goro'],
+      ['shigeru', 'akira', 'lisette', 'mirelle', 'gareth'],
       3,
       [],
       'classic',
     );
-    expect(result).toEqual(['shigeru', 'akira', 'kanna']);
+    expect(result).toEqual(['shigeru', 'akira', 'lisette']);
     expect(result.length).toBe(3);
   });
 
   it('skips dead units in classic mode', () => {
     const result = computeAutoDeploy(
       ['shigeru'],
-      ['shigeru', 'akira', 'kanna', 'hina', 'goro'],
+      ['shigeru', 'akira', 'lisette', 'mirelle', 'gareth'],
       5,
       ['akira'],
       'classic',
     );
     expect(result).not.toContain('akira');
-    expect(result).toEqual(['shigeru', 'kanna', 'hina', 'goro']);
+    expect(result).toEqual(['shigeru', 'lisette', 'mirelle', 'gareth']);
   });
 
   it('does NOT skip dead units in casual mode', () => {
     const result = computeAutoDeploy(
       ['shigeru'],
-      ['shigeru', 'akira', 'kanna', 'hina', 'goro'],
+      ['shigeru', 'akira', 'lisette', 'mirelle', 'gareth'],
       5,
       ['akira'],
       'casual',
     );
     expect(result).toContain('akira');
-    expect(result).toEqual(['shigeru', 'akira', 'kanna', 'hina', 'goro']);
+    expect(result).toEqual(['shigeru', 'akira', 'lisette', 'mirelle', 'gareth']);
   });
 
   it('does not duplicate forceDeploy units that are also in roster', () => {
-    const result = computeAutoDeploy(['shigeru'], ['shigeru', 'akira', 'kanna'], 5, [], 'classic');
+    const result = computeAutoDeploy(
+      ['shigeru'],
+      ['shigeru', 'akira', 'lisette'],
+      5,
+      [],
+      'classic',
+    );
     const renCount = result.filter((id) => id === 'shigeru').length;
     expect(renCount).toBe(1);
   });
@@ -74,7 +86,7 @@ describe('computeAutoDeploy', () => {
   });
 
   it('handles empty forceDeploy', () => {
-    const result = computeAutoDeploy([], ['shigeru', 'akira', 'kanna'], 3, [], 'classic');
-    expect(result).toEqual(['shigeru', 'akira', 'kanna']);
+    const result = computeAutoDeploy([], ['shigeru', 'akira', 'lisette'], 3, [], 'classic');
+    expect(result).toEqual(['shigeru', 'akira', 'lisette']);
   });
 });

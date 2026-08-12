@@ -14,10 +14,10 @@ See [skills.md](skills.md) for learnable skills by class.
 |-------|---------|-----|------|------|
 | **Lord** | Sword | 5 | Balanced attacker. Required for Seize. | Shigeru |
 | **Cavalier** | Sword, Lance | 7 | Mobile frontline. High MOV, dual weapons. | Akira |
-| **Mage** | Fire, Thunder, Wind | 5 | Magic damage. Targets RES. 1-2 range. | Kanna |
-| **Fighter** | Axe | 5 | Raw damage. High HP/STR, low accuracy. | Goro |
-| **Cleric** | Staff | 5 | Healer/support. Cannot attack. | Hina |
-| **Soldier** | Lance | 5 | Defensive tank. High DEF, low SPD. | Genzo |
+| **Mage** | Fire, Thunder, Wind | 5 | Magic damage. Targets RES. 1-2 range. | Lisette |
+| **Fighter** | Axe | 5 | Raw damage. High HP/STR, low accuracy. | Gareth |
+| **Cleric** | Staff | 5 | Healer/support. Cannot attack. | Mirelle |
+| **Soldier** | Lance | 5 | Defensive tank. High DEF, low SPD. | Halvar |
 
 ---
 
@@ -77,7 +77,7 @@ Akira is designed as the "safe pick" — always useful, always reliable, never a
 
 ## Mage
 
-Kanna's class. Ranged magic damage targeting RES (usually low on physical enemies). Glass cannon.
+Lisette's class. Ranged magic damage targeting RES (usually low on physical enemies). Glass cannon.
 
 ### Base Stats
 
@@ -98,13 +98,13 @@ Kanna's class. Ranged magic damage targeting RES (usually low on physical enemie
 - **Weakness**: Lowest HP (16 base), lowest DEF (3 base). One physical hit can kill. STA rate ×1.2 — tires fast.
 
 ### Design Notes
-Kanna's class rewards careful positioning — she kills everything she touches but dies to anything that touches her. Her high SKL growth (45%) synergizes with Exploit passive (needs to see enemy stats) and body targeting (SKL reduces hit penalties). Low CHA (2, 15% growth) means enemies rarely target her — she's invisible to AI, which is a feature, not a bug.
+Lisette's class rewards careful positioning — she kills everything she touches but dies to anything that touches her. Her high SKL growth (45%) synergizes with Exploit passive (needs to see enemy stats) and body targeting (SKL reduces hit penalties). Low CHA (2, 15% growth) means enemies rarely target her — she's invisible to AI, which is a feature, not a bug.
 
 ---
 
 ## Fighter
 
-Goro's class. Maximum physical damage at the cost of accuracy and defensive stats.
+Gareth's class. Maximum physical damage at the cost of accuracy and defensive stats.
 
 ### Base Stats
 
@@ -125,13 +125,13 @@ Goro's class. Maximum physical damage at the cost of accuracy and defensive stat
 - **Weakness**: 0% MAG growth, 5% RES growth. Mages destroy him. 20% SKL growth means he NEEDS Killing Axes or body targeting support to crit.
 
 ### Design Notes
-Goro is designed to be chaotic. His stats swing wildly — sometimes he one-shots a boss, sometimes he misses 3 times in a row. Low ATT (40%) amplifies this. The No Patience passive forces aggressive play — you can't park Goro on a fort and wait. He IS the push. Pair with Hina (Empathy Aura +10 hit) to patch his accuracy problem, or lean into Reckless (kill chains) with body targeting Legs → Head combos.
+Gareth is designed to be chaotic. His stats swing wildly — sometimes he one-shots a boss, sometimes he misses 3 times in a row. Low ATT (40%) amplifies this. The No Patience passive forces aggressive play — you can't park Gareth on a fort and wait. He IS the push. Pair with Mirelle (Empathy Aura +10 hit) to patch his accuracy problem, or lean into Reckless (kill chains) with body targeting Legs → Head combos.
 
 ---
 
 ## Cleric
 
-Hina's class. Pure support — cannot attack, heals with staves. The party's lifeline.
+Mirelle's class. Pure support — cannot attack, heals with staves. The party's lifeline.
 
 ### Base Stats
 
@@ -152,13 +152,13 @@ Hina's class. Pure support — cannot attack, heals with staves. The party's lif
 - **Weakness**: Cannot fight back. If surrounded, she dies. Lowest DEF (2 base, 10% growth). STA rate ×1.3 — exhausts fastest.
 
 ### Design Notes
-Hina cannot protect herself. She needs the party to protect HER. This creates a natural escort dynamic — and makes her death devastating both emotionally and tactically. Her MAG growth (45%) ensures strong heals. High LCK (50% growth) gives her Miracle skill activation (LCK% chance to survive lethal). Low WIL (15% growth) makes her the most vulnerable to mental effects — she feels everything deeply. Her Empathy Aura (+10 hit/avoid to adjacent) means she WANTS to be near allies, but being near frontlines risks her life.
+Mirelle cannot protect herself. She needs the party to protect HER. This creates a natural escort dynamic — and makes her death devastating both emotionally and tactically. Her MAG growth (45%) ensures strong heals. High LCK (50% growth) gives her Miracle skill activation (LCK% chance to survive lethal). Low WIL (15% growth) makes her the most vulnerable to mental effects — she feels everything deeply. Her Empathy Aura (+10 hit/avoid to adjacent) means she WANTS to be near allies, but being near frontlines risks her life.
 
 ---
 
 ## Soldier
 
-Genzo's class. Defensive wall. High DEF, low SPD. Holds the line.
+Halvar's class. Defensive wall. High DEF, low SPD. Holds the line.
 
 ### Base Stats
 
@@ -179,7 +179,7 @@ Genzo's class. Defensive wall. High DEF, low SPD. Holds the line.
 - **Weakness**: 20% SPD growth. Will almost never double. 0 RES base, 10% growth — mages are lethal. Lowest CHA (1 base, 10% growth) — enemies ignore him.
 
 ### Design Notes
-Genzo is the opposite of Goro: reliable, consistent, boring in the best way. His low CHA means enemies DON'T target him — which seems like a weakness but makes him perfect for flanking and positioning. Park him on a chokepoint with his Garrison Lance and he holds it indefinitely. His absurd STA rate (×0.7) means he's the last man standing when everyone else is exhausted. Residual Data passive rewards him for standing where enemies died — the soldier who stood still for 300 cycles now weaponizes positioning.
+Halvar is the opposite of Gareth: reliable, consistent, boring in the best way. His low CHA means enemies DON'T target him — which seems like a weakness but makes him perfect for flanking and positioning. Park him on a chokepoint with his Garrison Lance and he holds it indefinitely. His absurd STA rate (×0.7) means he's the last man standing when everyone else is exhausted. Residual Data passive rewards him for standing where enemies died — the soldier who stood still for 300 cycles now weaponizes positioning.
 
 ---
 

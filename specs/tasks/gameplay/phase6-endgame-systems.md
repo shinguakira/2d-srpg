@@ -115,7 +115,7 @@
 - [x] Add Final Save Crystal to item data: key item, acquired ch25 pre-battle, must be equipped to Shigeru for True ending
 - [x] Final Save Crystal: no combat effect, equippable in weapon/item slot, used on seize
 - [x] Add Flamebrand to weapon data (if not added in Phase 4): Prf Shigeru, sword, might = `1 + floor(EMB/30)`, range 1
-- [x] Add Sealbreaker (Sayo Prf): bow, might 14, range 2-3, effective vs System Constructs
+- [x] Add Sealbreaker (Bryn Prf): bow, might 14, range 2-3, effective vs System Constructs
 - [x] Add Echo's Interface (Prf): tome, might = varies by target CRP level
 
 ## Multiple Endings

@@ -40,7 +40,7 @@
 - [ ] "The Blackflame kept records of everything. Even the beginning."
 
 ### Mid-Battle — Nostalgia Callbacks
-- [ ] Ghost Baraku (Turn 3): appears, non-hostile
+- [ ] Ghost Hagen (Turn 3): appears, non-hostile
   - "347 times, you've beaten me. It was an honor every time."
   - Hints about Archivist's weakness rotation
   - Fades after dialogue
@@ -51,9 +51,9 @@
   - Salutes the party
   - Every party member gets a reaction line:
     - Shigeru: "..."
-    - Kanna: "The data... it remembers him."
-    - Goro: "...hey."
-    - Hina: "Rest well, Akira."
+    - Lisette: "The data... it remembers him."
+    - Gareth: "...hey."
+    - Mirelle: "Rest well, Akira."
     - (Others personalized)
   - Grants +3 all stats for 3 turns
   - Fades after 1 turn
@@ -101,26 +101,26 @@
 - [ ] Arena entrance: corrupted entity detected
 - [ ] ???_CORRUPTED appears: garbled, unrecognizable, weapon cycling
 - [ ] Party doesn't recognize it at first
-- [ ] Kanna: "The data signature... it's corrupted beyond recognition"
+- [ ] Lisette: "The data signature... it's corrupted beyond recognition"
 
 ### Mid-Battle — The Revelation (3 Layers)
 - [ ] Layer 1 strip (first weapon-triangle hit):
   - Corruption peels slightly
   - "Wait... that movement pattern. That stance."
-  - Kanna: "The way it holds a lance... that's..."
+  - Lisette: "The way it holds a lance... that's..."
   - Others start to realize
 - [ ] Layer 2 strip (second hit):
   - Face becomes visible through corruption
   - "It's Akira. Oh gods, it's AKIRA."
   - Shigeru: "The Blackflame didn't corrupt him to weapon
 ize him."
-  - Kanna: "It tried to SAVE him. But the data was too damaged."
+  - Lisette: "It tried to SAVE him. But the data was too damaged."
   - Extended emotional scene — party processes seeing Akira again
   - Each character reacts:
     - Shigeru: quiet devastation
-    - Kanna: analytical grief turning to raw emotion
-    - Goro: rage at the Blackflame ("You did this to him!")
-    - Hina: prayer, tears
+    - Lisette: analytical grief turning to raw emotion
+    - Gareth: rage at the Blackflame ("You did this to him!")
+    - Mirelle: prayer, tears
     - Others personalized
 - [ ] Layer 3 strip (third hit):
   - Akira momentarily lucid:

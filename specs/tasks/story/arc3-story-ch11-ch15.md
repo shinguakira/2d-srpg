@@ -13,7 +13,7 @@
 
 ### Prologue
 - [ ] CRP introduction: dark terrain spreading, civilians fleeing
-- [ ] Kanna explains corruption mechanics to party (tutorial dialogue)
+- [ ] Lisette explains corruption mechanics to party (tutorial dialogue)
 - [ ] Shigeru recognizes this from past cycles: "It always starts here"
 - [ ] Market town setting: formerly lively, now flickering
 
@@ -31,7 +31,7 @@
 ### Epilogue
 - [ ] Kira integration: party wary of dark mage (CRP 60)
 - [ ] Kira explains dark magic connection to System
-- [ ] Kanna fascinated by Kira's data insights
+- [ ] Lisette fascinated by Kira's data insights
 - [ ] CRP management tutorial: how to reduce/avoid corruption
 
 ## Chapter 12: "The Turning" — CORRUPTION LOSS
@@ -65,7 +65,7 @@
 ### Epilogue
 - [ ] Grief for corrupted ally (different from Akira's death — this was preventable)
 - [ ] Party realizes CRP management is survival mechanic
-- [ ] Hina takes on anti-corruption role with new tools
+- [ ] Mirelle takes on anti-corruption role with new tools
 - [ ] Kira's guilt: dark magic contributed to corruption spread
 
 ## Chapter 13: "Second Chances"
@@ -89,7 +89,7 @@
 - [ ] If Zael escapes: "I'll see you again. But I won't be me."
 
 ### Epilogue
-- [ ] Zael recruited: party helps manage his CRP, Hina's light magic assists
+- [ ] Zael recruited: party helps manage his CRP, Mirelle's light magic assists
 - [ ] Zael NOT recruited: somber — "We could have saved him"
 - [ ] Either way: fortress secured, path to monastery clear
 
@@ -133,7 +133,7 @@
   - Shigeru concentrates, visibly strained
   - "I'm overwriting the corruption. But I have to trade memories for it."
   - "Cycles 112 through 116... gone."
-  - Kanna: "What were those cycles?"
+  - Lisette: "What were those cycles?"
   - Shigeru: "I'll never know now."
   - Corrupted patches become normal terrain
 - [ ] Turn 10: Promoted enemy reinforcements
@@ -144,7 +144,7 @@
 - [ ] Arc 3 conclusion: corruption pushed back but not eliminated
 - [ ] Shigeru weaker (EMB spent) but party stronger (promotions, new tools)
 - [ ] Cautious hope: "We can fight this. Together."
-- [ ] Kanna's breakthrough: "The corruption isn't random. It follows patterns. I can predict it."
+- [ ] Lisette's breakthrough: "The corruption isn't random. It follows patterns. I can predict it."
 - [ ] Arc transition: EMB regen +10, CRP decay, shop refresh
 
 ## Character Data Files

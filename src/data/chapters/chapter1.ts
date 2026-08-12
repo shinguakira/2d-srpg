@@ -37,15 +37,15 @@ export const CHAPTER_1: ChapterData = {
   playerUnits: [
     { unitId: 'shigeru', position: { x: 10, y: 10 } },
     { unitId: 'akira', position: { x: 13, y: 10 } },
-    { unitId: 'kanna', position: { x: 9, y: 11 } },
-    { unitId: 'hina', position: { x: 14, y: 11 } },
-    { unitId: 'goro', position: { x: 12, y: 11 } },
+    { unitId: 'lisette', position: { x: 9, y: 11 } },
+    { unitId: 'mirelle', position: { x: 14, y: 11 } },
+    { unitId: 'gareth', position: { x: 12, y: 11 } },
   ],
   enemyUnits: [
     { unitId: 'fighter_1', position: { x: 8, y: 2 } },
     { unitId: 'fighter_3', position: { x: 11, y: 4 } },
     { unitId: 'soldier_1', position: { x: 5, y: 1 } },
-    { unitId: 'baraku', position: { x: 11, y: 1 } }, // boss on throne
+    { unitId: 'hagen', position: { x: 11, y: 1 } }, // boss on throne
   ],
   objective: {
     type: 'seize',
@@ -115,19 +115,19 @@ export const CHAPTER_1: ChapterData = {
         speakerFaction: 'player',
       },
       {
-        speaker: 'Hina',
+        speaker: 'Mirelle',
         text: 'Excuse me! Is this the royal company? I have run here from the Shiratake shrine and I have blisters in places I will not describe.',
         speakerFaction: 'player',
       },
       { speaker: 'Shigeru', text: '...Who are you?', speakerFaction: 'player' },
       {
-        speaker: 'Hina',
-        text: 'Hina. Shrine maiden. The high priestess sent me to find the bearer of the Flamebrand, and I have found him, so please hold still while I look at that arm.',
+        speaker: 'Mirelle',
+        text: 'Mirelle. Shrine maiden. The high priestess sent me to find the bearer of the Flamebrand, and I have found him, so please hold still while I look at that arm.',
         speakerFaction: 'player',
       },
       { speaker: 'Shigeru', text: 'It is nothing.', speakerFaction: 'player' },
       {
-        speaker: 'Hina',
+        speaker: 'Mirelle',
         text: 'It is four inches long and you have favoured it since I arrived. Sit down.',
         speakerFaction: 'player',
       },
@@ -144,7 +144,7 @@ export const CHAPTER_1: ChapterData = {
   events: [
     // Turn 2 — Goro’s arrival
     {
-      id: 'ch1_goro_arrival',
+      id: 'ch1_gareth_arrival',
       trigger: { type: 'turn_start', turn: 2 },
       effects: [
         {
@@ -152,7 +152,7 @@ export const CHAPTER_1: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Goro',
+                speaker: 'Gareth',
                 text: 'Oi! Down here! Is that the royal banner? I have been swinging at these bastards since sunup and it is getting lonely!',
                 speakerFaction: 'player',
               },
@@ -162,8 +162,8 @@ export const CHAPTER_1: ChapterData = {
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Goro',
-                text: 'Goro. I fell trees for a living. Turns out men come down about the same way.',
+                speaker: 'Gareth',
+                text: 'Gareth. I fell trees for a living. Turns out men come down about the same way.',
                 speakerFaction: 'player',
               },
               {
@@ -172,7 +172,7 @@ export const CHAPTER_1: ChapterData = {
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Goro',
+                speaker: 'Gareth',
                 text: 'And you are a man on a horse who talks like a written letter. Are we fighting, or are we being introduced?',
                 speakerFaction: 'player',
               },
@@ -192,22 +192,22 @@ export const CHAPTER_1: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Goro',
+                speaker: 'Gareth',
                 text: 'Why did that lancer shrug me off? I caught him square!',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: 'Because you caught him with an axe. Lances beat axes, swords beat lances, axes beat swords. Every drillmaster on the continent teaches it.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Goro',
+                speaker: 'Gareth',
                 text: 'So I should have brought a sword.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Kanna',
+                speaker: 'Lisette',
                 text: 'You should have brought a lance. Do try to keep up.',
                 speakerFaction: 'player',
               },
@@ -227,7 +227,7 @@ export const CHAPTER_1: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Baraku',
+                speaker: 'Hagen',
                 text: 'A royal banner. On my road.',
                 speakerFaction: 'enemy',
               },
@@ -237,7 +237,7 @@ export const CHAPTER_1: ChapterData = {
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Baraku',
+                speaker: 'Hagen',
                 text: 'Twenty years I have worked this stretch. A toll here, a toll there, nobody hurt who paid. Then Kurogane came through with real coin and real orders.',
                 speakerFaction: 'enemy',
               },
@@ -247,7 +247,7 @@ export const CHAPTER_1: ChapterData = {
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Baraku',
+                speaker: 'Hagen',
                 text: 'I am a man that army was going to walk over either way. This way I got paid first.',
                 speakerFaction: 'enemy',
               },
@@ -267,7 +267,7 @@ export const CHAPTER_1: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Baraku',
+                speaker: 'Hagen',
                 text: 'So you are the prince. You look about twelve.',
                 speakerFaction: 'enemy',
               },
@@ -277,12 +277,12 @@ export const CHAPTER_1: ChapterData = {
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Baraku',
+                speaker: 'Hagen',
                 text: 'Can’t. Kurogane holds my brother’s village. That is the other half of the pay.',
                 speakerFaction: 'enemy',
               },
               { speaker: 'Shigeru', text: '...Then I am sorry.', speakerFaction: 'player' },
-              { speaker: 'Baraku', text: 'Don’t be sorry. Be quick.', speakerFaction: 'enemy' },
+              { speaker: 'Hagen', text: 'Don’t be sorry. Be quick.', speakerFaction: 'enemy' },
             ],
           },
         },
@@ -292,20 +292,20 @@ export const CHAPTER_1: ChapterData = {
     // Boss killed
     {
       id: 'ch1_boss_killed',
-      trigger: { type: 'unit_killed', unitId: 'baraku' },
+      trigger: { type: 'unit_killed', unitId: 'hagen' },
       effects: [
         {
           type: 'show_dialogue',
           scene: {
             lines: [
               {
-                speaker: 'Baraku',
+                speaker: 'Hagen',
                 text: 'Kuta. The village is called Kuta. Somebody ought to know that.',
                 speakerFaction: 'enemy',
               },
               { speaker: 'Shigeru', text: 'I will remember it.', speakerFaction: 'player' },
               {
-                speaker: 'Baraku',
+                speaker: 'Hagen',
                 text: '...That is more than I expected from a prince.',
                 speakerFaction: 'enemy',
               },
@@ -346,31 +346,31 @@ export const CHAPTER_1: ChapterData = {
       reward: { type: 'exp_both', amount: 20 },
     },
     {
-      unitA: 'kanna',
-      unitB: 'hina',
+      unitA: 'lisette',
+      unitB: 'mirelle',
       lines: [
         {
-          speaker: 'Hina',
-          text: 'Kanna, may I ask you something? Do you believe the Sacred Flames hear us when we pray?',
+          speaker: 'Mirelle',
+          text: 'Lisette, may I ask you something? Do you believe the Sacred Flames hear us when we pray?',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Kanna',
+          speaker: 'Lisette',
           text: 'I believe the shrines are warm, that warm people are calmer, and that calm soldiers fight better. Whether anything is listening, I have no way to measure.',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Hina',
+          speaker: 'Mirelle',
           text: 'That is the kindest refusal anyone has ever given me.',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Kanna',
+          speaker: 'Lisette',
           text: 'It was not a refusal. I said I cannot measure it. Those are different things.',
           speakerFaction: 'player',
         },
       ],
-      reward: { type: 'stat', unitId: 'hina', stat: 'mag', amount: 1 },
+      reward: { type: 'stat', unitId: 'mirelle', stat: 'mag', amount: 1 },
     },
   ],
 };

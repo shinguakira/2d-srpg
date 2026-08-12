@@ -25,8 +25,8 @@ import soldierBattle from '../../assets/sprites/soldier-battle.png';
 import clericBattle from '../../assets/sprites/cleric-battle.png';
 import genericBattle from '../../assets/sprites/generic-battle.png';
 import pegasusBattle from '../../assets/sprites/pegasus-battle.png';
-import goroBattle from '../../assets/sprites/goro-battle.png';
-import barakuBattle from '../../assets/sprites/baraku-battle.png';
+import garethBattle from '../../assets/sprites/gareth-battle.png';
+import hagenBattle from '../../assets/sprites/hagen-battle.png';
 
 export type Clip = {
   /** Frame numbers, row-major from 0. */
@@ -169,9 +169,9 @@ const BASE_SHEETS: Record<string, SpriteSheet> = {
 
 /** Per-unit overrides — take priority over the class lookup. */
 const UNIT_SHEETS: Record<string, SpriteSheet> = {
-  hina: BASE_SHEETS.pegasus,
-  goro: {
-    url: goroBattle,
+  mirelle: BASE_SHEETS.pegasus,
+  gareth: {
+    url: garethBattle,
     cols: 8,
     rows: 4,
     sheetW: 1247,
@@ -180,8 +180,8 @@ const UNIT_SHEETS: Record<string, SpriteSheet> = {
     content: { cx: 0.5, bottom: 1, height: 0.85 },
     clips: { idle: idle(0, 8), attack: attack(16, 7) },
   },
-  baraku: {
-    url: barakuBattle,
+  hagen: {
+    url: hagenBattle,
     cols: 7,
     rows: 3,
     sheetW: 1536,

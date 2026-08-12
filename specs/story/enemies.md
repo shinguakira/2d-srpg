@@ -15,7 +15,7 @@ A real army: disciplined, well fed, well paid, and marching because their empero
 told them this war would be the last one — and they believe him. Kurogane soldiers
 are not monsters and are never written as monsters.
 
-Genzo is the party's window into them, which is why he defects in Ch2 and why his
+Halvar is the party's window into them, which is why he defects in Ch2 and why his
 death in Ch8 costs the player something.
 
 ### 2. The Blackflame
@@ -64,7 +64,7 @@ things out. Its "units" are the people it has already taken.
 
 The dead the Blackflame has stood back up. They keep their own faces and their own
 kit, which is the most upsetting fact in the setting and should be treated that way
-— Hina's instruction in Ch7 is *"do not look at their faces."*
+— Mirelle's instruction in Ch7 is *"do not look at their faces."*
 
 - Uses the `shaman` frame; ids `ch7_corrupted_*`
 - Comes out of blighted stone rather than marching in from a map edge

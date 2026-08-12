@@ -1,3 +1,4 @@
+import type { Localized } from '../i18n';
 import type {
   GameMap,
   Unit,
@@ -135,10 +136,10 @@ export type GameState = {
   } | null;
 
   // Reinforcements
-  reinforcementMessage: string | null;
+  reinforcementMessage: Localized | null;
 
   // Death quote
-  deathQuote: { unitName: string; quote: string } | null;
+  deathQuote: { unitName: string; quote: Localized } | null;
 
   // Map combat effects (floating numbers after combat)
   floatingNumbers: Array<{ id: number; x: number; y: number; text: string; color: string }>;

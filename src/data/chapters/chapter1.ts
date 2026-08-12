@@ -56,26 +56,41 @@ export const CHAPTER_1: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'The Kurogane fleet came ashore at Komoda Beach at first light, and the king rode west to meet them on the sand. By dusk he was dead and Izuhara was burning. By noon the next day the prince was on the coast road south with what was left of his father’s guard.',
+        text: {
+          en: 'The Kurogane fleet came ashore at Komoda Beach at first light, and the king rode west to meet them on the sand. By dusk he was dead and Izuhara was burning. By noon the next day the prince was on the coast road south with what was left of his father’s guard.',
+          ja: '黒鉄の船団が夜明けとともに小茂田浜に上陸した。王は西へ馬を駆り、砂の上でこれを迎え撃った。日暮れには王は討たれ、厳原は燃えていた。翌日の正午、王子は父の親衛隊の残りを連れ、東の海沿いの道を南へ下っていた。',
+        },
       },
       {
         speaker: 'Akira',
-        text: 'My lord — the keep at Kuta has fallen. Brigands, flying Kurogane colours. They have the village pinned against the river.',
+        text: {
+          en: 'My lord — the keep at Kuta has fallen. Brigands, flying Kurogane colours. They have the village pinned against the river.',
+          ja: '殿下、久田の砦が落ちました。黒鉄の旗を掲げた山賊どもです。村人を川際に追い詰めています。',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'Then we take it back. The south road runs through that gate, and we have nowhere else to be.',
+        text: {
+          en: 'Then we take it back. The south road runs through that gate, and we have nowhere else to be.',
+          ja: 'なら取り返す。南へ抜ける道はあの門しかない。他に行く場所もない。',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Akira',
-        text: 'You have not slept since the palace. Neither has anyone. If you would rather we—',
+        text: {
+          en: 'You have not slept since the palace. Neither has anyone. If you would rather we—',
+          ja: '王宮を出てから一睡もしておられません。皆も同じです。もしお望みなら――',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'I would rather my father were alive. Form up.',
+        text: {
+          en: 'I would rather my father were alive. Form up.',
+          ja: '望むなら父上に生きていてほしかった。隊列を組め。',
+        },
         speakerFaction: 'player',
       },
     ],
@@ -86,8 +101,10 @@ export const CHAPTER_1: ChapterData = {
       reward: {
         type: 'weapon',
         weaponId: 'hand_axe',
-        dialogue:
-          'Take my father’s hand axe, my lord. It throws true. He would rather it went with you than rusted over my hearth.',
+        dialogue: {
+          en: 'Take my father’s hand axe, my lord. It throws true. He would rather it went with you than rusted over my hearth.',
+          ja: '殿下、親父の手斧を持っていってくだせえ。よく飛びます。炉端で錆びさせるより、あんたに持たれたほうが親父も喜びまさあ。',
+        },
         speaker: 'Villager',
       },
     },
@@ -96,8 +113,10 @@ export const CHAPTER_1: ChapterData = {
       reward: {
         type: 'weapon',
         weaponId: 'wind',
-        dialogue:
-          'The old scholar left this tome when he fled inland. Not one of us can read a word of it. Perhaps your mage can.',
+        dialogue: {
+          en: 'The old scholar left this tome when he fled inland. Not one of us can read a word of it. Perhaps your mage can.',
+          ja: '内陸へ逃げた老学者が置いていった魔道書です。村の誰も一文字も読めません。そちらの魔道士なら読めるかもしれない。',
+        },
         speaker: 'Villager',
       },
     },
@@ -106,34 +125,60 @@ export const CHAPTER_1: ChapterData = {
     lines: [
       {
         speaker: 'Akira',
-        text: 'The gate is ours, my lord. A victory.',
+        text: {
+          en: 'The gate is ours, my lord. A victory.',
+          ja: '門は我らの手に。勝利です、殿下。',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'A gate. We hold one gate, and the kingdom is gone.',
+        text: {
+          en: 'A gate. We hold one gate, and the kingdom is gone.',
+          ja: '門ひとつだ。門ひとつを押さえて、国はもう無い。',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Mirelle',
-        text: 'Excuse me! Is this the royal company? I have run here from the Shiratake shrine and I have blisters in places I will not describe.',
+        text: {
+          en: 'Excuse me! Is this the royal company? I have run here from the Shiratake shrine and I have blisters in places I will not describe.',
+          ja: 'ごめんください！こちらが王家の隊ですね？白嶽の社から走り通しで来ました、口では言えない場所に豆ができています！',
+        },
         speakerFaction: 'player',
       },
-      { speaker: 'Shigeru', text: '...Who are you?', speakerFaction: 'player' },
       {
-        speaker: 'Mirelle',
-        text: 'Mirelle. Shrine maiden. The high priestess sent me to find the bearer of the Flamebrand, and I have found him, so please hold still while I look at that arm.',
+        speaker: 'Shigeru',
+        text: { en: '...Who are you?', ja: '……何者だ。' },
         speakerFaction: 'player',
       },
-      { speaker: 'Shigeru', text: 'It is nothing.', speakerFaction: 'player' },
       {
         speaker: 'Mirelle',
-        text: 'It is four inches long and you have favoured it since I arrived. Sit down.',
+        text: {
+          en: 'Mirelle. Shrine maiden. The high priestess sent me to find the bearer of the Flamebrand, and I have found him, so please hold still while I look at that arm.',
+          ja: 'ミレーユ。巫女です。大巫女様に炎の聖剣の担い手を捜せと命じられ、そして見つけました。ですから動かないでください、その腕を診ます。',
+        },
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Shigeru',
+        text: { en: 'It is nothing.', ja: 'かすり傷だ。' },
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Mirelle',
+        text: {
+          en: 'It is four inches long and you have favoured it since I arrived. Sit down.',
+          ja: '四寸はあります。私が着いてからずっと庇っておいででした。お座りください。',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Narrator',
-        text: 'The prince sat. It was the only order anyone gave him that day that he obeyed.',
+        text: {
+          en: 'The prince sat. It was the only order anyone gave him that day that he obeyed.',
+          ja: '王子は座った。その日、彼が従った唯一の命令だった。',
+        },
       },
     ],
   },
@@ -153,27 +198,39 @@ export const CHAPTER_1: ChapterData = {
             lines: [
               {
                 speaker: 'Gareth',
-                text: 'Oi! Down here! Is that the royal banner? I have been swinging at these bastards since sunup and it is getting lonely!',
+                text: {
+                  en: 'Oi! Down here! Is that the royal banner? I have been swinging at these bastards since sunup and it is getting lonely!',
+                  ja: 'おおい！こっちだ！そりゃ王家の旗か？夜明けからこいつらを叩いてるんだが、そろそろ一人は飽きた！',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: 'Who are you?',
+                text: { en: 'Who are you?', ja: '何者だ。' },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Gareth',
-                text: 'Gareth. I fell trees for a living. Turns out men come down about the same way.',
+                text: {
+                  en: 'Gareth. I fell trees for a living. Turns out men come down about the same way.',
+                  ja: 'ガレス。木こりだ。人間も似たような倒れ方をするとわかった。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Akira',
-                text: 'My lord, he is a woodcutter with an axe and no discipline whatsoever.',
+                text: {
+                  en: 'My lord, he is a woodcutter with an axe and no discipline whatsoever.',
+                  ja: '殿下、斧を持った木こりです。規律のかけらもありません。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Gareth',
-                text: 'And you are a man on a horse who talks like a written letter. Are we fighting, or are we being introduced?',
+                text: {
+                  en: 'And you are a man on a horse who talks like a written letter. Are we fighting, or are we being introduced?',
+                  ja: 'そっちは馬の上で書状みてえな喋り方をする男だな。戦るのか、それとも自己紹介の続きか？',
+                },
                 speakerFaction: 'player',
               },
             ],
@@ -193,22 +250,34 @@ export const CHAPTER_1: ChapterData = {
             lines: [
               {
                 speaker: 'Gareth',
-                text: 'Why did that lancer shrug me off? I caught him square!',
+                text: {
+                  en: 'Why did that lancer shrug me off? I caught him square!',
+                  ja: 'なんであの槍兵は平気なんだ？まともに入ったぞ！',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Lisette',
-                text: 'Because you caught him with an axe. Lances beat axes, swords beat lances, axes beat swords. Every drillmaster on the continent teaches it.',
+                text: {
+                  en: 'Because you caught him with an axe. Lances beat axes, swords beat lances, axes beat swords. Every drillmaster on the continent teaches it.',
+                  ja: '斧で入れたからです。槍は斧に強く、剣は槍に強く、斧は剣に強い。大陸中の教練官が最初に教えることです。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Gareth',
-                text: 'So I should have brought a sword.',
+                text: {
+                  en: 'So I should have brought a sword.',
+                  ja: 'じゃあ剣を持ってくりゃよかったのか。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Lisette',
-                text: 'You should have brought a lance. Do try to keep up.',
+                text: {
+                  en: 'You should have brought a lance. Do try to keep up.',
+                  ja: '槍です。少しは話についてきてください。',
+                },
                 speakerFaction: 'player',
               },
             ],
@@ -228,27 +297,36 @@ export const CHAPTER_1: ChapterData = {
             lines: [
               {
                 speaker: 'Hagen',
-                text: 'A royal banner. On my road.',
+                text: { en: 'A royal banner. On my road.', ja: '王家の旗か。俺の道にな。' },
                 speakerFaction: 'enemy',
               },
               {
                 speaker: 'Shigeru',
-                text: 'Your road?',
+                text: { en: 'Your road?', ja: 'お前の道だと？' },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Hagen',
-                text: 'Twenty years I have worked this stretch. A toll here, a toll there, nobody hurt who paid. Then Kurogane came through with real coin and real orders.',
+                text: {
+                  en: 'Twenty years I have worked this stretch. A toll here, a toll there, nobody hurt who paid. Then Kurogane came through with real coin and real orders.',
+                  ja: '二十年この街道で食ってきた。ここで通行料、あそこで通行料、払う奴には手は出さねえ。そこへ黒鉄が本物の金と本物の命令を持って通りやがった。',
+                },
                 speakerFaction: 'enemy',
               },
               {
                 speaker: 'Akira',
-                text: 'You are a brigand taking an emperor’s pay to hold a gate against your own countrymen.',
+                text: {
+                  en: 'You are a brigand taking an emperor’s pay to hold a gate against your own countrymen.',
+                  ja: '貴様は皇帝の金を受け取り、同胞に門を閉ざす山賊だ。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Hagen',
-                text: 'I am a man that army was going to walk over either way. This way I got paid first.',
+                text: {
+                  en: 'I am a man that army was going to walk over either way. This way I got paid first.',
+                  ja: '俺はどのみちあの軍に踏み潰される男さ。こっちなら先に金がもらえる。',
+                },
                 speakerFaction: 'enemy',
               },
             ],
@@ -268,21 +346,38 @@ export const CHAPTER_1: ChapterData = {
             lines: [
               {
                 speaker: 'Hagen',
-                text: 'So you are the prince. You look about twelve.',
+                text: {
+                  en: 'So you are the prince. You look about twelve.',
+                  ja: 'お前が王子か。十二の子供みてえだな。',
+                },
                 speakerFaction: 'enemy',
               },
               {
                 speaker: 'Shigeru',
-                text: 'Take your men south. I will not chase you.',
+                text: {
+                  en: 'Take your men south. I will not chase you.',
+                  ja: '部下を連れて南へ行け。追わない。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Hagen',
-                text: 'Can’t. Kurogane holds my brother’s village. That is the other half of the pay.',
+                text: {
+                  en: 'Can’t. Kurogane holds my brother’s village. That is the other half of the pay.',
+                  ja: 'できねえ。黒鉄が弟の村を押さえてる。それが報酬のもう半分だ。',
+                },
                 speakerFaction: 'enemy',
               },
-              { speaker: 'Shigeru', text: '...Then I am sorry.', speakerFaction: 'player' },
-              { speaker: 'Hagen', text: 'Don’t be sorry. Be quick.', speakerFaction: 'enemy' },
+              {
+                speaker: 'Shigeru',
+                text: { en: '...Then I am sorry.', ja: '……ならば、すまない。' },
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Hagen',
+                text: { en: 'Don’t be sorry. Be quick.', ja: '詫びるな。手早くやれ。' },
+                speakerFaction: 'enemy',
+              },
             ],
           },
         },
@@ -300,13 +395,23 @@ export const CHAPTER_1: ChapterData = {
             lines: [
               {
                 speaker: 'Hagen',
-                text: 'Kuta. The village is called Kuta. Somebody ought to know that.',
+                text: {
+                  en: 'Kuta. The village is called Kuta. Somebody ought to know that.',
+                  ja: '久田。村の名は久田だ。誰か覚えておいてくれ。',
+                },
                 speakerFaction: 'enemy',
               },
-              { speaker: 'Shigeru', text: 'I will remember it.', speakerFaction: 'player' },
+              {
+                speaker: 'Shigeru',
+                text: { en: 'I will remember it.', ja: '覚えておく。' },
+                speakerFaction: 'player',
+              },
               {
                 speaker: 'Hagen',
-                text: '...That is more than I expected from a prince.',
+                text: {
+                  en: '...That is more than I expected from a prince.',
+                  ja: '……王子にしては上出来だ。',
+                },
                 speakerFaction: 'enemy',
               },
             ],
@@ -323,23 +428,39 @@ export const CHAPTER_1: ChapterData = {
       lines: [
         {
           speaker: 'Akira',
-          text: 'My lord. You have not eaten since Amagi.',
-          speakerFaction: 'player',
-        },
-        { speaker: 'Shigeru', text: 'I am not hungry.', speakerFaction: 'player' },
-        {
-          speaker: 'Akira',
-          text: 'That was not a question about your appetite.',
+          text: {
+            en: 'My lord. You have not eaten since Izuhara.',
+            ja: '殿下。厳原を出てから何も口にしておられません。',
+          },
           speakerFaction: 'player',
         },
         {
           speaker: 'Shigeru',
-          text: '...If I stop moving I will have to think about it. So I do not stop.',
+          text: { en: 'I am not hungry.', ja: '腹は減っていない。' },
           speakerFaction: 'player',
         },
         {
           speaker: 'Akira',
-          text: 'Then I will keep your pace. And when you do stop, I will be there for that as well.',
+          text: {
+            en: 'That was not a question about your appetite.',
+            ja: '食欲の話をしているのではありません。',
+          },
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Shigeru',
+          text: {
+            en: '...If I stop moving I will have to think about it. So I do not stop.',
+            ja: '……止まれば考えねばならなくなる。だから止まらない。',
+          },
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Akira',
+          text: {
+            en: 'Then I will keep your pace. And when you do stop, I will be there for that as well.',
+            ja: 'ならば私も同じ歩調で参ります。そして殿下が止まられたときも、私はそこにおります。',
+          },
           speakerFaction: 'player',
         },
       ],
@@ -351,22 +472,34 @@ export const CHAPTER_1: ChapterData = {
       lines: [
         {
           speaker: 'Mirelle',
-          text: 'Lisette, may I ask you something? Do you believe the Sacred Flames hear us when we pray?',
+          text: {
+            en: 'Lisette, may I ask you something? Do you believe the Sacred Flames hear us when we pray?',
+            ja: 'リゼット、ひとつ伺っても？聖火は祈りを聞いてくださると思いますか。',
+          },
           speakerFaction: 'player',
         },
         {
           speaker: 'Lisette',
-          text: 'I believe the shrines are warm, that warm people are calmer, and that calm soldiers fight better. Whether anything is listening, I have no way to measure.',
+          text: {
+            en: 'I believe the shrines are warm, that warm people are calmer, and that calm soldiers fight better. Whether anything is listening, I have no way to measure.',
+            ja: '社は暖かい。暖かければ人は落ち着く。落ち着いた兵はよく戦う。そこまでは信じます。何かが聞いているかどうかは、私には測る手立てがありません。',
+          },
           speakerFaction: 'player',
         },
         {
           speaker: 'Mirelle',
-          text: 'That is the kindest refusal anyone has ever given me.',
+          text: {
+            en: 'That is the kindest refusal anyone has ever given me.',
+            ja: '今まででいちばん優しい「いいえ」でした。',
+          },
           speakerFaction: 'player',
         },
         {
           speaker: 'Lisette',
-          text: 'It was not a refusal. I said I cannot measure it. Those are different things.',
+          text: {
+            en: 'It was not a refusal. I said I cannot measure it. Those are different things.',
+            ja: 'いいえとは言っていません。測れないと言ったのです。別のことです。',
+          },
           speakerFaction: 'player',
         },
       ],

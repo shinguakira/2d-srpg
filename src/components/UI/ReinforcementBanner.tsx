@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
+import { useT } from '../../i18n/useT';
 import { useGameStore } from '../../stores/gameStore';
 
 export function ReinforcementBanner() {
+  const T = useT();
   const message = useGameStore((s) => s.reinforcementMessage);
   const dismiss = useGameStore((s) => s.dismissReinforcementMessage);
 
@@ -41,7 +43,7 @@ export function ReinforcementBanner() {
           textTransform: 'uppercase',
         }}
       >
-        {message}
+        {T.t(message)}
       </span>
     </div>
   );

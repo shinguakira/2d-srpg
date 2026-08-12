@@ -1,3 +1,4 @@
+import type { Localized } from '../../i18n';
 import type { Unit, GameMap, Tile, ChapterData, DifficultyMode } from '../../core/types';
 import type { CombatResult } from '../../core/combat';
 import type { GameState } from '../gameStoreTypes';
@@ -64,7 +65,7 @@ function removeDefeated(unit: Unit, newUnits: Map<string, Unit>, casualMode: boo
 export type CombatResolutionResult = {
   newUnits: Map<string, Unit>;
   newTiles: Tile[][];
-  deathQuote: { unitName: string; quote: string } | null;
+  deathQuote: { unitName: string; quote: Localized } | null;
   floatingNumbers: GameState['floatingNumbers'];
   lordDied: boolean;
   victoryResult: 'victory' | 'defeat' | null;

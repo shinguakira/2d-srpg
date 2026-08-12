@@ -74,42 +74,70 @@ export const CHAPTER_6: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'The harbour at Kechi, on the inner water of Aso Bay. Salt air and smoke off the headlands. The company arrives at dawn looking for a hull that will carry them.',
+        text: {
+          en: 'The harbour at Kechi, on the inner water of Aso Bay. Salt air and smoke off the headlands. The company arrives at dawn looking for a hull that will carry them.',
+          ja: '浅茅湾の内海に面した鶏知の港。潮の匂いと、岬から流れる煙。隊は夜明けに着き、自分たちを運べる船を探していた。',
+        },
       },
       {
         speaker: 'Corwin',
-        text: 'Corwin. Sellsword. My last contract was a pack train out of the Sasu valley. There is no pack train and there is no Sasu valley, so here I am.',
-        speakerFaction: 'player',
-      },
-      { speaker: 'Shigeru', text: 'No valley.', speakerFaction: 'player' },
-      {
-        speaker: 'Corwin',
-        text: 'Grey ground where the road was, from Shimobaru to the river mouth. I walked back the way I came and there was nothing to walk back to. Do not ask me to describe it better than that.',
-        speakerFaction: 'player',
-      },
-      {
-        speaker: 'Lisette',
-        text: 'My lord, that is the fifth mark, and it is behind us now. It went past us in the night.',
-        speakerFaction: 'player',
-      },
-      {
-        speaker: 'Akira',
-        text: 'Past us? Then it is between us and every road south.',
+        text: {
+          en: 'Corwin. Sellsword. My last contract was a pack train out of the Sasu valley. There is no pack train and there is no Sasu valley, so here I am.',
+          ja: 'コーウィン。傭兵だ。最後の契約は佐須の谷から出る荷駄隊の護衛だった。荷駄隊も佐須の谷もない。それでここにいる。',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'Which settles the argument. We were turning west anyway. Corwin — you said you were between contracts.',
+        text: { en: 'No valley.', ja: '谷がない、だと。' },
         speakerFaction: 'player',
       },
       {
         speaker: 'Corwin',
-        text: 'Everyone else on this bay is running east. You are the only fools walking the other way. I want to see how that ends.',
+        text: {
+          en: 'Grey ground where the road was, from Shimobaru to the river mouth. I walked back the way I came and there was nothing to walk back to. Do not ask me to describe it better than that.',
+          ja: '道があったところが灰色の地面だ。下原から河口まで。来た道を引き返したが、引き返す先がなかった。これ以上うまく説明しろとは言うな。',
+        },
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Lisette',
+        text: {
+          en: 'My lord, that is the fifth mark, and it is behind us now. It went past us in the night.',
+          ja: '殿下、五つ目の印です。しかも我々の後方にある。夜のうちに追い越されました。',
+        },
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Akira',
+        text: {
+          en: 'Past us? Then it is between us and every road south.',
+          ja: '追い越された？では南へ向かう道すべてとの間にあるということか。',
+        },
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Shigeru',
+        text: {
+          en: 'Which settles the argument. We were turning west anyway. Corwin — you said you were between contracts.',
+          ja: 'なら議論は終わりだ。どのみち西へ向きを変えるところだった。コーウィン――契約の合間だと言ったな。',
+        },
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Corwin',
+        text: {
+          en: 'Everyone else on this bay is running east. You are the only fools walking the other way. I want to see how that ends.',
+          ja: 'この湾の人間はみんな東へ逃げてる。逆へ歩いてる馬鹿はあんたらだけだ。どう終わるか見てみたい。',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Narrator',
-        text: 'A Kurogane patrol holds the harbour. Captain Tsubame’s riders wheel above the masts, waiting for a target to stand still.',
+        text: {
+          en: 'A Kurogane patrol holds the harbour. Captain Tsubame’s riders wheel above the masts, waiting for a target to stand still.',
+          ja: '黒鉄の哨戒隊が港を押さえていた。アエリン隊長の騎士たちが帆柱の上を旋回し、標的が足を止めるのを待っている。',
+        },
       },
     ],
   },
@@ -117,38 +145,67 @@ export const CHAPTER_6: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'The harbor is clear. Kurogane banners hang torn in the sea wind.',
+        text: {
+          en: 'The harbor is clear. Kurogane banners hang torn in the sea wind.',
+          ja: '港は片付いた。黒鉄の旗が裂けたまま潮風に垂れている。',
+        },
       },
       {
         speaker: 'Corwin',
-        text: 'So this is the work. Fight Kurogane, pick up strays, keep walking.',
-        speakerFaction: 'player',
-      },
-      { speaker: 'Shigeru', text: 'Something like that.', speakerFaction: 'player' },
-      {
-        speaker: 'Nadine',
-        text: 'The soldier I set a bone for — he was younger than me. He kept apologising while I worked. What is he even fighting for?',
-        speakerFaction: 'player',
-      },
-      {
-        speaker: 'Corwin',
-        text: 'Because a man he has never met told him to. That is the whole of it, girl, in every war there has ever been.',
-        speakerFaction: 'player',
-      },
-      {
-        speaker: 'Halvar',
-        text: 'It is not quite the whole of it. He is fighting because Takeshi told him the war would be the last one. Every soldier in Kurogane believes that. It is why they march so well.',
-        speakerFaction: 'player',
-      },
-      { speaker: 'Shigeru', text: 'And do you still believe it?', speakerFaction: 'player' },
-      {
-        speaker: 'Halvar',
-        text: '...I believe he believes it. That is the part that frightens me, my lord.',
+        text: {
+          en: 'So this is the work. Fight Kurogane, pick up strays, keep walking.',
+          ja: 'これが仕事か。黒鉄と戦い、はぐれ者を拾い、歩き続ける。',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'Then we make time. The Cut next — and after that, west.',
+        text: { en: 'Something like that.', ja: 'そんなところだ。' },
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Nadine',
+        text: {
+          en: 'The soldier I set a bone for — he was younger than me. He kept apologising while I worked. What is he even fighting for?',
+          ja: '骨を継いだ兵――私より年下でした。手当ての間ずっと謝っていた。あの人は何のために戦っているんですか。',
+        },
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Corwin',
+        text: {
+          en: 'Because a man he has never met told him to. That is the whole of it, girl, in every war there has ever been.',
+          ja: '会ったこともない男にそう言われたからだ。それが全部だよ、嬢ちゃん。どんな戦争でもな。',
+        },
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Halvar',
+        text: {
+          en: 'It is not quite the whole of it. He is fighting because Takeshi told him the war would be the last one. Every soldier in Kurogane believes that. It is why they march so well.',
+          ja: '全部ではない。あいつが戦っているのは、この戦が最後の戦になるとタケシが言ったからだ。黒鉄の兵は皆それを信じている。だからあれほどよく行軍する。',
+        },
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Shigeru',
+        text: { en: 'And do you still believe it?', ja: 'お前は今も信じているのか。' },
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Halvar',
+        text: {
+          en: '...I believe he believes it. That is the part that frightens me, my lord.',
+          ja: '……あの男が信じていることは信じている。恐ろしいのはそこです、殿下。',
+        },
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Shigeru',
+        text: {
+          en: 'Then we make time. The Cut next — and after that, west.',
+          ja: 'なら急ぐ。次は瀬戸だ。その後は西へ。',
+        },
         speakerFaction: 'player',
       },
     ],
@@ -159,7 +216,10 @@ export const CHAPTER_6: ChapterData = {
       reward: {
         type: 'weapon',
         weaponId: 'steel_bow',
-        dialogue: "My son was a sailor before Kurogane came. He'd want you to have this.",
+        dialogue: {
+          en: "My son was a sailor before Kurogane came. He'd want you to have this.",
+          ja: '息子は黒鉄が来る前は船乗りでした。これはあなた方に持っていてほしいはずです。',
+        },
         speaker: 'Harbor Elder',
       },
     },
@@ -173,7 +233,7 @@ export const CHAPTER_6: ChapterData = {
         { unitId: 'ch6_reinforce_3', position: { x: 5, y: 0 } },
         { unitId: 'ch6_reinforce_4', position: { x: 10, y: 0 } },
       ],
-      message: 'Kurogane cavalry arrive from the north!',
+      message: { en: 'Kurogane cavalry arrive from the north!', ja: '北から黒鉄の騎兵が到着！' },
     },
     {
       turn: 12,
@@ -185,7 +245,10 @@ export const CHAPTER_6: ChapterData = {
         { unitId: 'ch6_reinforce_9', position: { x: 7, y: 0 } },
         { unitId: 'ch6_reinforce_10', position: { x: 8, y: 0 } },
       ],
-      message: 'A full Kurogane column pours into the harbour!',
+      message: {
+        en: 'A full Kurogane column pours into the harbour!',
+        ja: '黒鉄の一個縦隊が港へ雪崩れ込んでくる！',
+      },
     },
   ],
   events: [
@@ -200,15 +263,25 @@ export const CHAPTER_6: ChapterData = {
             lines: [
               {
                 speaker: 'Corwin',
-                text: 'Pegasus knights, wall sentries, and cavalry on the flanks. What did I sign up for?',
+                text: {
+                  en: 'Pegasus knights, wall sentries, and cavalry on the flanks. What did I sign up for?',
+                  ja: '天馬騎士に城壁の歩哨、両翼に騎兵か。俺は何に雇われたんだ。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Gareth',
-                text: 'You signed up for coin. Still want it?',
+                text: {
+                  en: 'You signed up for coin. Still want it?',
+                  ja: '金で雇われたんだろ。まだ欲しいか？',
+                },
                 speakerFaction: 'player',
               },
-              { speaker: 'Corwin', text: '...Double the rate.', speakerFaction: 'player' },
+              {
+                speaker: 'Corwin',
+                text: { en: '...Double the rate.', ja: '……倍もらう。' },
+                speakerFaction: 'player',
+              },
             ],
           },
         },
@@ -226,31 +299,49 @@ export const CHAPTER_6: ChapterData = {
             lines: [
               {
                 speaker: 'Narrator',
-                text: 'A mounted figure approaches from the southern docks, staff raised in peace.',
+                text: {
+                  en: 'A mounted figure approaches from the southern docks, staff raised in peace.',
+                  ja: '南の桟橋から騎乗の人影が近づいてくる。杖を掲げ、戦意のないことを示している。',
+                },
               },
               {
                 speaker: 'Nadine',
-                text: 'Wait — please! There are wounded soldiers on both sides. I can help!',
+                text: {
+                  en: 'Wait — please! There are wounded soldiers on both sides. I can help!',
+                  ja: '待って――お願いします！どちらの側にも傷ついた兵がいます。手当てさせてください！',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Akira',
-                text: "She is binding a Kurogane man's wounds. Is she one of theirs?",
+                text: {
+                  en: "She is binding a Kurogane man's wounds. Is she one of theirs?",
+                  ja: '黒鉄の兵の傷を巻いています。あちらの者では？',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Mirelle',
-                text: 'No. She is on the side of the hurt. I know that side.',
+                text: {
+                  en: 'No. She is on the side of the hurt. I know that side.',
+                  ja: 'いいえ。あの人は痛んでいる側の味方です。私はその側を知っています。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Nadine',
-                text: 'People are hurt and I can help. That has always been enough for me.',
+                text: {
+                  en: 'People are hurt and I can help. That has always been enough for me.',
+                  ja: '人が傷ついていて、私は手当てができる。私にはいつもそれで十分でした。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: 'More than enough. Welcome, Nadine.',
+                text: {
+                  en: 'More than enough. Welcome, Nadine.',
+                  ja: '十分すぎる。ようこそ、ナディーヌ。',
+                },
                 speakerFaction: 'player',
               },
             ],
@@ -275,12 +366,18 @@ export const CHAPTER_6: ChapterData = {
             lines: [
               {
                 speaker: 'Corwin',
-                text: "Cavalry from the north road. Heavy armor — these aren't scouts.",
+                text: {
+                  en: "Cavalry from the north road. Heavy armor — these aren't scouts.",
+                  ja: '北の道から騎兵。重装だ――斥候じゃない。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: 'Reinforcements! We need to finish this and pull back!',
+                text: {
+                  en: 'Reinforcements! We need to finish this and pull back!',
+                  ja: '増援だ！片を付けて退く！',
+                },
                 speakerFaction: 'player',
               },
             ],
@@ -300,12 +397,15 @@ export const CHAPTER_6: ChapterData = {
             lines: [
               {
                 speaker: 'Lisette',
-                text: "The north road — I'm counting at least a full company. We cannot hold this position.",
+                text: {
+                  en: "The north road — I'm counting at least a full company. We cannot hold this position.",
+                  ja: '北の道――少なくとも一個中隊は数えられます。この位置は保てません。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: 'Everyone fall back! South, now!',
+                text: { en: 'Everyone fall back! South, now!', ja: '全員後退！南へ、今すぐだ！' },
                 speakerFaction: 'player',
               },
             ],
@@ -325,33 +425,55 @@ export const CHAPTER_6: ChapterData = {
             lines: [
               {
                 speaker: 'Aeryn',
-                text: 'Beaten out of the air by a girl on a farm pegasus. My instructors would weep.',
+                text: {
+                  en: 'Beaten out of the air by a girl on a farm pegasus. My instructors would weep.',
+                  ja: '農場育ちの天馬に乗った小娘に空を奪われるとはな。教官が泣くぞ。',
+                },
                 speakerFaction: 'enemy',
               },
               {
                 speaker: 'Elin',
-                text: 'Your riders held formation. That is why I could predict every one of you.',
+                text: {
+                  en: 'Your riders held formation. That is why I could predict every one of you.',
+                  ja: 'あなたの騎士は隊形を崩さなかった。だから全員の動きが読めたの。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Aeryn',
-                text: '...Noted. Rider — you have flown north. Tell me you have seen it too.',
+                text: {
+                  en: '...Noted. Rider — you have flown the western coast. Tell me you have seen it too.',
+                  ja: '……覚えておく。騎士殿――西の海岸を飛んだのだろう。あれを見たと言ってくれ。',
+                },
                 speakerFaction: 'enemy',
               },
-              { speaker: 'Elin', text: 'The hole in the sky. Yes.', speakerFaction: 'player' },
+              {
+                speaker: 'Elin',
+                text: { en: 'The hole in the sky. Yes.', ja: '空の穴ね。見た。' },
+                speakerFaction: 'player',
+              },
               {
                 speaker: 'Aeryn',
-                text: 'I reported it as weather. Twice. The second report came back with my commission attached to it and a note telling me to fly lower.',
+                text: {
+                  en: 'I reported it as weather. Twice. The second report came back with my commission attached to it and a note telling me to fly lower.',
+                  ja: '天候として二度報告した。二度目の返答には私の任官状が添えられ、もっと低く飛べと書いてあった。',
+                },
                 speakerFaction: 'enemy',
               },
               {
                 speaker: 'Shigeru',
-                text: 'We are going north to see what it is.',
+                text: {
+                  en: 'We are going west to see what it is.',
+                  ja: '我々はそれが何かを見に西へ行く。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Aeryn',
-                text: 'Then you are braver than my whole wing, boy, and I hope somebody writes it down.',
+                text: {
+                  en: 'Then you are braver than my whole wing, boy, and I hope somebody writes it down.',
+                  ja: 'ならば貴様は我が飛行隊の全員より勇敢だ、小僧。誰かが書き留めてくれることを祈る。',
+                },
                 speakerFaction: 'enemy',
               },
             ],
@@ -368,24 +490,44 @@ export const CHAPTER_6: ChapterData = {
       lines: [
         {
           speaker: 'Corwin',
-          text: 'You count your dead by name. Out loud, every night, when you think nobody is listening.',
-          speakerFaction: 'player',
-        },
-        { speaker: 'Shigeru', text: 'Is that a criticism?', speakerFaction: 'player' },
-        {
-          speaker: 'Corwin',
-          text: 'It is an observation. I have served eleven captains. The good ones did that for about a year, and then they stopped.',
-          speakerFaction: 'player',
-        },
-        { speaker: 'Shigeru', text: 'Why did they stop?', speakerFaction: 'player' },
-        {
-          speaker: 'Corwin',
-          text: 'Because the list gets long, lad. Every one of them thought they would be the exception too.',
+          text: {
+            en: 'You count your dead by name. Out loud, every night, when you think nobody is listening.',
+            ja: 'あんたは死んだ者を名前で数える。毎晩、声に出して、誰も聞いていないと思っているときに。',
+          },
           speakerFaction: 'player',
         },
         {
           speaker: 'Shigeru',
-          text: '...Then tell me when I stop. That is an order, Corwin.',
+          text: { en: 'Is that a criticism?', ja: '咎めているのか。' },
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Corwin',
+          text: {
+            en: 'It is an observation. I have served eleven captains. The good ones did that for about a year, and then they stopped.',
+            ja: '観察だ。十一人の隊長に仕えた。まともな連中は一年ほどそれをやって、それからやめた。',
+          },
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Shigeru',
+          text: { en: 'Why did they stop?', ja: 'なぜやめた。' },
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Corwin',
+          text: {
+            en: 'Because the list gets long, lad. Every one of them thought they would be the exception too.',
+            ja: '名簿が長くなるからだよ、若いの。全員、自分だけは例外だと思っていた。',
+          },
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Shigeru',
+          text: {
+            en: '...Then tell me when I stop. That is an order, Corwin.',
+            ja: '……なら私がやめたときに言え。これは命令だ、コーウィン。',
+          },
           speakerFaction: 'player',
         },
       ],
@@ -397,22 +539,34 @@ export const CHAPTER_6: ChapterData = {
       lines: [
         {
           speaker: 'Mirelle',
-          text: 'You healed that enemy soldier without hesitation. Most healers choose sides.',
+          text: {
+            en: 'You healed that enemy soldier without hesitation. Most healers choose sides.',
+            ja: '敵兵を迷いなく癒しましたね。たいていの癒し手は側を選ぶのに。',
+          },
           speakerFaction: 'player',
         },
         {
           speaker: 'Nadine',
-          text: "Pain doesn't choose sides. Why should I?",
+          text: {
+            en: "Pain doesn't choose sides. Why should I?",
+            ja: '痛みは側を選びません。なぜ私が選ぶのですか。',
+          },
           speakerFaction: 'player',
         },
         {
           speaker: 'Mirelle',
-          text: "That's... a different philosophy than mine. But I respect it deeply.",
+          text: {
+            en: "That's... a different philosophy than mine. But I respect it deeply.",
+            ja: 'それは……私とは違う考え方です。でも深く敬います。',
+          },
           speakerFaction: 'player',
         },
         {
           speaker: 'Nadine',
-          text: "We'll make a good team. You guard the soul, I'll guard the body.",
+          text: {
+            en: "We'll make a good team. You guard the soul, I'll guard the body.",
+            ja: 'いい組になれますね。あなたが魂を守って、私が体を守ります。',
+          },
           speakerFaction: 'player',
         },
       ],

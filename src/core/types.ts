@@ -1,3 +1,5 @@
+import type { Localized } from '../i18n';
+
 // ===== Positions & Grid =====
 
 export type Position = {
@@ -276,7 +278,7 @@ export type Unit = {
   aiBehavior?: AIBehavior;
   startPosition?: Position;
   isLord?: boolean;
-  deathQuote?: string;
+  deathQuote?: Localized;
   recruitableBy?: string;
   recruitCondition?: 'talk' | 'visit_village' | 'event' | 'defection';
   recruitLoyThreshold?: number;
@@ -376,7 +378,7 @@ type UnitPlacement = {
 export type VillageReward = {
   readonly type: 'weapon';
   readonly weaponId: string;
-  readonly dialogue: string;
+  readonly dialogue: Localized;
   readonly speaker: string;
 };
 
@@ -436,7 +438,7 @@ export type ChapterData = {
   readonly weatherChanges?: ReadonlyArray<{
     readonly turn: number;
     readonly weather: WeatherType;
-    readonly message?: string;
+    readonly message?: Localized;
   }>;
   readonly destructibleTerrain?: ReadonlyArray<{
     readonly position: Position;
@@ -451,7 +453,7 @@ export type ChapterData = {
 type ReinforcementWave = {
   readonly turn: number;
   readonly units: UnitPlacement[];
-  readonly message?: string;
+  readonly message?: Localized;
 };
 
 // ===== Events =====
@@ -496,7 +498,7 @@ export type ChapterEvent = {
 
 type DialogueLine = {
   readonly speaker: string;
-  readonly text: string;
+  readonly text: Localized;
   readonly speakerFaction?: Faction;
 };
 

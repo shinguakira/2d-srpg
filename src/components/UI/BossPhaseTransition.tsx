@@ -1,7 +1,9 @@
 import { useGameStore } from '../../stores/gameStore';
+import { useT } from '../../i18n/useT';
 import '../../styles/ui/boss.css';
 
 export function BossPhaseTransition() {
+  const T = useT();
   const transition = useGameStore((s) => s.bossPhaseTransition);
   const dismiss = useGameStore((s) => s.dismissBossPhaseTransition);
   const units = useGameStore((s) => s.units);
@@ -25,7 +27,7 @@ export function BossPhaseTransition() {
           {lines.map((line, i) => (
             <div key={i} className="boss-phase-transition__line">
               <span className="boss-phase-transition__speaker">{line.speaker}:</span>
-              <span className="boss-phase-transition__text">{line.text}</span>
+              <span className="boss-phase-transition__text">{T.t(line.text)}</span>
             </div>
           ))}
         </div>

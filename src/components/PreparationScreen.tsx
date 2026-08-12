@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { useT } from '../i18n/useT';
 import { useCampaignStore } from '../stores/campaignStore';
 import { PLAYER_UNITS } from '../data/units';
 import { computeAutoDeploy } from '../core/deployment';
@@ -71,6 +72,7 @@ type PrepUnit = {
 };
 
 export function PreparationScreen() {
+  const T = useT();
   const chapterData = useCampaignStore((s) => s.currentChapterData);
   const unitProgress = useCampaignStore((s) => s.unitProgress);
   const startBattle = useCampaignStore((s) => s.startBattle);
@@ -360,7 +362,7 @@ export function PreparationScreen() {
           >
             {line.speaker}
           </div>
-          <div className="dialogue__text">{line.text}</div>
+          <div className="dialogue__text">{T.t(line.text)}</div>
           <div className="dialogue__hint">
             {supportLineIdx + 1} / {supportScene.lines.length} — Click to continue
           </div>

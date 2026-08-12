@@ -65,32 +65,54 @@ export const CHAPTER_4: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: "Shigeru's company arrives at the cape town of Tsutsu. Overturned stalls and fleeing merchants paint a grim picture.",
+        text: {
+          en: "Shigeru's company arrives at the cape town of Tsutsu. Overturned stalls and fleeing merchants paint a grim picture.",
+          ja: 'シゲル一行は岬の町、豆酘に着いた。倒れた露店と逃げ惑う商人が、事の有様を語っていた。',
+        },
       },
-      { speaker: 'Akira', text: 'Raiders? This far south?', speakerFaction: 'player' },
+      {
+        speaker: 'Akira',
+        text: { en: 'Raiders? This far south?', ja: '略奪者？こんな南まで？' },
+        speakerFaction: 'player',
+      },
       {
         speaker: 'Lisette',
-        text: 'Sea raiders. They have been working this cape for weeks. Three storehouses are still holding out.',
+        text: {
+          en: 'Sea raiders. They have been working this cape for weeks. Three storehouses are still holding out.',
+          ja: '海の略奪者です。数週間この岬を荒らしています。倉が三つ、まだ持ちこたえている。',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Gareth',
-        text: 'Pirates. Do pirates keep good axes? Asking for professional reasons.',
+        text: {
+          en: 'Pirates. Do pirates keep good axes? Asking for professional reasons.',
+          ja: '海賊か。海賊はいい斧を持ってるのか？職業上の関心だ。',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Mirelle',
-        text: 'Gareth. These people are losing their homes.',
+        text: {
+          en: 'Gareth. These people are losing their homes.',
+          ja: 'ガレス。この人たちは家を失おうとしているんですよ。',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Gareth',
-        text: 'Aye, and I mean to take the axes off the men doing it. Where is the disagreement?',
+        text: {
+          en: 'Aye, and I mean to take the axes off the men doing it. Where is the disagreement?',
+          ja: 'ああ、そしてやってる連中から斧を取り上げるつもりだ。どこに食い違いがある？',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'We protect the storehouses. All three. If even one falls, the town loses its trade route.',
+        text: {
+          en: 'We protect the storehouses. All three. If even one falls, the town loses its trade route.',
+          ja: '倉を守る。三つとも。一つでも落ちれば、この町は交易路を失う。',
+        },
         speakerFaction: 'player',
       },
     ],
@@ -99,53 +121,77 @@ export const CHAPTER_4: ChapterData = {
     lines: [
       {
         speaker: 'Mirelle',
-        text: "Fenn, was it? You're really staying with us?",
+        text: {
+          en: "Fenn, was it? You're really staying with us?",
+          ja: 'フェン、でしたね？本当に一緒に来てくれるんですか？',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Fenn',
-        text: 'You lot move through a town like a parade and somehow nobody has killed you. I want to see how far that goes.',
+        text: {
+          en: 'You lot move through a town like a parade and somehow nobody has killed you. I want to see how far that goes.',
+          ja: 'あんたら行列みたいに町を歩いて、なぜか誰にも殺されてない。それがどこまで続くか見たいんだ。',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Halvar',
-        text: 'They took my belt pouch. Twice. During the battle.',
+        text: {
+          en: 'They took my belt pouch. Twice. During the battle.',
+          ja: '腰の巾着を盗られた。二度もだ。戦の最中に。',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Fenn',
-        text: 'And gave it back twice. Consider it a lesson, grandfather.',
+        text: {
+          en: 'And gave it back twice. Consider it a lesson, grandfather.',
+          ja: '二度とも返したろ。授業料だと思いなよ、爺さん。',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Gareth',
-        text: 'I like them.',
+        text: { en: 'I like them.', ja: 'こいつは気に入った。' },
         speakerFaction: 'player',
       },
       {
         speaker: 'Fenn',
-        text: 'One thing, though. The back lane behind the north storehouse. Do not go down it.',
+        text: {
+          en: 'One thing, though. The back lane behind the north storehouse. Do not go down it.',
+          ja: 'ただ一つだけ。北の倉の裏の路地。あそこは通るな。',
+        },
         speakerFaction: 'player',
       },
-      { speaker: 'Lisette', text: 'Why not?', speakerFaction: 'player' },
+      { speaker: 'Lisette', text: { en: 'Why not?', ja: 'なぜです。' }, speakerFaction: 'player' },
       {
         speaker: 'Fenn',
-        text: 'Cats will not walk it. Every cat in Tsutsu, and not one of them will set foot in that lane. I have been picking pockets in this town since I was six and I have learned to bet on the cats.',
+        text: {
+          en: 'Cats will not walk it. Every cat in Tsutsu, and not one of them will set foot in that lane. I have been picking pockets in this town since I was six and I have learned to bet on the cats.',
+          ja: '猫が歩かない。豆酘中の猫が一匹もあの路地に足を踏み入れない。六つの頃からこの町で掏摸をやってる。猫に賭けるのが正しいと学んだよ。',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Lisette',
-        text: 'Which way does the lane run?',
+        text: { en: 'Which way does the lane run?', ja: 'その路地はどちらを向いていますか。' },
         speakerFaction: 'player',
       },
       {
         speaker: 'Fenn',
-        text: 'West-north-west. Straight as a rule. Why has everyone gone quiet?',
+        text: {
+          en: 'West-north-west. Straight as a rule. Why has everyone gone quiet?',
+          ja: '西北西。定規みたいにまっすぐだ。……なんでみんな黙った？',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Narrator',
-        text: 'That night Lisette walked the lane end to end with a lamp, and came back without saying what she had found.',
+        text: {
+          en: 'That night Lisette walked the lane end to end with a lamp, and came back without saying what she had found.',
+          ja: 'その夜、リゼットは灯りを持って路地を端から端まで歩き、何を見たかを言わずに戻ってきた。',
+        },
       },
     ],
   },
@@ -155,7 +201,10 @@ export const CHAPTER_4: ChapterData = {
       reward: {
         type: 'weapon',
         weaponId: 'steel_sword',
-        dialogue: 'You saved my shop! Here \u2014 take this blade. It is the least I can do.',
+        dialogue: {
+          en: 'You saved my shop! Here \u2014 take this blade. It is the least I can do.',
+          ja: '店を助けてくださった！これを――この剣をお持ちください。せめてものお礼です。',
+        },
         speaker: 'Merchant',
       },
     },
@@ -164,7 +213,10 @@ export const CHAPTER_4: ChapterData = {
       reward: {
         type: 'weapon',
         weaponId: 'silver_sword',
-        dialogue: 'The pirates hid this in my cellar. Take it before they come back.',
+        dialogue: {
+          en: 'The raiders hid this in my cellar. Take it before they come back.',
+          ja: '略奪者どもが私の蔵に隠していったものです。奴らが戻る前に持っていってください。',
+        },
         speaker: 'Shopkeeper',
       },
     },
@@ -173,7 +225,10 @@ export const CHAPTER_4: ChapterData = {
       reward: {
         type: 'weapon',
         weaponId: 'javelin',
-        dialogue: 'My grandfather forged this. Use it well against those scoundrels.',
+        dialogue: {
+          en: 'My grandfather forged this. Use it well against those scoundrels.',
+          ja: '祖父が鍛えたものです。あの外道どもに存分に使ってくだされ。',
+        },
         speaker: 'Old Fisherman',
       },
     },
@@ -187,7 +242,10 @@ export const CHAPTER_4: ChapterData = {
         { unitId: 'ch4_reinforce_2', position: { x: 12, y: 9 } },
         { unitId: 'ch4_reinforce_3', position: { x: 16, y: 8 } },
       ],
-      message: 'More pirates arrive from the docks!',
+      message: {
+        en: 'More raiders come in off the boats!',
+        ja: '舟からさらに略奪者が上がってきた！',
+      },
     },
   ],
   events: [
@@ -202,27 +260,42 @@ export const CHAPTER_4: ChapterData = {
             lines: [
               {
                 speaker: 'Lisette',
-                text: "Raiders \u2014 heading for the storehouses. They're fast and they won't stop to fight.",
+                text: {
+                  en: "Raiders \u2014 heading for the storehouses. They're fast and they won't stop to fight.",
+                  ja: '略奪者が倉へ向かっています。速い上に、戦うために足を止めません。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: 'Split up. Cover all three routes.',
+                text: {
+                  en: 'Split up. Cover all three routes.',
+                  ja: '分かれろ。三つの経路すべてを塞ぐ。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Gareth',
-                text: 'Split three ways? Against that many? We will be thin everywhere and strong nowhere.',
+                text: {
+                  en: 'Split three ways? Against that many? We will be thin everywhere and strong nowhere.',
+                  ja: '三方に分けるのか？あの数を相手に？どこも薄くなって、どこも強くならんぞ。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Akira',
-                text: 'He is right, my lord. Doctrine says concentrate.',
+                text: {
+                  en: 'He is right, my lord. Doctrine says concentrate.',
+                  ja: '彼の言う通りです、殿下。兵法は集中せよと説きます。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: 'Doctrine assumes the objective is the enemy. It is not. It is three roofs full of a town’s winter grain. Split up.',
+                text: {
+                  en: 'Doctrine assumes the objective is the enemy. It is not. It is three roofs full of a town’s winter grain. Split up.',
+                  ja: '兵法は目標が敵だと前提している。違う。目標は町の冬の麦が詰まった三つの屋根だ。分かれろ。',
+                },
                 speakerFaction: 'player',
               },
             ],
@@ -242,39 +315,64 @@ export const CHAPTER_4: ChapterData = {
             lines: [
               {
                 speaker: 'Fenn',
-                text: 'Purse. Purse. Ooh, a good purse. And what have we here \u2014 a very fine sword on a very tired prince\u2014',
-                speakerFaction: 'player',
-              },
-              { speaker: 'Shigeru', text: 'Put it down.', speakerFaction: 'player' },
-              {
-                speaker: 'Fenn',
-                text: 'How did you even see me? I was behind a barrel!',
+                text: {
+                  en: 'Purse. Purse. Ooh, a good purse. And what have we here \u2014 a very fine sword on a very tired prince\u2014',
+                  ja: '財布。財布。おっと、いい財布だ。おやおや、これは――ずいぶん疲れた王子様に、ずいぶん見事な剣が――',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: 'You were behind half a barrel. Also you were humming.',
+                text: { en: 'Put it down.', ja: '置け。' },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Fenn',
-                text: '...I hum when I concentrate. It is a flaw. I am working on it.',
+                text: {
+                  en: 'How did you even see me? I was behind a barrel!',
+                  ja: 'なんで見えたんだ？樽の陰にいたのに！',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: 'The pirates are three streets away and about to burn the grain. Run, or help.',
+                text: {
+                  en: 'You were behind half a barrel. Also you were humming.',
+                  ja: '半分しか隠れていなかった。あと鼻歌を歌っていた。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Fenn',
-                text: 'Those are the only two choices? No third option where I take the sword and run?',
+                text: {
+                  en: '...I hum when I concentrate. It is a flaw. I am working on it.',
+                  ja: '……集中すると鼻歌が出るんだ。欠点だよ。直そうとしてる。',
+                },
                 speakerFaction: 'player',
               },
-              { speaker: 'Shigeru', text: 'No.', speakerFaction: 'player' },
+              {
+                speaker: 'Shigeru',
+                text: {
+                  en: 'The pirates are three streets away and about to burn the grain. Run, or help.',
+                  ja: '海賊は三筋向こうで、麦を焼こうとしている。逃げるか、手を貸すかだ。',
+                },
+                speakerFaction: 'player',
+              },
               {
                 speaker: 'Fenn',
-                text: '...Fine. I know every alley in this town, which is more than your knight does. Follow me and try not to clank.',
+                text: {
+                  en: 'Those are the only two choices? No third option where I take the sword and run?',
+                  ja: '二択しかないのか？剣を頂いて逃げる三つ目は？',
+                },
+                speakerFaction: 'player',
+              },
+              { speaker: 'Shigeru', text: { en: 'No.', ja: 'ない。' }, speakerFaction: 'player' },
+              {
+                speaker: 'Fenn',
+                text: {
+                  en: '...Fine. I know every alley in this town, which is more than your knight does. Follow me and try not to clank.',
+                  ja: '……いいだろう。この町の路地は全部頭に入ってる。そこの騎士様よりはな。ついてこい、なるべく音を立てるな。',
+                },
                 speakerFaction: 'player',
               },
             ],
@@ -294,17 +392,23 @@ export const CHAPTER_4: ChapterData = {
             lines: [
               {
                 speaker: 'Lisette',
-                text: "That raider is closing on the southern storehouse. If they reach it, it's lost.",
+                text: {
+                  en: "That raider is closing on the southern storehouse. If they reach it, it's lost.",
+                  ja: '略奪者が南の倉に迫っています。届かれたら終わりです。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Bryn',
-                text: "I can intercept \u2014 but I'd be overextended.",
+                text: {
+                  en: "I can intercept \u2014 but I'd be overextended.",
+                  ja: '私なら止められる。ただし突出しすぎる。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: "Do it. We can't lose any of them.",
+                text: { en: "Do it. We can't lose any of them.", ja: 'やれ。一つも失えない。' },
                 speakerFaction: 'player',
               },
             ],
@@ -324,27 +428,39 @@ export const CHAPTER_4: ChapterData = {
             lines: [
               {
                 speaker: 'Brask',
-                text: 'A prince. In my town. Wearing a crown-sword worth more than this whole quarter.',
+                text: {
+                  en: 'A prince. In my town. Wearing a crown-sword worth more than this whole quarter.',
+                  ja: '王子様が、俺の町に。この一区画より高くつく王家の剣を提げてな。',
+                },
                 speakerFaction: 'enemy',
               },
               {
                 speaker: 'Shigeru',
-                text: 'Take your boats and go. I have no interest in you.',
+                text: {
+                  en: 'Take your boats and go. I have no interest in you.',
+                  ja: '舟を出して去れ。お前に興味はない。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Brask',
-                text: 'Kurogane pays for grain and asks no questions. Amagi is a name on a burnt map. Why would I go anywhere?',
+                text: {
+                  en: 'Kurogane pays for grain and asks no questions. Amagi is a name on a burnt map. Why would I go anywhere?',
+                  ja: '黒鉄は麦に金を払い、何も訊かねえ。天城は焼けた地図の上の名前だ。なんで俺がどこかへ行く必要がある？',
+                },
                 speakerFaction: 'enemy',
               },
               {
                 speaker: 'Shigeru',
-                text: 'Because the men who pay you are also the reason the fish are leaving the river. Ask your own crews.',
+                text: {
+                  en: 'Because the men who pay you are also the reason the fish are leaving this coast. Ask your own crews.',
+                  ja: 'お前に金を払っている連中が、この沿岸から魚が消えている原因でもあるからだ。自分の船子に訊いてみろ。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Brask',
-                text: '...Pretty speech. Draw, boy.',
+                text: { en: '...Pretty speech. Draw, boy.', ja: '……上等な演説だ。抜けよ、坊主。' },
                 speakerFaction: 'enemy',
               },
             ],
@@ -364,22 +480,34 @@ export const CHAPTER_4: ChapterData = {
             lines: [
               {
                 speaker: 'Gareth',
-                text: 'Search him. A man like that keeps his coin close.',
+                text: {
+                  en: 'Search him. A man like that keeps his coin close.',
+                  ja: '検めろ。ああいう手合いは金を身につけてる。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Fenn',
-                text: 'Already have. It is a Kurogane pay chit, signed, dated this month.',
+                text: {
+                  en: 'Already have. It is a Kurogane pay chit, signed, dated this month.',
+                  ja: 'もう済ませた。黒鉄の支払手形だ。署名入り、今月の日付。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: 'So the Empire is paying river pirates to starve its own conquest.',
+                text: {
+                  en: 'So the Empire is paying sea raiders to starve its own conquest.',
+                  ja: '帝国が、自ら奪った土地を飢えさせるために海賊に金を出しているのか。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Halvar',
-                text: 'A hungry province does not raise an army. That is not cruelty, my lord. That is the manual.',
+                text: {
+                  en: 'A hungry province does not raise an army. That is not cruelty, my lord. That is the manual.',
+                  ja: '飢えた州は軍を起こしません。あれは残酷なのではありません、殿下。教本通りです。',
+                },
                 speakerFaction: 'player',
               },
             ],
@@ -396,27 +524,42 @@ export const CHAPTER_4: ChapterData = {
       lines: [
         {
           speaker: 'Gareth',
-          text: 'Fenn. Best thing you ever lifted. Go.',
+          text: {
+            en: 'Fenn. Best thing you ever lifted. Go.',
+            ja: 'フェン。今まで盗った中で最高の物。言ってみろ。',
+          },
           speakerFaction: 'player',
         },
         {
           speaker: 'Fenn',
-          text: 'A ring of keys off a harbourmaster. Opened every warehouse on the north quay.',
+          text: {
+            en: 'A ring of keys off a harbourmaster. Opened every warehouse on the north quay.',
+            ja: '港湾長から抜いた鍵束さ。北桟橋の倉が全部開いた。',
+          },
           speakerFaction: 'player',
         },
         {
           speaker: 'Gareth',
-          text: 'Keys. That is not treasure, that is a tool. I meant weapons. Armour. Things that hit.',
+          text: {
+            en: 'Keys. That is not treasure, that is a tool. I meant weapons. Armour. Things that hit.',
+            ja: '鍵か。そりゃ宝じゃなくて道具だ。俺が言ったのは武器だ。鎧だ。殴れる物だよ。',
+          },
           speakerFaction: 'player',
         },
         {
           speaker: 'Fenn',
-          text: 'I fed forty families that winter with those keys. How many did your axe feed?',
+          text: {
+            en: 'I fed forty families that winter with those keys. How many did your axe feed?',
+            ja: 'あの鍵でその冬、四十世帯を食わせた。あんたの斧は何人食わせた？',
+          },
           speakerFaction: 'player',
         },
         {
           speaker: 'Gareth',
-          text: '...Right. Fine. Keys. Good answer.',
+          text: {
+            en: '...Right. Fine. Keys. Good answer.',
+            ja: '……ああ。わかった。鍵だな。いい答えだ。',
+          },
           speakerFaction: 'player',
         },
       ],
@@ -426,21 +569,34 @@ export const CHAPTER_4: ChapterData = {
       unitA: 'halvar',
       unitB: 'bryn',
       lines: [
-        { speaker: 'Halvar', text: "You don't talk much.", speakerFaction: 'player' },
-        { speaker: 'Bryn', text: 'No.', speakerFaction: 'player' },
         {
           speaker: 'Halvar',
-          text: 'Eleven years on a wall and nobody said a word to me either. It is not the worst way to pass a life.',
+          text: { en: "You don't talk much.", ja: 'あまり喋らんな。' },
+          speakerFaction: 'player',
+        },
+        { speaker: 'Bryn', text: { en: 'No.', ja: 'ない。' }, speakerFaction: 'player' },
+        {
+          speaker: 'Halvar',
+          text: {
+            en: 'Eleven years on a wall and nobody said a word to me either. It is not the worst way to pass a life.',
+            ja: '十一年城壁の上にいて、誰も俺に一言もかけなかった。人生の過ごし方として最悪ではない。',
+          },
           speakerFaction: 'player',
         },
         {
           speaker: 'Bryn',
-          text: 'I prefer high ground and clear sightlines to conversation.',
+          text: {
+            en: 'I prefer high ground and clear sightlines to conversation.',
+            ja: '会話より、高所と見通しのほうがいい。',
+          },
           speakerFaction: 'player',
         },
         {
           speaker: 'Halvar',
-          text: '...That might be the most relatable thing anyone in this company has said to me.',
+          text: {
+            en: '...That might be the most relatable thing anyone in this company has said to me.',
+            ja: '……この隊で誰かに言われた中で、いちばん腑に落ちた言葉かもしれん。',
+          },
           speakerFaction: 'player',
         },
       ],

@@ -1,6 +1,8 @@
+import { useT } from '../../i18n/useT';
 import { useGameStore } from '../../stores/gameStore';
 
 export function DeathQuoteOverlay() {
+  const T = useT();
   const deathQuote = useGameStore((s) => s.deathQuote);
   const dismissDeathQuote = useGameStore((s) => s.dismissDeathQuote);
 
@@ -42,7 +44,7 @@ export function DeathQuoteOverlay() {
             marginBottom: '16px',
           }}
         >
-          &ldquo;{deathQuote.quote}&rdquo;
+          &ldquo;{T.t(deathQuote.quote)}&rdquo;
         </div>
         <div
           style={{
@@ -51,7 +53,7 @@ export function DeathQuoteOverlay() {
             textAlign: 'right',
           }}
         >
-          &mdash; {deathQuote.unitName}
+          &mdash; {T.name(deathQuote.unitName)}
         </div>
         <div
           style={{

@@ -1,3 +1,4 @@
+import type { Localized } from '../../i18n';
 import type { Unit } from '../../core/types';
 import type { GameState, GameActions } from '../gameStoreTypes';
 import { IDLE_RESET } from '../helpers/constants';
@@ -99,7 +100,7 @@ export function dismissPhaseBanner(get: Get, set: Set) {
 
     // Spawn reinforcements for this turn (hard mode: arrive 1 turn earlier)
     // Map boss: spawn rate scales down as map HP drops (fewer spawns in later phases)
-    let reinforcementMessage: string | null = null;
+    let reinforcementMessage: Localized | null = null;
     const difficulty = useCampaignStore.getState().difficulty;
     const reinforcementOffset = getReinforcementTurnOffset(difficulty);
     const mapBossSpawnRate =

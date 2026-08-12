@@ -203,7 +203,9 @@ function UnitDetail({ unit }: { unit: Unit }) {
       {unit.deathQuote && (
         <div className="debug-screen__section">
           <h3 className="debug-screen__section-title">Death Quote</h3>
-          <div className="debug-screen__death-quote">"{unit.deathQuote}"</div>
+          <div className="debug-screen__death-quote">
+            "{typeof unit.deathQuote === 'string' ? unit.deathQuote : unit.deathQuote.en}"
+          </div>
         </div>
       )}
     </div>

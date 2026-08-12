@@ -88,116 +88,199 @@ export const CHAPTER_10: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'Komoda, where the Sasu river meets the western sea. Flat sand and farmland below, a fortified hill above. Grand Magus Ezrin holds the heights and has not once sent a man down to take the village.',
+        text: {
+          en: 'Komoda, where the Sasu river meets the western sea. Flat sand and farmland below, a fortified hill above. Grand Magus Ezrin holds the heights and has not once sent a man down to take the village.',
+          ja: '佐須川が西の海に注ぐ小茂田。下には平らな砂浜と田畑、上には堅められた丘。大魔道士エズリンが高所を押さえながら、村を取りに一兵も下ろしていない。',
+        },
       },
       {
         speaker: 'Shigeru',
-        text: 'The elder here — Ilse — keeps the village chronicle. Four hundred years of it, and every time the Blackflame stirred it went into that book.',
+        text: {
+          en: 'The elder here — Ilse — keeps the village chronicle. Four hundred years of it, and every time the Blackflame stirred it went into that book.',
+          ja: 'ここの長老――イルゼ婆が村の年代記を守っている。四百年分だ。黒炎が動くたび、その帳面に書き留められてきた。',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Lisette',
-        text: 'Which is why Ezrin is here. He is not garrisoning a hill, my lord. He came for the book.',
+        text: {
+          en: 'Which is why Ezrin is here. He is not garrisoning a hill, my lord. He came for the book.',
+          ja: 'だからエズリンがここにいるのです。丘を守っているのではありません、殿下。帳面を取りに来たのです。',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Akira',
-        text: 'Then we split. Half to hold the village, half up the hill.',
+        text: {
+          en: 'Then we split. Half to hold the village, half up the hill.',
+          ja: 'では二手に。半分は村を保ち、半分は丘へ。',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Corwin',
-        text: 'Three ways up — forest on the left, bridge in the centre, open ground right. He will have the centre covered and he will want us to know it.',
+        text: {
+          en: 'Three ways up — forest on the left, bridge in the centre, open ground right. He will have the centre covered and he will want us to know it.',
+          ja: '上がる道は三つ。左は森、中央は橋、右は開けた地。中央は押さえてあるだろうし、それをこちらに分からせたがってる。',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'Protect Ilse. Take Ezrin. We do both. Halvar held a corridor for nine turns so that we could still afford to do both.',
+        text: {
+          en: 'Protect Ilse. Take Ezrin. We do both. Halvar held a corridor for nine turns so that we could still afford to do both.',
+          ja: 'イルゼ婆を守る。エズリンを取る。両方だ。両方やる余裕がまだ我々にあるのは、ハルヴァルが通路を九つのあいだ保ったからだ。',
+        },
         speakerFaction: 'player',
       },
-      { speaker: 'Gareth', text: '...Aye. Let us not waste it.', speakerFaction: 'player' },
+      {
+        speaker: 'Gareth',
+        text: { en: '...Aye. Let us not waste it.', ja: '……ああ。無駄にはすまい。' },
+        speakerFaction: 'player',
+      },
     ],
   },
   epilogue: {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'The hill is taken. The village stands. For the first time in two chapters, the party breathes without the weight of grief crushing their lungs.',
+        text: {
+          en: 'The hill is taken. The village stands. For the first time in two chapters, the party breathes without the weight of grief crushing their lungs.',
+          ja: '丘は取られ、村は残った。二つの戦を経て初めて、隊は悲嘆に肺を潰されずに息をした。',
+        },
       },
       {
         speaker: 'Narrator',
-        text: 'A single figure came down the hill road while they were still counting the wounded. He was not in armour. He did not draw.',
+        text: {
+          en: 'A single figure came down the hill road while they were still counting the wounded. He was not in armour. He did not draw.',
+          ja: '負傷者を数えている最中、丘の道を人影がひとつ下りてきた。鎧は着ていなかった。武器も抜かなかった。',
+        },
       },
       {
         speaker: 'Narrator',
-        text: 'He was enormous — a head taller than Corwin, shaven bald, the skin of both arms burned to the elbow in a pattern like bark. He stopped at a polite distance and waited to be addressed.',
+        text: {
+          en: 'He was enormous — a head taller than Corwin, shaven bald, the skin of both arms burned to the elbow in a pattern like bark. He stopped at a polite distance and waited to be addressed.',
+          ja: '巨大な男だった。コーウィンより頭ひとつ高く、頭は剃り上げ、両腕は肘まで樹皮のような文様に焼けている。男は礼を失さぬ距離で足を止め、声をかけられるのを待った。',
+        },
       },
-      { speaker: 'Akira', text: 'My lord. Get behind me.', speakerFaction: 'player' },
+      {
+        speaker: 'Akira',
+        text: { en: 'My lord. Get behind me.', ja: '殿下。私の後ろへ。' },
+        speakerFaction: 'player',
+      },
       {
         speaker: 'Takeshi',
-        text: 'Please do not. I have walked a long way and I would rather look at him than at your back.',
+        text: {
+          en: 'Please do not. I have walked a long way and I would rather look at him than at your back.',
+          ja: 'やめてもらおう。遠くから歩いてきた。貴殿の背中より、あの子の顔を見ていたい。',
+        },
         speakerFaction: 'enemy',
       },
-      { speaker: 'Shigeru', text: 'You are Takeshi.', speakerFaction: 'player' },
+      {
+        speaker: 'Shigeru',
+        text: { en: 'You are Takeshi.', ja: 'お前がタケシか。' },
+        speakerFaction: 'player',
+      },
       {
         speaker: 'Takeshi',
-        text: 'I am. You have your father’s way of standing. He used to do that when he had decided something and had not said it yet.',
+        text: {
+          en: 'I am. You have your father’s way of standing. He used to do that when he had decided something and had not said it yet.',
+          ja: 'いかにも。父君と同じ立ち方をする。あの男は何かを決めて、まだ言っていないときにそうしていた。',
+        },
         speakerFaction: 'enemy',
       },
-      { speaker: 'Shigeru', text: 'You killed him.', speakerFaction: 'player' },
+      {
+        speaker: 'Shigeru',
+        text: { en: 'You killed him.', ja: '父上を殺した。' },
+        speakerFaction: 'player',
+      },
       {
         speaker: 'Takeshi',
-        text: 'I did. He would not give me the sword you are wearing. I asked him four times, which is three more than I have ever asked anyone.',
+        text: {
+          en: 'I did. He would not give me the sword you are wearing. I asked him four times, which is three more than I have ever asked anyone.',
+          ja: '殺した。貴殿が佩いているその剣を渡さなかったのでな。四度頼んだ。誰かに頼んだ数として、三度多い。',
+        },
         speakerFaction: 'enemy',
       },
       {
         speaker: 'Lisette',
-        text: 'You broke the seal at Are. You let that thing out into your own country.',
+        text: {
+          en: 'You broke the seal at Are. You let that thing out into your own country.',
+          ja: 'あなたは阿連の封印を破った。あれを自分の国に解き放ったのです。',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Takeshi',
-        text: 'I took it into myself, scholar. There is a difference, and I am the only man alive who can feel it. It has not got out. It is in here, and it is quiet, and it has been quiet for eleven months.',
+        text: {
+          en: 'I took it into myself, scholar. There is a difference, and I am the only man alive who can feel it. It has not got out. It is in here, and it is quiet, and it has been quiet for eleven months.',
+          ja: '我が身に取り込んだのだ、学者殿。そこには違いがある。そしてその違いを感じ取れるのは今この世で私ひとりだ。あれは外に出ていない。ここにいて、静かにしている。十一か月のあいだずっとな。',
+        },
         speakerFaction: 'enemy',
       },
       {
         speaker: 'Mirelle',
-        text: 'The grey ground behind you says otherwise.',
+        text: {
+          en: 'The grey ground behind you says otherwise.',
+          ja: 'あなたの背後の灰色の地面は、そう言っていません。',
+        },
         speakerFaction: 'player',
       },
       {
         speaker: 'Takeshi',
-        text: 'Yes. That is the cost, and I pay it, and it is smaller every year than another war would be. Three hundred and forty-seven knights burned themselves to seal this thing and it bought the world four centuries. Four. I intend to end it instead.',
+        text: {
+          en: 'Yes. That is the cost, and I pay it, and it is smaller every year than another war would be. Three hundred and forty-seven knights burned themselves to seal this thing and it bought the world four centuries. Four. I intend to end it instead.',
+          ja: 'その通り。それが代価だ。私が払っている。そしてそれは毎年、もう一度戦争をするより小さい。三百四十七の騎士が己を焼いてこれを封じ、世に四百年を買った。四百年だ。私は先延ばしではなく、終わらせるつもりでいる。',
+        },
         speakerFaction: 'enemy',
       },
       {
         speaker: 'Shigeru',
-        text: 'By carrying it. Alone. Forever.',
+        text: { en: 'By carrying it. Alone. Forever.', ja: '自分ひとりで抱えて。永久にか。' },
         speakerFaction: 'player',
       },
       {
         speaker: 'Takeshi',
-        text: 'Somebody has to hold it, boy. I have simply stopped pretending it can be put in a box and forgotten by the next generation.',
+        text: {
+          en: 'Somebody has to hold it, boy. I have simply stopped pretending it can be put in a box and forgotten by the next generation.',
+          ja: '誰かが抱えねばならん、小僧。私はただ、箱に入れて次の世代に忘れさせられるという振りをやめただけだ。',
+        },
         speakerFaction: 'enemy',
       },
       {
         speaker: 'Takeshi',
-        text: 'Bring me the Flamebrand. It is the last thing in the world that still answers to the seal, and while it exists the thing inside me keeps reaching for it. Bring it to Are and I will let every one of these people walk away.',
+        text: {
+          en: 'Bring me the Flamebrand. It is the last thing in the world that still answers to the seal, and while it exists the thing inside me keeps reaching for it. Bring it to Are and I will let every one of these people walk away.',
+          ja: '炎の聖剣を持ってこい。この世でまだ封印に応える最後の物だ。それがあるかぎり、我が内のものはそれへ手を伸ばし続ける。阿連へ持ってこい。そうすればここにいる者は一人残らず歩いて去らせよう。',
+        },
         speakerFaction: 'enemy',
       },
-      { speaker: 'Shigeru', text: 'And if I do not?', speakerFaction: 'player' },
+      {
+        speaker: 'Shigeru',
+        text: { en: 'And if I do not?', ja: '断ったら。' },
+        speakerFaction: 'player',
+      },
       {
         speaker: 'Takeshi',
-        text: 'Then it will keep walking toward you, and it will go through whatever is in the way, and one morning you will be standing in a grey field wondering which of these faces you could have kept.',
+        text: {
+          en: 'Then it will keep walking toward you, and it will go through whatever is in the way, and one morning you will be standing in a grey field wondering which of these faces you could have kept.',
+          ja: 'ならばあれは貴殿へ向かって歩き続け、間にあるものを何であろうと通り抜ける。そしてある朝、貴殿は灰色の野に立ち、この顔ぶれのうち誰を残せたのかを考えることになる。',
+        },
         speakerFaction: 'enemy',
       },
       {
         speaker: 'Narrator',
-        text: 'He turned and walked back up the hill road. Nobody raised a bow. Later, not one of them could give a reason why.',
+        text: {
+          en: 'He turned and walked back up the hill road. Nobody raised a bow. Later, not one of them could give a reason why.',
+          ja: '男は背を向け、丘の道を上って戻っていった。誰も弓を上げなかった。後になって、その理由を言える者は一人もいなかった。',
+        },
       },
       {
         speaker: 'Shigeru',
-        text: '...We go west. Not because he asked. Because he is right that it is coming, and I would rather meet it at the shrine than in somebody’s field.',
+        text: {
+          en: '...We go west. Not because he asked. Because he is right that it is coming, and I would rather meet it at the shrine than in somebody’s field.',
+          ja: '……西へ行く。あれに言われたからではない。来ているというのは正しいからだ。それなら誰かの畑ではなく、社で迎えたい。',
+        },
         speakerFaction: 'player',
       },
     ],
@@ -208,8 +291,10 @@ export const CHAPTER_10: ChapterData = {
       reward: {
         type: 'weapon',
         weaponId: 'killer_sword',
-        dialogue:
-          "My husband forged this before the Empire took him. It was meant for a hero. You'll do.",
+        dialogue: {
+          en: "My husband forged this before the Empire took him. It was meant for a hero. You'll do.",
+          ja: '帝国に連れて行かれる前に、亭主が打ったものです。英雄のために鍛えたものでした。あんたで十分だ。',
+        },
         speaker: 'Blacksmith Widow',
       },
     },
@@ -218,8 +303,10 @@ export const CHAPTER_10: ChapterData = {
       reward: {
         type: 'weapon',
         weaponId: 'elfire',
-        dialogue:
-          'An old tome, humming with latent power. The scholar said it was too dangerous for civilians.',
+        dialogue: {
+          en: 'An old tome, humming with latent power. The scholar said it was too dangerous for civilians.',
+          ja: '力を秘めて唸る古い魔道書。学者は民には危険すぎると言っていた。',
+        },
         speaker: 'Village Librarian',
       },
     },
@@ -236,13 +323,23 @@ export const CHAPTER_10: ChapterData = {
             lines: [
               {
                 speaker: 'Elder Ilse',
-                text: 'This chronicle has four hundred years in it, and every time the Blackflame stirred, somebody here wrote it down. If Ezrin takes it, the last account of the thing burns with my roof.',
+                text: {
+                  en: 'This chronicle has four hundred years in it, and every time the Blackflame stirred, somebody here wrote it down. If Ezrin takes it, the last account of the thing burns with my roof.',
+                  ja: 'この年代記には四百年が入っておる。黒炎が動くたび、この村の誰かが書き留めてきた。エズリンに持っていかれれば、あれについての最後の記録がわしの屋根と一緒に焼ける。',
+                },
                 speakerFaction: 'ally',
               },
-              { speaker: 'Shigeru', text: "We won't let that happen.", speakerFaction: 'player' },
+              {
+                speaker: 'Shigeru',
+                text: { en: "We won't let that happen.", ja: 'そうはさせません。' },
+                speakerFaction: 'player',
+              },
               {
                 speaker: 'Elder Ilse',
-                text: 'I have outlived worse men than that general. But I cannot outwalk what is coming up out of the west, and neither can you.',
+                text: {
+                  en: 'I have outlived worse men than that general. But I cannot outwalk what is coming up out of the west, and neither can you.',
+                  ja: 'あの将軍よりひどい男たちより長生きしてきた。だが西から上がってくるものからは歩いて逃げられん。おぬしらもだ。',
+                },
                 speakerFaction: 'ally',
               },
             ],
@@ -262,21 +359,33 @@ export const CHAPTER_10: ChapterData = {
             lines: [
               {
                 speaker: 'Narrator',
-                text: 'At the foot of the hill the grass turned grey in a widening ring, and something stood up out of the middle of it — huge, armoured, and put together wrong.',
+                text: {
+                  en: 'At the foot of the hill the grass turned grey in a widening ring, and something stood up out of the middle of it — huge, armoured, and put together wrong.',
+                  ja: '丘の麓で草が輪を広げるように灰色に変わり、その真ん中から何かが立ち上がった。巨大で、鎧を着て、組み立て方が間違っていた。',
+                },
               },
               {
                 speaker: 'Lisette',
-                text: 'That is not a revenant. A revenant was a person once. This has been made — assembled, out of several.',
+                text: {
+                  en: 'That is not a revenant. A revenant was a person once. This has been made — assembled, out of several.',
+                  ja: 'あれは屍兵ではありません。屍兵はかつて一人の人でした。あれは作られている――何人かを寄せ集めて。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Corwin',
-                text: 'It is going for the village. For the old woman.',
+                text: {
+                  en: 'It is going for the village. For the old woman.',
+                  ja: '村へ向かってる。婆さんのところだ。',
+                },
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: 'Then it is not wandering — it knows what it came for. Everyone back to the elder. Now!',
+                text: {
+                  en: 'Then it is not wandering — it knows what it came for. Everyone back to the elder. Now!',
+                  ja: 'ならば彷徨っているのではない。何を取りに来たか分かっている。全員、長老のもとへ戻れ。今だ！',
+                },
                 speakerFaction: 'player',
               },
             ],
@@ -301,18 +410,31 @@ export const CHAPTER_10: ChapterData = {
             lines: [
               {
                 speaker: 'Ezrin',
-                text: 'I felt it too. The wrongness out west. I read the same signs your scholar reads.',
+                text: {
+                  en: 'I felt it too. The wrongness out west. I read the same signs your scholar reads.',
+                  ja: '私も感じていた。西の歪みをな。そちらの学者が読むのと同じ徴を読んでいた。',
+                },
                 speakerFaction: 'enemy',
               },
-              { speaker: 'Shigeru', text: 'You could have helped us.', speakerFaction: 'player' },
+              {
+                speaker: 'Shigeru',
+                text: { en: 'You could have helped us.', ja: '手を貸すこともできたはずだ。' },
+                speakerFaction: 'player',
+              },
               {
                 speaker: 'Ezrin',
-                text: 'Perhaps. But I serve the empire I was born in, not the truth I found too late to use.',
+                text: {
+                  en: 'Perhaps. But I serve the empire I was born in, not the truth I found too late to use.',
+                  ja: 'かもしれん。だが私が仕えるのは生まれ落ちた帝国であって、使うには遅すぎた真実ではない。',
+                },
                 speakerFaction: 'enemy',
               },
               {
                 speaker: 'Narrator',
-                text: 'General Ezrin falls. A Master Seal gleams among his effects.',
+                text: {
+                  en: 'Grand Magus Ezrin falls. A Master Seal gleams among his effects.',
+                  ja: '大魔道士エズリンが倒れる。遺品の中でマスタープルフが光っていた。',
+                },
               },
             ],
           },
@@ -332,13 +454,23 @@ export const CHAPTER_10: ChapterData = {
             lines: [
               {
                 speaker: 'Lisette',
-                text: 'It is coming apart. Look — the ash is not scattering. It is running back west, along the ground, against the wind.',
+                text: {
+                  en: 'It is coming apart. Look — the ash is not scattering. It is running back west, along the ground, against the wind.',
+                  ja: '崩れていきます。見てください――灰が散らない。地面を伝って西へ戻っていきます。風に逆らって。',
+                },
                 speakerFaction: 'player',
               },
-              { speaker: 'Shigeru', text: 'Going home.', speakerFaction: 'player' },
+              {
+                speaker: 'Shigeru',
+                text: { en: 'Going home.', ja: '帰っているのか。' },
+                speakerFaction: 'player',
+              },
               {
                 speaker: 'Lisette',
-                text: 'Being recalled. My lord, that is the first thing this campaign has shown me that I can actually follow. Whatever built that thing wants its pieces back — and it will lead us straight to the door.',
+                text: {
+                  en: 'Being recalled. My lord, that is the first thing this campaign has shown me that I can actually follow. Whatever built that thing wants its pieces back — and it will lead us straight to the door.',
+                  ja: '呼び戻されているのです。殿下、この戦の中で私が実際に追える最初のものです。あれを作った何かが部品を返せと言っている――そしてそれは我々を戸口まで導く。',
+                },
                 speakerFaction: 'player',
               },
             ],
@@ -355,24 +487,43 @@ export const CHAPTER_10: ChapterData = {
       lines: [
         {
           speaker: 'Akira',
-          text: 'My lord. You have not said his name since the fortress.',
-          speakerFaction: 'player',
-        },
-        { speaker: 'Shigeru', text: 'I said it in the epilogue speech.', speakerFaction: 'player' },
-        {
-          speaker: 'Akira',
-          text: 'You said it to the company. That is not the same as saying it.',
-          speakerFaction: 'player',
-        },
-        { speaker: 'Shigeru', text: '...', speakerFaction: 'player' },
-        {
-          speaker: 'Akira',
-          text: 'I was there when you gave him leave to do it. It was the right order and it was a terrible thing to have to say, and both of those are going to be true for the rest of your life.',
+          text: {
+            en: 'My lord. You have not said his name since the fortress.',
+            ja: '殿下。砦以来、あの人の名を口にしておられません。',
+          },
           speakerFaction: 'player',
         },
         {
           speaker: 'Shigeru',
-          text: 'Halvar. His name was Halvar. ...Thank you, Akira.',
+          text: {
+            en: 'I said it to the company. On the wall, after.',
+            ja: '隊には言った。あの後、壁の上でな。',
+          },
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Akira',
+          text: {
+            en: 'You said it to the company. That is not the same as saying it.',
+            ja: '隊に向けて言われたのです。口にすることとは違います。',
+          },
+          speakerFaction: 'player',
+        },
+        { speaker: 'Shigeru', text: { en: '...', ja: '…………' }, speakerFaction: 'player' },
+        {
+          speaker: 'Akira',
+          text: {
+            en: 'I was there when you gave him leave to do it. It was the right order and it was a terrible thing to have to say, and both of those are going to be true for the rest of your life.',
+            ja: 'あなたが許しを与えたとき、私はそこにいました。正しい命令であり、口にするには恐ろしい言葉だった。その両方が、生涯ずっと真実であり続けます。',
+          },
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Shigeru',
+          text: {
+            en: 'Halvar. His name was Halvar. ...Thank you, Akira.',
+            ja: 'ハルヴァル。あの男の名はハルヴァルだ。……礼を言う、アキラ。',
+          },
           speakerFaction: 'player',
         },
       ],
@@ -384,16 +535,30 @@ export const CHAPTER_10: ChapterData = {
       lines: [
         {
           speaker: 'Bryn',
-          text: 'Five engagements now. Still telling people you are only here for the coin?',
+          text: {
+            en: 'Five engagements now. Still telling people you are only here for the coin?',
+            ja: 'もう五戦目。まだ金のためだけだと言い張るの。',
+          },
           speakerFaction: 'player',
         },
         {
           speaker: 'Corwin',
-          text: 'The pay is terrible. The hours are worse. The commander apologises to corpses.',
+          text: {
+            en: 'The pay is terrible. The hours are worse. The commander apologises to corpses.',
+            ja: '実入りは最悪。拘束時間はもっと最悪。指揮官は死体に詫びる。',
+          },
           speakerFaction: 'player',
         },
-        { speaker: 'Bryn', text: "And yet you're still here.", speakerFaction: 'player' },
-        { speaker: 'Corwin', text: '...Shut up and cover my left side.', speakerFaction: 'player' },
+        {
+          speaker: 'Bryn',
+          text: { en: "And yet you're still here.", ja: 'それでもいる。' },
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Corwin',
+          text: { en: '...Shut up and cover my left side.', ja: '……黙って左を頼む。' },
+          speakerFaction: 'player',
+        },
       ],
       reward: { type: 'exp_both', amount: 20 },
     },

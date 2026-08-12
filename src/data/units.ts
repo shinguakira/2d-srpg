@@ -1,3 +1,4 @@
+import type { Localized } from '../i18n';
 import type { Unit, ConsumableItem, AIBehavior, Faction } from '../core/types';
 import { WEAPONS } from './weapons';
 import { CLASSES } from './classes';
@@ -17,7 +18,7 @@ function createUnit(
   itemIds: string[] = [],
   opts?: {
     isLord?: boolean;
-    deathQuote?: string;
+    deathQuote?: Localized;
     aiBehavior?: AIBehavior;
     statOverrides?: Partial<Unit['stats']>;
   },
@@ -64,7 +65,7 @@ export const PLAYER_UNITS: Record<string, Unit> = {
     ['vulnerary'],
     {
       isLord: true,
-      deathQuote: 'Not again... not this time...',
+      deathQuote: { en: 'Father... I could not hold it...', ja: '父上……持ちきれませんでした……' },
     },
   ),
   akira: createUnit(
@@ -77,11 +78,14 @@ export const PLAYER_UNITS: Record<string, Unit> = {
     '',
     ['vulnerary'],
     {
-      deathQuote: "I... I don't understand what's happening...",
+      deathQuote: { en: 'My lord... ride on...', ja: '殿下……先へ……' },
     },
   ),
   lisette: createUnit('lisette', 'Lisette', 'mage', 'player', ['fire', 'thunder'], 1, '', [], {
-    deathQuote: "The data... it's fading...",
+    deathQuote: {
+      en: 'The readings... someone must finish them...',
+      ja: '読みを……誰かが仕上げて……',
+    },
   }),
   mirelle: createUnit(
     'mirelle',
@@ -93,14 +97,14 @@ export const PLAYER_UNITS: Record<string, Unit> = {
     '',
     ['vulnerary'],
     {
-      deathQuote: "This isn't... how the story ends...",
+      deathQuote: { en: 'May the flame... be gentle...', ja: 'どうか炎が……お優しく……' },
     },
   ),
 
   // ===== Phase 0 — New player units =====
 
   gareth: createUnit('gareth', 'Gareth', 'fighter', 'player', ['iron_axe'], 1, '', ['vulnerary'], {
-    deathQuote: "Should've... hit harder...",
+    deathQuote: { en: 'Should have... swung harder...', ja: 'もっと強く……振れば……' },
     statOverrides: { hp: 26, str: 9, def: 5 },
   }),
   halvar: createUnit(
@@ -113,16 +117,16 @@ export const PLAYER_UNITS: Record<string, Unit> = {
     '',
     ['vulnerary'],
     {
-      deathQuote: 'The garrison... will hold... without me...',
+      deathQuote: { en: 'The post... is yours now...', ja: '持ち場は……もう任せた……' },
       statOverrides: { hp: 22, def: 8, spd: 4 },
     },
   ),
   bryn: createUnit('bryn', 'Bryn', 'archer', 'player', ['iron_bow', 'sightbow'], 1, '', [], {
-    deathQuote: 'I missed... the one shot that mattered...',
+    deathQuote: { en: 'I missed... the one that mattered...', ja: '肝心の一射を……外した……' },
     statOverrides: { skl: 8, spd: 7 },
   }),
   fenn: createUnit('fenn', 'Fenn', 'thief', 'player', ['iron_knife', 'data_knife'], 1, '', [], {
-    deathQuote: 'No more secrets... to find...',
+    deathQuote: { en: 'No more... locked doors...', ja: 'もう……開ける扉もない……' },
     statOverrides: { spd: 9, skl: 7, lck: 6 },
   }),
   elin: createUnit(
@@ -135,7 +139,7 @@ export const PLAYER_UNITS: Record<string, Unit> = {
     '',
     ['vulnerary'],
     {
-      deathQuote: 'The sky... is falling...',
+      deathQuote: { en: 'The sky... is quiet...', ja: '空が……静かだ……' },
       statOverrides: { spd: 10, skl: 7, res: 6 },
     },
   ),
@@ -152,7 +156,7 @@ export const PLAYER_UNITS: Record<string, Unit> = {
     '',
     ['vulnerary'],
     {
-      deathQuote: 'Paid in full... one last time...',
+      deathQuote: { en: 'Paid in full... one last time...', ja: 'これで貸し借りなし……最後にな……' },
       statOverrides: { hp: 22, str: 8, spd: 8, skl: 7, def: 6 },
     },
   ),
@@ -166,12 +170,12 @@ export const PLAYER_UNITS: Record<string, Unit> = {
     '',
     ['vulnerary'],
     {
-      deathQuote: 'I should have... stayed hidden...',
+      deathQuote: { en: 'I should have... reached him...', ja: 'あの人に……届いていれば……' },
       statOverrides: { mag: 7, spd: 8, res: 6 },
     },
   ),
   viviane: createUnit('viviane', 'Viviane', 'dancer', 'player', [], 5, '', ['vulnerary'], {
-    deathQuote: 'The music... stops...',
+    deathQuote: { en: 'The music... stops...', ja: '音楽が……止まりますね……' },
     statOverrides: { spd: 10, lck: 9 },
   }),
 
@@ -187,7 +191,10 @@ export const PLAYER_UNITS: Record<string, Unit> = {
     ['vulnerary'],
     {
       aiBehavior: { type: 'aggressive' },
-      deathQuote: 'Eleven years... on a wall... and I chose this one...',
+      deathQuote: {
+        en: 'Eleven years... on a wall... and I chose this one...',
+        ja: '十一年……城壁の上で……この持ち場は……自分で選んだ……',
+      },
       statOverrides: { hp: 28, str: 10, def: 8, spd: 8, skl: 8, lck: 6 },
     },
   ),

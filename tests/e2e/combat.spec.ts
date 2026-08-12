@@ -8,7 +8,7 @@ test.describe('Combat System', () => {
   });
 
   test('attack option appears when enemy is in range after move', async ({ page }) => {
-    // Kael (cavalier, mov=7) at (13, 10) — move to (11, 5) which is adjacent to fighter_3 at (11, 4)
+    // Akira (cavalier, mov=7) at (13, 10) — move to (11, 5) which is adjacent to fighter_3 at (11, 4)
     await page.click('[data-testid="tile-13-10"]');
     await page.waitForTimeout(200);
 
@@ -21,7 +21,7 @@ test.describe('Combat System', () => {
   });
 
   test('clicking attack target starts combat animation directly', async ({ page }) => {
-    // Kael at (13, 10) — move to (11, 5) adjacent to fighter_3
+    // Akira at (13, 10) — move to (11, 5) adjacent to fighter_3
     await page.click('[data-testid="tile-13-10"]');
     await page.waitForTimeout(200);
 
@@ -46,7 +46,7 @@ test.describe('Combat System', () => {
   });
 
   test('combat resolves and applies damage with seeded RNG', async ({ page }) => {
-    // Kael (lance) vs fighter_3 (axe) at (11,4)
+    // Akira (lance) vs fighter_3 (axe) at (11,4)
     await page.click('[data-testid="tile-13-10"]');
     await page.waitForTimeout(200);
 
@@ -65,9 +65,9 @@ test.describe('Combat System', () => {
       timeout: 10000,
     });
 
-    // Kael should still exist
-    const kael = page.locator('[data-testid="unit-kael"]');
-    await expect(kael).toBeVisible({ timeout: 5000 });
+    // Akira should still exist
+    const akira = page.locator('[data-testid="unit-akira"]');
+    await expect(akira).toBeVisible({ timeout: 5000 });
   });
 
   test('cancel from attack targeting returns to action menu', async ({ page }) => {

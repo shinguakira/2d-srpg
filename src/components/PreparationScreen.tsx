@@ -433,7 +433,7 @@ export function PreparationScreen() {
         >
           Skills
         </button>
-        {roster.includes('ren') && (
+        {roster.includes('shigeru') && (
           <button
             className={`prep-screen__tab ${tab === 'teaching' ? 'prep-screen__tab--active' : ''}`}
             data-testid="teaching-tab"
@@ -915,27 +915,27 @@ export function PreparationScreen() {
 
         {tab === 'teaching' &&
           (() => {
-            const ren = units.find((u) => u.id === 'ren');
-            if (!ren) return <div className="prep-screen__empty">Ren is not in your roster.</div>;
+            const lord = units.find((u) => u.id === 'shigeru');
+            if (!lord) return <div className="prep-screen__empty">Shigeru is not in your roster.</div>;
 
-            // All skills Ren knows (equipped + learned)
-            const renSkills = [...new Set([...ren.skills, ...ren.learnedSkills])];
-            const otherUnits = units.filter((u) => u.id !== 'ren');
+            // All skills Shigeru knows (equipped + learned)
+            const lordSkills = [...new Set([...lord.skills, ...lord.learnedSkills])];
+            const otherUnits = units.filter((u) => u.id !== 'shigeru');
 
             return (
               <div className="prep-screen__skills-tab">
                 <div className="prep-screen__skill-unit">
                   <div className="prep-screen__skill-unit-header">
-                    <BattleSprite classId={ren.classId} faction="player" />
+                    <BattleSprite classId={lord.classId} faction="player" />
                     <span className="prep-screen__skill-unit-name">
-                      Ren&apos;s Teachable Skills
+                      Shigeru&apos;s Teachable Skills
                     </span>
                   </div>
-                  {renSkills.length === 0 ? (
-                    <div className="prep-screen__skill-empty">Ren has no skills to teach</div>
+                  {lordSkills.length === 0 ? (
+                    <div className="prep-screen__skill-empty">Shigeru has no skills to teach</div>
                   ) : (
                     <div className="prep-screen__skill-section">
-                      {renSkills.map((sid) => {
+                      {lordSkills.map((sid) => {
                         const skill = SKILLS[sid];
                         if (!skill) return null;
                         const cost = getTeachingCost(sid);
@@ -956,14 +956,14 @@ export function PreparationScreen() {
                 </div>
 
                 {otherUnits.map((student) => {
-                  const teachable = renSkills.filter((sid) => {
+                  const teachable = lordSkills.filter((sid) => {
                     const studentUnit = prepToUnit(student);
-                    const renUnit = prepToUnit(ren);
+                    const renUnit = prepToUnit(lord);
                     return canTeach(renUnit, studentUnit, sid).eligible;
                   });
                   // Check why teaching is blocked (show message)
-                  const anyBlocked = renSkills.some((sid) => {
-                    const renUnit = prepToUnit(ren);
+                  const anyBlocked = lordSkills.some((sid) => {
+                    const renUnit = prepToUnit(lord);
                     const studentUnit = prepToUnit(student);
                     const result = canTeach(renUnit, studentUnit, sid);
                     return !result.eligible && result.reason?.includes('LOOP');
@@ -1058,12 +1058,12 @@ function getRewardText(conv: SupportConversation): string {
 }
 
 const SPEAKER_PORTRAITS: Record<string, { classId: string; faction: 'player' | 'enemy' }> = {
-  Ren: { classId: 'lord', faction: 'player' },
-  Kael: { classId: 'cavalier', faction: 'player' },
-  Senna: { classId: 'mage', faction: 'player' },
-  Lira: { classId: 'cleric', faction: 'player' },
-  Bram: { classId: 'fighter', faction: 'player' },
-  Voss: { classId: 'soldier', faction: 'player' },
-  Nira: { classId: 'archer', faction: 'player' },
-  Coda: { classId: 'thief', faction: 'player' },
+  Shigeru: { classId: 'lord', faction: 'player' },
+  Akira: { classId: 'cavalier', faction: 'player' },
+  Kanna: { classId: 'mage', faction: 'player' },
+  Hina: { classId: 'cleric', faction: 'player' },
+  Goro: { classId: 'fighter', faction: 'player' },
+  Genzo: { classId: 'soldier', faction: 'player' },
+  Sayo: { classId: 'archer', faction: 'player' },
+  Hachi: { classId: 'thief', faction: 'player' },
 };

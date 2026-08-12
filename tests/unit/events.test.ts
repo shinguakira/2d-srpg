@@ -70,7 +70,7 @@ function makeUnit(
 
 function makeContext(overrides: Partial<EventContext> = {}): EventContext {
   const units = new Map<string, Unit>();
-  units.set('ren', makeUnit('ren', 'player', { x: 3, y: 4 }));
+  units.set('shigeru', makeUnit('shigeru', 'player', { x: 3, y: 4 }));
   units.set('boss1', makeUnit('boss1', 'enemy', { x: 7, y: 7 }));
   return {
     currentTurn: 1,
@@ -112,28 +112,28 @@ describe('matchesTrigger', () => {
   });
 
   it('matches unit_at trigger', () => {
-    const trigger = { type: 'unit_at' as const, unitId: 'ren', position: { x: 3, y: 4 } };
+    const trigger = { type: 'unit_at' as const, unitId: 'shigeru', position: { x: 3, y: 4 } };
     expect(matchesTrigger(trigger, makeContext())).toBe(true);
-    const trigger2 = { type: 'unit_at' as const, unitId: 'ren', position: { x: 0, y: 0 } };
+    const trigger2 = { type: 'unit_at' as const, unitId: 'shigeru', position: { x: 0, y: 0 } };
     expect(matchesTrigger(trigger2, makeContext())).toBe(false);
   });
 
   it('matches unit_killed trigger', () => {
     const trigger = { type: 'unit_killed' as const, unitId: 'boss1' };
     expect(matchesTrigger(trigger, makeContext({ lastKilledUnitId: 'boss1' }))).toBe(true);
-    expect(matchesTrigger(trigger, makeContext({ lastKilledUnitId: 'ren' }))).toBe(false);
+    expect(matchesTrigger(trigger, makeContext({ lastKilledUnitId: 'shigeru' }))).toBe(false);
     expect(matchesTrigger(trigger, makeContext())).toBe(false);
   });
 
   it('matches unit_hp_below trigger', () => {
     const ctx = makeContext();
-    const unit = ctx.units.get('ren')!;
-    // ren has 20 hp / 20 max = 100%
-    const trigger = { type: 'unit_hp_below' as const, unitId: 'ren', percent: 50 };
+    const unit = ctx.units.get('shigeru')!;
+    // Shigeru has 20 hp / 20 max = 100%
+    const trigger = { type: 'unit_hp_below' as const, unitId: 'shigeru', percent: 50 };
     expect(matchesTrigger(trigger, ctx)).toBe(false);
 
     // Set hp to 5/20 = 25%
-    ctx.units.set('ren', { ...unit, currentHp: 5 });
+    ctx.units.set('shigeru', { ...unit, currentHp: 5 });
     expect(matchesTrigger(trigger, ctx)).toBe(true);
   });
 
@@ -198,20 +198,20 @@ describe('evaluateEvents', () => {
 
 describe('resolveEffects', () => {
   it('resolves recruit_unit effect', () => {
-    const result = resolveEffects([{ type: 'recruit_unit', unitId: 'voss' }]);
-    expect(result.unitsToRecruit).toEqual(['voss']);
+    const result = resolveEffects([{ type: 'recruit_unit', unitId: 'genzo' }]);
+    expect(result.unitsToRecruit).toEqual(['genzo']);
     expect(result.dialogueToShow).toBeNull();
   });
 
   it('resolves show_dialogue effect', () => {
-    const scene = { lines: [{ speaker: 'Ren', text: 'Hello!' }] };
+    const scene = { lines: [{ speaker: 'Shigeru', text: 'Hello!' }] };
     const result = resolveEffects([{ type: 'show_dialogue', scene }]);
     expect(result.dialogueToShow).toBe(scene);
   });
 
   it('resolves set_flag effect', () => {
-    const result = resolveEffects([{ type: 'set_flag', key: 'recruited_voss', value: 'true' }]);
-    expect(result.flagChanges).toEqual([{ key: 'recruited_voss', value: 'true' }]);
+    const result = resolveEffects([{ type: 'set_flag', key: 'recruited_genzo', value: 'true' }]);
+    expect(result.flagChanges).toEqual([{ key: 'recruited_genzo', value: 'true' }]);
   });
 
   it('resolves chain effects', () => {
@@ -219,13 +219,13 @@ describe('resolveEffects', () => {
       {
         type: 'chain',
         effects: [
-          { type: 'recruit_unit', unitId: 'voss' },
-          { type: 'set_flag', key: 'voss_joined', value: 'true' },
+          { type: 'recruit_unit', unitId: 'genzo' },
+          { type: 'set_flag', key: 'genzo_joined', value: 'true' },
         ],
       },
     ]);
-    expect(result.unitsToRecruit).toEqual(['voss']);
-    expect(result.flagChanges).toEqual([{ key: 'voss_joined', value: 'true' }]);
+    expect(result.unitsToRecruit).toEqual(['genzo']);
+    expect(result.flagChanges).toEqual([{ key: 'genzo_joined', value: 'true' }]);
   });
 
   it('resolves remove_unit effect', () => {

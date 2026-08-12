@@ -8,12 +8,12 @@ test.describe('Unit Movement', () => {
   });
 
   test('clicking a player unit shows movement range', async ({ page }) => {
-    // Ren is at (10, 10)
+    // Shigeru is at (10, 10)
     await page.click('[data-testid="tile-10-10"]');
     await page.waitForTimeout(200);
 
-    // Ren has mov=5 as a lord. Should see blue movement tiles
-    // Check a tile within range (one step left from Ren)
+    // Shigeru has mov=5 as a lord. Should see blue movement tiles
+    // Check a tile within range (one step left from Shigeru)
     const moveTile = page.locator('[data-testid="move-range-9-10"]');
     await expect(moveTile).toBeVisible();
 
@@ -23,7 +23,7 @@ test.describe('Unit Movement', () => {
   });
 
   test('clicking a valid movement tile shows action menu', async ({ page }) => {
-    // Select Ren
+    // Select Shigeru
     await page.click('[data-testid="tile-10-10"]');
     await page.waitForTimeout(200);
 
@@ -40,7 +40,7 @@ test.describe('Unit Movement', () => {
   });
 
   test('Wait action moves unit and marks it as acted', async ({ page }) => {
-    // Select Ren
+    // Select Shigeru
     await page.click('[data-testid="tile-10-10"]');
     await page.waitForTimeout(200);
 
@@ -52,20 +52,20 @@ test.describe('Unit Movement', () => {
     await page.click('[data-testid="action-wait"]');
     await page.waitForTimeout(300);
 
-    // Ren should now be at (9, 9)
-    const unitAtNewPos = page.locator('[data-testid="tile-9-9"] [data-testid="unit-ren"]');
+    // Shigeru should now be at (9, 9)
+    const unitAtNewPos = page.locator('[data-testid="tile-9-9"] [data-testid="unit-shigeru"]');
     await expect(unitAtNewPos).toBeVisible();
 
     // Unit should be marked as acted (grayed out)
     await expect(unitAtNewPos).toHaveAttribute('data-acted', 'true');
 
-    // Original tile should not have Ren
-    const unitAtOldPos = page.locator('[data-testid="tile-10-10"] [data-testid="unit-ren"]');
+    // Original tile should not have Shigeru
+    const unitAtOldPos = page.locator('[data-testid="tile-10-10"] [data-testid="unit-shigeru"]');
     await expect(unitAtOldPos).not.toBeVisible();
   });
 
   test('Escape cancels selection', async ({ page }) => {
-    // Select Ren
+    // Select Shigeru
     await page.click('[data-testid="tile-10-10"]');
     await page.waitForTimeout(200);
 
@@ -81,7 +81,7 @@ test.describe('Unit Movement', () => {
   });
 
   test('Cancel in action menu returns to move target', async ({ page }) => {
-    // Select Ren
+    // Select Shigeru
     await page.click('[data-testid="tile-10-10"]');
     await page.waitForTimeout(200);
 
@@ -111,16 +111,16 @@ test.describe('Unit Movement', () => {
   });
 
   test('clicking occupied tile switches selection to that unit', async ({ page }) => {
-    // Select Ren at (10, 10)
+    // Select Shigeru at (10, 10)
     await page.click('[data-testid="tile-10-10"]');
     await page.waitForTimeout(200);
 
-    // Try to click Kael's position (13, 10) — should switch selection to Kael
+    // Try to click Akira's position (13, 10) — should switch selection to Akira
     await page.click('[data-testid="tile-13-10"]');
     await page.waitForTimeout(200);
 
-    // Should now have Kael selected — Kael is cavalier with mov=7, so range extends further
-    // Check a tile that's far from Ren but within Kael's range
+    // Should now have Akira selected — Akira is cavalier with mov=7, so range extends further
+    // Check a tile that's far from Shigeru but within Akira's range
     const moveTile = page.locator('[data-testid="move-range-13-5"]');
     await expect(moveTile).toBeVisible();
   });

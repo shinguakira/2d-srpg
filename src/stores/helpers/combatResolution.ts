@@ -211,20 +211,20 @@ export function applyCombatResult(
     });
   }
 
-  // LOY -5 for adjacent player allies when Ren takes damage
+  // LOY -5 for adjacent player allies when Shigeru takes damage
   const renDamaged =
-    (attackerId === 'ren' &&
+    (attackerId === 'shigeru' &&
       combatResult.attackerHpAfter < attacker.currentHp &&
       !combatResult.attackerDied) ||
-    (defenderId === 'ren' &&
+    (defenderId === 'shigeru' &&
       combatResult.defenderHpAfter < defender.currentHp &&
       !combatResult.defenderDied);
   if (renDamaged) {
-    const ren = newUnits.get('ren');
-    if (ren) {
+    const lord = newUnits.get('shigeru');
+    if (lord) {
       for (const [uid, u] of newUnits) {
-        if (uid === 'ren' || u.faction !== 'player') continue;
-        if (getManhattanDistance(u.position, ren.position) <= 1) {
+        if (uid === 'shigeru' || u.faction !== 'player') continue;
+        if (getManhattanDistance(u.position, lord.position) <= 1) {
           const newMeta = clampMetaStats({ ...u.metaStats, loy: u.metaStats.loy - 5 });
           newUnits.set(uid, { ...u, metaStats: newMeta });
           floatingNumbers.push({

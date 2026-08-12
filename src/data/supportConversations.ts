@@ -6,139 +6,139 @@ import type { SupportConversation } from '../core/types';
  * Keyed by "unitA:unitB:rank" for lookup.
  */
 export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
-  // ===== Ren & Kael =====
+  // ===== Shigeru & Akira =====
   {
-    unitA: 'ren',
-    unitB: 'kael',
+    unitA: 'shigeru',
+    unitB: 'akira',
     rank: 'C',
     lines: [
       {
-        speaker: 'Ren',
-        text: 'Kael, do you ever wonder what things were like before the Collapse?',
+        speaker: 'Shigeru',
+        text: 'Akira, do you ever wonder what things were like before the Collapse?',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kael',
+        speaker: 'Akira',
         text: 'Sometimes. My grandfather spoke of green fields that stretched to the horizon. Hard to imagine now.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Ren',
+        speaker: 'Shigeru',
         text: 'I dream of restoring that world. It feels impossibly far away, but...',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kael',
-        text: 'Not impossible. Not with you leading us, Ren.',
+        speaker: 'Akira',
+        text: 'Not impossible. Not with you leading us, Shigeru.',
         speakerFaction: 'player',
       },
     ],
     reward: { type: 'exp_both', amount: 15 },
   },
   {
-    unitA: 'ren',
-    unitB: 'kael',
+    unitA: 'shigeru',
+    unitB: 'akira',
     rank: 'B',
     lines: [
       {
-        speaker: 'Kael',
-        text: 'Ren, I have been meaning to ask... the visions you see. Do they frighten you?',
+        speaker: 'Akira',
+        text: 'Shigeru, I have been meaning to ask... the visions you see. Do they frighten you?',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Ren',
+        speaker: 'Shigeru',
         text: 'Honestly? Yes. Each loop feels like losing a piece of myself.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kael',
+        speaker: 'Akira',
         text: 'Then let me carry some of that burden. You do not have to face it alone.',
         speakerFaction: 'player',
       },
-      { speaker: 'Ren', text: 'Kael... Thank you. Truly.', speakerFaction: 'player' },
+      { speaker: 'Shigeru', text: 'Akira... Thank you. Truly.', speakerFaction: 'player' },
     ],
-    reward: { type: 'stat', unitId: 'kael', stat: 'def', amount: 1 },
+    reward: { type: 'stat', unitId: 'akira', stat: 'def', amount: 1 },
   },
   {
-    unitA: 'ren',
-    unitB: 'kael',
+    unitA: 'shigeru',
+    unitB: 'akira',
     rank: 'A',
     lines: [
       {
-        speaker: 'Ren',
-        text: 'Kael, in all my loops... you have always been by my side. Every single time.',
+        speaker: 'Shigeru',
+        text: 'Akira, in all my loops... you have always been by my side. Every single time.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kael',
+        speaker: 'Akira',
         text: 'Is that so? Then perhaps it is fate, not duty, that binds us.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Ren',
+        speaker: 'Shigeru',
         text: 'I used to think fate was a cage. But now I think it might be a compass.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kael',
-        text: 'Then I am grateful that my compass points toward you, Ren.',
+        speaker: 'Akira',
+        text: 'Then I am grateful that my compass points toward you, Shigeru.',
         speakerFaction: 'player',
       },
     ],
     reward: { type: 'exp_both', amount: 30 },
   },
 
-  // ===== Ren & Senna =====
+  // ===== Shigeru & Kanna =====
   {
-    unitA: 'ren',
-    unitB: 'senna',
+    unitA: 'shigeru',
+    unitB: 'kanna',
     rank: 'C',
     lines: [
       {
-        speaker: 'Senna',
-        text: 'Ren, I have been analyzing the magical residue from the last battle. Fascinating patterns.',
+        speaker: 'Kanna',
+        text: 'Shigeru, I have been analyzing the magical residue from the last battle. Fascinating patterns.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Ren',
-        text: 'You see patterns in everything, Senna. What did you find?',
+        speaker: 'Shigeru',
+        text: 'You see patterns in everything, Kanna. What did you find?',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Senna',
+        speaker: 'Kanna',
         text: 'The corruption is not random. It follows ley lines, like water follows riverbeds.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Ren',
+        speaker: 'Shigeru',
         text: 'That could help us predict where it will spread next. Brilliant!',
         speakerFaction: 'player',
       },
     ],
-    reward: { type: 'stat', unitId: 'senna', stat: 'mag', amount: 1 },
+    reward: { type: 'stat', unitId: 'kanna', stat: 'mag', amount: 1 },
   },
   {
-    unitA: 'ren',
-    unitB: 'senna',
+    unitA: 'shigeru',
+    unitB: 'kanna',
     rank: 'B',
     lines: [
       {
-        speaker: 'Ren',
-        text: 'Senna, you push yourself too hard. When was the last time you slept?',
+        speaker: 'Shigeru',
+        text: 'Kanna, you push yourself too hard. When was the last time you slept?',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Senna',
+        speaker: 'Kanna',
         text: 'Sleep is inefficient. There is too much to understand about the corruption.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Ren',
+        speaker: 'Shigeru',
         text: 'Understanding means nothing if you collapse on the battlefield.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Senna',
+        speaker: 'Kanna',
         text: '...You sound like my mother. Fine. I will rest. But only because the data needs time to process.',
         speakerFaction: 'player',
       },
@@ -146,172 +146,172 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
     reward: { type: 'exp_both', amount: 20 },
   },
 
-  // ===== Ren & Lira =====
+  // ===== Shigeru & Hina =====
   {
-    unitA: 'ren',
-    unitB: 'lira',
+    unitA: 'shigeru',
+    unitB: 'hina',
     rank: 'C',
     lines: [
-      { speaker: 'Lira', text: 'Ren, may I ask you something personal?', speakerFaction: 'player' },
-      { speaker: 'Ren', text: 'Of course, Lira. What is it?', speakerFaction: 'player' },
+      { speaker: 'Hina', text: 'Shigeru, may I ask you something personal?', speakerFaction: 'player' },
+      { speaker: 'Shigeru', text: 'Of course, Hina. What is it?', speakerFaction: 'player' },
       {
-        speaker: 'Lira',
+        speaker: 'Hina',
         text: 'Do you remember everyone from the previous loops? Everyone who...',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Ren',
+        speaker: 'Shigeru',
         text: 'Who died? Yes. Every single one. That is why I cannot fail this time.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Lira',
+        speaker: 'Hina',
         text: 'Then I will make sure you do not carry those memories alone. I will heal every wound I can.',
         speakerFaction: 'player',
       },
     ],
-    reward: { type: 'stat', unitId: 'lira', stat: 'wil', amount: 1 },
+    reward: { type: 'stat', unitId: 'hina', stat: 'wil', amount: 1 },
   },
 
-  // ===== Senna & Lira =====
+  // ===== Kanna & Hina =====
   {
-    unitA: 'senna',
-    unitB: 'lira',
+    unitA: 'kanna',
+    unitB: 'hina',
     rank: 'C',
     lines: [
       {
-        speaker: 'Senna',
-        text: 'Lira, the focal efficiency of your healing has improved 23% since we started training together.',
+        speaker: 'Kanna',
+        text: 'Hina, the focal efficiency of your healing has improved 23% since we started training together.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Lira',
+        speaker: 'Hina',
         text: 'Is that your way of saying I am getting better?',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Senna',
+        speaker: 'Kanna',
         text: 'It is my way of saying the data supports your subjective experience, yes.',
         speakerFaction: 'player',
       },
-      { speaker: 'Lira', text: 'I will take it. Thank you, Senna.', speakerFaction: 'player' },
+      { speaker: 'Hina', text: 'I will take it. Thank you, Kanna.', speakerFaction: 'player' },
     ],
     reward: { type: 'exp_both', amount: 15 },
   },
   {
-    unitA: 'senna',
-    unitB: 'lira',
+    unitA: 'kanna',
+    unitB: 'hina',
     rank: 'B',
     lines: [
       {
-        speaker: 'Lira',
-        text: 'Senna, why do you always quantify everything? Not everything can be measured.',
+        speaker: 'Hina',
+        text: 'Kanna, why do you always quantify everything? Not everything can be measured.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Senna',
+        speaker: 'Kanna',
         text: 'If it cannot be measured, it cannot be understood. And if it cannot be understood, it cannot be controlled.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Lira',
+        speaker: 'Hina',
         text: 'What about friendship? Can you measure that?',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Senna',
-        text: '...I suppose I have been trying, in my own way. You are the closest thing to a friend I have, Lira.',
+        speaker: 'Kanna',
+        text: '...I suppose I have been trying, in my own way. You are the closest thing to a friend I have, Hina.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Lira',
+        speaker: 'Hina',
         text: 'Then stop trying to measure it and just enjoy it.',
         speakerFaction: 'player',
       },
     ],
-    reward: { type: 'stat', unitId: 'senna', stat: 'skl', amount: 1 },
+    reward: { type: 'stat', unitId: 'kanna', stat: 'skl', amount: 1 },
   },
 
-  // ===== Kael & Bram =====
+  // ===== Akira & Goro =====
   {
-    unitA: 'kael',
-    unitB: 'bram',
+    unitA: 'akira',
+    unitB: 'goro',
     rank: 'C',
     lines: [
       {
-        speaker: 'Bram',
+        speaker: 'Goro',
         text: 'Hey knight-boy, that last swing was sloppy. You telegraph your left side.',
         speakerFaction: 'player',
       },
-      { speaker: 'Kael', text: 'I beg your pardon? My form is—', speakerFaction: 'player' },
+      { speaker: 'Akira', text: 'I beg your pardon? My form is—', speakerFaction: 'player' },
       {
-        speaker: 'Bram',
+        speaker: 'Goro',
         text: 'Perfect for a parade. Terrible for staying alive. Come on, spar with me.',
         speakerFaction: 'player',
       },
-      { speaker: 'Kael', text: '...Fine. But I will not hold back.', speakerFaction: 'player' },
-      { speaker: 'Bram', text: 'Ha! That is what I like to hear!', speakerFaction: 'player' },
+      { speaker: 'Akira', text: '...Fine. But I will not hold back.', speakerFaction: 'player' },
+      { speaker: 'Goro', text: 'Ha! That is what I like to hear!', speakerFaction: 'player' },
     ],
     reward: { type: 'exp_both', amount: 15 },
   },
 
-  // ===== Ren & Bram =====
+  // ===== Shigeru & Goro =====
   {
-    unitA: 'ren',
-    unitB: 'bram',
+    unitA: 'shigeru',
+    unitB: 'goro',
     rank: 'C',
     lines: [
       {
-        speaker: 'Bram',
-        text: 'Princess — er, Ren. You are smaller than I expected for someone who leads an army.',
+        speaker: 'Goro',
+        text: 'Princess — er, Shigeru. You are smaller than I expected for someone who leads an army.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Ren',
+        speaker: 'Shigeru',
         text: 'And you are louder than I expected for someone who sneaks through forests.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Bram',
+        speaker: 'Goro',
         text: 'Ha! Fair point. You have got a sharp tongue. I like that.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Ren',
-        text: 'Then we should get along just fine. Welcome to the company, Bram.',
+        speaker: 'Shigeru',
+        text: 'Then we should get along just fine. Welcome to the company, Goro.',
         speakerFaction: 'player',
       },
     ],
     reward: { type: 'exp_both', amount: 15 },
   },
 
-  // ===== Kael & Voss =====
+  // ===== Akira & Genzo =====
   {
-    unitA: 'kael',
-    unitB: 'voss',
+    unitA: 'akira',
+    unitB: 'genzo',
     rank: 'C',
     lines: [
       {
-        speaker: 'Voss',
-        text: 'Sir Kael, I wanted to say... your lance technique is flawless. I have much to learn.',
+        speaker: 'Genzo',
+        text: 'Sir Akira, I wanted to say... your lance technique is flawless. I have much to learn.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kael',
-        text: 'You are too kind, Voss. Your shield work is impressive for your age.',
+        speaker: 'Akira',
+        text: 'You are too kind, Genzo. Your shield work is impressive for your age.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Voss',
+        speaker: 'Genzo',
         text: 'I trained under Captain Alden before... before the fortress fell.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kael',
+        speaker: 'Akira',
         text: 'Alden was a fine soldier. He would be proud to see you carrying on his teachings.',
         speakerFaction: 'player',
       },
     ],
-    reward: { type: 'stat', unitId: 'voss', stat: 'def', amount: 1 },
+    reward: { type: 'stat', unitId: 'genzo', stat: 'def', amount: 1 },
   },
 ];

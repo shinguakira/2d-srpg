@@ -6,8 +6,8 @@ import type { GameState, GameActions } from '../../src/stores/gameStoreTypes';
 
 function makeUnit(overrides: Partial<Unit> = {}): Unit {
   return {
-    id: 'ren',
-    name: 'Ren',
+    id: 'shigeru',
+    name: 'Shigeru',
     classId: 'lord',
     faction: 'player',
     position: { x: 3, y: 3 },
@@ -124,7 +124,7 @@ function makeBoss(overrides: Partial<Unit> = {}): Unit {
 
 function makeState(overrides: Partial<GameState> = {}): () => GameState & GameActions {
   const units = new Map<string, Unit>();
-  const ren = makeUnit();
+  const lord = makeUnit();
   const boss = makeBoss();
   // Add more allies with high AWR to meet the 70 threshold
   const ally1 = makeUnit({
@@ -142,13 +142,13 @@ function makeState(overrides: Partial<GameState> = {}): () => GameState & GameAc
     metaStats: { awr: 75, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
   });
 
-  units.set('ren', ren);
+  units.set('shigeru', lord);
   units.set('boss1', boss);
   units.set('ally1', ally1);
   units.set('ally2', ally2);
 
   const base: Partial<GameState> = {
-    selectedUnitId: 'ren',
+    selectedUnitId: 'shigeru',
     units,
     pendingPosition: { x: 3, y: 3 },
     eventFlags: new Map(),
@@ -185,7 +185,7 @@ describe('Negotiate Action', () => {
 
     it('returns unavailable when boss HP > 50%', () => {
       const units = new Map<string, Unit>();
-      units.set('ren', makeUnit());
+      units.set('shigeru', makeUnit());
       units.set('boss1', makeBoss({ currentHp: 30 })); // 30/40 = 75%
       units.set(
         'ally1',
@@ -203,7 +203,7 @@ describe('Negotiate Action', () => {
 
     it('returns unavailable when boss not adjacent', () => {
       const units = new Map<string, Unit>();
-      units.set('ren', makeUnit());
+      units.set('shigeru', makeUnit());
       units.set('boss1', makeBoss({ position: { x: 6, y: 6 } })); // far away
       units.set(
         'ally1',
@@ -222,7 +222,7 @@ describe('Negotiate Action', () => {
     it('returns unavailable when party AWR average < 70', () => {
       const units = new Map<string, Unit>();
       units.set(
-        'ren',
+        'shigeru',
         makeUnit({ metaStats: { awr: 30, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 } }),
       );
       units.set('boss1', makeBoss());

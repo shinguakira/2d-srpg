@@ -8,7 +8,7 @@ test.describe('Hover Range Preview', () => {
   });
 
   test('hovering a player unit shows movement and attack range overlay', async ({ page }) => {
-    // Hover over Ren at (10, 10) — lord with mov=5
+    // Hover over Shigeru at (10, 10) — Lord class, mov=5
     await page.hover('[data-testid="tile-10-10"]');
     await page.waitForTimeout(200);
 
@@ -34,7 +34,7 @@ test.describe('Hover Range Preview', () => {
   });
 
   test('hover range disappears when unit is selected', async ({ page }) => {
-    // Hover Ren
+    // Hover Shigeru
     await page.hover('[data-testid="tile-10-10"]');
     await page.waitForTimeout(200);
 

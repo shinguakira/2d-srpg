@@ -137,13 +137,13 @@ describe('getTraumaStatMods', () => {
 describe('applyGrief', () => {
   it('adds grief to all living player units', () => {
     const units = new Map<string, Unit>();
-    units.set('ren', makeUnit('ren', { x: 0, y: 0 }));
-    units.set('senna', makeUnit('senna', { x: 1, y: 0 }));
+    units.set('shigeru', makeUnit('shigeru', { x: 0, y: 0 }));
+    units.set('kanna', makeUnit('kanna', { x: 1, y: 0 }));
     units.set('enemy', makeUnit('enemy', { x: 5, y: 5 }, { faction: 'enemy' }));
 
     const result = applyGrief(units);
-    expect(result.get('ren')!.traumaSkills).toContain('grief');
-    expect(result.get('senna')!.traumaSkills).toContain('grief');
+    expect(result.get('shigeru')!.traumaSkills).toContain('grief');
+    expect(result.get('kanna')!.traumaSkills).toContain('grief');
     expect(result.get('enemy')!.traumaSkills).toBeUndefined(); // enemy not affected
   });
 });

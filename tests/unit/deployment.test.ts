@@ -3,78 +3,78 @@ import { computeAutoDeploy } from '../../src/core/deployment';
 
 describe('computeAutoDeploy', () => {
   it('places forceDeploy units first', () => {
-    const result = computeAutoDeploy(['ren'], ['ren', 'kael', 'senna'], 5, [], 'classic');
-    expect(result[0]).toBe('ren');
+    const result = computeAutoDeploy(['shigeru'], ['shigeru', 'akira', 'kanna'], 5, [], 'classic');
+    expect(result[0]).toBe('shigeru');
   });
 
   it('fills remaining slots from roster in order', () => {
     const result = computeAutoDeploy(
-      ['ren'],
-      ['ren', 'kael', 'senna', 'lira', 'bram'],
+      ['shigeru'],
+      ['shigeru', 'akira', 'kanna', 'hina', 'goro'],
       5,
       [],
       'classic',
     );
-    expect(result).toEqual(['ren', 'kael', 'senna', 'lira', 'bram']);
+    expect(result).toEqual(['shigeru', 'akira', 'kanna', 'hina', 'goro']);
   });
 
   it('respects maxDeploy cap', () => {
     const result = computeAutoDeploy(
-      ['ren'],
-      ['ren', 'kael', 'senna', 'lira', 'bram'],
+      ['shigeru'],
+      ['shigeru', 'akira', 'kanna', 'hina', 'goro'],
       3,
       [],
       'classic',
     );
-    expect(result).toEqual(['ren', 'kael', 'senna']);
+    expect(result).toEqual(['shigeru', 'akira', 'kanna']);
     expect(result.length).toBe(3);
   });
 
   it('skips dead units in classic mode', () => {
     const result = computeAutoDeploy(
-      ['ren'],
-      ['ren', 'kael', 'senna', 'lira', 'bram'],
+      ['shigeru'],
+      ['shigeru', 'akira', 'kanna', 'hina', 'goro'],
       5,
-      ['kael'],
+      ['akira'],
       'classic',
     );
-    expect(result).not.toContain('kael');
-    expect(result).toEqual(['ren', 'senna', 'lira', 'bram']);
+    expect(result).not.toContain('akira');
+    expect(result).toEqual(['shigeru', 'kanna', 'hina', 'goro']);
   });
 
   it('does NOT skip dead units in casual mode', () => {
     const result = computeAutoDeploy(
-      ['ren'],
-      ['ren', 'kael', 'senna', 'lira', 'bram'],
+      ['shigeru'],
+      ['shigeru', 'akira', 'kanna', 'hina', 'goro'],
       5,
-      ['kael'],
+      ['akira'],
       'casual',
     );
-    expect(result).toContain('kael');
-    expect(result).toEqual(['ren', 'kael', 'senna', 'lira', 'bram']);
+    expect(result).toContain('akira');
+    expect(result).toEqual(['shigeru', 'akira', 'kanna', 'hina', 'goro']);
   });
 
   it('does not duplicate forceDeploy units that are also in roster', () => {
-    const result = computeAutoDeploy(['ren'], ['ren', 'kael', 'senna'], 5, [], 'classic');
-    const renCount = result.filter((id) => id === 'ren').length;
+    const result = computeAutoDeploy(['shigeru'], ['shigeru', 'akira', 'kanna'], 5, [], 'classic');
+    const renCount = result.filter((id) => id === 'shigeru').length;
     expect(renCount).toBe(1);
   });
 
   it('returns empty array when maxDeploy is 0', () => {
-    const result = computeAutoDeploy(['ren'], ['ren', 'kael'], 0, [], 'classic');
+    const result = computeAutoDeploy(['shigeru'], ['shigeru', 'akira'], 0, [], 'classic');
     // forceDeploy still fills since we start with forceDeploy, but cap at maxDeploy
     // Actually the loop breaks when deployed.length >= maxDeploy, but forceDeploy is added first
-    // So forceDeploy['ren'] is added before the loop, then loop sees length >= 0 and breaks
-    expect(result).toEqual(['ren']);
+    // So forceDeploy['shigeru'] is added before the loop, then loop sees length >= 0 and breaks
+    expect(result).toEqual(['shigeru']);
   });
 
   it('handles empty roster', () => {
-    const result = computeAutoDeploy(['ren'], [], 5, [], 'classic');
-    expect(result).toEqual(['ren']);
+    const result = computeAutoDeploy(['shigeru'], [], 5, [], 'classic');
+    expect(result).toEqual(['shigeru']);
   });
 
   it('handles empty forceDeploy', () => {
-    const result = computeAutoDeploy([], ['ren', 'kael', 'senna'], 3, [], 'classic');
-    expect(result).toEqual(['ren', 'kael', 'senna']);
+    const result = computeAutoDeploy([], ['shigeru', 'akira', 'kanna'], 3, [], 'classic');
+    expect(result).toEqual(['shigeru', 'akira', 'kanna']);
   });
 });

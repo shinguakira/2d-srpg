@@ -128,13 +128,13 @@ test.describe('Screenshot Report — Battle Map & UI Panels', () => {
     await page.screenshot({ path: 'screenshots/e2e/10-terrain-fort.png' });
   });
 
-  test('11 - Unit Detail Screen (Ren)', async ({ page }) => {
+  test('11 - Unit Detail Screen (Shigeru)', async ({ page }) => {
     await startBattle(page);
     await clickTile(page, 10, 10);
     await page.keyboard.press('i');
     await page.waitForSelector('[data-testid="unit-detail-screen"]', { timeout: 3000 });
     await page.waitForTimeout(500);
-    await page.screenshot({ path: 'screenshots/e2e/11-unit-detail-ren.png' });
+    await page.screenshot({ path: 'screenshots/e2e/11-unit-detail-lord.png' });
   });
 
   test('12 - Unit Detail Screen (Boss)', async ({ page }) => {
@@ -157,16 +157,16 @@ test.describe('Screenshot Report — Battle Map & UI Panels', () => {
 });
 
 test.describe('Screenshot Report — Movement & Actions', () => {
-  test('14 - Movement Range (Ren)', async ({ page }) => {
+  test('14 - Movement Range (Shigeru)', async ({ page }) => {
     await startBattle(page);
-    await clickTile(page, 10, 10); // Select Ren
+    await clickTile(page, 10, 10); // Select Shigeru
     await page.waitForTimeout(400);
     await page.screenshot({ path: 'screenshots/e2e/14-movement-range.png' });
   });
 
-  test('15 - Action Menu (Kael with weapons)', async ({ page }) => {
+  test('15 - Action Menu (Akira with weapons)', async ({ page }) => {
     await startBattle(page);
-    // Select Kael at (13,10), move to (13,9)
+    // Select Akira at (13,10), move to (13,9)
     await clickTile(page, 13, 10);
     await clickTile(page, 13, 9);
     await page.waitForSelector('[data-testid="action-menu"]', { timeout: 5000 });
@@ -174,14 +174,14 @@ test.describe('Screenshot Report — Movement & Actions', () => {
     await page.screenshot({ path: 'screenshots/e2e/15-action-menu.png' });
   });
 
-  test('16 - Action Menu (Ren move up)', async ({ page }) => {
+  test('16 - Action Menu (Shigeru move up)', async ({ page }) => {
     await startBattle(page);
-    // Select Ren at (10,10), move to (9,9) (10,9 is wall)
+    // Select Shigeru at (10,10), move to (9,9) (10,9 is wall)
     await clickTile(page, 10, 10);
     await clickTile(page, 9, 9);
     await page.waitForSelector('[data-testid="action-menu"]', { timeout: 5000 });
     await page.waitForTimeout(200);
-    await page.screenshot({ path: 'screenshots/e2e/16-action-menu-ren.png' });
+    await page.screenshot({ path: 'screenshots/e2e/16-action-menu-lord.png' });
   });
 });
 
@@ -196,13 +196,13 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     // Turn 1: end turn to let enemies advance
     await endTurnAndWait(page);
 
-    // Turn 2: Move Kael toward enemies. Aggressive fighters should have moved south.
+    // Turn 2: Move Akira toward enemies. Aggressive fighters should have moved south.
     // fighter_1 started at (8,2), fighter_3 at (11,4)
-    // Kael is at (13,10), MOV 7. Try to reach adjacent to where enemies moved.
+    // Akira is at (13,10), MOV 7. Try to reach adjacent to where enemies moved.
     await clickTile(page, 13, 10);
     await page.waitForTimeout(200);
 
-    // Try clicking (14,4) — Kael should be able to reach this
+    // Try clicking (14,4) — Akira should be able to reach this
     await clickTile(page, 14, 4);
     await page.waitForTimeout(300);
 
@@ -235,7 +235,7 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
       await page.waitForTimeout(200);
     }
 
-    // Fallback: try Ren at (10,10) → move to (10,5) area
+    // Fallback: try Shigeru at (10,10) → move to (10,5) area
     await page.keyboard.press('Escape');
     await page.waitForTimeout(200);
     await clickTile(page, 10, 10);
@@ -275,7 +275,7 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     await endTurnAndWait(page);
 
     // Turn 2: find and attack an enemy
-    // Try Kael first
+    // Try Akira first
     await clickTile(page, 13, 10);
     await page.waitForTimeout(200);
     await clickTile(page, 14, 4);
@@ -317,7 +317,7 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     }
 
     if (!attacked) {
-      // Try Ren
+      // Try Shigeru
       await clickTile(page, 10, 10);
       await page.waitForTimeout(200);
       await clickTile(page, 10, 5);
@@ -375,14 +375,14 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     await startBattle(page);
 
     // Move player units north to bait enemies into attacking on their turn
-    // Move Ren from (10,10) to (9,7) (wall at 10,9 blocks straight path)
+    // Move Shigeru from (10,10) to (9,7) (wall at 10,9 blocks straight path)
     await clickTile(page, 10, 10);
     await clickTile(page, 9, 7);
     await page.waitForTimeout(200);
     await page.click('[data-testid="action-wait"]');
     await page.waitForTimeout(200);
 
-    // Move Kael from (13,10) to (13,7)
+    // Move Akira from (13,10) to (13,7)
     await clickTile(page, 13, 10);
     await clickTile(page, 13, 7);
     await page.waitForTimeout(200);
@@ -444,28 +444,28 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     test.setTimeout(120000);
     await startBattle(page);
 
-    // Move Kael north to bait enemies (Kael is tanky, won't die)
-    // Kael (13,10) → (13,7)
+    // Move Akira north to bait enemies (Akira is tanky, won't die)
+    // Akira (13,10) → (13,7)
     await clickTile(page, 13, 10);
     await clickTile(page, 13, 7);
     await page.waitForTimeout(200);
     await page.click('[data-testid="action-wait"]');
     await page.waitForTimeout(200);
 
-    // Move Lira close but safe (14,11 → 14,9)
+    // Move Hina close but safe (14,11 → 14,9)
     await clickTile(page, 14, 11);
     await clickTile(page, 14, 9);
     await page.waitForTimeout(200);
     await page.click('[data-testid="action-wait"]');
     await page.waitForTimeout(200);
 
-    // End turn — enemies attack Kael
+    // End turn — enemies attack Akira
     await endTurnAndWait(page);
 
-    // Turn 2: Try to heal Kael with Lira
+    // Turn 2: Try to heal Akira with Hina
     await clickTile(page, 14, 9);
     await page.waitForTimeout(200);
-    // Move Lira adjacent to where Kael might be
+    // Move Hina adjacent to where Akira might be
     await clickTile(page, 13, 8);
     await page.waitForTimeout(300);
 
@@ -499,7 +499,7 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
         await page.waitForTimeout(200);
       }
 
-      // Try using Vulnerary on a damaged Kael
+      // Try using Vulnerary on a damaged Akira
       await clickTile(page, 13, 7);
       await page.waitForTimeout(200);
       await clickTile(page, 13, 6);
@@ -544,7 +544,7 @@ test.describe('Screenshot Report — Chapter 3', () => {
 
   test('22 - Chapter 3 Player Units', async ({ page }) => {
     await startCh3(page);
-    // Hover Ren to show stats
+    // Hover Shigeru to show stats
     await page.hover('[data-testid="tile-9-10"]');
     await page.waitForTimeout(400);
     await page.screenshot({ path: 'screenshots/e2e/22-ch3-player-units.png' });
@@ -640,7 +640,7 @@ test.describe('Screenshot Report — Chapter 4', () => {
 
   test('30 - Chapter 4 Movement in Corridors', async ({ page }) => {
     await startCh4(page);
-    // Select Ren at (7,9) to show movement range in corridors
+    // Select Shigeru at (7,9) to show movement range in corridors
     await clickTile(page, 7, 9);
     await page.waitForTimeout(400);
     await page.screenshot({ path: 'screenshots/e2e/30-ch4-movement-corridors.png' });

@@ -121,14 +121,14 @@ describe('canFormSupport', () => {
     expect(canFormSupport('a', 'p6', pairs)).toBe(false);
   });
 
-  it('Ren is unlimited partners', () => {
+  it('Shigeru is unlimited partners', () => {
     const pairs: SupportPair[] = Array.from({ length: 10 }, (_, i) => ({
-      unitA: 'ren',
+      unitA: 'shigeru',
       unitB: `p${i}`,
       points: 10,
       rank: null,
     }));
-    expect(canFormSupport('ren', 'p99', pairs)).toBe(true);
+    expect(canFormSupport('shigeru', 'p99', pairs)).toBe(true);
   });
 });
 
@@ -142,12 +142,12 @@ describe('hasMaxSRank', () => {
     expect(hasMaxSRank('a', pairs)).toBe(true);
   });
 
-  it('Ren unlimited S ranks', () => {
+  it('Shigeru unlimited S ranks', () => {
     const pairs: SupportPair[] = [
-      { unitA: 'ren', unitB: 'a', points: 150, rank: 'S' },
-      { unitA: 'ren', unitB: 'b', points: 150, rank: 'S' },
+      { unitA: 'shigeru', unitB: 'a', points: 150, rank: 'S' },
+      { unitA: 'shigeru', unitB: 'b', points: 150, rank: 'S' },
     ];
-    expect(hasMaxSRank('ren', pairs)).toBe(false);
+    expect(hasMaxSRank('shigeru', pairs)).toBe(false);
   });
 });
 

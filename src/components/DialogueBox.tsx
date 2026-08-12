@@ -11,14 +11,14 @@ const NARRATOR_COLOR = '#fbbf24';
 
 /** Map character names to their class/faction/unitId for portrait display */
 const SPEAKER_PORTRAITS: Record<string, { classId: string; faction: Faction; unitId?: string }> = {
-  Ren: { classId: 'lord', faction: 'player', unitId: 'ren' },
-  Kael: { classId: 'cavalier', faction: 'player', unitId: 'kael' },
-  Senna: { classId: 'mage', faction: 'player', unitId: 'senna' },
-  Lira: { classId: 'cleric', faction: 'player', unitId: 'lira' },
-  Bram: { classId: 'fighter', faction: 'player', unitId: 'bram' },
-  Voss: { classId: 'soldier', faction: 'player', unitId: 'voss' },
-  Nira: { classId: 'archer', faction: 'player', unitId: 'nira' },
-  Coda: { classId: 'thief', faction: 'player', unitId: 'coda' },
+  Shigeru: { classId: 'lord', faction: 'player', unitId: 'shigeru' },
+  Akira: { classId: 'cavalier', faction: 'player', unitId: 'akira' },
+  Kanna: { classId: 'mage', faction: 'player', unitId: 'kanna' },
+  Hina: { classId: 'cleric', faction: 'player', unitId: 'hina' },
+  Goro: { classId: 'fighter', faction: 'player', unitId: 'goro' },
+  Genzo: { classId: 'soldier', faction: 'player', unitId: 'genzo' },
+  Sayo: { classId: 'archer', faction: 'player', unitId: 'sayo' },
+  Hachi: { classId: 'thief', faction: 'player', unitId: 'hachi' },
   Bone: { classId: 'fighter', faction: 'enemy' },
   Zonta: { classId: 'soldier', faction: 'enemy' },
   Bazba: { classId: 'fighter', faction: 'enemy' },

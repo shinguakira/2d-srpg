@@ -4,7 +4,7 @@ import type { SeededRandom } from './rng';
 // ===== Default Meta-Stats =====
 
 export function defaultMetaStats(unitId: string): MetaStats {
-  if (unitId === 'ren') {
+  if (unitId === 'shigeru') {
     return { awr: 0, loop: 347, sync: 80, loy: 50, crp: 0, sta: 0 };
   }
   return { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 };
@@ -81,7 +81,7 @@ export function applyCrpDrain(stats: UnitStats, crp: number): UnitStats {
   };
 }
 
-/** Apply LOY loyalty bonus. LOY≥80 + near Ren: +1 all combat stats */
+/** Apply LOY loyalty bonus. LOY≥80 + near Shigeru: +1 all combat stats */
 export function applyLoyBonus(stats: UnitStats, loy: number, nearRen: boolean): UnitStats {
   if (loy < 80 || !nearRen) return stats;
   return {
@@ -188,13 +188,13 @@ export function shouldDisobey(loy: number, rng: SeededRandom): boolean {
 
 // ===== Proximity Helpers =====
 
-/** Check if a position is within 3 tiles of Ren. */
-export function isNearRen(
+/** Check if a position is within 3 tiles of Shigeru. */
+export function isNearLord(
   position: { x: number; y: number },
   units: Map<string, { id: string; faction: string; position: { x: number; y: number } }>,
 ): boolean {
   for (const u of units.values()) {
-    if (u.id === 'ren' && u.faction === 'player') {
+    if (u.id === 'shigeru' && u.faction === 'player') {
       const dist = Math.abs(u.position.x - position.x) + Math.abs(u.position.y - position.y);
       return dist <= 3;
     }

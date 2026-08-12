@@ -81,60 +81,60 @@ describe('getTeachingCost', () => {
 });
 
 describe('canTeach', () => {
-  it('is eligible when Ren knows skill and student does not (with LOOP stub)', () => {
-    const ren = makeUnit({ id: 'ren', skills: ['sol'], learnedSkills: [] });
+  it('is eligible when Shigeru knows skill and student does not (with LOOP stub)', () => {
+    const lord = makeUnit({ id: 'shigeru', skills: ['sol'], learnedSkills: [] });
     const student = makeUnit({ id: 'student', skills: [], learnedSkills: [] });
     // Without LOOP, teaching is gated
-    const result = canTeach(ren, student, 'sol');
+    const result = canTeach(lord, student, 'sol');
     expect(result.eligible).toBe(false);
     expect(result.reason).toContain('LOOP');
   });
 
-  it('returns ineligible when Ren does not know the skill', () => {
-    const ren = makeUnit({ id: 'ren', skills: [], learnedSkills: [] });
+  it('returns ineligible when Shigeru does not know the skill', () => {
+    const lord = makeUnit({ id: 'shigeru', skills: [], learnedSkills: [] });
     const student = makeUnit({ id: 'student', skills: [], learnedSkills: [] });
-    const result = canTeach(ren, student, 'sol');
+    const result = canTeach(lord, student, 'sol');
     expect(result.eligible).toBe(false);
-    expect(result.reason).toBe('Ren does not know this skill');
+    expect(result.reason).toBe('Shigeru does not know this skill');
   });
 
   it('returns ineligible when student already knows skill (equipped)', () => {
-    const ren = makeUnit({ id: 'ren', skills: ['sol'], learnedSkills: [] });
+    const lord = makeUnit({ id: 'shigeru', skills: ['sol'], learnedSkills: [] });
     const student = makeUnit({ id: 'student', skills: ['sol'], learnedSkills: [] });
-    const result = canTeach(ren, student, 'sol');
+    const result = canTeach(lord, student, 'sol');
     expect(result.eligible).toBe(false);
     expect(result.reason).toBe('Already known');
   });
 
   it('returns ineligible when student already knows skill (learned)', () => {
-    const ren = makeUnit({ id: 'ren', skills: ['sol'], learnedSkills: [] });
+    const lord = makeUnit({ id: 'shigeru', skills: ['sol'], learnedSkills: [] });
     const student = makeUnit({ id: 'student', skills: [], learnedSkills: ['sol'] });
-    const result = canTeach(ren, student, 'sol');
+    const result = canTeach(lord, student, 'sol');
     expect(result.eligible).toBe(false);
     expect(result.reason).toBe('Already known');
   });
 
   it('returns ineligible for unknown skill', () => {
-    const ren = makeUnit({ id: 'ren', skills: ['nonexistent'], learnedSkills: [] });
+    const lord = makeUnit({ id: 'shigeru', skills: ['nonexistent'], learnedSkills: [] });
     const student = makeUnit({ id: 'student', skills: [], learnedSkills: [] });
-    const result = canTeach(ren, student, 'nonexistent');
+    const result = canTeach(lord, student, 'nonexistent');
     expect(result.eligible).toBe(false);
     expect(result.reason).toBe('Unknown skill');
   });
 
   it('returns ineligible when LOOP is missing (Phase 4 gate)', () => {
-    const ren = makeUnit({ id: 'ren', skills: ['sol'], learnedSkills: [] });
+    const lord = makeUnit({ id: 'shigeru', skills: ['sol'], learnedSkills: [] });
     const student = makeUnit({ id: 'student', skills: [], learnedSkills: [] });
-    const result = canTeach(ren, student, 'sol');
+    const result = canTeach(lord, student, 'sol');
     expect(result.eligible).toBe(false);
     expect(result.reason).toContain('LOOP');
   });
 
-  it('Ren can know skill via learnedSkills too', () => {
-    const ren = makeUnit({ id: 'ren', skills: [], learnedSkills: ['luna'] });
+  it('Shigeru can know skill via learnedSkills too', () => {
+    const lord = makeUnit({ id: 'shigeru', skills: [], learnedSkills: ['luna'] });
     const student = makeUnit({ id: 'student', skills: [], learnedSkills: [] });
-    const result = canTeach(ren, student, 'luna');
-    // Still gated by LOOP, but the "Ren doesn't know" check passes
+    const result = canTeach(lord, student, 'luna');
+    // Still gated by LOOP, but the "Shigeru doesn't know" check passes
     expect(result.reason).toContain('LOOP');
   });
 
@@ -143,14 +143,14 @@ describe('canTeach', () => {
     // We need to set up a class with innateSkills — use a promoted class
     // berserker has bonusCrit but no innateSkills in our data, so this test is speculative
     // Just verify the code path exists
-    const ren = makeUnit({ id: 'ren', skills: ['sol'], learnedSkills: [] });
+    const lord = makeUnit({ id: 'shigeru', skills: ['sol'], learnedSkills: [] });
     const student = makeUnit({
       id: 'student',
       classId: 'berserker',
       skills: [],
       learnedSkills: [],
     });
-    const result = canTeach(ren, student, 'sol');
+    const result = canTeach(lord, student, 'sol');
     // berserker has no innateSkills, so this goes to LOOP gate
     expect(result.reason).toContain('LOOP');
   });
@@ -158,27 +158,27 @@ describe('canTeach', () => {
 
 describe('applyTeaching', () => {
   it('adds skill to student learnedSkills', () => {
-    const ren = makeUnit({ id: 'ren', skills: ['sol'], learnedSkills: [] });
+    const lord = makeUnit({ id: 'shigeru', skills: ['sol'], learnedSkills: [] });
     const student = makeUnit({ id: 'student', skills: [], learnedSkills: [] });
     const cost = getTeachingCost('sol');
-    const result = applyTeaching(ren, student, 'sol', cost);
+    const result = applyTeaching(lord, student, 'sol', cost);
     expect(result.student.learnedSkills).toContain('sol');
     expect(result.student.learnedSkills.length).toBe(1);
   });
 
   it('does not modify original units', () => {
-    const ren = makeUnit({ id: 'ren', skills: ['sol'], learnedSkills: [] });
+    const lord = makeUnit({ id: 'shigeru', skills: ['sol'], learnedSkills: [] });
     const student = makeUnit({ id: 'student', skills: [], learnedSkills: [] });
     const cost = getTeachingCost('sol');
-    applyTeaching(ren, student, 'sol', cost);
+    applyTeaching(lord, student, 'sol', cost);
     expect(student.learnedSkills).toEqual([]);
   });
 
   it('preserves existing learnedSkills', () => {
-    const ren = makeUnit({ id: 'ren', skills: ['sol', 'luna'], learnedSkills: [] });
+    const lord = makeUnit({ id: 'shigeru', skills: ['sol', 'luna'], learnedSkills: [] });
     const student = makeUnit({ id: 'student', skills: [], learnedSkills: ['vantage'] });
     const cost = getTeachingCost('sol');
-    const result = applyTeaching(ren, student, 'sol', cost);
+    const result = applyTeaching(lord, student, 'sol', cost);
     expect(result.student.learnedSkills).toEqual(['vantage', 'sol']);
   });
 });

@@ -13,7 +13,7 @@ describe('Chapter Preparation Flow', () => {
       dialogueScene: null,
       dialoguePhase: null,
       dialogueLineIndex: 0,
-      roster: ['ren', 'kael', 'senna', 'lira', 'bram'],
+      roster: ['shigeru', 'akira', 'kanna', 'hina', 'goro'],
       deadUnitIds: [],
       gameMode: 'classic',
       unitProgress: {},

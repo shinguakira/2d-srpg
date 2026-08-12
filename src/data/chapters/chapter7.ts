@@ -12,7 +12,7 @@ const terrain: TerrainType[][] = [
   // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
   [W, W, P, P, P, P, P, P, P, P, P, P, P, P, W, W], // row 0  — corrupted spawn edge (north)
   [W, P, P, X, X, P, P, P, P, P, P, X, X, P, P, W], // row 1  — fortress walls
-  [M, P, P, X, T, P, P, P, P, P, P, T, X, P, P, M], // row 2  — forts inside walls (Varga at 4,2)
+  [M, P, P, X, T, P, P, P, P, P, P, T, X, P, P, M], // row 2  — forts inside walls (Isonami at 4,2)
   [M, P, P, P, P, P, X, P, P, X, P, P, P, P, P, M], // row 3  — inner corridors (2-wide)
   [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 4  — open courtyard
   [P, P, X, X, P, P, P, T, T, P, P, P, X, X, P, P], // row 5  — central fortifications
@@ -36,16 +36,16 @@ export const CHAPTER_7: ChapterData = {
   mapHeight: 16,
   terrain,
   playerUnits: [
-    { unitId: 'ren', position: { x: 7, y: 13 } },
-    { unitId: 'kael', position: { x: 8, y: 13 } },
-    { unitId: 'senna', position: { x: 7, y: 14 } },
-    { unitId: 'bram', position: { x: 6, y: 14 } },
-    { unitId: 'lira', position: { x: 9, y: 14 } },
-    { unitId: 'rook', position: { x: 6, y: 13 } },
-    { unitId: 'faye', position: { x: 9, y: 13 } },
+    { unitId: 'shigeru', position: { x: 7, y: 13 } },
+    { unitId: 'akira', position: { x: 8, y: 13 } },
+    { unitId: 'kanna', position: { x: 7, y: 14 } },
+    { unitId: 'goro', position: { x: 6, y: 14 } },
+    { unitId: 'hina', position: { x: 9, y: 14 } },
+    { unitId: 'raiga', position: { x: 6, y: 13 } },
+    { unitId: 'mio', position: { x: 9, y: 13 } },
   ],
   enemyUnits: [
-    { unitId: 'ch7_boss', position: { x: 4, y: 2 } }, // Admiral Varga on fort
+    { unitId: 'ch7_boss', position: { x: 4, y: 2 } }, // Admiral Isonami on fort
     { unitId: 'ch7_soldier_1', position: { x: 7, y: 4 } }, // courtyard
     { unitId: 'ch7_soldier_2', position: { x: 8, y: 4 } }, // courtyard
     { unitId: 'ch7_fighter_1', position: { x: 5, y: 7 } }, // transition zone
@@ -59,7 +59,7 @@ export const CHAPTER_7: ChapterData = {
     description: 'Survive for 12 turns',
   },
   deploymentSlots: 7,
-  forceDeploy: ['ren'],
+  forceDeploy: ['shigeru'],
   parTurns: 12,
   prologue: {
     lines: [
@@ -68,28 +68,28 @@ export const CHAPTER_7: ChapterData = {
         text: 'The coastal fortress. Waves crash against stone walls that have held for centuries. But something stirs at the northern edge.',
       },
       {
-        speaker: 'Senna',
+        speaker: 'Kanna',
         text: "I've been running predictive models all night. The anomaly patterns... they're not random. Something is adapting.",
         speakerFaction: 'player',
       },
-      { speaker: 'Kael', text: 'Adapting to what?', speakerFaction: 'player' },
+      { speaker: 'Akira', text: 'Adapting to what?', speakerFaction: 'player' },
       {
-        speaker: 'Senna',
+        speaker: 'Kanna',
         text: "To ME. Every time I map a pattern, it shifts. Like it knows I'm watching.",
         speakerFaction: 'player',
       },
       {
-        speaker: 'Rook',
-        text: 'Admiral Varga holds the fortress interior. His garrison is disciplined but spread thin.',
+        speaker: 'Raiga',
+        text: 'Admiral Isonami holds the fortress interior. His garrison is disciplined but spread thin.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Ren',
-        text: "Hold the defensive line. Don't overextend. Senna, stay near the rear — I need your analysis.",
+        speaker: 'Shigeru',
+        text: "Hold the defensive line. Don't overextend. Kanna, stay near the rear — I need your analysis.",
         speakerFaction: 'player',
       },
       {
-        speaker: 'Senna',
+        speaker: 'Kanna',
         text: 'My analysis might be worthless by Turn 3.',
         speakerFaction: 'player',
       },
@@ -102,41 +102,41 @@ export const CHAPTER_7: ChapterData = {
         text: 'The corrupted spawns cease. The fortress falls quiet. But the silence feels wrong.',
       },
       {
-        speaker: 'Senna',
+        speaker: 'Kanna',
         text: 'My model is broken. Everything I built — 347 loops of pattern tracking — it changed underneath me. I need... I need a new approach.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Ren',
+        speaker: 'Shigeru',
         text: "You found an answer before. You'll find one again.",
         speakerFaction: 'player',
       },
       {
-        speaker: 'Senna',
+        speaker: 'Kanna',
         text: "You keep saying things like that. Like you've seen it happen.",
         speakerFaction: 'player',
       },
-      { speaker: 'Ren', text: '...Because I have.', speakerFaction: 'player' },
-      { speaker: 'Kael', text: 'Ren? What does that mean?', speakerFaction: 'player' },
-      { speaker: 'Ren', text: "It means I trust her. That's all.", speakerFaction: 'player' },
+      { speaker: 'Shigeru', text: '...Because I have.', speakerFaction: 'player' },
+      { speaker: 'Akira', text: 'Shigeru? What does that mean?', speakerFaction: 'player' },
+      { speaker: 'Shigeru', text: "It means I trust her. That's all.", speakerFaction: 'player' },
       {
-        speaker: 'Kael',
+        speaker: 'Akira',
         text: 'Whatever your numbers say, you kept us alive in there.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Faye',
+        speaker: 'Mio',
         text: "I've seen healers break under less. The fact that you're still standing means something.",
         speakerFaction: 'player',
       },
       {
-        speaker: 'Bram',
+        speaker: 'Goro',
         text: "Stop overthinking it. You're smart. That's enough.",
         speakerFaction: 'player',
       },
       {
         speaker: 'Narrator',
-        text: "Senna stares at her notes. The numbers don't lie. But they don't tell the truth anymore either.",
+        text: "Kanna stares at her notes. The numbers don't lie. But they don't tell the truth anymore either.",
       },
     ],
   },
@@ -173,9 +173,9 @@ export const CHAPTER_7: ChapterData = {
     },
   ],
   events: [
-    // Turn 1: Senna's forecast is off
+    // Turn 1: Kanna's forecast is off
     {
-      id: 'ch7_senna_off',
+      id: 'ch7_kanna_off',
       trigger: { type: 'turn_start', turn: 1 },
       effects: [
         {
@@ -183,17 +183,17 @@ export const CHAPTER_7: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Senna',
+                speaker: 'Kanna',
                 text: "Wait. That soldier's hit rate — my prediction was off by twelve points. That's... not right.",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Ren',
+                speaker: 'Shigeru',
                 text: 'Could be noise. Focus on the battle.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Senna',
+                speaker: 'Kanna',
                 text: "It's not noise. I don't get twelve-point errors.",
                 speakerFaction: 'player',
               },
@@ -203,9 +203,9 @@ export const CHAPTER_7: ChapterData = {
       ],
       once: true,
     },
-    // Turn 3: Corrupted spawn + Senna crisis
+    // Turn 3: Corrupted spawn + Kanna crisis
     {
-      id: 'ch7_senna_crisis',
+      id: 'ch7_kanna_crisis',
       trigger: { type: 'turn_start', turn: 3 },
       effects: [
         {
@@ -213,22 +213,22 @@ export const CHAPTER_7: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Senna',
+                speaker: 'Kanna',
                 text: 'The north wall — those tiles are GLITCHING. Something is spawning from corrupted data!',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Bram',
+                speaker: 'Goro',
                 text: "Those things aren't soldiers. They're... wrong.",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Senna',
+                speaker: 'Kanna',
                 text: "My predictions aren't working. The numbers are CHANGING. Every calculation I run comes back different.",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Ren',
+                speaker: 'Shigeru',
                 text: 'New plan — we hold position and survive. Forget the advance!',
                 speakerFaction: 'player',
               },
@@ -238,9 +238,9 @@ export const CHAPTER_7: ChapterData = {
       ],
       once: true,
     },
-    // Turn 6: Senna breakdown
+    // Turn 6: Kanna breakdown
     {
-      id: 'ch7_senna_breakdown',
+      id: 'ch7_kanna_breakdown',
       trigger: { type: 'turn_start', turn: 6 },
       effects: [
         {
@@ -248,22 +248,22 @@ export const CHAPTER_7: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Senna',
+                speaker: 'Kanna',
                 text: 'The system is changing the ANSWER. Every time I try to predict, it changes MORE. Something is watching me analyze it and CHANGING to stay ahead.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Faye',
-                text: 'Senna, breathe. We need you here.',
+                speaker: 'Mio',
+                text: 'Kanna, breathe. We need you here.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Senna',
+                speaker: 'Kanna',
                 text: "You don't understand — I AM my analysis. If the numbers lie, what am I?",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Rook',
+                speaker: 'Raiga',
                 text: "You're the person keeping us alive. Numbers or not.",
                 speakerFaction: 'player',
               },
@@ -283,26 +283,26 @@ export const CHAPTER_7: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Ren',
+                speaker: 'Shigeru',
                 text: "Three more turns. Hold the line — we're almost through this.",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Senna',
+                speaker: 'Kanna',
                 text: "...The spawn rate is decreasing. Whatever it was... it's running out of energy.",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Kael',
+                speaker: 'Akira',
                 text: 'Then we outlast it. Like we always do.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Ren',
-                text: "Senna — you'll figure it out. You always do.",
+                speaker: 'Shigeru',
+                text: "Kanna — you'll figure it out. You always do.",
                 speakerFaction: 'player',
               },
-              { speaker: 'Senna', text: '...Thank you.', speakerFaction: 'player' },
+              { speaker: 'Kanna', text: '...Thank you.', speakerFaction: 'player' },
             ],
           },
         },
@@ -319,12 +319,12 @@ export const CHAPTER_7: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Senna',
+                speaker: 'Kanna',
                 text: 'The spawn frequency is dropping — the corruption is burning itself out. One more turn!',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Ren',
+                speaker: 'Shigeru',
                 text: "Hold steady! They're retreating — we just need to survive this last push!",
                 speakerFaction: 'player',
               },
@@ -348,25 +348,25 @@ export const CHAPTER_7: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Senna',
+                speaker: 'Kanna',
                 text: 'The spawns have stopped. The corruption is spent.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Kael',
+                speaker: 'Akira',
                 text: 'We made it. Everyone still standing?',
                 speakerFaction: 'player',
               },
-              { speaker: 'Ren', text: 'Still standing. Barely.', speakerFaction: 'player' },
+              { speaker: 'Shigeru', text: 'Still standing. Barely.', speakerFaction: 'player' },
             ],
           },
         },
       ],
       once: true,
     },
-    // Optional boss killed: Varga
+    // Optional boss killed: Isonami
     {
-      id: 'ch7_varga_killed',
+      id: 'ch7_isonami_killed',
       trigger: { type: 'unit_killed', unitId: 'ch7_boss' },
       effects: [
         {
@@ -374,68 +374,68 @@ export const CHAPTER_7: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Varga',
+                speaker: 'Isonami',
                 text: "This fortress... has stood for two hundred years. It will stand after I'm gone.",
                 speakerFaction: 'enemy',
               },
               {
-                speaker: 'Ren',
+                speaker: 'Shigeru',
                 text: "You saw the corruption at the north wall. You know this fortress won't stand much longer.",
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Narrator',
-                text: "Admiral Varga's Hero Crest clatters to the stone floor.",
+                text: "Admiral Isonami's Hero Crest clatters to the stone floor.",
               },
             ],
           },
         },
-        { type: 'give_item', unitId: 'ren', itemId: 'hero_crest' },
+        { type: 'give_item', unitId: 'shigeru', itemId: 'hero_crest' },
       ],
       once: true,
     },
   ],
   supportConversations: [
     {
-      unitA: 'ren',
-      unitB: 'senna',
+      unitA: 'shigeru',
+      unitB: 'kanna',
       lines: [
         {
-          speaker: 'Senna',
-          text: 'Ren. How many times have you seen me fail like this?',
+          speaker: 'Kanna',
+          text: 'Shigeru. How many times have you seen me fail like this?',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Ren',
+          speaker: 'Shigeru',
           text: "You've never failed. Not once, in any—",
           speakerFaction: 'player',
         },
-        { speaker: 'Senna', text: 'In any WHAT? Finish that sentence.', speakerFaction: 'player' },
+        { speaker: 'Kanna', text: 'In any WHAT? Finish that sentence.', speakerFaction: 'player' },
         {
-          speaker: 'Ren',
+          speaker: 'Shigeru',
           text: '...In any way that matters. You always find a new approach.',
           speakerFaction: 'player',
         },
       ],
-      reward: { type: 'stat', unitId: 'senna', stat: 'mag', amount: 1 },
+      reward: { type: 'stat', unitId: 'kanna', stat: 'mag', amount: 1 },
     },
     {
-      unitA: 'senna',
-      unitB: 'coda',
+      unitA: 'kanna',
+      unitB: 'hachi',
       lines: [
         {
-          speaker: 'Coda',
+          speaker: 'Hachi',
           text: "Your numbers are broken? Good. Numbers were always a cage. Now you can see what's BEHIND them.",
           speakerFaction: 'player',
         },
-        { speaker: 'Senna', text: "That's not helpful, Coda.", speakerFaction: 'player' },
+        { speaker: 'Kanna', text: "That's not helpful, Hachi.", speakerFaction: 'player' },
         {
-          speaker: 'Coda',
+          speaker: 'Hachi',
           text: "Wasn't trying to be helpful. Was trying to be honest. There's a difference.",
           speakerFaction: 'player',
         },
         {
-          speaker: 'Senna',
+          speaker: 'Kanna',
           text: '...Fine. What do you see behind the numbers?',
           speakerFaction: 'player',
         },

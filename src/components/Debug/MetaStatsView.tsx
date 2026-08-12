@@ -32,7 +32,7 @@ export function MetaStatsView() {
 
       <div className="debug-screen__section">
         <h3 className="debug-screen__section-title">LOOP (Loop Counter)</h3>
-        <p className="debug-screen__desc-text">Range: &ge; 0. Ren-only spendable resource.</p>
+        <p className="debug-screen__desc-text">Range: &ge; 0. Shigeru-only spendable resource.</p>
         <div className="debug-screen__formula">Memory Blade might = 1 + floor(LOOP / 30)</div>
         <p className="debug-screen__desc-text">+10 at arc transitions.</p>
       </div>
@@ -50,7 +50,7 @@ export function MetaStatsView() {
         <h3 className="debug-screen__section-title">LOY (Loyalty)</h3>
         <p className="debug-screen__desc-text">Range: 0-100.</p>
         <p className="debug-screen__desc-text">
-          &ge; 80 (near Ren, &le; 3 tiles): +1 all combat stats.
+          &ge; 80 (near Shigeru, &le; 3 tiles): +1 all combat stats.
         </p>
         <p className="debug-screen__desc-text">&lt; 30: 5% chance to disobey orders.</p>
       </div>
@@ -92,7 +92,7 @@ export function MetaStatsView() {
           </thead>
           <tbody>
             <tr>
-              <td>Ren</td>
+              <td>Shigeru</td>
               <td>0</td>
               <td>347</td>
               <td>80</td>

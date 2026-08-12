@@ -6,7 +6,7 @@ type Set = (partial: Partial<GameState>) => void;
 
 /**
  * Check if the negotiate action is available.
- * Conditions: selected unit is Ren (isLord), adjacent to a boss,
+ * Conditions: selected unit is Shigeru (isLord), adjacent to a boss,
  * boss HP ≤ 50%, party AWR average ≥ 70.
  */
 export function checkNegotiateCondition(get: Get): { available: boolean; bossId: string | null } {
@@ -89,7 +89,7 @@ export function negotiate(get: Get, set: Set): void {
     eventDialogue: {
       lines: [
         { speaker: boss.name, text: 'I... I will stand down.' },
-        { speaker: 'Ren', text: "We don't have to fight. There's another way." },
+        { speaker: 'Shigeru', text: "We don't have to fight. There's another way." },
       ],
     },
     eventDialogueLineIndex: 0,

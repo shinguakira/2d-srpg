@@ -11,7 +11,7 @@ import { applyCombatResult } from '../helpers/combatResolution';
 import { checkVictory, getClassFlags } from '../helpers/mapHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
 import { checkAndFireEvents } from './eventActions';
-import { isNearRen } from '../../core/metaStats';
+import { isNearLord } from '../../core/metaStats';
 import { getTotalSupportBonuses } from '../../core/support';
 import { checkMergeCondition, switchActiveTeam, mergeMaps } from './splitPartyActions';
 
@@ -241,8 +241,8 @@ function finalizeEnemyAction(
     const combatUnit = { ...movedUnit, facing: attackFacing };
     newUnits.set(unit.id, combatUnit);
 
-    const attackerNearRen = combatUnit.id !== 'ren' && isNearRen(destination, newUnits);
-    const defenderNearRen = target.id !== 'ren' && isNearRen(target.position, newUnits);
+    const attackerNearLord = combatUnit.id !== 'shigeru' && isNearLord(destination, newUnits);
+    const defenderNearLord = target.id !== 'shigeru' && isNearLord(target.position, newUnits);
     const { weather: w, supportPairs } = get();
     const defenderSupport =
       target.faction === 'player'
@@ -254,7 +254,7 @@ function finalizeEnemyAction(
       attackerTerrain,
       defenderTerrain,
       distance,
-      { attackerNearRen, defenderNearRen, weather: w, defenderSupport },
+      { attackerNearLord, defenderNearLord, weather: w, defenderSupport },
     );
     const { cycleAuthorityUsed, vanishUsed } = get();
     const combinedUsedSkills = new Set([...cycleAuthorityUsed, ...vanishUsed]);

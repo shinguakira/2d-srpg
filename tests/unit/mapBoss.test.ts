@@ -166,7 +166,7 @@ describe('Map-as-Boss System', () => {
 
     it('returns null (no result) when players still alive in survive chapter', () => {
       const units = new Map<string, Unit>();
-      units.set('ren', makeUnit('ren', 'player', { isLord: true }));
+      units.set('shigeru', makeUnit('shigeru', 'player', { isLord: true }));
       units.set('enemy1', makeUnit('enemy1', 'enemy'));
       const chapterData = { objective: { type: 'survive', turns: 10 } } as ChapterData;
       // Not defeated yet, and not victory (survive is turn-based)

@@ -14,7 +14,7 @@ const B: TerrainType = 'bridge';
 const terrain: TerrainType[][] = [
   // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
   [M, M, M, P, P, P, P, P, P, P, P, P, P, M, M, M], // row 0  — hilltop edge
-  [M, M, P, P, P, P, P, H, P, P, P, P, P, P, M, M], // row 1  — throne at (7,1) — Drayen
+  [M, M, P, P, P, P, P, H, P, P, P, P, P, P, M, M], // row 1  — throne at (7,1) — Sozen
   [M, P, P, P, X, P, P, P, P, P, X, P, P, P, P, M], // row 2  — hill fortifications
   [M, P, P, P, P, P, P, T, P, P, P, P, P, P, P, M], // row 3  — fort
   [P, P, P, F, F, P, P, P, P, P, F, F, P, P, P, P], // row 4  — forest flanks (left route)
@@ -28,7 +28,7 @@ const terrain: TerrainType[][] = [
   [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 12 — village outskirts
   [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 13
   [P, P, X, V, X, P, P, P, P, P, X, V, X, P, P, P], // row 14 — village buildings
-  [P, P, P, P, P, P, P, T, P, P, P, P, P, P, P, P], // row 15 — Elder Maren's position (fort at 7,15)
+  [P, P, P, P, P, P, P, T, P, P, P, P, P, P, P, P], // row 15 — Elder Toki's position (fort at 7,15)
   [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 16 — deployment row 1
   [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 17 — deployment row 2
 ];
@@ -41,14 +41,14 @@ export const CHAPTER_10: ChapterData = {
   mapHeight: 18,
   terrain,
   playerUnits: [
-    { unitId: 'ren', position: { x: 7, y: 16 } },
-    { unitId: 'senna', position: { x: 8, y: 16 } },
-    { unitId: 'bram', position: { x: 6, y: 17 } },
-    { unitId: 'lira', position: { x: 9, y: 17 } },
-    { unitId: 'voss', position: { x: 7, y: 17 } },
-    { unitId: 'rook', position: { x: 5, y: 16 } },
-    { unitId: 'nira', position: { x: 10, y: 16 } },
-    { unitId: 'orin', position: { x: 8, y: 17 } },
+    { unitId: 'shigeru', position: { x: 7, y: 16 } },
+    { unitId: 'kanna', position: { x: 8, y: 16 } },
+    { unitId: 'goro', position: { x: 6, y: 17 } },
+    { unitId: 'hina', position: { x: 9, y: 17 } },
+    { unitId: 'genzo', position: { x: 7, y: 17 } },
+    { unitId: 'raiga', position: { x: 5, y: 16 } },
+    { unitId: 'sayo', position: { x: 10, y: 16 } },
+    { unitId: 'kagura', position: { x: 8, y: 17 } },
   ],
   enemyUnits: [
     // Boss on throne
@@ -68,9 +68,9 @@ export const CHAPTER_10: ChapterData = {
     // Village raiders (approach from sides)
     { unitId: 'ch10_fighter_1', position: { x: 2, y: 12 } },
     { unitId: 'ch10_fighter_2', position: { x: 13, y: 12 } },
-    // Elder Maren — ally NPC at village center
+    // Elder Toki — ally NPC at village center
     {
-      unitId: 'elder_maren',
+      unitId: 'elder_toki',
       position: { x: 7, y: 15 },
       faction: 'ally',
       aiBehavior: { type: 'stationary' },
@@ -78,44 +78,44 @@ export const CHAPTER_10: ChapterData = {
   ],
   objective: {
     type: 'protect',
-    protectUnitId: 'elder_maren',
-    description: 'Defeat General Drayen while protecting Elder Maren',
+    protectUnitId: 'elder_toki',
+    description: 'Defeat General Sozen while protecting Elder Toki',
   },
   deploymentSlots: 8,
-  forceDeploy: ['ren'],
+  forceDeploy: ['shigeru'],
   parTurns: 20,
   prologue: {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'A border village. Farmland stretches south; a fortified hill rises to the north. General Drayen commands the heights.',
+        text: 'A border village. Farmland stretches south; a fortified hill rises to the north. General Sozen commands the heights.',
       },
       {
-        speaker: 'Ren',
-        text: 'The village elder — Maren — has scrolls documenting the anomalies. If Drayen reaches her, we lose that knowledge.',
+        speaker: 'Shigeru',
+        text: 'The village elder — Toki — has scrolls documenting the anomalies. If Sozen reaches her, we lose that knowledge.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Senna',
+        speaker: 'Kanna',
         text: 'Those scrolls could be the key to understanding what the System is doing. We need them.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Voss',
+        speaker: 'Genzo',
         text: 'Split forces? Half defend the village, half assault the hill?',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Rook',
-        text: 'Three routes to the hill — forest left, bridge center, open right. Drayen will have the center covered.',
+        speaker: 'Raiga',
+        text: 'Three routes to the hill — forest left, bridge center, open right. Sozen will have the center covered.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Ren',
-        text: 'Protect Maren. Defeat Drayen. We can do both. Kael would have said the same thing.',
+        speaker: 'Shigeru',
+        text: 'Protect Toki. Defeat Sozen. We can do both. Akira would have said the same thing.',
         speakerFaction: 'player',
       },
-      { speaker: 'Bram', text: '...Yeah. He would have.', speakerFaction: 'player' },
+      { speaker: 'Goro', text: '...Yeah. He would have.', speakerFaction: 'player' },
     ],
   },
   epilogue: {
@@ -125,25 +125,25 @@ export const CHAPTER_10: ChapterData = {
         text: 'The hill is taken. The village stands. For the first time in two chapters, the party breathes without the weight of grief crushing their lungs.',
       },
       {
-        speaker: 'Senna',
-        text: "The construct data — I've been analyzing the residue from where it spawned. The System isn't broken, Ren. It's RESPONDING to us.",
+        speaker: 'Kanna',
+        text: "The construct data — I've been analyzing the residue from where it spawned. The System isn't broken, Shigeru. It's RESPONDING to us.",
         speakerFaction: 'player',
       },
-      { speaker: 'Ren', text: 'Responding how?', speakerFaction: 'player' },
+      { speaker: 'Shigeru', text: 'Responding how?', speakerFaction: 'player' },
       {
-        speaker: 'Senna',
+        speaker: 'Kanna',
         text: 'Every time we fight back, it adapts. Every time we win, it builds something new. The constructs are prototypes — first drafts of something bigger.',
         speakerFaction: 'player',
       },
-      { speaker: 'Rook', text: "So it's learning from us.", speakerFaction: 'player' },
+      { speaker: 'Raiga', text: "So it's learning from us.", speakerFaction: 'player' },
       {
-        speaker: 'Senna',
+        speaker: 'Kanna',
         text: 'Yes. But prototypes have seams. Inefficiencies. I can find them. I just need more data.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Ren',
-        text: 'We end this. For Kael. For everyone who died in 347 loops without knowing why.',
+        speaker: 'Shigeru',
+        text: 'We end this. For Akira. For everyone who died in 347 loops without knowing why.',
         speakerFaction: 'player',
       },
       {
@@ -175,9 +175,9 @@ export const CHAPTER_10: ChapterData = {
     },
   ],
   events: [
-    // Turn 3: Elder Maren speaks about the scrolls
+    // Turn 3: Elder Toki speaks about the scrolls
     {
-      id: 'ch10_maren_speaks',
+      id: 'ch10_toki_speaks',
       trigger: { type: 'turn_start', turn: 3 },
       effects: [
         {
@@ -185,13 +185,13 @@ export const CHAPTER_10: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Elder Maren',
-                text: 'These scrolls document every anomaly for the past fifty years. If Drayen takes them, the truth dies with this village.',
+                speaker: 'Elder Toki',
+                text: 'These scrolls document every anomaly for the past fifty years. If Sozen takes them, the truth dies with this village.',
                 speakerFaction: 'ally',
               },
-              { speaker: 'Ren', text: "We won't let that happen.", speakerFaction: 'player' },
+              { speaker: 'Shigeru', text: "We won't let that happen.", speakerFaction: 'player' },
               {
-                speaker: 'Elder Maren',
+                speaker: 'Elder Toki',
                 text: "I've survived worse than generals, young man. But I can't outrun what's coming from the north.",
                 speakerFaction: 'ally',
               },
@@ -215,17 +215,17 @@ export const CHAPTER_10: ChapterData = {
                 text: 'The ground at the base of the hill GLITCHES. A shape assembles itself from corrupted data — massive, armored, wrong.',
               },
               {
-                speaker: 'Senna',
+                speaker: 'Kanna',
                 text: "That's not a soldier. That's not even a person. The System is BUILDING with the pieces. It can make soldiers from corrupted data.",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Rook',
-                text: "It's heading for the village. For Maren.",
+                speaker: 'Raiga',
+                text: "It's heading for the village. For Toki.",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Ren',
+                speaker: 'Shigeru',
                 text: "The System isn't just watching anymore. It's acting. Everyone — protect the elder!",
                 speakerFaction: 'player',
               },
@@ -240,9 +240,9 @@ export const CHAPTER_10: ChapterData = {
       ],
       once: true,
     },
-    // Boss killed: Drayen
+    // Boss killed: Sozen
     {
-      id: 'ch10_drayen_killed',
+      id: 'ch10_sozen_killed',
       trigger: { type: 'unit_killed', unitId: 'ch10_boss' },
       effects: [
         {
@@ -250,24 +250,24 @@ export const CHAPTER_10: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Drayen',
+                speaker: 'Sozen',
                 text: 'I sensed it too — the patterns beneath reality. I fought anyway, because what else is there?',
                 speakerFaction: 'enemy',
               },
-              { speaker: 'Ren', text: 'You could have helped us.', speakerFaction: 'player' },
+              { speaker: 'Shigeru', text: 'You could have helped us.', speakerFaction: 'player' },
               {
-                speaker: 'Drayen',
+                speaker: 'Sozen',
                 text: 'Perhaps. But I serve the Empire I was born into, not the truth I discovered too late.',
                 speakerFaction: 'enemy',
               },
               {
                 speaker: 'Narrator',
-                text: 'General Drayen falls. A Master Seal gleams among his effects.',
+                text: 'General Sozen falls. A Master Seal gleams among his effects.',
               },
             ],
           },
         },
-        { type: 'give_item', unitId: 'ren', itemId: 'master_seal' },
+        { type: 'give_item', unitId: 'shigeru', itemId: 'master_seal' },
       ],
       once: true,
     },
@@ -281,13 +281,13 @@ export const CHAPTER_10: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Senna',
+                speaker: 'Kanna',
                 text: "The construct is dissolving — back into raw data. But I can read the residue. The System's architecture has seams.",
                 speakerFaction: 'player',
               },
-              { speaker: 'Ren', text: 'Can you use that?', speakerFaction: 'player' },
+              { speaker: 'Shigeru', text: 'Can you use that?', speakerFaction: 'player' },
               {
-                speaker: 'Senna',
+                speaker: 'Kanna',
                 text: 'Maybe. Give me time and more data. This is the first crack in the wall.',
                 speakerFaction: 'player',
               },
@@ -300,40 +300,40 @@ export const CHAPTER_10: ChapterData = {
   ],
   supportConversations: [
     {
-      unitA: 'ren',
-      unitB: 'voss',
+      unitA: 'shigeru',
+      unitB: 'genzo',
       lines: [
         {
-          speaker: 'Voss',
+          speaker: 'Genzo',
           text: 'I held the garrison for years without losing a man. Then I joined you and watched the best of us die.',
           speakerFaction: 'player',
         },
-        { speaker: 'Ren', text: "I'm sorry, Voss.", speakerFaction: 'player' },
+        { speaker: 'Shigeru', text: "I'm sorry, Genzo.", speakerFaction: 'player' },
         {
-          speaker: 'Voss',
+          speaker: 'Genzo',
           text: "Don't be sorry. Be worth it. Make his choice mean something.",
           speakerFaction: 'player',
         },
-        { speaker: 'Ren', text: 'I will. I promise.', speakerFaction: 'player' },
+        { speaker: 'Shigeru', text: 'I will. I promise.', speakerFaction: 'player' },
       ],
-      reward: { type: 'stat', unitId: 'voss', stat: 'def', amount: 1 },
+      reward: { type: 'stat', unitId: 'genzo', stat: 'def', amount: 1 },
     },
     {
-      unitA: 'rook',
-      unitB: 'nira',
+      unitA: 'raiga',
+      unitB: 'sayo',
       lines: [
         {
-          speaker: 'Nira',
+          speaker: 'Sayo',
           text: "You've been with us for five chapters now. Still going to claim you're just here for the coin?",
           speakerFaction: 'player',
         },
         {
-          speaker: 'Rook',
+          speaker: 'Raiga',
           text: 'The pay is terrible. The hours are worse. The boss keeps muttering about time loops.',
           speakerFaction: 'player',
         },
-        { speaker: 'Nira', text: "And yet you're still here.", speakerFaction: 'player' },
-        { speaker: 'Rook', text: '...Shut up and cover my left side.', speakerFaction: 'player' },
+        { speaker: 'Sayo', text: "And yet you're still here.", speakerFaction: 'player' },
+        { speaker: 'Raiga', text: '...Shut up and cover my left side.', speakerFaction: 'player' },
       ],
       reward: { type: 'exp_both', amount: 20 },
     },

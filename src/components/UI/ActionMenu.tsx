@@ -384,7 +384,7 @@ export function ActionMenu() {
     return false;
   })();
 
-  // Check negotiate — Ren adjacent to boss, boss HP ≤ 50%, party AWR avg ≥ 70
+  // Check negotiate — Shigeru adjacent to boss, boss HP ≤ 50%, party AWR avg ≥ 70
   const canNegotiate = (() => {
     if (!selectedUnit || exhausted) return false;
     const { available } = checkNegotiateCondition(useGameStore.getState);

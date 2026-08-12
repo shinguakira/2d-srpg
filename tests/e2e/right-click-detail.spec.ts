@@ -8,7 +8,7 @@ test.describe('Right-Click Unit Detail', () => {
   });
 
   test('right-click player unit during idle opens detail modal', async ({ page }) => {
-    // Right-click Ren at (10, 10)
+    // Right-click Shigeru at (10, 10)
     await page.click('[data-testid="tile-10-10"]', { button: 'right' });
     await page.waitForTimeout(200);
 
@@ -45,7 +45,7 @@ test.describe('Right-Click Unit Detail', () => {
   });
 
   test('right-click during move selection cancels action', async ({ page }) => {
-    // Select Ren to enter move_target phase
+    // Select Shigeru to enter move_target phase
     await page.click('[data-testid="tile-10-10"]');
     await page.waitForTimeout(200);
 

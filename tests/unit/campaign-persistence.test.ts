@@ -93,16 +93,16 @@ beforeEach(() => {
 describe('permadeath is recorded in the campaign', () => {
   it('adds a fallen player unit to deadUnitIds', () => {
     const attacker = makeUnit('enemy1', { x: 0, y: 0 }, { faction: 'enemy' });
-    const victim = makeUnit('bram', { x: 1, y: 0 });
+    const victim = makeUnit('goro', { x: 1, y: 0 });
 
     const res = resolve(attacker, victim, 'classic');
 
-    expect(res.newUnits.has('bram')).toBe(false);
-    expect(useCampaignStore.getState().deadUnitIds).toContain('bram');
+    expect(res.newUnits.has('goro')).toBe(false);
+    expect(useCampaignStore.getState().deadUnitIds).toContain('goro');
   });
 
   it('does not record enemies as dead campaign units', () => {
-    const attacker = makeUnit('ren', { x: 0, y: 0 });
+    const attacker = makeUnit('shigeru', { x: 0, y: 0 });
     const victim = makeUnit('enemy1', { x: 1, y: 0 }, { faction: 'enemy' });
 
     resolve(attacker, victim, 'classic');
@@ -114,21 +114,21 @@ describe('permadeath is recorded in the campaign', () => {
 describe('casual retreat leaves the battle', () => {
   it('removes the unit from the battle rather than leaving it standing', () => {
     const attacker = makeUnit('enemy1', { x: 0, y: 0 }, { faction: 'enemy' });
-    const victim = makeUnit('bram', { x: 1, y: 0 });
+    const victim = makeUnit('goro', { x: 1, y: 0 });
 
     const res = resolve(attacker, victim, 'casual');
 
-    expect(res.newUnits.has('bram')).toBe(false);
+    expect(res.newUnits.has('goro')).toBe(false);
     expect(res.newTiles[0][1].occupantId).toBeNull();
   });
 
   it('records the retreat and the unit progress for the next chapter', () => {
     const attacker = makeUnit('enemy1', { x: 0, y: 0 }, { faction: 'enemy' });
-    const victim = makeUnit('bram', { x: 1, y: 0 }, { level: 7, exp: 55 });
+    const victim = makeUnit('goro', { x: 1, y: 0 }, { level: 7, exp: 55 });
 
     resolve(attacker, victim, 'casual');
 
-    const p = useCampaignStore.getState().unitProgress.bram;
+    const p = useCampaignStore.getState().unitProgress.goro;
     expect(p.retreated).toBe(true);
     expect(p.currentHp).toBe(1);
     expect(p.level).toBe(7);
@@ -137,21 +137,21 @@ describe('casual retreat leaves the battle', () => {
 
   it('does not mark a retreated unit as permanently dead', () => {
     const attacker = makeUnit('enemy1', { x: 0, y: 0 }, { faction: 'enemy' });
-    const victim = makeUnit('bram', { x: 1, y: 0 });
+    const victim = makeUnit('goro', { x: 1, y: 0 });
 
     resolve(attacker, victim, 'casual');
 
-    expect(useCampaignStore.getState().deadUnitIds).not.toContain('bram');
+    expect(useCampaignStore.getState().deadUnitIds).not.toContain('goro');
   });
 
   it('still permakills the lord, who ends the run either way', () => {
     const attacker = makeUnit('enemy1', { x: 0, y: 0 }, { faction: 'enemy' });
-    const lord = makeUnit('ren', { x: 1, y: 0 }, { isLord: true });
+    const lord = makeUnit('shigeru', { x: 1, y: 0 }, { isLord: true });
 
     const res = resolve(attacker, lord, 'casual');
 
     expect(res.lordDied).toBe(true);
-    expect(res.newUnits.has('ren')).toBe(false);
+    expect(res.newUnits.has('shigeru')).toBe(false);
   });
 });
 
@@ -189,14 +189,14 @@ describe('UnitProgress merging', () => {
       weaponIds: ['iron_sword'],
       itemIds: [],
       crpLowChapters: 4,
-      supportPartners: ['ren', 'kael'],
+      supportPartners: ['shigeru', 'akira'],
     };
 
     // What Game.tsx / PreparationScreen now do: spread the stored entry first.
     const merged: UnitProgress = { ...prior, level: 5, exp: 20 };
 
     expect(merged.crpLowChapters).toBe(4);
-    expect(merged.supportPartners).toEqual(['ren', 'kael']);
+    expect(merged.supportPartners).toEqual(['shigeru', 'akira']);
     expect(merged.level).toBe(5);
   });
 });

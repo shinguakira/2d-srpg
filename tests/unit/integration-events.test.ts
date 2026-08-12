@@ -124,7 +124,7 @@ const TEST_CHAPTER_EVENTS: ChapterEvent[] = [
       type: 'custom',
       fn: (ctx) => ctx.flags.get('boss_dead') === 'true' && ctx.currentTurn >= 3,
     },
-    effects: [{ type: 'show_dialogue', scene: { lines: [{ speaker: 'Ren', text: 'We won!' }] } }],
+    effects: [{ type: 'show_dialogue', scene: { lines: [{ speaker: 'Shigeru', text: 'We won!' }] } }],
     once: true,
   },
 ];
@@ -135,7 +135,7 @@ describe('Integration: mid-battle events + recruitment', () => {
       currentTurn: 2,
       currentPhase: 'player_phase',
       units: new Map([
-        ['ren', makeUnit('ren', 'player', { x: 0, y: 2 })],
+        ['shigeru', makeUnit('shigeru', 'player', { x: 0, y: 2 })],
         ['boss1', makeUnit('boss1', 'enemy', { x: 2, y: 0 })],
       ]),
       flags: new Map(),
@@ -163,11 +163,11 @@ describe('Integration: mid-battle events + recruitment', () => {
       currentTurn: 1,
       currentPhase: 'player_phase',
       units: new Map([
-        ['ren', makeUnit('ren', 'player', { x: 1, y: 1 })],
+        ['shigeru', makeUnit('shigeru', 'player', { x: 1, y: 1 })],
         ['ally1', makeUnit('ally1', 'ally', { x: 1, y: 0 })],
       ]),
       flags: new Map(),
-      lastMovedUnitId: 'ren',
+      lastMovedUnitId: 'shigeru',
       lastMovedPosition: { x: 1, y: 1 },
     };
 
@@ -184,7 +184,7 @@ describe('Integration: mid-battle events + recruitment', () => {
     const ctx: EventContext = {
       currentTurn: 2,
       currentPhase: 'player_phase',
-      units: new Map([['ren', makeUnit('ren', 'player', { x: 2, y: 1 })]]),
+      units: new Map([['shigeru', makeUnit('shigeru', 'player', { x: 2, y: 1 })]]),
       flags: new Map(),
       lastKilledUnitId: 'boss1',
     };
@@ -203,7 +203,7 @@ describe('Integration: mid-battle events + recruitment', () => {
     const ctx: EventContext = {
       currentTurn: 3,
       currentPhase: 'player_phase',
-      units: new Map([['ren', makeUnit('ren', 'player')]]),
+      units: new Map([['shigeru', makeUnit('shigeru', 'player')]]),
       flags,
       justStartedPhase: 'player',
     };
@@ -221,7 +221,7 @@ describe('Integration: mid-battle events + recruitment', () => {
     const ctx1: EventContext = {
       currentTurn: 3,
       currentPhase: 'player_phase',
-      units: new Map([['ren', makeUnit('ren', 'player')]]),
+      units: new Map([['shigeru', makeUnit('shigeru', 'player')]]),
       flags: new Map(),
       justStartedPhase: 'player',
     };
@@ -232,7 +232,7 @@ describe('Integration: mid-battle events + recruitment', () => {
     const ctx2: EventContext = {
       currentTurn: 2,
       currentPhase: 'player_phase',
-      units: new Map([['ren', makeUnit('ren', 'player')]]),
+      units: new Map([['shigeru', makeUnit('shigeru', 'player')]]),
       flags: new Map([['boss_dead', 'true']]),
       justStartedPhase: 'player',
     };
@@ -244,7 +244,7 @@ describe('Integration: mid-battle events + recruitment', () => {
     const ctx: EventContext = {
       currentTurn: 2,
       currentPhase: 'player_phase',
-      units: new Map([['ren', makeUnit('ren', 'player')]]),
+      units: new Map([['shigeru', makeUnit('shigeru', 'player')]]),
       flags: new Map(),
       justStartedPhase: 'player',
     };

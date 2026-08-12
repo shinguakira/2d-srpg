@@ -50,8 +50,8 @@ const MAX_S_RANKS = 1;
 
 /**
  * Check if two units can form a support pair.
- * - 5-partner limit per unit (Ren is unlimited)
- * - Only 1 S-rank per unit (Ren is unlimited)
+ * - 5-partner limit per unit (Shigeru is unlimited)
+ * - Only 1 S-rank per unit (Shigeru is unlimited)
  */
 export function canFormSupport(
   unitId: string,
@@ -71,8 +71,8 @@ export function canFormSupport(
     }
   }
 
-  // Check partner limits (Ren is unlimited)
-  if (unitId !== 'ren') {
+  // Check partner limits (Shigeru is unlimited)
+  if (unitId !== 'shigeru') {
     let count = 0;
     for (const p of existingPairs) {
       if (p.unitA === unitId || p.unitB === unitId) count++;
@@ -80,7 +80,7 @@ export function canFormSupport(
     if (count >= MAX_PARTNERS) return false;
   }
 
-  if (partnerId !== 'ren') {
+  if (partnerId !== 'shigeru') {
     let count = 0;
     for (const p of existingPairs) {
       if (p.unitA === partnerId || p.unitB === partnerId) count++;
@@ -93,7 +93,7 @@ export function canFormSupport(
 
 /** Check if a unit has reached S-rank limit. */
 export function hasMaxSRank(unitId: string, pairs: SupportPair[]): boolean {
-  if (unitId === 'ren') return false;
+  if (unitId === 'shigeru') return false;
   let sCount = 0;
   for (const p of pairs) {
     if ((p.unitA === unitId || p.unitB === unitId) && p.rank === 'S') sCount++;

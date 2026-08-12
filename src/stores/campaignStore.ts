@@ -150,7 +150,7 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
   startChapter: (id: string) => {
     const chapter = CHAPTERS[id];
     if (!chapter) return;
-    // Auto-add new chapter units to roster (e.g., Yuel joining in ch5)
+    // Auto-add new chapter units to roster (e.g., Yuki joining in ch5)
     const { roster } = get();
     const chapterPlayerIds = chapter.playerUnits.map((p) => p.unitId);
     const newIds = chapterPlayerIds.filter((uid) => !roster.includes(uid) && PLAYER_UNITS[uid]);
@@ -273,7 +273,7 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
       const ms = p.metaStats ?? { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 };
       let newAwr = Math.min(100, ms.awr + 1); // AWR +1 per chapter
       let newLoop = ms.loop;
-      if (uid === 'ren' && isArcTransition) {
+      if (uid === 'shigeru' && isArcTransition) {
         newLoop += 10; // LOOP +10 at arc transitions
       }
       // Track CRP low chapters for passive decay
@@ -309,14 +309,14 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
       set({ campaignFlags: newFlags });
     }
 
-    // Kael permanent death: triggered by ch8 kael_dead campaign flag
-    const kaelDeadFlag = get().campaignFlags.kael_dead;
-    if (kaelDeadFlag && !get().deadUnitIds.includes('kael')) {
-      // Remove kael from roster, add to dead list
-      const updatedDead = [...get().deadUnitIds, 'kael'];
+    // Akira permanent death: triggered by ch8 genzo_dead campaign flag
+    const genzoDeadFlag = get().campaignFlags.genzo_dead;
+    if (genzoDeadFlag && !get().deadUnitIds.includes('akira')) {
+      // Remove akira from roster, add to dead list
+      const updatedDead = [...get().deadUnitIds, 'akira'];
       set({ deadUnitIds: updatedDead });
       // Remove from newRoster (mutates the local array before it's used below)
-      const kaelIdx = newRoster.indexOf('kael');
+      const kaelIdx = newRoster.indexOf('akira');
       if (kaelIdx !== -1) newRoster.splice(kaelIdx, 1);
       // Set grief: 2 chapters remaining, assign grief trauma to all units
       const griefFlags = { ...get().campaignFlags, grief_chapters_remaining: 2 };
@@ -540,13 +540,13 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
   },
 
   startNewGamePlus: () => {
-    // Increment LOOP for Ren by 1 in unit progress
+    // Increment LOOP for Shigeru by 1 in unit progress
     const { unitProgress } = get();
-    const renProgress = unitProgress['ren'];
+    const renProgress = unitProgress['shigeru'];
     const newProgress = renProgress
       ? {
           ...unitProgress,
-          ren: {
+          lord: {
             ...renProgress,
             metaStats: {
               ...(renProgress.metaStats ?? { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 }),

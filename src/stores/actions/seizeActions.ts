@@ -39,7 +39,7 @@ export function seize(get: Get, set: Set) {
     facing,
   });
 
-  // Check if Ren has Final Save Crystal — set campaign flag
+  // Check if Shigeru has Final Save Crystal — set campaign flag
   if (unit.items.some((i) => i.effect.kind === 'key_item' && i.id === 'final_save_crystal')) {
     const campaignState = useCampaignStore.getState();
     useCampaignStore.setState({
@@ -57,7 +57,7 @@ export function seize(get: Get, set: Set) {
 
 /**
  * Escape action: Lord or any unit on the escape tile is removed from the map (safe).
- * If Ren (Lord) escapes, chapter ends in victory — all remaining units auto-escape.
+ * If Shigeru (Lord) escapes, chapter ends in victory — all remaining units auto-escape.
  */
 export function escape(get: Get, set: Set) {
   const { selectedUnitId, pendingPosition, units, gameMap, chapterData, escapedUnitIds } = get();

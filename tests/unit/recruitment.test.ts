@@ -67,59 +67,59 @@ function makeUnit(
 
 describe('Recruitment — Talk availability', () => {
   it('Talk is available when recruitable unit is adjacent', () => {
-    const ren = makeUnit('ren', 'player', { x: 3, y: 3 });
-    const voss = makeUnit(
-      'voss',
+    const lord = makeUnit('shigeru', 'player', { x: 3, y: 3 });
+    const genzo = makeUnit(
+      'genzo',
       'enemy',
       { x: 3, y: 4 },
-      { recruitableBy: 'ren', recruitCondition: 'talk' },
+      { recruitableBy: 'shigeru', recruitCondition: 'talk' },
     );
 
-    const pendingPosition = ren.position;
-    const dist = getManhattanDistance(pendingPosition, voss.position);
-    const canTalk = voss.recruitableBy === ren.id && dist === 1;
+    const pendingPosition = lord.position;
+    const dist = getManhattanDistance(pendingPosition, genzo.position);
+    const canTalk = genzo.recruitableBy === lord.id && dist === 1;
     expect(canTalk).toBe(true);
   });
 
   it('Talk is NOT available when recruitable unit is too far', () => {
-    const ren = makeUnit('ren', 'player', { x: 3, y: 3 });
-    const voss = makeUnit(
-      'voss',
+    const lord = makeUnit('shigeru', 'player', { x: 3, y: 3 });
+    const genzo = makeUnit(
+      'genzo',
       'enemy',
       { x: 5, y: 5 },
-      { recruitableBy: 'ren', recruitCondition: 'talk' },
+      { recruitableBy: 'shigeru', recruitCondition: 'talk' },
     );
 
-    const dist = getManhattanDistance(ren.position, voss.position);
-    const canTalk = voss.recruitableBy === ren.id && dist === 1;
+    const dist = getManhattanDistance(lord.position, genzo.position);
+    const canTalk = genzo.recruitableBy === lord.id && dist === 1;
     expect(canTalk).toBe(false);
   });
 
   it('Talk is NOT available when different unit is required', () => {
-    const kael = makeUnit('kael', 'player', { x: 3, y: 3 });
-    const voss = makeUnit(
-      'voss',
+    const akira = makeUnit('akira', 'player', { x: 3, y: 3 });
+    const genzo = makeUnit(
+      'genzo',
       'enemy',
       { x: 3, y: 4 },
-      { recruitableBy: 'ren', recruitCondition: 'talk' },
+      { recruitableBy: 'shigeru', recruitCondition: 'talk' },
     );
 
-    const dist = getManhattanDistance(kael.position, voss.position);
-    const canTalk = voss.recruitableBy === kael.id && dist === 1;
+    const dist = getManhattanDistance(akira.position, genzo.position);
+    const canTalk = genzo.recruitableBy === akira.id && dist === 1;
     expect(canTalk).toBe(false);
   });
 });
 
 describe('Recruitment — Faction swap', () => {
   it('recruited unit becomes player faction', () => {
-    const voss = makeUnit(
-      'voss',
+    const genzo = makeUnit(
+      'genzo',
       'enemy',
       { x: 3, y: 4 },
-      { recruitableBy: 'ren', recruitCondition: 'talk' },
+      { recruitableBy: 'shigeru', recruitCondition: 'talk' },
     );
     const recruited = {
-      ...voss,
+      ...genzo,
       faction: 'player' as const,
       hasActed: true,
       aiBehavior: undefined,
@@ -132,8 +132,8 @@ describe('Recruitment — Faction swap', () => {
   });
 
   it('recruited unit retains current HP and stats', () => {
-    const voss = makeUnit(
-      'voss',
+    const genzo = makeUnit(
+      'genzo',
       'enemy',
       { x: 3, y: 4 },
       {
@@ -154,7 +154,7 @@ describe('Recruitment — Faction swap', () => {
         },
       },
     );
-    const recruited = { ...voss, faction: 'player' as const };
+    const recruited = { ...genzo, faction: 'player' as const };
     expect(recruited.currentHp).toBe(12);
     expect(recruited.level).toBe(3);
     expect(recruited.stats.def).toBe(8);

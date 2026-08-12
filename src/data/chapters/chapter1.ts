@@ -35,17 +35,17 @@ export const CHAPTER_1: ChapterData = {
   mapHeight: 12,
   terrain,
   playerUnits: [
-    { unitId: 'ren', position: { x: 10, y: 10 } },
-    { unitId: 'kael', position: { x: 13, y: 10 } },
-    { unitId: 'senna', position: { x: 9, y: 11 } },
-    { unitId: 'lira', position: { x: 14, y: 11 } },
-    { unitId: 'bram', position: { x: 12, y: 11 } },
+    { unitId: 'shigeru', position: { x: 10, y: 10 } },
+    { unitId: 'akira', position: { x: 13, y: 10 } },
+    { unitId: 'kanna', position: { x: 9, y: 11 } },
+    { unitId: 'hina', position: { x: 14, y: 11 } },
+    { unitId: 'goro', position: { x: 12, y: 11 } },
   ],
   enemyUnits: [
     { unitId: 'fighter_1', position: { x: 8, y: 2 } },
     { unitId: 'fighter_3', position: { x: 11, y: 4 } },
     { unitId: 'soldier_1', position: { x: 5, y: 1 } },
-    { unitId: 'garrek', position: { x: 11, y: 1 } }, // boss on throne
+    { unitId: 'baraku', position: { x: 11, y: 1 } }, // boss on throne
   ],
   objective: {
     type: 'seize',
@@ -59,17 +59,17 @@ export const CHAPTER_1: ChapterData = {
         text: 'A village. Smoke rising. Bandits approaching. The classic opening.',
       },
       {
-        speaker: 'Kael',
-        text: 'Lord Ren! Bandits are attacking the village! We must\u2014',
+        speaker: 'Akira',
+        text: 'Lord Shigeru! Bandits are attacking the village! We must\u2014',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Ren',
+        speaker: 'Shigeru',
         text: 'Defend the east bridge, route the enemies, save the villager at the west end. I know.',
         speakerFaction: 'player',
       },
-      { speaker: 'Kael', text: '...How do you know about the villager?', speakerFaction: 'player' },
-      { speaker: 'Ren', text: "Lucky guess. Let's go.", speakerFaction: 'player' },
+      { speaker: 'Akira', text: '...How do you know about the villager?', speakerFaction: 'player' },
+      { speaker: 'Shigeru', text: "Lucky guess. Let's go.", speakerFaction: 'player' },
     ],
   },
   villages: [
@@ -79,7 +79,7 @@ export const CHAPTER_1: ChapterData = {
         type: 'weapon',
         weaponId: 'hand_axe',
         dialogue: 'Hand Axe, ranged, decent might. Thanks, same as last time.',
-        speaker: 'Ren',
+        speaker: 'Shigeru',
       },
     },
     {
@@ -88,45 +88,45 @@ export const CHAPTER_1: ChapterData = {
         type: 'weapon',
         weaponId: 'wind',
         dialogue: 'Wind tome for the mage. Got it.',
-        speaker: 'Ren',
+        speaker: 'Shigeru',
       },
     },
   ],
   epilogue: {
     lines: [
       {
-        speaker: 'Kael',
+        speaker: 'Akira',
         text: 'A fine victory! Our first battle together!',
         speakerFaction: 'player',
       },
-      { speaker: 'Ren', text: '...Yeah. The first.', speakerFaction: 'player' },
+      { speaker: 'Shigeru', text: '...Yeah. The first.', speakerFaction: 'player' },
       {
-        speaker: 'Lira',
+        speaker: 'Hina',
         text: 'Excuse me! Is this where the story starts? I heard there would be character development and meaningful bonds!',
         speakerFaction: 'player',
       },
-      { speaker: 'Ren', text: '...Who are you?', speakerFaction: 'player' },
+      { speaker: 'Shigeru', text: '...Who are you?', speakerFaction: 'player' },
       {
-        speaker: 'Lira',
+        speaker: 'Hina',
         text: "I'm your healer! And possibly your love interest? The game hasn't decided yet.",
         speakerFaction: 'player',
       },
-      { speaker: 'Ren', text: "We don't have a romance system.", speakerFaction: 'player' },
-      { speaker: 'Lira', text: '...We WHAT?', speakerFaction: 'player' },
+      { speaker: 'Shigeru', text: "We don't have a romance system.", speakerFaction: 'player' },
+      { speaker: 'Hina', text: '...We WHAT?', speakerFaction: 'player' },
       {
         speaker: 'Narrator',
-        text: "Ren's company presses onward, their ranks growing in unexpected ways.",
+        text: "Shigeru's company presses onward, their ranks growing in unexpected ways.",
       },
     ],
   },
   deploymentSlots: 5,
-  forceDeploy: ['ren'],
+  forceDeploy: ['shigeru'],
   skipPreparation: true,
   parTurns: 8,
   events: [
-    // Turn 2 — Bram's arrival
+    // Turn 2 — Goro's arrival
     {
-      id: 'ch1_bram_arrival',
+      id: 'ch1_goro_arrival',
       trigger: { type: 'turn_start', turn: 2 },
       effects: [
         {
@@ -134,23 +134,23 @@ export const CHAPTER_1: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Bram',
+                speaker: 'Goro',
                 text: "FINALLY! A BATTLE! Where's the combo meter??",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Ren',
+                speaker: 'Shigeru',
                 text: "There's no combo meter. You get one attack per turn.",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Bram',
+                speaker: 'Goro',
                 text: '...What kind of sick game is this?',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Ren',
-                text: 'The kind with 5-tile movement and weapon triangles. Stay behind Kael.',
+                speaker: 'Shigeru',
+                text: 'The kind with 5-tile movement and weapon triangles. Stay behind Akira.',
                 speakerFaction: 'player',
               },
             ],
@@ -169,21 +169,21 @@ export const CHAPTER_1: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Bram',
+                speaker: 'Goro',
                 text: 'Why did I hit like a WET NAPKIN? I have the highest STR!',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Senna',
+                speaker: 'Kanna',
                 text: 'Weapon triangle. Axes lose to lances, lances lose to swords, swords lose to axes.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Bram',
+                speaker: 'Goro',
                 text: "That's ROCK PAPER SCISSORS. This game is ROCK PAPER SCISSORS.",
                 speakerFaction: 'player',
               },
-              { speaker: 'Ren', text: 'Welcome to tactical RPGs.', speakerFaction: 'player' },
+              { speaker: 'Shigeru', text: 'Welcome to tactical RPGs.', speakerFaction: 'player' },
             ],
           },
         },
@@ -200,27 +200,27 @@ export const CHAPTER_1: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Garrek',
-                text: 'I am Garrek the Terr\u2014 stop YAWNING. This is my INTRO SPEECH.',
+                speaker: 'Baraku',
+                text: 'I am Baraku the Terr\u2014 stop YAWNING. This is my INTRO SPEECH.',
                 speakerFaction: 'enemy',
               },
               {
-                speaker: 'Ren',
-                text: "I've heard it 347 times, Garrek.",
+                speaker: 'Shigeru',
+                text: "I've heard it 347 times, Baraku.",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Garrek',
+                speaker: 'Baraku',
                 text: "Well I've GIVEN it 347 times and it still deserves RESPECT.",
                 speakerFaction: 'enemy',
               },
               {
-                speaker: 'Ren',
+                speaker: 'Shigeru',
                 text: 'Can we skip to the part where I beat you with the Rapier?',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Garrek',
+                speaker: 'Baraku',
                 text: 'NO. We do the speech. We do the fight. We do this PROPERLY.',
                 speakerFaction: 'enemy',
               },
@@ -230,24 +230,24 @@ export const CHAPTER_1: ChapterData = {
       ],
       once: true,
     },
-    // Boss pre-combat — Ren approaches throne
+    // Boss pre-combat — Shigeru approaches throne
     {
       id: 'ch1_boss_precombat',
-      trigger: { type: 'unit_at', unitId: 'ren', position: { x: 11, y: 2 } },
+      trigger: { type: 'unit_at', unitId: 'shigeru', position: { x: 11, y: 2 } },
       effects: [
         {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Garrek', text: "You remember too, don't you?", speakerFaction: 'enemy' },
-              { speaker: 'Ren', text: '...How long have you known?', speakerFaction: 'player' },
+              { speaker: 'Baraku', text: "You remember too, don't you?", speakerFaction: 'enemy' },
+              { speaker: 'Shigeru', text: '...How long have you known?', speakerFaction: 'player' },
               {
-                speaker: 'Garrek',
+                speaker: 'Baraku',
                 text: "Every cycle. All 347. I've been the tutorial boss since the beginning. You at least get to MOVE. I stand on this throne and wait to die.",
                 speakerFaction: 'enemy',
               },
-              { speaker: 'Ren', text: "I'm sorry.", speakerFaction: 'player' },
-              { speaker: 'Garrek', text: 'Just make it quick.', speakerFaction: 'enemy' },
+              { speaker: 'Shigeru', text: "I'm sorry.", speakerFaction: 'player' },
+              { speaker: 'Baraku', text: 'Just make it quick.', speakerFaction: 'enemy' },
             ],
           },
         },
@@ -257,15 +257,15 @@ export const CHAPTER_1: ChapterData = {
     // Boss killed
     {
       id: 'ch1_boss_killed',
-      trigger: { type: 'unit_killed', unitId: 'garrek' },
+      trigger: { type: 'unit_killed', unitId: 'baraku' },
       effects: [
         {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Garrek', text: 'See you next cycle.', speakerFaction: 'enemy' },
-              { speaker: 'Ren', text: '...Maybe not.', speakerFaction: 'player' },
-              { speaker: 'Garrek', text: 'You say that every time.', speakerFaction: 'enemy' },
+              { speaker: 'Baraku', text: 'See you next cycle.', speakerFaction: 'enemy' },
+              { speaker: 'Shigeru', text: '...Maybe not.', speakerFaction: 'player' },
+              { speaker: 'Baraku', text: 'You say that every time.', speakerFaction: 'enemy' },
             ],
           },
         },
@@ -275,55 +275,55 @@ export const CHAPTER_1: ChapterData = {
   ],
   supportConversations: [
     {
-      unitA: 'ren',
-      unitB: 'kael',
+      unitA: 'shigeru',
+      unitB: 'akira',
       lines: [
         {
-          speaker: 'Kael',
-          text: 'Ren, you knew exactly where every enemy was. Before we even started.',
+          speaker: 'Akira',
+          text: 'Shigeru, you knew exactly where every enemy was. Before we even started.',
           speakerFaction: 'player',
         },
-        { speaker: 'Ren', text: 'I pay attention.', speakerFaction: 'player' },
+        { speaker: 'Shigeru', text: 'I pay attention.', speakerFaction: 'player' },
         {
-          speaker: 'Kael',
+          speaker: 'Akira',
           text: 'Nobody pays THAT much attention. You called the bandit by name.',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Ren',
-          text: "Kael... when the time is right, I'll explain everything. For now, just trust me.",
+          speaker: 'Shigeru',
+          text: "Akira... when the time is right, I'll explain everything. For now, just trust me.",
           speakerFaction: 'player',
         },
         {
-          speaker: 'Kael',
-          text: '...Very well. I trust you, Ren. Always.',
+          speaker: 'Akira',
+          text: '...Very well. I trust you, Shigeru. Always.',
           speakerFaction: 'player',
         },
       ],
       reward: { type: 'exp_both', amount: 20 },
     },
     {
-      unitA: 'senna',
-      unitB: 'lira',
+      unitA: 'kanna',
+      unitB: 'hina',
       lines: [
         {
-          speaker: 'Lira',
-          text: "Senna! I've been meaning to ask \u2014 do you believe in love at first sight?",
+          speaker: 'Hina',
+          text: "Kanna! I've been meaning to ask \u2014 do you believe in love at first sight?",
           speakerFaction: 'player',
         },
         {
-          speaker: 'Senna',
+          speaker: 'Kanna',
           text: "I believe in observable phenomena with reproducible results. 'Love at first sight' is a confirmation bias.",
           speakerFaction: 'player',
         },
         {
-          speaker: 'Lira',
+          speaker: 'Hina',
           text: "That's... the most romantic thing anyone has ever said to me.",
           speakerFaction: 'player',
         },
-        { speaker: 'Senna', text: '...How?', speakerFaction: 'player' },
+        { speaker: 'Kanna', text: '...How?', speakerFaction: 'player' },
       ],
-      reward: { type: 'stat', unitId: 'lira', stat: 'mag', amount: 1 },
+      reward: { type: 'stat', unitId: 'hina', stat: 'mag', amount: 1 },
     },
   ],
 };

@@ -31,14 +31,14 @@ export const CHAPTER_4: ChapterData = {
   mapHeight: 10,
   terrain,
   playerUnits: [
-    { unitId: 'ren', position: { x: 7, y: 9 } },
-    { unitId: 'kael', position: { x: 10, y: 9 } },
-    { unitId: 'senna', position: { x: 6, y: 9 } },
-    { unitId: 'lira', position: { x: 11, y: 9 } },
-    { unitId: 'bram', position: { x: 8, y: 9 } },
-    { unitId: 'voss', position: { x: 9, y: 9 } },
-    { unitId: 'nira', position: { x: 5, y: 9 } },
-    { unitId: 'coda', position: { x: 4, y: 9 } },
+    { unitId: 'shigeru', position: { x: 7, y: 9 } },
+    { unitId: 'akira', position: { x: 10, y: 9 } },
+    { unitId: 'kanna', position: { x: 6, y: 9 } },
+    { unitId: 'hina', position: { x: 11, y: 9 } },
+    { unitId: 'goro', position: { x: 8, y: 9 } },
+    { unitId: 'genzo', position: { x: 9, y: 9 } },
+    { unitId: 'sayo', position: { x: 5, y: 9 } },
+    { unitId: 'hachi', position: { x: 4, y: 9 } },
   ],
   enemyUnits: [
     { unitId: 'ch4_soldier_1', position: { x: 4, y: 7 } },
@@ -59,33 +59,33 @@ export const CHAPTER_4: ChapterData = {
   },
   seizePosition: { x: 8, y: 0 },
   deploymentSlots: 7,
-  forceDeploy: ['ren'],
+  forceDeploy: ['shigeru'],
   recruitableUnits: [],
   prologue: {
     lines: [
       {
         speaker: 'Narrator',
-        text: "Ren's company arrives at the pirate stronghold of Portwall. Overturned stalls and fleeing merchants paint a grim picture.",
+        text: "Shigeru's company arrives at the pirate stronghold of Portwall. Overturned stalls and fleeing merchants paint a grim picture.",
       },
-      { speaker: 'Kael', text: 'Pirates? This far inland?', speakerFaction: 'player' },
+      { speaker: 'Akira', text: 'Pirates? This far inland?', speakerFaction: 'player' },
       {
-        speaker: 'Senna',
+        speaker: 'Kanna',
         text: "River pirates. They've been raiding the district for weeks. Three storehouses are still holding out.",
         speakerFaction: 'player',
       },
       {
-        speaker: 'Bram',
+        speaker: 'Goro',
         text: 'PIRATES. Do they have a loot system? Tell me they drop rare items.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Lira',
-        text: 'Bram, these people are losing their HOMES.',
+        speaker: 'Hina',
+        text: 'Goro, these people are losing their HOMES.',
         speakerFaction: 'player',
       },
-      { speaker: 'Bram', text: 'Right. Tragic. But also \u2014 loot?', speakerFaction: 'player' },
+      { speaker: 'Goro', text: 'Right. Tragic. But also \u2014 loot?', speakerFaction: 'player' },
       {
-        speaker: 'Ren',
+        speaker: 'Shigeru',
         text: 'We protect the storehouses. All three. If even one falls, the town loses its trade route.',
         speakerFaction: 'player',
       },
@@ -94,41 +94,41 @@ export const CHAPTER_4: ChapterData = {
   epilogue: {
     lines: [
       {
-        speaker: 'Lira',
-        text: "Coda, was it? You're really staying with us?",
+        speaker: 'Hina',
+        text: "Hachi, was it? You're really staying with us?",
         speakerFaction: 'player',
       },
       {
-        speaker: 'Coda',
+        speaker: 'Hachi',
         text: "Your group has terrible stealth discipline, but decent loot potential. I'll manage.",
         speakerFaction: 'player',
       },
       {
-        speaker: 'Voss',
+        speaker: 'Genzo',
         text: 'They stole my belt pouch. Twice. During the battle.',
         speakerFaction: 'player',
       },
-      { speaker: 'Coda', text: 'Quality assurance. You passed. Mostly.', speakerFaction: 'player' },
+      { speaker: 'Hachi', text: 'Quality assurance. You passed. Mostly.', speakerFaction: 'player' },
       {
-        speaker: 'Bram',
+        speaker: 'Goro',
         text: 'I like them. Finally someone who understands the importance of a good item game.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Coda',
+        speaker: 'Hachi',
         text: 'Oh \u2014 one thing. That corridor back there? Something was... flickering.',
         speakerFaction: 'player',
       },
-      { speaker: 'Senna', text: 'Flickering?', speakerFaction: 'player' },
+      { speaker: 'Kanna', text: 'Flickering?', speakerFaction: 'player' },
       {
-        speaker: 'Coda',
+        speaker: 'Hachi',
         text: 'Like the air was glitching. Just for a second. Textures not loading properly, you know? Probably nothing.',
         speakerFaction: 'player',
       },
-      { speaker: 'Ren', text: '...Probably.', speakerFaction: 'player' },
+      { speaker: 'Shigeru', text: '...Probably.', speakerFaction: 'player' },
       {
         speaker: 'Narrator',
-        text: 'The company rests as evening falls, but the flickering Coda noticed lingers in their thoughts.',
+        text: 'The company rests as evening falls, but the flickering Hachi noticed lingers in their thoughts.',
       },
     ],
   },
@@ -184,35 +184,35 @@ export const CHAPTER_4: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Senna',
+                speaker: 'Kanna',
                 text: "Raiders \u2014 heading for the storehouses. They're fast and they won't stop to fight.",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Ren',
+                speaker: 'Shigeru',
                 text: 'Split up. Cover all three routes.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Bram',
+                speaker: 'Goro',
                 text: "Splitting the party?! That's ALWAYS a bad idea!",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Lira',
+                speaker: 'Hina',
                 text: "He's right, actually. In my experience, the party should stay together for bonding opportunities.",
                 speakerFaction: 'player',
               },
-              { speaker: 'Ren', text: "We're splitting up.", speakerFaction: 'player' },
+              { speaker: 'Shigeru', text: "We're splitting up.", speakerFaction: 'player' },
             ],
           },
         },
       ],
       once: true,
     },
-    // Turn 3 — Coda encounter
+    // Turn 3 — Hachi encounter
     {
-      id: 'ch4_coda_encounter',
+      id: 'ch4_hachi_encounter',
       trigger: { type: 'turn_start', turn: 3 },
       effects: [
         {
@@ -220,39 +220,39 @@ export const CHAPTER_4: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Coda',
+                speaker: 'Hachi',
                 text: 'Stealth check... passed. Lockpick check... passed. Inventory extraction in progress\u2014',
                 speakerFaction: 'player',
               },
-              { speaker: 'Ren', text: 'HEY. Drop it.', speakerFaction: 'player' },
+              { speaker: 'Shigeru', text: 'HEY. Drop it.', speakerFaction: 'player' },
               {
-                speaker: 'Coda',
+                speaker: 'Hachi',
                 text: "...How did you SEE me? I'm crouching! Crouching makes you invisible!",
                 speakerFaction: 'player',
               },
-              { speaker: 'Ren', text: "It doesn't.", speakerFaction: 'player' },
+              { speaker: 'Shigeru', text: "It doesn't.", speakerFaction: 'player' },
               {
-                speaker: 'Coda',
+                speaker: 'Hachi',
                 text: "It does in EVERY game I've played.",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Coda',
+                speaker: 'Hachi',
                 text: "Fine. I'll join your... whatever this is. Loud squad. Walking-in-the-open squad.",
                 speakerFaction: 'player',
               },
-              { speaker: 'Senna', text: 'Welcome to tactical combat.', speakerFaction: 'player' },
+              { speaker: 'Kanna', text: 'Welcome to tactical combat.', speakerFaction: 'player' },
               {
-                speaker: 'Coda',
+                speaker: 'Hachi',
                 text: "I don't DO combat. I do 'data extraction' and 'tactical repositioning.'",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Bram',
+                speaker: 'Goro',
                 text: 'Those are just fancy words for stealing and running away.',
                 speakerFaction: 'player',
               },
-              { speaker: 'Coda', text: '...Exactly.', speakerFaction: 'player' },
+              { speaker: 'Hachi', text: '...Exactly.', speakerFaction: 'player' },
             ],
           },
         },
@@ -269,17 +269,17 @@ export const CHAPTER_4: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Senna',
+                speaker: 'Kanna',
                 text: "That raider is closing on the southern storehouse. If they reach it, it's lost.",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Nira',
+                speaker: 'Sayo',
                 text: "I can intercept \u2014 but I'd be overextended.",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Ren',
+                speaker: 'Shigeru',
                 text: "Do it. We can't lose any of them.",
                 speakerFaction: 'player',
               },
@@ -289,27 +289,27 @@ export const CHAPTER_4: ChapterData = {
       ],
       once: true,
     },
-    // Boss pre-combat — Ren approaches Marko
+    // Boss pre-combat — Shigeru approaches Zanba
     {
       id: 'ch4_boss_precombat',
-      trigger: { type: 'unit_at', unitId: 'ren', position: { x: 8, y: 1 } },
+      trigger: { type: 'unit_at', unitId: 'shigeru', position: { x: 8, y: 1 } },
       effects: [
         {
           type: 'show_dialogue',
           scene: {
             lines: [
               {
-                speaker: 'Marko',
+                speaker: 'Zanba',
                 text: 'More heroes? I get a new batch every week. You all look the same.',
                 speakerFaction: 'enemy',
               },
               {
-                speaker: 'Ren',
+                speaker: 'Shigeru',
                 text: 'Stand down. Your operation is finished.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Marko',
+                speaker: 'Zanba',
                 text: "Gold is gold. Don't care about your 'grand quest.' I'm just getting PAID.",
                 speakerFaction: 'enemy',
               },
@@ -329,13 +329,13 @@ export const CHAPTER_4: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Bram',
+                speaker: 'Goro',
                 text: 'Did he drop anything? Check his pockets!',
                 speakerFaction: 'player',
               },
-              { speaker: 'Coda', text: 'Already did. Nothing good.', speakerFaction: 'player' },
-              { speaker: 'Bram', text: 'WHEN did you\u2014', speakerFaction: 'player' },
-              { speaker: 'Coda', text: 'Stealth.', speakerFaction: 'player' },
+              { speaker: 'Hachi', text: 'Already did. Nothing good.', speakerFaction: 'player' },
+              { speaker: 'Goro', text: 'WHEN did you\u2014', speakerFaction: 'player' },
+              { speaker: 'Hachi', text: 'Stealth.', speakerFaction: 'player' },
             ],
           },
         },
@@ -345,60 +345,60 @@ export const CHAPTER_4: ChapterData = {
   ],
   supportConversations: [
     {
-      unitA: 'coda',
-      unitB: 'bram',
+      unitA: 'hachi',
+      unitB: 'goro',
       lines: [
         {
-          speaker: 'Bram',
-          text: "Coda. Important question. What's the best loot you've ever found?",
+          speaker: 'Goro',
+          text: "Hachi. Important question. What's the best loot you've ever found?",
           speakerFaction: 'player',
         },
         {
-          speaker: 'Coda',
+          speaker: 'Hachi',
           text: 'A key that opened every door in a twelve-floor dungeon. Beautiful piece of data.',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Bram',
+          speaker: 'Goro',
           text: "That's not loot! That's a TOOL. I mean weapons! Armor! Things that make you HIT HARDER.",
           speakerFaction: 'player',
         },
         {
-          speaker: 'Coda',
+          speaker: 'Hachi',
           text: '...You people and your direct approaches. Sometimes the best weapon is the one they never see.',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Bram',
+          speaker: 'Goro',
           text: 'I want them to see it. I want them to see it COMING.',
           speakerFaction: 'player',
         },
       ],
-      reward: { type: 'stat', unitId: 'bram', stat: 'str', amount: 1 },
+      reward: { type: 'stat', unitId: 'goro', stat: 'str', amount: 1 },
     },
     {
-      unitA: 'voss',
-      unitB: 'nira',
+      unitA: 'genzo',
+      unitB: 'sayo',
       lines: [
-        { speaker: 'Voss', text: "You don't talk much.", speakerFaction: 'player' },
-        { speaker: 'Nira', text: 'No.', speakerFaction: 'player' },
+        { speaker: 'Genzo', text: "You don't talk much.", speakerFaction: 'player' },
+        { speaker: 'Sayo', text: 'No.', speakerFaction: 'player' },
         {
-          speaker: 'Voss',
+          speaker: 'Genzo',
           text: "I stood still for fifteen turns and nobody talked to me either. It's not bad, actually.",
           speakerFaction: 'player',
         },
         {
-          speaker: 'Nira',
+          speaker: 'Sayo',
           text: 'I prefer high ground and clear sightlines to conversation.',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Voss',
+          speaker: 'Genzo',
           text: '...That might be the most relatable thing anyone in this company has said to me.',
           speakerFaction: 'player',
         },
       ],
-      reward: { type: 'stat', unitId: 'nira', stat: 'skl', amount: 1 },
+      reward: { type: 'stat', unitId: 'sayo', stat: 'skl', amount: 1 },
     },
   ],
 };

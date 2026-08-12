@@ -17,16 +17,16 @@
  * tile at a consistent size instead of floating or sinking. Re-measure with
  * the debug Sprites view if the art changes.
  */
-import renBattle from '../../assets/sprites/ren-battle.png';
+import lordBattle from '../../assets/sprites/lord-battle.png';
 import cavalierBattle from '../../assets/sprites/cavalier-battle.png';
 import mageBattle from '../../assets/sprites/mage-battle.png';
 import fighterBattle from '../../assets/sprites/fighter-battle.png';
 import soldierBattle from '../../assets/sprites/soldier-battle.png';
 import clericBattle from '../../assets/sprites/cleric-battle.png';
 import genericBattle from '../../assets/sprites/generic-battle.png';
-import liraBattle from '../../assets/sprites/lira-battle.png';
-import bramBattle from '../../assets/sprites/bram-battle.png';
-import garrekBattle from '../../assets/sprites/garrek-battle.png';
+import pegasusBattle from '../../assets/sprites/pegasus-battle.png';
+import goroBattle from '../../assets/sprites/goro-battle.png';
+import barakuBattle from '../../assets/sprites/baraku-battle.png';
 
 export type Clip = {
   /** Frame numbers, row-major from 0. */
@@ -93,7 +93,7 @@ const GENERIC_SHEET: SpriteSheet = {
 
 const BASE_SHEETS: Record<string, SpriteSheet> = {
   lord: {
-    url: renBattle,
+    url: lordBattle,
     cols: 8,
     rows: 4,
     sheetW: 1536,
@@ -155,7 +155,7 @@ const BASE_SHEETS: Record<string, SpriteSheet> = {
     clips: { idle: idle(0, 10), attack: attack(20, 10) },
   },
   pegasus: {
-    url: liraBattle,
+    url: pegasusBattle,
     cols: 8,
     rows: 4,
     sheetW: 1536,
@@ -169,9 +169,9 @@ const BASE_SHEETS: Record<string, SpriteSheet> = {
 
 /** Per-unit overrides — take priority over the class lookup. */
 const UNIT_SHEETS: Record<string, SpriteSheet> = {
-  lira: BASE_SHEETS.pegasus,
-  bram: {
-    url: bramBattle,
+  hina: BASE_SHEETS.pegasus,
+  goro: {
+    url: goroBattle,
     cols: 8,
     rows: 4,
     sheetW: 1247,
@@ -180,8 +180,8 @@ const UNIT_SHEETS: Record<string, SpriteSheet> = {
     content: { cx: 0.5, bottom: 1, height: 0.85 },
     clips: { idle: idle(0, 8), attack: attack(16, 7) },
   },
-  garrek: {
-    url: garrekBattle,
+  baraku: {
+    url: barakuBattle,
     cols: 7,
     rows: 3,
     sheetW: 1536,

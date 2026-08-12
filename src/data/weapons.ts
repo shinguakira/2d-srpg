@@ -219,7 +219,7 @@ export const WEAPONS: Record<string, Weapon> = {
     weight: 5,
     minRange: 1,
     maxRange: 1,
-    prf: 'ren',
+    prf: 'shigeru',
     effectiveAgainst: ['armored', 'mounted'],
     rank: 'Prf',
     durability: null,
@@ -263,7 +263,7 @@ export const WEAPONS: Record<string, Weapon> = {
     weight: 9,
     minRange: 1,
     maxRange: 1,
-    prf: 'voss',
+    prf: 'genzo',
     durability: null,
     maxDurability: null,
     rank: 'Prf',
@@ -278,7 +278,7 @@ export const WEAPONS: Record<string, Weapon> = {
     weight: 4,
     minRange: 2,
     maxRange: 2,
-    prf: 'nira',
+    prf: 'sayo',
     rank: 'Prf',
     durability: null,
     maxDurability: null,
@@ -293,7 +293,7 @@ export const WEAPONS: Record<string, Weapon> = {
     weight: 2,
     minRange: 1,
     maxRange: 2,
-    prf: 'coda',
+    prf: 'hachi',
     rank: 'Prf',
     durability: null,
     maxDurability: null,
@@ -457,7 +457,7 @@ export const WEAPONS: Record<string, Weapon> = {
     maxDurability: 30,
   },
 
-  // ===== Prf — Memory Blade (Ren) =====
+  // ===== Prf — Memory Blade (Shigeru) =====
 
   memory_blade: {
     id: 'memory_blade',
@@ -469,7 +469,7 @@ export const WEAPONS: Record<string, Weapon> = {
     weight: 4,
     minRange: 1,
     maxRange: 1,
-    prf: 'ren',
+    prf: 'shigeru',
     rank: 'Prf',
     durability: null,
     maxDurability: null,
@@ -487,7 +487,7 @@ export const WEAPONS: Record<string, Weapon> = {
     weight: 8,
     minRange: 2,
     maxRange: 3,
-    prf: 'nira',
+    prf: 'sayo',
     effectiveAgainst: ['system_construct'],
     rank: 'Prf',
     durability: null,

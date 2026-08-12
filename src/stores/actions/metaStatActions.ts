@@ -19,12 +19,12 @@ type Set = (partial: Partial<GameState>) => void;
 
 /** Canned anomaly dialogue lines for AWR ≥ 30 units adjacent to glitched terrain */
 const ANOMALY_LINES: Record<string, string> = {
-  ren: "This glitch... it's the same as cycle #203.",
-  senna: 'The data corruption here is measurable. Fascinating.',
-  bram: "Something feels OFF about this spot. My skin's crawling.",
-  lira: 'I can feel the wrongness seeping in...',
-  kael: "Stay sharp. The ground here isn't right.",
-  voss: "I've seen terrain like this before — on the other side.",
+  shigeru: "This glitch... it's the same as cycle #203.",
+  kanna: 'The data corruption here is measurable. Fascinating.',
+  goro: "Something feels OFF about this spot. My skin's crawling.",
+  hina: 'I can feel the wrongness seeping in...',
+  akira: "Stay sharp. The ground here isn't right.",
+  genzo: "I've seen terrain like this before — on the other side.",
 };
 const DEFAULT_ANOMALY_LINE = 'Something feels... wrong about this place.';
 
@@ -37,11 +37,11 @@ export function updateTurnMetaStats(get: Get, set: Set, faction: Faction) {
   let corruptedUnitId: string | null = null;
   let anomalyDialogue: { speaker: string; text: string } | null = null;
 
-  // Find Ren's position for LOY adjacency
-  let renPos: { x: number; y: number } | null = null;
+  // Find Shigeru's position for LOY adjacency
+  let lordPos: { x: number; y: number } | null = null;
   for (const u of units.values()) {
-    if (u.id === 'ren' && u.faction === 'player') {
-      renPos = u.position;
+    if (u.id === 'shigeru' && u.faction === 'player') {
+      lordPos = u.position;
       break;
     }
   }
@@ -78,9 +78,9 @@ export function updateTurnMetaStats(get: Get, set: Set, faction: Faction) {
       addFloat(newFloats, unit.position.x, unit.position.y, `STA ${staRecovery}`, '#f97316');
     }
 
-    // LOY +2 if adjacent to Ren (player phase only)
-    if (faction === 'player' && renPos && id !== 'ren') {
-      const dist = getManhattanDistance(unit.position, renPos);
+    // LOY +2 if adjacent to Shigeru (player phase only)
+    if (faction === 'player' && lordPos && id !== 'shigeru') {
+      const dist = getManhattanDistance(unit.position, lordPos);
       if (dist <= 1) {
         meta.loy += 2;
         addFloat(newFloats, unit.position.x, unit.position.y, 'LOY +2', '#eab308');

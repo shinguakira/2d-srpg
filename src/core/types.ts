@@ -121,7 +121,7 @@ export type ConsumableItem = {
 
 export type MetaStats = {
   awr: number; // Awareness: 0-100
-  loop: number; // Memory (Ren only): spendable resource, starts 347
+  loop: number; // Memory (Shigeru only): spendable resource, starts 347
   sync: number; // Stability: 0-100
   loy: number; // Loyalty: 0-100
   crp: number; // Corruption: 0-100, 100 = turns enemy

@@ -6,7 +6,7 @@ type Get = () => GameState & GameActions;
 type Set = (partial: Partial<GameState>) => void;
 
 /**
- * Check if a unit (Ren) has reached a checkpoint position.
+ * Check if a unit (Shigeru) has reached a checkpoint position.
  * If so, reduce map boss HP and trigger phase transitions.
  */
 export function checkMapBossCheckpoint(

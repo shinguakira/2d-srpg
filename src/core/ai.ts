@@ -16,7 +16,7 @@ import {
 import type { CombatForecast } from './combat';
 import { getTerrainData } from './terrain';
 import type { ClassFlags } from './terrain';
-import { isNearRen } from './metaStats';
+import { isNearLord } from './metaStats';
 
 export type AIAction = {
   unitId: string;
@@ -165,7 +165,7 @@ function collectAttackOptions(
 
   for (const pos of movablePositions) {
     const attackerTerrain = gameMap.tiles[pos.y][pos.x].terrain;
-    const attackerNearRen = unit.id !== 'ren' && isNearRen(pos, allUnits);
+    const attackerNearLord = unit.id !== 'shigeru' && isNearLord(pos, allUnits);
 
     for (const target of allUnits.values()) {
       if (target.faction === unit.faction) continue;
@@ -173,7 +173,7 @@ function collectAttackOptions(
 
       const defenderTerrain = gameMap.tiles[target.position.y][target.position.x].terrain;
       const distance = getManhattanDistance(pos, target.position);
-      const defenderNearRen = target.id !== 'ren' && isNearRen(target.position, allUnits);
+      const defenderNearLord = target.id !== 'shigeru' && isNearLord(target.position, allUnits);
 
       // Evaluate each weapon, keep best by expected value
       let bestEv = -1;
@@ -193,7 +193,7 @@ function collectAttackOptions(
           attackerTerrain,
           defenderTerrain,
           distance,
-          { attackerNearRen, defenderNearRen, weather },
+          { attackerNearLord, defenderNearLord, weather },
         );
         const ev = (forecast.attackerDamage * forecast.attackerHit) / 100;
 

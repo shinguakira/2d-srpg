@@ -57,7 +57,7 @@ describe('Combat + Meta-Stats Integration', () => {
     it('scales damage with LOOP', () => {
       // Memory Blade: might = 1 + floor(LOOP / 30)
       // LOOP 347 → might = 1 + floor(347/30) = 1 + 11 = 12
-      const attacker = makeUnit('ren', {
+      const attacker = makeUnit('shigeru', {
         equippedWeapon: makeWeapon('sword', { id: 'memory_blade', name: 'Memory Blade', might: 1 }),
         metaStats: { awr: 0, loop: 347, sync: 70, loy: 50, crp: 0, sta: 0 },
       });
@@ -73,7 +73,7 @@ describe('Combat + Meta-Stats Integration', () => {
 
     it('has low damage with 0 LOOP', () => {
       // LOOP 0 → might = 1 + floor(0/30) = 1
-      const attacker = makeUnit('ren', {
+      const attacker = makeUnit('shigeru', {
         equippedWeapon: makeWeapon('sword', { id: 'memory_blade', name: 'Memory Blade', might: 1 }),
         metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
       });
@@ -91,7 +91,7 @@ describe('Combat + Meta-Stats Integration', () => {
       const attacker = makeUnit('player1', {
         position: { x: 0, y: 0 },
       });
-      const defender = makeUnit('ren', {
+      const defender = makeUnit('shigeru', {
         faction: 'enemy',
         position: { x: 1, y: 0 },
         equippedWeapon: makeWeapon('sword', { id: 'memory_blade', name: 'Memory Blade', might: 1 }),
@@ -415,7 +415,7 @@ describe('Combat + Meta-Stats Integration', () => {
   });
 
   describe('LOY bonus in combat', () => {
-    it('grants +1 all stats when LOY >= 80 and near Ren', () => {
+    it('grants +1 all stats when LOY >= 80 and near Shigeru', () => {
       const attacker = makeUnit('ally', {
         stats: {
           hp: 20,
@@ -439,11 +439,11 @@ describe('Combat + Meta-Stats Integration', () => {
 
       // Without nearRen
       const forecastFar = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1, {
-        attackerNearRen: false,
+        attackerNearLord: false,
       });
       // With nearRen
       const forecastNear = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1, {
-        attackerNearRen: true,
+        attackerNearLord: true,
       });
 
       // LOY 80 + nearRen: +1 str → +1 damage
@@ -460,10 +460,10 @@ describe('Combat + Meta-Stats Integration', () => {
       });
 
       const forecastFar = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1, {
-        attackerNearRen: false,
+        attackerNearLord: false,
       });
       const forecastNear = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1, {
-        attackerNearRen: true,
+        attackerNearLord: true,
       });
 
       expect(forecastNear.attackerDamage).toBe(forecastFar.attackerDamage);
@@ -573,7 +573,7 @@ describe('Combat + Meta-Stats Integration', () => {
   describe('resolve combat with meta-stat modifiers', () => {
     it('Memory Blade damage applies to actual hits', () => {
       const rng = new SeededRandom(42);
-      const attacker = makeUnit('ren', {
+      const attacker = makeUnit('shigeru', {
         equippedWeapon: makeWeapon('sword', {
           id: 'memory_blade',
           name: 'Memory Blade',

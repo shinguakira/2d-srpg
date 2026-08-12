@@ -59,7 +59,7 @@ function MetaStatsSection({ unit }: { unit: Unit }) {
       {!collapsed && (
         <>
           <MetaStatBar label="AWR" value={unit.metaStats.awr} max={100} stat="awr" />
-          {unit.id === 'ren' && (
+          {unit.id === 'shigeru' && (
             <div className="meta-stats__row">
               <span className="meta-stats__label meta-stats__label--loop">LOOP</span>
               <span className="meta-stats__loop-value">{unit.metaStats.loop}</span>

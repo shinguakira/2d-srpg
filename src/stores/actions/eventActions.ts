@@ -174,16 +174,16 @@ function applyEffectResult(get: Get, set: Set, result: EffectResult) {
     }
   }
 
-  // LOOP expenditure: if event sets flag 'loop_cost', deduct from Ren
+  // LOOP expenditure: if event sets flag 'loop_cost', deduct from Shigeru
   for (const change of result.flagChanges) {
     if (change.key === 'loop_cost') {
       const cost = parseInt(change.value, 10);
       if (!isNaN(cost) && cost > 0) {
-        const ren = newUnits.get('ren');
-        if (ren) {
-          newUnits.set('ren', {
-            ...ren,
-            metaStats: clampMetaStats({ ...ren.metaStats, loop: ren.metaStats.loop - cost }),
+        const lord = newUnits.get('shigeru');
+        if (lord) {
+          newUnits.set('shigeru', {
+            ...lord,
+            metaStats: clampMetaStats({ ...lord.metaStats, loop: lord.metaStats.loop - cost }),
           });
         }
       }

@@ -25,20 +25,20 @@ export function getTeachingCost(skillId: string): { loop: number; crp: number } 
 }
 
 /**
- * Check if Ren can teach a specific skill to a student.
+ * Check if Shigeru can teach a specific skill to a student.
  * LOOP is a Phase 4 resource — if the unit doesn't have it, teaching is gated.
  */
 export function canTeach(
-  ren: Unit,
+  lord: Unit,
   student: Unit,
   skillId: string,
 ): { eligible: boolean; reason?: string } {
   const skill = SKILLS[skillId];
   if (!skill) return { eligible: false, reason: 'Unknown skill' };
 
-  // Ren must know the skill (either equipped or learned)
-  const renKnows = ren.skills.includes(skillId) || ren.learnedSkills.includes(skillId);
-  if (!renKnows) return { eligible: false, reason: 'Ren does not know this skill' };
+  // Shigeru must know the skill (either equipped or learned)
+  const lordKnows = lord.skills.includes(skillId) || lord.learnedSkills.includes(skillId);
+  if (!lordKnows) return { eligible: false, reason: 'Shigeru does not know this skill' };
 
   // Student must not already know it
   if (student.skills.includes(skillId) || student.learnedSkills.includes(skillId)) {
@@ -51,9 +51,9 @@ export function canTeach(
     return { eligible: false, reason: 'Class innate skill' };
   }
 
-  // LOOP gate: in Phase 4 this will check a LOOP resource on Ren.
+  // LOOP gate: in Phase 4 this will check a LOOP resource on Shigeru.
   // For now, teaching is gated — always returns ineligible until LOOP is available.
-  const hasLoop = 'loop' in ren && typeof (ren as Record<string, unknown>).loop === 'number';
+  const hasLoop = 'loop' in lord && typeof (lord as Record<string, unknown>).loop === 'number';
   if (!hasLoop) {
     return { eligible: false, reason: 'Teaching requires LOOP (available in later chapters)' };
   }
@@ -62,26 +62,26 @@ export function canTeach(
 }
 
 /**
- * Apply teaching: student learns the skill, deduct LOOP from Ren, add CRP.
+ * Apply teaching: student learns the skill, deduct LOOP from Shigeru, add CRP.
  * Returns updated copies of both units.
  */
 export function applyTeaching(
-  ren: Unit,
+  lord: Unit,
   student: Unit,
   skillId: string,
   cost: { loop: number; crp: number },
-): { ren: Unit; student: Unit } {
+): { lord: Unit; student: Unit } {
   const newStudent = {
     ...student,
     learnedSkills: [...student.learnedSkills, skillId],
   };
 
   // Deduct LOOP if available (Phase 4)
-  let newRen = { ...ren };
-  if ('loop' in newRen && typeof (newRen as Record<string, unknown>).loop === 'number') {
-    (newRen as Record<string, unknown>).loop =
-      ((newRen as Record<string, unknown>).loop as number) - cost.loop;
+  let newLord = { ...lord };
+  if ('loop' in newLord && typeof (newLord as Record<string, unknown>).loop === 'number') {
+    (newLord as Record<string, unknown>).loop =
+      ((newLord as Record<string, unknown>).loop as number) - cost.loop;
   }
 
-  return { ren: newRen, student: newStudent };
+  return { lord: newLord, student: newStudent };
 }

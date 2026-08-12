@@ -16,15 +16,15 @@ test.describe('Chapter 3 — The Bandits of Borgo', () => {
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
     await page.waitForTimeout(300);
 
-    await expect(page.locator('[data-testid="tile-9-10"] [data-testid="unit-ren"]')).toBeVisible();
+    await expect(page.locator('[data-testid="tile-9-10"] [data-testid="unit-shigeru"]')).toBeVisible();
     await expect(
-      page.locator('[data-testid="tile-14-10"] [data-testid="unit-kael"]'),
+      page.locator('[data-testid="tile-14-10"] [data-testid="unit-akira"]'),
     ).toBeVisible();
     await expect(
-      page.locator('[data-testid="tile-10-11"] [data-testid="unit-senna"]'),
+      page.locator('[data-testid="tile-10-11"] [data-testid="unit-kanna"]'),
     ).toBeVisible();
     await expect(
-      page.locator('[data-testid="tile-15-11"] [data-testid="unit-lira"]'),
+      page.locator('[data-testid="tile-15-11"] [data-testid="unit-hina"]'),
     ).toBeVisible();
   });
 

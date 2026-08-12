@@ -133,7 +133,7 @@ test.describe('System Menu (総合メニュー)', () => {
   });
 
   test('clicking player unit does not open system menu', async ({ page }) => {
-    // Click Ren at (10, 10) — should select unit, not open menu
+    // Click Shigeru at (10, 10) — should select unit, not open menu
     await page.click('[data-testid="tile-10-10"]');
     await page.waitForTimeout(200);
 
@@ -154,7 +154,7 @@ test.describe('System Menu (総合メニュー)', () => {
   });
 
   test('clicking already-acted player unit does not open system menu', async ({ page }) => {
-    // Select Ren at (10, 10)
+    // Select Shigeru at (10, 10)
     await page.click('[data-testid="tile-10-10"]');
     await page.waitForTimeout(200);
 

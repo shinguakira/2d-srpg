@@ -33,9 +33,9 @@ test.describe('Chapter 1 — Full Game Flow', () => {
     await expect(grid).toHaveAttribute('data-grid-height', '12');
 
     // Player units present
-    await expect(page.locator('[data-testid="unit-ren"]')).toBeVisible();
-    await expect(page.locator('[data-testid="unit-kael"]')).toBeVisible();
-    await expect(page.locator('[data-testid="unit-senna"]')).toBeVisible();
+    await expect(page.locator('[data-testid="unit-shigeru"]')).toBeVisible();
+    await expect(page.locator('[data-testid="unit-akira"]')).toBeVisible();
+    await expect(page.locator('[data-testid="unit-kanna"]')).toBeVisible();
 
     // Enemy units present
     await expect(page.locator('[data-testid="unit-fighter_1"]')).toBeVisible();
@@ -51,15 +51,15 @@ test.describe('Chapter 1 — Full Game Flow', () => {
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
     await page.waitForTimeout(300);
 
-    // Ren at (10, 10)
-    await expect(page.locator('[data-testid="tile-10-10"] [data-testid="unit-ren"]')).toBeVisible();
-    // Kael at (13, 10)
+    // Shigeru at (10, 10)
+    await expect(page.locator('[data-testid="tile-10-10"] [data-testid="unit-shigeru"]')).toBeVisible();
+    // Akira at (13, 10)
     await expect(
-      page.locator('[data-testid="tile-13-10"] [data-testid="unit-kael"]'),
+      page.locator('[data-testid="tile-13-10"] [data-testid="unit-akira"]'),
     ).toBeVisible();
-    // Senna at (9, 11)
+    // Kanna at (9, 11)
     await expect(
-      page.locator('[data-testid="tile-9-11"] [data-testid="unit-senna"]'),
+      page.locator('[data-testid="tile-9-11"] [data-testid="unit-kanna"]'),
     ).toBeVisible();
 
     // fighter_3 at (11, 4)
@@ -98,7 +98,7 @@ test.describe('Chapter 1 — Full Game Flow', () => {
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
     await page.waitForTimeout(300);
 
-    // Move Kael to attack fighter_3
+    // Move Akira to attack fighter_3
     await page.click('[data-testid="tile-13-10"]');
     await page.waitForTimeout(200);
     await page.click('[data-testid="tile-11-5"]');
@@ -115,8 +115,8 @@ test.describe('Chapter 1 — Full Game Flow', () => {
       timeout: 10000,
     });
 
-    // Capture Kael's HP after combat
-    const kaelHp1 = await page.locator('[data-testid="unit-kael"]').getAttribute('data-hp');
+    // Capture Akira's HP after combat
+    const kaelHp1 = await page.locator('[data-testid="unit-akira"]').getAttribute('data-hp');
 
     // Now reload with same seed
     await page.goto('/?seed=99999&skipWalkAnim=true');
@@ -139,7 +139,7 @@ test.describe('Chapter 1 — Full Game Flow', () => {
       timeout: 10000,
     });
 
-    const kaelHp2 = await page.locator('[data-testid="unit-kael"]').getAttribute('data-hp');
+    const kaelHp2 = await page.locator('[data-testid="unit-akira"]').getAttribute('data-hp');
 
     // Same seed, same moves = same result
     expect(kaelHp1).toBe(kaelHp2);

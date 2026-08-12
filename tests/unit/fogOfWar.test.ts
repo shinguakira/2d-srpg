@@ -70,28 +70,28 @@ function makeMap(width: number, height: number): GameMap {
 
 describe('getVisionRange', () => {
   it('default vision is 3 for non-thief', () => {
-    const unit = makeUnit('ren', { x: 0, y: 0 });
+    const unit = makeUnit('shigeru', { x: 0, y: 0 });
     expect(getVisionRange(unit)).toBe(3);
   });
 
   it('thief gets vision 5', () => {
-    const unit = makeUnit('coda', { x: 0, y: 0 }, { classId: 'thief' });
+    const unit = makeUnit('hachi', { x: 0, y: 0 }, { classId: 'thief' });
     expect(getVisionRange(unit)).toBe(5);
   });
 
   it('assassin gets vision 5', () => {
-    const unit = makeUnit('coda', { x: 0, y: 0 }, { classId: 'assassin' });
+    const unit = makeUnit('hachi', { x: 0, y: 0 }, { classId: 'assassin' });
     expect(getVisionRange(unit)).toBe(5);
   });
 
   it('rogue gets vision 5', () => {
-    const unit = makeUnit('coda', { x: 0, y: 0 }, { classId: 'rogue' });
+    const unit = makeUnit('hachi', { x: 0, y: 0 }, { classId: 'rogue' });
     expect(getVisionRange(unit)).toBe(5);
   });
 
   it('AWR >= 61 adds +1', () => {
     const unit = makeUnit(
-      'ren',
+      'shigeru',
       { x: 0, y: 0 },
       {
         metaStats: { ...BASE_META, awr: 61 },
@@ -102,7 +102,7 @@ describe('getVisionRange', () => {
 
   it('AWR 60 does not add bonus', () => {
     const unit = makeUnit(
-      'ren',
+      'shigeru',
       { x: 0, y: 0 },
       {
         metaStats: { ...BASE_META, awr: 60 },
@@ -113,7 +113,7 @@ describe('getVisionRange', () => {
 
   it('thief + AWR 61 = 6', () => {
     const unit = makeUnit(
-      'coda',
+      'hachi',
       { x: 0, y: 0 },
       {
         classId: 'thief',
@@ -124,7 +124,7 @@ describe('getVisionRange', () => {
   });
 
   it('custom visionRange overrides default', () => {
-    const unit = makeUnit('ren', { x: 0, y: 0 }, { visionRange: 4 });
+    const unit = makeUnit('shigeru', { x: 0, y: 0 }, { visionRange: 4 });
     expect(getVisionRange(unit)).toBe(4);
   });
 });
@@ -132,7 +132,7 @@ describe('getVisionRange', () => {
 describe('calculateVisibleTiles', () => {
   it('calculates visible tiles within Manhattan distance', () => {
     const map = makeMap(7, 7);
-    const unit = makeUnit('ren', { x: 3, y: 3 });
+    const unit = makeUnit('shigeru', { x: 3, y: 3 });
     const visible = calculateVisibleTiles([unit], map);
 
     // Center tile should be visible
@@ -166,8 +166,8 @@ describe('calculateVisibleTiles', () => {
 
   it('torch adds +5 vision', () => {
     const map = makeMap(10, 1);
-    const unit = makeUnit('ren', { x: 0, y: 0 });
-    const torchEffects = new Map([['ren', 2]]);
+    const unit = makeUnit('shigeru', { x: 0, y: 0 });
+    const torchEffects = new Map([['shigeru', 2]]);
     const visible = calculateVisibleTiles([unit], map, torchEffects);
 
     // Normal range 3, torch adds 5 = range 8
@@ -177,7 +177,7 @@ describe('calculateVisibleTiles', () => {
 
   it('ignores carried units', () => {
     const map = makeMap(7, 7);
-    const unit = makeUnit('ren', { x: 3, y: 3 }, { isCarried: true });
+    const unit = makeUnit('shigeru', { x: 3, y: 3 }, { isCarried: true });
     const visible = calculateVisibleTiles([unit], map);
     expect(visible.size).toBe(0);
   });
@@ -191,7 +191,7 @@ describe('calculateVisibleTiles', () => {
 
   it('clips to map bounds', () => {
     const map = makeMap(5, 5);
-    const unit = makeUnit('ren', { x: 0, y: 0 });
+    const unit = makeUnit('shigeru', { x: 0, y: 0 });
     const visible = calculateVisibleTiles([unit], map);
 
     // Should not include negative positions
@@ -262,7 +262,7 @@ describe('isUnitVisibleInFog', () => {
 describe('initializeFogMap', () => {
   it('starts all hidden then reveals around player units', () => {
     const map = makeMap(7, 7);
-    const unit = makeUnit('ren', { x: 3, y: 3 });
+    const unit = makeUnit('shigeru', { x: 3, y: 3 });
     const { fogMap, visibleTiles } = initializeFogMap(map, [unit]);
 
     // Center should be visible

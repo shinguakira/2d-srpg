@@ -173,23 +173,23 @@ describe('Integration: CRP rises on glitched tile per turn', () => {
   });
 });
 
-describe('Integration: LOY -5 when Ren takes damage near adjacent ally', () => {
-  it('adjacent ally loses LOY when Ren is hit', () => {
-    const ren = makeUnit('ren', { x: 1, y: 1 }, { isLord: true });
+describe('Integration: LOY -5 when Shigeru takes damage near adjacent ally', () => {
+  it('adjacent ally loses LOY when Shigeru is hit', () => {
+    const lord = makeUnit('shigeru', { x: 1, y: 1 }, { isLord: true });
     const ally = makeUnit(
-      'kael',
+      'akira',
       { x: 1, y: 2 },
       { metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 } },
     );
     const enemy = makeUnit('enemy1', { x: 2, y: 1 }, { faction: 'enemy' });
     const units = new Map<string, Unit>([
-      ['ren', ren],
-      ['kael', ally],
+      ['shigeru', lord],
+      ['akira', ally],
       ['enemy1', enemy],
     ]);
     const gameMap = makeMap(4, 4);
 
-    // Enemy attacks Ren, deals 5 damage
+    // Enemy attacks Shigeru, deals 5 damage
     const combatResult: CombatResult = {
       hits: [
         {
@@ -205,29 +205,29 @@ describe('Integration: LOY -5 when Ren takes damage near adjacent ally', () => {
         },
       ],
       attackerHpAfter: 20, // enemy (attacker) is fine
-      defenderHpAfter: 15, // ren (defender) took damage
+      defenderHpAfter: 15, // lord (defender) took damage
       attackerDied: false,
       defenderDied: false,
     };
 
-    // Enemy is attacker, Ren is defender
-    const result = applyCombatResult(units, gameMap, 'enemy1', 'ren', combatResult, null);
-    // Kael should lose 5 LOY for being adjacent when Ren took damage
-    const kael = result.newUnits.get('kael')!;
-    expect(kael.metaStats.loy).toBe(45);
+    // Enemy is attacker, Shigeru is defender
+    const result = applyCombatResult(units, gameMap, 'enemy1', 'shigeru', combatResult, null);
+    // Akira should lose 5 LOY for being adjacent when Shigeru took damage
+    const akira = result.newUnits.get('akira')!;
+    expect(akira.metaStats.loy).toBe(45);
   });
 
   it('non-adjacent ally is unaffected', () => {
-    const ren = makeUnit('ren', { x: 1, y: 1 }, { isLord: true });
+    const lord = makeUnit('shigeru', { x: 1, y: 1 }, { isLord: true });
     const farAlly = makeUnit(
-      'senna',
+      'kanna',
       { x: 3, y: 3 },
       { metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 } },
     );
     const enemy = makeUnit('enemy1', { x: 2, y: 1 }, { faction: 'enemy' });
     const units = new Map<string, Unit>([
-      ['ren', ren],
-      ['senna', farAlly],
+      ['shigeru', lord],
+      ['kanna', farAlly],
       ['enemy1', enemy],
     ]);
     const gameMap = makeMap(4, 4);
@@ -252,22 +252,22 @@ describe('Integration: LOY -5 when Ren takes damage near adjacent ally', () => {
       defenderDied: false,
     };
 
-    const result = applyCombatResult(units, gameMap, 'enemy1', 'ren', combatResult, null);
-    const senna = result.newUnits.get('senna')!;
-    expect(senna.metaStats.loy).toBe(50); // unchanged
+    const result = applyCombatResult(units, gameMap, 'enemy1', 'shigeru', combatResult, null);
+    const kanna = result.newUnits.get('kanna')!;
+    expect(kanna.metaStats.loy).toBe(50); // unchanged
   });
 
-  it('LOY does not go below 0 from Ren damage penalty', () => {
-    const ren = makeUnit('ren', { x: 1, y: 1 }, { isLord: true });
+  it('LOY does not go below 0 from Shigeru damage penalty', () => {
+    const lord = makeUnit('shigeru', { x: 1, y: 1 }, { isLord: true });
     const ally = makeUnit(
-      'voss',
+      'genzo',
       { x: 1, y: 2 },
       { metaStats: { awr: 0, loop: 0, sync: 70, loy: 3, crp: 0, sta: 0 } },
     );
     const enemy = makeUnit('enemy1', { x: 2, y: 1 }, { faction: 'enemy' });
     const units = new Map<string, Unit>([
-      ['ren', ren],
-      ['voss', ally],
+      ['shigeru', lord],
+      ['genzo', ally],
       ['enemy1', enemy],
     ]);
     const gameMap = makeMap(4, 4);
@@ -292,24 +292,24 @@ describe('Integration: LOY -5 when Ren takes damage near adjacent ally', () => {
       defenderDied: false,
     };
 
-    const result = applyCombatResult(units, gameMap, 'enemy1', 'ren', combatResult, null);
-    expect(result.newUnits.get('voss')!.metaStats.loy).toBe(0);
+    const result = applyCombatResult(units, gameMap, 'enemy1', 'shigeru', combatResult, null);
+    expect(result.newUnits.get('genzo')!.metaStats.loy).toBe(0);
   });
 });
 
 describe('Integration: AWR 30 anomaly dialogue', () => {
   it('triggers dialogue when AWR >= 30 unit is adjacent to glitched tile', () => {
     const unit = makeUnit(
-      'senna',
+      'kanna',
       { x: 1, y: 1 },
       {
         metaStats: { awr: 30, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
       },
     );
-    const units = new Map<string, Unit>([['senna', unit]]);
+    const units = new Map<string, Unit>([['kanna', unit]]);
     // Glitched tile adjacent at (2,1)
     const gameMap = makeMap(3, 3, { '2,1': 'glitched' });
-    gameMap.tiles[1][1].occupantId = 'senna';
+    gameMap.tiles[1][1].occupantId = 'kanna';
 
     const { get, set, getState } = createMockGetSet({
       units,
@@ -323,22 +323,22 @@ describe('Integration: AWR 30 anomaly dialogue', () => {
     const state = getState();
     // Should have event dialogue
     expect(state.eventDialogue).toBeDefined();
-    expect(state.eventDialogue!.lines[0].speaker).toBe('Senna');
+    expect(state.eventDialogue!.lines[0].speaker).toBe('Kanna');
     // Should set flag to prevent repeat
-    expect(state.eventFlags.has('awr_comment_senna')).toBe(true);
+    expect(state.eventFlags.has('awr_comment_kanna')).toBe(true);
   });
 
   it('does not trigger if AWR < 30', () => {
     const unit = makeUnit(
-      'nira',
+      'sayo',
       { x: 1, y: 1 },
       {
         metaStats: { awr: 10, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
       },
     );
-    const units = new Map<string, Unit>([['nira', unit]]);
+    const units = new Map<string, Unit>([['sayo', unit]]);
     const gameMap = makeMap(3, 3, { '2,1': 'glitched' });
-    gameMap.tiles[1][1].occupantId = 'nira';
+    gameMap.tiles[1][1].occupantId = 'sayo';
 
     const { get, set, getState } = createMockGetSet({
       units,
@@ -355,18 +355,18 @@ describe('Integration: AWR 30 anomaly dialogue', () => {
 
   it('does not repeat for same unit', () => {
     const unit = makeUnit(
-      'bram',
+      'goro',
       { x: 1, y: 1 },
       {
         metaStats: { awr: 40, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
       },
     );
-    const units = new Map<string, Unit>([['bram', unit]]);
+    const units = new Map<string, Unit>([['goro', unit]]);
     const gameMap = makeMap(3, 3, { '2,1': 'glitched' });
-    gameMap.tiles[1][1].occupantId = 'bram';
+    gameMap.tiles[1][1].occupantId = 'goro';
 
     const flags = new Map<string, string>();
-    flags.set('awr_comment_bram', 'true');
+    flags.set('awr_comment_goro', 'true');
 
     const { get, set, getState } = createMockGetSet({
       units,

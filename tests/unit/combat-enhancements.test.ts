@@ -56,7 +56,7 @@ function makeUnit(id: string, overrides: Partial<Unit> = {}): Unit {
 
 describe('CombatForecast metadata', () => {
   it('includes classId, weaponName, weaponType for attacker', () => {
-    const attacker = makeUnit('ren', {
+    const attacker = makeUnit('shigeru', {
       classId: 'lord',
       equippedWeapon: makeWeapon('sword', { name: 'Slim Sword' }),
     });
@@ -74,7 +74,7 @@ describe('CombatForecast metadata', () => {
   });
 
   it('includes classId, weaponName, weaponType for defender', () => {
-    const attacker = makeUnit('ren', {
+    const attacker = makeUnit('shigeru', {
       equippedWeapon: makeWeapon('sword', { name: 'Iron Sword' }),
     });
     const defender = makeUnit('soldier', {
@@ -91,7 +91,7 @@ describe('CombatForecast metadata', () => {
   });
 
   it('includes unitId, name, currentHp, maxHp, faction', () => {
-    const attacker = makeUnit('ren', {
+    const attacker = makeUnit('shigeru', {
       currentHp: 15,
       stats: {
         hp: 24,
@@ -128,8 +128,8 @@ describe('CombatForecast metadata', () => {
 
     const forecast = calculateCombatForecast(attacker, defender, 'plain', 'plain', 1);
 
-    expect(forecast.attacker.unitId).toBe('ren');
-    expect(forecast.attacker.name).toBe('ren');
+    expect(forecast.attacker.unitId).toBe('shigeru');
+    expect(forecast.attacker.name).toBe('shigeru');
     expect(forecast.attacker.currentHp).toBe(15);
     expect(forecast.attacker.maxHp).toBe(24);
     expect(forecast.attacker.faction).toBe('player');
@@ -180,7 +180,7 @@ describe('Weapon triangle with staff type', () => {
 
 describe('resolveHealing', () => {
   it('heals for mag + weapon might', () => {
-    const healer = makeUnit('lira', {
+    const healer = makeUnit('hina', {
       stats: {
         hp: 18,
         str: 1,
@@ -196,7 +196,7 @@ describe('resolveHealing', () => {
       },
       equippedWeapon: makeWeapon('staff', { name: 'Heal', might: 10, hit: 100, crit: 0 }),
     });
-    const target = makeUnit('kael', {
+    const target = makeUnit('akira', {
       currentHp: 10,
       stats: {
         hp: 30,
@@ -222,7 +222,7 @@ describe('resolveHealing', () => {
   });
 
   it('caps healing at max HP', () => {
-    const healer = makeUnit('lira', {
+    const healer = makeUnit('hina', {
       stats: {
         hp: 18,
         str: 1,
@@ -238,7 +238,7 @@ describe('resolveHealing', () => {
       },
       equippedWeapon: makeWeapon('staff', { name: 'Heal', might: 10 }),
     });
-    const target = makeUnit('kael', {
+    const target = makeUnit('akira', {
       currentHp: 28,
       stats: {
         hp: 30,
@@ -263,7 +263,7 @@ describe('resolveHealing', () => {
   });
 
   it('heals 0 when target is at full HP', () => {
-    const healer = makeUnit('lira', {
+    const healer = makeUnit('hina', {
       stats: {
         hp: 18,
         str: 1,
@@ -279,7 +279,7 @@ describe('resolveHealing', () => {
       },
       equippedWeapon: makeWeapon('staff', { name: 'Heal', might: 10 }),
     });
-    const target = makeUnit('kael', {
+    const target = makeUnit('akira', {
       currentHp: 30,
       stats: {
         hp: 30,

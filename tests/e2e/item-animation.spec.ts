@@ -8,8 +8,8 @@ test.describe('Item Usage Animation', () => {
   });
 
   test('using vulnerary on damaged unit shows item animation', async ({ page }) => {
-    // Step 1: Attack with Kael to take counter damage
-    // Kael (cavalier, mov=7) at (13, 10) → move to (11, 5) adjacent to fighter_3 at (11, 4)
+    // Step 1: Attack with Akira to take counter damage
+    // Akira (cavalier, mov=7) at (13, 10) → move to (11, 5) adjacent to fighter_3 at (11, 4)
     await page.click('[data-testid="tile-13-10"]');
     await page.waitForTimeout(200);
     await page.click('[data-testid="tile-11-5"]');
@@ -25,7 +25,7 @@ test.describe('Item Usage Animation', () => {
     });
     await page.waitForTimeout(500);
 
-    // Step 2: End turn to cycle back to player phase (Kael has acted)
+    // Step 2: End turn to cycle back to player phase (Akira has acted)
     // Wait for any level-up popup to clear
     const levelUp = page.locator('[data-testid="level-up-popup"]');
     if (await levelUp.isVisible({ timeout: 1000 }).catch(() => false)) {
@@ -41,7 +41,7 @@ test.describe('Item Usage Animation', () => {
     await expect(page.locator('[data-testid="phase-banner"]')).not.toBeVisible({ timeout: 15000 });
     await page.waitForTimeout(1000);
 
-    // Step 3: Select Kael (now at 11, 5 after previous move) — should be damaged
+    // Step 3: Select Akira (now at 11, 5 after previous move) — should be damaged
     await page.click('[data-testid="tile-11-5"]');
     await page.waitForTimeout(200);
 

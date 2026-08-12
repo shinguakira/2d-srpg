@@ -15,7 +15,7 @@ const SAMPLE_SAVE: SaveData = {
   currentChapterId: 'ch2',
   completedChapters: ['ch1'],
   unitProgress: {
-    ren: {
+    shigeru: {
       level: 3,
       exp: 45,
       stats: {
@@ -35,7 +35,7 @@ const SAMPLE_SAVE: SaveData = {
       itemIds: [],
     },
   },
-  roster: ['ren', 'kael'],
+  roster: ['shigeru', 'akira'],
   deadUnitIds: [],
   supportPairs: [],
   bonusExp: 0,
@@ -108,7 +108,7 @@ describe('saveManager', () => {
       currentChapterId: 'ch2',
       completedChapters: ['ch1'],
       unitProgress: {
-        ren: {
+        shigeru: {
           level: 3,
           exp: 45,
           stats: {
@@ -131,7 +131,7 @@ describe('saveManager', () => {
     const loaded = readSave(0);
     expect(loaded).not.toBeNull();
     expect(loaded!.version).toBe(7);
-    expect(loaded!.roster).toEqual(['ren']);
+    expect(loaded!.roster).toEqual(['shigeru']);
     expect(loaded!.deadUnitIds).toEqual([]);
     expect(loaded!.currentChapterId).toBe('ch2');
   });
@@ -143,7 +143,7 @@ describe('saveManager', () => {
       currentChapterId: 'ch2',
       completedChapters: ['ch1'],
       unitProgress: {
-        ren: {
+        shigeru: {
           level: 3,
           exp: 45,
           stats: {
@@ -161,7 +161,7 @@ describe('saveManager', () => {
           },
         },
       },
-      roster: ['ren'],
+      roster: ['shigeru'],
       deadUnitIds: [],
     };
     localStorage.setItem('srpg_save_slot_0', JSON.stringify(v2Save));
@@ -169,10 +169,10 @@ describe('saveManager', () => {
     expect(loaded).not.toBeNull();
     expect(loaded!.version).toBe(7);
     // v2→v3 adds skillIds/learnedSkillIds, v3→v4 adds metaStats/crpLowChapters, v4→v5 adds support/forge
-    const renProgress = loaded!.unitProgress.ren;
-    expect(renProgress.skillIds).toEqual([]);
-    expect(renProgress.learnedSkillIds).toEqual([]);
-    expect(renProgress.crpLowChapters).toBe(0);
+    const shigeruProgress = loaded!.unitProgress.shigeru;
+    expect(shigeruProgress.skillIds).toEqual([]);
+    expect(shigeruProgress.learnedSkillIds).toEqual([]);
+    expect(shigeruProgress.crpLowChapters).toBe(0);
   });
 
   it('migrates v3 save to current version on read', () => {
@@ -182,7 +182,7 @@ describe('saveManager', () => {
       currentChapterId: 'ch2',
       completedChapters: ['ch1'],
       unitProgress: {
-        ren: {
+        shigeru: {
           level: 3,
           exp: 45,
           stats: {
@@ -204,16 +204,16 @@ describe('saveManager', () => {
           learnedSkillIds: [],
         },
       },
-      roster: ['ren'],
+      roster: ['shigeru'],
       deadUnitIds: [],
     };
     localStorage.setItem('srpg_save_slot_0', JSON.stringify(v3Save));
     const loaded = readSave(0);
     expect(loaded).not.toBeNull();
     expect(loaded!.version).toBe(7);
-    const renProgress = loaded!.unitProgress.ren;
-    expect(renProgress.crpLowChapters).toBe(0);
-    expect(renProgress.metaStats).toBeUndefined();
+    const shigeruProgress = loaded!.unitProgress.shigeru;
+    expect(shigeruProgress.crpLowChapters).toBe(0);
+    expect(shigeruProgress.metaStats).toBeUndefined();
   });
 
   it('migrates v4 save to current version on read', () => {
@@ -223,7 +223,7 @@ describe('saveManager', () => {
       currentChapterId: 'ch3',
       completedChapters: ['ch1', 'ch2'],
       unitProgress: {
-        ren: {
+        shigeru: {
           level: 5,
           exp: 20,
           stats: {
@@ -247,7 +247,7 @@ describe('saveManager', () => {
           crpLowChapters: 2,
         },
       },
-      roster: ['ren', 'senna'],
+      roster: ['shigeru', 'kanna'],
       deadUnitIds: [],
     };
     localStorage.setItem('srpg_save_slot_0', JSON.stringify(v4Save));
@@ -257,10 +257,10 @@ describe('saveManager', () => {
     expect(loaded!.supportPairs).toEqual([]);
     expect(loaded!.bonusExp).toBe(0);
     expect(loaded!.forgeMaterials).toEqual([]);
-    const renProgress = loaded!.unitProgress.ren;
-    expect(renProgress.supportPartners).toEqual([]);
+    const shigeruProgress = loaded!.unitProgress.shigeru;
+    expect(shigeruProgress.supportPartners).toEqual([]);
     // Existing fields preserved
-    expect(renProgress.metaStats).toEqual({
+    expect(shigeruProgress.metaStats).toEqual({
       awr: 10,
       loop: 347,
       sync: 80,
@@ -268,16 +268,16 @@ describe('saveManager', () => {
       crp: 0,
       sta: 0,
     });
-    expect(renProgress.crpLowChapters).toBe(2);
+    expect(shigeruProgress.crpLowChapters).toBe(2);
   });
 
   it('roster carries forward with correct units across save/load', () => {
     const save: SaveData = {
       ...SAMPLE_SAVE,
-      roster: ['ren', 'kael', 'senna', 'nira', 'voss'],
-      deadUnitIds: ['kael'],
+      roster: ['shigeru', 'akira', 'kanna', 'sayo', 'genzo'],
+      deadUnitIds: ['akira'],
       unitProgress: {
-        ren: {
+        shigeru: {
           level: 15,
           exp: 0,
           stats: {
@@ -296,7 +296,7 @@ describe('saveManager', () => {
           weaponIds: ['iron_sword'],
           itemIds: [],
         },
-        kael: {
+        akira: {
           level: 10,
           exp: 50,
           stats: {
@@ -315,7 +315,7 @@ describe('saveManager', () => {
           weaponIds: ['iron_lance'],
           itemIds: [],
         },
-        senna: {
+        kanna: {
           level: 8,
           exp: 30,
           stats: {
@@ -334,7 +334,7 @@ describe('saveManager', () => {
           weaponIds: ['fire'],
           itemIds: [],
         },
-        nira: {
+        sayo: {
           level: 7,
           exp: 20,
           stats: {
@@ -353,7 +353,7 @@ describe('saveManager', () => {
           weaponIds: ['iron_bow'],
           itemIds: [],
         },
-        voss: {
+        genzo: {
           level: 6,
           exp: 10,
           stats: {
@@ -378,14 +378,14 @@ describe('saveManager', () => {
     const loaded = readSave(0);
     expect(loaded).not.toBeNull();
     // Roster preserved exactly
-    expect(loaded!.roster).toEqual(['ren', 'kael', 'senna', 'nira', 'voss']);
+    expect(loaded!.roster).toEqual(['shigeru', 'akira', 'kanna', 'sayo', 'genzo']);
     // Dead units preserved
-    expect(loaded!.deadUnitIds).toEqual(['kael']);
+    expect(loaded!.deadUnitIds).toEqual(['akira']);
     // All unit progress preserved
     expect(Object.keys(loaded!.unitProgress)).toHaveLength(5);
-    expect(loaded!.unitProgress.ren.level).toBe(15);
-    expect(loaded!.unitProgress.kael.level).toBe(10);
-    expect(loaded!.unitProgress.senna.stats.mag).toBe(10);
+    expect(loaded!.unitProgress.shigeru.level).toBe(15);
+    expect(loaded!.unitProgress.akira.level).toBe(10);
+    expect(loaded!.unitProgress.kanna.stats.mag).toBe(10);
   });
 
   it('migrates v5 save to current version on read', () => {
@@ -395,7 +395,7 @@ describe('saveManager', () => {
       currentChapterId: 'ch4',
       completedChapters: ['ch1', 'ch2', 'ch3'],
       unitProgress: {
-        ren: {
+        shigeru: {
           level: 8,
           exp: 30,
           stats: {
@@ -417,12 +417,12 @@ describe('saveManager', () => {
           learnedSkillIds: [],
           metaStats: { awr: 15, loop: 347, sync: 75, loy: 55, crp: 5, sta: 0 },
           crpLowChapters: 0,
-          supportPartners: ['kael'],
+          supportPartners: ['akira'],
         },
       },
-      roster: ['ren', 'kael', 'senna'],
+      roster: ['shigeru', 'akira', 'kanna'],
       deadUnitIds: [],
-      supportPairs: [{ unitA: 'ren', unitB: 'kael', points: 25, rank: 'C' }],
+      supportPairs: [{ unitA: 'shigeru', unitB: 'akira', points: 25, rank: 'C' }],
       bonusExp: 50,
       forgeMaterials: ['adamant_ore'],
       gold: 1500,
@@ -437,11 +437,11 @@ describe('saveManager', () => {
     expect(loaded!.newGamePlusUnlocked).toBe(false);
     expect(loaded!.endingsSeen).toEqual([]);
     // Existing fields preserved
-    expect(loaded!.supportPairs).toEqual([{ unitA: 'ren', unitB: 'kael', points: 25, rank: 'C' }]);
+    expect(loaded!.supportPairs).toEqual([{ unitA: 'shigeru', unitB: 'akira', points: 25, rank: 'C' }]);
     expect(loaded!.bonusExp).toBe(50);
     expect(loaded!.forgeMaterials).toEqual(['adamant_ore']);
     expect(loaded!.gold).toBe(1500);
-    expect(loaded!.roster).toEqual(['ren', 'kael', 'senna']);
+    expect(loaded!.roster).toEqual(['shigeru', 'akira', 'kanna']);
   });
 
   it('migrates v6 save to v7 on read', () => {
@@ -451,7 +451,7 @@ describe('saveManager', () => {
       currentChapterId: 'ch5',
       completedChapters: ['ch1', 'ch2', 'ch3', 'ch4'],
       unitProgress: {
-        ren: {
+        shigeru: {
           level: 10,
           exp: 50,
           stats: {
@@ -473,12 +473,12 @@ describe('saveManager', () => {
           learnedSkillIds: [],
           metaStats: { awr: 20, loop: 357, sync: 80, loy: 60, crp: 3, sta: 0 },
           crpLowChapters: 0,
-          supportPartners: ['kael'],
+          supportPartners: ['akira'],
         },
       },
-      roster: ['ren', 'kael', 'senna', 'lira'],
+      roster: ['shigeru', 'akira', 'kanna', 'hina'],
       deadUnitIds: [],
-      supportPairs: [{ unitA: 'ren', unitB: 'kael', points: 50, rank: 'B' }],
+      supportPairs: [{ unitA: 'shigeru', unitB: 'akira', points: 50, rank: 'B' }],
       bonusExp: 100,
       forgeMaterials: ['adamant_ore'],
       gold: 2500,
@@ -498,6 +498,6 @@ describe('saveManager', () => {
     expect(loaded!.difficulty).toBe('classic');
     expect(loaded!.campaignFlags).toEqual({ grief_chapters_remaining: 2 });
     expect(loaded!.gold).toBe(2500);
-    expect(loaded!.roster).toEqual(['ren', 'kael', 'senna', 'lira']);
+    expect(loaded!.roster).toEqual(['shigeru', 'akira', 'kanna', 'hina']);
   });
 });

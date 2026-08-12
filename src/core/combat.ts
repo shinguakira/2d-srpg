@@ -231,8 +231,8 @@ export function calculateCombatForecast(
   defenderTerrain: TerrainType,
   distance: number,
   options?: {
-    attackerNearRen?: boolean;
-    defenderNearRen?: boolean;
+    attackerNearLord?: boolean;
+    defenderNearLord?: boolean;
     weather?: WeatherType;
     attackerSupport?: SupportCombatBonuses;
     defenderSupport?: SupportCombatBonuses;
@@ -240,15 +240,15 @@ export function calculateCombatForecast(
     defenderHasIronwallAlly?: boolean;
   },
 ): CombatForecast {
-  const atkNearRen = options?.attackerNearRen ?? false;
-  const defNearRen = options?.defenderNearRen ?? false;
+  const atkNearLord = options?.attackerNearLord ?? false;
+  const defNearLord = options?.defenderNearLord ?? false;
   const weather = options?.weather ?? 'clear';
   const atkSupport = options?.attackerSupport ?? { hit: 0, avoid: 0, crit: 0, dmg: 0 };
   const defSupport = options?.defenderSupport ?? { hit: 0, avoid: 0, crit: 0, dmg: 0 };
 
   // Apply meta-stat effective stats (STA penalties, CRP drain, LOY bonus, SYNC)
-  const atkEffStats = getEffectiveStats(attacker, atkNearRen);
-  const defEffStats = getEffectiveStats(defender, defNearRen);
+  const atkEffStats = getEffectiveStats(attacker, atkNearLord);
+  const defEffStats = getEffectiveStats(defender, defNearLord);
 
   // Apply trauma stat mods
   const atkTrauma = getTraumaStatMods(attacker);

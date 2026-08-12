@@ -74,8 +74,8 @@ function makeUnit(meta: Partial<MetaStats> = {}): Unit {
 }
 
 describe('defaultMetaStats', () => {
-  it('gives Ren LOOP=347 and higher SYNC', () => {
-    const ms = defaultMetaStats('ren');
+  it('gives Shigeru LOOP=347 and higher SYNC', () => {
+    const ms = defaultMetaStats('shigeru');
     expect(ms.loop).toBe(347);
     expect(ms.sync).toBe(80);
     expect(ms.loy).toBe(50);
@@ -83,8 +83,8 @@ describe('defaultMetaStats', () => {
     expect(ms.sta).toBe(0);
   });
 
-  it('gives non-Ren units LOOP=0 and standard SYNC', () => {
-    const ms = defaultMetaStats('kael');
+  it('gives non-Shigeru units LOOP=0 and standard SYNC', () => {
+    const ms = defaultMetaStats('akira');
     expect(ms.loop).toBe(0);
     expect(ms.sync).toBe(70);
     expect(ms.loy).toBe(50);
@@ -171,12 +171,12 @@ describe('applyLoyBonus', () => {
     expect(result.str).toBe(8);
   });
 
-  it('no bonus if not near Ren', () => {
+  it('no bonus if not near Shigeru', () => {
     const result = applyLoyBonus(BASE_STATS, 80, false);
     expect(result.str).toBe(8);
   });
 
-  it('LOY 80 + near Ren: +1 all combat stats', () => {
+  it('LOY 80 + near Shigeru: +1 all combat stats', () => {
     const result = applyLoyBonus(BASE_STATS, 80, true);
     expect(result.str).toBe(9);
     expect(result.mag).toBe(5);
@@ -210,8 +210,8 @@ describe('applySyncVariance', () => {
 describe('getEffectiveStats', () => {
   it('combines STA + CRP + LOY modifiers', () => {
     const unit = makeUnit({ sta: 45, crp: 60, loy: 80 });
-    const result = getEffectiveStats(unit, true); // near Ren
-    // STA 45: -2 SPD, -1 SKL; CRP 60: -1 all; LOY 80 near Ren: +1 all
+    const result = getEffectiveStats(unit, true); // near Shigeru
+    // STA 45: -2 SPD, -1 SKL; CRP 60: -1 all; LOY 80 near Shigeru: +1 all
     // SPD: 7 - 2 (sta) - 1 (crp) + 1 (loy) = 5
     expect(result.spd).toBe(5);
     // SKL: 6 - 1 (sta) - 1 (crp) + 1 (loy) = 5

@@ -25,7 +25,7 @@ const terrain: TerrainType[][] = [
   [P, P, P, P, P, P, P, B, B, P, P, P, P, P, P, P], // row 10 — bridge crossing
   [W, P, P, P, P, P, W, W, W, W, P, P, P, P, P, W], // row 11 — water channel
   [P, P, P, V, P, P, P, B, B, P, P, P, P, P, P, P], // row 12 — village at (3,12), south bridge
-  [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 13 — south approach (Faye appears)
+  [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 13 — south approach (Mio appears)
   [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 14 — deployment area
   [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 15 — deployment row 1
   [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 16 — deployment row 2
@@ -40,16 +40,16 @@ export const CHAPTER_6: ChapterData = {
   mapHeight: 18,
   terrain,
   playerUnits: [
-    { unitId: 'ren', position: { x: 7, y: 15 } },
-    { unitId: 'kael', position: { x: 8, y: 15 } },
-    { unitId: 'senna', position: { x: 7, y: 16 } },
-    { unitId: 'bram', position: { x: 6, y: 16 } },
-    { unitId: 'lira', position: { x: 9, y: 16 } },
-    { unitId: 'rook', position: { x: 6, y: 15 } },
-    { unitId: 'voss', position: { x: 9, y: 15 } },
+    { unitId: 'shigeru', position: { x: 7, y: 15 } },
+    { unitId: 'akira', position: { x: 8, y: 15 } },
+    { unitId: 'kanna', position: { x: 7, y: 16 } },
+    { unitId: 'goro', position: { x: 6, y: 16 } },
+    { unitId: 'hina', position: { x: 9, y: 16 } },
+    { unitId: 'raiga', position: { x: 6, y: 15 } },
+    { unitId: 'genzo', position: { x: 9, y: 15 } },
   ],
   enemyUnits: [
-    { unitId: 'ch6_boss', position: { x: 7, y: 3 } }, // Captain Sera on fort
+    { unitId: 'ch6_boss', position: { x: 7, y: 3 } }, // Captain Tsubame on fort
     { unitId: 'ch6_soldier_1', position: { x: 5, y: 1 } }, // harbor guard
     { unitId: 'ch6_soldier_2', position: { x: 10, y: 1 } }, // harbor guard
     { unitId: 'ch6_soldier_3', position: { x: 4, y: 4 } }, // corridor guard
@@ -64,12 +64,12 @@ export const CHAPTER_6: ChapterData = {
   ],
   objective: {
     type: 'boss_kill',
-    description: 'Defeat Captain Sera',
+    description: 'Defeat Captain Tsubame',
   },
   deploymentSlots: 7,
-  forceDeploy: ['ren'],
+  forceDeploy: ['shigeru'],
   parTurns: 16,
-  recruitableUnits: ['rook', 'faye'],
+  recruitableUnits: ['raiga', 'mio'],
   prologue: {
     lines: [
       {
@@ -77,35 +77,35 @@ export const CHAPTER_6: ChapterData = {
         text: 'A coastal harbor town. Salt air mixes with smoke from distant fires. The party arrives at dawn, seeking passage south.',
       },
       {
-        speaker: 'Rook',
-        text: "Name's Rook. Mercenary. My last employer got erased by a data void, so I'm between contracts.",
+        speaker: 'Raiga',
+        text: "Name's Raiga. Mercenary. My last employer got erased by a data void, so I'm between contracts.",
         speakerFaction: 'player',
       },
-      { speaker: 'Ren', text: '...Erased?', speakerFaction: 'player' },
+      { speaker: 'Shigeru', text: '...Erased?', speakerFaction: 'player' },
       {
-        speaker: 'Rook',
+        speaker: 'Raiga',
         text: "You know what I mean. The anomalies. They're spreading from the highlands. Whole towns going wrong.",
         speakerFaction: 'player',
       },
       {
-        speaker: 'Senna',
+        speaker: 'Kanna',
         text: "He's right. My readings show corruption expanding geographically since the seed destabilized. It's no longer localized.",
         speakerFaction: 'player',
       },
-      { speaker: 'Kael', text: "So we're heading into it?", speakerFaction: 'player' },
+      { speaker: 'Akira', text: "So we're heading into it?", speakerFaction: 'player' },
       {
-        speaker: 'Ren',
-        text: "We're heading through it. Rook, you said you're between contracts?",
+        speaker: 'Shigeru',
+        text: "We're heading through it. Raiga, you said you're between contracts?",
         speakerFaction: 'player',
       },
       {
-        speaker: 'Rook',
+        speaker: 'Raiga',
         text: "You're doing something new. That's worth my blade. For now.",
         speakerFaction: 'player',
       },
       {
         speaker: 'Narrator',
-        text: "An Imperial patrol blocks the harbor. Captain Sera's aerial unit circles overhead — a pegasus knight with a divebomb pattern.",
+        text: "An Imperial patrol blocks the harbor. Captain Tsubame's aerial unit circles overhead — a pegasus knight with a divebomb pattern.",
       },
     ],
   },
@@ -116,28 +116,28 @@ export const CHAPTER_6: ChapterData = {
         text: 'The harbor is clear. Imperial banners hang torn in the sea wind.',
       },
       {
-        speaker: 'Rook',
+        speaker: 'Raiga',
         text: 'So. This is what you do. Fight Imperials, recruit strays, keep moving.',
         speakerFaction: 'player',
       },
-      { speaker: 'Ren', text: 'Something like that.', speakerFaction: 'player' },
+      { speaker: 'Shigeru', text: 'Something like that.', speakerFaction: 'player' },
       {
-        speaker: 'Faye',
+        speaker: 'Mio',
         text: 'That soldier I healed — he was barely older than us. Why are they fighting?',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Rook',
+        speaker: 'Raiga',
         text: "Because someone told them to. That's how it works.",
         speakerFaction: 'player',
       },
       {
-        speaker: 'Senna',
+        speaker: 'Kanna',
         text: "The anomalies are spreading faster than my models predicted. Whatever changed the seed... it's accelerating.",
         speakerFaction: 'player',
       },
       {
-        speaker: 'Ren',
+        speaker: 'Shigeru',
         text: 'Then we move faster. Next stop — the coastal fortress.',
         speakerFaction: 'player',
       },
@@ -179,9 +179,9 @@ export const CHAPTER_6: ChapterData = {
     },
   ],
   events: [
-    // Turn 2: Rook combat callout
+    // Turn 2: Raiga combat callout
     {
-      id: 'ch6_rook_callout',
+      id: 'ch6_raiga_callout',
       trigger: { type: 'turn_start', turn: 2 },
       effects: [
         {
@@ -189,25 +189,25 @@ export const CHAPTER_6: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Rook',
+                speaker: 'Raiga',
                 text: 'Pegasus knights, wall sentries, and cavalry on the flanks. What did I sign up for?',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Bram',
+                speaker: 'Goro',
                 text: 'You signed up for coin. Still want it?',
                 speakerFaction: 'player',
               },
-              { speaker: 'Rook', text: '...Double the rate.', speakerFaction: 'player' },
+              { speaker: 'Raiga', text: '...Double the rate.', speakerFaction: 'player' },
             ],
           },
         },
       ],
       once: true,
     },
-    // Turn 4: Faye appears and joins
+    // Turn 4: Mio appears and joins
     {
-      id: 'ch6_faye_joins',
+      id: 'ch6_mio_joins',
       trigger: { type: 'turn_start', turn: 4 },
       effects: [
         {
@@ -219,28 +219,28 @@ export const CHAPTER_6: ChapterData = {
                 text: 'A mounted figure approaches from the southern docks, staff raised in peace.',
               },
               {
-                speaker: 'Faye',
+                speaker: 'Mio',
                 text: 'Wait — please! There are wounded soldiers on both sides. I can help!',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Kael',
+                speaker: 'Akira',
                 text: "She's healing an Imperial soldier. Is she... on their side?",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Lira',
+                speaker: 'Hina',
                 text: "No. She's on the side of the hurt. I understand that.",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Faye',
+                speaker: 'Mio',
                 text: "People are hurting. I can help. That's enough, isn't it?",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Ren',
-                text: 'More than enough. Welcome, Faye.',
+                speaker: 'Shigeru',
+                text: 'More than enough. Welcome, Mio.',
                 speakerFaction: 'player',
               },
             ],
@@ -248,7 +248,7 @@ export const CHAPTER_6: ChapterData = {
         },
         {
           type: 'spawn_units',
-          units: [{ unitId: 'faye', position: { x: 8, y: 13 } }],
+          units: [{ unitId: 'mio', position: { x: 8, y: 13 } }],
           faction: 'player',
         },
       ],
@@ -264,12 +264,12 @@ export const CHAPTER_6: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Rook',
+                speaker: 'Raiga',
                 text: "Cavalry from the north road. Heavy armor — these aren't scouts.",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Ren',
+                speaker: 'Shigeru',
                 text: 'Reinforcements! We need to finish this and pull back!',
                 speakerFaction: 'player',
               },
@@ -289,11 +289,11 @@ export const CHAPTER_6: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Senna',
+                speaker: 'Kanna',
                 text: "The north road — I'm counting at least a full company. We cannot hold this position.",
                 speakerFaction: 'player',
               },
-              { speaker: 'Ren', text: 'Everyone fall back! South, now!', speakerFaction: 'player' },
+              { speaker: 'Shigeru', text: 'Everyone fall back! South, now!', speakerFaction: 'player' },
             ],
           },
         },
@@ -310,28 +310,28 @@ export const CHAPTER_6: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Sera',
+                speaker: 'Tsubame',
                 text: 'Do you even understand ALTITUDE? Tactical positioning is a three-dimensional problem — you ground-crawlers think in two dimensions!',
                 speakerFaction: 'enemy',
               },
               {
-                speaker: 'Ren',
+                speaker: 'Shigeru',
                 text: "She's... talking about flight sims?",
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Sera',
+                speaker: 'Tsubame',
                 text: "COMBAT AVIATION. There's a DIFFERENCE.",
                 speakerFaction: 'enemy',
               },
               {
-                speaker: 'Sera',
+                speaker: 'Tsubame',
                 text: "The sky... something is wrong with the sky. I've seen it from above — the clouds move in patterns that shouldn't exist.",
                 speakerFaction: 'enemy',
               },
-              { speaker: 'Ren', text: "I know. It's spreading.", speakerFaction: 'player' },
+              { speaker: 'Shigeru', text: "I know. It's spreading.", speakerFaction: 'player' },
               {
-                speaker: 'Sera',
+                speaker: 'Tsubame',
                 text: 'Then why are you walking INTO it?',
                 speakerFaction: 'enemy',
               },
@@ -344,50 +344,50 @@ export const CHAPTER_6: ChapterData = {
   ],
   supportConversations: [
     {
-      unitA: 'ren',
-      unitB: 'rook',
+      unitA: 'shigeru',
+      unitB: 'raiga',
       lines: [
         {
-          speaker: 'Rook',
+          speaker: 'Raiga',
           text: "You fight like someone who's done this before. Many times before.",
           speakerFaction: 'player',
         },
-        { speaker: 'Ren', text: 'What makes you say that?', speakerFaction: 'player' },
+        { speaker: 'Shigeru', text: 'What makes you say that?', speakerFaction: 'player' },
         {
-          speaker: 'Rook',
+          speaker: 'Raiga',
           text: "You never hesitate. Not once. Either you're fearless or you already know what's going to happen.",
           speakerFaction: 'player',
         },
-        { speaker: 'Ren', text: '...Maybe a bit of both.', speakerFaction: 'player' },
+        { speaker: 'Shigeru', text: '...Maybe a bit of both.', speakerFaction: 'player' },
       ],
       reward: { type: 'exp_both', amount: 20 },
     },
     {
-      unitA: 'lira',
-      unitB: 'faye',
+      unitA: 'hina',
+      unitB: 'mio',
       lines: [
         {
-          speaker: 'Lira',
+          speaker: 'Hina',
           text: 'You healed that enemy soldier without hesitation. Most healers choose sides.',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Faye',
+          speaker: 'Mio',
           text: "Pain doesn't choose sides. Why should I?",
           speakerFaction: 'player',
         },
         {
-          speaker: 'Lira',
+          speaker: 'Hina',
           text: "That's... a different philosophy than mine. But I respect it deeply.",
           speakerFaction: 'player',
         },
         {
-          speaker: 'Faye',
+          speaker: 'Mio',
           text: "We'll make a good team. You guard the soul, I'll guard the body.",
           speakerFaction: 'player',
         },
       ],
-      reward: { type: 'stat', unitId: 'faye', stat: 'mag', amount: 1 },
+      reward: { type: 'stat', unitId: 'mio', stat: 'mag', amount: 1 },
     },
   ],
 };

@@ -66,7 +66,7 @@ describe('Late-Game Weapons', () => {
       expect(weapon.might).toBe(14);
       expect(weapon.minRange).toBe(2);
       expect(weapon.maxRange).toBe(3);
-      expect(weapon.prf).toBe('nira');
+      expect(weapon.prf).toBe('sayo');
     });
 
     it('deals effective damage vs system_construct', () => {

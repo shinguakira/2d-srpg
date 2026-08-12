@@ -16,7 +16,7 @@ import { refreshDangerZone } from '../helpers/dangerZoneHelpers';
 import { deriveFacing } from '../helpers/facingHelpers';
 import { checkAndFireEvents } from './eventActions';
 import { applyCombatSta, applySkillSta } from './metaStatActions';
-import { clampMetaStats, shouldDisobey, isNearRen } from '../../core/metaStats';
+import { clampMetaStats, shouldDisobey, isNearLord } from '../../core/metaStats';
 import { addSupportPoints } from './supportActions';
 import { hasSkill } from '../../core/skills';
 import { checkPhaseTransition, applyPhaseTransition } from '../../core/bossPhase';
@@ -85,8 +85,8 @@ export function selectAttackTarget(get: Get, set: Set, targetId: string) {
   const distance = getManhattanDistance(pendingPosition, defender.position);
 
   const atkAtPending = { ...attacker, position: { ...pendingPosition }, equippedWeapon: weapon };
-  const attackerNearRen = attacker.id !== 'ren' && isNearRen(pendingPosition, units);
-  const defenderNearRen = defender.id !== 'ren' && isNearRen(defender.position, units);
+  const attackerNearLord = attacker.id !== 'shigeru' && isNearLord(pendingPosition, units);
+  const defenderNearLord = defender.id !== 'shigeru' && isNearLord(defender.position, units);
   const attackerSupport = getTotalSupportBonuses(attacker.id, pendingPosition, units, supportPairs);
   const defenderSupport = getTotalSupportBonuses(
     defender.id,
@@ -113,8 +113,8 @@ export function selectAttackTarget(get: Get, set: Set, targetId: string) {
     defenderTerrain,
     distance,
     {
-      attackerNearRen,
-      defenderNearRen,
+      attackerNearLord,
+      defenderNearLord,
       weather,
       attackerSupport,
       defenderSupport,
@@ -149,7 +149,7 @@ export function confirmAttack(get: Get, set: Set) {
   const attacker = units.get(selectedUnitId)!;
   if (
     attacker.faction === 'player' &&
-    attacker.id !== 'ren' &&
+    attacker.id !== 'shigeru' &&
     shouldDisobey(attacker.metaStats.loy, rng)
   ) {
     // Move to pending position but refuse to attack

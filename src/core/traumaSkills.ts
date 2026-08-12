@@ -97,7 +97,7 @@ export function getTraumaStatMods(unit: Unit, livingPlayerCount?: number): Parti
 }
 
 /**
- * Apply grief to all units (Kael's death triggers -3 all stats).
+ * Apply grief to all units (Akira's death triggers -3 all stats).
  */
 export function applyGrief(units: Map<string, Unit>): Map<string, Unit> {
   const updated = new Map(units);

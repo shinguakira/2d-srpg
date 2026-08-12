@@ -112,7 +112,7 @@ describe('Fog of War Integration', () => {
   it('fog chapter: hidden enemies not visible, visible enemies shown', () => {
     // 8x8 map, player at (0,0) with vision 3, enemy at (1,1) and (7,7)
     const map = makeMap(8, 8);
-    const player = makeUnit('ren', { x: 0, y: 0 });
+    const player = makeUnit('shigeru', { x: 0, y: 0 });
 
     const { fogMap, visibleTiles } = initializeFogMap(map, [player]);
 
@@ -127,7 +127,7 @@ describe('Fog of War Integration', () => {
 
   it('fog recalc: tiles transition from visible to revealed when player moves away', () => {
     const map = makeMap(10, 1); // 10-wide corridor
-    const player = makeUnit('ren', { x: 0, y: 0 });
+    const player = makeUnit('shigeru', { x: 0, y: 0 });
 
     // Initial fog
     const init = initializeFogMap(map, [player]);
@@ -136,7 +136,7 @@ describe('Fog of War Integration', () => {
     expect(init.visibleTiles.has('4,0')).toBe(false); // too far
 
     // Player moves to x=5
-    const movedPlayer = makeUnit('ren', { x: 5, y: 0 });
+    const movedPlayer = makeUnit('shigeru', { x: 5, y: 0 });
     const newVisible = calculateVisibleTiles([movedPlayer], map);
     const newFog = updateFogMap(init.fogMap, newVisible, map);
 
@@ -150,7 +150,7 @@ describe('Fog of War Integration', () => {
 
   it('torch extends vision by 5', () => {
     const map = makeMap(10, 1);
-    const player = makeUnit('ren', { x: 0, y: 0 });
+    const player = makeUnit('shigeru', { x: 0, y: 0 });
 
     // Without torch: vision 3
     const noTorch = calculateVisibleTiles([player], map);
@@ -159,7 +159,7 @@ describe('Fog of War Integration', () => {
 
     // With torch: vision 3 + 5 = 8
     const torchEffects = new Map<string, number>();
-    torchEffects.set('ren', 3);
+    torchEffects.set('shigeru', 3);
     const withTorch = calculateVisibleTiles([player], map, torchEffects);
     expect(withTorch.has('8,0')).toBe(true);
     expect(withTorch.has('9,0')).toBe(false); // 9 > 8
@@ -167,7 +167,7 @@ describe('Fog of War Integration', () => {
 
   it('sandstorm caps vision at 2', () => {
     const map = makeMap(10, 1);
-    const player = makeUnit('ren', { x: 0, y: 0 });
+    const player = makeUnit('shigeru', { x: 0, y: 0 });
 
     // Normal vision: 3
     const normal = calculateVisibleTiles([player], map);
@@ -181,7 +181,7 @@ describe('Fog of War Integration', () => {
 
   it('thief has vision 5', () => {
     const map = makeMap(10, 1);
-    const thief = makeUnit('coda', { x: 0, y: 0 }, { classId: 'thief' });
+    const thief = makeUnit('hachi', { x: 0, y: 0 }, { classId: 'thief' });
 
     expect(getVisionRange(thief)).toBe(5);
     const visible = calculateVisibleTiles([thief], map);
@@ -191,7 +191,7 @@ describe('Fog of War Integration', () => {
 
   it('AWR 61+ gives +1 vision', () => {
     const player = makeUnit(
-      'ren',
+      'shigeru',
       { x: 0, y: 0 },
       { metaStats: { awr: 61, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 } },
     );
@@ -201,7 +201,7 @@ describe('Fog of War Integration', () => {
   it('danger zone only includes visible enemies', () => {
     // This is a logic test: given fog, only visible enemies contribute to danger zone
     const map = makeMap(8, 8);
-    const player = makeUnit('ren', { x: 0, y: 0 });
+    const player = makeUnit('shigeru', { x: 0, y: 0 });
     const { visibleTiles } = initializeFogMap(map, [player]);
 
     // Simulate filtering enemies by visibility

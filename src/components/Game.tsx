@@ -211,11 +211,11 @@ function GameOverOverlay() {
         (chapterData?.objective.type === 'protect' && bossDefeated)));
 
   const handleVictoryContinue = useCallback(() => {
-    // Bridge battle event flags to campaign flags (e.g., kael_dead from ch8)
+    // Bridge battle event flags to campaign flags (e.g., genzo_dead from ch8)
     const eventFlags = useGameStore.getState().eventFlags;
-    if (eventFlags.get('kael_dead') === 'true') {
+    if (eventFlags.get('genzo_dead') === 'true') {
       useCampaignStore.setState((s) => ({
-        campaignFlags: { ...s.campaignFlags, kael_dead: true },
+        campaignFlags: { ...s.campaignFlags, genzo_dead: true },
       }));
     }
 

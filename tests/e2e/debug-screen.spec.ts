@@ -10,44 +10,44 @@ test.describe('Debug Screen Screenshots', () => {
     await page.screenshot({ path: 'screenshots/debug/01-characters-list.png' });
   });
 
-  test('02 - Player unit detail (Ren)', async ({ page }) => {
+  test('02 - Player unit detail (Shigeru)', async ({ page }) => {
     await page.goto('/');
     await page.waitForSelector('[data-testid="title-screen"]', { timeout: 10000 });
     await page.click('[data-testid="debug-btn"]');
     await page.waitForSelector('[data-testid="debug-screen"]', { timeout: 5000 });
-    await page.click('[data-testid="debug-unit-ren"]');
+    await page.click('[data-testid="debug-unit-shigeru"]');
     await page.waitForTimeout(200);
-    await page.screenshot({ path: 'screenshots/debug/02-ren-detail.png' });
+    await page.screenshot({ path: 'screenshots/debug/02-shigeru-detail.png' });
   });
 
-  test('03 - Player unit detail (Kael - Cavalier)', async ({ page }) => {
+  test('03 - Player unit detail (Akira - Cavalier)', async ({ page }) => {
     await page.goto('/');
     await page.waitForSelector('[data-testid="title-screen"]', { timeout: 10000 });
     await page.click('[data-testid="debug-btn"]');
     await page.waitForSelector('[data-testid="debug-screen"]', { timeout: 5000 });
-    await page.click('[data-testid="debug-unit-kael"]');
+    await page.click('[data-testid="debug-unit-akira"]');
     await page.waitForTimeout(200);
-    await page.screenshot({ path: 'screenshots/debug/03-kael-detail.png' });
+    await page.screenshot({ path: 'screenshots/debug/03-akira-detail.png' });
   });
 
-  test('04 - Player unit detail (Senna - Mage)', async ({ page }) => {
+  test('04 - Player unit detail (Kanna - Mage)', async ({ page }) => {
     await page.goto('/');
     await page.waitForSelector('[data-testid="title-screen"]', { timeout: 10000 });
     await page.click('[data-testid="debug-btn"]');
     await page.waitForSelector('[data-testid="debug-screen"]', { timeout: 5000 });
-    await page.click('[data-testid="debug-unit-senna"]');
+    await page.click('[data-testid="debug-unit-kanna"]');
     await page.waitForTimeout(200);
-    await page.screenshot({ path: 'screenshots/debug/04-senna-detail.png' });
+    await page.screenshot({ path: 'screenshots/debug/04-kanna-detail.png' });
   });
 
-  test('05 - Player unit detail (Lira - Cleric)', async ({ page }) => {
+  test('05 - Player unit detail (Hina - Cleric)', async ({ page }) => {
     await page.goto('/');
     await page.waitForSelector('[data-testid="title-screen"]', { timeout: 10000 });
     await page.click('[data-testid="debug-btn"]');
     await page.waitForSelector('[data-testid="debug-screen"]', { timeout: 5000 });
-    await page.click('[data-testid="debug-unit-lira"]');
+    await page.click('[data-testid="debug-unit-hina"]');
     await page.waitForTimeout(200);
-    await page.screenshot({ path: 'screenshots/debug/05-lira-detail.png' });
+    await page.screenshot({ path: 'screenshots/debug/05-hina-detail.png' });
   });
 
   test('06 - Enemy unit detail (Bone - Boss)', async ({ page }) => {

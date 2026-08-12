@@ -13,7 +13,7 @@ import type { GameState, GameActions } from '../gameStoreTypes';
 import { EMPTY_SET, IDLE_RESET } from '../helpers/constants';
 import { getClassFlags } from '../helpers/mapHelpers';
 import { hasSkill } from '../../core/skills';
-import { isExhausted, isNearRen } from '../../core/metaStats';
+import { isExhausted, isNearLord } from '../../core/metaStats';
 import { getTotalSupportBonuses } from '../../core/support';
 
 type Get = () => GameState & GameActions;
@@ -109,8 +109,8 @@ export function hoverTile(get: Get, set: Set, pos: Position | null) {
             position: { ...pendingPosition },
             equippedWeapon: weapon,
           };
-          const attackerNearRen = attacker.id !== 'ren' && isNearRen(pendingPosition, units);
-          const defenderNearRen = unit.id !== 'ren' && isNearRen(unit.position, units);
+          const attackerNearLord = attacker.id !== 'shigeru' && isNearLord(pendingPosition, units);
+          const defenderNearLord = unit.id !== 'shigeru' && isNearLord(unit.position, units);
           const { weather: w, supportPairs: sp } = get();
           const attackerSupport = getTotalSupportBonuses(attacker.id, pendingPosition, units, sp);
           const defenderSupport = getTotalSupportBonuses(unit.id, unit.position, units, sp);
@@ -120,7 +120,7 @@ export function hoverTile(get: Get, set: Set, pos: Position | null) {
             attackerTerrain,
             defenderTerrain,
             distance,
-            { attackerNearRen, defenderNearRen, weather: w, attackerSupport, defenderSupport },
+            { attackerNearLord, defenderNearLord, weather: w, attackerSupport, defenderSupport },
           );
           set({ hoveredTile: pos, movePath: [], combatForecast: forecast });
           return;

@@ -118,7 +118,7 @@ export function mergeMaps(get: Get, set: Set): void {
 }
 
 /**
- * Validate team assignments: Ren on exactly one team, min 2 per team.
+ * Validate team assignments: Shigeru on exactly one team, min 2 per team.
  */
 export function validateTeamAssignment(
   teamA: string[],
@@ -127,10 +127,10 @@ export function validateTeamAssignment(
   if (teamA.length < 2) return { valid: false, error: 'Team A needs at least 2 units' };
   if (teamB.length < 2) return { valid: false, error: 'Team B needs at least 2 units' };
 
-  const renInA = teamA.includes('ren');
-  const renInB = teamB.includes('ren');
-  if (!renInA && !renInB) return { valid: false, error: 'Ren must be on one team' };
-  if (renInA && renInB) return { valid: false, error: 'Ren cannot be on both teams' };
+  const lordInA = teamA.includes('shigeru');
+  const lordInB = teamB.includes('shigeru');
+  if (!lordInA && !lordInB) return { valid: false, error: 'Shigeru must be on one team' };
+  if (lordInA && lordInB) return { valid: false, error: 'Shigeru cannot be on both teams' };
 
   return { valid: true };
 }

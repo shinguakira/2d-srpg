@@ -19,7 +19,7 @@ function makeWeapon(type: WeaponType, overrides: Partial<Weapon> = {}): Weapon {
 }
 
 function makeUnit(id: string, overrides: Partial<Unit> = {}): Unit {
-  return {
+  const base: Unit = {
     id,
     name: id,
     classId: 'lord',
@@ -48,8 +48,10 @@ function makeUnit(id: string, overrides: Partial<Unit> = {}): Unit {
     learnedSkills: [],
     sprite: '',
     metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
-    ...overrides,
+    facing: 'down',
+    items: [],
   };
+  return Object.assign(base, overrides);
 }
 
 describe('Combat + Meta-Stats Integration', () => {

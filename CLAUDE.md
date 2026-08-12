@@ -4,10 +4,18 @@
 
 ```bash
 npm run dev          # Start Vite dev server (localhost:5173)
-npm run build        # TypeScript check + Vite production build
+npm run typecheck    # Type-check src + tests + vite.config (tsc -b)
+npm run build        # Type-check + Vite production build
 npx vitest run       # Run unit tests (src/core/ logic only)
 npx playwright test  # Run E2E tests (needs dev server running)
 ```
+
+> **Never use `npx tsc --noEmit` here — it checks nothing and exits 0.**
+> The root `tsconfig.json` is solution-style (`"files": []` plus project
+> references), so the default project is empty and the command passes no
+> matter how broken the code is. Use `npm run typecheck`, which runs
+> `tsc -b` and walks the three referenced projects: `tsconfig.app.json`
+> (src), `tsconfig.test.json` (tests), `tsconfig.node.json` (vite.config).
 
 ## Project Overview
 

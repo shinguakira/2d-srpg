@@ -1,4 +1,11 @@
+// Solution-style config: it deliberately contains no files of its own, so
+// `tsc --noEmit` here checks NOTHING and exits 0. Use `npm run typecheck`
+// (`tsc -b`), which walks the references below.
 {
   "files": [],
-  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" },
+    { "path": "./tsconfig.test.json" }
+  ]
 }

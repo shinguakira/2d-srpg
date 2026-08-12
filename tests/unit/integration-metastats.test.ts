@@ -6,7 +6,7 @@ import { applyCombatResult } from '../../src/stores/helpers/combatResolution';
 import type { CombatResult } from '../../src/core/combat';
 
 function makeTile(x: number, y: number, terrain: string = 'plain'): Tile {
-  return { terrain: terrain as Tile['terrain'], x, y, occupantId: null };
+  return { terrain: terrain as Tile['terrain'], position: { x, y }, occupantId: null };
 }
 
 function makeUnit(id: string, pos: { x: number; y: number }, opts?: Partial<Unit>): Unit {

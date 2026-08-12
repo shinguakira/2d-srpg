@@ -27,7 +27,7 @@ function makeWeapon(): Weapon {
 }
 
 function makeUnit(classId: string, level: number, overrides: Partial<Unit> = {}): Unit {
-  return {
+  const base: Unit = {
     id: 'test',
     name: 'Test',
     classId,
@@ -57,8 +57,9 @@ function makeUnit(classId: string, level: number, overrides: Partial<Unit> = {})
     learnedSkills: [],
     sprite: '',
     metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
-    ...overrides,
+    facing: 'down',
   };
+  return Object.assign(base, overrides);
 }
 
 function makePromotionItem(id: string, eligibleClasses: string[]): ConsumableItem {

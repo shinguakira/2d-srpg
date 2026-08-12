@@ -222,7 +222,18 @@ describe('Canto after combat (Bug 1)', () => {
       pendingPosition: { x: 1, y: 0 },
       playerAction: 'idle',
       expBarData: null,
-      levelUpGains: { hp: 1, str: 1, mag: 0, def: 0, res: 0, spd: 0, skl: 0, lck: 0 },
+      levelUpGains: {
+        hp: 1,
+        str: 1,
+        mag: 0,
+        def: 0,
+        res: 0,
+        spd: 0,
+        skl: 0,
+        lck: 0,
+        cha: 0,
+        wil: 0,
+      },
       levelUpUnitId: 'cav',
     });
 

@@ -7,7 +7,7 @@ import { withForgeLevel } from '../../src/core/forging';
 import { WEAPONS } from '../../src/data/weapons';
 
 function makeTile(x: number, y: number): Tile {
-  return { terrain: 'plain', x, y, occupantId: null } as Tile;
+  return { terrain: 'plain', position: { x, y }, occupantId: null };
 }
 
 function makeMap(width: number, height: number): GameMap {

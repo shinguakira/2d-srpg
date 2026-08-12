@@ -41,7 +41,7 @@ function makeWeapon(type: WeaponType, overrides: Partial<Weapon> = {}): Weapon {
 }
 
 function makeUnit(id: string, pos: Position, overrides: Partial<Unit> = {}): Unit {
-  return {
+  const base: Unit = {
     id,
     name: id,
     classId: 'fighter',
@@ -71,8 +71,9 @@ function makeUnit(id: string, pos: Position, overrides: Partial<Unit> = {}): Uni
     learnedSkills: [],
     sprite: '',
     metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
-    ...overrides,
+    facing: 'down',
   };
+  return Object.assign(base, overrides);
 }
 
 beforeEach(() => {

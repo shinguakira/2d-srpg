@@ -166,7 +166,7 @@ describe('canAttackTerrain', () => {
 describe('resolveBridgeCollapse', () => {
   it('unit on collapsed bridge takes 10 damage and is displaced', () => {
     const map = makeMap(3, 3);
-    map.tiles[1][1].terrain = 'bridge' as any;
+    map.tiles[1][1] = { ...map.tiles[1][1], terrain: 'bridge' as any };
     map.tiles[1][1].occupantId = 'u1';
     const unit = makeUnit({ position: { x: 1, y: 1 } });
     const units = new Map([['u1', unit]]);
@@ -181,7 +181,7 @@ describe('resolveBridgeCollapse', () => {
 
   it('flying unit is safe from bridge collapse', () => {
     const map = makeMap(3, 3);
-    map.tiles[1][1].terrain = 'bridge' as any;
+    map.tiles[1][1] = { ...map.tiles[1][1], terrain: 'bridge' as any };
     map.tiles[1][1].occupantId = 'u1';
     const unit = makeUnit({ position: { x: 1, y: 1 } });
     const units = new Map([['u1', unit]]);
@@ -194,10 +194,10 @@ describe('resolveBridgeCollapse', () => {
   it('displaced to adjacent land tile', () => {
     const map = makeMap(3, 3);
     // Surround bridge with water except one tile
-    map.tiles[0][1].terrain = 'water' as any;
-    map.tiles[1][0].terrain = 'water' as any;
-    map.tiles[1][2].terrain = 'water' as any;
-    map.tiles[1][1].terrain = 'bridge' as any;
+    map.tiles[0][1] = { ...map.tiles[0][1], terrain: 'water' as any };
+    map.tiles[1][0] = { ...map.tiles[1][0], terrain: 'water' as any };
+    map.tiles[1][2] = { ...map.tiles[1][2], terrain: 'water' as any };
+    map.tiles[1][1] = { ...map.tiles[1][1], terrain: 'bridge' as any };
     map.tiles[1][1].occupantId = 'u1';
     // tiles[2][1] is still plain — only escape
 
@@ -211,7 +211,7 @@ describe('resolveBridgeCollapse', () => {
 
   it('no adjacent land: displaced to null', () => {
     const map = makeMap(3, 3, 'water');
-    map.tiles[1][1].terrain = 'bridge' as any;
+    map.tiles[1][1] = { ...map.tiles[1][1], terrain: 'bridge' as any };
     map.tiles[1][1].occupantId = 'u1';
 
     const unit = makeUnit({ position: { x: 1, y: 1 } });

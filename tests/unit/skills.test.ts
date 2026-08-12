@@ -28,7 +28,7 @@ function makeWeapon(type: 'sword' | 'axe' | 'fire' = 'sword'): Weapon {
 }
 
 function makeUnit(overrides: Partial<Unit> = {}): Unit {
-  return {
+  const base: Unit = {
     id: 'test',
     name: 'Test',
     classId: 'lord',
@@ -58,8 +58,9 @@ function makeUnit(overrides: Partial<Unit> = {}): Unit {
     learnedSkills: [],
     sprite: '',
     metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
-    ...overrides,
+    facing: 'down',
   };
+  return Object.assign(base, overrides);
 }
 
 // Always-succeed and always-fail RNG for deterministic testing

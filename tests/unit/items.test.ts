@@ -17,7 +17,7 @@ function makeWeapon(type: WeaponType): Weapon {
 }
 
 function makeUnit(id: string, overrides: Partial<Unit> = {}): Unit {
-  return {
+  const base: Unit = {
     id,
     name: id,
     classId: 'test',
@@ -47,8 +47,9 @@ function makeUnit(id: string, overrides: Partial<Unit> = {}): Unit {
     learnedSkills: [],
     sprite: '',
     metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
-    ...overrides,
+    facing: 'down',
   };
+  return Object.assign(base, overrides);
 }
 
 function makeVulnerary(uses = 3): ConsumableItem {

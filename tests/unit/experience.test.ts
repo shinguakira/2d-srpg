@@ -48,6 +48,8 @@ function makeUnit(level: number, faction: 'player' | 'enemy' = 'player'): Unit {
     learnedSkills: [],
     sprite: '',
     metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
+    facing: 'down',
+    items: [],
   };
 }
 

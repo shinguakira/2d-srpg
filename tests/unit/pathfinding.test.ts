@@ -31,7 +31,7 @@ function makeUnit(
     classId: 'test',
     faction,
     position: pos,
-    stats: { hp: 20, str: 5, mag: 0, def: 5, res: 0, spd: 5, skl: 5, lck: 5, mov },
+    stats: { hp: 20, str: 5, mag: 0, def: 5, res: 0, spd: 5, skl: 5, lck: 5, mov, cha: 0, wil: 0 },
     currentHp: 20,
     level: 1,
     exp: 0,
@@ -52,6 +52,8 @@ function makeUnit(
     learnedSkills: [],
     sprite: '',
     metaStats: { awr: 0, loop: 0, sync: 70, loy: 50, crp: 0, sta: 0 },
+    facing: 'down',
+    items: [],
   };
 }
 

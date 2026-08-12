@@ -309,15 +309,15 @@ export const useCampaignStore = create<CampaignState>((set, get) => ({
       set({ campaignFlags: newFlags });
     }
 
-    // Akira permanent death: triggered by ch8 genzo_dead campaign flag
+    // Genzo's death is scripted, not a battle casualty: ch8 sets genzo_dead when
+    // he falls holding the south corridor, and he leaves the roster for good.
     const genzoDeadFlag = get().campaignFlags.genzo_dead;
-    if (genzoDeadFlag && !get().deadUnitIds.includes('akira')) {
-      // Remove akira from roster, add to dead list
-      const updatedDead = [...get().deadUnitIds, 'akira'];
+    if (genzoDeadFlag && !get().deadUnitIds.includes('genzo')) {
+      const updatedDead = [...get().deadUnitIds, 'genzo'];
       set({ deadUnitIds: updatedDead });
       // Remove from newRoster (mutates the local array before it's used below)
-      const kaelIdx = newRoster.indexOf('akira');
-      if (kaelIdx !== -1) newRoster.splice(kaelIdx, 1);
+      const genzoIdx = newRoster.indexOf('genzo');
+      if (genzoIdx !== -1) newRoster.splice(genzoIdx, 1);
       // Set grief: 2 chapters remaining, assign grief trauma to all units
       const griefFlags = { ...get().campaignFlags, grief_chapters_remaining: 2 };
       set({ campaignFlags: griefFlags });

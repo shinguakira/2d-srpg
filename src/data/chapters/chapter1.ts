@@ -29,7 +29,7 @@ const terrain: TerrainType[][] = [
 
 export const CHAPTER_1: ChapterData = {
   id: 'ch1',
-  name: 'Chapter 1: Not This Again',
+  name: 'Chapter 1: The Fall of Amagi',
   chapterNumber: 1,
   mapWidth: 25,
   mapHeight: 12,
@@ -56,20 +56,28 @@ export const CHAPTER_1: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'A village. Smoke rising. Bandits approaching. The classic opening.',
+        text: 'The capital of Amagi burned before dawn. By noon the prince was on the south road with what was left of his father’s guard.',
       },
       {
         speaker: 'Akira',
-        text: 'Lord Shigeru! Bandits are attacking the village! We must\u2014',
+        text: 'My lord — the keep at Shirakawa has fallen. Brigands, flying Kurogane colours. They have the village pinned against the river.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'Defend the east bridge, route the enemies, save the villager at the west end. I know.',
+        text: 'Then we take it back. The south road runs through that gate, and we have nowhere else to be.',
         speakerFaction: 'player',
       },
-      { speaker: 'Akira', text: '...How do you know about the villager?', speakerFaction: 'player' },
-      { speaker: 'Shigeru', text: "Lucky guess. Let's go.", speakerFaction: 'player' },
+      {
+        speaker: 'Akira',
+        text: 'You have not slept since the palace. Neither has anyone. If you would rather we—',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Shigeru',
+        text: 'I would rather my father were alive. Form up.',
+        speakerFaction: 'player',
+      },
     ],
   },
   villages: [
@@ -78,8 +86,9 @@ export const CHAPTER_1: ChapterData = {
       reward: {
         type: 'weapon',
         weaponId: 'hand_axe',
-        dialogue: 'Hand Axe, ranged, decent might. Thanks, same as last time.',
-        speaker: 'Shigeru',
+        dialogue:
+          'Take my father’s hand axe, my lord. It throws true. He would rather it went with you than rusted over my hearth.',
+        speaker: 'Villager',
       },
     },
     {
@@ -87,8 +96,9 @@ export const CHAPTER_1: ChapterData = {
       reward: {
         type: 'weapon',
         weaponId: 'wind',
-        dialogue: 'Wind tome for the mage. Got it.',
-        speaker: 'Shigeru',
+        dialogue:
+          'The old scholar left this tome when he fled north. Not one of us can read a word of it. Perhaps your mage can.',
+        speaker: 'Villager',
       },
     },
   ],
@@ -96,26 +106,34 @@ export const CHAPTER_1: ChapterData = {
     lines: [
       {
         speaker: 'Akira',
-        text: 'A fine victory! Our first battle together!',
+        text: 'The gate is ours, my lord. A victory.',
         speakerFaction: 'player',
       },
-      { speaker: 'Shigeru', text: '...Yeah. The first.', speakerFaction: 'player' },
+      {
+        speaker: 'Shigeru',
+        text: 'A gate. We hold one gate, and the kingdom is gone.',
+        speakerFaction: 'player',
+      },
       {
         speaker: 'Hina',
-        text: 'Excuse me! Is this where the story starts? I heard there would be character development and meaningful bonds!',
+        text: 'Excuse me! Is this the royal company? I have run here from the Hitotsu shrine and I have blisters in places I will not describe.',
         speakerFaction: 'player',
       },
       { speaker: 'Shigeru', text: '...Who are you?', speakerFaction: 'player' },
       {
         speaker: 'Hina',
-        text: "I'm your healer! And possibly your love interest? The game hasn't decided yet.",
+        text: 'Hina. Shrine maiden. The high priestess sent me to find the bearer of the Flamebrand, and I have found him, so please hold still while I look at that arm.',
         speakerFaction: 'player',
       },
-      { speaker: 'Shigeru', text: "We don't have a romance system.", speakerFaction: 'player' },
-      { speaker: 'Hina', text: '...We WHAT?', speakerFaction: 'player' },
+      { speaker: 'Shigeru', text: 'It is nothing.', speakerFaction: 'player' },
+      {
+        speaker: 'Hina',
+        text: 'It is four inches long and you have favoured it since I arrived. Sit down.',
+        speakerFaction: 'player',
+      },
       {
         speaker: 'Narrator',
-        text: "Shigeru's company presses onward, their ranks growing in unexpected ways.",
+        text: 'The prince sat. It was the only order anyone gave him that day that he obeyed.',
       },
     ],
   },
@@ -124,7 +142,7 @@ export const CHAPTER_1: ChapterData = {
   skipPreparation: true,
   parTurns: 8,
   events: [
-    // Turn 2 — Goro's arrival
+    // Turn 2 — Goro’s arrival
     {
       id: 'ch1_goro_arrival',
       trigger: { type: 'turn_start', turn: 2 },
@@ -135,22 +153,27 @@ export const CHAPTER_1: ChapterData = {
             lines: [
               {
                 speaker: 'Goro',
-                text: "FINALLY! A BATTLE! Where's the combo meter??",
+                text: 'Oi! Down here! Is that the royal banner? I have been swinging at these bastards since sunup and it is getting lonely!',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: "There's no combo meter. You get one attack per turn.",
+                text: 'Who are you?',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Goro',
-                text: '...What kind of sick game is this?',
+                text: 'Goro. I fell trees for a living. Turns out men come down about the same way.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Shigeru',
-                text: 'The kind with 5-tile movement and weapon triangles. Stay behind Akira.',
+                speaker: 'Akira',
+                text: 'My lord, he is a woodcutter with an axe and no discipline whatsoever.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Goro',
+                text: 'And you are a man on a horse who talks like a written letter. Are we fighting, or are we being introduced?',
                 speakerFaction: 'player',
               },
             ],
@@ -170,20 +193,24 @@ export const CHAPTER_1: ChapterData = {
             lines: [
               {
                 speaker: 'Goro',
-                text: 'Why did I hit like a WET NAPKIN? I have the highest STR!',
+                text: 'Why did that lancer shrug me off? I caught him square!',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Kanna',
-                text: 'Weapon triangle. Axes lose to lances, lances lose to swords, swords lose to axes.',
+                text: 'Because you caught him with an axe. Lances beat axes, swords beat lances, axes beat swords. Every drillmaster on the continent teaches it.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Goro',
-                text: "That's ROCK PAPER SCISSORS. This game is ROCK PAPER SCISSORS.",
+                text: 'So I should have brought a sword.',
                 speakerFaction: 'player',
               },
-              { speaker: 'Shigeru', text: 'Welcome to tactical RPGs.', speakerFaction: 'player' },
+              {
+                speaker: 'Kanna',
+                text: 'You should have brought a lance. Do try to keep up.',
+                speakerFaction: 'player',
+              },
             ],
           },
         },
@@ -201,27 +228,27 @@ export const CHAPTER_1: ChapterData = {
             lines: [
               {
                 speaker: 'Baraku',
-                text: 'I am Baraku the Terr\u2014 stop YAWNING. This is my INTRO SPEECH.',
+                text: 'A royal banner. On my road.',
                 speakerFaction: 'enemy',
               },
               {
                 speaker: 'Shigeru',
-                text: "I've heard it 347 times, Baraku.",
+                text: 'Your road?',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Baraku',
-                text: "Well I've GIVEN it 347 times and it still deserves RESPECT.",
+                text: 'Twenty years I have worked this stretch. A toll here, a toll there, nobody hurt who paid. Then Kurogane came through with real coin and real orders.',
                 speakerFaction: 'enemy',
               },
               {
-                speaker: 'Shigeru',
-                text: 'Can we skip to the part where I beat you with the Rapier?',
+                speaker: 'Akira',
+                text: 'You are a brigand taking an emperor’s pay to hold a gate against your own countrymen.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Baraku',
-                text: 'NO. We do the speech. We do the fight. We do this PROPERLY.',
+                text: 'I am a man that army was going to walk over either way. This way I got paid first.',
                 speakerFaction: 'enemy',
               },
             ],
@@ -230,7 +257,7 @@ export const CHAPTER_1: ChapterData = {
       ],
       once: true,
     },
-    // Boss pre-combat — Shigeru approaches throne
+    // Boss pre-combat — Shigeru approaches the throne
     {
       id: 'ch1_boss_precombat',
       trigger: { type: 'unit_at', unitId: 'shigeru', position: { x: 11, y: 2 } },
@@ -239,15 +266,23 @@ export const CHAPTER_1: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Baraku', text: "You remember too, don't you?", speakerFaction: 'enemy' },
-              { speaker: 'Shigeru', text: '...How long have you known?', speakerFaction: 'player' },
               {
                 speaker: 'Baraku',
-                text: "Every cycle. All 347. I've been the tutorial boss since the beginning. You at least get to MOVE. I stand on this throne and wait to die.",
+                text: 'So you are the prince. You look about twelve.',
                 speakerFaction: 'enemy',
               },
-              { speaker: 'Shigeru', text: "I'm sorry.", speakerFaction: 'player' },
-              { speaker: 'Baraku', text: 'Just make it quick.', speakerFaction: 'enemy' },
+              {
+                speaker: 'Shigeru',
+                text: 'Take your men south. I will not chase you.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Baraku',
+                text: 'Can’t. Kurogane holds my brother’s village. That is the other half of the pay.',
+                speakerFaction: 'enemy',
+              },
+              { speaker: 'Shigeru', text: '...Then I am sorry.', speakerFaction: 'player' },
+              { speaker: 'Baraku', text: 'Don’t be sorry. Be quick.', speakerFaction: 'enemy' },
             ],
           },
         },
@@ -263,9 +298,17 @@ export const CHAPTER_1: ChapterData = {
           type: 'show_dialogue',
           scene: {
             lines: [
-              { speaker: 'Baraku', text: 'See you next cycle.', speakerFaction: 'enemy' },
-              { speaker: 'Shigeru', text: '...Maybe not.', speakerFaction: 'player' },
-              { speaker: 'Baraku', text: 'You say that every time.', speakerFaction: 'enemy' },
+              {
+                speaker: 'Baraku',
+                text: 'Shirakawa. The village is called Shirakawa. Somebody ought to know that.',
+                speakerFaction: 'enemy',
+              },
+              { speaker: 'Shigeru', text: 'I will remember it.', speakerFaction: 'player' },
+              {
+                speaker: 'Baraku',
+                text: '...That is more than I expected from a prince.',
+                speakerFaction: 'enemy',
+              },
             ],
           },
         },
@@ -280,23 +323,23 @@ export const CHAPTER_1: ChapterData = {
       lines: [
         {
           speaker: 'Akira',
-          text: 'Shigeru, you knew exactly where every enemy was. Before we even started.',
+          text: 'My lord. You have not eaten since Amagi.',
           speakerFaction: 'player',
         },
-        { speaker: 'Shigeru', text: 'I pay attention.', speakerFaction: 'player' },
+        { speaker: 'Shigeru', text: 'I am not hungry.', speakerFaction: 'player' },
         {
           speaker: 'Akira',
-          text: 'Nobody pays THAT much attention. You called the bandit by name.',
+          text: 'That was not a question about your appetite.',
           speakerFaction: 'player',
         },
         {
           speaker: 'Shigeru',
-          text: "Akira... when the time is right, I'll explain everything. For now, just trust me.",
+          text: '...If I stop moving I will have to think about it. So I do not stop.',
           speakerFaction: 'player',
         },
         {
           speaker: 'Akira',
-          text: '...Very well. I trust you, Shigeru. Always.',
+          text: 'Then I will keep your pace. And when you do stop, I will be there for that as well.',
           speakerFaction: 'player',
         },
       ],
@@ -308,20 +351,24 @@ export const CHAPTER_1: ChapterData = {
       lines: [
         {
           speaker: 'Hina',
-          text: "Kanna! I've been meaning to ask \u2014 do you believe in love at first sight?",
+          text: 'Kanna, may I ask you something? Do you believe the Sacred Flames hear us when we pray?',
           speakerFaction: 'player',
         },
         {
           speaker: 'Kanna',
-          text: "I believe in observable phenomena with reproducible results. 'Love at first sight' is a confirmation bias.",
+          text: 'I believe the shrines are warm, that warm people are calmer, and that calm soldiers fight better. Whether anything is listening, I have no way to measure.',
           speakerFaction: 'player',
         },
         {
           speaker: 'Hina',
-          text: "That's... the most romantic thing anyone has ever said to me.",
+          text: 'That is the kindest refusal anyone has ever given me.',
           speakerFaction: 'player',
         },
-        { speaker: 'Kanna', text: '...How?', speakerFaction: 'player' },
+        {
+          speaker: 'Kanna',
+          text: 'It was not a refusal. I said I cannot measure it. Those are different things.',
+          speakerFaction: 'player',
+        },
       ],
       reward: { type: 'stat', unitId: 'hina', stat: 'mag', amount: 1 },
     },

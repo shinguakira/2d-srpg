@@ -1,106 +1,57 @@
-# Chapter 4: "The Pickpocket"
+# Chapter 4: The Pickpocket
+
+Exact dialogue lives in `src/data/chapters/chapter4.ts`.
 
 ## Summary
 
-A market town under siege by pirate raiders — and their thief squads are looting the villages. Multi-objective map: protect 3 villages from enemy thieves while pushing toward Pirate Lord Marko. Introduces thief enemies (fast, target villages) and thief gameplay through Coda, a genre-displaced rogue who thinks they're in a stealth game. Comedy-heavy with the first subtle CRP hint — Coda mentions something "flickering" in the market square.
+Minato harbour. River pirates are burning the district's storehouses. A split-forces
+chapter that teaches objective triage — the target is not the enemy, it is three
+roofs full of the town's winter grain.
 
-## Prologue Dialogue
+## Setup
 
-**Scene**: The party arrives at Portwall, a busy coastal market town. Stalls are overturned. Merchants are fleeing inland.
+- **Map**: 18×10, walled town streets, throne at (8,0), three villages
+- **Objective**: Seize the throne (with village-loss pressure)
+- **Deploy**: 7 slots, `shigeru` forced
+- **Boss**: Zanba (aggressive — leaves the throne and comes to you)
+- **Joins**: `hachi`, turn 3
+- **Reinforcements**: turn 4, three from the docks
+- **Par**: 12 turns
 
-- **Kael**: "Pirates? This far from the coast?"
-- **Senna**: "River pirates. They've been raiding the market district for weeks. Three village quarters are still holding out."
-- **Bram**: "PIRATES. Do they have a loot system? Tell me they drop rare items."
-- **Lira**: "Bram, these people are losing their HOMES."
-- **Bram**: "Right. Tragic. But also — loot?"
-- **Ren**: "We protect the villages. All three. If even one falls, the town loses its trade route."
+## Beats
 
-## Mid-Battle Events
+**Prologue.** Goro asks whether pirates keep good axes and is told off by Hina; his
+answer is the character in one line — *"I mean to take the axes off the men doing
+it. Where is the disagreement?"*
 
-### Turn 2 — Thief Rush
+**Turn 2 — split the party.** Goro and Akira both object on doctrine. Shigeru
+overrules them with the chapter's thesis: *"Doctrine assumes the objective is the
+enemy. It is not."*
 
-Three enemy thieves spawn near the map edges, each racing toward a different village. They ignore the party entirely.
+**Turn 3 — Hachi.** Caught mid-lift because they hum when concentrating. Offered
+run-or-help, asks for a third option involving the sword, is refused, and joins
+because they know every alley in the town and the knight does not.
 
-- **Senna**: "Thieves — heading for the villages. They're fast. Five-tile movement, and they won't stop to fight."
-- **Ren**: "Split up. Cover all three routes."
-- **Bram**: "Splitting the party?! That's ALWAYS a bad idea!"
-- **Lira**: "He's right, actually. In my experience, the party should stay together for bonding opportunities."
-- **Ren**: "We're splitting up."
+**Turn 5 — village pressure.** A raider closes on the southern storehouse; Sayo can
+intercept but will be overextended. The player is meant to take the risk.
 
-### Turn 3 — Coda Encounter
+**Boss.** Zanba is a businessman. Kurogane pays for grain and asks no questions;
+Amagi is a name on a burnt map. Shigeru's counter is not moral, it is practical —
+ask your own crews why the fish are leaving the river.
 
-A player unit reaches or approaches the northwest village. A cutscene triggers — a figure is already inside, rummaging through a market stall.
+**Boss death — the political reveal.** Hachi searches him and finds a **signed,
+dated Kurogane pay chit.** The Empire is paying river pirates to starve the province
+it just conquered. Genzo, flatly: *"A hungry province does not raise an army. That is
+not cruelty, my lord. That is the manual."*
 
-- **Coda**: "Stealth check... passed. Lockpick check... passed. Inventory extraction in progress—"
-- **Ren**: "HEY. Drop it."
-- **Coda**: "...How did you SEE me? I'm crouching! Crouching makes you invisible!"
-- **Ren**: "It doesn't."
-- **Coda**: "It does in EVERY game I've played."
+**Epilogue — the third mark.** Hachi warns the party off a back lane behind the
+north storehouse: no cat in Minato will walk it. Asked which way it runs — *"North-
+north-east. Straight as a rule. Why has everyone gone quiet?"* Kanna walks it end to
+end that night with a lamp and comes back without saying what she found.
 
-**Coda joins the party** (if a player unit is adjacent to the northwest village when the event triggers). If no unit is nearby, Coda flees and is not recruited.
+## Supports
 
-- **Coda**: "Fine. I'll join your... whatever this is. Loud squad. Walking-in-the-open squad."
-- **Senna**: "Welcome to tactical combat."
-- **Coda**: "I don't DO combat. I do 'data extraction' and 'tactical repositioning.'"
-- **Bram**: "Those are just fancy words for stealing and running away."
-- **Coda**: "...Exactly."
-
-### Turn 5 — Village Pressure
-
-If any village is about to be reached by an enemy thief:
-
-- **Senna**: "That thief is one turn from the southern village. If they reach it, it's lost."
-- **Nira**: "I can intercept — but I'd be overextended."
-- **Ren**: "Do it. We can't lose any of them."
-
-### Village Visit (optional)
-
-If a player unit visits a protected village:
-
-- **Merchant**: "You saved my shop! Here — take this. It's the least I can do."
-- **Coda**: "Ooh, is that a lockpick? Dibs."
-- **Ren**: "It's a Vulnerary, Coda."
-- **Coda**: "...I can work with that."
-
-## Boss Fight — Pirate Lord Marko
-
-Pirate Lord Marko. Fighter (axe), Aggressive AI. Level 8, 40 HP. Carries a Vulnerary. Unlike most bosses, Marko doesn't wait on a throne — he charges directly at the player's units, creating time pressure alongside the thief minions.
-
-- **Pre-combat**:
-  - **Marko**: "More heroes? I get a new batch every week. You all look the same."
-  - **Ren**: "Stand down. Your thief operation is finished."
-  - **Marko**: "Gold is gold. Don't care about your 'grand quest.' I'm just getting PAID."
-
-- **Post-combat**:
-  - **Marko**: *(defeated)* "Should've... stuck to river boats..."
-  - **Bram**: "Did he drop anything? Check his pockets!"
-  - **Coda**: "Already did. Nothing good."
-  - **Bram**: "WHEN did you—"
-  - **Coda**: "Stealth."
-
-## Epilogue Dialogue
-
-**Scene**: The market town, evening. Stalls being rebuilt. The party rests near the central square.
-
-- **Lira**: "Coda, was it? You're really staying with us?"
-- **Coda**: "Your group has terrible stealth discipline, but decent loot potential. I'll manage."
-- **Voss**: "They stole my belt pouch. Twice. During the battle."
-- **Coda**: "Quality assurance. You passed. Mostly."
-- **Bram**: "I like them. Finally someone who understands the importance of a good item game."
-- **Coda**: "Oh — one thing. That market square back there? Something was... flickering."
-- **Senna**: "Flickering?"
-- **Coda**: "Like the air was glitching. Just for a second. Textures not loading properly, you know? Probably nothing."
-- **Ren**: *(pause)* "...Probably."
-
-**[Roster after Ch4: Ren, Kael, Senna, Bram, Lira, Voss, Nira, Coda — 8 units]**
-
-## Story Beats Delivered
-
-- Coda's genre-displacement established: thinks they're in a stealth game, calls combat "getting spotted," calls stealing "data extraction"
-- Thief enemy mechanics introduced: fast units that ignore combat and race to objectives
-- Multi-objective gameplay: protect 3 villages simultaneously while advancing on the boss
-- Pirate Lord Marko as aggressive boss: comes TO the player, no throne-camping
-- First subtle CRP hint: Coda mentions "flickering" in the market square — casual, unexplained
-- Bram and Coda bond over loot obsession (wrong-genre solidarity)
-- Lira continues trying to facilitate team bonding
-- Conditional recruitment: Coda only joins if the player reacts in time — rewards map awareness
+- **Hachi × Goro** — best thing you ever stole. A ring of harbourmaster's keys; it
+  fed forty families that winter. *"How many did your axe feed?"*
+- **Genzo × Sayo** — two people comfortable with silence. Eleven years on a wall and
+  nobody spoke to him either; it was not the worst way to pass a life.

@@ -10,7 +10,7 @@ This is a **25-chapter game** divided into 5 arcs. The player has limited battle
 
 ```
 Arc 1 (Ch1-5):   Learn the system (gentle ramp)
-Arc 2 (Ch6-10):  Master the system (promotions, full roster, Kael's death)
+Arc 2 (Ch6-10):  Master the system (promotions, full roster, Akira's death)
 Arc 3 (Ch11-15): Corruption pressure (mid-game challenge spike)
 Arc 4 (Ch16-20): Awakening power (hard but empowering, master classes)
 Arc 5 (Ch21-25): The final push (hardest, but you have all tools)
@@ -20,8 +20,8 @@ Arc 5 (Ch21-25): The final push (hardest, but you have all tools)
 
 1. **No mandatory grinding** — beatable at expected levels with good tactics
 2. **Permadeath is punishing, not unfair** — deaths should feel like player mistakes, not RNG
-3. **Meta-stats add depth, not difficulty** — AWR/LOOP/SYNC create choices, not barriers
-4. **Kael's death (Ch8) is the mid-game turning point** — mechanical + emotional devastation
+3. **Meta-stats add depth, not difficulty** — INS/EMB/ATT create choices, not barriers
+4. **Akira's death (Ch8) is the mid-game turning point** — mechanical + emotional devastation
 5. **Arc 5 is hard but empowering** — the player has all the tools, they need to use them well
 6. **Late joiners are viable** — catch-up EXP and appropriate base stats ensure new units aren't dead weight
 
@@ -39,12 +39,12 @@ Arc 5 (Ch21-25): The final push (hardest, but you have all tools)
 | **Expected player exit level** | 7-8 |
 | **Turns per chapter** | 8-12 (Ch1) → 12-18 (Ch5) |
 | **Deaths expected** | 0 (tutorial arc — forgiving) |
-| **New mechanics** | Ch1: movement, attack, weapon triangle, terrain. Ch2: body targeting, villages, items, Voss joins. Ch3: archer recruitment (Nira). Ch4: thief recruitment (Coda). Ch5: Yuel (pegasus) |
+| **New mechanics** | Ch1: movement, attack, weapon triangle, terrain. Ch2: body targeting, villages, items, Genzo joins. Ch3: archer recruitment (Sayo). Ch4: thief recruitment (Hachi). Ch5: Yuki (pegasus) |
 
 **Balance Notes:**
 - Ch1 is a true tutorial — enemies weaker than player units in 1v1
-- Position clear weapon triangle lessons (axe enemy near Ren's sword)
-- New recruits (Nira Ch3, Coda Ch4, Yuel Ch5) join at party-appropriate levels
+- Position clear weapon triangle lessons (axe enemy near Shigeru's sword)
+- New recruits (Sayo Ch3, Hachi Ch4, Yuki Ch5) join at party-appropriate levels
 - No reinforcements in Ch1-2. Simple reinforcements in Ch3-5.
 - Villages and hidden chests teach exploration
 
@@ -57,11 +57,11 @@ Arc 5 (Ch21-25): The final push (hardest, but you have all tools)
 | **Enemy levels** | 7-14 |
 | **Expected player exit level** | 13-15 |
 | **Turns per chapter** | 14-20 |
-| **Deaths expected** | 1 mandatory (Kael, Ch8), 0-1 additional |
-| **New mechanics** | Promotions available (Ch7+), dark mages (CRP), support system, Orin (dancer, Ch9) |
+| **Deaths expected** | 1 mandatory (Akira, Ch8), 0-1 additional |
+| **New mechanics** | Promotions available (Ch7+), dark mages (CRP), support system, Kagura (dancer, Ch9) |
 
 **Balance Notes:**
-- **Kael's death (Ch8) is the emotional/mechanical core of this arc**
+- **Akira's death (Ch8) is the emotional/mechanical core of this arc**
 - Before Ch8: player feels powerful with full 8-unit roster
 - After Ch8: immediate difficulty spike — lose best cavalry + Stability Anchor
 - First promotions available (Hero Crest, Knight Crest at Ch7 shop)
@@ -123,8 +123,8 @@ Arc 5 (Ch21-25): The final push (hardest, but you have all tools)
 **Balance Notes:**
 - Peak difficulty. Player has all tools but enemies are relentless.
 - Endgame weapons (Brave, S-rank, Legendary) make player units powerful but enemy counts are highest
-- Ch24: ???_CORRUPTED (Kael) is a devastating encounter — fighting your dead friend
-- Ch25: Final boss reads player's LOOP data. High remaining LOOP = harder fight.
+- Ch24: ???_CORRUPTED (Akira) is a devastating encounter — fighting your dead friend
+- Ch25: Final boss reads player's EMB data. High remaining EMB = harder fight.
 - Victory should feel earned — tight margins, smart play rewarded
 - 2-3 master class units are the backbone; rest are strong promoted units
 
@@ -170,9 +170,9 @@ Arc 5 (Ch21-25): The final push (hardest, but you have all tools)
 | **CRP gain rate** | Higher = more pressure | +2 per turn on terrain (Arc 1-2), +3 (Arc 3-5) |
 | **CRP passive decay** | Allows recovery | -1 per chapter if below 15 for 3+ chapters |
 | **STA thresholds** | Lower = earlier fatigue | 15/25/35/45 (Fresh/Winded/Fatigued/Exhausted/Collapsed) |
-| **LOOP arc regen** | Prevents LOOP bankruptcy | +10 per arc transition |
+| **EMB arc regen** | Prevents EMB bankruptcy | +10 per arc transition |
 | **LOY impact** | Higher = more meaningful | ±5-15 per event |
-| **AWR gain rate** | Faster = earlier UI unlocks | +3-5 per glitch witness |
+| **INS gain rate** | Faster = earlier UI unlocks | +3-5 per glitch witness |
 
 ---
 
@@ -184,12 +184,12 @@ At expected levels, player units should survive:
 
 | Unit Role | Arc 1 | Arc 2 | Arc 3 | Arc 4 | Arc 5 |
 |-----------|-------|-------|-------|-------|-------|
-| **Tank** (Kael, Ghael, Voss) | 4-5 hits | 3-4 hits | 3-4 hits | 3 hits | 2-3 hits |
-| **Bruiser** (Ren, Bram, Rook) | 3-4 hits | 3 hits | 2-3 hits | 2-3 hits | 2 hits |
-| **Mage** (Senna, Kira) | 1-2 hits | 1-2 hits | 1-2 hits | 1-2 hits | 1 hit |
-| **Healer** (Lira, Faye, Elara) | 1-2 hits | 1 hit | 1 hit | 1 hit | 1 hit |
-| **Flier** (Yuel, Zael) | 2-3 hits | 2-3 hits | 2 hits | 2 hits | 1-2 hits |
-| **Speed** (Coda, Orin) | 2-3 hits | 2 hits | 2 hits | 1-2 hits | 1 hit |
+| **Tank** (Akira, Ghael, Genzo) | 4-5 hits | 3-4 hits | 3-4 hits | 3 hits | 2-3 hits |
+| **Bruiser** (Shigeru, Goro, Raiga) | 3-4 hits | 3 hits | 2-3 hits | 2-3 hits | 2 hits |
+| **Mage** (Kanna, Kira) | 1-2 hits | 1-2 hits | 1-2 hits | 1-2 hits | 1 hit |
+| **Healer** (Hina, Mio, Elara) | 1-2 hits | 1 hit | 1 hit | 1 hit | 1 hit |
+| **Flier** (Yuki, Zael) | 2-3 hits | 2-3 hits | 2 hits | 2 hits | 1-2 hits |
+| **Speed** (Hachi, Kagura) | 2-3 hits | 2 hits | 2 hits | 1-2 hits | 1 hit |
 
 "Hit" = average enemy attack at that arc's level. Mages and healers should always be at risk.
 
@@ -208,11 +208,11 @@ At expected levels, player units should kill average enemies in:
 
 | Arc | Boss HP | Expected Rounds to Kill | Notes |
 |-----|---------|------------------------|-------|
-| Arc 1 | 30-40 | 3-5 | Ren can handle with support |
-| Arc 2 | 40-55 | 5-7 | Need team effort. Ch8 boss while losing Kael. |
+| Arc 1 | 30-40 | 3-5 | Shigeru can handle with support |
+| Arc 2 | 40-55 | 5-7 | Need team effort. Ch8 boss while losing Akira. |
 | Arc 3 | 50-65 | 6-8 | Promoted bosses. Need weapon advantage. |
 | Arc 4 | 60-80 | 7-10 | Multi-phase or reinforcing bosses. |
-| Arc 5 | 80-120 | 8-12+ | Ch25 boss has multiple phases + LOOP scaling. |
+| Arc 5 | 80-120 | 8-12+ | Ch25 boss has multiple phases + EMB scaling. |
 
 ---
 
@@ -223,8 +223,8 @@ At expected levels, player units should kill average enemies in:
 - EXP minimum of 5 ensures underleveled units can still gain EXP
 - Catch-up EXP (+20%) prevents units from falling too far behind
 - Vulneraries always available at shops
-- Ren's Rapier is Prf (character-locked, strong) — always has a viable weapon
-- Voss's Garrison Lance has infinite durability — always has a weapon
+- Shigeru's Rapier is Prf (character-locked, strong) — always has a viable weapon
+- Genzo's Garrison Lance has infinite durability — always has a weapon
 - Supply convoy stores all items not in inventories — nothing is lost
 - At least one Heal staff available at shops in every arc
 
@@ -235,11 +235,11 @@ At expected levels, player units should kill average enemies in:
 - STA resets each chapter
 - LOY can recover — low loyalty events can be offset by good decisions
 - CRP has passive decay below 15 and item-based cleansing
-- LOOP regens +10 between arcs
+- EMB regens +10 between arcs
 
 ### Player Information
 
-- AWR system progressively reveals enemy information
+- INS system progressively reveals enemy information
 - Combat Forecast shows exact damage, hit%, crit%, doubles before committing
 - Danger zone overlay shows all tiles enemies can reach
 - Weapon triangle is color-coded in UI (green = advantage, red = disadvantage)
@@ -249,12 +249,12 @@ At expected levels, player units should kill average enemies in:
 
 | Character | Join Chapter | Join Level | Notes |
 |-----------|------------|-----------|-------|
-| Nira | Ch3 | 3 | Slightly above party average |
-| Coda | Ch4 | 4 | At party average |
-| Yuel | Ch5 | 6 | Slightly above, prepromote stats |
-| Rook | Ch6 | 8 | At party average |
-| Faye | Ch6 | 7 | Slightly below but mounted |
-| Orin | Ch9 | 11 | At party average, cannot promote |
+| Sayo | Ch3 | 3 | Slightly above party average |
+| Hachi | Ch4 | 4 | At party average |
+| Yuki | Ch5 | 6 | Slightly above, prepromote stats |
+| Raiga | Ch6 | 8 | At party average |
+| Mio | Ch6 | 7 | Slightly below but mounted |
+| Kagura | Ch9 | 11 | At party average, cannot promote |
 | Kira | Ch11 | 14 | Above average, compensates for frailty |
 | Zael | Ch13 | 15 (conditional) | At promoted threshold |
 | Elara | Ch14 | 15 | At promoted threshold |
@@ -293,7 +293,7 @@ At expected levels, player units should kill average enemies in:
 
 ## Open Questions
 
-- **Dynamic difficulty**: Should the game adjust if the player is struggling? *Recommendation: No — undermine the meta-narrative. The System wouldn't make it easier.*
+- **Dynamic difficulty**: Should the game adjust if the player is struggling? *Recommendation: No — undermine the meta-narrative. The Blackflame wouldn't make it easier.*
 - **Turn ranking**: Should chapters grade performance (S/A/B/C)? *Recommendation: Yes — ties into Bonus EXP system. Fast play = more Bonus EXP.*
-- **New Game+**: LOOP carries over? Start with higher AWR? *Recommendation: Yes, with narrative justification — Ren's 348th cycle. Enemies scale +15%.*
-- **Chapter retry**: Can the player retry from the start? *Recommendation: Yes, but with meta-narrative commentary from Ren: "Again? Fine. Let's try this differently."*
+- **New Game+**: EMB carries over? Start with higher INS? *Recommendation: Yes, with narrative justification — Shigeru's 348th cycle. Enemies scale +15%.*
+- **Chapter retry**: Can the player retry from the start? *Recommendation: Yes, but with meta-narrative commentary from Shigeru: "Again? Fine. Let's try this differently."*

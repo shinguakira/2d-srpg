@@ -27,7 +27,7 @@ const terrain: TerrainType[][] = [
 
 export const CHAPTER_9: ChapterData = {
   id: 'ch9',
-  name: 'Chapter 9: The Void Left Behind',
+  name: 'Chapter 9: The Empty Place',
   chapterNumber: 9,
   mapWidth: 14,
   mapHeight: 14,
@@ -37,7 +37,7 @@ export const CHAPTER_9: ChapterData = {
     { unitId: 'kanna', position: { x: 7, y: 12 } },
     { unitId: 'goro', position: { x: 5, y: 13 } },
     { unitId: 'hina', position: { x: 8, y: 13 } },
-    { unitId: 'genzo', position: { x: 6, y: 13 } },
+    { unitId: 'akira', position: { x: 6, y: 13 } },
     { unitId: 'sayo', position: { x: 7, y: 13 } },
     { unitId: 'raiga', position: { x: 5, y: 12 } },
   ],
@@ -63,12 +63,12 @@ export const CHAPTER_9: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'A narrow forest pass. The party retreats south in silence. One formation slot stands empty.',
+        text: 'A narrow forest pass. The company moves south in silence. Nobody has taken the empty place in the marching order.',
       },
       { speaker: 'Goro', text: '...', speakerFaction: 'player' },
       {
         speaker: 'Kanna',
-        text: "I've plotted the route. It's linear — forest cover on both sides, a few defensive positions. We should be through in a day.",
+        text: 'I have the route. One pass, forest on both sides, three places worth standing on. A day, if nothing goes wrong.',
         speakerFaction: 'player',
       },
       {
@@ -77,14 +77,14 @@ export const CHAPTER_9: ChapterData = {
         speakerFaction: 'player',
       },
       {
-        speaker: 'Genzo',
-        text: 'He would have been on point. Akira always took point.',
+        speaker: 'Akira',
+        text: 'He would have taken the rearguard. He always took the rearguard, and he never once made a thing of it.',
         speakerFaction: 'player',
       },
       { speaker: 'Hina', text: '...I know.', speakerFaction: 'player' },
       {
         speaker: 'Raiga',
-        text: 'Raiders ahead. Scouts, by the look of them. Not organized enough to be Imperial.',
+        text: 'Raiders ahead. Scouts, by the look of them. Too ragged to be Kurogane regulars.',
         speakerFaction: 'player',
       },
       { speaker: 'Shigeru', text: 'Then we clear the path. Together.', speakerFaction: 'player' },
@@ -98,13 +98,13 @@ export const CHAPTER_9: ChapterData = {
       },
       {
         speaker: 'Kagura',
-        text: 'That was... not what I expected when I joined a traveling company.',
+        text: 'That was... not what I expected when I signed on with a travelling company.',
         speakerFaction: 'player',
       },
-      { speaker: 'Goro', text: "We're not a traveling company.", speakerFaction: 'player' },
+      { speaker: 'Goro', text: 'We are not a travelling company.', speakerFaction: 'player' },
       {
         speaker: 'Kagura',
-        text: "No. You're not. You're something that lost its heart and keeps walking anyway.",
+        text: 'No. You are not. You are something that lost its heart and kept walking anyway.',
         speakerFaction: 'player',
       },
       {
@@ -113,11 +113,11 @@ export const CHAPTER_9: ChapterData = {
       },
       {
         speaker: 'Kagura',
-        text: "...I've seen that look before. In better stories than mine. It doesn't go away. But it gets quieter.",
+        text: '...I have seen that look before, on better people than me. It does not go away. It does get quieter.',
         speakerFaction: 'player',
       },
       { speaker: 'Shigeru', text: 'Thank you, Kagura.', speakerFaction: 'player' },
-      { speaker: 'Goro', text: "...You're alright, performer.", speakerFaction: 'player' },
+      { speaker: 'Goro', text: '...You will do, performer.', speakerFaction: 'player' },
       {
         speaker: 'Hina',
         text: 'Stay with us. We could use someone who still knows how to smile.',
@@ -125,7 +125,7 @@ export const CHAPTER_9: ChapterData = {
       },
       {
         speaker: 'Kanna',
-        text: "The grief is still weighing on us. Our stats won't recover until after the next engagement.",
+        text: 'Everyone is still carrying it. We will not be ourselves again for another engagement at least, and that is not a thing I can fix with a chart.',
         speakerFaction: 'player',
       },
     ],
@@ -153,12 +153,12 @@ export const CHAPTER_9: ChapterData = {
             lines: [
               {
                 speaker: 'Sayo',
-                text: 'The left flank is exposed. Akira would have covered it.',
+                text: 'The left flank is open. Genzo would have planted himself in it and dared them.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Raiga',
-                text: "I'll take it. Not as fast, but I can hold.",
+                text: 'I will take it. I am not as stubborn as he was, but I will hold.',
                 speakerFaction: 'player',
               },
             ],
@@ -182,24 +182,24 @@ export const CHAPTER_9: ChapterData = {
               },
               {
                 speaker: 'Kagura',
-                text: "At LAST! The ensemble arrives! I've been waiting for the second act to start!",
+                text: 'There you are! I have been sitting in that treeline for two days waiting for somebody interesting to walk past!',
                 speakerFaction: 'player',
               },
               { speaker: 'Goro', text: '...Who is this?', speakerFaction: 'player' },
               {
                 speaker: 'Kagura',
-                text: 'Kagura! Performer, dancer, morale specialist! You all look like you need a song.',
+                text: 'Kagura. Dancer. And you lot look like a funeral that has not finished walking to the grave.',
                 speakerFaction: 'player',
               },
-              { speaker: 'Shigeru', text: "We really don't.", speakerFaction: 'player' },
+              { speaker: 'Shigeru', text: 'We really do not.', speakerFaction: 'player' },
               {
                 speaker: 'Kagura',
-                text: "That's exactly what someone who needs a song would say. I'm joining you. No arguments!",
+                text: 'That is exactly what a funeral would say. I am coming with you. Do not bother arguing, I have already put my things down.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Kanna',
-                text: 'A dancer... the Dance action lets an adjacent ally act again. That could compensate for our reduced mobility.',
+                text: 'A dancer. A dancer can rouse a spent soldier to move again — which, given the state of this company, is worth more than another sword.',
                 speakerFaction: 'player',
               },
             ],
@@ -224,17 +224,17 @@ export const CHAPTER_9: ChapterData = {
             lines: [
               {
                 speaker: 'Kanna',
-                text: 'Kagura — move next to an ally who has already acted. Your Dance command will let them move and act again.',
+                text: 'Kagura — stand beside someone who has already spent themselves. Your dance will put them back on their feet for another go.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Kagura',
-                text: "An encore! Everyone deserves an encore. Just say the word and I'll get them back on their feet.",
+                text: 'An encore, then. Point me at whoever is finished and I will get them back on their feet.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Narrator',
-                text: 'Tip: Select Kagura, move adjacent to an exhausted ally, then choose Dance. That ally can take another full turn.',
+                text: 'Tip: select Kagura, move beside a spent ally, then choose Dance. That ally gets a full turn back.',
               },
             ],
           },
@@ -252,11 +252,11 @@ export const CHAPTER_9: ChapterData = {
           scene: {
             lines: [
               {
-                speaker: 'Genzo',
-                text: 'I keep looking for him at the flank. Every turn.',
+                speaker: 'Akira',
+                text: 'I keep checking the rear. Every turn. I know what is there and I keep checking it.',
                 speakerFaction: 'player',
               },
-              { speaker: 'Hina', text: 'Me too.', speakerFaction: 'player' },
+              { speaker: 'Hina', text: 'So do I.', speakerFaction: 'player' },
             ],
           },
         },
@@ -271,18 +271,18 @@ export const CHAPTER_9: ChapterData = {
       lines: [
         {
           speaker: 'Kagura',
-          text: "You carry yourself like a lead who's already read the script. Is this the part where you tell me the terrible secret?",
+          text: 'You hold yourself like a man in the third act. Is this the part where you tell me the terrible secret?',
           speakerFaction: 'player',
         },
-        { speaker: 'Shigeru', text: "There's no script, Kagura.", speakerFaction: 'player' },
+        { speaker: 'Shigeru', text: 'There is no secret, Kagura.', speakerFaction: 'player' },
         {
           speaker: 'Kagura',
-          text: "Darling, there's ALWAYS a script. The question is whether we're reading the same one.",
+          text: 'Darling, there is ALWAYS a secret. The only question is who is carrying it.',
           speakerFaction: 'player',
         },
         {
           speaker: 'Shigeru',
-          text: '...You might be more right than you know.',
+          text: '...You are closer than I would like.',
           speakerFaction: 'player',
         },
       ],
@@ -294,12 +294,12 @@ export const CHAPTER_9: ChapterData = {
       lines: [
         {
           speaker: 'Goro',
-          text: "You fight clean. Too clean. Where'd you learn?",
+          text: 'You fight tidy. Too tidy. Where does a sellsword learn that?',
           speakerFaction: 'player',
         },
         {
           speaker: 'Raiga',
-          text: 'Two hundred cycles of practice. Give or take.',
+          text: 'Twenty years of it. Most of them for people I did not like.',
           speakerFaction: 'player',
         },
         { speaker: 'Goro', text: 'Two hundred WHAT?', speakerFaction: 'player' },

@@ -14,17 +14,17 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
     lines: [
       {
         speaker: 'Shigeru',
-        text: 'Akira, do you ever wonder what things were like before the Collapse?',
+        text: 'Akira. Do you remember what the palace gardens looked like in spring?',
         speakerFaction: 'player',
       },
       {
         speaker: 'Akira',
-        text: 'Sometimes. My grandfather spoke of green fields that stretched to the horizon. Hard to imagine now.',
+        text: 'Every day, my lord. The plum trees along the east wall. Your father used to take his tea under them and complain about the tea.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'I dream of restoring that world. It feels impossibly far away, but...',
+        text: 'I want it back. All of it, exactly as it was, which I know is a child’s want.',
         speakerFaction: 'player',
       },
       {
@@ -47,15 +47,15 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
       },
       {
         speaker: 'Shigeru',
-        text: 'Honestly? Yes. Each loop feels like losing a piece of myself.',
+        text: 'Honestly? Yes. Not the steel. The three hundred and forty-seven names on it.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Akira',
-        text: 'Then let me carry some of that burden. You do not have to face it alone.',
+        text: 'Then let me carry some of it. Not the sword — I am not fool enough to ask for that. The rest.',
         speakerFaction: 'player',
       },
-      { speaker: 'Shigeru', text: 'Akira... Thank you. Truly.', speakerFaction: 'player' },
+      { speaker: 'Shigeru', text: 'Akira... thank you. Truly.', speakerFaction: 'player' },
     ],
     reward: { type: 'stat', unitId: 'akira', stat: 'def', amount: 1 },
   },
@@ -66,17 +66,17 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
     lines: [
       {
         speaker: 'Shigeru',
-        text: 'Akira, in all my loops... you have always been by my side. Every single time.',
+        text: 'Akira. Every road I have walked since Amagi, you have been half a length behind my left shoulder.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Akira',
-        text: 'Is that so? Then perhaps it is fate, not duty, that binds us.',
+        text: 'That is where a retainer rides, my lord. It is in the manual.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'I used to think fate was a cage. But now I think it might be a compass.',
+        text: 'I know it is in the manual. I am telling you I noticed.',
         speakerFaction: 'player',
       },
       {
@@ -96,22 +96,22 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
     lines: [
       {
         speaker: 'Kanna',
-        text: 'Shigeru, I have been analyzing the magical residue from the last battle. Fascinating patterns.',
+        text: 'My lord, I took soil from where the blight met the river. It stopped at the water. It has never stopped at anything before.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'You see patterns in everything, Kanna. What did you find?',
+        text: 'Running water, then. That is the first rule we have found that it obeys.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Kanna',
-        text: 'The corruption is not random. It follows ley lines, like water follows riverbeds.',
+        text: 'One rule, my lord. One rule is a foothold. Give me ten and I will give you a strategy.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'That could help us predict where it will spread next. Brilliant!',
+        text: 'Then start with the rivers. Every bridge and ford between here and the north.',
         speakerFaction: 'player',
       },
     ],
@@ -124,22 +124,22 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
     lines: [
       {
         speaker: 'Shigeru',
-        text: 'Kanna, you push yourself too hard. When was the last time you slept?',
+        text: 'Kanna. When did you last sleep?',
         speakerFaction: 'player',
       },
       {
         speaker: 'Kanna',
-        text: 'Sleep is inefficient. There is too much to understand about the corruption.',
+        text: 'Sleep is a poor use of a night when the night is the only quiet I get.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'Understanding means nothing if you collapse on the battlefield.',
+        text: 'Understanding is worth nothing if you fall off your horse on the march.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Kanna',
-        text: '...You sound like my mother. Fine. I will rest. But only because the data needs time to process.',
+        text: '...You sound exactly like my mother. Very well. I will sleep. Only because a tired reading is a wrong reading.',
         speakerFaction: 'player',
       },
     ],
@@ -152,21 +152,25 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
     unitB: 'hina',
     rank: 'C',
     lines: [
-      { speaker: 'Hina', text: 'Shigeru, may I ask you something personal?', speakerFaction: 'player' },
+      {
+        speaker: 'Hina',
+        text: 'Shigeru, may I ask you something personal?',
+        speakerFaction: 'player',
+      },
       { speaker: 'Shigeru', text: 'Of course, Hina. What is it?', speakerFaction: 'player' },
       {
         speaker: 'Hina',
-        text: 'Do you remember everyone from the previous loops? Everyone who...',
+        text: 'Do you keep count? Of the ones we have lost.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'Who died? Yes. Every single one. That is why I cannot fail this time.',
+        text: 'Yes. Names, and where, and what I had ordered them to do. It is a short list and I intend to keep it short.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Hina',
-        text: 'Then I will make sure you do not carry those memories alone. I will heal every wound I can.',
+        text: 'Then let me carry the list with you. A thing two people remember is a memory. A thing one person remembers is a haunting.',
         speakerFaction: 'player',
       },
     ],
@@ -181,7 +185,7 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
     lines: [
       {
         speaker: 'Kanna',
-        text: 'Hina, the focal efficiency of your healing has improved 23% since we started training together.',
+        text: 'Hina. Your staff work has improved by about a quarter since Minato. I have been counting.',
         speakerFaction: 'player',
       },
       {
@@ -191,7 +195,7 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
       },
       {
         speaker: 'Kanna',
-        text: 'It is my way of saying the data supports your subjective experience, yes.',
+        text: 'It is my way of saying the count agrees with how you feel about it, which is rarer than you would think.',
         speakerFaction: 'player',
       },
       { speaker: 'Hina', text: 'I will take it. Thank you, Kanna.', speakerFaction: 'player' },
@@ -205,12 +209,12 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
     lines: [
       {
         speaker: 'Hina',
-        text: 'Kanna, why do you always quantify everything? Not everything can be measured.',
+        text: 'Kanna, why must you put a number on everything? Some things do not take numbers.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Kanna',
-        text: 'If it cannot be measured, it cannot be understood. And if it cannot be understood, it cannot be controlled.',
+        text: 'If I cannot measure it I cannot check it, and if I cannot check it I am simply hoping. I was raised to distrust hoping.',
         speakerFaction: 'player',
       },
       {
@@ -240,7 +244,7 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
     lines: [
       {
         speaker: 'Goro',
-        text: 'Hey knight-boy, that last swing was sloppy. You telegraph your left side.',
+        text: 'Oi, knight. That last cut was sloppy. You lean before you swing left. Everyone can read it.',
         speakerFaction: 'player',
       },
       { speaker: 'Akira', text: 'I beg your pardon? My form is—', speakerFaction: 'player' },
@@ -263,17 +267,17 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
     lines: [
       {
         speaker: 'Goro',
-        text: 'Princess — er, Shigeru. You are smaller than I expected for someone who leads an army.',
+        text: 'Your Highness — Shigeru. You are a good deal smaller than I expected a war leader to be.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'And you are louder than I expected for someone who sneaks through forests.',
+        text: 'And you are a good deal louder than I expected a woodsman to be.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Goro',
-        text: 'Ha! Fair point. You have got a sharp tongue. I like that.',
+        text: 'Ha! Fair. You have a tongue on you. I like that in a commander.',
         speakerFaction: 'player',
       },
       {
@@ -293,22 +297,22 @@ export const RANK_SUPPORT_CONVERSATIONS: SupportConversation[] = [
     lines: [
       {
         speaker: 'Genzo',
-        text: 'Sir Akira, I wanted to say... your lance technique is flawless. I have much to learn.',
+        text: 'Sir Akira. Your lance work is very fine. Parade-fine.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Akira',
-        text: 'You are too kind, Genzo. Your shield work is impressive for your age.',
+        text: 'You are too kind, sergeant. I hear a “but” in that.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Genzo',
-        text: 'I trained under Captain Alden before... before the fortress fell.',
+        text: 'But a man who fights that beautifully has never had to fight tired. That is not a criticism, lad. It is a warning.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Akira',
-        text: 'Alden was a fine soldier. He would be proud to see you carrying on his teachings.',
+        text: '...Then teach me how to fight tired. I would rather learn it from you than from the day itself.',
         speakerFaction: 'player',
       },
     ],

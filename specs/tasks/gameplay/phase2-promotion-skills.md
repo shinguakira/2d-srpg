@@ -135,20 +135,20 @@
 - [x] Skill equip UI in preparation screen (click to equip/unequip)
 - [x] Class innate skills auto-equipped, don't use slots
 
-## Ren's Teaching (LOOP Expenditure)
+## Shigeru's Teaching (EMB Expenditure)
 
 > **Ref:** [`specs/gameplay/skills.md`](specs/gameplay/skills.md), [`specs/gameplay/stats.md`](specs/gameplay/stats.md)
 
-> Teaching costs LOOP and inflicts CRP on both Ren and the student.
-> See `specs/tasks/campaign-flags.md` for exact LOOP costs.
+> Teaching costs EMB and inflicts CRP on both Shigeru and the student.
+> See `specs/tasks/campaign-flags.md` for exact EMB costs.
 
-- [x] Teaching UI in preparation screen: Ren selects ally → choose skill to teach
-- [x] Teaching costs: combat skill = 10 LOOP, meta skill = 15 LOOP, movement skill = 5 LOOP
-- [ ] CRP cost: +2 CRP to both Ren and student per teaching — ⚠️ cost defined but not applied (no CRP system yet)
+- [x] Teaching UI in preparation screen: Shigeru selects ally → choose skill to teach
+- [x] Teaching costs: combat skill = 10 EMB, meta skill = 15 EMB, movement skill = 5 EMB
+- [ ] CRP cost: +2 CRP to both Shigeru and student per teaching — ⚠️ cost defined but not applied (no CRP system yet)
 - [x] Student permanently learns the skill (added to `learnedSkills`)
-- [x] Teaching only available if Ren has enough LOOP (gated until Phase 4)
+- [x] Teaching only available if Shigeru has enough EMB (gated until Phase 4)
 - [x] Teaching only available during preparation (not mid-battle)
-- [x] Teachable skills: subset of Ren's learned skills (not class-locked or innate)
+- [x] Teachable skills: subset of Shigeru's learned skills (not class-locked or innate)
 
 ## Validation
 
@@ -157,6 +157,6 @@
 - [x] Unit tests: skill slot calculation by level (clamped at 10)
 - [x] Unit tests: skill precedence chain — Vantage fires before attack, Nihil disables skills
 - [x] Unit tests: mutually exclusive per-hit skills (Sol vs Luna vs Astra — first wins)
-- [x] Unit tests: teaching LOOP cost deduction, CRP application (15 tests)
+- [x] Unit tests: teaching EMB cost deduction, CRP application (15 tests)
 - [x] `npm run build` — zero errors
 - [x] `npx vitest run` — 233 tests pass

@@ -57,7 +57,7 @@ export function FormulasView() {
           Weapon triangle: +15 hit (advantage), -15 hit (disadvantage)
         </p>
         <p className="debug-screen__desc-text">Non-proficient penalty: -20 hit</p>
-        <p className="debug-screen__desc-text">SYNC &gt; 80: +5 hit bonus</p>
+        <p className="debug-screen__desc-text">ATT &gt; 80: +5 hit bonus</p>
         <p className="debug-screen__desc-text">Clamped: 0-100%</p>
       </div>
 

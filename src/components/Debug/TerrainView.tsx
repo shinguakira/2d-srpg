@@ -210,7 +210,7 @@ function TerrainDetail({
             )}
             {sync !== 0 && (
               <div className="debug-screen__stat-row">
-                <span className="debug-screen__stat-label">SYNC</span>
+                <span className="debug-screen__stat-label">ATT</span>
                 <span
                   className="debug-screen__stat-value"
                   style={{ color: sync > 0 ? '#22c55e' : '#ef4444' }}

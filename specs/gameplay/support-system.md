@@ -34,7 +34,7 @@ Units build support through adjacency in battle. Higher support ranks unlock con
 
 - Each unit can have a maximum of **5 total support partners** (any rank)
 - Only **1 S-rank** support per unit (deepest bond is exclusive)
-- Ren can support with ALL units (no limit — protagonist)
+- Shigeru can support with ALL units (no limit — protagonist)
 - Support points only accumulate when both units are deployed in the same chapter
 
 ---
@@ -62,7 +62,7 @@ Bonuses from multiple support partners DO stack, but only the highest-ranked act
 | Reach B rank | +5 LOY (both units) |
 | Reach A rank | +8 LOY (both units) |
 | Reach S rank | +12 LOY (both units) |
-| Support partner dies | -15 LOY, +10 AWR |
+| Support partner dies | -15 LOY, +10 INS |
 
 High support rank with a unit who dies creates the strongest grief/LOY cascade in the game. This is intentional — building bonds means risking deeper loss.
 
@@ -87,17 +87,17 @@ Not all pairs have unique conversations. Priority pairs (with full 4-tier conver
 
 | Pair | Theme | Notes |
 |------|-------|-------|
-| Ren × Senna | Knowledge vs ignorance | Senna's analysis meets Ren's 347-cycle experience. Do you tell her everything? |
-| Ren × Lira | Exhaustion vs hope | Lira sees through Ren's cynicism. She reminds him why he started. |
-| Ren × Bram | Action vs planning | Bram challenges Ren's overthinking. "Sometimes you just hit the thing." |
-| Ren × Voss | Former enemies | 300 cycles of opposing each other. Now allies. Trust building. |
-| Ren × Kael | Commander × soldier | The relationship that defines Ren's guilt. Kael's unwavering loyalty. |
-| Senna × Coda | Intellect vs street smarts | Senna respects Coda's practical intelligence. |
-| Bram × Rook | Rival fighters | Competitive friendship. Who's stronger? |
-| Lira × Orin | Healer × dancer | Two support-role characters bond over keeping everyone alive. |
+| Shigeru × Kanna | Knowledge vs ignorance | Kanna's analysis meets Shigeru's 347-cycle experience. Do you tell her everything? |
+| Shigeru × Hina | Exhaustion vs hope | Hina sees through Shigeru's cynicism. She reminds him why he started. |
+| Shigeru × Goro | Action vs planning | Goro challenges Shigeru's overthinking. "Sometimes you just hit the thing." |
+| Shigeru × Genzo | Former enemies | 300 cycles of opposing each other. Now allies. Trust building. |
+| Shigeru × Akira | Commander × soldier | The relationship that defines Shigeru's guilt. Akira's unwavering loyalty. |
+| Kanna × Hachi | Intellect vs street smarts | Kanna respects Hachi's practical intelligence. |
+| Goro × Raiga | Rival fighters | Competitive friendship. Who's stronger? |
+| Hina × Kagura | Healer × dancer | Two support-role characters bond over keeping everyone alive. |
 | Kira × Elara | Dark × light | Former dark mage and monk. Opposing magic, finding balance. |
-| Voss × Ghael | Former enemies | Both served the System. Different reasons for leaving. |
-| Echo × Ren | Creator × creation | The System made Echo. Ren must decide what Echo means. |
+| Genzo × Ghael | Former enemies | Both served the Blackflame. Different reasons for leaving. |
+| Echo × Shigeru | Creator × creation | The Blackflame made Echo. Shigeru must decide what Echo means. |
 
 All other unit pairs have generic C-rank conversations (personality interactions) and no higher-rank support.
 
@@ -107,21 +107,21 @@ All other unit pairs have generic C-rank conversations (personality interactions
 
 | Interaction | Effect |
 |-------------|--------|
-| High support (A/S) + ally death | -15 LOY, +10 AWR (shared grief amplifies awareness) |
-| S-rank support + both deployed | +3 SYNC per chapter end (mutual stabilization) |
+| High support (A/S) + ally death | -15 LOY, +10 INS (shared grief amplifies awareness) |
+| S-rank support + both deployed | +3 ATT per chapter end (mutual stabilization) |
 | Support conversation viewed | -2 STA for both units (emotional processing) |
 | S-rank partner at low HP | Supported unit gains +5 all combat stats until partner healed (protective fury) |
 
 ---
 
-## Support × Kael's Death (Ch8)
+## Support × Akira's Death (Ch8)
 
-Kael's death has special support implications:
+Akira's death has special support implications:
 
-- All units with C+ support with Kael: -10 LOY, +8 AWR
-- Ren (always has support with Kael): -15 LOY, +10 AWR, -10 SYNC
-- Any unit with A/S rank Kael support: **Grief** status (2 chapters) — -3 all stats, but +20 crit (rage)
-- Support points earned with Kael are NOT lost — they're preserved as memory data, referenced in Ch24 (???_CORRUPTED is Kael)
+- All units with C+ support with Akira: -10 LOY, +8 INS
+- Shigeru (always has support with Akira): -15 LOY, +10 INS, -10 ATT
+- Any unit with A/S rank Akira support: **Grief** status (2 chapters) — -3 all stats, but +20 crit (rage)
+- Support points earned with Akira are NOT lost — they're preserved as memory data, referenced in Ch24 (???_CORRUPTED is Akira)
 
 ---
 

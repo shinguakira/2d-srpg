@@ -13,7 +13,7 @@
 
 ### Config
 - [ ] Create chapter21.ts — 20×24 grid, objective: Escape to (0, 19)
-- [ ] Par turns: 28, deployment slots: 12, force deploy: Ren
+- [ ] Par turns: 28, deployment slots: 12, force deploy: Shigeru
 
 ### Terrain
 - [ ] Unstable landscape: terrain tiles shift type every 2 turns (NW→SE wave)
@@ -36,7 +36,7 @@
 - [ ] Turn 4: Void spawn gates activate
 - [ ] Turn 8: SW collapse begins (1 row → void every 2 turns)
 - [ ] Escape: any player unit reaches (0, 19) → chapter ends
-- [ ] Ren must reach exit (force deploy ensures this)
+- [ ] Shigeru must reach exit (force deploy ensures this)
 
 ---
 
@@ -46,7 +46,7 @@
 
 ### Config
 - [ ] Create chapter22.ts — 20×24 grid, objective: Boss Kill (The Archivist)
-- [ ] Par turns: 28, deployment slots: 12, force deploy: Ren
+- [ ] Par turns: 28, deployment slots: 12, force deploy: Shigeru
 
 ### Terrain
 - [ ] Massive library mirroring ch1 layout at triple scale
@@ -67,15 +67,15 @@
 - [ ] Total: ~10 real enemies + phantom spawns
 
 ### Ghost Events
-- [ ] Ghost Garrek appears Turn 3: non-hostile, hints about weakness rotation, fades Turn 5
-- [ ] Phantom Kael appears Turn 8: non-combat, salutes, fades after 1 turn
+- [ ] Ghost Baraku appears Turn 3: non-hostile, hints about weakness rotation, fades Turn 5
+- [ ] Phantom Akira appears Turn 8: non-combat, salutes, fades after 1 turn
   - Grants +3 all stats to all player units for 3 turns
 - [ ] Phantom enemies spawn every 4 turns from shelves
-- [ ] Master Crown #2: hidden tile, Thief (Coda) detects when adjacent
+- [ ] Master Crown #2: hidden tile, Thief (Hachi) detects when adjacent
 
 ### Events
-- [ ] Turn 3: Ghost Garrek appearance + hint dialogue
-- [ ] Turn 8: Phantom Kael silent salute + stat buff
+- [ ] Turn 3: Ghost Baraku appearance + hint dialogue
+- [ ] Turn 8: Phantom Akira silent salute + stat buff
 - [ ] Party dialogue: characters say things they've been holding back
 - [ ] Archivist defeat: library lore about cycle history
 
@@ -96,20 +96,20 @@
 
 - [ ] Team selection UI: player divides roster into Team A and Team B
 - [ ] Each team: minimum 5, maximum 7 (flexible split based on roster size)
-- [ ] Ren must be on one team (player choice)
+- [ ] Shigeru must be on one team (player choice)
 - [ ] Balanced team warning: if one team has no healer, show caution popup
 - [ ] If roster < 12: auto-fill with NPC ally constructs to reach 6 per side (safety valve)
 
 ### Map A — Left (Mountainous)
 - [ ] 14×16 grid with chokepoints, forests, mountain passes
-- [ ] Boss: Sentinel_L — System Construct, physical, Lv22
+- [ ] Boss: Sentinel_L — Blackflame Colossus, physical, Lv22
   - 60 HP, STR 24, DEF 22, melee focused
 - [ ] 5 Construct soldiers — Lv18-20, guard AI at chokepoints
 - [ ] 2 Construct knights — Lv19, armored, aggressive
 
 ### Map B — Right (Open Field)
 - [ ] 14×16 grid with minimal cover, ranged-favored terrain
-- [ ] Boss: Sentinel_R — System Construct, magical, Lv22
+- [ ] Boss: Sentinel_R — Blackflame Colossus, magical, Lv22
   - 60 HP, MAG 26, RES 24, ranged focused
 - [ ] 5 Construct mages — Lv18-20, aggressive AI
 - [ ] 2 Construct archers — Lv19, stationary on elevated tiles
@@ -127,13 +127,13 @@
 
 ---
 
-## Chapter 24: "???_CORRUPTED" (16×16, Arena) — KAEL REVELATION
+## Chapter 24: "???_CORRUPTED" (16×16, Arena) — AKIRA REVELATION
 
-> **Ref:** [`specs/maps/ch24.md`](specs/maps/ch24.md), [`specs/story/chapters/ch24.md`](specs/story/chapters/ch24.md), [`specs/story/characters/kael.md`](specs/story/characters/kael.md)
+> **Ref:** [`specs/maps/ch24.md`](specs/maps/ch24.md), [`specs/story/chapters/ch24.md`](specs/story/chapters/ch24.md), [`specs/story/characters/akira.md`](specs/story/characters/akira.md)
 
 ### Config
 - [ ] Create chapter24.ts — 16×16 circular arena grid, objective: Strip 3 corruption layers
-- [ ] Par turns: 30, deployment slots: 12, force deploy: Ren
+- [ ] Par turns: 30, deployment slots: 12, force deploy: Shigeru
 
 ### Terrain
 - [ ] Circular arena: open center, no terrain bonuses
@@ -141,7 +141,7 @@
 - [ ] Corruption ring of void tiles surrounding arena (shrinks Turn 10, 20)
 - [ ] No fort/throne tiles (pure combat)
 
-### Boss: ???_CORRUPTED (Reconstructed Kael Data)
+### Boss: ???_CORRUPTED (Reconstructed Akira Data)
 
 - [ ] Phase system: 3 corruption layers to strip
 - [ ] HP display: 999 (cosmetic) → actual HP per phase: 60, 40, 33
@@ -156,17 +156,17 @@
 - [ ] Non-advantage hits deal normal damage but do NOT strip layers
 - [ ] HUD: display boss's current weapon type prominently + hint showing which weapon type counters it
 - [ ] **Weapon availability guarantee:** By ch24, player must have access to all 6 counter-weapon types:
-  - Sword users: Ren (lord), Rook (mercenary) — counter axe turns
-  - Lance users: Voss (soldier), Zael/Yuel (if available) — counter sword turns
-  - Axe users: Bram (fighter) — counter lance turns
-  - Fire tome: Senna (mage) or Kira (shaman via dark→fire access) — counter wind turns
-  - Thunder tome: Senna or shop-purchased — counter fire turns
-  - Wind tome: Senna or shop-purchased — counter thunder turns
+  - Sword users: Shigeru (lord), Raiga (mercenary) — counter axe turns
+  - Lance users: Genzo (soldier), Zael/Yuki (if available) — counter sword turns
+  - Axe users: Goro (fighter) — counter lance turns
+  - Fire tome: Kanna (mage) or Kira (shaman via dark→fire access) — counter wind turns
+  - Thunder tome: Kanna or shop-purchased — counter fire turns
+  - Wind tome: Kanna or shop-purchased — counter thunder turns
   - **Failsafe:** ch23 shop stocks at least 1 of each tome type + weapon type
   - **Failsafe:** if player lacks a weapon type, hint system suggests "Visit the shop before this battle"
 - [ ] Layer 1 stripped: reveals human form underneath glitch
-- [ ] Layer 2 stripped: Kael's face visible, party recognizes him
-- [ ] Layer 3 stripped: Kael freed, mercy kill / release scene
+- [ ] Layer 2 stripped: Akira's face visible, party recognizes him
+- [ ] Layer 3 stripped: Akira freed, mercy kill / release scene
 
 ### Supporting Enemies
 - [ ] 4 Corruption fragments — Lv20, dark tomes, respawn every 5 turns
@@ -176,9 +176,9 @@
 ### Events
 - [ ] Turn 1: ???_CORRUPTED appears — garbled data, unrecognizable
 - [ ] Layer 1 strip: "Wait... that movement pattern..."
-- [ ] Layer 2 strip: "It's... it's Kael. The System tried to save him."
+- [ ] Layer 2 strip: "It's... it's Akira. The Blackflame tried to save him."
 - [ ] Layer 3 strip: Extended dialogue — mercy kill / release
-  - "He's not Kael. But he remembers being Kael."
+  - "He's not Akira. But he remembers being Akira."
 - [ ] Turn 10: Arena shrinks (outer ring → void)
 - [ ] Turn 20: Arena shrinks again
 - [ ] Defeat: Master Crown #3 + emotional epilogue
@@ -190,8 +190,8 @@
 > **Ref:** [`specs/maps/ch25.md`](specs/maps/ch25.md), [`specs/story/chapters/ch25.md`](specs/story/chapters/ch25.md), [`specs/story/arc-structure.md`](specs/story/arc-structure.md)
 
 ### Config
-- [ ] Create chapter25.ts — 24×28 grid, objective: Ren seizes center with Final Save Crystal
-- [ ] Par turns: 30+, deployment slots: 12, force deploy: Ren
+- [ ] Create chapter25.ts — 24×28 grid, objective: Shigeru seizes center with Final Save Crystal
+- [ ] Par turns: 30+, deployment slots: 12, force deploy: Shigeru
 - [ ] Weather: Corruption Storm (+1 CRP/turn)
 
 ### Terrain — 3 Phases
@@ -200,9 +200,9 @@
 - [ ] Phase 3 (Open Arena): All walls vanish, only center throne remains
 
 ### Map-as-Boss
-- [ ] The System is the map, not a unit
+- [ ] The Blackflame is the map, not a unit
 - [ ] Map HP bar: 120 → 80 → 40 (3 phases)
-- [ ] Map HP reduced by Ren reaching checkpoint tiles (3 checkpoints)
+- [ ] Map HP reduced by Shigeru reaching checkpoint tiles (3 checkpoints)
 - [ ] Checkpoint tiles at end of each maze path
 - [ ] Phase transition: map restructures (wall/terrain changes)
 - [ ] Tiles heal enemy units during Phase 1 (fort-like regen)
@@ -214,19 +214,19 @@
   - Phase 2: 2 per turn (Lv22-24)
   - Phase 3: 1 per turn (Lv24-26)
 - [ ] Each unit has role:
-  - Senna navigates (highest AWR, sees paths)
-  - Bram breaks walls (axe bonus vs destructible)
-  - Lira heals through corruption (anti-CRP)
-  - Voss holds chokepoints (highest DEF)
+  - Kanna navigates (highest INS, sees paths)
+  - Goro breaks walls (axe bonus vs destructible)
+  - Hina heals through corruption (anti-CRP)
+  - Genzo holds chokepoints (highest DEF)
 - [ ] No traditional boss unit — map IS the boss
 
 ### Events & Ending
 - [ ] Each checkpoint reached: map HP drops, phase transition dialogue
 - [ ] Phase 2 start: walls corrupt, phantoms of all past bosses spawn (weak, 1 HP)
 - [ ] Phase 3 start: all walls vanish — open arena with throne
-- [ ] Ren reaches throne with Final Save Crystal:
+- [ ] Shigeru reaches throne with Final Save Crystal:
   - System final dialogue: "I just wanted... one perfect save."
-  - Ren: "There is no perfect save. There's just... the one we finish."
+  - Shigeru: "There is no perfect save. There's just... the one we finish."
   - System: "...Save complete. Thank you for playing."
 - [ ] Ending evaluation: check campaign flags for ending variant
 - [ ] Credits sequence over party still image

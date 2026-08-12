@@ -120,11 +120,11 @@ export type ConsumableItem = {
 // ===== Meta-Stats =====
 
 export type MetaStats = {
-  awr: number; // Awareness: 0-100
-  loop: number; // Memory (Shigeru only): spendable resource, starts 347
-  sync: number; // Stability: 0-100
+  awr: number; // Insight (INS): how much of the Blackflame's nature the unit grasps, 0-100
+  loop: number; // Emberlight (EMB, Shigeru only): embers left in the Flamebrand, starts 347
+  sync: number; // Attunement (ATT): how steadily the unit is bound to the Sacred Flame, 0-100
   loy: number; // Loyalty: 0-100
-  crp: number; // Corruption: 0-100, 100 = turns enemy
+  crp: number; // Corruption (CRP): Blackflame taint, 0-100; at 100 the unit turns
   sta: number; // Stamina: 0-45 per chapter, resets between chapters
 };
 

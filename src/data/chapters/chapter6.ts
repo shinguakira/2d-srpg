@@ -34,7 +34,7 @@ const terrain: TerrainType[][] = [
 
 export const CHAPTER_6: ChapterData = {
   id: 'ch6',
-  name: 'Chapter 6: New Alliances',
+  name: 'Chapter 6: Blades for Hire',
   chapterNumber: 6,
   mapWidth: 16,
   mapHeight: 18,
@@ -78,34 +78,38 @@ export const CHAPTER_6: ChapterData = {
       },
       {
         speaker: 'Raiga',
-        text: "Name's Raiga. Mercenary. My last employer got erased by a data void, so I'm between contracts.",
+        text: 'Raiga. Sellsword. My last contract was guarding a caravan out of the highlands. There is no caravan and there are no highlands, so here I am.',
         speakerFaction: 'player',
       },
-      { speaker: 'Shigeru', text: '...Erased?', speakerFaction: 'player' },
+      { speaker: 'Shigeru', text: 'No highlands.', speakerFaction: 'player' },
       {
         speaker: 'Raiga',
-        text: "You know what I mean. The anomalies. They're spreading from the highlands. Whole towns going wrong.",
+        text: 'Grey ground where the road was. I walked back the way I came and there was nothing to walk back to. Do not ask me to describe it better than that.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Kanna',
-        text: "He's right. My readings show corruption expanding geographically since the seed destabilized. It's no longer localized.",
+        text: 'My lord, that is the fifth mark, and it is behind us now. It went past us in the night.',
         speakerFaction: 'player',
       },
-      { speaker: 'Akira', text: "So we're heading into it?", speakerFaction: 'player' },
+      {
+        speaker: 'Akira',
+        text: 'Past us? Then it is between us and the south road.',
+        speakerFaction: 'player',
+      },
       {
         speaker: 'Shigeru',
-        text: "We're heading through it. Raiga, you said you're between contracts?",
+        text: 'Which settles the argument. We were turning north anyway. Raiga — you said you were between contracts.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Raiga',
-        text: "You're doing something new. That's worth my blade. For now.",
+        text: 'Everyone else on this coast is running from the north. You are the only fools walking at it. I want to see how that ends.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Narrator',
-        text: "An Imperial patrol blocks the harbor. Captain Tsubame's aerial unit circles overhead — a pegasus knight with a divebomb pattern.",
+        text: 'A Kurogane patrol holds the harbour. Captain Tsubame’s riders wheel above the masts, waiting for a target to stand still.',
       },
     ],
   },
@@ -113,32 +117,38 @@ export const CHAPTER_6: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'The harbor is clear. Imperial banners hang torn in the sea wind.',
+        text: 'The harbor is clear. Kurogane banners hang torn in the sea wind.',
       },
       {
         speaker: 'Raiga',
-        text: 'So. This is what you do. Fight Imperials, recruit strays, keep moving.',
+        text: 'So this is the work. Fight Kurogane, pick up strays, keep walking.',
         speakerFaction: 'player',
       },
       { speaker: 'Shigeru', text: 'Something like that.', speakerFaction: 'player' },
       {
         speaker: 'Mio',
-        text: 'That soldier I healed — he was barely older than us. Why are they fighting?',
+        text: 'The soldier I set a bone for — he was younger than me. He kept apologising while I worked. What is he even fighting for?',
         speakerFaction: 'player',
       },
       {
         speaker: 'Raiga',
-        text: "Because someone told them to. That's how it works.",
+        text: 'Because a man he has never met told him to. That is the whole of it, girl, in every war there has ever been.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Kanna',
-        text: "The anomalies are spreading faster than my models predicted. Whatever changed the seed... it's accelerating.",
+        speaker: 'Genzo',
+        text: 'It is not quite the whole of it. He is fighting because Takeshi told him the war would be the last one. Every soldier in Kurogane believes that. It is why they march so well.',
+        speakerFaction: 'player',
+      },
+      { speaker: 'Shigeru', text: 'And do you still believe it?', speakerFaction: 'player' },
+      {
+        speaker: 'Genzo',
+        text: '...I believe he believes it. That is the part that frightens me, my lord.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'Then we move faster. Next stop — the coastal fortress.',
+        text: 'Then we make time. The coastal fortress next — and after that, north.',
         speakerFaction: 'player',
       },
     ],
@@ -149,7 +159,7 @@ export const CHAPTER_6: ChapterData = {
       reward: {
         type: 'weapon',
         weaponId: 'steel_bow',
-        dialogue: "My son was a sailor before the Empire came. He'd want you to have this.",
+        dialogue: "My son was a sailor before Kurogane came. He'd want you to have this.",
         speaker: 'Harbor Elder',
       },
     },
@@ -163,7 +173,7 @@ export const CHAPTER_6: ChapterData = {
         { unitId: 'ch6_reinforce_3', position: { x: 5, y: 0 } },
         { unitId: 'ch6_reinforce_4', position: { x: 10, y: 0 } },
       ],
-      message: 'Imperial cavalry reinforcements arrive from the north!',
+      message: 'Kurogane cavalry arrive from the north!',
     },
     {
       turn: 12,
@@ -175,7 +185,7 @@ export const CHAPTER_6: ChapterData = {
         { unitId: 'ch6_reinforce_9', position: { x: 7, y: 0 } },
         { unitId: 'ch6_reinforce_10', position: { x: 8, y: 0 } },
       ],
-      message: 'An overwhelming Imperial wave descends on the harbor!',
+      message: 'A full Kurogane column pours into the harbour!',
     },
   ],
   events: [
@@ -225,17 +235,17 @@ export const CHAPTER_6: ChapterData = {
               },
               {
                 speaker: 'Akira',
-                text: "She's healing an Imperial soldier. Is she... on their side?",
+                text: "She is binding a Kurogane man's wounds. Is she one of theirs?",
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Hina',
-                text: "No. She's on the side of the hurt. I understand that.",
+                text: 'No. She is on the side of the hurt. I know that side.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Mio',
-                text: "People are hurting. I can help. That's enough, isn't it?",
+                text: 'People are hurt and I can help. That has always been enough for me.',
                 speakerFaction: 'player',
               },
               {
@@ -293,7 +303,11 @@ export const CHAPTER_6: ChapterData = {
                 text: "The north road — I'm counting at least a full company. We cannot hold this position.",
                 speakerFaction: 'player',
               },
-              { speaker: 'Shigeru', text: 'Everyone fall back! South, now!', speakerFaction: 'player' },
+              {
+                speaker: 'Shigeru',
+                text: 'Everyone fall back! South, now!',
+                speakerFaction: 'player',
+              },
             ],
           },
         },
@@ -311,28 +325,33 @@ export const CHAPTER_6: ChapterData = {
             lines: [
               {
                 speaker: 'Tsubame',
-                text: 'Do you even understand ALTITUDE? Tactical positioning is a three-dimensional problem — you ground-crawlers think in two dimensions!',
+                text: 'Beaten out of the air by a girl on a farm pegasus. My instructors would weep.',
                 speakerFaction: 'enemy',
               },
               {
-                speaker: 'Shigeru',
-                text: "She's... talking about flight sims?",
+                speaker: 'Yuki',
+                text: 'Your riders held formation. That is why I could predict every one of you.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Tsubame',
-                text: "COMBAT AVIATION. There's a DIFFERENCE.",
+                text: '...Noted. Rider — you have flown north. Tell me you have seen it too.',
+                speakerFaction: 'enemy',
+              },
+              { speaker: 'Yuki', text: 'The hole in the sky. Yes.', speakerFaction: 'player' },
+              {
+                speaker: 'Tsubame',
+                text: 'I reported it as weather. Twice. The second report came back with my commission attached to it and a note telling me to fly lower.',
                 speakerFaction: 'enemy',
               },
               {
-                speaker: 'Tsubame',
-                text: "The sky... something is wrong with the sky. I've seen it from above — the clouds move in patterns that shouldn't exist.",
-                speakerFaction: 'enemy',
+                speaker: 'Shigeru',
+                text: 'We are going north to see what it is.',
+                speakerFaction: 'player',
               },
-              { speaker: 'Shigeru', text: "I know. It's spreading.", speakerFaction: 'player' },
               {
                 speaker: 'Tsubame',
-                text: 'Then why are you walking INTO it?',
+                text: 'Then you are braver than my whole wing, boy, and I hope somebody writes it down.',
                 speakerFaction: 'enemy',
               },
             ],
@@ -349,16 +368,26 @@ export const CHAPTER_6: ChapterData = {
       lines: [
         {
           speaker: 'Raiga',
-          text: "You fight like someone who's done this before. Many times before.",
+          text: 'You count your dead by name. Out loud, every night, when you think nobody is listening.',
           speakerFaction: 'player',
         },
-        { speaker: 'Shigeru', text: 'What makes you say that?', speakerFaction: 'player' },
+        { speaker: 'Shigeru', text: 'Is that a criticism?', speakerFaction: 'player' },
         {
           speaker: 'Raiga',
-          text: "You never hesitate. Not once. Either you're fearless or you already know what's going to happen.",
+          text: 'It is an observation. I have served eleven captains. The good ones did that for about a year, and then they stopped.',
           speakerFaction: 'player',
         },
-        { speaker: 'Shigeru', text: '...Maybe a bit of both.', speakerFaction: 'player' },
+        { speaker: 'Shigeru', text: 'Why did they stop?', speakerFaction: 'player' },
+        {
+          speaker: 'Raiga',
+          text: 'Because the list gets long, lad. Every one of them thought they would be the exception too.',
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Shigeru',
+          text: '...Then tell me when I stop. That is an order, Raiga.',
+          speakerFaction: 'player',
+        },
       ],
       reward: { type: 'exp_both', amount: 20 },
     },

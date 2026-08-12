@@ -66,7 +66,7 @@ Light, accurate. Best hit rates. Moderate damage.
 | **Silver Sword** | 13 | 80 | 0 | 8 | 1 | 20 | A | Top-tier. Good balance of might and accuracy. |
 | **Killing Edge** | 9 | 75 | 30 | 7 | 1 | 20 | C | The crit weapon. Build around SKL. |
 | **Armorslayer** | 8 | 80 | 0 | 10 | 1 | 18 | C | Effective vs armored (×3 might). |
-| **Rapier** | 7 | 95 | 10 | 5 | 1 | 40 | Prf | **Ren only**. Effective vs cavalry and armored. Lord weapon. |
+| **Rapier** | 7 | 95 | 10 | 5 | 1 | 40 | Prf | **Shigeru only**. Effective vs cavalry and armored. Lord weapon. |
 | **Brave Sword** | 9 | 75 | 0 | 12 | 1 | 30 | A | Attacks twice per combat (2 hits guaranteed, 4 if doubling). |
 
 ---
@@ -83,7 +83,7 @@ High might, lower accuracy. Mounted units' primary weapon.
 | **Javelin** | 6 | 65 | 0 | 11 | 1-2 | 20 | D | Ranged option. Accuracy and might suffer. |
 | **Killer Lance** | 10 | 70 | 30 | 9 | 1 | 20 | C | Crit build lance. |
 | **Horseslayer** | 7 | 70 | 0 | 13 | 1 | 18 | C | Effective vs cavalry (×3 might). |
-| **Voss's Garrison Lance** | 9 | 85 | 5 | 9 | 1 | — | Prf | **Voss only**. Cannot break — infinite uses. The lance he held for 300 cycles. It's part of him. |
+| **Genzo's Garrison Lance** | 9 | 85 | 5 | 9 | 1 | — | Prf | **Genzo only**. Cannot break — infinite uses. The lance he held for 300 cycles. It's part of him. |
 
 ---
 
@@ -100,7 +100,7 @@ Highest might, lowest accuracy. High-risk, high-reward.
 | **Killer Axe** | 11 | 65 | 30 | 11 | 1 | 20 | C | Crit axe. Terrifying if it connects. |
 | **Hammer** | 10 | 55 | 0 | 15 | 1 | 20 | C | Effective vs armored (×3 might). Worst hit rate in the game. |
 | **Brave Axe** | 10 | 65 | 0 | 16 | 1 | 30 | A | Double strike. Extremely heavy. |
-| **Devil Axe** | 18 | 55 | 0 | 13 | 1 | 20 | E | Highest non-effective might in the game. 20% chance to hit YOURSELF instead. Low SYNC increases self-hit chance (+10% at SYNC <50%). |
+| **Devil Axe** | 18 | 55 | 0 | 13 | 1 | 20 | E | Highest non-effective might in the game. 20% chance to hit YOURSELF instead. Low ATT increases self-hit chance (+10% at ATT <50%). |
 
 ---
 
@@ -133,7 +133,7 @@ High accuracy, low might. The safe option.
 | **Wind** | 4 | 95 | 0 | 3 | 1-2 | 40 | E | Lightest tome. Almost always hits. |
 | **Elwind** | 8 | 90 | 0 | 5 | 1-2 | 30 | C | Reliable. Good weight. |
 | **Tornado** | 12 | 85 | 5 | 9 | 1-2 | 20 | A | Top wind. Best hit rate of any A-rank. |
-| **Excalibur** | 14 | 90 | 10 | 7 | 1-2 | 25 | S | Effective vs flying (×3). Senna's endgame tome. |
+| **Excalibur** | 14 | 90 | 10 | 7 | 1-2 | 25 | S | Effective vs flying (×3). Kanna's endgame tome. |
 
 ---
 
@@ -149,7 +149,7 @@ Ranged physical. 2-range only — cannot attack adjacent or counterattack at mel
 | **Killer Bow** | 9 | 75 | 30 | 7 | 2 | 20 | C | Crit bow. Sniper + Killer Bow = death machine. |
 | **Longbow** | 5 | 65 | 0 | 10 | 2-3 | 20 | D | Extended range. Low accuracy/might but safe. |
 | **Brave Bow** | 7 | 70 | 0 | 10 | 2 | 30 | A | Double strike at range. Devastating with doubling. |
-| **Nira's Sightbow** | 8 | 95 | 10 | 4 | 2 | — | Prf | **Nira only**. Highest hit rate of any bow. Infinite uses. |
+| **Sayo's Sightbow** | 8 | 95 | 10 | 4 | 2 | — | Prf | **Sayo only**. Highest hit rate of any bow. Infinite uses. |
 
 ---
 
@@ -165,7 +165,7 @@ Low might, high speed, debuff on hit. 1-2 range. No triangle interaction.
 | **Poison Dagger** | 4 | 85 | 0 | 4 | 1-2 | 15 | C | Inflicts Poison status on hit (5 HP/turn). |
 | **Stiletto** | 6 | 80 | 30 | 3 | 1 | 15 | B | Melee only. Highest crit for a knife. Assassin's tool. |
 | **Wind Knife** | 3 | 100 | 0 | 2 | 1-2 | 25 | C | Lightest weapon in game. 100 hit. For guaranteed chip damage. |
-| **Coda's Data Knife** | 5 | 95 | 10 | 2 | 1-2 | — | Prf | **Coda only**. Steal +1 WEXP on hit. Infinite uses. "Extracting data." |
+| **Hachi's Shadowfang** | 5 | 95 | 10 | 2 | 1-2 | — | Prf | **Hachi only**. Steal +1 WEXP on hit. Infinite uses. "Extracting data." |
 
 ### Knife Debuff Effects
 
@@ -236,7 +236,7 @@ Healing/support. Cannot attack. Uses MAG for heal amount (MAG + staff might).
 | **Physic** | 10 | 1-5 | 15 | B | Ranged heal. Lower amount but safe positioning. |
 | **Restore** | — | 1 | 10 | C | Cures all status effects (Poison, Daze, etc.). Does not heal HP. |
 | **Barrier** | — | 1 | 15 | C | +7 RES for chapter on target ally. |
-| **Purify** | — | 1 | 5 | A | -5 CRP on target. Lira's corruption cleanse. Rare. |
+| **Purify** | — | 1 | 5 | A | -5 CRP on target. Hina's corruption cleanse. Rare. |
 
 ---
 
@@ -246,8 +246,8 @@ Unique weapons tied to the story's meta-awareness theme. Cannot be purchased.
 
 | Weapon | Type | Might | Hit | Crit | Weight | Range | Uses | Owner | Effect |
 |--------|------|-------|-----|------|--------|-------|------|-------|--------|
-| **Debugger** | Sword | 7 | 100 | 0 | 3 | 1 | — | Ren (Ch4) | Deals bonus damage = target's CRP value. Higher CRP = more vulnerable. Infinite uses. Found when Senna "patches" Ren's weapon data. |
-| **Memory Blade** | Sword | 1+LOOP/30 | 85 | 5 | 6 | 1 | — | Ren | Might scales with remaining LOOP. At 347 LOOP: 12 might. At 30 LOOP: 2 might. The weapon IS your memory. |
+| **Debugger** | Sword | 7 | 100 | 0 | 3 | 1 | — | Shigeru (Ch4) | Deals bonus damage = target's CRP value. Higher CRP = more vulnerable. Infinite uses. Found when Kanna "patches" Shigeru's weapon data. |
+| **Flamebrand** | Sword | 1+EMB/30 | 85 | 5 | 6 | 1 | — | Shigeru | Might scales with remaining EMB. At 347 EMB: 12 might. At 30 EMB: 2 might. The weapon IS your memory. |
 | **???'s Weapon** | Cycles | ??? | 80 | 10 | 8 | 1-2 | — | ???_CORRUPTED | Boss weapon. Type cycles each turn: sword→lance→axe→fire→thunder→wind. Triangle shifts every turn. |
 
 ---
@@ -294,7 +294,7 @@ Units gain weapon EXP by using weapons in combat. Higher rank = access to strong
 | **Monk** | Light |
 | **Dancer** | — (none) |
 | **Armor Knight** | Lance |
-| **System Construct** | Any (one at a time) |
+| **Blackflame Colossus** | Any (one at a time) |
 
 See [classes-expanded.md](classes-expanded.md) for promoted class weapon additions.
 
@@ -320,7 +320,7 @@ Brave Sword and Brave Axe attack **twice** per combat. If the unit is also fast 
 
 ### Devil Axe (Self-Damage Risk)
 
-20% chance per attack to deal full damage to the wielder instead of the target. Low SYNC (<50%) increases this to 30%. High AWR units see a warning: "The axe feels... wrong."
+20% chance per attack to deal full damage to the wielder instead of the target. Low ATT (<50%) increases this to 30%. High INS units see a warning: "The axe feels... wrong."
 
 ---
 
@@ -362,11 +362,11 @@ Story-gated Prf weapons found at key narrative moments. Cannot be forged. Infini
 
 | Weapon | Type | Arc | Might | Hit | Crit | Range | Owner | Effect |
 |--------|------|-----|-------|-----|------|-------|-------|--------|
-| **Memory Blade** | Sword | 1 | 1+LOOP/30 | 85 | 5 | 1 | Ren | Might scales with LOOP. At 347: 12 might. At 30: 2 might. |
-| **Cycle Breaker** | Bow | 2 | 10 | 90 | 10 | 2-3 | Nira | 3-range bow. +5 damage vs enemies with AWR > 50. |
-| **Debugger** | Sword | 3 | 7 | 100 | 0 | 1 | Ren | Bonus damage = target's CRP value. (Moved from Ch4 to Ch15 — Senna patches it mid-Arc 3.) |
-| **Void Render** | Axe | 4 | 14 | 70 | 20 | 1 | Bram | Deals true damage (ignores DEF) on crit. Found in System's memory. |
-| **Echo's Interface** | Any | 5 | 12 | 85 | 5 | 1-2 | Echo | Type matches equipped class. Deals bonus damage = user's SYNC%. |
+| **Flamebrand** | Sword | 1 | 1+EMB/30 | 85 | 5 | 1 | Shigeru | Might scales with EMB. At 347: 12 might. At 30: 2 might. |
+| **Sealbreaker** | Bow | 2 | 10 | 90 | 10 | 2-3 | Sayo | 3-range bow. +5 damage vs enemies with INS > 50. |
+| **Debugger** | Sword | 3 | 7 | 100 | 0 | 1 | Shigeru | Bonus damage = target's CRP value. (Moved from Ch4 to Ch15 — Kanna patches it mid-Arc 3.) |
+| **Void Render** | Axe | 4 | 14 | 70 | 20 | 1 | Goro | Deals true damage (ignores DEF) on crit. Found in System's memory. |
+| **Echo's Interface** | Any | 5 | 12 | 85 | 5 | 1-2 | Echo | Type matches equipped class. Deals bonus damage = user's ATT%. |
 
 ---
 
@@ -375,11 +375,11 @@ Story-gated Prf weapons found at key narrative moments. Cannot be forged. Infini
 ### Arc 1 (Ch1-5) — Iron Tier
 | Type | Available Weapons |
 |------|------------------|
-| Sword | Slim Sword, Iron Sword, Rapier (Ren Prf), Memory Blade (Ren Prf) |
-| Lance | Iron Lance, Voss's Garrison Lance (Prf) |
+| Sword | Slim Sword, Iron Sword, Rapier (Shigeru Prf), Flamebrand (Shigeru Prf) |
+| Lance | Iron Lance, Genzo's Garrison Lance (Prf) |
 | Axe | Iron Axe |
-| Bow | Iron Bow, Nira's Sightbow (Prf) |
-| Knife | Iron Knife, Coda's Data Knife (Prf) |
+| Bow | Iron Bow, Sayo's Sightbow (Prf) |
+| Knife | Iron Knife, Hachi's Shadowfang (Prf) |
 | Fire | Fire |
 | Thunder | Thunder |
 | Wind | Wind |
@@ -391,7 +391,7 @@ Story-gated Prf weapons found at key narrative moments. Cannot be forged. Infini
 | Sword | Steel Sword, Killing Edge, Armorslayer |
 | Lance | Steel Lance, Javelin, Horseslayer |
 | Axe | Steel Axe, Hand Axe, Devil Axe |
-| Bow | Steel Bow, Longbow, Killer Bow, Cycle Breaker (Nira Prf) |
+| Bow | Steel Bow, Longbow, Killer Bow, Sealbreaker (Sayo Prf) |
 | Knife | Steel Knife, Poison Dagger |
 | Fire | Elfire |
 | Thunder | Elthunder |
@@ -403,7 +403,7 @@ Story-gated Prf weapons found at key narrative moments. Cannot be forged. Infini
 ### Arc 3 (Ch11-15) — Killer Tier
 | Type | New Additions |
 |------|--------------|
-| Sword | Debugger (Ren Prf) |
+| Sword | Debugger (Shigeru Prf) |
 | Lance | Killer Lance |
 | Axe | Killer Axe, Hammer |
 | Bow | — |
@@ -421,7 +421,7 @@ Story-gated Prf weapons found at key narrative moments. Cannot be forged. Infini
 |------|--------------|
 | Sword | Silver Sword, Brave Sword |
 | Lance | Silver Lance |
-| Axe | Silver Axe, Brave Axe, Void Render (Bram Prf) |
+| Axe | Silver Axe, Brave Axe, Void Render (Goro Prf) |
 | Bow | Silver Bow, Brave Bow |
 | Knife | Silver Knife |
 | Fire | Valflame (S-rank) |

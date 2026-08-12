@@ -109,7 +109,7 @@ The debug page currently has only 2 tabs (Characters, Items). The project has ex
   - **Passability**: passable / impassable, plus class-specific (flying can cross water, etc.)
   - **Meta-Stat Effects** (from `metaStats.ts` terrain table):
     - CRP gain/loss per turn on this terrain
-    - SYNC change per turn
+    - ATT change per turn
     - STA recovery per turn
 - [x] Sort options: by name, by movement cost, by defense bonus
 
@@ -136,7 +136,7 @@ The debug page currently has only 2 tabs (Characters, Items). The project has ex
   - Hit% = accuracy - evade
   - Weapon triangle: ±15 hit
   - Non-proficient penalty: -20 hit
-  - Support bonus, SYNC bonus if applicable
+  - Support bonus, ATT bonus if applicable
   - Clamp: 0–100%
 - [x] **Crit% section**:
   - Crit: `floor(SKL / 2) + weapon.crit - defender.LCK`
@@ -199,14 +199,14 @@ The debug page currently has only 2 tabs (Characters, Items). The project has ex
 **Data:** `src/core/metaStats.ts` (6 meta-stats)
 
 - [x] **Reference page layout** (like Formulas — sections, not split-pane)
-- [x] **AWR (Awareness)**: range 0–100, effect: enables seeing enemy meta-stats at ≥80
-- [x] **LOOP (Loop Counter)**: range ≥0, effect: affects Memory Blade weapon might
-- [x] **SYNC (Synchronization)**: range 0–100, effects: hit bonus +5 at >80; random stat variance ±2 at <30
-- [x] **LOY (Loyalty)**: range 0–100, effects: +1 all combat stats near Ren at ≥80; 5% disobedience chance at <30
+- [x] **INS (Insight)**: range 0–100, effect: enables seeing enemy meta-stats at ≥80
+- [x] **EMB (Emberlight)**: range ≥0, effect: affects Flamebrand weapon might
+- [x] **ATT (Attunement)**: range 0–100, effects: hit bonus +5 at >80; random stat variance ±2 at <30
+- [x] **LOY (Loyalty)**: range 0–100, effects: +1 all combat stats near Shigeru at ≥80; 5% disobedience chance at <30
 - [x] **CRP (Corruption)**: range 0–100, effects: -1 all combat stats at ≥60; -2 all at ≥80; Light magic ×1.5 vs corrupted (CRP > 0)
 - [x] **STA (Stamina/Fatigue)**: range ≥0, effects: -1 SPD at ≥30; -2 SPD/-1 SKL at ≥45; can't act at >45
-- [x] **Default values section**: Ren defaults (awr:0, loop:347, sync:80, loy:50, crp:0, sta:0) vs other units (awr:0, loop:0, sync:70, loy:50, crp:0, sta:0)
-- [x] **Terrain effects table**: which terrain types affect which meta-stats per turn (glitched: CRP+2/SYNC-1, data_void: CRP+3/SYNC-3, fort: SYNC+2/STA-3, memory: SYNC+5, corrupted_fort: CRP+1, broken_throne: CRP+1, throne: STA-5)
+- [x] **Default values section**: Shigeru defaults (awr:0, loop:347, sync:80, loy:50, crp:0, sta:0) vs other units (awr:0, loop:0, sync:70, loy:50, crp:0, sta:0)
+- [x] **Terrain effects table**: which terrain types affect which meta-stats per turn (glitched: CRP+2/ATT-1, data_void: CRP+3/ATT-3, fort: ATT+2/STA-3, memory: ATT+5, corrupted_fort: CRP+1, broken_throne: CRP+1, throne: STA-5)
 
 ---
 

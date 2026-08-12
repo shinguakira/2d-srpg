@@ -55,19 +55,19 @@ function makeUnit(overrides: Partial<Unit> = {}): Unit {
 }
 
 describe('getTeachingCost', () => {
-  it('returns 10 LOOP for combat skills', () => {
+  it('returns 10 Emberlight for combat skills', () => {
     const cost = getTeachingCost('sol');
     expect(cost.loop).toBe(10);
     expect(cost.crp).toBe(2);
   });
 
-  it('returns 15 LOOP for meta skills', () => {
+  it('returns 15 Emberlight for meta skills', () => {
     // nihil is combat category in our data, let's test with a real meta if available
     // Actually all 20 skills are combat or movement, so 15 case may not trigger
     // Let's just verify movement = 5
   });
 
-  it('returns 5 LOOP for movement skills', () => {
+  it('returns 5 Emberlight for movement skills', () => {
     const cost = getTeachingCost('canto');
     expect(cost.loop).toBe(5);
     expect(cost.crp).toBe(2);
@@ -81,13 +81,13 @@ describe('getTeachingCost', () => {
 });
 
 describe('canTeach', () => {
-  it('is eligible when Shigeru knows skill and student does not (with LOOP stub)', () => {
+  it('is eligible when Shigeru knows skill and student does not (with Emberlight stub)', () => {
     const lord = makeUnit({ id: 'shigeru', skills: ['sol'], learnedSkills: [] });
     const student = makeUnit({ id: 'student', skills: [], learnedSkills: [] });
-    // Without LOOP, teaching is gated
+    // Without Emberlight, teaching is gated
     const result = canTeach(lord, student, 'sol');
     expect(result.eligible).toBe(false);
-    expect(result.reason).toContain('LOOP');
+    expect(result.reason).toContain('Emberlight');
   });
 
   it('returns ineligible when Shigeru does not know the skill', () => {
@@ -122,12 +122,12 @@ describe('canTeach', () => {
     expect(result.reason).toBe('Unknown skill');
   });
 
-  it('returns ineligible when LOOP is missing (Phase 4 gate)', () => {
+  it('returns ineligible when Emberlight is missing (Phase 4 gate)', () => {
     const lord = makeUnit({ id: 'shigeru', skills: ['sol'], learnedSkills: [] });
     const student = makeUnit({ id: 'student', skills: [], learnedSkills: [] });
     const result = canTeach(lord, student, 'sol');
     expect(result.eligible).toBe(false);
-    expect(result.reason).toContain('LOOP');
+    expect(result.reason).toContain('Emberlight');
   });
 
   it('Shigeru can know skill via learnedSkills too', () => {
@@ -135,7 +135,7 @@ describe('canTeach', () => {
     const student = makeUnit({ id: 'student', skills: [], learnedSkills: [] });
     const result = canTeach(lord, student, 'luna');
     // Still gated by LOOP, but the "Shigeru doesn't know" check passes
-    expect(result.reason).toContain('LOOP');
+    expect(result.reason).toContain('Emberlight');
   });
 
   it('returns ineligible for class innate skills', () => {
@@ -152,7 +152,7 @@ describe('canTeach', () => {
     });
     const result = canTeach(lord, student, 'sol');
     // berserker has no innateSkills, so this goes to LOOP gate
-    expect(result.reason).toContain('LOOP');
+    expect(result.reason).toContain('Emberlight');
   });
 });
 

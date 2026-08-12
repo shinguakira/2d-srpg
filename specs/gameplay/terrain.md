@@ -35,11 +35,11 @@ Code reference: `src/core/terrain.ts`
 
 | Terrain | Move Cost | DEF Bonus | Avoid Bonus | Special | Notes |
 |---------|-----------|-----------|-------------|---------|-------|
-| **Glitched Tile** | 1 | 0 | 0 | +2 CRP/turn, +3-5 AWR (witness) | Corrupted terrain. Visually flickering. Appears Ch2+. |
-| **Data Void** | 2 | -2 | -20 | +3 CRP/turn, SYNC -1/turn | Holes in the map data. Appears Ch3-4. Negative defense. |
-| **Memory Tile** | 1 | +1 | +10 | Ren: LOOP +2 if standing at turn end | Tiles where significant events happened in past cycles. Only visible to AWR 30+. |
-| **Corrupted Fort** | 1 | +3 | +20 | Heals +5 HP but +1 CRP/turn | A fort infected by the System. Heals your body, corrupts your data. |
-| **Broken Throne** | 1 | +2 | +10 | No HP regen, +2 CRP/turn | Ch4. The System's corruption has broken the throne. Reduced bonuses. |
+| **Blighted Tile** | 1 | 0 | 0 | +2 CRP/turn, +3-5 INS (witness) | Corrupted terrain. Visually flickering. Appears Ch2+. |
+| **Abyssal Rift** | 2 | -2 | -20 | +3 CRP/turn, ATT -1/turn | Holes in the map data. Appears Ch3-4. Negative defense. |
+| **Memory Tile** | 1 | +1 | +10 | Shigeru: EMB +2 if standing at turn end | Tiles where significant events happened in past cycles. Only visible to INS 30+. |
+| **Defiled Fort** | 1 | +3 | +20 | Heals +5 HP but +1 CRP/turn | A fort infected by the Blackflame. Heals your body, corrupts your data. |
+| **Broken Throne** | 1 | +2 | +10 | No HP regen, +2 CRP/turn | Ch4. The Blackflame's corruption has broken the throne. Reduced bonuses. |
 
 ---
 
@@ -64,8 +64,8 @@ Code reference: `src/core/terrain.ts`
 - HP regeneration triggers at the **start of the unit's turn** (before acting).
 - Forts heal +5 HP per turn. Thrones heal +10 HP per turn.
 - Does not exceed max HP.
-- STA recovery from Forts (-3) and Thrones (-5) triggers passively — does NOT require Wait. This is important for Bram (No Patience — cannot Wait).
-- SYNC bonus: healing at a fort/throne grants +2 SYNC (see stats.md).
+- STA recovery from Forts (-3) and Thrones (-5) triggers passively — does NOT require Wait. This is important for Goro (No Patience — cannot Wait).
+- ATT bonus: healing at a fort/throne grants +2 ATT (see stats.md).
 
 ### Class-Specific Movement Rules
 
@@ -80,23 +80,23 @@ Code reference: `src/core/terrain.ts`
 ### Terrain × CHA (Aggro)
 
 - Units standing on defensive terrain (Forest, Mountain, Fort, Throne) have their Aggro Weight **reduced by 5**. Enemy AI is less likely to attack well-positioned units.
-- Units standing on Plain or Glitched Tiles have **normal Aggro Weight**.
+- Units standing on Plain or Blighted Tiles have **normal Aggro Weight**.
 - This means: placing a high-CHA unit on a fort makes them a tank that enemies still target (CHA overcomes the -5), while a low-CHA unit on a fort becomes nearly invisible to AI.
 
 ---
 
 ## Terrain × Meta-Stats
 
-| Terrain | AWR Interaction | SYNC Interaction | CRP Interaction | STA Interaction |
+| Terrain | INS Interaction | ATT Interaction | CRP Interaction | STA Interaction |
 |---------|----------------|-----------------|----------------|----------------|
 | **Forest** | — | — | — | — |
-| **Mountain** | AWR 60+: can see 1 extra tile of enemy movement from elevation | — | — | — |
-| **Fort** | — | +2 SYNC per turn (healing stabilizes) | — | -3 STA/turn passive |
-| **Throne** | — | +3 SYNC per turn | — | -5 STA/turn passive |
-| **Glitched Tile** | +3-5 AWR to units within 2 tiles (witnessing the glitch) | -2 SYNC/turn | +2 CRP/turn | — |
-| **Data Void** | +5 AWR first time standing (existential shock) | -1 SYNC/turn | +3 CRP/turn | +2 STA/turn (hostile data drains energy) |
+| **Mountain** | INS 60+: can see 1 extra tile of enemy movement from elevation | — | — | — |
+| **Fort** | — | +2 ATT per turn (healing stabilizes) | — | -3 STA/turn passive |
+| **Throne** | — | +3 ATT per turn | — | -5 STA/turn passive |
+| **Blighted Tile** | +3-5 INS to units within 2 tiles (witnessing the glitch) | -2 ATT/turn | +2 CRP/turn | — |
+| **Abyssal Rift** | +5 INS first time standing (existential shock) | -1 ATT/turn | +3 CRP/turn | +2 STA/turn (hostile data drains energy) |
 | **Memory Tile** | — | — | — | -2 STA/turn (past cycle peace) |
-| **Corrupted Fort** | — | +1 SYNC/turn (reduced from normal fort) | +1 CRP/turn | -3 STA/turn |
+| **Defiled Fort** | — | +1 ATT/turn (reduced from normal fort) | +1 CRP/turn | -3 STA/turn |
 | **Broken Throne** | — | — | +2 CRP/turn | — |
 
 ---
@@ -109,7 +109,7 @@ Code reference: `src/core/terrain.ts`
 | **Mountain** | Normal | +5 additional avoid |
 | **Fort** | Normal | +2 additional HP regen (safe rest at night) |
 | **Plain** | Normal | -5 avoid (exposed in darkness — visible silhouette) |
-| **Glitched Tile** | Normal | Glitch effect doubles (+4 CRP/turn, +6-10 AWR). System instability increases at night. |
+| **Blighted Tile** | Normal | Glitch effect doubles (+4 CRP/turn, +6-10 INS). System instability increases at night. |
 
 ---
 
@@ -122,9 +122,9 @@ Rules of thumb for chapter map design:
 - **Mountains**: Chokepoint creators. Place them to force single-file movement.
 - **Plains**: Open areas for cavalry charges and large enemy formations.
 - **Villages**: Off the main path. Rewards exploration (items, gold, story) but costs turns to visit.
-- **Glitched Tiles**: Scatter 3-5 per map starting Ch2. More in Ch3-4. Creates dangerous zones the player must navigate around — or through, if they're willing to eat CRP.
-- **Data Voids**: Ch3-4 only. 1-2 per map. The most dangerous terrain. Block key shortcuts to force the player into longer, safer routes.
-- **Memory Tiles**: 2-3 per map. Hidden (only visible to AWR 30+). Rewards for Ren — +2 LOOP per turn. Place them in tactically mediocre positions so standing on them is a LOOP vs positioning trade-off.
+- **Blighted Tiles**: Scatter 3-5 per map starting Ch2. More in Ch3-4. Creates dangerous zones the player must navigate around — or through, if they're willing to eat CRP.
+- **Abyssal Rifts**: Ch3-4 only. 1-2 per map. The most dangerous terrain. Block key shortcuts to force the player into longer, safer routes.
+- **Memory Tiles**: 2-3 per map. Hidden (only visible to INS 30+). Rewards for Shigeru — +2 EMB per turn. Place them in tactically mediocre positions so standing on them is a EMB vs positioning trade-off.
 
 ---
 
@@ -141,7 +141,7 @@ Some chapters have weather effects that modify terrain and combat. Weather is se
 | **Fog** | None | -15 hit (all units, unless Torch) | Visibility reduced to 2 tiles (1 less than normal). Thief sight unaffected. | Arc 3+ |
 | **Sandstorm** | Sand costs +1 extra | -10 hit (all units) | -2 DEF (sand particles). Bow range reduced by 1. | Arc 3 (desert chapters) |
 | **Snow** | +1 to all terrain | None | -2 SPD all units. Fire magic +20% damage. | Arc 4 (northern chapters) |
-| **Corruption Storm** | None | None | +1 CRP/turn to ALL units on map. Glitched tiles spread each turn. | Arc 5 (Ch24-25) |
+| **Corruption Storm** | None | None | +1 CRP/turn to ALL units on map. Blighted ground spread each turn. | Arc 5 (Ch24-25) |
 
 ### Weather × Class Interactions
 
@@ -176,9 +176,9 @@ Late-game (Arc 3-5), standard terrain types can become corrupted versions:
 
 | Base Terrain | Corrupted Version | Additional Effect |
 |-------------|-------------------|-------------------|
-| Plain | Glitched Tile | +2 CRP/turn |
+| Plain | Blighted Tile | +2 CRP/turn |
 | Forest | Corrupted Forest | +1 DEF, +20 Avoid (same), but +1 CRP/turn |
-| Fort | Corrupted Fort | Heals +5 HP but +1 CRP/turn |
+| Fort | Defiled Fort | Heals +5 HP but +1 CRP/turn |
 | Throne | Broken Throne | +2 DEF, +10 Avoid (reduced), +2 CRP/turn |
 | Mountain | Data Spike | +2 DEF, +30 Avoid (same), but +3 CRP/turn |
 
@@ -191,6 +191,6 @@ Corrupted terrain spreads in late-game chapters: at the start of each enemy phas
 - ~~**Flying units**~~: **RESOLVED** — flying ignores terrain costs, no terrain DEF/Avoid bonuses.
 - ~~**Bridges**~~: **RESOLVED** — bridges exist, can be destroyed.
 - ~~**Weather**~~: **RESOLVED** — weather system added.
-- **Terrain shift**: Glitched tiles spreading is now defined (corrupted terrain spread, 20% per turn). Should the spread rate increase in Arc 5? *Recommendation: Yes — 30% in Arc 5, 40% in Ch25.*
+- **Terrain shift**: Blighted ground spreading is now defined (corrupted terrain spread, 20% per turn). Should the spread rate increase in Arc 5? *Recommendation: Yes — 30% in Arc 5, 40% in Ch25.*
 - **Lava flow**: Should lava tiles move/expand during volcanic chapters? *Recommendation: Only in 1-2 specific chapters. Scripted movement, not random.*
 - **Ice sliding**: 50% chance to slide 1 tile feels right. Should sliding into an enemy deal collision damage? *Recommendation: No — too complex. Sliding stops at occupied tiles.*

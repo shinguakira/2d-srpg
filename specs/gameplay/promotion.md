@@ -96,7 +96,7 @@ Most base classes have **2 promotion options**. The player chooses at promotion 
 
 - **Dancer**: Cannot promote. Stays Dancer. This is intentional — Dance is so powerful it doesn't need promotion.
 - **System Construct (Echo)**: Cannot promote normally. Stat caps are already 30 (promoted equivalent).
-- **Kael**: Dies in Ch8 before promotion items are widely available (first at Ch7). If the player prioritizes promoting Kael early, they lose the item when he dies. Cruel but intentional.
+- **Akira**: Dies in Ch8 before promotion items are widely available (first at Ch7). If the player prioritizes promoting Akira early, they lose the item when he dies. Cruel but intentional.
 
 ---
 
@@ -131,18 +131,18 @@ Every master promotion grants:
 | Arc 4 (Ch16-20) | 20-28 | All promoted. **First master promotions** (Ch18). |
 | Arc 5 (Ch21-25) | 28-35 | 2-3 master classes active. Endgame power. |
 
-### Kael's Promotion Dilemma
+### Akira's Promotion Dilemma
 
-Kael can theoretically be promoted at Ch7 (Hero Crest available, Kael could be Lv15 with heavy EXP investment). But:
+Akira can theoretically be promoted at Ch7 (Hero Crest available, Akira could be Lv15 with heavy EXP investment). But:
 - He dies in Ch8 — the player loses the promotion item AND the promoted unit
-- This creates a gut-punch moment: the player invested resources into making Kael stronger, and it was all for nothing
-- OR the player learns (on repeat playthroughs) not to promote Kael, saving the item for Rook/Bram
+- This creates a gut-punch moment: the player invested resources into making Akira stronger, and it was all for nothing
+- OR the player learns (on repeat playthroughs) not to promote Akira, saving the item for Raiga/Goro
 
 ---
 
 ## Open Questions
 
-- **Promotion dialogue**: Should promotion trigger a short character moment? (e.g., Bram promoting to Berserker: "FINALLY, a class that GETS me!")
-- **Forced promotion**: Should any promotions be story-forced? (e.g., Ren promotes to Great Lord at a specific chapter regardless of level)
+- **Promotion dialogue**: Should promotion trigger a short character moment? (e.g., Goro promoting to Berserker: "FINALLY, a class that GETS me!")
+- **Forced promotion**: Should any promotions be story-forced? (e.g., Shigeru promotes to Great Lord at a specific chapter regardless of level)
 - **Reverse promotion**: If a unit is corrupted (CRP 100) after promotion, does the corrupted enemy version use promoted or base class stats?
 - **Partial promotion**: Should Master Crown allow choosing ANY master class, or only ones that match the unit's promoted class tree?

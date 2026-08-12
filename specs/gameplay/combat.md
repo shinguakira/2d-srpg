@@ -51,13 +51,13 @@ Clamped: 1% minimum, 99% maximum (nothing is ever guaranteed)
 | Weapon triangle advantage | +15 hit | See below |
 | Weapon triangle disadvantage | -15 hit | |
 | CHA aura (ally within range) | +CHA hit | From the CHA source unit |
-| Empathy Aura (Lira adjacent) | +10 hit | Stacks with CHA |
+| Empathy Aura (Hina adjacent) | +10 hit | Stacks with CHA |
 | Time of Day (Morning units at Dawn) | +2 hit | See stats.md |
 | Time of Day (Night units at Night) | +2 hit | |
 | Support bonus (adjacent supported ally) | +5/+10/+15 hit (C/B/A rank) | See support-system.md |
-| SYNC Volatile (0-30%) | -20% hit | Applied multiplicatively |
-| SYNC Hardened (71-90%) | +5% hit | |
-| LOY Devoted (near Ren) | +5% hit | |
+| ATT Volatile (0-30%) | -20% hit | Applied multiplicatively |
+| ATT Hardened (71-90%) | +5% hit | |
+| LOY Devoted (near Shigeru) | +5% hit | |
 | Body targeting: Head | -25% hit | |
 | Body targeting: Weak Point | -35% hit | |
 
@@ -296,12 +296,12 @@ Priority: Vantage resolves first → attacker skills → defender skills.
 
 | Stat | Combat Effect |
 |------|--------------|
-| **AWR Blind (0-10)** | +10% passive avoid. No forecast visible. |
-| **AWR Decoded (61-90)** | Foresight: peek at actual result before committing (1/chapter) |
-| **AWR Awake (91-100)** | Break the Script: rewrite one result after resolution (1/chapter) |
-| **LOOP** | Déjà Vu Strike (15 LOOP): guaranteed hit + crit |
-| **SYNC Volatile** | Stats fluctuate ±1-3 per turn, attacks may deal 0 or 2× |
-| **SYNC Anchored** | +10% hit/avoid, immune to System interference |
+| **INS Blind (0-10)** | +10% passive avoid. No forecast visible. |
+| **INS Decoded (61-90)** | Foresight: peek at actual result before committing (1/chapter) |
+| **INS Awake (91-100)** | Break the Script: rewrite one result after resolution (1/chapter) |
+| **EMB** | Déjà Vu Strike (15 EMB): guaranteed hit + crit |
+| **ATT Volatile** | Stats fluctuate ±1-3 per turn, attacks may deal 0 or 2× |
+| **ATT Anchored** | +10% hit/avoid, immune to System interference |
 | **LOY Defiant** | 15% chance to ignore attack command |
 | **CRP Spreading (31-50)** | 10% chance attacks spread +3 CRP to target |
 | **CRP Consumed (51-75)** | +20% damage vs units with CRP > 0 |
@@ -312,6 +312,6 @@ Priority: Vantage resolves first → attacker skills → defender skills.
 ## Open Questions
 
 - **True damage**: Should there be attacks that bypass DEF/RES entirely? *Recommendation: Only corruption damage (flat, ignores DEF/RES). Limited to System-spawned enemies in Arc 5.*
-- **Minimum damage**: Currently 0. Should it be 1 minimum? *Recommendation: Keep 0 for everyone except Kael (True Strike passive). Dealing 0 damage teaches weapon advantage.*
+- **Minimum damage**: Currently 0. Should it be 1 minimum? *Recommendation: Keep 0 for everyone except Akira (True Strike passive). Dealing 0 damage teaches weapon advantage.*
 - **RNG system**: Single roll vs 2-roll average (FE uses 2RN). Current code uses single roll. *Recommendation: Keep single — meta-aware characters comment on bad RNG.*
 - **Rescue combat**: Can a unit carrying an ally (Rescue) still attack? *Recommendation: No — must Drop first. Carrying halves STR/SPD anyway.*

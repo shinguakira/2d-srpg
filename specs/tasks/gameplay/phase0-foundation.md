@@ -5,14 +5,14 @@
 > **Critical files:** `src/core/types.ts`, `src/data/units.ts`, `src/data/classes.ts`, `src/data/weapons.ts`, `src/core/terrain.ts`
 > **Spec refs:** `specs/gameplay/stats.md`, `specs/gameplay/weapons.md`, `specs/gameplay/classes.md`, `specs/gameplay/terrain.md`
 
-## Rename Player Units (Eirik→Ren, Seth→Kael, Lute→Senna, Natasha→Lira)
+## Rename Player Units (Eirik→Shigeru, Seth→Akira, Lute→Kanna, Natasha→Hina)
 
-> **Ref:** [`specs/story/characters/ren.md`](specs/story/characters/ren.md), [`specs/story/characters/kael.md`](specs/story/characters/kael.md), [`specs/story/characters/senna.md`](specs/story/characters/senna.md), [`specs/story/characters/lira.md`](specs/story/characters/lira.md)
+> **Ref:** [`specs/story/characters/shigeru.md`](specs/story/characters/shigeru.md), [`specs/story/characters/akira.md`](specs/story/characters/akira.md), [`specs/story/characters/kanna.md`](specs/story/characters/kanna.md), [`specs/story/characters/hina.md`](specs/story/characters/hina.md)
 
-- [x] Rename `eirik` → `ren` in `src/data/units.ts` (id, name, key)
-- [x] Rename `seth` → `kael` in `src/data/units.ts`
-- [x] Rename `lute` → `senna` in `src/data/units.ts`
-- [x] Rename `natasha` → `lira` in `src/data/units.ts`
+- [x] Rename `eirik` → `shigeru` in `src/data/units.ts` (id, name, key)
+- [x] Rename `seth` → `akira` in `src/data/units.ts`
+- [x] Rename `lute` → `kanna` in `src/data/units.ts`
+- [x] Rename `natasha` → `hina` in `src/data/units.ts`
 - [x] Update death quotes to match spec character voices
 - [x] Update all chapter files (`chapter1.ts`–`chapter4.ts`) unit references
 - [x] Update all dialogue in chapter files (speaker names, lines)
@@ -23,18 +23,18 @@
 
 ## Add Missing Player Units
 
-> **Ref:** [`specs/story/characters/bram.md`](specs/story/characters/bram.md), [`specs/story/characters/voss.md`](specs/story/characters/voss.md), [`specs/story/characters/nira.md`](specs/story/characters/nira.md), [`specs/story/characters/coda.md`](specs/story/characters/coda.md), [`specs/story/roster.md`](specs/story/roster.md)
+> **Ref:** [`specs/story/characters/goro.md`](specs/story/characters/goro.md), [`specs/story/characters/genzo.md`](specs/story/characters/genzo.md), [`specs/story/characters/sayo.md`](specs/story/characters/sayo.md), [`specs/story/characters/hachi.md`](specs/story/characters/hachi.md), [`specs/story/roster.md`](specs/story/roster.md)
 
-- [x] Add Bram (fighter, player) to `PLAYER_UNITS` — Lv1, iron_axe, STR-focused growth
-- [x] Add Voss (soldier, player) to `PLAYER_UNITS` — Lv2, iron_lance, DEF-focused growth
-- [x] Add Nira (archer, player) to `PLAYER_UNITS` — Lv1, iron_bow, SKL/SPD growth
-- [x] Add Coda (thief, player) to `PLAYER_UNITS` — Lv1, iron_knife, SPD/SKL growth
+- [x] Add Goro (fighter, player) to `PLAYER_UNITS` — Lv1, iron_axe, STR-focused growth
+- [x] Add Genzo (soldier, player) to `PLAYER_UNITS` — Lv2, iron_lance, DEF-focused growth
+- [x] Add Sayo (archer, player) to `PLAYER_UNITS` — Lv1, iron_bow, SKL/SPD growth
+- [x] Add Hachi (thief, player) to `PLAYER_UNITS` — Lv1, iron_knife, SPD/SKL growth
 - [x] Set stat overrides per spec for each new unit
-- [x] Add death quotes for Bram, Voss, Nira, Coda
-- [ ] Wire Bram into ch1 as mid-chapter join (update chapter1.ts playerUnits) — deferred to Phase 1
-- [ ] Wire Voss into ch2 as enemy-defection join (update chapter2.ts) — deferred to Phase 1
-- [ ] Wire Nira into ch3 as village-rescue join (update chapter3.ts) — deferred to Phase 1
-- [ ] Wire Coda into ch4 as conditional join (update chapter4.ts) — deferred to Phase 1
+- [x] Add death quotes for Goro, Genzo, Sayo, Hachi
+- [ ] Wire Goro into ch1 as mid-chapter join (update chapter1.ts playerUnits) — deferred to Phase 1
+- [ ] Wire Genzo into ch2 as enemy-defection join (update chapter2.ts) — deferred to Phase 1
+- [ ] Wire Sayo into ch3 as village-rescue join (update chapter3.ts) — deferred to Phase 1
+- [ ] Wire Hachi into ch4 as conditional join (update chapter4.ts) — deferred to Phase 1
 
 ## Expand Type System
 
@@ -57,8 +57,8 @@
 
 > **Ref:** [`specs/gameplay/weapons.md`](specs/gameplay/weapons.md)
 
-- [x] Add Arc 1 weapons: Slim Sword, Rapier (Prf Ren), Iron Bow, Iron Knife
-- [x] Add Arc 1 Prf weapons: Voss's Garrison Lance, Nira's Sightbow, Coda's Data Knife
+- [x] Add Arc 1 weapons: Slim Sword, Rapier (Prf Shigeru), Iron Bow, Iron Knife
+- [x] Add Arc 1 Prf weapons: Genzo's Garrison Lance, Sayo's Sightbow, Hachi's Shadowfang
 - [x] Add Arc 2 weapons: Steel Sword/Lance/Axe, Javelin, Hand Axe, Longbow
 - [x] Add Arc 2 weapons: Killer Sword/Lance, Poison Dagger, Steel Bow
 - [x] Add Arc 2 tomes: Elfire, Elthunder, Elwind, Nosferatu, Lightning
@@ -97,10 +97,10 @@
 - [x] Add Door tile: locked (impassable) — key/lockpick interaction deferred
 - [x] Add Chest tile: cost 1 — key/lockpick/thief interaction deferred
 - [x] Add Armory tile: cost 1 — shop interaction deferred
-- [x] Add Glitched tile: cost 1, 0 DEF/avoid — CRP/AWR effects deferred to Phase 4
-- [x] Add Data Void tile: cost 2, -2 DEF -20 avoid — CRP/SYNC effects deferred to Phase 4
-- [x] Add Memory tile: cost 1, +1 DEF +10 avoid — LOOP effect deferred to Phase 4
-- [x] Add Corrupted Fort tile: cost 1, +3 DEF +20 avoid — HP regen/CRP effects deferred
+- [x] Add Blighted ground: cost 1, 0 DEF/avoid — CRP/INS effects deferred to Phase 4
+- [x] Add Abyssal Rift tile: cost 2, -2 DEF -20 avoid — CRP/ATT effects deferred to Phase 4
+- [x] Add Memory tile: cost 1, +1 DEF +10 avoid — EMB effect deferred to Phase 4
+- [x] Add Defiled Fort tile: cost 1, +3 DEF +20 avoid — HP regen/CRP effects deferred
 - [x] Add Broken Throne tile: cost 1, +2 DEF +10 avoid — CRP effect deferred
 - [x] Update `core/terrain.ts` getTerrainData for all new types (including meta-terrain)
 - [x] Update pathfinding to check class movement flags (flying, mounted, armored)
@@ -110,4 +110,4 @@
 - [x] `npm run build` — zero type errors
 - [x] `npx vitest run` — all existing unit tests pass (102/102)
 - [x] `npx playwright test` — 75/79 pass, 4 failures are pre-existing (ch4 timeout + screenshot flakes)
-- [ ] Manual check: load ch1 in dev server, verify Ren/Kael/Senna/Lira names display
+- [ ] Manual check: load ch1 in dev server, verify Shigeru/Akira/Kanna/Hina names display

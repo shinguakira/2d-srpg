@@ -58,14 +58,14 @@ function MetaStatsSection({ unit }: { unit: Unit }) {
       </div>
       {!collapsed && (
         <>
-          <MetaStatBar label="AWR" value={unit.metaStats.awr} max={100} stat="awr" />
+          <MetaStatBar label="INS" value={unit.metaStats.awr} max={100} stat="awr" />
           {unit.id === 'shigeru' && (
             <div className="meta-stats__row">
-              <span className="meta-stats__label meta-stats__label--loop">LOOP</span>
+              <span className="meta-stats__label meta-stats__label--loop">EMB</span>
               <span className="meta-stats__loop-value">{unit.metaStats.loop}</span>
             </div>
           )}
-          <MetaStatBar label="SYNC" value={unit.metaStats.sync} max={100} stat="sync" />
+          <MetaStatBar label="ATT" value={unit.metaStats.sync} max={100} stat="sync" />
           <MetaStatBar label="LOY" value={unit.metaStats.loy} max={100} stat="loy" />
           <MetaStatBar label="CRP" value={unit.metaStats.crp} max={100} stat="crp" />
           <MetaStatBar label="STA" value={unit.metaStats.sta} max={45} stat="sta" />
@@ -243,7 +243,7 @@ export function UnitStatsPanel() {
               )}
           </div>
 
-          {/* Meta-Stats — enemy meta-stats require AWR >= 80 from any player unit */}
+          {/* Meta-Stats — enemy meta-stats require INS >= 80 from any player unit */}
           {(unit.faction === 'player' || canSeeEnemyMetaStats(units.values())) && (
             <MetaStatsSection unit={unit} />
           )}
@@ -280,7 +280,7 @@ export function UnitStatsPanel() {
               )}
               {terrainSync !== 0 && (
                 <div style={{ color: terrainSync > 0 ? '#22d3ee' : '#ef4444' }}>
-                  SYNC {terrainSync > 0 ? '+' : ''}
+                  ATT {terrainSync > 0 ? '+' : ''}
                   {terrainSync}/turn
                 </div>
               )}

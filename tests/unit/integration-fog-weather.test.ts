@@ -17,14 +17,7 @@ import {
   resolveBridgeCollapse,
   canAttackTerrain,
 } from '../../src/core/destructibleTerrain';
-import type {
-  Unit,
-  GameMap,
-  Position,
-  Tile,
-  TerrainType,
-  WeatherType,
-} from '../../src/core/types';
+import type { Unit, GameMap, Position, Tile, TerrainType, WeatherType } from '../../src/core/types';
 
 // ===== Helpers =====
 

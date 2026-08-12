@@ -144,7 +144,7 @@ Arc 5 Maps (`ch25`) checks **5 flags** set across Arcs 2-4 — all prior arc map
 | **Gate 0** | Step 1 | `npm run build` passes, E2E tests pass with renamed units | ✅ |
 | **Gate 1** | Step 2 | Event system fires, recruitment works, dialogue renders | ✅ |
 | **Gate 2** | Step 3 | Ch5 playable end-to-end, promotion works, meta-stats display | ✅ |
-| **Gate 3** | Step 5 | Ch6-10 playable, grief trauma applies ch9-10, Kael death fires | ✅ |
+| **Gate 3** | Step 5 | Ch6-10 playable, grief trauma applies ch9-10, Akira death fires | ✅ |
 | **Gate 4** | Step 6 | Ch11-15 playable, CRP system active, fog of war works | ⬜ |
 | **Gate 5** | Step 7 | Master classes, multi-phase boss, endings framework | ✅ (gameplay only) |
 | **Gate 6** | Step 8 | Ch16-20 playable, negotiate works, Echo save | ⬜ |

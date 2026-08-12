@@ -87,15 +87,30 @@ export const CHAPTER_5: ChapterData = {
       { speaker: 'Shigeru', text: 'Wrong how?', speakerFaction: 'player' },
       {
         speaker: 'Yuki',
-        text: 'The clouds were loading in SQUARES. Like tiles. I watched a patch of sky just... not render. For three seconds. Then it came back wrong.',
+        text: 'There is a hole in it. Above the north ridge, a stretch of sky the size of a village where there is no cloud, no sun, no colour. My mare will not fly within a mile of it and she has flown through a storm front.',
         speakerFaction: 'player',
       },
-      { speaker: 'Akira', text: "Clouds don't load. They're clouds.", speakerFaction: 'player' },
-      { speaker: 'Yuki', text: 'I know what I saw.', speakerFaction: 'player' },
-      { speaker: 'Shigeru', text: '...I believe you.', speakerFaction: 'player' },
+      { speaker: 'Akira', text: 'Sky does not have holes in it.', speakerFaction: 'player' },
+      { speaker: 'Yuki', text: 'I know what I flew past.', speakerFaction: 'player' },
       {
         speaker: 'Kanna',
-        text: "The fortress is well-defended. General Tetsuzan has knights on every approach. If we're doing this, we need the aerial route. Which means we need her.",
+        text: 'What bearing, rider? From the fortress — what bearing to the hole?',
+        speakerFaction: 'player',
+      },
+      { speaker: 'Yuki', text: '...North-north-east. Why?', speakerFaction: 'player' },
+      {
+        speaker: 'Shigeru',
+        text: 'Because that is the fourth one. Kanna?',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Kanna',
+        text: 'Four marks on one bearing is not a line any more, my lord. It is an arrow, and the point of it is the northern shrine.',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Kanna',
+        text: 'The fortress is held in strength. General Tetsuzan has knights on every approach. If we are taking it, we take it from above — which means we need her.',
         speakerFaction: 'player',
       },
     ],
@@ -104,40 +119,45 @@ export const CHAPTER_5: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'The fortress courtyard, after battle. The Data Void has closed, but the tiles it occupied are still wrong.',
+        text: 'The fortress courtyard, after the battle. The rift at its centre has closed. The stones where it stood are grey, and nothing casts a shadow on them.',
       },
       {
         speaker: 'Kanna',
-        text: "I need to say something. I've been tracking the combat seed since Chapter 1. Every random number, every hit roll \u2014 I had the pattern mapped. All of it.",
+        text: 'I have it. Every mark we have seen since the Kuze bridge, laid on the survey maps. It is not a spreading stain. It is a line, and it is being drawn.',
         speakerFaction: 'player',
       },
-      { speaker: 'Shigeru', text: 'Had?', speakerFaction: 'player' },
+      { speaker: 'Shigeru', text: 'Drawn from where to where?', speakerFaction: 'player' },
       {
         speaker: 'Kanna',
-        text: 'It changed. Mid-battle. Something reached into the system and REWROTE the seed. My entire model is compromised.',
+        text: 'From the northern shrine \u2014 to us. Every mark is nearer than the last. It has been walking toward this company since the day we found the cracked ward.',
         speakerFaction: 'player',
       },
-      { speaker: 'Yuki', text: 'I told you. The sky was wrong.', speakerFaction: 'player' },
+      { speaker: 'Yuki', text: 'Toward us. Not toward the cities?', speakerFaction: 'player' },
       {
-        speaker: 'Hachi',
-        text: "And the ground. And the walls. And Kanna's math.",
+        speaker: 'Kanna',
+        text: 'It went past two cities to get here. It wants something we are carrying.',
         speakerFaction: 'player',
       },
-      { speaker: 'Hina', text: 'So what does this mean? For us?', speakerFaction: 'player' },
+      { speaker: 'Hina', text: 'The Flamebrand.', speakerFaction: 'player' },
       {
-        speaker: 'Shigeru',
-        text: "It means the script isn't safe anymore. Whatever's running this world... it's editing in real time.",
+        speaker: 'Genzo',
+        text: 'Then say the rest of it, my lord, since nobody else will. The northern shrine held the Blackflame. Takeshi went into that shrine alone before the war and came out changed. And now the thing that was sealed there is walking south, and it knows where your sword is.',
         speakerFaction: 'player',
       },
+      { speaker: 'Shigeru', text: '...Yes. That is the shape of it.', speakerFaction: 'player' },
       {
         speaker: 'Akira',
-        text: "Then we adapt. We've fought bandits, pirates, and a general. We can handle a few broken tiles.",
+        text: 'Then we stop running south. My lord \u2014 if it is following the Flamebrand, every town we pass through is a town it burns after we leave.',
         speakerFaction: 'player',
       },
-      { speaker: 'Shigeru', text: '...Yeah. A few broken tiles.', speakerFaction: 'player' },
+      {
+        speaker: 'Shigeru',
+        text: 'I know. We turn north at the harbour. Kanna \u2014 I want to know what it is before I take it to my father\u2019s sword.',
+        speakerFaction: 'player',
+      },
       {
         speaker: 'Narrator',
-        text: 'As Arc 1 draws to a close, the company gazes at a sky that no longer obeys its own laws.',
+        text: 'They had spent five chapters running from an empire. From that evening they were walking toward something older, and they knew its name.',
       },
     ],
   },
@@ -196,13 +216,13 @@ export const CHAPTER_5: ChapterData = {
               },
               {
                 speaker: 'Kanna',
-                text: "That's impossible. Terrain values are fixed. I mapped this entire grid.",
+                text: 'Ground does not do that. I surveyed this valley from the ridge two hours ago.',
                 speakerFaction: 'player',
               },
               { speaker: 'Shigeru', text: 'Kanna. Your map.', speakerFaction: 'player' },
               {
                 speaker: 'Kanna',
-                text: "It's... wrong now. My movement cost calculations are all wrong. The terrain changed AFTER I analyzed it.",
+                text: 'Useless, my lord. Every route I plotted has changed under us. Warn the men — nobody trusts the ground they have not just walked on.',
                 speakerFaction: 'player',
               },
             ],
@@ -228,22 +248,27 @@ export const CHAPTER_5: ChapterData = {
             lines: [
               {
                 speaker: 'Yuki',
-                text: "THAT. That's what I saw in the sky. The nothing.",
+                text: 'That. That is the hole. That is what is in the sky, and now it is on the ground.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Hachi',
-                text: 'That\'s not "nothing." That\'s... unloaded. Like a texture that got deleted.',
+                text: 'I threw a stone into it. I did not hear it land.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Kanna',
-                text: "I can't analyze what isn't there. My formulas need INPUT. That void has no data.",
+                text: 'I cannot measure a thing that gives nothing back. No heat, no sound, no shadow. It is a hole in the world and I do not have a word for it.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Hina',
+                text: 'The shrine songs have a word. They call it the Abyss, and they say the Blackflame leaves one behind wherever it has fed.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: 'Everyone stay away from it. Push toward Tetsuzan.',
+                text: 'Nobody goes near it. Push on to Tetsuzan.',
                 speakerFaction: 'player',
               },
             ],
@@ -273,21 +298,21 @@ export const CHAPTER_5: ChapterData = {
             lines: [
               {
                 speaker: 'Narrator',
-                text: 'For a brief moment, the combat forecast display flickers — showing impossible numbers before snapping back to normal.',
+                text: 'For the space of a breath the whole valley goes silent — no wind, no birds, no ring of steel — and then the noise of the battle rushes back in.',
               },
               {
                 speaker: 'Kanna',
-                text: "The seed changed. Mid-battle. That doesn't happen. The seed is set at the start and it NEVER changes.",
+                text: 'It moved. The rift. It was in the north corner and now it is thirty paces closer and nobody saw it cross.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Goro',
-                text: 'Can we worry about math AFTER the guys with lances stop charging us?',
+                text: 'Can we be frightened of the hole after the men with lances stop charging us?',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Kanna',
-                text: "You don't understand. If the seed can change, NOTHING I've calculated this entire campaign is reliable.",
+                text: 'You are not listening. It is moving toward the prince. Not toward the fighting — toward him.',
                 speakerFaction: 'player',
               },
             ],
@@ -307,17 +332,27 @@ export const CHAPTER_5: ChapterData = {
             lines: [
               {
                 speaker: 'Tetsuzan',
-                text: "You've fought bandits and pirates. Now face a real army.",
+                text: 'You have beaten brigands and river scum. Now you meet a soldier.',
                 speakerFaction: 'enemy',
               },
               {
                 speaker: 'Shigeru',
-                text: 'Your walls just REWROTE themselves. Half your courtyard is a void. How are you not concerned?',
+                text: 'There is a hole in your courtyard, General, and it is getting bigger. How many of your men have you lost to it?',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Tetsuzan',
-                text: "I don't answer to anomalies. I answer to the Empire.",
+                text: 'Nine. I reported it to the capital three times. The reply was: hold the fortress.',
+                speakerFaction: 'enemy',
+              },
+              {
+                speaker: 'Shigeru',
+                text: 'And that was enough for you?',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Tetsuzan',
+                text: 'It has to be. A man my age does not get to start asking questions. Come and take the gate.',
                 speakerFaction: 'enemy',
               },
             ],
@@ -337,17 +372,27 @@ export const CHAPTER_5: ChapterData = {
             lines: [
               {
                 speaker: 'Tetsuzan',
-                text: 'A real army... and you still broke through.',
+                text: 'Nine men to the hole. The rest to you. A fine account of a career.',
                 speakerFaction: 'enemy',
               },
               {
                 speaker: 'Shigeru',
-                text: "It wasn't us. Your fortress was falling apart before we got here.",
+                text: 'It was not us that broke this place, General. It was already coming apart.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Tetsuzan',
-                text: '...I noticed. I chose not to see it. Easier that way.',
+                text: 'I know. Boy — the Emperor came through here in the spring. He walked to the edge of that hole and he stood at it for an hour and he was not afraid of it.',
+                speakerFaction: 'enemy',
+              },
+              {
+                speaker: 'Shigeru',
+                text: 'What did he say?',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Tetsuzan',
+                text: '"Good. It is still hungry." ...Take the fortress. I have nothing else to give you.',
                 speakerFaction: 'enemy',
               },
             ],
@@ -364,18 +409,18 @@ export const CHAPTER_5: ChapterData = {
       lines: [
         {
           speaker: 'Yuki',
-          text: 'Princess, may I speak freely? From the sky, the battlefield looks... different. Like a pattern.',
+          text: 'My lord, may I speak plainly? From the air I can see the whole of a battle at once. It is not like being in one.',
           speakerFaction: 'player',
         },
-        { speaker: 'Shigeru', text: 'A pattern? What do you mean?', speakerFaction: 'player' },
+        { speaker: 'Shigeru', text: 'How is it different?', speakerFaction: 'player' },
         {
           speaker: 'Yuki',
-          text: 'The enemies, the terrain, even our movements — they fit together too neatly. As if someone arranged them.',
+          text: 'From up there they are shapes. I can watch a shape stop moving and feel nothing about it. That frightens me more than the hole in the sky does.',
           speakerFaction: 'player',
         },
         {
           speaker: 'Shigeru',
-          text: 'You see it too. I was beginning to think I was the only one.',
+          text: '...I have the same problem from the ground. Come and find me when it starts feeling easy. I will do the same.',
           speakerFaction: 'player',
         },
       ],

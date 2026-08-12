@@ -65,7 +65,7 @@ export const CHAPTER_4: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: "Shigeru's company arrives at the pirate stronghold of Portwall. Overturned stalls and fleeing merchants paint a grim picture.",
+        text: "Shigeru's company arrives at the pirate stronghold of Minato. Overturned stalls and fleeing merchants paint a grim picture.",
       },
       { speaker: 'Akira', text: 'Pirates? This far inland?', speakerFaction: 'player' },
       {
@@ -75,15 +75,19 @@ export const CHAPTER_4: ChapterData = {
       },
       {
         speaker: 'Goro',
-        text: 'PIRATES. Do they have a loot system? Tell me they drop rare items.',
+        text: 'Pirates. Do pirates keep good axes? Asking for professional reasons.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Hina',
-        text: 'Goro, these people are losing their HOMES.',
+        text: 'Goro. These people are losing their homes.',
         speakerFaction: 'player',
       },
-      { speaker: 'Goro', text: 'Right. Tragic. But also \u2014 loot?', speakerFaction: 'player' },
+      {
+        speaker: 'Goro',
+        text: 'Aye, and I mean to take the axes off the men doing it. Where is the disagreement?',
+        speakerFaction: 'player',
+      },
       {
         speaker: 'Shigeru',
         text: 'We protect the storehouses. All three. If even one falls, the town loses its trade route.',
@@ -100,35 +104,48 @@ export const CHAPTER_4: ChapterData = {
       },
       {
         speaker: 'Hachi',
-        text: "Your group has terrible stealth discipline, but decent loot potential. I'll manage.",
+        text: 'You lot move through a town like a parade and somehow nobody has killed you. I want to see how far that goes.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Genzo',
-        text: 'They stole my belt pouch. Twice. During the battle.',
+        text: 'They took my belt pouch. Twice. During the battle.',
         speakerFaction: 'player',
       },
-      { speaker: 'Hachi', text: 'Quality assurance. You passed. Mostly.', speakerFaction: 'player' },
+      {
+        speaker: 'Hachi',
+        text: 'And gave it back twice. Consider it a lesson, grandfather.',
+        speakerFaction: 'player',
+      },
       {
         speaker: 'Goro',
-        text: 'I like them. Finally someone who understands the importance of a good item game.',
+        text: 'I like them.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Hachi',
-        text: 'Oh \u2014 one thing. That corridor back there? Something was... flickering.',
+        text: 'One thing, though. The back lane behind the north storehouse. Do not go down it.',
         speakerFaction: 'player',
       },
-      { speaker: 'Kanna', text: 'Flickering?', speakerFaction: 'player' },
+      { speaker: 'Kanna', text: 'Why not?', speakerFaction: 'player' },
       {
         speaker: 'Hachi',
-        text: 'Like the air was glitching. Just for a second. Textures not loading properly, you know? Probably nothing.',
+        text: 'Cats will not walk it. Every cat in Minato, and not one of them will set foot in that lane. I have been picking pockets in this town since I was six and I have learned to bet on the cats.',
         speakerFaction: 'player',
       },
-      { speaker: 'Shigeru', text: '...Probably.', speakerFaction: 'player' },
+      {
+        speaker: 'Kanna',
+        text: 'Which way does the lane run?',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Hachi',
+        text: 'North-north-east. Straight as a rule. Why has everyone gone quiet?',
+        speakerFaction: 'player',
+      },
       {
         speaker: 'Narrator',
-        text: 'The company rests as evening falls, but the flickering Hachi noticed lingers in their thoughts.',
+        text: 'That night Kanna walked the lane end to end with a lamp, and came back without saying what she had found.',
       },
     ],
   },
@@ -195,15 +212,19 @@ export const CHAPTER_4: ChapterData = {
               },
               {
                 speaker: 'Goro',
-                text: "Splitting the party?! That's ALWAYS a bad idea!",
+                text: 'Split three ways? Against that many? We will be thin everywhere and strong nowhere.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Hina',
-                text: "He's right, actually. In my experience, the party should stay together for bonding opportunities.",
+                speaker: 'Akira',
+                text: 'He is right, my lord. Doctrine says concentrate.',
                 speakerFaction: 'player',
               },
-              { speaker: 'Shigeru', text: "We're splitting up.", speakerFaction: 'player' },
+              {
+                speaker: 'Shigeru',
+                text: 'Doctrine assumes the objective is the enemy. It is not. It is three roofs full of a town’s winter grain. Split up.',
+                speakerFaction: 'player',
+              },
             ],
           },
         },
@@ -221,38 +242,41 @@ export const CHAPTER_4: ChapterData = {
             lines: [
               {
                 speaker: 'Hachi',
-                text: 'Stealth check... passed. Lockpick check... passed. Inventory extraction in progress\u2014',
+                text: 'Purse. Purse. Ooh, a good purse. And what have we here \u2014 a very fine sword on a very tired prince\u2014',
                 speakerFaction: 'player',
               },
-              { speaker: 'Shigeru', text: 'HEY. Drop it.', speakerFaction: 'player' },
+              { speaker: 'Shigeru', text: 'Put it down.', speakerFaction: 'player' },
               {
                 speaker: 'Hachi',
-                text: "...How did you SEE me? I'm crouching! Crouching makes you invisible!",
+                text: 'How did you even see me? I was behind a barrel!',
                 speakerFaction: 'player',
               },
-              { speaker: 'Shigeru', text: "It doesn't.", speakerFaction: 'player' },
+              {
+                speaker: 'Shigeru',
+                text: 'You were behind half a barrel. Also you were humming.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Hachi',
+                text: '...I hum when I concentrate. It is a flaw. I am working on it.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Shigeru',
+                text: 'The pirates are three streets away and about to burn the grain. Run, or help.',
+                speakerFaction: 'player',
+              },
               {
                 speaker: 'Hachi',
-                text: "It does in EVERY game I've played.",
+                text: 'Those are the only two choices? No third option where I take the sword and run?',
                 speakerFaction: 'player',
               },
+              { speaker: 'Shigeru', text: 'No.', speakerFaction: 'player' },
               {
                 speaker: 'Hachi',
-                text: "Fine. I'll join your... whatever this is. Loud squad. Walking-in-the-open squad.",
+                text: '...Fine. I know every alley in this town, which is more than your knight does. Follow me and try not to clank.',
                 speakerFaction: 'player',
               },
-              { speaker: 'Kanna', text: 'Welcome to tactical combat.', speakerFaction: 'player' },
-              {
-                speaker: 'Hachi',
-                text: "I don't DO combat. I do 'data extraction' and 'tactical repositioning.'",
-                speakerFaction: 'player',
-              },
-              {
-                speaker: 'Goro',
-                text: 'Those are just fancy words for stealing and running away.',
-                speakerFaction: 'player',
-              },
-              { speaker: 'Hachi', text: '...Exactly.', speakerFaction: 'player' },
             ],
           },
         },
@@ -300,17 +324,27 @@ export const CHAPTER_4: ChapterData = {
             lines: [
               {
                 speaker: 'Zanba',
-                text: 'More heroes? I get a new batch every week. You all look the same.',
+                text: 'A prince. In my town. Wearing a crown-sword worth more than this whole quarter.',
                 speakerFaction: 'enemy',
               },
               {
                 speaker: 'Shigeru',
-                text: 'Stand down. Your operation is finished.',
+                text: 'Take your boats and go. I have no interest in you.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Zanba',
-                text: "Gold is gold. Don't care about your 'grand quest.' I'm just getting PAID.",
+                text: 'Kurogane pays for grain and asks no questions. Amagi is a name on a burnt map. Why would I go anywhere?',
+                speakerFaction: 'enemy',
+              },
+              {
+                speaker: 'Shigeru',
+                text: 'Because the men who pay you are also the reason the fish are leaving the river. Ask your own crews.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Zanba',
+                text: '...Pretty speech. Draw, boy.',
                 speakerFaction: 'enemy',
               },
             ],
@@ -330,12 +364,24 @@ export const CHAPTER_4: ChapterData = {
             lines: [
               {
                 speaker: 'Goro',
-                text: 'Did he drop anything? Check his pockets!',
+                text: 'Search him. A man like that keeps his coin close.',
                 speakerFaction: 'player',
               },
-              { speaker: 'Hachi', text: 'Already did. Nothing good.', speakerFaction: 'player' },
-              { speaker: 'Goro', text: 'WHEN did you\u2014', speakerFaction: 'player' },
-              { speaker: 'Hachi', text: 'Stealth.', speakerFaction: 'player' },
+              {
+                speaker: 'Hachi',
+                text: 'Already have. It is a Kurogane pay chit, signed, dated this month.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Shigeru',
+                text: 'So the Empire is paying river pirates to starve its own conquest.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Genzo',
+                text: 'A hungry province does not raise an army. That is not cruelty, my lord. That is the manual.',
+                speakerFaction: 'player',
+              },
             ],
           },
         },
@@ -350,27 +396,27 @@ export const CHAPTER_4: ChapterData = {
       lines: [
         {
           speaker: 'Goro',
-          text: "Hachi. Important question. What's the best loot you've ever found?",
+          text: 'Hachi. Best thing you ever lifted. Go.',
           speakerFaction: 'player',
         },
         {
           speaker: 'Hachi',
-          text: 'A key that opened every door in a twelve-floor dungeon. Beautiful piece of data.',
+          text: 'A ring of keys off a harbourmaster. Opened every warehouse on the north quay.',
           speakerFaction: 'player',
         },
         {
           speaker: 'Goro',
-          text: "That's not loot! That's a TOOL. I mean weapons! Armor! Things that make you HIT HARDER.",
+          text: 'Keys. That is not treasure, that is a tool. I meant weapons. Armour. Things that hit.',
           speakerFaction: 'player',
         },
         {
           speaker: 'Hachi',
-          text: '...You people and your direct approaches. Sometimes the best weapon is the one they never see.',
+          text: 'I fed forty families that winter with those keys. How many did your axe feed?',
           speakerFaction: 'player',
         },
         {
           speaker: 'Goro',
-          text: 'I want them to see it. I want them to see it COMING.',
+          text: '...Right. Fine. Keys. Good answer.',
           speakerFaction: 'player',
         },
       ],
@@ -384,7 +430,7 @@ export const CHAPTER_4: ChapterData = {
         { speaker: 'Sayo', text: 'No.', speakerFaction: 'player' },
         {
           speaker: 'Genzo',
-          text: "I stood still for fifteen turns and nobody talked to me either. It's not bad, actually.",
+          text: 'Eleven years on a wall and nobody said a word to me either. It is not the worst way to pass a life.',
           speakerFaction: 'player',
         },
         {

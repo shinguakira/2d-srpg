@@ -437,7 +437,9 @@ describe('saveManager', () => {
     expect(loaded!.newGamePlusUnlocked).toBe(false);
     expect(loaded!.endingsSeen).toEqual([]);
     // Existing fields preserved
-    expect(loaded!.supportPairs).toEqual([{ unitA: 'shigeru', unitB: 'akira', points: 25, rank: 'C' }]);
+    expect(loaded!.supportPairs).toEqual([
+      { unitA: 'shigeru', unitB: 'akira', points: 25, rank: 'C' },
+    ]);
     expect(loaded!.bonusExp).toBe(50);
     expect(loaded!.forgeMaterials).toEqual(['adamant_ore']);
     expect(loaded!.gold).toBe(1500);

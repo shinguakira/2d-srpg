@@ -46,7 +46,7 @@ Affect movement and positioning.
 | **Pass** | Move through enemy-occupied tiles. | Level 10+ any class |
 | **Shove** | Push an adjacent ally 1 tile in the direction you're facing. Free action (before your main action). | Level 5+ Fighter |
 | **Swap** | Switch positions with an adjacent ally. Uses your action. | Level 5+ any class |
-| **Warp Step** | Once per chapter, teleport to any tile within MOV×2 range. Costs 10 STA. | AWR 60+ |
+| **Warp Step** | Once per chapter, teleport to any tile within MOV×2 range. Costs 10 STA. | INS 60+ |
 
 ### Support Skills
 
@@ -64,20 +64,20 @@ Buff allies, heal, or provide utility.
 
 ### Meta Skills
 
-Unique to this game — interact with AWR, LOOP, SYNC, LOY, CRP, STA.
+Unique to this game — interact with INS, EMB, ATT, LOY, CRP, STA.
 
 | Skill | Effect | Acquisition |
 |-------|--------|------------|
-| **System Sight** | See all enemy stats, AI types, and movement ranges regardless of AWR level. | AWR 50+ |
-| **Corruption Resist** | CRP gain halved from all sources. | SYNC 80+ |
-| **Iron Body** | STA accumulation reduced by 30%. | Kael passive or Level 12+ Soldier |
-| **Defrag** | At chapter start, reduce own CRP by 3. | AWR 40+ AND SYNC 60+ |
-| **Memory Leech** | When killing an enemy, gain +3 LOOP. | AWR 70+ |
-| **Glitch Strike** | 15% chance per attack to randomize the target's stats for 1 turn (each stat rerolled ±3). Only activates if user SYNC < 50%. | SYNC < 50% (chaos skill) |
-| **Data Echo** | After being healed, the healing effect repeats at 50% strength at the start of next turn. | LOOP 50+ |
-| **Paranoia** | +5 avoid, -3 LOY per chapter. Constant unease keeps you alive but erodes trust. | AWR 80+ AND LOY < 50 |
+| **System Sight** | See all enemy stats, AI types, and movement ranges regardless of INS level. | INS 50+ |
+| **Corruption Resist** | CRP gain halved from all sources. | ATT 80+ |
+| **Iron Body** | STA accumulation reduced by 30%. | Akira passive or Level 12+ Soldier |
+| **Defrag** | At chapter start, reduce own CRP by 3. | INS 40+ AND ATT 60+ |
+| **Memory Leech** | When killing an enemy, gain +3 EMB. | INS 70+ |
+| **Glitch Strike** | 15% chance per attack to randomize the target's stats for 1 turn (each stat rerolled ±3). Only activates if user ATT < 50%. | ATT < 50% (chaos skill) |
+| **Data Echo** | After being healed, the healing effect repeats at 50% strength at the start of next turn. | EMB 50+ |
+| **Paranoia** | +5 avoid, -3 LOY per chapter. Constant unease keeps you alive but erodes trust. | INS 80+ AND LOY < 50 |
 | **Unbreakable** | Cannot be reduced below 1 HP by CRP stat drain effects. | WIL 10+ |
-| **Overclock** | Once per chapter, take 2 actions in one turn. +15 STA afterwards. | LOOP 100+ |
+| **Overclock** | Once per chapter, take 2 actions in one turn. +15 STA afterwards. | EMB 100+ |
 
 ### Trauma Skills (Mental Status)
 
@@ -88,29 +88,29 @@ Skills that represent psychological effects — the trauma system lives here, no
 | **Survivor's Guilt** | +10% damage dealt, -5 avoid. Permanent after an ally dies in your presence. | Auto-learned: ally dies within 3 tiles |
 | **Vengeance** | Bonus damage = (max HP - current HP). The more hurt you are, the harder you hit. | Auto-learned: survive at ≤10% HP twice |
 | **Numb** | Immune to LOY changes (positive and negative). Cannot benefit from CHA aura. Emotionally shut down. | Auto-learned: 3+ allies die across the campaign |
-| **Flashback** | 10% chance per turn to freeze (lose action). Triggers when attacking same class as a dead ally. -5% per point of WIL. | Auto-learned: specific ally dies (Kael → vs lancers, etc.) |
+| **Flashback** | 10% chance per turn to freeze (lose action). Triggers when attacking same class as a dead ally. -5% per point of WIL. | Auto-learned: specific ally dies (Akira → vs lancers, etc.) |
 | **Last Stand** | When only 2 or fewer allies remain on the map, +10 all combat stats. | Auto-learned: survive a chapter where 2+ allies died |
-| **Grief** | -3 all stats for 2 chapters after an ally's death. Cannot be unequipped during this period. Fades naturally. | Auto-learned: Kael dies (ALL party members) |
+| **Grief** | -3 all stats for 2 chapters after an ally's death. Cannot be unequipped during this period. Fades naturally. | Auto-learned: Akira dies (ALL party members) |
 
 ---
 
-## Ren's Teaching (LOOP Transfer)
+## Shigeru's Teaching (EMB Transfer)
 
-Ren can spend LOOP to teach skills from past cycles to allies during preparation phase.
+Shigeru can spend EMB to teach skills from past cycles to allies during preparation phase.
 
 | Cost | Effect |
 |------|--------|
-| 10 LOOP | Teach one combat skill (from Ren's learned pool) to an adjacent ally. Permanent. |
-| 15 LOOP | Teach one meta skill. The memory transfer is harder — requires deeper LOOP investment. |
-| 5 LOOP | Teach one movement skill. Physical memory is the easiest to transfer. |
+| 10 EMB | Teach one combat skill (from Shigeru's learned pool) to an adjacent ally. Permanent. |
+| 15 EMB | Teach one meta skill. The memory transfer is harder — requires deeper EMB investment. |
+| 5 EMB | Teach one movement skill. Physical memory is the easiest to transfer. |
 
 ### Teaching Restrictions
 
-- Ren can only teach skills HE has learned.
-- An ally cannot learn a skill that requires a stat threshold they don't meet (e.g., can't learn AWR 70+ skill if their AWR is 30).
-- Teaching costs +2 CRP to both Ren and the student — memory transfer introduces data instability.
-- Teaching costs +5 STA to Ren at chapter start (the preparation effort carries over).
-- Ren cannot teach Trauma Skills — those must be experienced firsthand.
+- Shigeru can only teach skills HE has learned.
+- An ally cannot learn a skill that requires a stat threshold they don't meet (e.g., can't learn INS 70+ skill if their INS is 30).
+- Teaching costs +2 CRP to both Shigeru and the student — memory transfer introduces data instability.
+- Teaching costs +5 STA to Shigeru at chapter start (the preparation effort carries over).
+- Shigeru cannot teach Trauma Skills — those must be experienced firsthand.
 
 ---
 
@@ -261,16 +261,16 @@ Skills unlocked when promoting to a specific class. Learned automatically on pro
 
 | Skill | Effect | Acquisition |
 |-------|--------|------------|
-| **Data Drain** | On kill, steal 1 point of the enemy's highest stat permanently. Max 5 uses per chapter. | AWR 80+ |
-| **System Override** | Once per chapter, force one RNG roll to succeed (100% hit/crit). +5 CRP. | AWR 90+ AND SYNC < 70% |
-| **Cycle Memory+** | LOOP abilities cost 20% less (rounded down). | LOOP 200+ |
-| **Stability Field** | Allies within 2 tiles gain +10% SYNC per turn. | SYNC 90+ |
+| **Data Drain** | On kill, steal 1 point of the enemy's highest stat permanently. Max 5 uses per chapter. | INS 80+ |
+| **System Override** | Once per chapter, force one RNG roll to succeed (100% hit/crit). +5 CRP. | INS 90+ AND ATT < 70% |
+| **Cycle Memory+** | EMB abilities cost 20% less (rounded down). | EMB 200+ |
+| **Stability Field** | Allies within 2 tiles gain +10% ATT per turn. | ATT 90+ |
 | **Loyalty Shield** | When LOY > 80, automatically take a lethal hit for an adjacent ally. LOY% chance. Once per chapter. | LOY 80+ |
 | **Corruption Armor** | CRP stops increasing at 50 (instead of continuing to 100). Cannot be corrupted. | CRP 40+ AND WIL 12+ |
 | **Fatigue Resist** | STA thresholds increase by 10 each (Winded at 25 instead of 15, etc.). | Level 10+ any class with STA rate < 1.0 |
-| **System Exploit** | On glitched tiles, gain +5 all stats instead of CRP. | AWR 60+ AND SYNC 70+ |
-| **Loop Break** | When an ally would die, spend 20 LOOP to rewind and prevent the death. Once per chapter. Ren only. | LOOP 100+ (Ren exclusive) |
-| **Entropy** | Each turn, a random enemy within 5 tiles loses 1 random stat point. Uncontrollable. | CRP 30+ AND SYNC < 40% |
+| **System Exploit** | On glitched tiles, gain +5 all stats instead of CRP. | INS 60+ AND ATT 70+ |
+| **Loop Break** | When an ally would die, spend 20 EMB to rewind and prevent the death. Once per chapter. Shigeru only. | EMB 100+ (Shigeru exclusive) |
+| **Entropy** | Each turn, a random enemy within 5 tiles loses 1 random stat point. Uncontrollable. | CRP 30+ AND ATT < 40% |
 
 ---
 
@@ -295,7 +295,7 @@ These skills are automatically equipped when promoting to a master class. They d
 
 | Skill | Effect | Master Class |
 |-------|--------|-------------|
-| **Cycle Authority** | All allies within 3 tiles gain +3 all stats. | Overlord (Ren only) |
+| **Unbroken Vigil** | All allies within 3 tiles gain +3 all stats. | Overlord (Shigeru only) |
 | **Tri-Magic** | No magic triangle disadvantage. | Archsage |
 | **Ironwall** | Cannot be pushed. Reduce all damage by 3 (flat). | Marshal |
 | **Bloodlust** | Always heal 30% of damage dealt. No activation roll. | Reaver |
@@ -330,7 +330,7 @@ These skills are automatically equipped when promoting to a master class. They d
 
 ## Open Questions
 
-- **Skill inheritance on death**: If a unit with learned skills dies, are those skills lost forever? Or can Ren remember them via LOOP for future teaching? → Recommendation: Ren can spend 5 LOOP to "remember" a dead ally's skill, adding it to his teaching pool.
+- **Skill inheritance on death**: If a unit with learned skills dies, are those skills lost forever? Or can Shigeru remember them via EMB for future teaching? → Recommendation: Shigeru can spend 5 EMB to "remember" a dead ally's skill, adding it to his teaching pool.
 - **Enemy skills**: Boss enemies should have 2-3 equippable skills visible in the combat forecast. Regular enemies: 0-1 skills.
 - **Skill scrolls**: Consumable items that teach one skill. Found in treasure chests or bought in Arc 4+ shops. 1-2 per chapter.
 - **Skill capacity**: 147 skills with 10 slots per unit across 20 characters. Average unit will have access to ~15-25 skills and must choose 10. This creates meaningful build variety.

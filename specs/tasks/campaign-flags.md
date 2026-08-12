@@ -9,7 +9,7 @@
 
 | Flag | Type | Set In | Checked In | Default |
 |------|------|--------|------------|---------|
-| `kael_survive_turns` | number | ch8 (auto, counts turns Kael survived as NPC) | ch24 dialogue variants | 0 |
+| `kael_survive_turns` | number | ch8 (auto, counts turns Akira survived as NPC) | ch24 dialogue variants | 0 |
 | `zael_recruited` | boolean | ch13 (Talk action on Zael at ≤5 HP) | ch14 boss selection, ch25 ending | false |
 | `ghael_recruited` | boolean | ch18 (Talk action on Ghael at ≤5 HP) | ch18 secondary boss, ch25 ending | false |
 | `echo_saved` | boolean | ch20 (Echo alive at chapter end) | ch25 ending, ch25 party dialogue | false |
@@ -30,22 +30,22 @@
 - **Flee deadline:** Zael flees map at Turn 20 if not recruited
 - **Recruitment window:** Turns 1-20
 - **HP condition:** Zael HP must be ≤ 5
-- **Action:** Ren uses Talk action while adjacent to Zael
-- **Required unit:** Ren (only Ren can recruit)
+- **Action:** Shigeru uses Talk action while adjacent to Zael
+- **Required unit:** Shigeru (only Shigeru can recruit)
 - **Flag set:** `zael_recruited = true`
 - **Failure modes:** Zael killed → dead, flag false. Zael flees Turn 20 → gone, flag false.
 
 ### Ghael (Chapter 18)
 - **Unit type:** General, starts as enemy boss, stationary on fort
 - **HP condition:** Ghael HP must be ≤ 5
-- **Action:** Ren uses Talk action while adjacent to Ghael
-- **Required unit:** Ren (only Ren can recruit)
+- **Action:** Shigeru uses Talk action while adjacent to Ghael
+- **Required unit:** Shigeru (only Shigeru can recruit)
 - **Flag set:** `ghael_recruited = true`
-- **On recruit:** Relic Warden (System Construct, 50 HP) spawns blocking vault exit
+- **On recruit:** Relic Warden (Blackflame Colossus, 50 HP) spawns blocking vault exit
 - **Failure mode:** Ghael killed → dead, flag false. No turn deadline (stationary boss).
 
 ### Echo (Chapter 20)
-- **Unit type:** System Construct, appears Turn 5 as green NPC ally
+- **Unit type:** Blackflame Colossus, appears Turn 5 as green NPC ally
 - **Condition:** Echo must be alive (HP > 0) when chapter ends
 - **Action:** No player action needed — passive survival condition
 - **Flag set:** `echo_saved = true`
@@ -54,15 +54,15 @@
 ### Earlier Recruits (Not Conditional — Always Join)
 | Unit | Chapter | Method | Notes |
 |------|---------|--------|-------|
-| Bram | ch1 | Mid-chapter event | Crashes into battle Turn 3 |
-| Lira | ch1 | Post-chapter | Joins in epilogue |
-| Voss | ch2 | Enemy defection event | Switches sides Turn 4 |
-| Nira | ch3 | Village visit | Visit specific village tile |
-| Coda | ch4 | Event trigger | Player reaches tile in time |
-| Yuel | ch5 | Chapter start | Auto-joins roster |
-| Rook | ch6 | Chapter start | Auto-joins roster |
-| Faye | ch6 | Mid-chapter NPC | Adjacent player unit recruits |
-| Orin | ch9 | Mid-chapter event | Joins Turn 3 |
+| Goro | ch1 | Mid-chapter event | Crashes into battle Turn 3 |
+| Hina | ch1 | Post-chapter | Joins in epilogue |
+| Genzo | ch2 | Enemy defection event | Switches sides Turn 4 |
+| Sayo | ch3 | Village visit | Visit specific village tile |
+| Hachi | ch4 | Event trigger | Player reaches tile in time |
+| Yuki | ch5 | Chapter start | Auto-joins roster |
+| Raiga | ch6 | Chapter start | Auto-joins roster |
+| Mio | ch6 | Mid-chapter NPC | Adjacent player unit recruits |
+| Kagura | ch9 | Mid-chapter event | Joins Turn 3 |
 | Kira | ch11 | Enemy defection event | Switches sides Turn 5 |
 | Elara | ch14 | Adjacent trigger | Any player unit moves adjacent to Elara |
 
@@ -95,8 +95,8 @@ evaluate_ending(flags):
 | **Tragic** | 5+ total_deaths (any victory condition) | Weighted with loss, each fallen ally named | Reduced party image |
 
 ### "Allow Reset" Mechanic
-- At ch25 seize: if Ren has Final Save Crystal equipped → True/Perfect path
-- If Ren does NOT have Crystal equipped → Bittersweet path (System resets)
+- At ch25 seize: if Shigeru has Final Save Crystal equipped → True/Perfect path
+- If Shigeru does NOT have Crystal equipped → Bittersweet path (System resets)
 - This is a soft choice via inventory management, not a dialogue prompt
 - Player must deliberately equip the Crystal before seizing
 
@@ -108,7 +108,7 @@ evaluate_ending(flags):
 
 ## Meta-Stat Calculations (Glossary)
 
-### AWR (Awareness) — Range 0-100
+### INS (Insight) — Range 0-100
 ```
 Gain:
   +3 to +5 when witnessing a glitch event (event-defined, varies)
@@ -116,40 +116,40 @@ Gain:
   +1 per chapter completed (applied at chapter end)
   +10 on partner death (grief-awareness)
 
-Party Average AWR = sum(all_deployed_units.awr) / deployed_count
+Party Average INS = sum(all_deployed_units.awr) / deployed_count
 ```
 
-### LOOP (Ren Only) — Starts 347
+### EMB (Shigeru Only) — Starts 347
 ```
 Expenditure:
-  Teaching a combat skill: -10 LOOP, +2 CRP to both Ren and student
-  Teaching a meta skill: -15 LOOP, +2 CRP to both
-  Teaching a movement skill: -5 LOOP, +2 CRP to both
+  Teaching a combat skill: -10 EMB, +2 CRP to both Shigeru and student
+  Teaching a meta skill: -15 EMB, +2 CRP to both
+  Teaching a movement skill: -5 EMB, +2 CRP to both
   Overwriting corrupted terrain (story event): -variable (defined per event)
 
 Regen:
   +10 at each arc transition (ch5, ch10, ch15, ch20)
 
-Memory Blade might = 1 + floor(LOOP / 30)
+Flamebrand might = 1 + floor(EMB / 30)
 ```
 
 ### LOY (Loyalty) — Range 0-100, Per Unit
 ```
 Gain:
-  +2 adjacent to Ren at turn end
+  +2 adjacent to Shigeru at turn end
   +3 / +5 / +8 / +12 on support rank C / B / A / S reached
-  +5 per chapter if unit deployed with Ren
+  +5 per chapter if unit deployed with Shigeru
 
 Loss:
   -15 when support partner dies
-  -5 when Ren takes damage and unit is adjacent but didn't act
+  -5 when Shigeru takes damage and unit is adjacent but didn't act
 
 Effects:
-  ≥ 80: +1 all stats when within 3 tiles of Ren
+  ≥ 80: +1 all stats when within 3 tiles of Shigeru
   ≤ 30: 5% chance to disobey commands per action
 ```
 
-### SYNC (Stability) — Range 0-100
+### ATT (Stability) — Range 0-100
 ```
 Change:
   -1/turn on glitched terrain
@@ -224,15 +224,15 @@ Thresholds:
 ### Maximum Possible Roster at Ch23
 | Source | Units | Running Total |
 |--------|-------|---------------|
-| Ch1 start | Ren, Kael, Senna | 3 |
-| Ch1 joins | Bram, Lira | 5 |
-| Ch2 | Voss | 6 |
-| Ch3 | Nira | 7 |
-| Ch4 | Coda | 8 |
-| Ch5 | Yuel | 9 |
-| Ch6 | Rook, Faye | 11 |
-| Ch8 | -Kael (death) | 10 |
-| Ch9 | Orin | 11 |
+| Ch1 start | Shigeru, Akira, Kanna | 3 |
+| Ch1 joins | Goro, Hina | 5 |
+| Ch2 | Genzo | 6 |
+| Ch3 | Sayo | 7 |
+| Ch4 | Hachi | 8 |
+| Ch5 | Yuki | 9 |
+| Ch6 | Raiga, Mio | 11 |
+| Ch8 | -Akira (death) | 10 |
+| Ch9 | Kagura | 11 |
 | Ch11 | Kira | 12 |
 | Ch12 | -1 (corruption loss) | 11 |
 | Ch13 | +Zael (conditional) | 11-12 |
@@ -245,4 +245,4 @@ Thresholds:
 - **Maximum:** 15 (all conditionals, zero extra deaths)
 - **Split:** 6+6 minimum, up to 7+8 if roster allows
 - **Safety:** If roster < 12, auto-fill with NPC allies to reach 6 per side
-- **Ren must be on one team** (player chooses which)
+- **Shigeru must be on one team** (player chooses which)

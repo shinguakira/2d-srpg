@@ -26,7 +26,7 @@ const terrain: TerrainType[][] = [
   [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 13 — deployment row 2
   [M, M, P, P, P, X, X, P, P, P, P, X, X, P, P, P, M, M], // row 14 — south corridor entrance
   [M, M, M, P, P, X, P, P, P, P, P, P, X, P, P, M, M, M], // row 15 — corridor narrows
-  [M, M, M, P, P, X, P, P, T, P, P, P, X, P, P, M, M, M], // row 16 — Akira's last stand position (8,16)
+  [M, M, M, P, P, X, P, P, T, P, P, P, X, P, P, M, M, M], // row 16 — Genzo's last stand position (8,16)
   [M, M, M, P, P, X, P, P, P, P, P, P, X, P, P, M, M, M], // row 17 — corridor
   [M, M, M, P, P, P, P, P, P, P, P, P, P, P, P, M, M, M], // row 18 — south gate (reinforcements)
   [M, M, M, M, P, P, P, P, P, P, P, P, P, P, M, M, M, M], // row 19 — south edge
@@ -34,7 +34,7 @@ const terrain: TerrainType[][] = [
 
 export const CHAPTER_8: ChapterData = {
   id: 'ch8',
-  name: 'Chapter 8: The Last Ride',
+  name: 'Chapter 8: The Last Stand',
   chapterNumber: 8,
   mapWidth: 18,
   mapHeight: 20,
@@ -71,7 +71,7 @@ export const CHAPTER_8: ChapterData = {
   },
   seizePosition: { x: 9, y: 1 },
   deploymentSlots: 8,
-  forceDeploy: ['shigeru', 'akira'],
+  forceDeploy: ['shigeru', 'genzo'],
   parTurns: 20,
   prologue: {
     lines: [
@@ -79,44 +79,62 @@ export const CHAPTER_8: ChapterData = {
         speaker: 'Narrator',
         text: 'Night. The mountain fortress looms ahead. Two fronts — the throne room to the north, a corridor to the south where reinforcements will come.',
       },
-      { speaker: 'Shigeru', text: 'Akira. I need to tell you something.', speakerFaction: 'player' },
+      {
+        speaker: 'Genzo',
+        text: 'My lord. A word before we go in.',
+        speakerFaction: 'player',
+      },
+      { speaker: 'Shigeru', text: 'Say it.', speakerFaction: 'player' },
+      {
+        speaker: 'Genzo',
+        text: 'I served under Doumeki for six years. He does not defend a fortress — he opens the south gate, lets you commit, and closes it behind you.',
+        speakerFaction: 'player',
+      },
       {
         speaker: 'Akira',
-        text: "You've been keeping something from me. I can tell.",
+        text: 'Then we split the company. Half north to the throne, half holding the corridor.',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Genzo',
+        text: 'No, lad. Half the company does not take Doumeki. You need everything you have going north, and one man in that corridor who knows how long it can be held.',
+        speakerFaction: 'player',
+      },
+      { speaker: 'Shigeru', text: 'No.', speakerFaction: 'player' },
+      {
+        speaker: 'Genzo',
+        text: 'My lord—',
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: "This world... it's happened before. 347 times. Everything — the battles, the conversations, the deaths. I remember all of them.",
+        text: 'I said no. I have not lost anyone since Amagi and I am not starting tonight because it is efficient.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Akira',
-        text: "...347 times? You've watched us fight this war 347 times?",
-        speakerFaction: 'player',
-      },
-      {
-        speaker: 'Shigeru',
-        text: 'Yes. And every time, I lose people. I lose you.',
-        speakerFaction: 'player',
-      },
-      { speaker: 'Akira', text: "I don't care.", speakerFaction: 'player' },
-      { speaker: 'Shigeru', text: 'What?', speakerFaction: 'player' },
-      {
-        speaker: 'Akira',
-        text: 'This is the first time I REMEMBER. So it counts. Whatever happens today — it counts because I chose it.',
+        speaker: 'Genzo',
+        text: 'You will lose someone tonight either way. The only question you get to answer is whether it is somebody who chose it.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Narrator',
-        text: 'The party moves into position. Each member checks their weapons. The gestures are small, routine — but tonight they carry weight.',
+        text: 'Nobody spoke for a long moment. Around them the company checked buckles and edges — small routine motions, done more slowly than usual.',
       },
-      { speaker: 'Goro', text: '...', speakerFaction: 'player' },
-      { speaker: 'Narrator', text: 'Goro adjusts his axe grip, glances at Akira, says nothing.' },
       { speaker: 'Hina', text: 'May the dawn find us all.', speakerFaction: 'player' },
-      { speaker: 'Genzo', text: '...', speakerFaction: 'player' },
-      { speaker: 'Narrator', text: "Genzo nods to Akira — a soldier's acknowledgment." },
-      { speaker: 'Mio', text: "I'll stay close. Whatever happens.", speakerFaction: 'player' },
+      {
+        speaker: 'Narrator',
+        text: 'Goro shifted his grip on his axe, looked at Genzo, and said nothing at all.',
+      },
+      {
+        speaker: 'Mio',
+        text: 'I will stay close to the corridor. I will.',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Genzo',
+        text: 'You will stay with the prince, girl. That is where the healing is needed.',
+        speakerFaction: 'player',
+      },
     ],
   },
   epilogue: {
@@ -124,35 +142,38 @@ export const CHAPTER_8: ChapterData = {
       { speaker: 'Narrator', text: 'The fortress is taken. But the victory tastes like ash.' },
       {
         speaker: 'Shigeru',
-        text: "I've seen him die 347 times. Why does this one hurt more?",
+        text: 'He asked me for permission and I gave it. I said the word out loud and then I turned around and walked north.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Kanna',
-        text: 'Because this time he knew. He chose it.',
+        text: 'You did. And the fortress is ours, and eleven of us are alive who would not be. Both of those are true at once, my lord. You will have to learn to hold them at once.',
         speakerFaction: 'player',
       },
-      { speaker: 'Goro', text: '...', speakerFaction: 'player' },
       {
         speaker: 'Narrator',
-        text: 'Goro punches the fortress wall. His knuckles bleed. No one stops him.',
+        text: 'Goro put his fist into the fortress wall. His knuckles split. Nobody stopped him.',
       },
       {
         speaker: 'Hina',
-        text: 'May his soul find the peace that this world denied him.',
+        text: 'He was a Kurogane man for eleven years and an Amagi man for six weeks. I will pray for him as an Amagi man. I do not think he would mind.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Genzo',
-        text: 'He held that corridor alone. Against everything. The garrison would have been proud.',
+        speaker: 'Akira',
+        text: 'He held that corridor for nine turns. Nine. Against a full company, on foot, alone. I have read the histories of this kingdom and there is nothing in them like it.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Mio',
-        text: "I couldn't reach him. I tried to get there and I couldn't—",
+        text: 'I could not reach him. I tried to get down the stair and there were too many and I could not—',
         speakerFaction: 'player',
       },
-      { speaker: 'Raiga', text: 'None of us could. That was the point.', speakerFaction: 'player' },
+      {
+        speaker: 'Raiga',
+        text: 'None of us could. Girl — that was the entire idea. He picked a place where nobody could reach him so that nobody would have to try.',
+        speakerFaction: 'player',
+      },
       {
         speaker: 'Narrator',
         text: 'The grief settles over the party like armor — heavy, suffocating, and impossible to remove. All stats reduced by 3 for the next two chapters.',
@@ -203,7 +224,7 @@ export const CHAPTER_8: ChapterData = {
               },
               {
                 speaker: 'Akira',
-                text: "I'll draw their attention. You flank.",
+                text: 'I will draw them. Goro, Raiga — take the flank while their eyes are on a horse.',
                 speakerFaction: 'player',
               },
             ],
@@ -223,12 +244,12 @@ export const CHAPTER_8: ChapterData = {
             lines: [
               {
                 speaker: 'Kanna',
-                text: "South gate activity — they're sending reinforcements through the corridor.",
+                text: 'Movement at the south gate. He is doing exactly what Genzo said he would.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: 'Push north. We take Doumeki before they overwhelm us.',
+                text: 'Then we go faster. Take Doumeki before that corridor fills.',
                 speakerFaction: 'player',
               },
             ],
@@ -248,12 +269,12 @@ export const CHAPTER_8: ChapterData = {
             lines: [
               {
                 speaker: 'Genzo',
-                text: "The south corridor — they're sending more. Someone has to hold the rear.",
+                text: 'The corridor is filling, my lord. Someone holds it or they take us from behind.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: "We can't split further. We need everyone for Doumeki.",
+                text: 'We cannot spare anyone. I need every blade for the throne room.',
                 speakerFaction: 'player',
               },
             ],
@@ -262,7 +283,7 @@ export const CHAPTER_8: ChapterData = {
       ],
       once: true,
     },
-    // Turn 8: KAEL'S SACRIFICE — remove from player, spawn as NPC ally
+    // Turn 8: GENZO'S SACRIFICE — remove from player, spawn as NPC ally
     {
       id: 'ch8_genzo_to_npc',
       trigger: { type: 'turn_start', turn: 8 },
@@ -275,19 +296,27 @@ export const CHAPTER_8: ChapterData = {
               scene: {
                 lines: [
                   { speaker: 'Akira', text: "I'll hold the corridor.", speakerFaction: 'player' },
-                  { speaker: 'Shigeru', text: "Akira, don't—", speakerFaction: 'player' },
+                  { speaker: 'Shigeru', text: 'Genzo. Stand down.', speakerFaction: 'player' },
                   {
-                    speaker: 'Akira',
-                    text: "You said I've done this 347 times without knowing. Now I know. And I'm choosing to do it anyway.",
+                    speaker: 'Genzo',
+                    text: 'I am afraid I am going to disobey an order, my lord. It is becoming a habit.',
                     speakerFaction: 'player',
                   },
-                  { speaker: 'Akira', text: 'Was I brave this time?', speakerFaction: 'player' },
-                  { speaker: 'Shigeru', text: 'Every time.', speakerFaction: 'player' },
-                  { speaker: 'Akira', text: 'Then it counted.', speakerFaction: 'player' },
+                  {
+                    speaker: 'Genzo',
+                    text: 'Eleven years I stood a post because a man told me to. This one I picked.',
+                    speakerFaction: 'player',
+                  },
+                  { speaker: 'Shigeru', text: 'Genzo—', speakerFaction: 'player' },
+                  {
+                    speaker: 'Genzo',
+                    text: 'Go north, my lord. And when you get to Takeshi, tell him a sergeant of the second wall company stopped believing him.',
+                    speakerFaction: 'player',
+                  },
                 ],
               },
             },
-            { type: 'remove_unit', unitId: 'akira' },
+            { type: 'remove_unit', unitId: 'genzo' },
             {
               type: 'spawn_units',
               units: [{ unitId: 'genzo_npc', position: { x: 8, y: 16 } }],
@@ -298,7 +327,7 @@ export const CHAPTER_8: ChapterData = {
       ],
       once: true,
     },
-    // Turn 10: Akira fighting alone — party watches
+    // Turn 10: Genzo fighting alone — party watches
     {
       id: 'ch8_genzo_holding',
       trigger: { type: 'turn_start', turn: 10 },
@@ -309,17 +338,25 @@ export const CHAPTER_8: ChapterData = {
             lines: [
               {
                 speaker: 'Narrator',
-                text: 'In the south corridor, Akira fights alone. His lance catches the torchlight between strikes.',
+                text: 'From the south corridor: the flat ring of a lance being set, over and over, in a doorway one man wide.',
               },
-              { speaker: 'Hina', text: 'Can anyone see him? Is he—', speakerFaction: 'player' },
-              { speaker: 'Genzo', text: "He's holding. Focus on Doumeki.", speakerFaction: 'player' },
+              {
+                speaker: 'Hina',
+                text: 'Can anyone see him? Is he still—',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Akira',
+                text: 'He is holding. Do not waste it, Hina. North.',
+                speakerFaction: 'player',
+              },
             ],
           },
         },
       ],
       once: true,
     },
-    // Turn 12: Akira fading — urgency
+    // Turn 12: Genzo fading — urgency
     {
       id: 'ch8_genzo_fading',
       trigger: { type: 'turn_start', turn: 12 },
@@ -334,12 +371,12 @@ export const CHAPTER_8: ChapterData = {
               },
               {
                 speaker: 'Kanna',
-                text: "His vitals... they're dropping. We need to finish this NOW.",
+                text: 'He is slowing. My lord, whatever we are going to do, it has to be now.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: 'Everyone — push! Take the throne!',
+                text: 'Everything forward. Take the throne. NOW.',
                 speakerFaction: 'player',
               },
             ],
@@ -348,7 +385,7 @@ export const CHAPTER_8: ChapterData = {
       ],
       once: true,
     },
-    // Turn 13: KAEL'S DEATH
+    // Turn 13: GENZO'S DEATH
     {
       id: 'ch8_genzo_death',
       trigger: { type: 'turn_start', turn: 13 },
@@ -362,20 +399,24 @@ export const CHAPTER_8: ChapterData = {
                 lines: [
                   {
                     speaker: 'Narrator',
-                    text: 'In the south corridor, Akira staggers. His lance arm drops. The enemies close in.',
+                    text: 'In the south corridor the lance comes up one more time, more slowly than the last, and does not come down.',
                   },
-                  { speaker: 'Akira', text: 'Still... standing...', speakerFaction: 'player' },
-                  { speaker: 'Narrator', text: 'He falls.' },
-                  { speaker: 'Shigeru', text: 'KAEL!', speakerFaction: 'player' },
+                  { speaker: 'Genzo', text: 'Post... held...', speakerFaction: 'player' },
+                  { speaker: 'Narrator', text: 'The doorway goes quiet.' },
+                  { speaker: 'Shigeru', text: 'GENZO!', speakerFaction: 'player' },
                   {
                     speaker: 'Hina',
-                    text: 'No— I can get there— let me—',
+                    text: 'No — I can reach him, let me go, I can still—',
                     speakerFaction: 'player',
                   },
-                  { speaker: 'Raiga', text: "It's too late.", speakerFaction: 'player' },
+                  {
+                    speaker: 'Raiga',
+                    text: 'You cannot. Hold her, Goro.',
+                    speakerFaction: 'player',
+                  },
                   {
                     speaker: 'Narrator',
-                    text: 'The tile where Akira stood is empty. It is the loudest silence the party has ever heard.',
+                    text: 'Nothing else came up the south corridor that night. It had taken a full company all evening to get past one man, and by then the throne was already lost.',
                   },
                 ],
               },
@@ -398,11 +439,24 @@ export const CHAPTER_8: ChapterData = {
             lines: [
               {
                 speaker: 'Doumeki',
-                text: "I've killed you before. I remember it happening... AGAIN. And again. How many times have we done this?",
+                text: 'The corridor. Nine turns. Who was it?',
                 speakerFaction: 'enemy',
               },
-              { speaker: 'Shigeru', text: '347. But this is the last time.', speakerFaction: 'player' },
-              { speaker: 'Doumeki', text: 'You always say that...', speakerFaction: 'enemy' },
+              {
+                speaker: 'Shigeru',
+                text: 'Sergeant Genzo. Second wall company. He served under you for six years.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Doumeki',
+                text: '...Genzo. He was the only man in my command who ever asked me a question. I had him posted to a wall for it.',
+                speakerFaction: 'enemy',
+              },
+              {
+                speaker: 'Doumeki',
+                text: 'Boy. Go north and look at what your Emperor is carrying. Then decide whether any of us were ever soldiers at all.',
+                speakerFaction: 'enemy',
+              },
             ],
           },
         },
@@ -413,50 +467,57 @@ export const CHAPTER_8: ChapterData = {
   supportConversations: [
     {
       unitA: 'shigeru',
-      unitB: 'akira',
+      unitB: 'genzo',
       lines: [
         {
-          speaker: 'Akira',
-          text: "If you've seen this 347 times... did I always volunteer?",
+          speaker: 'Genzo',
+          text: 'My lord. If it comes to it tonight — do not come back for me.',
           speakerFaction: 'player',
         },
-        { speaker: 'Shigeru', text: 'Always.', speakerFaction: 'player' },
+        { speaker: 'Shigeru', text: 'I will not promise that.', speakerFaction: 'player' },
         {
-          speaker: 'Akira',
-          text: "Good. That means it's who I am, not just what I'm told to do.",
+          speaker: 'Genzo',
+          text: 'Then promise me the other thing. Do not let it be for nothing. That is all a soldier actually asks for, whatever the songs say.',
           speakerFaction: 'player',
         },
-        { speaker: 'Shigeru', text: 'Akira...', speakerFaction: 'player' },
+        { speaker: 'Shigeru', text: 'Genzo...', speakerFaction: 'player' },
         {
-          speaker: 'Akira',
-          text: "Don't. Just... let me be brave while I still can.",
+          speaker: 'Genzo',
+          text: 'Say yes, my lord. It costs you nothing tonight and it will cost you a great deal later, which is how you will know it was worth saying.',
           speakerFaction: 'player',
         },
+        { speaker: 'Shigeru', text: '...Yes.', speakerFaction: 'player' },
       ],
       reward: { type: 'exp_both', amount: 30 },
     },
     {
-      unitA: 'akira',
+      unitA: 'genzo',
       unitB: 'hina',
       lines: [
         {
           speaker: 'Hina',
-          text: 'Akira, you seem different today. Lighter, somehow.',
+          text: 'Genzo. You have been settled all evening. Everyone else is sick with nerves and you have been mending a strap.',
           speakerFaction: 'player',
         },
         {
-          speaker: 'Akira',
-          text: "I learned something today. About the world, about us. About how many times we've done this.",
+          speaker: 'Genzo',
+          text: 'It needed mending.',
           speakerFaction: 'player',
         },
-        { speaker: 'Hina', text: 'And that makes you lighter?', speakerFaction: 'player' },
+        { speaker: 'Hina', text: 'That is not what I asked.', speakerFaction: 'player' },
         {
-          speaker: 'Akira',
-          text: 'It makes me certain. For the first time in my life, I know exactly who I am.',
+          speaker: 'Genzo',
+          text: 'I have been frightened for eleven years, girl — every day, on a wall, of the wrong things. Tonight I am frightened of something worth it. It is quite restful.',
           speakerFaction: 'player',
         },
+        {
+          speaker: 'Hina',
+          text: '...I am going to pray for you whether you like it or not.',
+          speakerFaction: 'player',
+        },
+        { speaker: 'Genzo', text: 'I would take it kindly.', speakerFaction: 'player' },
       ],
-      reward: { type: 'stat', unitId: 'akira', stat: 'def', amount: 2 },
+      reward: { type: 'stat', unitId: 'genzo', stat: 'def', amount: 2 },
     },
   ],
 };

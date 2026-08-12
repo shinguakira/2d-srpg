@@ -13,7 +13,7 @@
 - [x] Set objective: Seize (throne at row 1, center)
 - [x] Set par turns: 14 (adjusted from 18 per map spec tactical pacing)
 - [x] Set deployment slots: 6
-- [x] Set force deploy: Ren
+- [x] Set force deploy: Shigeru
 - [x] Set chapter name: "Above the Clouds"
 - [x] Set arc: 1
 
@@ -28,7 +28,7 @@
 - [x] Right route: mountain tiles, slow but high DEF cover
 - [x] Mid-map (rows 6-10): forested ridge, chokepoints, forts
 - [x] Top area (rows 0-5): fortress interior, throne room, wall pillars
-- [x] Throne tile at (7, 1) — Aldric's position
+- [x] Throne tile at (7, 1) — Tetsuzan's position
 - [x] Place 1 village + 1 chest for side objectives (steel_sword + javelin rewards)
 - [x] Add fort tiles at strategic defense points (4,9) and (9,9)
 
@@ -36,7 +36,7 @@
 
 > **Ref:** [`specs/maps/ch5.md`](specs/maps/ch5.md), [`specs/gameplay/ai.md`](specs/gameplay/ai.md)
 
-- [x] Boss: General Aldric — knight class, Lv12, steel_lance + javelin, boss AI
+- [x] Boss: General Tetsuzan — knight class, Lv12, steel_lance + javelin, boss AI
   - Position: (7, 1) on throne
   - Stats: HP 50, DEF 14, armored (rapier effective)
 - [x] 2 Knight escorts — knight class, Lv10, iron_lance, guard AI (radius 2)
@@ -55,12 +55,12 @@
 
 ## Player Units
 
-> **Ref:** [`specs/story/characters/yuel.md`](specs/story/characters/yuel.md), [`specs/story/roster.md`](specs/story/roster.md)
+> **Ref:** [`specs/story/characters/yuki.md`](specs/story/characters/yuki.md), [`specs/story/roster.md`](specs/story/roster.md)
 
-- [x] Yuel (Pegasus Knight) joins at chapter start — added to chapter playerUnits + recruitableUnits
-- [x] Create Yuel unit data: Lv3, iron_lance, Pegasus Knight class, flying
-- [x] Yuel stat overrides: SPD 10, SKL 7, RES 6 (SPD/RES focused)
-- [x] Available roster: Ren, Kael, Senna, Bram, Lira, Voss, Nira, Coda, Yuel (9 total)
+- [x] Yuki (Pegasus Knight) joins at chapter start — added to chapter playerUnits + recruitableUnits
+- [x] Create Yuki unit data: Lv3, iron_lance, Pegasus Knight class, flying
+- [x] Yuki stat overrides: SPD 10, SKL 7, RES 6 (SPD/RES focused)
+- [x] Available roster: Shigeru, Akira, Kanna, Goro, Hina, Genzo, Sayo, Hachi, Yuki (9 total)
 - [x] Deploy up to 6 from roster
 - [x] Roster injection in campaignStore.startChapter auto-adds missing playerUnits
 
@@ -69,15 +69,15 @@
 > **Ref:** [`specs/story/chapters/ch5.md`](specs/story/chapters/ch5.md), [`specs/maps/ch5.md`](specs/maps/ch5.md)
 
 - [x] Turn 3: Terrain shift event — 6 tiles change terrain type via change_terrain effects
-  - Dialogue: Senna notices terrain data changed after she mapped it
-- [x] Turn 5: Data Void spawns — 3×2 block (rows 0-1, cols 10-12) becomes data_void
-  - Dialogue: Yuel recognizes the void from the sky, Coda calls it "unloaded"
+  - Dialogue: Kanna notices terrain data changed after she mapped it
+- [x] Turn 5: Abyssal Rift spawns — 3×2 block (rows 0-1, cols 10-12) becomes data_void
+  - Dialogue: Yuki recognizes the void from the sky, Hachi calls it "unloaded"
   - Guard AI enemies near void (archer_2, cavalier_2) scatter to aggressive
-- [x] Turn 7: Forecast flicker — dialogue-only (Senna's seed analysis breaks)
+- [x] Turn 7: Forecast flicker — dialogue-only (Kanna's seed analysis breaks)
 - [x] Turn 6: Reinforcements — 2 soldiers spawn from south edge
 - [x] Turn 8: Reinforcements — 1 cavalier spawns from west
-- [x] Boss approach: Aldric/Ren exchange at fortress gate (unit_at trigger)
-- [x] Boss defeat: Aldric deathQuote — "A real army... and you still broke through."
+- [x] Boss approach: Tetsuzan/Shigeru exchange at fortress gate (unit_at trigger)
+- [x] Boss defeat: Tetsuzan deathQuote — "A real army... and you still broke through."
 - [x] Epilogue: Arc 1 conclusion — "The script isn't safe anymore"
 
 ## Rewards & Items
@@ -85,7 +85,7 @@
 > **Ref:** [`specs/gameplay/economy.md`](specs/gameplay/economy.md), [`specs/gameplay/items.md`](specs/gameplay/items.md)
 
 - [x] Village reward: Steel Sword (at position 2, 11)
-- [x] Chest reward: Javelin (at position 12, 3 — Coda can reach via right wall)
+- [x] Chest reward: Javelin (at position 12, 3 — Hachi can reach via right wall)
 - [x] Boss drop: handled via deathQuote (no item drop mechanism in current code)
 
 ## Validation
@@ -97,5 +97,5 @@
 - [x] Events fire at correct turns (3, 5, 7 + unit_at boss approach)
 - [x] Boss can be defeated and throne seized
 - [x] Victory triggers chapter completion (seize objective + epilogue)
-- [x] Yuel appears in roster for subsequent chapters (roster injection + recruitableUnits)
+- [x] Yuki appears in roster for subsequent chapters (roster injection + recruitableUnits)
 - [x] `npx vitest run` — all 628 tests pass

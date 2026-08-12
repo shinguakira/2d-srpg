@@ -204,19 +204,19 @@ Story-critical or chapter-specific items. Cannot be sold or discarded.
 
 | Item | Chapter | Effect | How to Get |
 |------|---------|--------|-----------|
-| **Ren's Journal** | Ch1+ | View Cycle Memory choices at any time. UI item, no combat use. | Starting inventory |
+| **Shigeru's Journal** | Ch1+ | View Cycle Memory choices at any time. UI item, no combat use. | Starting inventory |
 | **Village Map** | Ch2 | Reveals hidden village tile on Ch2 map. Consumed on use. | NPC dialogue in Ch2 |
-| **Broken Seed** | Ch2 | Senna uses this to crack the RNG seed. Consumed in story event. | Dropped by Thane (Ch2 boss) |
+| **Broken Seed** | Ch2 | Kanna uses this to crack the RNG seed. Consumed in story event. | Dropped by Ryuji (Ch2 boss) |
 | **Signal Flare** | Ch4 | Calls reinforcements to assist in Ch4 defense. Single use. | Ch3 village reward |
-| **Nira's Pendant** | Ch3+ | Passive: +5 Hit for Nira when equipped. Keepsake from her village. | Nira's starting inventory |
+| **Sayo's Pendant** | Ch3+ | Passive: +5 Hit for Sayo when equipped. Keepsake from her village. | Sayo's starting inventory |
 
 ### Arc 2 — Fractures (Ch6-10)
 
 | Item | Chapter | Effect | How to Get |
 |------|---------|--------|-----------|
-| **Kael's Lance** | Ch8+ | +3 ATK, +10 LOY when equipped. Only usable by Ren after Kael's death. Carries Kael's data signature. | Recovered after Kael's death (Ch8) |
-| **Cipher Stone** | Ch7 | Senna uses to decode encrypted enemy orders. Reveals enemy placement in Ch8 prep. | Ch7 treasure chest |
-| **Orin's Tambourine** | Ch9+ | Required for Orin's Dance action. Cannot be removed. | Orin's starting inventory |
+| **Akira's Lance** | Ch8+ | +3 ATK, +10 LOY when equipped. Only usable by Shigeru after Akira's death. Carries Akira's data signature. | Recovered after Akira's death (Ch8) |
+| **Cipher Stone** | Ch7 | Kanna uses to decode encrypted enemy orders. Reveals enemy placement in Ch8 prep. | Ch7 treasure chest |
+| **Kagura's Tambourine** | Ch9+ | Required for Kagura's Dance action. Cannot be removed. | Kagura's starting inventory |
 | **Resistance Ledger** | Ch10 | Documents enemy troop movements. Grants +1 deployment slot for Ch11-12. | Ch10 quest reward |
 
 ### Arc 3 — Corruption (Ch11-15)
@@ -235,7 +235,7 @@ Story-critical or chapter-specific items. Cannot be sold or discarded.
 | **System Fragment** | Ch16+ | Reveals System dialogue options. Enables negotiation in Ch17. | Ch16 boss drop |
 | **Override Key** | Ch18 | Ghael uses to open the sealed fortress gate. Single use. | Ch18 story event |
 | **Echo's Core** | Ch20+ | Echo's existence depends on this. If destroyed, Echo dies. If protected, Echo gains +3 all stats permanently. | Ch20 story event |
-| **Memory Shard (Kael)** | Ch19 | Triggers flashback. All units gain +5 LOY, Ren gains +10 AWR. | Ch19 hidden tile |
+| **Memory Shard (Akira)** | Ch19 | Triggers flashback. All units gain +5 LOY, Shigeru gains +10 INS. | Ch19 hidden tile |
 
 ### Arc 5 — The Last Save File (Ch21-25)
 
@@ -243,9 +243,9 @@ Story-critical or chapter-specific items. Cannot be sold or discarded.
 |------|---------|--------|-----------|
 | **Corrupted Fragment** | Ch24 | ???_CORRUPTED drops this on phase transitions. Reveals boss's current weapon cycle when used. 3 uses. | Ch24 boss fight |
 | **System Key** | Ch25 | Required to access the final tile. No combat use. | Story event after ???_CORRUPTED is defeated |
-| **Cycle Record** | Ch22+ | Documents all 347 cycles. +20 AWR for any unit that reads it (one-time per unit). | Ch22 hidden archive |
+| **Cycle Record** | Ch22+ | Documents all four centuries. +20 INS for any unit that reads it (one-time per unit). | Ch22 hidden archive |
 | **Final Save Crystal** | Ch25 | The game's actual save file, manifested as an item. Required for the true ending. | Ch25 story event |
-| **Kael's Echo** | Ch24 | Proof that ???_CORRUPTED is Kael. Ren's dialogue changes based on possession. | Ch24 mid-battle event |
+| **Akira's Echo** | Ch24 | Proof that ???_CORRUPTED is Akira. Shigeru's dialogue changes based on possession. | Ch24 mid-battle event |
 
 ---
 
@@ -335,7 +335,7 @@ Torch available at chapter-start shop for any fog or night chapter regardless of
 ## Open Questions
 
 - **Cooking system**: Should there be a preparation-phase cooking mechanic where raw ingredients combine into meals? *Recommendation: No — adds complexity without enough depth for 25 chapters. Keep food as shop purchases.*
-- **Shared meals**: Lira's group meal mechanic — does sharing a food item split the effect or duplicate it? *Recommendation: Split HP heal (each gets half), share STA reduction (full -STA to each).*
+- **Shared meals**: Hina's group meal mechanic — does sharing a food item split the effect or duplicate it? *Recommendation: Split HP heal (each gets half), share STA reduction (full -STA to each).*
 - **Item drops**: Should regular enemies have a chance to drop items/gold, or only scripted drops? *Recommendation: Scripted only — random drops undermine economy balance.*
 - **Spoilage timer**: 3-chapter expiry for cooked meals feels right for 25 chapters. Too short at 2 (original 4-chapter design). Too long at 5 (no pressure to use them).
 - **Steal interaction**: Can Thieves/Rogues steal consumables and food from enemies? Or only weapons? *Recommendation: Steal any non-key item from enemy inventory. Creates tactical risk/reward.*

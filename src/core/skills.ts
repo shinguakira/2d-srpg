@@ -240,7 +240,7 @@ export function resolveDefenseSkills(
     };
   }
 
-  // Cycle Authority: negate one lethal hit per chapter (passive, no RNG — once per chapter)
+  // Unbroken Vigil: negate one lethal hit per chapter (passive, no RNG — once per chapter)
   if (
     damage >= defender.currentHp &&
     hasSkill(defender, 'cycle_authority') &&

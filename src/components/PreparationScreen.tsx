@@ -916,7 +916,8 @@ export function PreparationScreen() {
         {tab === 'teaching' &&
           (() => {
             const lord = units.find((u) => u.id === 'shigeru');
-            if (!lord) return <div className="prep-screen__empty">Shigeru is not in your roster.</div>;
+            if (!lord)
+              return <div className="prep-screen__empty">Shigeru is not in your roster.</div>;
 
             // All skills Shigeru knows (equipped + learned)
             const lordSkills = [...new Set([...lord.skills, ...lord.learnedSkills])];
@@ -946,7 +947,7 @@ export function PreparationScreen() {
                           >
                             {skill.name}{' '}
                             <span style={{ fontSize: '0.6rem', opacity: 0.6 }}>
-                              ({cost.loop} LOOP)
+                              ({cost.loop} EMB)
                             </span>
                           </span>
                         );
@@ -966,7 +967,7 @@ export function PreparationScreen() {
                     const renUnit = prepToUnit(lord);
                     const studentUnit = prepToUnit(student);
                     const result = canTeach(renUnit, studentUnit, sid);
-                    return !result.eligible && result.reason?.includes('LOOP');
+                    return !result.eligible && result.reason?.includes('Emberlight');
                   });
 
                   return (
@@ -999,7 +1000,7 @@ export function PreparationScreen() {
                       ) : (
                         <div className="prep-screen__skill-empty">
                           {anyBlocked
-                            ? 'Teaching requires LOOP (available in later chapters)'
+                            ? 'Teaching requires Emberlight (available in later chapters)'
                             : 'No new skills to teach'}
                         </div>
                       )}

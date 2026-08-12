@@ -20,7 +20,7 @@
 - [x] Player moves into fog: reveal tiles progressively
 - [x] Recalculate vision after every unit move
 - [x] Torch item: +5 vision radius for 3 turns (area reveal)
-- [x] AWR 61+: +1 vision range bonus
+- [x] INS 61+: +1 vision range bonus
 - [x] Ambush AI integration: hidden units in fog attack when player enters range
 - [x] Fog does not affect enemy AI (enemies always know player positions)
 - [x] Danger zone in fog: only show for visible enemies
@@ -73,7 +73,7 @@
 - [x] Point gain: +4 rescue an ally
 - [x] Support rank thresholds: C=20, B=50, A=100, S=150
 - [x] Support limit: 5 total partners per unit (S-rank counts toward the 5), 1 S-rank max
-- [x] Ren exception: unlimited support partners (story reason — central to all relationships)
+- [x] Shigeru exception: unlimited support partners (story reason — central to all relationships)
 - [x] Combat bonuses when supported ally within 3 tiles:
   - C: +5 hit, +5 avoid
   - B: +10 hit, +10 avoid, +5 crit

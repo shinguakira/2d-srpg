@@ -13,8 +13,8 @@
 
 ### Prologue
 - [ ] CRP introduction: dark terrain spreading, civilians fleeing
-- [ ] Senna explains corruption mechanics to party (tutorial dialogue)
-- [ ] Ren recognizes this from past cycles: "It always starts here"
+- [ ] Kanna explains corruption mechanics to party (tutorial dialogue)
+- [ ] Shigeru recognizes this from past cycles: "It always starts here"
 - [ ] Market town setting: formerly lively, now flickering
 
 ### Mid-Battle
@@ -31,7 +31,7 @@
 ### Epilogue
 - [ ] Kira integration: party wary of dark mage (CRP 60)
 - [ ] Kira explains dark magic connection to System
-- [ ] Senna fascinated by Kira's data insights
+- [ ] Kanna fascinated by Kira's data insights
 - [ ] CRP management tutorial: how to reduce/avoid corruption
 
 ## Chapter 12: "The Turning" — CORRUPTION LOSS
@@ -63,9 +63,9 @@
 - [ ] Purify staff discovery dialogue
 
 ### Epilogue
-- [ ] Grief for corrupted ally (different from Kael's death — this was preventable)
+- [ ] Grief for corrupted ally (different from Akira's death — this was preventable)
 - [ ] Party realizes CRP management is survival mechanic
-- [ ] Lira takes on anti-corruption role with new tools
+- [ ] Hina takes on anti-corruption role with new tools
 - [ ] Kira's guilt: dark magic contributed to corruption spread
 
 ## Chapter 13: "Second Chances"
@@ -74,7 +74,7 @@
 
 ### Prologue
 - [ ] Fortress approach: intel on Zael (corrupted wyvern rider)
-- [ ] Ren knows Zael can be saved (from past cycles)
+- [ ] Shigeru knows Zael can be saved (from past cycles)
 - [ ] Tactical discussion: how to weaken without killing
 
 ### Mid-Battle — Zael Recruitment
@@ -82,14 +82,14 @@
   - CRP ticking visible — party can see his corruption rising
 - [ ] Reducing Zael's HP: "You're... trying to help?"
 - [ ] Talk action (if conditions met):
-  - Ren: "I've saved you before. In other cycles."
+  - Shigeru: "I've saved you before. In other cycles."
   - Zael: "I don't remember... but I believe you."
   - Recruitment success
 - [ ] If Zael killed: "At least... the buzzing stops..." (death quote)
 - [ ] If Zael escapes: "I'll see you again. But I won't be me."
 
 ### Epilogue
-- [ ] Zael recruited: party helps manage his CRP, Lira's light magic assists
+- [ ] Zael recruited: party helps manage his CRP, Hina's light magic assists
 - [ ] Zael NOT recruited: somber — "We could have saved him"
 - [ ] Either way: fortress secured, path to monastery clear
 
@@ -124,28 +124,28 @@
 
 ### Prologue
 - [ ] Fortress assault planning: three-pronged approach
-- [ ] Ren's LOOP expenditure foreshadowing: "I might need to give something up"
+- [ ] Shigeru's EMB expenditure foreshadowing: "I might need to give something up"
 - [ ] Party at full strength (largest deployment yet)
 - [ ] Rally speech: each character contributes a line
 
 ### Mid-Battle
-- [ ] Turn 8: LOOP expenditure event
-  - Ren concentrates, visibly strained
+- [ ] Turn 8: EMB expenditure event
+  - Shigeru concentrates, visibly strained
   - "I'm overwriting the corruption. But I have to trade memories for it."
   - "Cycles 112 through 116... gone."
-  - Senna: "What were those cycles?"
-  - Ren: "I'll never know now."
+  - Kanna: "What were those cycles?"
+  - Shigeru: "I'll never know now."
   - Corrupted patches become normal terrain
 - [ ] Turn 10: Promoted enemy reinforcements
-  - "They're stronger now. The System is adapting."
+  - "They're stronger now. The Blackflame is adapting."
 - [ ] Ghast boss: "Three hundred years I've held this fortress. Against armies. Against time."
 
 ### Epilogue
 - [ ] Arc 3 conclusion: corruption pushed back but not eliminated
-- [ ] Ren weaker (LOOP spent) but party stronger (promotions, new tools)
+- [ ] Shigeru weaker (EMB spent) but party stronger (promotions, new tools)
 - [ ] Cautious hope: "We can fight this. Together."
-- [ ] Senna's breakthrough: "The corruption isn't random. It follows patterns. I can predict it."
-- [ ] Arc transition: LOOP regen +10, CRP decay, shop refresh
+- [ ] Kanna's breakthrough: "The corruption isn't random. It follows patterns. I can predict it."
+- [ ] Arc transition: EMB regen +10, CRP decay, shop refresh
 
 ## Character Data Files
 
@@ -158,6 +158,6 @@
 - [ ] Corruption loss event in ch12 dynamically references correct unit name
 - [ ] Zael recruitment condition branching works (ch13 → ch14 boss change)
 - [ ] Campaign flag `zael_recruited` persists and affects ch14
-- [ ] LOOP expenditure event in ch15 (LOOP value decreases, terrain changes)
+- [ ] EMB expenditure event in ch15 (EMB value decreases, terrain changes)
 - [ ] Kira/Elara light vs dark dialogue flows naturally
 - [ ] Tone arc: dread (ch11) → loss (ch12) → hope (ch13-14) → rally (ch15)

@@ -279,7 +279,7 @@ export function calculateCombatForecast(
   if (defWeatherMods.spdMod)
     defEff.stats = { ...defEff.stats, spd: Math.max(0, defEff.stats.spd + defWeatherMods.spdMod) };
 
-  // Memory Blade: dynamic might based on LOOP
+  // Flamebrand: might scales with the Emberlight left in it
   if (attacker.equippedWeapon.id === 'memory_blade') {
     const dynamicMight = getMemoryBladeMight(attacker.metaStats.loop);
     atkEff.equippedWeapon = { ...attacker.equippedWeapon, might: dynamicMight };

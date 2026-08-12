@@ -12,18 +12,18 @@ See [skills.md](skills.md) for learnable skills by class.
 
 | Class | Weapons | MOV | Role | User |
 |-------|---------|-----|------|------|
-| **Lord** | Sword | 5 | Balanced attacker. Required for Seize. | Ren |
-| **Cavalier** | Sword, Lance | 7 | Mobile frontline. High MOV, dual weapons. | Kael |
-| **Mage** | Fire, Thunder, Wind | 5 | Magic damage. Targets RES. 1-2 range. | Senna |
-| **Fighter** | Axe | 5 | Raw damage. High HP/STR, low accuracy. | Bram |
-| **Cleric** | Staff | 5 | Healer/support. Cannot attack. | Lira |
-| **Soldier** | Lance | 5 | Defensive tank. High DEF, low SPD. | Voss |
+| **Lord** | Sword | 5 | Balanced attacker. Required for Seize. | Shigeru |
+| **Cavalier** | Sword, Lance | 7 | Mobile frontline. High MOV, dual weapons. | Akira |
+| **Mage** | Fire, Thunder, Wind | 5 | Magic damage. Targets RES. 1-2 range. | Kanna |
+| **Fighter** | Axe | 5 | Raw damage. High HP/STR, low accuracy. | Goro |
+| **Cleric** | Staff | 5 | Healer/support. Cannot attack. | Hina |
+| **Soldier** | Lance | 5 | Defensive tank. High DEF, low SPD. | Genzo |
 
 ---
 
 ## Lord
 
-Ren's class. Balanced stats, sword-locked. The only class that can **Seize** objectives.
+Shigeru's class. Balanced stats, sword-locked. The only class that can **Seize** objectives.
 
 ### Base Stats
 
@@ -41,16 +41,16 @@ Ren's class. Balanced stats, sword-locked. The only class that can **Seize** obj
 - **Seize**: Only the Lord can capture thrones/objectives to end chapters.
 - **Rapier**: Access to Prf weapon effective vs cavalry/armored.
 - **Innate Canto**: No (foot unit).
-- **Weakness**: Must survive — if Ren dies, game over. High CHA = highly targeted by enemies.
+- **Weakness**: Must survive — if Shigeru dies, game over. High CHA = highly targeted by enemies.
 
 ### Design Notes
-Stats are intentionally "good at everything, best at nothing." Ren's strength comes from LOOP, passives, and 347 cycles of knowledge — not raw stats. His growths are above-average across the board but don't excel in any single area. SPD growth (50%) ensures he can double most enemies mid-game.
+Stats are intentionally "good at everything, best at nothing." Shigeru's strength comes from EMB, passives, and four centuries of knowledge — not raw stats. His growths are above-average across the board but don't excel in any single area. SPD growth (50%) ensures he can double most enemies mid-game.
 
 ---
 
 ## Cavalier
 
-Kael's class. High mobility, dual weapon proficiency (sword + lance). The reliable frontliner.
+Akira's class. High mobility, dual weapon proficiency (sword + lance). The reliable frontliner.
 
 ### Base Stats
 
@@ -71,13 +71,13 @@ Kael's class. High mobility, dual weapon proficiency (sword + lance). The reliab
 - **Weakness**: Low RES (0 base, 15% growth). Mages delete him. Also STA accumulates fast due to high MOV.
 
 ### Design Notes
-Kael is designed as the "safe pick" — always useful, always reliable, never a liability. His 100% SYNC and high WIL (45% growth) make him the emotional and mechanical anchor. His death in Ch3 removes the party's most versatile unit AND their stability aura. The stat loss from losing Cavalier mobility alone changes how every subsequent map plays.
+Akira is designed as the "safe pick" — always useful, always reliable, never a liability. His 100% ATT and high WIL (45% growth) make him the emotional and mechanical anchor. His death in Ch3 removes the party's most versatile unit AND their stability aura. The stat loss from losing Cavalier mobility alone changes how every subsequent map plays.
 
 ---
 
 ## Mage
 
-Senna's class. Ranged magic damage targeting RES (usually low on physical enemies). Glass cannon.
+Kanna's class. Ranged magic damage targeting RES (usually low on physical enemies). Glass cannon.
 
 ### Base Stats
 
@@ -98,13 +98,13 @@ Senna's class. Ranged magic damage targeting RES (usually low on physical enemie
 - **Weakness**: Lowest HP (16 base), lowest DEF (3 base). One physical hit can kill. STA rate ×1.2 — tires fast.
 
 ### Design Notes
-Senna's class rewards careful positioning — she kills everything she touches but dies to anything that touches her. Her high SKL growth (45%) synergizes with Exploit passive (needs to see enemy stats) and body targeting (SKL reduces hit penalties). Low CHA (2, 15% growth) means enemies rarely target her — she's invisible to AI, which is a feature, not a bug.
+Kanna's class rewards careful positioning — she kills everything she touches but dies to anything that touches her. Her high SKL growth (45%) synergizes with Exploit passive (needs to see enemy stats) and body targeting (SKL reduces hit penalties). Low CHA (2, 15% growth) means enemies rarely target her — she's invisible to AI, which is a feature, not a bug.
 
 ---
 
 ## Fighter
 
-Bram's class. Maximum physical damage at the cost of accuracy and defensive stats.
+Goro's class. Maximum physical damage at the cost of accuracy and defensive stats.
 
 ### Base Stats
 
@@ -125,13 +125,13 @@ Bram's class. Maximum physical damage at the cost of accuracy and defensive stat
 - **Weakness**: 0% MAG growth, 5% RES growth. Mages destroy him. 20% SKL growth means he NEEDS Killing Axes or body targeting support to crit.
 
 ### Design Notes
-Bram is designed to be chaotic. His stats swing wildly — sometimes he one-shots a boss, sometimes he misses 3 times in a row. Low SYNC (40%) amplifies this. The No Patience passive forces aggressive play — you can't park Bram on a fort and wait. He IS the push. Pair with Lira (Empathy Aura +10 hit) to patch his accuracy problem, or lean into Reckless (kill chains) with body targeting Legs → Head combos.
+Goro is designed to be chaotic. His stats swing wildly — sometimes he one-shots a boss, sometimes he misses 3 times in a row. Low ATT (40%) amplifies this. The No Patience passive forces aggressive play — you can't park Goro on a fort and wait. He IS the push. Pair with Hina (Empathy Aura +10 hit) to patch his accuracy problem, or lean into Reckless (kill chains) with body targeting Legs → Head combos.
 
 ---
 
 ## Cleric
 
-Lira's class. Pure support — cannot attack, heals with staves. The party's lifeline.
+Hina's class. Pure support — cannot attack, heals with staves. The party's lifeline.
 
 ### Base Stats
 
@@ -152,13 +152,13 @@ Lira's class. Pure support — cannot attack, heals with staves. The party's lif
 - **Weakness**: Cannot fight back. If surrounded, she dies. Lowest DEF (2 base, 10% growth). STA rate ×1.3 — exhausts fastest.
 
 ### Design Notes
-Lira cannot protect herself. She needs the party to protect HER. This creates a natural escort dynamic — and makes her death devastating both emotionally and tactically. Her MAG growth (45%) ensures strong heals. High LCK (50% growth) gives her Miracle skill activation (LCK% chance to survive lethal). Low WIL (15% growth) makes her the most vulnerable to mental effects — she feels everything deeply. Her Empathy Aura (+10 hit/avoid to adjacent) means she WANTS to be near allies, but being near frontlines risks her life.
+Hina cannot protect herself. She needs the party to protect HER. This creates a natural escort dynamic — and makes her death devastating both emotionally and tactically. Her MAG growth (45%) ensures strong heals. High LCK (50% growth) gives her Miracle skill activation (LCK% chance to survive lethal). Low WIL (15% growth) makes her the most vulnerable to mental effects — she feels everything deeply. Her Empathy Aura (+10 hit/avoid to adjacent) means she WANTS to be near allies, but being near frontlines risks her life.
 
 ---
 
 ## Soldier
 
-Voss's class. Defensive wall. High DEF, low SPD. Holds the line.
+Genzo's class. Defensive wall. High DEF, low SPD. Holds the line.
 
 ### Base Stats
 
@@ -179,7 +179,7 @@ Voss's class. Defensive wall. High DEF, low SPD. Holds the line.
 - **Weakness**: 20% SPD growth. Will almost never double. 0 RES base, 10% growth — mages are lethal. Lowest CHA (1 base, 10% growth) — enemies ignore him.
 
 ### Design Notes
-Voss is the opposite of Bram: reliable, consistent, boring in the best way. His low CHA means enemies DON'T target him — which seems like a weakness but makes him perfect for flanking and positioning. Park him on a chokepoint with his Garrison Lance and he holds it indefinitely. His absurd STA rate (×0.7) means he's the last man standing when everyone else is exhausted. Residual Data passive rewards him for standing where enemies died — the soldier who stood still for 300 cycles now weaponizes positioning.
+Genzo is the opposite of Goro: reliable, consistent, boring in the best way. His low CHA means enemies DON'T target him — which seems like a weakness but makes him perfect for flanking and positioning. Park him on a chokepoint with his Garrison Lance and he holds it indefinitely. His absurd STA rate (×0.7) means he's the last man standing when everyone else is exhausted. Residual Data passive rewards him for standing where enemies died — the soldier who stood still for 300 cycles now weaponizes positioning.
 
 ---
 
@@ -203,8 +203,8 @@ Promotion system is NOT implemented yet. Design direction:
 
 ### Promotion Notes
 - Promotion is story-gated: items appear at specific chapter moments.
-- Kael CANNOT promote — he dies in Ch3 before reaching Level 20. This is intentional. His peak is unpromoted Cavalier. The best version of him is the one you lose.
-- Ren may promote mid-Ch3 or early Ch4 depending on story pacing.
+- Akira CANNOT promote — he dies in Ch3 before reaching Level 20. This is intentional. His peak is unpromoted Cavalier. The best version of him is the one you lose.
+- Shigeru may promote mid-Ch3 or early Ch4 depending on story pacing.
 
 ---
 

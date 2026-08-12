@@ -124,7 +124,9 @@ const TEST_CHAPTER_EVENTS: ChapterEvent[] = [
       type: 'custom',
       fn: (ctx) => ctx.flags.get('boss_dead') === 'true' && ctx.currentTurn >= 3,
     },
-    effects: [{ type: 'show_dialogue', scene: { lines: [{ speaker: 'Shigeru', text: 'We won!' }] } }],
+    effects: [
+      { type: 'show_dialogue', scene: { lines: [{ speaker: 'Shigeru', text: 'We won!' }] } },
+    ],
     once: true,
   },
 ];

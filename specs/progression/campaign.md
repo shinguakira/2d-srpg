@@ -48,7 +48,7 @@ Title Card → Prologue Dialogue → Preparation Phase → Battle → Mid-Battle
 Between arcs, additional events occur after the results screen:
 
 - **Arc Summary**: Recap of key events, choices made, units lost
-- **LOOP Regen**: Ren recovers +10 LOOP between arcs
+- **EMB Regen**: Shigeru recovers +10 EMB between arcs
 - **CRP Decay Check**: Units below CRP 15 for 3+ chapters lose -1 CRP
 - **Shop Refresh**: New arc's shop inventory unlocks
 - **Story Interlude**: Extended dialogue scene setting up the next arc's theme
@@ -95,17 +95,17 @@ See [roster.md](../story/roster.md) for full recruitment timeline. Key condition
 
 | Character | Chapter | Condition |
 |-----------|---------|-----------|
-| Voss | Ch2 | Automatic (enemy defection event) |
-| Nira | Ch3 | Visit village tile |
-| Coda | Ch4 | Catch thief event |
-| Yuel | Ch5 | Automatic (start of chapter) |
-| Rook | Ch6 | Automatic (start of chapter) |
-| Faye | Ch6 | Automatic (mid-chapter) |
-| Orin | Ch9 | Talk with Lira (secondary objective) |
+| Genzo | Ch2 | Automatic (enemy defection event) |
+| Sayo | Ch3 | Visit village tile |
+| Hachi | Ch4 | Catch thief event |
+| Yuki | Ch5 | Automatic (start of chapter) |
+| Raiga | Ch6 | Automatic (start of chapter) |
+| Mio | Ch6 | Automatic (mid-chapter) |
+| Kagura | Ch9 | Talk with Hina (secondary objective) |
 | Kira | Ch11 | Automatic (mid-chapter defection) |
 | Zael | Ch13 | Spare at ≤5 HP + dialogue (conditional) |
 | Elara | Ch14 | Automatic (start of chapter) |
-| Ghael | Ch18 | Reduce to ≤5 HP + talk with Ren (conditional) |
+| Ghael | Ch18 | Reduce to ≤5 HP + talk with Shigeru (conditional) |
 | Echo | Ch20 | Protect NPC until chapter end (conditional) |
 
 ---
@@ -150,14 +150,14 @@ No route splits — the chapter order is always Ch1-25. But player choices creat
 
 | Variable | Set By | Affects |
 |----------|--------|---------|
-| **kael_survive_turns** | Ch8 (how long Kael survived) | Dialogue in Ch24, grief intensity |
+| **kael_survive_turns** | Ch8 (how long Akira survived) | Dialogue in Ch24, grief intensity |
 | **zael_recruited** | Ch13 (spare + talk) | Ch14 boss changes, roster |
 | **ch12_corruption_victim** | Ch12 (who had highest CRP) | Which unit is lost to corruption |
-| **system_negotiated** | Ch17 (AWR ≥ 70 + boss HP ≤ 50%) | Ch25 final boss Phase 1 stats reduced by 20% |
+| **system_negotiated** | Ch17 (INS ≥ 70 + boss HP ≤ 50%) | Ch25 final boss Phase 1 stats reduced by 20% |
 | **ghael_recruited** | Ch18 (reduce + talk) | Roster, loses Master Crown drop |
 | **echo_saved** | Ch20 (protect NPC) | Roster, Ch25 dialogue changes |
 | **total_deaths** | Cumulative | Ending dialogue variations |
-| **final_loop** | Ch25 Ren's LOOP value | System Phase 1 stat scaling |
+| **final_loop** | Ch25 Shigeru's EMB value | System Phase 1 stat scaling |
 
 ### Ending Conditions
 
@@ -190,7 +190,7 @@ After completing the campaign once:
 - **Unlock**: Hard mode (if not selected initially)
 - **Unlock**: Gallery mode (view all obtained support conversations, boss dialogues)
 - **Reset**: All stats, items, gold, levels start fresh
-- **Meta twist**: Ren's cycle count changes from 347 to 348. His opening dialogue acknowledges the player's second run.
+- **Meta twist**: Shigeru's cycle count changes from 347 to 348. His opening dialogue acknowledges the player's second run.
 
 ---
 

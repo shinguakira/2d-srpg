@@ -10,10 +10,10 @@
 > **Ref:** [`specs/gameplay/stats.md`](specs/gameplay/stats.md)
 
 - [x] Add meta-stats to Unit type: `awr`, `loop`, `sync`, `loy`, `crp`, `sta`
-- [x] AWR (Awareness): 0-100, how much unit understands the meta-narrative
-- [x] LOOP (Memory): Ren-only, starts at 347, spendable resource
-- [x] SYNC (Stability): 0-100, stat consistency affected by glitch exposure
-- [x] LOY (Loyalty): per-unit relationship with Ren, 0-100
+- [x] INS (Insight): 0-100, how much unit understands the meta-narrative
+- [x] EMB (Memory): Shigeru-only, starts at 347, spendable resource
+- [x] ATT (Stability): 0-100, stat consistency affected by glitch exposure
+- [x] LOY (Loyalty): per-unit relationship with Shigeru, 0-100
 - [x] CRP (Corruption): 0-100, gained from dark terrain/magic, 100 = turns enemy
 - [x] STA (Stamina): 0-45 per chapter, accumulates on actions, resets between chapters
 - [x] Initialize default meta-stats per unit in unit data
@@ -24,9 +24,9 @@
 > **Ref:** [`specs/ui/hud.md`](specs/ui/hud.md), [`specs/gameplay/stats.md`](specs/gameplay/stats.md)
 
 - [x] Add meta-stat section to UnitStatsPanel (collapsible, below combat stats)
-- [x] Show AWR as percentage bar (blue)
-- [x] Show LOOP as number (Ren only, gold)
-- [x] Show SYNC as percentage bar (green)
+- [x] Show INS as percentage bar (blue)
+- [x] Show EMB as number (Shigeru only, gold)
+- [x] Show ATT as percentage bar (green)
 - [x] Show LOY as percentage bar (yellow)
 - [x] Show CRP as percentage bar (purple/red, flashes at 60+)
 - [x] Show STA as bar (orange, dims when high)
@@ -70,54 +70,54 @@
 - [x] Rest action: skip turn, reduce STA by 10
 - [x] Add Rest to action menu when STA > 20
 
-## AWR (Awareness) System
+## INS (Insight) System
 
 > **Ref:** [`specs/gameplay/stats.md`](specs/gameplay/stats.md)
 
-- [x] AWR gain: +3-5 when witnessing glitch events
-- [x] AWR gain: +2 when adjacent to glitched tile at turn end
-- [x] AWR gain: +1 per chapter completed
-- [x] AWR threshold 30: unit comments on anomalies (dialogue triggers)
-- [ ] AWR threshold 61: +1 sight range in fog of war (blocked: needs fog of war system)
-- [x] AWR threshold 80: can see enemy meta-stats
-- [ ] AWR affects dialogue options (blocked: needs dialogue choice system)
+- [x] INS gain: +3-5 when witnessing glitch events
+- [x] INS gain: +2 when adjacent to glitched tile at turn end
+- [x] INS gain: +1 per chapter completed
+- [x] INS threshold 30: unit comments on anomalies (dialogue triggers)
+- [ ] INS threshold 61: +1 sight range in fog of war (blocked: needs fog of war system)
+- [x] INS threshold 80: can see enemy meta-stats
+- [ ] INS affects dialogue options (blocked: needs dialogue choice system)
 
 ## LOY (Loyalty) System
 
 > **Ref:** [`specs/gameplay/stats.md`](specs/gameplay/stats.md), [`specs/gameplay/support-system.md`](specs/gameplay/support-system.md)
 
-- [x] LOY gain: +2 when adjacent to Ren at turn end
+- [x] LOY gain: +2 when adjacent to Shigeru at turn end
 - [ ] LOY gain: +3/+5/+8/+12 on support rank C/B/A/S reached (blocked: needs support system)
 - [ ] LOY loss: -15 when support partner dies (blocked: needs support system)
-- [x] LOY loss: -5 when Ren takes damage and adjacent ally can't help
-- [x] LOY threshold 80+: unit gains +1 to all stats when within 3 tiles of Ren
+- [x] LOY loss: -5 when Shigeru takes damage and adjacent ally can't help
+- [x] LOY threshold 80+: unit gains +1 to all stats when within 3 tiles of Shigeru
 - [x] LOY threshold 30-: unit has chance to disobey commands (5% per action)
 - [x] LOY affects recruitment success for conditional recruits
 
-## SYNC (Stability) System
+## ATT (Stability) System
 
 > **Ref:** [`specs/gameplay/stats.md`](specs/gameplay/stats.md), [`specs/gameplay/terrain.md`](specs/gameplay/terrain.md)
 
-- [x] SYNC decrease: -1/turn on glitched terrain
-- [x] SYNC decrease: -3 on data void terrain
-- [x] SYNC increase: +2/turn on fort tiles
-- [x] SYNC increase: +5/turn on memory tiles
-- [x] Low SYNC (< 30): stat variance ±2 on each combat (RNG)
-- [x] High SYNC (> 80): stat consistency, +5 hit rate
+- [x] ATT decrease: -1/turn on glitched terrain
+- [x] ATT decrease: -3 on data void terrain
+- [x] ATT increase: +2/turn on fort tiles
+- [x] ATT increase: +5/turn on memory tiles
+- [x] Low ATT (< 30): stat variance ±2 on each combat (RNG)
+- [x] High ATT (> 80): stat consistency, +5 hit rate
 
-## LOOP (Ren Only)
+## EMB (Shigeru Only)
 
-> **Ref:** [`specs/gameplay/stats.md`](specs/gameplay/stats.md), [`specs/gameplay/weapons.md`](specs/gameplay/weapons.md), [`specs/story/characters/ren.md`](specs/story/characters/ren.md)
+> **Ref:** [`specs/gameplay/stats.md`](specs/gameplay/stats.md), [`specs/gameplay/weapons.md`](specs/gameplay/weapons.md), [`specs/story/characters/shigeru.md`](specs/story/characters/shigeru.md)
 
 > Teaching mechanic is defined in Phase 2 (`phase2-promotion-skills.md`).
-> LOOP costs and calculations are defined in `campaign-flags.md`.
+> EMB costs and calculations are defined in `campaign-flags.md`.
 
-- [x] LOOP starts at 347 (initialized in unit data)
-- [x] LOOP expenditure for terrain overwrite: story events deduct variable LOOP (per-event config)
-- [x] LOOP regen: +10 at arc transitions (ch5, ch10, ch15, ch20)
-- [x] LOOP affects Memory Blade weapon might: `1 + floor(LOOP / 30)`
-- [x] LOOP display: prominent on Ren's stat panel (gold number)
-- [x] Add Memory Blade to weapon data: Prf Ren, type sword, might = dynamic (LOOP-based), range 1
+- [x] EMB starts at 347 (initialized in unit data)
+- [x] EMB expenditure for terrain overwrite: story events deduct variable EMB (per-event config)
+- [x] EMB regen: +10 at arc transitions (ch5, ch10, ch15, ch20)
+- [x] EMB affects Flamebrand weapon might: `1 + floor(EMB / 30)`
+- [x] EMB display: prominent on Shigeru's stat panel (gold number)
+- [x] Add Flamebrand to weapon data: Prf Shigeru, type sword, might = dynamic (EMB-based), range 1
 
 ## Validation
 

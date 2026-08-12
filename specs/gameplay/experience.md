@@ -47,7 +47,7 @@ If attacker level < party average level - 3:
   EXP bonus = +20% (multiplicative, applied after base calculation)
 ```
 
-This helps late-joining units (e.g., Orin at Ch9, Kira at Ch11) catch up to the main roster without excessive babying.
+This helps late-joining units (e.g., Kagura at Ch9, Kira at Ch11) catch up to the main roster without excessive babying.
 
 ### Healing EXP
 
@@ -157,7 +157,7 @@ See [promotion.md](promotion.md) for stat bonuses granted on promotion.
 
 Approximate stats (base + average growths) for reference during balancing.
 
-**Ren (Lord) — expected stats:**
+**Shigeru (Lord) — expected stats:**
 
 | Level | HP | STR | SPD | DEF | SKL | LCK | Tier |
 |-------|----|----|-----|-----|-----|-----|------|
@@ -168,7 +168,7 @@ Approximate stats (base + average growths) for reference during balancing.
 | 28 | 46 | 21 | 23 | 17 | 19 | 25 | Promoted (master eligible) |
 | 35 | 53 | 26 | 28 | 21 | 23 | 30 | Master (Overlord) |
 
-**Kael (Cavalier) — expected stats:**
+**Akira (Cavalier) — expected stats:**
 
 | Level | HP | STR | SPD | DEF | SKL | LCK |
 |-------|----|----|-----|-----|-----|-----|
@@ -176,7 +176,7 @@ Approximate stats (base + average growths) for reference during balancing.
 | 8 | 28 | 10 | 9 | 9 | 7 | 7 |
 | 14 | 33 | 13 | 11 | 11 | 9 | 10 |
 
-Note: Kael dies in Ch8. Expected level at death is ~12-14.
+Note: Akira dies in Ch8. Expected level at death is ~12-14.
 
 ---
 
@@ -243,9 +243,9 @@ Meta stats do NOT grow from level-up rolls. They change through gameplay actions
 
 | Meta Stat | How It Changes |
 |-----------|---------------|
-| **AWR** | +3-5 from witnessing glitches; story events; player choices |
-| **LOOP** | Decreases from memory abilities; gains from kills, trauma, arc regen (+10/arc) |
-| **SYNC** | +2-3/turn on forts/thrones; -1-2/turn on glitched terrain; story events |
+| **INS** | +3-5 from witnessing glitches; story events; player choices |
+| **EMB** | Decreases from memory abilities; gains from kills, trauma, arc regen (+10/arc) |
+| **ATT** | +2-3/turn on forts/thrones; -1-2/turn on glitched terrain; story events |
 | **LOY** | Story decisions, support conversations, proximity effects |
 | **CRP** | +1-3/turn on corrupted terrain; combat vs corrupted enemies; passive decay if low |
 | **STA** | +1/tile moved, +3/attack, +5/double, +2/heal. Resets each chapter start |

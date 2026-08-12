@@ -200,7 +200,7 @@ export const SKILLS: Record<string, Skill> = {
 
   cycle_authority: {
     id: 'cycle_authority',
-    name: 'Cycle Authority',
+    name: 'Unbroken Vigil',
     category: 'combat',
     description: 'Negate one lethal hit per chapter.',
     activation: { type: 'passive' },

@@ -18,12 +18,18 @@ describe('Split Party System', () => {
 
   describe('validateTeamAssignment', () => {
     it('accepts valid assignment with Shigeru on team A', () => {
-      const result = validateTeamAssignment(['shigeru', 'akira', 'sayo'], ['genzo', 'hachi', 'echo']);
+      const result = validateTeamAssignment(
+        ['shigeru', 'akira', 'sayo'],
+        ['genzo', 'hachi', 'echo'],
+      );
       expect(result.valid).toBe(true);
     });
 
     it('accepts valid assignment with Shigeru on team B', () => {
-      const result = validateTeamAssignment(['akira', 'sayo', 'genzo'], ['shigeru', 'hachi', 'echo']);
+      const result = validateTeamAssignment(
+        ['akira', 'sayo', 'genzo'],
+        ['shigeru', 'hachi', 'echo'],
+      );
       expect(result.valid).toBe(true);
     });
 

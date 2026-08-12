@@ -28,10 +28,10 @@ All steps are optional — the player can go straight to "Start Battle" at any t
 
 ### Deployment Rules
 
-- **Ren is always deployed** (forced slot 1 — Lord must be on the field)
+- **Shigeru is always deployed** (forced slot 1 — Lord must be on the field)
 - Remaining slots filled by player choice from available roster
 - Units not deployed sit in reserve — they do NOT gain EXP, support points, or any benefits
-- Story-required units are force-deployed for specific chapters (e.g., Kael in Ch8, Elara in Ch14)
+- Story-required units are force-deployed for specific chapters (e.g., Akira in Ch8, Elara in Ch14)
 - Deployment order determines starting positions on the map (slot 1-N maps to spawn tiles 1-N)
 
 ### Deploy Screen Layout
@@ -40,17 +40,17 @@ All steps are optional — the player can go straight to "Start Battle" at any t
 ┌─────────────────────────────────────┐
 │  DEPLOY  (8/10 slots filled)        │
 │                                     │
-│  [1] Ren ★ Lv18 Lord         LOCKED │
-│  [2] Senna   Lv16 Sage       [  ×]  │
-│  [3] Bram    Lv17 Warrior    [  ×]  │
-│  [4] Lira    Lv15 Bishop     [  ×]  │
-│  [5] Voss    Lv16 General    [  ×]  │
-│  [6] Nira    Lv14 Sniper     [  ×]  │
-│  [7] Coda    Lv15 Assassin   [  ×]  │
-│  [8] Rook    Lv16 Hero       [  ×]  │
+│  [1] Shigeru ★ Lv18 Lord         LOCKED │
+│  [2] Kanna   Lv16 Sage       [  ×]  │
+│  [3] Goro    Lv17 Warrior    [  ×]  │
+│  [4] Hina    Lv15 Bishop     [  ×]  │
+│  [5] Genzo    Lv16 General    [  ×]  │
+│  [6] Sayo    Lv14 Sniper     [  ×]  │
+│  [7] Hachi    Lv15 Assassin   [  ×]  │
+│  [8] Raiga    Lv16 Hero       [  ×]  │
 │  ── available ──                     │
-│  [ ] Faye    Lv13 Valkyrie          │
-│  [ ] Orin    Lv12 Dancer            │
+│  [ ] Mio    Lv13 Valkyrie          │
+│  [ ] Kagura    Lv12 Dancer            │
 │  [ ] Kira    Lv14 Druid             │
 │                                     │
 │  [Start Battle]  [Shop]  [Forge]    │
@@ -185,9 +185,9 @@ Available from **Arc 2 (Ch6)** onward. Earned by completing chapters under par t
 │                                      │
 │  Distribute to deployed units:       │
 │  ─────────────────────               │
-│  Senna   Lv16  [+0]  [▲] [▼]        │
-│  Bram    Lv17  [+0]  [▲] [▼]        │
-│  Orin    Lv12  [+100][▲] [▼]  ← LOW │
+│  Kanna   Lv16  [+0]  [▲] [▼]        │
+│  Goro    Lv17  [+0]  [▲] [▼]        │
+│  Kagura    Lv12  [+100][▲] [▼]  ← LOW │
 │  Kira    Lv14  [+100][▲] [▼]  ← LOW │
 │  ...                                 │
 │  Remaining: 40                       │
@@ -214,10 +214,10 @@ Available from **Ch3** onward. View and unlock support conversations between uni
 ┌──────────────────────────────────────┐
 │  SUPPORTS                            │
 │                                      │
-│  Ren × Senna     [A] — NEW! View?   │
-│  Bram × Lira     [B] ██████░░ 72/100│
-│  Voss × Nira     [C] ██░░░░░░ 30/50 │
-│  Coda × Rook     [—] ░░░░░░░░  8/20 │
+│  Shigeru × Kanna     [A] — NEW! View?   │
+│  Goro × Hina     [B] ██████░░ 72/100│
+│  Genzo × Sayo     [C] ██░░░░░░ 30/50 │
+│  Hachi × Raiga     [—] ░░░░░░░░  8/20 │
 │  ...                                 │
 │                                      │
 │  [View]  [Back]                      │
@@ -228,7 +228,7 @@ Available from **Ch3** onward. View and unlock support conversations between uni
 - "NEW!" marks newly unlocked ranks that haven't been viewed
 - Viewing a support conversation plays the dialogue scene
 - Support ranks affect combat bonuses (see [support-system.md](../gameplay/support-system.md))
-- Max 5 support partners per unit, 1 S-rank max (except Ren: unlimited partners)
+- Max 5 support partners per unit, 1 S-rank max (except Shigeru: unlimited partners)
 
 ---
 

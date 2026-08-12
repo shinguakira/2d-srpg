@@ -21,10 +21,10 @@ export const TERRAIN: Record<TerrainType, TerrainData> = {
   chest: { name: 'Chest', movementCost: 1, defenseBonus: 0, avoidBonus: 0 },
   armory: { name: 'Armory', movementCost: 1, defenseBonus: 0, avoidBonus: 0 },
   bridge: { name: 'Bridge', movementCost: 1, defenseBonus: 0, avoidBonus: 0 },
-  glitched: { name: 'Glitched', movementCost: 1, defenseBonus: 0, avoidBonus: 0 },
-  data_void: { name: 'Data Void', movementCost: 99, defenseBonus: -2, avoidBonus: -20 },
-  memory: { name: 'Memory', movementCost: 1, defenseBonus: 1, avoidBonus: 10 },
-  corrupted_fort: { name: 'Corrupted Fort', movementCost: 1, defenseBonus: 3, avoidBonus: 20 },
+  glitched: { name: 'Blighted', movementCost: 1, defenseBonus: 0, avoidBonus: 0 },
+  data_void: { name: 'Abyssal Rift', movementCost: 99, defenseBonus: -2, avoidBonus: -20 },
+  memory: { name: 'Hallowed Ground', movementCost: 1, defenseBonus: 1, avoidBonus: 10 },
+  corrupted_fort: { name: 'Defiled Fort', movementCost: 1, defenseBonus: 3, avoidBonus: 20 },
   broken_throne: { name: 'Broken Throne', movementCost: 1, defenseBonus: 2, avoidBonus: 10 },
 
   // ===== Phase 5 — Destructible terrain result =====

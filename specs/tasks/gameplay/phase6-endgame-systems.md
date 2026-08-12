@@ -10,7 +10,7 @@
 > **Ref:** [`specs/gameplay/classes-expanded.md`](specs/gameplay/classes-expanded.md), [`specs/gameplay/promotion.md`](specs/gameplay/promotion.md), [`specs/gameplay/skills.md`](specs/gameplay/skills.md)
 
 - [x] Define 8 master class definitions:
-  - Vanguard → Exalted Lord (Ren only)
+  - Vanguard → Exalted Lord (Shigeru only)
   - Sage → Archsage
   - Hero → Blademaster
   - Paladin → Holy Knight
@@ -22,7 +22,7 @@
 - [x] Master promotion requires: Lv30+ promoted, Master Crown item
 - [x] Only 3 Master Crowns in entire game (ch18, ch22 hidden, ch24 boss drop)
 - [x] Master class unique skills (auto-learned, no slot cost):
-  - [x] Exalted Lord: Cycle Breaker (negate one lethal hit per chapter)
+  - [x] Exalted Lord: Sealbreaker (negate one lethal hit per chapter)
   - [x] Archsage: Tome Mastery (all tomes ×1.5 damage)
   - [x] Blademaster: Aether (Sol+Luna combined, SKL% activation)
   - [x] Holy Knight: Galeforce (extra turn after killing enemy)
@@ -67,12 +67,12 @@
 
 - [x] Boss is not a unit — the map itself has HP and phases
 - [x] Map HP bar displayed at top of screen
-- [x] Map HP reduced by: Ren reaching checkpoint tiles (seize-like)
+- [x] Map HP reduced by: Shigeru reaching checkpoint tiles (seize-like)
 - [x] Phase transitions: map layout changes (walls appear/disappear)
 - [x] Tiles heal enemy units when map HP is high
 - [x] Enemy spawning linked to map HP (fewer spawns as HP drops)
 - [x] Final phase: all walls vanish, only throne remains
-- [x] Victory: Ren seizes center throne with Final Save Crystal equipped
+- [x] Victory: Shigeru seizes center throne with Final Save Crystal equipped
 
 ## Split Party System (Ch23)
 
@@ -91,7 +91,7 @@
 > **Ref:** [`specs/maps/ch17.md`](specs/maps/ch17.md), [`specs/gameplay/stats.md`](specs/gameplay/stats.md)
 
 - [x] Add `negotiate` to ActionType union
-- [x] Negotiate condition: Ren adjacent to boss, boss HP ≤ 50%, party AWR average ≥ 70
+- [x] Negotiate condition: Shigeru adjacent to boss, boss HP ≤ 50%, party INS average ≥ 70
 - [x] Negotiate effect: boss stands down, chapter ends peacefully
 - [x] Negotiate sets campaign flag: `system_negotiated = true`
 - [x] Flag effect: Ch25 boss Phase 1 stats reduced by 20%
@@ -106,16 +106,16 @@
 - [x] Vengeance: +30% damage when HP ≤ 25% (learned on 2nd ally death)
 - [x] Numb: immune to stat debuffs, -10 avoid (learned on 3rd ally death)
 - [x] Last Stand: +5 all stats when only unit remaining (learned on 4th ally death)
-- [x] Grief: -3 all stats for 2 chapters after Kael's death (ch8, all units)
+- [x] Grief: -3 all stats for 2 chapters after Akira's death (ch8, all units)
 
 ## Key Items — Late Game
 
 > **Ref:** [`specs/gameplay/items.md`](specs/gameplay/items.md), [`specs/gameplay/weapons.md`](specs/gameplay/weapons.md)
 
-- [x] Add Final Save Crystal to item data: key item, acquired ch25 pre-battle, must be equipped to Ren for True ending
+- [x] Add Final Save Crystal to item data: key item, acquired ch25 pre-battle, must be equipped to Shigeru for True ending
 - [x] Final Save Crystal: no combat effect, equippable in weapon/item slot, used on seize
-- [x] Add Memory Blade to weapon data (if not added in Phase 4): Prf Ren, sword, might = `1 + floor(LOOP/30)`, range 1
-- [x] Add Cycle Breaker (Nira Prf): bow, might 14, range 2-3, effective vs System Constructs
+- [x] Add Flamebrand to weapon data (if not added in Phase 4): Prf Shigeru, sword, might = `1 + floor(EMB/30)`, range 1
+- [x] Add Sealbreaker (Sayo Prf): bow, might 14, range 2-3, effective vs System Constructs
 - [x] Add Echo's Interface (Prf): tome, might = varies by target CRP level
 
 ## Multiple Endings
@@ -127,7 +127,7 @@
 - [x] Track campaign variables: `total_deaths`, `zael_recruited`, `ghael_recruited`, `echo_saved`, `system_negotiated`
 - [x] Implement `evaluateEnding(flags)` function per decision matrix in campaign-flags.md
 - [x] Ending determination: Tragic if deaths ≥ 5; else True/Perfect if Crystal used; else Bittersweet
-- [x] "Allow reset" = Ren seizes without Final Save Crystal equipped (inventory choice, not dialogue)
+- [x] "Allow reset" = Shigeru seizes without Final Save Crystal equipped (inventory choice, not dialogue)
 - [x] Ending screen: different text/imagery per ending type
 - [x] Credits with party still image (party composition varies by deaths + recruits)
 - [x] New Game+ unlock after any ending (cycle 347 → 348)
@@ -149,7 +149,7 @@
 - [x] Unit tests: master class promotion, stat caps
 - [x] Unit tests: multi-phase boss transitions, HP thresholds
 - [x] Unit tests: weapon cycling logic, corruption layer stripping
-- [x] Unit tests: negotiate conditions (AWR avg calculation, HP threshold)
+- [x] Unit tests: negotiate conditions (INS avg calculation, HP threshold)
 - [x] Unit tests: trauma skill auto-learning (1st death → Survivor's Guilt, etc.)
 - [x] Unit tests: ending condition evaluation — all 4 paths with mock flags
 - [x] Unit tests: Final Save Crystal equipped vs not → different ending
@@ -158,7 +158,7 @@
 - [x] E2E tests: split party (ch23 team selection, both maps functional) — deferred to chapter authoring; unit-tested in splitParty.test.ts (6 tests)
 - [x] E2E tests: fog of war visibility (units hidden/revealed correctly) — deferred to chapter authoring; unit-tested in fogOfWar.test.ts (21 tests)
 - [x] Save/load tests: campaign flags persist across save/load cycle
-- [x] Save/load tests: meta-stats (AWR, LOOP, CRP, etc.) persist correctly
+- [x] Save/load tests: meta-stats (INS, EMB, CRP, etc.) persist correctly
 - [x] Save/load tests: roster carries forward with correct units
 - [x] Edge case: all units dead in survive chapter → game over
 - [x] Edge case: no-healer team in ch23 split → both teams functional

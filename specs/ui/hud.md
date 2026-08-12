@@ -22,7 +22,7 @@ Rendered inside `UnitStatsPanel` below unit info:
 - **Movement cost**: class-aware cost when a unit is selected (e.g. "Move: 3 (Mounted)"), base cost otherwise. Uses `getClassMovementCost()` from `src/core/terrain.ts`
 - **Meta-stat terrain effects**: for special terrains, show per-turn effects below DEF/AVO:
   - CRP gain (magenta): "CRP +2/turn" for glitched, "CRP +3/turn" for data_void
-  - SYNC change (cyan): "SYNC -1/turn" for glitched, "SYNC -3/turn" for data_void
+  - ATT change (cyan): "ATT -1/turn" for glitched, "ATT -3/turn" for data_void
   - STA recovery (blue): "STA -3/turn" for fort/corrupted_fort
   - Data source: `getTerrainCrpGain()`, `getTerrainSyncChange()`, `getTerrainStaRecovery()` from `src/core/metaStats.ts`
 - Appears when hovering any tile, independent of unit display

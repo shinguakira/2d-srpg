@@ -224,10 +224,10 @@ export const UnitSprite = memo(function UnitSprite({
         )}
       </div>
 
-      {/* CRP warning overlay at 80+ */}
+      {/* Corruption warning overlay at 80+ */}
       {crp >= 80 && <div className="unit-sprite__crp-warning" />}
 
-      {/* STA sweat-drop at 45+ */}
+      {/* Fatigue sweat-drop at 45+ */}
       {sta >= 45 && (
         <svg className="unit-sprite__sta-sweat" viewBox="0 0 8 10" width="8" height="10">
           <path d="M4 0 Q6 4 4 8 Q2 4 4 0Z" fill="#60a5fa" opacity="0.8" />

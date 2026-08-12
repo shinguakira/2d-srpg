@@ -31,9 +31,9 @@
 - [x] Coordinated focus: all group members add +200 to the group's chosen target
 - [x] Healer priority: +80 for healing allies ≤ 30% HP
 
-## Dance Action (Orin)
+## Dance Action (Kagura)
 
-> **Ref:** [`specs/gameplay/battle-logic.md`](specs/gameplay/battle-logic.md), [`specs/story/characters/orin.md`](specs/story/characters/orin.md)
+> **Ref:** [`specs/gameplay/battle-logic.md`](specs/gameplay/battle-logic.md), [`specs/story/characters/kagura.md`](specs/story/characters/kagura.md)
 
 - [x] Add `dance` to ActionType union
 - [x] Dance action: select adjacent ally who has already acted
@@ -45,9 +45,9 @@
 - [x] Dance animation: brief sparkle effect on target
 - [x] Dance EXP: dancer gains 15 EXP per dance — ⚠️ implemented as 20 EXP
 
-## Steal Action (Coda/Thief)
+## Steal Action (Hachi/Thief)
 
-> **Ref:** [`specs/gameplay/battle-logic.md`](specs/gameplay/battle-logic.md), [`specs/story/characters/coda.md`](specs/story/characters/coda.md)
+> **Ref:** [`specs/gameplay/battle-logic.md`](specs/gameplay/battle-logic.md), [`specs/story/characters/hachi.md`](specs/story/characters/hachi.md)
 
 - [x] Add `steal` to ActionType union
 - [x] Steal action: select adjacent enemy with stealable item

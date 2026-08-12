@@ -30,7 +30,7 @@ const terrain: TerrainType[][] = [
 
 export const CHAPTER_7: ChapterData = {
   id: 'ch7',
-  name: 'Chapter 7: The Seed Breaks',
+  name: 'Chapter 7: What the Wall Held',
   chapterNumber: 7,
   mapWidth: 16,
   mapHeight: 16,
@@ -65,32 +65,32 @@ export const CHAPTER_7: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'The coastal fortress. Waves crash against stone walls that have held for centuries. But something stirs at the northern edge.',
+        text: 'The coastal fortress of Isonami. Waves have broken on these walls for two hundred years. Tonight something is moving inside the north wall itself.',
       },
       {
         speaker: 'Kanna',
-        text: "I've been running predictive models all night. The anomaly patterns... they're not random. Something is adapting.",
+        text: 'I have been at the ward readings all night. The blight is not spreading at random. It is answering.',
         speakerFaction: 'player',
       },
-      { speaker: 'Akira', text: 'Adapting to what?', speakerFaction: 'player' },
+      { speaker: 'Akira', text: 'Answering what?', speakerFaction: 'player' },
       {
         speaker: 'Kanna',
-        text: "To ME. Every time I map a pattern, it shifts. Like it knows I'm watching.",
+        text: 'Me. Every time I chart where it will surface next, it surfaces somewhere else. Not once. Eleven times in a row. That is not weather, that is a thing that knows it is being looked at.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Raiga',
-        text: 'Admiral Isonami holds the fortress interior. His garrison is disciplined but spread thin.',
+        text: 'Admiral Isonami holds the keep. Old garrison, disciplined, spread thin along the wall.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: "Hold the defensive line. Don't overextend. Kanna, stay near the rear — I need your analysis.",
+        text: 'Hold the line and nobody chases. Kanna, stay at the rear — I need your eyes on the north wall, not on a lance.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Kanna',
-        text: 'My analysis might be worthless by Turn 3.',
+        text: 'My eyes may be worth very little today, my lord. I want that said aloud before it matters.',
         speakerFaction: 'player',
       },
     ],
@@ -99,44 +99,51 @@ export const CHAPTER_7: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'The corrupted spawns cease. The fortress falls quiet. But the silence feels wrong.',
+        text: 'The revenants stop coming. The fortress goes quiet, and the quiet is worse than the noise was.',
       },
       {
         speaker: 'Kanna',
-        text: 'My model is broken. Everything I built — 347 loops of pattern tracking — it changed underneath me. I need... I need a new approach.',
+        text: 'Six years of ward theory. Every book in the royal archive. All of it built on the one thing everyone agrees on — that a seal does not think. And it thinks, my lord. It waited for me to commit my readings and then it moved.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: "You found an answer before. You'll find one again.",
+        text: 'Then stop trying to predict it.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Kanna',
-        text: "You keep saying things like that. Like you've seen it happen.",
+        text: 'That is all I am. Take the predicting away and there is a small rude woman with bad eyesight and no lance.',
         speakerFaction: 'player',
       },
-      { speaker: 'Shigeru', text: '...Because I have.', speakerFaction: 'player' },
-      { speaker: 'Akira', text: 'Shigeru? What does that mean?', speakerFaction: 'player' },
-      { speaker: 'Shigeru', text: "It means I trust her. That's all.", speakerFaction: 'player' },
+      {
+        speaker: 'Shigeru',
+        text: 'You have been asking where it will go. Ask what it wants instead. You are the only one of us who could tell the difference.',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Kanna',
+        text: '...That is not a measurement.',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Hina',
+        text: 'No. It is a question. Those are allowed too.',
+        speakerFaction: 'player',
+      },
       {
         speaker: 'Akira',
-        text: 'Whatever your numbers say, you kept us alive in there.',
-        speakerFaction: 'player',
-      },
-      {
-        speaker: 'Mio',
-        text: "I've seen healers break under less. The fact that you're still standing means something.",
+        text: 'Whatever your readings said, you kept the north wall standing for twelve turns. I was on it. I noticed.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Goro',
-        text: "Stop overthinking it. You're smart. That's enough.",
+        text: 'And you shouted the right things at the right people. That is most of what a commander does, and you did it without a horse.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Narrator',
-        text: "Kanna stares at her notes. The numbers don't lie. But they don't tell the truth anymore either.",
+        text: 'That night Kanna burned two years of charts, and started a new book with one line at the top of it: WHAT DOES IT WANT?',
       },
     ],
   },
@@ -147,7 +154,7 @@ export const CHAPTER_7: ChapterData = {
         { unitId: 'ch7_corrupted_1', position: { x: 5, y: 0 } },
         { unitId: 'ch7_corrupted_2', position: { x: 10, y: 0 } },
       ],
-      message: 'Corrupted entities spawn from the glitched tiles!',
+      message: 'Revenants claw their way out of the north wall!',
     },
     {
       turn: 5,
@@ -155,7 +162,7 @@ export const CHAPTER_7: ChapterData = {
         { unitId: 'ch7_corrupted_3', position: { x: 3, y: 0 } },
         { unitId: 'ch7_corrupted_4', position: { x: 12, y: 0 } },
       ],
-      message: 'More corrupted entities emerge!',
+      message: 'More revenants pull themselves free!',
     },
     {
       turn: 7,
@@ -164,12 +171,12 @@ export const CHAPTER_7: ChapterData = {
         { unitId: 'ch7_corrupted_6', position: { x: 11, y: 0 } },
         { unitId: 'ch7_corrupted_7', position: { x: 7, y: 0 } },
       ],
-      message: 'The corruption intensifies — three more entities!',
+      message: 'The wall splits wider — three more come through!',
     },
     {
       turn: 9,
       units: [{ unitId: 'ch7_corrupted_8', position: { x: 8, y: 0 } }],
-      message: 'A final wave of corruption pulses from the north!',
+      message: 'One last thing drags itself out of the stone!',
     },
   ],
   events: [
@@ -184,17 +191,17 @@ export const CHAPTER_7: ChapterData = {
             lines: [
               {
                 speaker: 'Kanna',
-                text: "Wait. That soldier's hit rate — my prediction was off by twelve points. That's... not right.",
+                text: 'The ward-stone has gone cold. Not cracked — cold, as though there were nothing left in the north for it to point at.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: 'Could be noise. Focus on the battle.',
+                text: 'That could be good news.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Kanna',
-                text: "It's not noise. I don't get twelve-point errors.",
+                text: 'It could. It could also mean it is no longer in the north. Watch the wall, my lord.',
                 speakerFaction: 'player',
               },
             ],
@@ -214,22 +221,22 @@ export const CHAPTER_7: ChapterData = {
             lines: [
               {
                 speaker: 'Kanna',
-                text: 'The north wall — those tiles are GLITCHING. Something is spawning from corrupted data!',
+                text: 'The north wall. The stone is going grey and something is climbing out of it.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Goro',
-                text: "Those things aren't soldiers. They're... wrong.",
+                text: 'Those are not soldiers. Gods — that one is wearing Amagi colours.',
                 speakerFaction: 'player',
               },
               {
-                speaker: 'Kanna',
-                text: "My predictions aren't working. The numbers are CHANGING. Every calculation I run comes back different.",
+                speaker: 'Hina',
+                text: 'They are revenants. The Blackflame does not kill men, it hollows them and stands them back up. Do not look at their faces. Please do not look at their faces.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: 'New plan — we hold position and survive. Forget the advance!',
+                text: 'New orders. Nobody advances. We hold this courtyard and we outlast them.',
                 speakerFaction: 'player',
               },
             ],
@@ -249,22 +256,27 @@ export const CHAPTER_7: ChapterData = {
             lines: [
               {
                 speaker: 'Kanna',
-                text: 'The system is changing the ANSWER. Every time I try to predict, it changes MORE. Something is watching me analyze it and CHANGING to stay ahead.',
+                text: 'I called the east stair and it came up the west. I called the west and it came through the floor. It is not outrunning me — it is waiting to hear what I say.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Mio',
-                text: 'Kanna, breathe. We need you here.',
+                text: 'Kanna. Breathe. In, and out, and again.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Kanna',
-                text: "You don't understand — I AM my analysis. If the numbers lie, what am I?",
+                text: 'You do not understand. My whole use to this company is knowing. If I cannot know, what am I standing here for?',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Raiga',
-                text: "You're the person keeping us alive. Numbers or not.",
+                text: 'Then stop calling it out loud, lass. Write it down and hand it to the prince. If the cursed thing is listening, make it work for what it hears.',
+                speakerFaction: 'player',
+              },
+              {
+                speaker: 'Kanna',
+                text: '...That is a horrible idea. Give me your chalk.',
                 speakerFaction: 'player',
               },
             ],
@@ -289,17 +301,17 @@ export const CHAPTER_7: ChapterData = {
               },
               {
                 speaker: 'Kanna',
-                text: "...The spawn rate is decreasing. Whatever it was... it's running out of energy.",
+                text: '...Fewer of them each wave. Whatever is pushing them up through that wall is tiring.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Akira',
-                text: 'Then we outlast it. Like we always do.',
+                text: 'Then we outlast it. That is a thing we are good at.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: "Kanna — you'll figure it out. You always do.",
+                text: 'Kanna. Keep writing. I will keep reading.',
                 speakerFaction: 'player',
               },
               { speaker: 'Kanna', text: '...Thank you.', speakerFaction: 'player' },
@@ -320,17 +332,17 @@ export const CHAPTER_7: ChapterData = {
             lines: [
               {
                 speaker: 'Kanna',
-                text: 'The spawn frequency is dropping — the corruption is burning itself out. One more turn!',
+                text: 'Thinner again. Whatever fuel it had, it is nearly through it. One more turn!',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: "Hold steady! They're retreating — we just need to survive this last push!",
+                text: 'Hold your ground! One more push and the wall is ours!',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Narrator',
-                text: 'The glitched tiles at the north edge flicker and dim. The corruption is exhausting its fuel.',
+                text: 'Along the north wall the grey stone dulls and stops moving. Whatever was pushing through it has stopped pushing.',
               },
             ],
           },
@@ -349,7 +361,7 @@ export const CHAPTER_7: ChapterData = {
             lines: [
               {
                 speaker: 'Kanna',
-                text: 'The spawns have stopped. The corruption is spent.',
+                text: 'Nothing more is coming out of the wall. It is spent.',
                 speakerFaction: 'player',
               },
               {
@@ -375,12 +387,12 @@ export const CHAPTER_7: ChapterData = {
             lines: [
               {
                 speaker: 'Isonami',
-                text: "This fortress... has stood for two hundred years. It will stand after I'm gone.",
+                text: 'Two hundred years this keep has stood. It will stand after me.',
                 speakerFaction: 'enemy',
               },
               {
                 speaker: 'Shigeru',
-                text: "You saw the corruption at the north wall. You know this fortress won't stand much longer.",
+                text: 'You watched your own wall turn grey, Admiral. You know it will not.',
                 speakerFaction: 'player',
               },
               {
@@ -402,18 +414,27 @@ export const CHAPTER_7: ChapterData = {
       lines: [
         {
           speaker: 'Kanna',
-          text: 'Shigeru. How many times have you seen me fail like this?',
+          text: 'My lord. When you were seven you fell off the archive ladder trying to reach the ward-theory shelf.',
           speakerFaction: 'player',
         },
         {
           speaker: 'Shigeru',
-          text: "You've never failed. Not once, in any—",
+          text: 'You were there?',
           speakerFaction: 'player',
         },
-        { speaker: 'Kanna', text: 'In any WHAT? Finish that sentence.', speakerFaction: 'player' },
+        {
+          speaker: 'Kanna',
+          text: 'I was holding the ladder. Badly. Your father did not have me flogged, which surprised everyone including your father.',
+          speakerFaction: 'player',
+        },
         {
           speaker: 'Shigeru',
-          text: '...In any way that matters. You always find a new approach.',
+          text: 'He said you had the only interesting question in the room.',
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Kanna',
+          text: '...He said that? Well. Then I had better find another one.',
           speakerFaction: 'player',
         },
       ],
@@ -425,18 +446,24 @@ export const CHAPTER_7: ChapterData = {
       lines: [
         {
           speaker: 'Hachi',
-          text: "Your numbers are broken? Good. Numbers were always a cage. Now you can see what's BEHIND them.",
+          text: 'So your readings lie to you now. Welcome. That is how every day of my life has gone.',
           speakerFaction: 'player',
         },
-        { speaker: 'Kanna', text: "That's not helpful, Hachi.", speakerFaction: 'player' },
+        { speaker: 'Kanna', text: 'That is not helpful, Hachi.', speakerFaction: 'player' },
         {
           speaker: 'Hachi',
-          text: "Wasn't trying to be helpful. Was trying to be honest. There's a difference.",
+          text: 'It was not meant to be helpful, it was meant to be true. You want to know how a thief works a house that lies to them?',
+          speakerFaction: 'player',
+        },
+        { speaker: 'Kanna', text: '...Go on.', speakerFaction: 'player' },
+        {
+          speaker: 'Hachi',
+          text: 'You stop asking what is behind the door. You watch which door the owner never opens. Things give themselves away by what they protect.',
           speakerFaction: 'player',
         },
         {
           speaker: 'Kanna',
-          text: '...Fine. What do you see behind the numbers?',
+          text: 'Hachi. That is genuinely the most useful thing anyone has said to me this month, and I resent it enormously.',
           speakerFaction: 'player',
         },
       ],

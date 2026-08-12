@@ -13,12 +13,12 @@
 
 ### Config
 - [ ] Create chapter11.ts — 18×18 grid, objective: Dual (Boss Kill + Protect 3/5 NPCs)
-- [ ] Par turns: 22, deployment slots: 8, force deploy: Ren
+- [ ] Par turns: 22, deployment slots: 8, force deploy: Shigeru
 
 ### Terrain
 - [ ] Market town with glitched tiles spreading from west
 - [ ] East/south exits for NPC villager escape routes
-- [ ] Glitched tiles: start 3 tiles on west edge, spread 2 tiles/turn eastward
+- [ ] Blighted ground: start 3 tiles on west edge, spread 2 tiles/turn eastward
 - [ ] Mix of plains, buildings (walls), market stalls (ruins terrain)
 - [ ] Fort tiles at town center (defensive positions)
 
@@ -41,7 +41,7 @@
   - Defection event: Turn 5, Kira switches to player after witnessing System truth
 
 ### Events
-- [ ] Turn 2: Glitched tiles spread (terrain mutation event, every 2 turns)
+- [ ] Turn 2: Blighted ground spread (terrain mutation event, every 2 turns)
 - [ ] Turn 5: Kira defection event + dialogue
 - [ ] Turn 7: Villager panic — reverse movement for 2 turns
 - [ ] Glitch spread continues: shrinks playable area over time
@@ -55,7 +55,7 @@
 
 ### Config
 - [ ] Create chapter12.ts — 16×18 grid, objective: Boss Kill (Seras)
-- [ ] Par turns: 20, deployment slots: 9, force deploy: Ren
+- [ ] Par turns: 20, deployment slots: 9, force deploy: Shigeru
 
 ### Terrain
 - [ ] Monastery interior: tight corridors, shrine tile, side rooms
@@ -99,7 +99,7 @@
 
 ### Config
 - [ ] Create chapter13.ts — 18×20 grid, objective: Boss Kill (Fortress Warden)
-- [ ] Par turns: 22, deployment slots: 9, force deploy: Ren
+- [ ] Par turns: 22, deployment slots: 9, force deploy: Shigeru
 
 ### Terrain
 - [ ] Highland fortress with elevated wyvern perches
@@ -121,7 +121,7 @@
 
 - [ ] Zael (Wyvern Rider) starts as enemy — CRP 43, ticking +3/turn
 - [ ] Create Zael unit data: Lv12, steel_lance, Wyvern Rider class, CRP 43
-- [ ] Recruitment condition: reduce Zael to ≤5 HP, then Ren uses Talk action
+- [ ] Recruitment condition: reduce Zael to ≤5 HP, then Shigeru uses Talk action
 - [ ] Recruitment window: Turns 1-18 (Zael flees Turn 19)
 - [ ] If recruited: Fortress Warden becomes boss (as normal)
 - [ ] If killed/escapes: Zael becomes ch14 boss (harder variant)
@@ -141,7 +141,7 @@
 
 ### Config
 - [ ] Create chapter14.ts — 16×16 grid, objective: Boss Kill
-- [ ] Par turns: 24, deployment slots: 9, force deploy: Ren
+- [ ] Par turns: 24, deployment slots: 9, force deploy: Shigeru
 - [ ] Boss varies based on `zael_recruited` flag
 
 ### Terrain
@@ -187,7 +187,7 @@
 
 ### Config
 - [ ] Create chapter15.ts — 20×22 grid, objective: Rout (all enemies)
-- [ ] Par turns: 22, deployment slots: 10, force deploy: Ren
+- [ ] Par turns: 22, deployment slots: 10, force deploy: Shigeru
 
 ### Terrain
 - [ ] Massive highland fortress with three entry points
@@ -207,10 +207,10 @@
 - [ ] Total: ~16 initial + 3 promoted reinforcements (hardest Arc 3 chapter)
 
 ### Events
-- [ ] Turn 8: LOOP expenditure event — Ren spends LOOP to overwrite 3 corrupted patches
-  - Dialogue: Ren loses memories of cycles 112-116
+- [ ] Turn 8: EMB expenditure event — Shigeru spends EMB to overwrite 3 corrupted patches
+  - Dialogue: Shigeru loses memories of cycles 112-116
   - Corrupted terrain patches become normal terrain
-  - LOOP decreases by cost
+  - EMB decreases by cost
 - [ ] Turn 10: Promoted enemy reinforcements (Paladin, Sage) from fortress interior
 - [ ] Three-pronged assault reward: chapters designed for 3-team split
 - [ ] Ghast defeat: "three hundred years" dialogue
@@ -219,16 +219,16 @@
 ### Validation (All Arc 3)
 
 - [ ] CRP system active and functional across all chapters
-- [ ] Glitched terrain spreads correctly in ch11 (2 tiles/turn from west)
+- [ ] Blighted terrain spreads correctly in ch11 (2 tiles/turn from west)
 - [ ] Ch11 NPC villagers: 5 spawn, panic Turn 7, at least 3 must reach exits
 - [ ] Ch12 corruption loss: +15 CRP boost at chapter start, highest-CRP unit turns at Turn 5
 - [ ] `ch12_corruption_victim` flag set correctly to turned unit's ID
-- [ ] Zael recruitment in ch13: ≤5 HP + Ren Talk within Turn 18 deadline
+- [ ] Zael recruitment in ch13: ≤5 HP + Shigeru Talk within Turn 18 deadline
 - [ ] Zael CRP: 43 + 3/turn = 100 at Turn 19 (aligned with flee deadline)
 - [ ] Campaign flag `zael_recruited` affects ch14 boss: Hollow (true) vs Corrupted Zael (false)
 - [ ] Elara joins correctly in ch14 (adjacent trigger, no Talk required)
 - [ ] Eclipse tome: 3-10 range, 8 might, 60% flat hit, 5 HP self-cost per cast
-- [ ] LOOP expenditure event in ch15: LOOP decreases, 3 corrupted terrain patches → normal
+- [ ] EMB expenditure event in ch15: EMB decreases, 3 corrupted terrain patches → normal
 - [ ] Promoted enemy reinforcements in ch15 Turn 10 (Paladin, Sage — first promoted enemies)
 - [ ] Indoor terrain in ch12/ch14: mounted -2 MOV, flying dismount
 - [ ] Save/load: `zael_recruited` flag persists across save between ch13-ch14

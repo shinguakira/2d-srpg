@@ -24,21 +24,25 @@ export function MetaStatsView() {
   return (
     <div className="debug-screen__reference" data-testid="debug-metastats-view">
       <div className="debug-screen__section">
-        <h3 className="debug-screen__section-title">AWR (Awareness)</h3>
+        <h3 className="debug-screen__section-title">INS (Insight)</h3>
         <p className="debug-screen__desc-text">Range: 0-100. +1 per chapter.</p>
         <p className="debug-screen__desc-text">&ge; 80: Can see enemy unit meta-stats.</p>
-        <p className="debug-screen__desc-text">&ge; 30: Unit may comment on adjacent anomalies.</p>
+        <p className="debug-screen__desc-text">
+          &ge; 30: Unit may remark on adjacent blighted ground.
+        </p>
       </div>
 
       <div className="debug-screen__section">
-        <h3 className="debug-screen__section-title">LOOP (Loop Counter)</h3>
-        <p className="debug-screen__desc-text">Range: &ge; 0. Shigeru-only spendable resource.</p>
-        <div className="debug-screen__formula">Memory Blade might = 1 + floor(LOOP / 30)</div>
+        <h3 className="debug-screen__section-title">EMB (Emberlight)</h3>
+        <p className="debug-screen__desc-text">
+          Range: &ge; 0. Embers left in the Flamebrand. Shigeru only; spendable.
+        </p>
+        <div className="debug-screen__formula">Flamebrand might = 1 + floor(EMB / 30)</div>
         <p className="debug-screen__desc-text">+10 at arc transitions.</p>
       </div>
 
       <div className="debug-screen__section">
-        <h3 className="debug-screen__section-title">SYNC (Synchronization)</h3>
+        <h3 className="debug-screen__section-title">ATT (Attunement)</h3>
         <p className="debug-screen__desc-text">Range: 0-100.</p>
         <p className="debug-screen__desc-text">&gt; 80: +5 hit bonus.</p>
         <p className="debug-screen__desc-text">
@@ -82,9 +86,9 @@ export function MetaStatsView() {
           <thead>
             <tr>
               <th>Unit</th>
-              <th>AWR</th>
-              <th>LOOP</th>
-              <th>SYNC</th>
+              <th>INS</th>
+              <th>EMB</th>
+              <th>ATT</th>
               <th>LOY</th>
               <th>CRP</th>
               <th>STA</th>
@@ -120,7 +124,7 @@ export function MetaStatsView() {
             <tr>
               <th>Terrain</th>
               <th>CRP</th>
-              <th>SYNC</th>
+              <th>ATT</th>
               <th>STA</th>
             </tr>
           </thead>

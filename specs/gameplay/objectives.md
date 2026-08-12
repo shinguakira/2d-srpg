@@ -9,7 +9,7 @@ Victory conditions, optional objectives, and turn-based rewards across 25 chapte
 | Type | Description | Victory Trigger |
 |------|-------------|----------------|
 | **Rout** | Defeat all enemies | Enemy count reaches 0 |
-| **Seize** | Lord captures objective tile | Ren uses Seize on throne/gate |
+| **Seize** | Lord captures objective tile | Shigeru uses Seize on throne/gate |
 | **Boss Kill** | Defeat specific boss | Boss HP reaches 0 |
 | **Survive** | Survive N turns | Turn counter reaches target |
 | **Escape** | All required units reach exit | All specified units on exit tiles |
@@ -25,13 +25,13 @@ Victory conditions, optional objectives, and turn-based rewards across 25 chapte
 |---------|------------------|---------------------|-----------|-------|
 | Ch1 | Rout | — | 10 | Tutorial. Simple. |
 | Ch2 | Seize | Visit all villages (2) | 15 | Learn seize + villages |
-| Ch3 | Boss Kill | Recruit Nira (visit village tile) | 14 | Nira joins if visited |
+| Ch3 | Boss Kill | Recruit Sayo (visit village tile) | 14 | Sayo joins if visited |
 | Ch4 | Rout | Open all chests (3) before thieves | 16 | Enemy thieves race to chests |
-| Ch5 | Seize | Protect villagers (3 NPC survive) | 18 | Yuel recruitment chapter |
-| Ch6 | Boss Kill | Rout within par turns | 16 | Rook/Faye join mid-chapter |
+| Ch5 | Seize | Protect villagers (3 NPC survive) | 18 | Yuki recruitment chapter |
+| Ch6 | Boss Kill | Rout within par turns | 16 | Raiga/Mio join mid-chapter |
 | Ch7 | Seize | Capture armory tile for bonus shop | 20 | First promotion items available |
-| Ch8 | Survive 12 turns | Keep Kael alive as long as possible | 12 | Kael dies scripted. Bonus if he survives 10+ turns. |
-| Ch9 | Escape (all units to exit) | Recruit Orin (talk with Lira) | 18 | Retreat chapter. Dancer joins. |
+| Ch8 | Survive 12 turns | Keep Akira alive as long as possible | 12 | Akira dies scripted. Bonus if he survives 10+ turns. |
+| Ch9 | Escape (all units to exit) | Recruit Kagura (talk with Hina) | 18 | Retreat chapter. Dancer joins. |
 | Ch10 | Boss Kill + Seize | Complete in ≤15 turns for Master Seal | 20 | Arc 2 finale. Multi-objective. |
 | Ch11 | Rout | No units gain CRP > 15 | 22 | Corruption introduction |
 | Ch12 | Protect NPC (monk) 8 turns | Defeat all mini-bosses (3) | 20 | Monastery defense |
@@ -39,14 +39,14 @@ Victory conditions, optional objectives, and turn-based rewards across 25 chapte
 | Ch14 | Seize | Cleansing ritual (reach tile with Elara) | 24 | Elara joins. Ancient Tome event. |
 | Ch15 | Rout | Complete under par for Adamant | 22 | Arc 3 finale. Resource reward. |
 | Ch16 | Seize | Capture all 3 ballista tiles | 25 | Siege chapter. System Fragment drop. |
-| Ch17 | Boss Kill (dialogue option) | Negotiate with System (requires AWR ≥ 70 on Ren) | 25 | Can talk boss down if conditions met |
+| Ch17 | Boss Kill (dialogue option) | Negotiate with System (requires INS ≥ 70 on Shigeru) | 25 | Can talk boss down if conditions met |
 | Ch18 | Dual: Boss Kill + Seize | Recruit Ghael (reduce to ≤5 HP, talk) | 28 | Ghael joins. Master Crown reward. |
 | Ch19 | Survive 15 turns | Find Memory Shard (hidden tile) | 15 | Defense chapter. Emotional flashback. |
 | Ch20 | Boss Kill | Protect Echo (NPC → joins if alive) | 25 | Echo joins. Echo's Core event. |
 | Ch21 | Rout | Complete under par for Mithril | 28 | Endgame begins |
 | Ch22 | Seize | Find hidden Master Crown (Thief required) | 28 | Hidden treasure chapter |
 | Ch23 | Escape (split team) | Both groups escape within 2 turns of each other | 25 | Split party chapter |
-| Ch24 | Boss Kill (???_CORRUPTED) | Survive ???'s 3 phases | 30 | Kael reveal. Emotional devastation. |
+| Ch24 | Boss Kill (???_CORRUPTED) | Survive ???'s 3 phases | 30 | Akira reveal. Emotional devastation. |
 | Ch25 | Defeat System | Use Final Save Crystal | 30+ | True ending requires crystal. Multiple phases. |
 
 ---
@@ -92,8 +92,8 @@ Par turns are generous — designed so a competent player beats them without rus
 
 - All required units must reach designated exit tiles
 - Units on exit tiles are "escaped" — removed from map, safe
-- If Ren escapes, chapter ends (all remaining units auto-escape)
-- Units that haven't escaped when Ren does lose any EXP they would have gained that turn
+- If Shigeru escapes, chapter ends (all remaining units auto-escape)
+- Units that haven't escaped when Shigeru does lose any EXP they would have gained that turn
 - Ch23 unique: party is split into two groups on separate map sections
 
 ### Protect Chapters (Ch5, Ch12, Ch20)
@@ -105,8 +105,8 @@ Par turns are generous — designed so a competent player beats them without rus
 
 ### Negotiate Objective (Ch17)
 
-- Unique one-time mechanic: Ren can attempt to talk to the chapter boss
-- Requires: Ren adjacent to boss, Ren's AWR ≥ 70, boss HP ≤ 50%
+- Unique one-time mechanic: Shigeru can attempt to talk to the chapter boss
+- Requires: Shigeru adjacent to boss, Shigeru's INS ≥ 70, boss HP ≤ 50%
 - If conditions met: special dialogue plays, boss retreats (not killed)
 - Affects Ch25 final boss difficulty (negotiated = easier final fight)
 - If conditions NOT met: must kill boss normally

@@ -45,7 +45,7 @@ export const CHAPTER_10: ChapterData = {
     { unitId: 'kanna', position: { x: 8, y: 16 } },
     { unitId: 'goro', position: { x: 6, y: 17 } },
     { unitId: 'hina', position: { x: 9, y: 17 } },
-    { unitId: 'genzo', position: { x: 7, y: 17 } },
+    { unitId: 'akira', position: { x: 7, y: 17 } },
     { unitId: 'raiga', position: { x: 5, y: 16 } },
     { unitId: 'sayo', position: { x: 10, y: 16 } },
     { unitId: 'kagura', position: { x: 8, y: 17 } },
@@ -88,34 +88,34 @@ export const CHAPTER_10: ChapterData = {
     lines: [
       {
         speaker: 'Narrator',
-        text: 'A border village. Farmland stretches south; a fortified hill rises to the north. General Sozen commands the heights.',
+        text: 'A border village. Farmland to the south, a fortified hill to the north. Grand Magus Sozen holds the heights, and he has not once sent a man down to take the village.',
       },
       {
         speaker: 'Shigeru',
-        text: 'The village elder — Toki — has scrolls documenting the anomalies. If Sozen reaches her, we lose that knowledge.',
+        text: 'The elder here — Toki — keeps the village chronicle. Four hundred years of it, and every time the Blackflame stirred it went into that book.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Kanna',
-        text: 'Those scrolls could be the key to understanding what the System is doing. We need them.',
+        text: 'Which is why Sozen is here. He is not garrisoning a hill, my lord. He came for the book.',
         speakerFaction: 'player',
       },
       {
-        speaker: 'Genzo',
-        text: 'Split forces? Half defend the village, half assault the hill?',
+        speaker: 'Akira',
+        text: 'Then we split. Half to hold the village, half up the hill.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Raiga',
-        text: 'Three routes to the hill — forest left, bridge center, open right. Sozen will have the center covered.',
+        text: 'Three ways up — forest on the left, bridge in the centre, open ground right. He will have the centre covered and he will want us to know it.',
         speakerFaction: 'player',
       },
       {
         speaker: 'Shigeru',
-        text: 'Protect Toki. Defeat Sozen. We can do both. Akira would have said the same thing.',
+        text: 'Protect Toki. Take Sozen. We do both. Genzo held a corridor for nine turns so that we could still afford to do both.',
         speakerFaction: 'player',
       },
-      { speaker: 'Goro', text: '...Yeah. He would have.', speakerFaction: 'player' },
+      { speaker: 'Goro', text: '...Aye. Let us not waste it.', speakerFaction: 'player' },
     ],
   },
   epilogue: {
@@ -125,30 +125,80 @@ export const CHAPTER_10: ChapterData = {
         text: 'The hill is taken. The village stands. For the first time in two chapters, the party breathes without the weight of grief crushing their lungs.',
       },
       {
-        speaker: 'Kanna',
-        text: "The construct data — I've been analyzing the residue from where it spawned. The System isn't broken, Shigeru. It's RESPONDING to us.",
-        speakerFaction: 'player',
-      },
-      { speaker: 'Shigeru', text: 'Responding how?', speakerFaction: 'player' },
-      {
-        speaker: 'Kanna',
-        text: 'Every time we fight back, it adapts. Every time we win, it builds something new. The constructs are prototypes — first drafts of something bigger.',
-        speakerFaction: 'player',
-      },
-      { speaker: 'Raiga', text: "So it's learning from us.", speakerFaction: 'player' },
-      {
-        speaker: 'Kanna',
-        text: 'Yes. But prototypes have seams. Inefficiencies. I can find them. I just need more data.',
-        speakerFaction: 'player',
-      },
-      {
-        speaker: 'Shigeru',
-        text: 'We end this. For Akira. For everyone who died in 347 loops without knowing why.',
-        speakerFaction: 'player',
+        speaker: 'Narrator',
+        text: 'A single figure came down the hill road while they were still counting the wounded. He was not in armour. He did not draw.',
       },
       {
         speaker: 'Narrator',
-        text: 'Arc 2 closes. The party is smaller, harder, and finally looking at the System not as a mystery — but as an enemy.',
+        text: 'He was enormous — a head taller than Raiga, shaven bald, the skin of both arms burned to the elbow in a pattern like bark. He stopped at a polite distance and waited to be addressed.',
+      },
+      { speaker: 'Akira', text: 'My lord. Get behind me.', speakerFaction: 'player' },
+      {
+        speaker: 'Takeshi',
+        text: 'Please do not. I have walked a long way and I would rather look at him than at your back.',
+        speakerFaction: 'enemy',
+      },
+      { speaker: 'Shigeru', text: 'You are Takeshi.', speakerFaction: 'player' },
+      {
+        speaker: 'Takeshi',
+        text: 'I am. You have your father’s way of standing. He used to do that when he had decided something and had not said it yet.',
+        speakerFaction: 'enemy',
+      },
+      { speaker: 'Shigeru', text: 'You killed him.', speakerFaction: 'player' },
+      {
+        speaker: 'Takeshi',
+        text: 'I did. He would not give me the sword you are wearing. I asked him four times, which is three more than I have ever asked anyone.',
+        speakerFaction: 'enemy',
+      },
+      {
+        speaker: 'Kanna',
+        text: 'You broke the northern seal. You let that thing out into your own country.',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Takeshi',
+        text: 'I took it into myself, scholar. There is a difference, and I am the only man alive who can feel it. It has not got out. It is in here, and it is quiet, and it has been quiet for eleven months.',
+        speakerFaction: 'enemy',
+      },
+      {
+        speaker: 'Hina',
+        text: 'The grey ground behind you says otherwise.',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Takeshi',
+        text: 'Yes. That is the cost, and I pay it, and it is smaller every year than another war would be. Three hundred and forty-seven knights burned themselves to seal this thing and it bought the world four centuries. Four. I intend to end it instead.',
+        speakerFaction: 'enemy',
+      },
+      {
+        speaker: 'Shigeru',
+        text: 'By carrying it. Alone. Forever.',
+        speakerFaction: 'player',
+      },
+      {
+        speaker: 'Takeshi',
+        text: 'Somebody has to hold it, boy. I have simply stopped pretending it can be put in a box and forgotten by the next generation.',
+        speakerFaction: 'enemy',
+      },
+      {
+        speaker: 'Takeshi',
+        text: 'Bring me the Flamebrand. It is the last thing in the world that still answers to the seal, and while it exists the thing inside me keeps reaching for it. Bring it north and I will let every one of these people walk away.',
+        speakerFaction: 'enemy',
+      },
+      { speaker: 'Shigeru', text: 'And if I do not?', speakerFaction: 'player' },
+      {
+        speaker: 'Takeshi',
+        text: 'Then it will keep walking toward you, and it will go through whatever is in the way, and one morning you will be standing in a grey field wondering which of these faces you could have kept.',
+        speakerFaction: 'enemy',
+      },
+      {
+        speaker: 'Narrator',
+        text: 'He turned and walked back up the hill road. Nobody raised a bow. Later, not one of them could give a reason why.',
+      },
+      {
+        speaker: 'Shigeru',
+        text: '...We go north. Not because he asked. Because he is right that it is coming, and I would rather meet it at the shrine than in somebody’s field.',
+        speakerFaction: 'player',
       },
     ],
   },
@@ -186,13 +236,13 @@ export const CHAPTER_10: ChapterData = {
             lines: [
               {
                 speaker: 'Elder Toki',
-                text: 'These scrolls document every anomaly for the past fifty years. If Sozen takes them, the truth dies with this village.',
+                text: 'This chronicle has four hundred years in it, and every time the Blackflame stirred, somebody here wrote it down. If Sozen takes it, the last account of the thing burns with my roof.',
                 speakerFaction: 'ally',
               },
               { speaker: 'Shigeru', text: "We won't let that happen.", speakerFaction: 'player' },
               {
                 speaker: 'Elder Toki',
-                text: "I've survived worse than generals, young man. But I can't outrun what's coming from the north.",
+                text: 'I have outlived worse men than that general. But I cannot outwalk what is coming down from the north, and neither can you.',
                 speakerFaction: 'ally',
               },
             ],
@@ -212,21 +262,21 @@ export const CHAPTER_10: ChapterData = {
             lines: [
               {
                 speaker: 'Narrator',
-                text: 'The ground at the base of the hill GLITCHES. A shape assembles itself from corrupted data — massive, armored, wrong.',
+                text: 'At the foot of the hill the grass turned grey in a widening ring, and something stood up out of the middle of it — huge, armoured, and put together wrong.',
               },
               {
                 speaker: 'Kanna',
-                text: "That's not a soldier. That's not even a person. The System is BUILDING with the pieces. It can make soldiers from corrupted data.",
+                text: 'That is not a revenant. A revenant was a person once. This has been made — assembled, out of several.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Raiga',
-                text: "It's heading for the village. For Toki.",
+                text: 'It is going for the village. For the old woman.',
                 speakerFaction: 'player',
               },
               {
                 speaker: 'Shigeru',
-                text: "The System isn't just watching anymore. It's acting. Everyone — protect the elder!",
+                text: 'Then it is not wandering — it knows what it came for. Everyone back to the elder. Now!',
                 speakerFaction: 'player',
               },
             ],
@@ -251,13 +301,13 @@ export const CHAPTER_10: ChapterData = {
             lines: [
               {
                 speaker: 'Sozen',
-                text: 'I sensed it too — the patterns beneath reality. I fought anyway, because what else is there?',
+                text: 'I felt it too. The wrongness in the north. I read the same signs your scholar reads.',
                 speakerFaction: 'enemy',
               },
               { speaker: 'Shigeru', text: 'You could have helped us.', speakerFaction: 'player' },
               {
                 speaker: 'Sozen',
-                text: 'Perhaps. But I serve the Empire I was born into, not the truth I discovered too late.',
+                text: 'Perhaps. But I serve the empire I was born in, not the truth I found too late to use.',
                 speakerFaction: 'enemy',
               },
               {
@@ -282,13 +332,13 @@ export const CHAPTER_10: ChapterData = {
             lines: [
               {
                 speaker: 'Kanna',
-                text: "The construct is dissolving — back into raw data. But I can read the residue. The System's architecture has seams.",
+                text: 'It is coming apart. Look — the ash is not scattering. It is running back north, along the ground, against the wind.',
                 speakerFaction: 'player',
               },
-              { speaker: 'Shigeru', text: 'Can you use that?', speakerFaction: 'player' },
+              { speaker: 'Shigeru', text: 'Going home.', speakerFaction: 'player' },
               {
                 speaker: 'Kanna',
-                text: 'Maybe. Give me time and more data. This is the first crack in the wall.',
+                text: 'Being recalled. My lord, that is the first thing this campaign has shown me that I can actually follow. Whatever built that thing wants its pieces back — and it will lead us straight to the door.',
                 speakerFaction: 'player',
               },
             ],
@@ -301,22 +351,32 @@ export const CHAPTER_10: ChapterData = {
   supportConversations: [
     {
       unitA: 'shigeru',
-      unitB: 'genzo',
+      unitB: 'akira',
       lines: [
         {
-          speaker: 'Genzo',
-          text: 'I held the garrison for years without losing a man. Then I joined you and watched the best of us die.',
+          speaker: 'Akira',
+          text: 'My lord. You have not said his name since the fortress.',
           speakerFaction: 'player',
         },
-        { speaker: 'Shigeru', text: "I'm sorry, Genzo.", speakerFaction: 'player' },
+        { speaker: 'Shigeru', text: 'I said it in the epilogue speech.', speakerFaction: 'player' },
         {
-          speaker: 'Genzo',
-          text: "Don't be sorry. Be worth it. Make his choice mean something.",
+          speaker: 'Akira',
+          text: 'You said it to the company. That is not the same as saying it.',
           speakerFaction: 'player',
         },
-        { speaker: 'Shigeru', text: 'I will. I promise.', speakerFaction: 'player' },
+        { speaker: 'Shigeru', text: '...', speakerFaction: 'player' },
+        {
+          speaker: 'Akira',
+          text: 'I was there when you gave him leave to do it. It was the right order and it was a terrible thing to have to say, and both of those are going to be true for the rest of your life.',
+          speakerFaction: 'player',
+        },
+        {
+          speaker: 'Shigeru',
+          text: 'Genzo. His name was Genzo. ...Thank you, Akira.',
+          speakerFaction: 'player',
+        },
       ],
-      reward: { type: 'stat', unitId: 'genzo', stat: 'def', amount: 1 },
+      reward: { type: 'stat', unitId: 'akira', stat: 'def', amount: 1 },
     },
     {
       unitA: 'raiga',
@@ -324,12 +384,12 @@ export const CHAPTER_10: ChapterData = {
       lines: [
         {
           speaker: 'Sayo',
-          text: "You've been with us for five chapters now. Still going to claim you're just here for the coin?",
+          text: 'Five engagements now. Still telling people you are only here for the coin?',
           speakerFaction: 'player',
         },
         {
           speaker: 'Raiga',
-          text: 'The pay is terrible. The hours are worse. The boss keeps muttering about time loops.',
+          text: 'The pay is terrible. The hours are worse. The commander apologises to corpses.',
           speakerFaction: 'player',
         },
         { speaker: 'Sayo', text: "And yet you're still here.", speakerFaction: 'player' },

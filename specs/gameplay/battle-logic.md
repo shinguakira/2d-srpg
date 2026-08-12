@@ -32,17 +32,17 @@ Before each chapter (Ch2+), the player enters a preparation screen with the foll
 |--------|-------------|
 | **Deploy units** | Choose which units to deploy from the roster (up to deployment limit) |
 | **Position units** | Rearrange starting positions within deployment zone |
-| **View map** | See terrain, starting positions, enemy placements (limited by AWR) |
+| **View map** | See terrain, starting positions, enemy placements (limited by INS) |
 | **Equip skills** | Swap skills in/out of slots (up to slot limit per unit) |
 | **Equip weapons** | Choose equipped weapon per unit, manage inventory |
 | **Supply convoy** | Deposit/withdraw items from shared storage |
 | **Shop** | Buy/sell weapons, items, food. Inventory varies by arc (see [economy.md](economy.md)) |
 | **Forge** | Upgrade weapons with gold + materials (Arc 3+, see [economy.md](economy.md)) |
 | **Use items** | Use consumables or food before battle |
-| **Ren's Teaching** | Spend LOOP to teach skills to allies (see [skills.md](skills.md)) |
+| **Shigeru's Teaching** | Spend EMB to teach skills to allies (see [skills.md](skills.md)) |
 | **Distribute Bonus EXP** | Allocate earned Bonus EXP to deployed units (see [experience.md](experience.md)) |
 | **Support conversations** | View/trigger available support conversations |
-| **View stats** | Check unit stats, growth history, AWR/LOOP/SYNC, weapon ranks |
+| **View stats** | Check unit stats, growth history, INS/EMB/ATT, weapon ranks |
 
 ### Deployment Limit by Arc
 
@@ -54,13 +54,13 @@ Before each chapter (Ch2+), the player enters a preparation screen with the foll
 | Arc 4 (Ch16-20) | 10→12 | 16→19 |
 | Arc 5 (Ch21-25) | 12 | 17→19 |
 
-Ren is always deployed. Cannot be removed.
+Shigeru is always deployed. Cannot be removed.
 
 ### Preparation Restrictions
 
 - Cannot change skills mid-chapter — only during preparation
 - Cannot change unit deployment after chapter starts
-- Ren's Teaching costs carry over (+5 STA at chapter start, +2 CRP to both)
+- Shigeru's Teaching costs carry over (+5 STA at chapter start, +2 CRP to both)
 
 ---
 
@@ -110,7 +110,7 @@ Available actions depend on context. All actions consume the unit's turn (hasAct
 | **Drop** | Carrying a rescued ally | Place carried ally on adjacent empty tile. Consumes turn. |
 | **Seize** | Lord class AND standing on throne/objective tile | Capture objective → chapter ends (victory) |
 | **Visit** | Standing on unvisited village tile | Trigger village event (reward: item, gold, or story) |
-| **Wait** | Always available (except Bram — No Patience passive) | End turn at current position |
+| **Wait** | Always available (except Goro — No Patience passive) | End turn at current position |
 
 ### Attack Flow
 
@@ -147,7 +147,7 @@ Available actions depend on context. All actions consume the unit's turn (hasAct
 5. Dancer's turn ends
 ```
 
-Orin's Dance is unique — only Dancers can use this action. The refreshed ally gets a full turn (move + act). A unit can only be Danced once per turn.
+Kagura's Dance is unique — only Dancers can use this action. The refreshed ally gets a full turn (move + act). A unit can only be Danced once per turn.
 
 ### Steal Flow
 
@@ -242,11 +242,11 @@ Some chapters (primarily Arc 3+) use limited visibility.
 | Thief/Rogue | 5 tiles (keen eyes) |
 | Torch (item) | Reveals 5-tile radius around user for current turn |
 | Torch Staff | Reveals 7-tile radius at target location for 3 turns |
-| AWR ≥ 61 (Decoded) | +1 sight range (System-enhanced awareness) |
+| INS ≥ 61 (Decoded) | +1 sight range (System-enhanced awareness) |
 
 ### Design Intent
 
-Fog of war creates information scarcity. High-AWR units and Thieves become valuable scouts. Forces cautious play and punishes reckless advancing.
+Fog of war creates information scarcity. High-INS units and Thieves become valuable scouts. Forces cautious play and punishes reckless advancing.
 
 ---
 
@@ -259,7 +259,7 @@ Player can toggle auto-battle during player phase. The AI takes over player unit
 - Uses aggressive behavior by default
 - Healers prioritize healing injured allies over waiting
 - Auto-battle respects all normal rules (weapon triangle, terrain, etc.)
-- Ren's LOOP abilities are NOT used in auto-battle (too valuable for AI to spend)
+- Shigeru's EMB abilities are NOT used in auto-battle (too valuable for AI to spend)
 
 ---
 
@@ -281,7 +281,7 @@ A unit's turn consists of:
 
 Once an action is taken, the unit is done for the turn. Exceptions:
 - **Canto** (mounted units) — after acting, can use remaining MOV to reposition
-- **Reckless** (Bram) — after killing, can act again (up to 2 bonus turns)
+- **Reckless** (Goro) — after killing, can act again (up to 2 bonus turns)
 
 ---
 
@@ -305,7 +305,7 @@ Scripted events that trigger during gameplay based on conditions:
 | Trigger Type | Example |
 |-------------|---------|
 | **Turn-based** | "Reinforcements arrive on Turn 5" |
-| **Position-based** | "Dialogue triggers when Ren steps on tile (5,3)" |
+| **Position-based** | "Dialogue triggers when Shigeru steps on tile (5,3)" |
 | **HP threshold** | "Boss enters Phase 2 at 50% HP" |
 | **Kill-based** | "Defeat all mini-bosses to open the gate" |
 | **Item-based** | "Use the Cipher Stone to reveal enemy positions" |
@@ -345,7 +345,7 @@ Each chapter specifies which victory condition(s) apply. See [objectives.md](obj
 
 | Condition | Result |
 |-----------|--------|
-| **Lord dies** | Instant game over — Ren must survive every chapter |
+| **Lord dies** | Instant game over — Shigeru must survive every chapter |
 | **All player units die** | Game over |
 | **Protected NPC dies** | Game over (protect objectives only) |
 | **Turn limit exceeded** | Game over (timed objectives only) |
@@ -369,9 +369,9 @@ Each chapter specifies which victory condition(s) apply. See [objectives.md](obj
 | **STA** | Accumulates during player actions (move/attack). Resets to 0 at chapter start. Recovery at forts/thrones. |
 | **CRP** | Increases from glitched terrain, corrupted enemies, dark magic use. Decreases via healing, items, passive decay. See [stats.md](stats.md). |
 | **LOY** | Changes based on player decisions during story events. Devotion auto-shield triggers during combat. |
-| **SYNC** | Increases at forts/thrones (+2/+3 per turn). Decreases on glitched terrain. Affects stat consistency. |
-| **AWR** | Increases from witnessing glitches, story events. Unlocks UI elements (enemy stats, terrain info). |
-| **LOOP** | Decreases when Ren uses memory abilities. Increases from kills, trauma. +10 regen between arcs. |
+| **ATT** | Increases at forts/thrones (+2/+3 per turn). Decreases on glitched terrain. Affects stat consistency. |
+| **INS** | Increases from witnessing glitches, story events. Unlocks UI elements (enemy stats, terrain info). |
+| **EMB** | Decreases when Shigeru uses memory abilities. Increases from kills, trauma. +10 regen between arcs. |
 
 ---
 

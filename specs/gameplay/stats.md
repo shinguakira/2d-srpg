@@ -4,7 +4,7 @@ Defines every stat field in the game: what it means, how it's used in formulas, 
 
 This game has two stat layers:
 1. **Classic SRPG stats** — standard combat math (HP, STR, DEF, etc.)
-2. **Meta stats** — unique to this game's meta-narrative (AWR, LOOP, SYNC, LOY, CRP, STA)
+2. **Meta stats** — unique to this game's meta-narrative (INS, EMB, ATT, LOY, CRP, STA)
 
 The meta stats are NOT cosmetic. They create real mechanical trade-offs and tie gameplay directly to the story. All actions remain within standard SRPG rules — Attack, Wait, Heal, Item, Seize.
 
@@ -23,7 +23,7 @@ The meta stats are NOT cosmetic. They create real mechanical trade-offs and tie 
 | **Skill** | SKL | Accuracy + crit chance. | Accuracy = SKL×2 + LCK + weapon hit; Crit = SKL/2 + weapon crit |
 | **Luck** | LCK | Small boost to hit, avoid, crit-avoid. | +LCK to accuracy & evade; -LCK from enemy crit |
 | **Charisma** | CHA | Leadership presence. Boosts nearby allies AND draws enemy attention. | Ally aura (hit/avoid), enemy aggro priority |
-| **Willpower** | WIL | Mental resistance. NOT magic defense — protects against psychological/system effects. | AWR resistance, SYNC trauma reduction, mental status immunity |
+| **Willpower** | WIL | Mental resistance. NOT magic defense — protects against psychological/system effects. | INS resistance, ATT trauma reduction, mental status immunity |
 | **Movement** | MOV | Tiles traversable per turn. | BFS pathfinding range; does NOT grow on level-up |
 
 ## Derived Stats (calculated, never stored)
@@ -39,9 +39,9 @@ These are computed on the fly from base stats + weapon + terrain.
 | **Crit Rate** | SKL/2 + weapon crit - enemy LCK | Clamped 0–100% |
 | **Crit Damage** | Normal damage × 3 | Only on crit hit |
 | **Terrain DEF** | terrain defenseBonus | Added to effective DEF |
-| **Charisma Aura** | Allies within floor(CHA/3) tiles: +CHA hit, +CHA avoid | Ren(9)=3tiles, Kael(7)=2, Bram(6)=2, Lira(5)=1, Senna(3)=1, Voss(2)=0 |
+| **Charisma Aura** | Allies within floor(CHA/3) tiles: +CHA hit, +CHA avoid | Shigeru(9)=3tiles, Akira(7)=2, Goro(6)=2, Hina(5)=1, Kanna(3)=1, Genzo(2)=0 |
 | **Aggro Weight** | 10 + CHA×2 + (maxHP - currentHP)/2 | Wounded high-CHA units draw the most fire |
-| **WIL Check** | effect% = base% - WIL×5% (min 0%) | Mental effects: AWR forced gain, Panic, Despair, Déjà Vu freeze |
+| **WIL Check** | effect% = base% - WIL×5% (min 0%) | Mental effects: INS forced gain, Panic, Despair, Déjà Vu freeze |
 
 ## Weapon Triangle Modifiers
 
@@ -114,7 +114,7 @@ See [promotion.md](promotion.md) for promotion mechanics and stat bonus details.
 - **LCK is minor**: Small nudge to multiple formulas, never dominant — "nice to have" stat
 - **DEF vs RES**: Most enemies are physical, so RES is niche but critical vs mages
 - **CHA is a double-edged sword**: Buffs nearby allies but makes you a priority target. High CHA units are natural tanks/bait — place them where you WANT the enemy to attack. Low CHA units are ignored by enemies, good for flanking.
-- **WIL is mental armor**: Separate from RES — RES blocks magic damage, WIL blocks psychological/system effects (AWR forced changes, SYNC trauma, mental statuses like Panic/Despair). High WIL characters resist the meta-narrative breaking them.
+- **WIL is mental armor**: Separate from RES — RES blocks magic damage, WIL blocks psychological/system effects (INS forced changes, ATT trauma, mental statuses like Panic/Despair). High WIL characters resist the meta-narrative breaking them.
 - **MOV is class-locked**: Only changes via promotion (future), never via level-up — keeps cavalry unique
 
 ## Terrain Bonuses (for reference)
@@ -155,18 +155,18 @@ Each map has a time-of-day setting. Some maps may shift time mid-chapter (e.g., 
 
 | Character | Activity | Peak | Penalty | Notes |
 |-----------|----------|------|---------|-------|
-| **Ren** | Irregular | None | None | 347 cycles destroyed his body clock. |
-| **Kael** | Morning | Dawn/Day | Night | Soldier's discipline. Early riser. |
-| **Senna** | Night | Night | Dawn | Researcher hours. |
-| **Bram** | Irregular | None | None | Runs on adrenaline. |
-| **Lira** | Morning | Dawn/Day | Night | Cheerful early bird. |
-| **Voss** | Morning | Dawn/Day | Night | Military habit from 300 cycles. |
-| **Nira** | Morning | Dawn/Day | Night | Village hunter. Best at dawn. |
-| **Coda** | Night | Night | Dawn | Thief's hours. Works best in darkness. |
-| **Yuel** | Morning | Dawn/Day | Night | Pegasus knight. Flies at first light. |
-| **Rook** | Irregular | None | None | Mercenary. Fights whenever paid. |
-| **Faye** | Morning | Dawn/Day | Night | Noble schedule. Proper hours. |
-| **Orin** | Night | Night | Dawn | Dancer. Performs under moonlight. |
+| **Shigeru** | Irregular | None | None | four centuries destroyed his body clock. |
+| **Akira** | Morning | Dawn/Day | Night | Soldier's discipline. Early riser. |
+| **Kanna** | Night | Night | Dawn | Researcher hours. |
+| **Goro** | Irregular | None | None | Runs on adrenaline. |
+| **Hina** | Morning | Dawn/Day | Night | Cheerful early bird. |
+| **Genzo** | Morning | Dawn/Day | Night | Military habit from 300 cycles. |
+| **Sayo** | Morning | Dawn/Day | Night | Village hunter. Best at dawn. |
+| **Hachi** | Night | Night | Dawn | Thief's hours. Works best in darkness. |
+| **Yuki** | Morning | Dawn/Day | Night | Pegasus knight. Flies at first light. |
+| **Raiga** | Irregular | None | None | Mercenary. Fights whenever paid. |
+| **Mio** | Morning | Dawn/Day | Night | Noble schedule. Proper hours. |
+| **Kagura** | Night | Night | Dawn | Dancer. Performs under moonlight. |
 | **Kira** | Night | Night | Dawn | Dark mage. Studies the void at night. |
 | **Zael** | Morning | Dawn/Day | Night | Wyvern rider. Catches thermals at dawn. |
 | **Elara** | Morning | Dawn/Day | Night | Monastic prayers begin at dawn. |
@@ -175,10 +175,10 @@ Each map has a time-of-day setting. Some maps may shift time mid-chapter (e.g., 
 
 ### Time × Tactical Implications
 
-- **Night maps favor Senna** — she gets +2 hit/+2 avoid/+1 SKL while Kael, Lira, and Voss are weakened.
-- **Dawn maps favor the majority** — 3 Morning units (Kael/Lira/Voss) all peak simultaneously.
-- **Ren and Bram are time-proof** — Irregular means no bonus but no weakness. Reliable anchors regardless of time.
-- **Ch8 (Kael's death chapter)**: If set at night, Kael is weakened when he dies — adding tactical cruelty. If set at dawn, he's at peak strength when killed — adding narrative tragedy.
+- **Night maps favor Kanna** — she gets +2 hit/+2 avoid/+1 SKL while Akira, Hina, and Genzo are weakened.
+- **Dawn maps favor the majority** — 3 Morning units (Akira/Hina/Genzo) all peak simultaneously.
+- **Shigeru and Goro are time-proof** — Irregular means no bonus but no weakness. Reliable anchors regardless of time.
+- **Ch8 (Akira's death chapter)**: If set at night, Akira is weakened when he dies — adding tactical cruelty. If set at dawn, he's at peak strength when killed — adding narrative tragedy.
 
 ---
 
@@ -188,97 +188,97 @@ These stats are unique to "The Last Save File." They exist because the character
 
 ---
 
-## AWR (Awareness)
+## INS (Insight)
 
 How much a unit perceives the system layer. NOT a linear "higher = better" stat. Each threshold unlocks new abilities AND new vulnerabilities.
 
-### AWR Thresholds
+### INS Thresholds
 
-| AWR | Tier | Benefits | Costs |
+| INS | Tier | Benefits | Costs |
 |-----|------|----------|-------|
 | 0-10 | **Blind** | **Instinct Guard**: +10% passive avoid. Immune to System glitches (corruption damage, terrain flicker). | No enemy stat preview. No combat forecast details. Can't see AI types. |
 | 11-30 | **Flickering** | See own stats as numbers. See enemy weapon type + approximate HP (full/half/low). | **Déjà Vu**: 5% chance per turn to freeze for 1 action (memory fragment intrusion). |
-| 31-60 | **Reading** | **System Sight**: Full combat forecast. See enemy stats, movement range on hover, AI type label (aggressive/guard/boss). | **Corruption Magnet**: +3 damage from glitched tiles. +20% damage from corrupted enemies. System targets high-AWR units first for spawns. |
+| 31-60 | **Reading** | **System Sight**: Full combat forecast. See enemy stats, movement range on hover, AI type label (aggressive/guard/boss). | **Corruption Magnet**: +3 damage from glitched tiles. +20% damage from corrupted enemies. System targets high-INS units first for spawns. |
 | 61-90 | **Decoded** | **Foresight**: Before committing to an attack, see the ACTUAL outcome (hit/miss/crit) — not just the %. Can cancel the attack after peeking. 1 use per chapter. | **System Threat**: +1 extra enemy spawns near this unit's position each chapter. Unit is flagged for deletion. |
 | 91-100 | **Awake** | **Break the Script**: Once per chapter, rewrite ONE combat result after it resolves. Change a miss to a hit, a hit to a miss, negate a crit. Edit reality. | **Existential Fragility**: -15% damage dealt unless an ally has died this chapter. Knowing everything is a game makes it hard to care — until it costs something real. |
 
-### AWR Growth (NOT from Level-Up)
+### INS Growth (NOT from Level-Up)
 
-AWR changes through story events and choices, not combat EXP.
+INS changes through story events and choices, not combat EXP.
 
-| Event | AWR Change | Notes |
+| Event | INS Change | Notes |
 |-------|-----------|-------|
 | Witness a glitch (terrain flicker, wrong weapon spawn) | +3 to +5 | Whoever was adjacent |
-| Told about the loops by Ren | +10 to +15 | Listener may resist (willpower reduces gain) |
+| Told about the loops by Shigeru | +10 to +15 | Listener may resist (willpower reduces gain) |
 | Defeat an aware boss | +5 | Kill credit unit only |
 | Ally dies (permadeath) | +8 to +12 | ALL surviving units — trauma cracks the veil |
 | Defect from enemy side | +20 to +30 | Breaking AI code exposes system layer |
-| Successfully use Senna's Seed Read | +2 | Senna only |
+| Successfully use Kanna's Seed Read | +2 | Kanna only |
 | Dialogue choice: "choose not to know" | -5 to -10 | Player can deliberately keep a unit ignorant — sometimes tactically correct |
 
-### AWR Per Character (25-Chapter Pacing)
+### INS Per Character (25-Chapter Pacing)
 
-AWR spreads much more gradually across 25 chapters. Only Ren and Senna reach high tiers early. Most units don't cross into "Decoded" until Arc 4.
+INS spreads much more gradually across 25 chapters. Only Shigeru and Kanna reach high tiers early. Most units don't cross into "Decoded" until Arc 4.
 
 | Character | Arc 1 (Ch1-5) | Arc 2 (Ch6-10) | Arc 3 (Ch11-15) | Arc 4 (Ch16-20) | Arc 5 (Ch21-25) | Notes |
 |-----------|--------------|----------------|-----------------|-----------------|-----------------|-------|
-| **Ren** | 95→96 | 96→97 | 97→98 | 98→99 | 99→100 | Near-max. Barely grows — he already knows everything. |
-| **Senna** | 25→40 | 40→55 | 55→70 | 70→82 | 82→90 | Rapid analytical growth. Crosses "Reading" Arc 1, "Decoded" Arc 3. |
-| **Kael** | 0→5 | 5→18 (dies Ch8) | — | — | — | Stays Blind unless told. Dies before significant growth. |
-| **Bram** | 35→38 | 38→42 | 42→50 | 50→58 | 58→65 | Slow growth — resists understanding. Stays in "Reading" until late. |
-| **Lira** | 30→33 | 33→48 (+12 Kael) | 48→55 | 55→65 | 65→72 | Spikes on Kael's death. Gradual emotional growth. |
-| **Voss** | 5→35 | 35→45 | 45→55 | 55→65 | 65→75 | Jumps massively on defection. Steady after. |
-| **Nira** | 0→3 | 3→8 | 8→20 | 20→35 | 35→50 | Village girl. Slow natural growth. Crosses "Flickering" mid-game. |
-| **Coda** | 10→15 | 15→25 | 25→40 | 40→55 | 55→68 | Street smart — picks up anomalies. |
-| **Yuel** | 0→2 | 2→10 | 10→25 | 25→40 | 40→55 | Idealist. Resists awareness at first. |
-| **Rook** | — | 5→15 | 15→30 | 30→45 | 45→55 | Practical mercenary. Accepts what he sees. |
-| **Faye** | — | 0→10 | 10→25 | 25→40 | 40→50 | Sheltered noble. Slow awakening. |
-| **Orin** | — | — (joins Ch9) 0→5 | 5→20 | 20→40 | 40→60 | Dances between awareness and denial. |
-| **Kira** | — | — | 60→65 | 65→75 | 75→85 | Joins at high AWR — former dark mage saw things. |
+| **Shigeru** | 95→96 | 96→97 | 97→98 | 98→99 | 99→100 | Near-max. Barely grows — he already knows everything. |
+| **Kanna** | 25→40 | 40→55 | 55→70 | 70→82 | 82→90 | Rapid analytical growth. Crosses "Reading" Arc 1, "Decoded" Arc 3. |
+| **Akira** | 0→5 | 5→18 (dies Ch8) | — | — | — | Stays Blind unless told. Dies before significant growth. |
+| **Goro** | 35→38 | 38→42 | 42→50 | 50→58 | 58→65 | Slow growth — resists understanding. Stays in "Reading" until late. |
+| **Hina** | 30→33 | 33→48 (+12 Akira) | 48→55 | 55→65 | 65→72 | Spikes on Akira's death. Gradual emotional growth. |
+| **Genzo** | 5→35 | 35→45 | 45→55 | 55→65 | 65→75 | Jumps massively on defection. Steady after. |
+| **Sayo** | 0→3 | 3→8 | 8→20 | 20→35 | 35→50 | Village girl. Slow natural growth. Crosses "Flickering" mid-game. |
+| **Hachi** | 10→15 | 15→25 | 25→40 | 40→55 | 55→68 | Street smart — picks up anomalies. |
+| **Yuki** | 0→2 | 2→10 | 10→25 | 25→40 | 40→55 | Idealist. Resists awareness at first. |
+| **Raiga** | — | 5→15 | 15→30 | 30→45 | 45→55 | Practical mercenary. Accepts what he sees. |
+| **Mio** | — | 0→10 | 10→25 | 25→40 | 40→50 | Sheltered noble. Slow awakening. |
+| **Kagura** | — | — (joins Ch9) 0→5 | 5→20 | 20→40 | 40→60 | Dances between awareness and denial. |
+| **Kira** | — | — | 60→65 | 65→75 | 75→85 | Joins at high INS — former dark mage saw things. |
 | **Zael** | — | — | 15→25 (conditional) | 25→45 | 45→60 | Wyvern rider. Joins corrupted. |
 | **Elara** | — | — | 40→50 | 50→65 | 65→80 | Monk. Spiritual awareness parallels meta-awareness. |
 | **Ghael** | — | — | — | 0→5 | 5→15 | Former boss. Stubbornly unaware. Refuses to see. |
 | **Echo** | — | — | — | 70→80 | 80→95 | System-created. Born aware. |
 
-### AWR Player Choice
+### INS Player Choice
 
-At certain dialogue points, the player can raise or lower a character's AWR. These appear 2-3 times per arc:
+At certain dialogue points, the player can raise or lower a character's INS. These appear 2-3 times per arc:
 
-- "Tell [unit] the truth about the loops" → +15 AWR (gains forecast info, loses Instinct Guard)
-- "Let [unit] believe this is real" → stays low AWR (keeps +10% avoid, no forecast)
-- "Share Senna's research data" → target +10 AWR, Senna +2 AWR
-- "Destroy the evidence" → target -5 AWR
+- "Tell [unit] the truth about the loops" → +15 INS (gains forecast info, loses Instinct Guard)
+- "Let [unit] believe this is real" → stays low INS (keeps +10% avoid, no forecast)
+- "Share Kanna's research data" → target +10 INS, Kanna +2 INS
+- "Destroy the evidence" → target -5 INS
 
 Real tactical dilemma: more information vs better instinctive performance.
 
-### AWR Player Choice
+### INS Player Choice
 
-At certain dialogue points, the player can raise or lower a character's AWR:
+At certain dialogue points, the player can raise or lower a character's INS:
 
-- "Tell Kael the truth about the loops" → Kael +15 AWR (gains forecast info, loses Instinct Guard)
-- "Let Kael believe this is real" → Kael stays low AWR (keeps +10% avoid, no forecast)
+- "Tell Akira the truth about the loops" → Akira +15 INS (gains forecast info, loses Instinct Guard)
+- "Let Akira believe this is real" → Akira stays low INS (keeps +10% avoid, no forecast)
 
 Real tactical dilemma: more information vs better instinctive performance.
 
 ---
 
-## LOOP (Cycle Memory)
+## EMB (Cycle Memory)
 
-How many past cycles a unit retains. LOOP is a **spendable resource** — accumulated memories can be burned for powerful one-time effects, but spent memories are gone permanently. You're trading your past for your present.
+How many past cycles a unit retains. EMB is a **spendable resource** — accumulated memories can be burned for powerful one-time effects, but spent memories are gone permanently. You're trading your past for your present.
 
-### LOOP Actions
+### EMB Actions
 
 | Action | Cost | Effect | Narrative |
 |--------|------|--------|-----------|
-| **Recall** | 10 LOOP | Preview enemy phase — see where ALL enemies will move and who they'll attack. Full map overlay showing projected enemy positions + targets. Lasts until end of enemy phase. | "I've seen this turn before. They'll flank left." |
-| **Déjà Vu Strike** | 15 LOOP | Next attack is guaranteed hit + guaranteed crit. Muscle memory from hundreds of identical kills. | "I know exactly where your guard drops." |
-| **Ghost Step** | 20 LOOP | Move through occupied tiles (enemy or ally) this turn. Phase through units. Your body remembers a cycle where those tiles were empty. | "In cycle #203, this tile was open. My body still thinks it is." |
-| **Echo** | 30 LOOP | Summon a "ghost" of yourself from a past cycle at an adjacent tile. Ghost has 50% of your stats, lasts 2 turns, acts independently. Cannot use LOOP abilities. Cannot be healed. Fades at end. | "One more time. Like cycle #112." |
-| **Last Words** | ALL remaining LOOP | When a unit hits 0 HP: spend ALL remaining LOOP to survive at 1 HP. One-time revival. The memory of surviving keeps you alive — but every memory is gone forever. | "Not yet. I remember a time where I survived this. One more time." |
+| **Recall** | 10 EMB | Preview enemy phase — see where ALL enemies will move and who they'll attack. Full map overlay showing projected enemy positions + targets. Lasts until end of enemy phase. | "I've seen this turn before. They'll flank left." |
+| **Déjà Vu Strike** | 15 EMB | Next attack is guaranteed hit + guaranteed crit. Muscle memory from hundreds of identical kills. | "I know exactly where your guard drops." |
+| **Ghost Step** | 20 EMB | Move through occupied tiles (enemy or ally) this turn. Phase through units. Your body remembers a cycle where those tiles were empty. | "In cycle #203, this tile was open. My body still thinks it is." |
+| **Echo** | 30 EMB | Summon a "ghost" of yourself from a past cycle at an adjacent tile. Ghost has 50% of your stats, lasts 2 turns, acts independently. Cannot use EMB abilities. Cannot be healed. Fades at end. | "One more time. Like cycle #112." |
+| **Last Words** | ALL remaining EMB | When a unit hits 0 HP: spend ALL remaining EMB to survive at 1 HP. One-time revival. The memory of surviving keeps you alive — but every memory is gone forever. | "Not yet. I remember a time where I survived this. One more time." |
 
-### LOOP Gain
+### EMB Gain
 
-| Event | LOOP Gain | Notes |
+| Event | EMB Gain | Notes |
 |-------|----------|-------|
 | Level up | +3 to +5 | Small. Living through combat creates micro-memories. |
 | Kill a boss | +10 | Major combat memory. |
@@ -286,104 +286,104 @@ How many past cycles a unit retains. LOOP is a **spendable resource** — accumu
 | Witness ally death | +8 | You'll never forget this. |
 | System glitch exposure | +2 | Breaking world leaks past-cycle data. |
 
-LOOP does NOT regenerate between chapters normally. However, between **arcs** (every 5 chapters), units recover **+10 LOOP** from rest and reflection. This prevents total LOOP bankruptcy over 25 chapters while keeping spending meaningful.
+EMB does NOT regenerate between chapters normally. However, between **arcs** (every 5 chapters), units recover **+10 EMB** from rest and reflection. This prevents total EMB bankruptcy over 25 chapters while keeping spending meaningful.
 
-### LOOP Per Character (25-Chapter Pacing)
+### EMB Per Character (25-Chapter Pacing)
 
 | Character | Starting | Expected by Arc 5 | Max | Notes |
 |-----------|---------|-------------------|-----|-------|
-| **Ren** | 347 | 250-350 (depends on spending) | ~420 | Enormous reservoir. Must conserve — Ch25 boss scaling reads remaining LOOP. |
-| **Senna** | 0 | 60-80 | ~100 | Gains LOOP through analysis. Reverse-engineers past-cycle data. |
-| **Kael** | 0 | — (dies Ch8) | ~25 | Gains modest LOOP through combat. Lost when he dies — unless ???_CORRUPTED has it. |
-| **Bram** | 0 | 40-60 | ~80 | Muscle memory gains. "I've never fought this guy but my HANDS remember." |
-| **Lira** | 0 | 45-65 | ~85 | Emotional pattern memory. "I knew you'd do that because I KNOW you." |
-| **Voss** | 150 | 160-200 | ~220 | 300 cycles of standing still. Gains slowly from new experiences. |
-| **Nira** | 0 | 20-35 | ~50 | Low LOOP potential. Archer instincts, not memories. |
-| **Coda** | 0 | 30-50 | ~65 | Thief's gut feelings. "I've robbed this type of building before." |
-| **Rook** | 0 | 25-45 | ~60 | Mercenary déjà vu. "This formation... I've broken it." |
-| **Faye** | 0 | 20-35 | ~50 | Noble's intuition. Low combat memories. |
-| **Orin** | 0 | 30-50 | ~65 | Dance memories. Each performance echoes past cycles. |
+| **Shigeru** | 347 | 250-350 (depends on spending) | ~420 | Enormous reservoir. Must conserve — Ch25 boss scaling reads remaining EMB. |
+| **Kanna** | 0 | 60-80 | ~100 | Gains EMB through analysis. Reverse-engineers past-cycle data. |
+| **Akira** | 0 | — (dies Ch8) | ~25 | Gains modest EMB through combat. Lost when he dies — unless ???_CORRUPTED has it. |
+| **Goro** | 0 | 40-60 | ~80 | Muscle memory gains. "I've never fought this guy but my HANDS remember." |
+| **Hina** | 0 | 45-65 | ~85 | Emotional pattern memory. "I knew you'd do that because I KNOW you." |
+| **Genzo** | 150 | 160-200 | ~220 | 300 cycles of standing still. Gains slowly from new experiences. |
+| **Sayo** | 0 | 20-35 | ~50 | Low EMB potential. Archer instincts, not memories. |
+| **Hachi** | 0 | 30-50 | ~65 | Thief's gut feelings. "I've robbed this type of building before." |
+| **Raiga** | 0 | 25-45 | ~60 | Mercenary déjà vu. "This formation... I've broken it." |
+| **Mio** | 0 | 20-35 | ~50 | Noble's intuition. Low combat memories. |
+| **Kagura** | 0 | 30-50 | ~65 | Dance memories. Each performance echoes past cycles. |
 | **Kira** | 20 | 50-70 | ~90 | Dark magic studies revealed fragments. Starts with some. |
 | **Zael** | 0 | 15-30 | ~45 | Wyvern rider. Few intellectual memories. |
 | **Elara** | 10 | 40-60 | ~80 | Monastic meditation revealed echoes. |
 | **Ghael** | 0 | 10-20 | ~30 | Former boss. Refuses to acknowledge past cycles. |
-| **Echo** | 100 | 100-130 | ~150 | System-created with cycle data loaded. Second-highest starting LOOP. |
+| **Echo** | 100 | 100-130 | ~150 | System-created with cycle data loaded. Second-highest starting EMB. |
 
-### Ren's LOOP — The Big Decisions
+### Shigeru's EMB — The Big Decisions
 
-Ren starts with 347 LOOP. He could burn 15 every fight for guaranteed crits and steamroll the game. BUT:
+Shigeru starts with 347 EMB. He could burn 15 every fight for guaranteed crits and steamroll the game. BUT:
 
-- **Ch4 boss scaling**: ???_CORRUPTED reads your LOOP data. Higher remaining LOOP = harder boss phase (it weaponizes your memories against you).
-- **Last Words sacrifice**: If Ren uses Last Words, he survives at 1 HP but loses ALL 347 memories. The exhausted speedrunner becomes... nobody. A person without a past. Is that worth it?
-- **Two final dialogues**: If Ren reaches the finale with high LOOP: *"YOU REMEMBER EVERYTHING. AND YOU STILL CHOOSE TO END IT."* If low LOOP (spent it all): *"YOU GAVE UP YOUR MEMORY TO SAVE THEM. THAT IS... NEW."*
+- **Ch4 boss scaling**: ???_CORRUPTED reads your EMB data. Higher remaining EMB = harder boss phase (it weaponizes your memories against you).
+- **Last Words sacrifice**: If Shigeru uses Last Words, he survives at 1 HP but loses ALL 347 memories. The exhausted speedrunner becomes... nobody. A person without a past. Is that worth it?
+- **Two final dialogues**: If Shigeru reaches the finale with high EMB: *"YOU REMEMBER EVERYTHING. AND YOU STILL CHOOSE TO END IT."* If low EMB (spent it all): *"YOU GAVE UP YOUR MEMORY TO SAVE THEM. THAT IS... NEW."*
 
-How you manage Ren's LOOP IS the story.
+How you manage Shigeru's EMB IS the story.
 
 ---
 
-## SYNC (System Alignment)
+## ATT (System Alignment)
 
-A percentage (0-100%) measuring how well a unit's data aligns with the SRPG system. High SYNC = stable, reliable, strong base combat. Low SYNC = unstable data, unpredictable behavior, but the instability can manifest as powerful anomalies.
+A percentage (0-100%) measuring how well a unit's data aligns with the SRPG system. High ATT = stable, reliable, strong base combat. Low ATT = unstable data, unpredictable behavior, but the instability can manifest as powerful anomalies.
 
-SYNC is NOT about genre — it's about how "clean" a unit's data is. Corrupted data (low SYNC) causes glitches that can be advantageous or dangerous.
+ATT is NOT about genre — it's about how "clean" a unit's data is. Corrupted data (low ATT) causes glitches that can be advantageous or dangerous.
 
-### SYNC Effects Table
+### ATT Effects Table
 
-| SYNC | SRPG Combat | Instability Effects | State |
+| ATT | SRPG Combat | Instability Effects | State |
 |------|------------|-------------------|-------|
 | 0-30% | -20% hit/avoid/damage | **Volatile**: Stats fluctuate ±1-3 randomly each turn. Terrain interactions may glitch (ignore terrain cost OR take terrain damage from safe tiles). Attacks occasionally deal 0 damage or 2x damage — unpredictable. | "My data is falling apart." |
 | 31-50% | -10% hit/avoid/damage | **Unstable**: Stats fluctuate ±1 each turn. Occasional immunity to one enemy attack per chapter (the attack "fails to register"). | "Something's wrong with me but I can use it." |
 | 51-70% | Normal — no penalty, no bonus | **Stable**: No fluctuation, no anomalies. Clean data. | "I'm functioning as intended." |
-| 71-90% | +5% hit/avoid | **Hardened**: Immune to System glitch effects (terrain corruption, stat scramble). +2 DEF/RES vs corrupted enemies. | "The System can't touch me." |
+| 71-90% | +5% hit/avoid | **Hardened**: Immune to System glitch effects (terrain corruption, stat scramble). +2 DEF/RES vs corrupted enemies. | "The Blackflame can't touch me." |
 | 91-100% | +10% hit/avoid | **Anchored**: Immune to ALL System interference. Adjacent allies gain +5 avoid (stability aura). Cannot be targeted by System-spawned corruption events. | "I am exactly what this game needs." |
 
-### SYNC Change Events
+### ATT Change Events
 
-| Event | SYNC Change | Notes |
+| Event | ATT Change | Notes |
 |-------|------------|-------|
 | Level up | +3 | Natural stabilization |
 | Complete a chapter | +5 | Surviving reinforces your data |
 | Take damage from a corrupted enemy | -3 | Corruption spreads through combat |
 | Stand on a glitched tile | -2 | Proximity to instability |
 | Ally dies (permadeath) | -10 ALL | Trauma destabilizes everyone's data |
-| Kael dies (Ch8) | -10 ALL additional | The most stable unit is gone. Everyone's anchor removed. |
+| Akira dies (Ch8) | -10 ALL additional | The most stable unit is gone. Everyone's anchor removed. |
 | Heal at a fort/throne | +2 | Safe zones stabilize data |
-| Use a LOOP action | -2 | Accessing past cycle data introduces instability |
+| Use a EMB action | -2 | Accessing past cycle data introduces instability |
 
-### SYNC Per Character (Full Roster)
+### ATT Per Character (Full Roster)
 
 | Character | Start | Arc 5 Range | Notes |
 |-----------|-------|------------|-------|
-| **Kael** | 100% | — (dies Ch8) | The most stable unit. His death is a SYNC earthquake for the whole party. |
-| **Ren** | 75% | 80-90% | 347 cycles slightly corrupted his data. Slow recovery over 25 chapters. |
-| **Senna** | 85% | 90-100% | Analytical mind keeps data organized. Trends toward Anchored. |
-| **Bram** | 40% | 55-70% | Corrupted initialization. Instability is part of his identity. |
-| **Lira** | 35% | 50-65% | Similar to Bram. Healing magic slowly stabilizes her data. |
-| **Voss** | 55% | 65-80% | Defection scrambled his data. Gradually stabilizes through loyalty. |
-| **Nira** | 80% | 85-95% | Clean village data. Naturally stable, rarely corrupted. |
-| **Coda** | 50% | 55-70% | Street data is messy. Unstable but functional. |
-| **Yuel** | 90% | 85-95% | Pegasus knight — aerial data is clean. May drop from idealism crises. |
-| **Rook** | 60% | 65-75% | Mercenary — practical stability. No highs, no lows. |
-| **Faye** | 75% | 70-85% | Noble data is well-structured. Drops if she witnesses corruption. |
-| **Orin** | 45% | 50-65% | Dancer data is inherently fluid. Not corrupted, just... flexible. |
+| **Akira** | 100% | — (dies Ch8) | The most stable unit. His death is a ATT earthquake for the whole party. |
+| **Shigeru** | 75% | 80-90% | four centuries slightly corrupted his data. Slow recovery over 25 chapters. |
+| **Kanna** | 85% | 90-100% | Analytical mind keeps data organized. Trends toward Anchored. |
+| **Goro** | 40% | 55-70% | Corrupted initialization. Instability is part of his identity. |
+| **Hina** | 35% | 50-65% | Similar to Goro. Healing magic slowly stabilizes her data. |
+| **Genzo** | 55% | 65-80% | Defection scrambled his data. Gradually stabilizes through loyalty. |
+| **Sayo** | 80% | 85-95% | Clean village data. Naturally stable, rarely corrupted. |
+| **Hachi** | 50% | 55-70% | Street data is messy. Unstable but functional. |
+| **Yuki** | 90% | 85-95% | Pegasus knight — aerial data is clean. May drop from idealism crises. |
+| **Raiga** | 60% | 65-75% | Mercenary — practical stability. No highs, no lows. |
+| **Mio** | 75% | 70-85% | Noble data is well-structured. Drops if she witnesses corruption. |
+| **Kagura** | 45% | 50-65% | Dancer data is inherently fluid. Not corrupted, just... flexible. |
 | **Kira** | 30% | 40-55% | Dark magic has degraded her data significantly. High CRP risk. |
 | **Zael** | 35% | 45-60% | Partially corrupted from Ch13 recruitment. Can be cleansed. |
 | **Elara** | 70% | 75-90% | Monastic discipline = clean data. Light magic naturally purifies. |
-| **Ghael** | 65% | 60-75% | Former boss — his data was restructured by the System. Stable but artificial. |
-| **Echo** | 50% | 50-70% | System-created. Data is technically perfect but... wrong. The System's code isn't the same as natural data. |
+| **Ghael** | 65% | 60-75% | Former boss — his data was restructured by the Blackflame. Stable but artificial. |
+| **Echo** | 50% | 50-70% | System-created. Data is technically perfect but... wrong. The Blackflame's code isn't the same as natural data. |
 
-### SYNC Narrative Triggers
+### ATT Narrative Triggers
 
-**Any character at 20%- SYNC**:
+**Any character at 20%- ATT**:
 - Visual glitch on their sprite — flickering, color shifts
 - Other characters notice: "Are you okay? You're... flickering."
 - Stat block display occasionally shows garbled numbers for 1 frame
 
-**Any character at 90%+ SYNC**:
+**Any character at 90%+ ATT**:
 - Sprite is crisp, solid, no visual artifacts
 - "I feel... clear. Like I know exactly who I am."
 
-**Party average SYNC drops below 50% (likely after Ch3)**:
+**Party average ATT drops below 50% (likely after Ch3)**:
 - The map itself starts destabilizing more aggressively — the party's collective instability is feeding the corruption
 
 ---
@@ -399,19 +399,19 @@ How committed a unit is to the party and its cause. NOT a simple "good/bad" mete
 | 0-20 | **Defiant** | 15% chance per turn to ignore player command and act independently (attack nearest, retreat, or skip turn). Cannot be paired for Rescue. May refuse healing. |
 | 21-40 | **Reluctant** | 5% chance to ignore commands. -10% hit when attacking enemies the player didn't highlight. Will not use items on allies. |
 | 41-60 | **Neutral** | No penalties, no bonuses. Follows orders. |
-| 61-80 | **Devoted** | +5% hit/avoid when within 3 tiles of party leader (Ren). Will automatically shield adjacent allies from lethal blows (take the hit instead, once per chapter). |
-| 81-100 | **Sworn** | +10% hit/avoid near leader. Auto-shield with no limit. If Ren drops below 30% HP, Sworn units gain +5 all combat stats until Ren is healed. "I won't let it end like this." |
+| 61-80 | **Devoted** | +5% hit/avoid when within 3 tiles of party leader (Shigeru). Will automatically shield adjacent allies from lethal blows (take the hit instead, once per chapter). |
+| 81-100 | **Sworn** | +10% hit/avoid near leader. Auto-shield with no limit. If Shigeru drops below 30% HP, Sworn units gain +5 all combat stats until Shigeru is healed. "I won't let it end like this." |
 
 ### LOY Change Events
 
 | Event | LOY Change | Notes |
 |-------|-----------|-------|
-| Ren protects this unit (takes a hit or heals) | +5 | Leadership through action |
+| Shigeru protects this unit (takes a hit or heals) | +5 | Leadership through action |
 | Unit is left at low HP without healing for 2+ turns | -5 | "You left me to die." |
-| Unit sees Ren use LOOP abilities | -3 | Distrust — "What else are you hiding?" (only if unit AWR < 30) |
-| Ren reveals truth about loops voluntarily | +8 or -8 | Depends on WIL — high WIL respects honesty, low WIL panics |
-| Unit kills a boss alongside Ren | +5 | Shared victory builds trust |
-| Ally dies | -3 to -8 | "You could have prevented this." Worse if Ren had high LOOP (they wonder if he could have used it) |
+| Unit sees Shigeru use EMB abilities | -3 | Distrust — "What else are you hiding?" (only if unit INS < 30) |
+| Shigeru reveals truth about loops voluntarily | +8 or -8 | Depends on WIL — high WIL respects honesty, low WIL panics |
+| Unit kills a boss alongside Shigeru | +5 | Shared victory builds trust |
+| Ally dies | -3 to -8 | "You could have prevented this." Worse if Shigeru had high EMB (they wonder if he could have used it) |
 | Player chooses dialogue that validates this unit | +3 | Feeling heard |
 | Unit is ordered to attack an enemy that will clearly kill them | -10 | Suicide orders destroy trust |
 
@@ -419,17 +419,17 @@ How committed a unit is to the party and its cause. NOT a simple "good/bad" mete
 
 | Character | Start | Arc 5 Range | Notes |
 |-----------|-------|------------|-------|
-| **Kael** | 90 | — (dies Ch8) | Trusts Ren unconditionally. His death's LOY cascade hits everyone hard. |
-| **Senna** | 40 | 60-80 | Doesn't trust — she verifies. LOY grows as Ren's knowledge proves accurate. |
-| **Bram** | 55 | 50-80 (volatile) | Loyal when fights are fun, drops fast when bored. |
-| **Lira** | 70 | 70-90 | Emotionally loyal. Drops hard on betrayal, forgives fast. |
-| **Voss** | 25 | 50-70 | Former enemy. Low start is the cost of defection. Slow build. |
-| **Nira** | 60 | 65-85 | Village loyalty. Grateful for rescue. Steady growth. |
-| **Coda** | 30 | 40-65 | Trusts no one initially. Pragmatic — follows results. |
-| **Yuel** | 70 | 60-85 | Idealistic loyalty. Can drop sharply if disillusioned. |
-| **Rook** | 35 | 45-70 | Mercenary — loyalty is earned, not given. Respects competence. |
-| **Faye** | 55 | 60-80 | Noble sense of duty. Loyal to the cause more than to Ren specifically. |
-| **Orin** | 50 | 55-75 | Follows the best performance — wherever the drama is. |
+| **Akira** | 90 | — (dies Ch8) | Trusts Shigeru unconditionally. His death's LOY cascade hits everyone hard. |
+| **Kanna** | 40 | 60-80 | Doesn't trust — she verifies. LOY grows as Shigeru's knowledge proves accurate. |
+| **Goro** | 55 | 50-80 (volatile) | Loyal when fights are fun, drops fast when bored. |
+| **Hina** | 70 | 70-90 | Emotionally loyal. Drops hard on betrayal, forgives fast. |
+| **Genzo** | 25 | 50-70 | Former enemy. Low start is the cost of defection. Slow build. |
+| **Sayo** | 60 | 65-85 | Village loyalty. Grateful for rescue. Steady growth. |
+| **Hachi** | 30 | 40-65 | Trusts no one initially. Pragmatic — follows results. |
+| **Yuki** | 70 | 60-85 | Idealistic loyalty. Can drop sharply if disillusioned. |
+| **Raiga** | 35 | 45-70 | Mercenary — loyalty is earned, not given. Respects competence. |
+| **Mio** | 55 | 60-80 | Noble sense of duty. Loyal to the cause more than to Shigeru specifically. |
+| **Kagura** | 50 | 55-75 | Follows the best performance — wherever the drama is. |
 | **Kira** | 20 | 35-60 | Dark mage defector. Deeply distrustful. Slow to warm. |
 | **Zael** | 15 (if recruited) | 30-55 | Conditional recruit. Starts hostile. Needs reason to stay. |
 | **Elara** | 65 | 70-90 | Monastic compassion. Believes in everyone. High floor. |
@@ -440,7 +440,7 @@ How committed a unit is to the party and its cause. NOT a simple "good/bad" mete
 
 When a Devoted/Sworn unit is adjacent to an ally who would take a lethal blow:
 - The shielding unit **takes the full damage instead** of the target.
-- If the shield unit would die from this, they die (permadeath). This triggers ally death LOY/AWR/SYNC cascades.
+- If the shield unit would die from this, they die (permadeath). This triggers ally death LOY/INS/ATT cascades.
 - The shielded unit takes 0 damage.
 - Does NOT consume the shielding unit's action — it's a passive reaction.
 - Devoted (61-80): triggers once per chapter. Sworn (81-100): no limit.
@@ -448,14 +448,14 @@ When a Devoted/Sworn unit is adjacent to an ally who would take a lethal blow:
 
 ### LOY Narrative Triggers
 
-- **Voss at 15- LOY**: Re-defection risk. If LOY hits 0, Voss leaves the party permanently. "I didn't leave one army to be mistreated in another."
-- **Any unit at 90+ LOY**: Unlocks a unique dialogue with Ren where they acknowledge the loops. Even low-AWR units sense something: "I don't know what you've been through. But I'll follow you."
+- **Genzo at 15- LOY**: Re-defection risk. If LOY hits 0, Genzo leaves the party permanently. "I didn't leave one army to be mistreated in another."
+- **Any unit at 90+ LOY**: Unlocks a unique dialogue with Shigeru where they acknowledge the loops. Even low-INS units sense something: "I don't know what you've been through. But I'll follow you."
 
 ---
 
 ## CRP (Corruption / 汚染度)
 
-How much System corruption has infected a unit's data. Different from SYNC — SYNC is structural stability, CRP is active malicious data spreading through the unit. Think of SYNC as "how intact your bones are" and CRP as "how much poison is in your blood."
+How much System corruption has infected a unit's data. Different from ATT — ATT is structural stability, CRP is active malicious data spreading through the unit. Think of ATT as "how intact your bones are" and CRP as "how much poison is in your blood."
 
 CRP starts at 0 for all player units and only goes UP. It cannot be reduced to 0 once above 0 — corruption leaves permanent traces.
 
@@ -467,7 +467,7 @@ CRP starts at 0 for all player units and only goes UP. It cannot be reduced to 0
 | 1-15 | **Traces** | Cosmetic only — occasional sprite flicker. No gameplay effect. A warning. |
 | 16-30 | **Infected** | -1 to a random stat each turn (rerolled each turn). Corrupted tiles no longer damage this unit (the corruption recognizes its own). |
 | 31-50 | **Spreading** | -2 to random stat each turn. This unit's attacks have a 10% chance to apply +3 CRP to the TARGET (corruption spreads through combat). Adjacent allies gain +1 CRP per turn from proximity. |
-| 51-75 | **Consumed** | -3 to random stat each turn. All attacks deal bonus corruption damage (+20% damage to units with CRP > 0). Sprite visibly glitched — color bleeding, frame skipping. Can hear the System whispering. |
+| 51-75 | **Consumed** | -3 to random stat each turn. All attacks deal bonus corruption damage (+20% damage to units with CRP > 0). Sprite visibly glitched — color bleeding, frame skipping. Can hear the Blackflame whispering. |
 | 76-100 | **Overwritten** | Unit is no longer fully under player control. 30% chance each turn to act as an enemy (attacks nearest unit, ally or enemy). If CRP reaches 100: unit is **permanently converted** to an enemy unit. Gone. Worse than death — they fight against you. |
 
 ### CRP Gain Events
@@ -477,7 +477,7 @@ CRP starts at 0 for all player units and only goes UP. It cannot be reduced to 0
 | Stand on a glitched/corrupted tile | +2 per turn | Proximity |
 | Take damage from a corrupted enemy | +3 | Corruption spreads through wounds |
 | Take damage from ???_CORRUPTED (Ch24-25 boss) | +5 | Direct System injection |
-| Use LOOP abilities | +1 | Accessing past data opens channels for corruption |
+| Use EMB abilities | +1 | Accessing past data opens channels for corruption |
 | Ally converted (CRP 100) | +5 ALL | Witnessing a friend become an enemy |
 | Kill a corrupted ally | +8 | The trauma of putting down your own |
 
@@ -486,7 +486,7 @@ CRP starts at 0 for all player units and only goes UP. It cannot be reduced to 0
 | Event | CRP Reduction | Notes |
 |-------|-------------|-------|
 | Heal at fort/throne for full turn | -2 | Safe zones cleanse slowly |
-| Lira's Heal (staff) on a corrupted ally | -1 per heal | Lira's empathy is the closest thing to an antivirus |
+| Hina's Heal (staff) on a corrupted ally | -1 per heal | Hina's empathy is the closest thing to an antivirus |
 | Elara's Light magic heal | -2 per heal | Light magic has purifying properties |
 | Chapter end | -3 | Rest between chapters cleanses some |
 | Arc transition (every 5 chapters) | -5 bonus | Extended rest between arcs allows deeper cleansing |
@@ -498,34 +498,34 @@ CRP starts at 0 for all player units and only goes UP. It cannot be reduced to 0
 | **Passive decay**: If CRP stays below 15 for 3+ chapters | -1 per chapter | Body naturally fights off trace corruption |
 | **Cannot go below**: max(0, highest_CRP_ever - 25) | — | Corruption leaves scars. A unit that hit 50 CRP can never go below 25. (Loosened from -20 to -25 for 25-chapter sustainability) |
 
-### CRP × SYNC Compound Rule
+### CRP × ATT Compound Rule
 
-When a unit has both high CRP (16+) and low SYNC (50%-), the stat penalties DO stack — this is intentional. However, a safety cap applies:
-- **Total stat reduction from CRP + SYNC combined cannot exceed -5 to any single stat per turn.**
+When a unit has both high CRP (16+) and low ATT (50%-), the stat penalties DO stack — this is intentional. However, a safety cap applies:
+- **Total stat reduction from CRP + ATT combined cannot exceed -5 to any single stat per turn.**
 - This prevents a unit from becoming completely unusable but keeps the pressure real.
-- High SYNC (71%+) grants CRP resistance: CRP gain events are halved (rounded down).
+- High ATT (71%+) grants CRP resistance: CRP gain events are halved (rounded down).
 
 ### CRP Per Character (Full Roster)
 
 | Character | Start | Vulnerability | Notes |
 |-----------|-------|--------------|-------|
-| **Ren** | 0 | Medium | 347 cycles of clean data, but LOOP usage opens corruption channels. |
-| **Kael** | 0 | Very Low | 100% SYNC = natural corruption resistance. Almost impossible to corrupt. |
-| **Senna** | 0 | High | High AWR = she can SEE corruption, which means it can see HER. |
-| **Bram** | 0 | High | Low SYNC = poor data integrity. Corruption finds easy entry points. |
-| **Lira** | 0 | Medium | Low SYNC but healing abilities give partial immunity. |
-| **Voss** | 5 | Medium | Trace corruption from defection. |
-| **Nira** | 0 | Low | Clean village data. High SYNC protects her. |
-| **Coda** | 0 | Medium | Mid SYNC. Street-level corruption exposure. |
-| **Yuel** | 0 | Low | High SYNC. Aerial units have natural resistance. |
-| **Rook** | 0 | Medium | Practical resistance. Not immune, not vulnerable. |
-| **Faye** | 0 | Low | Well-structured noble data. |
-| **Orin** | 0 | Medium | Fluid data is hard to corrupt but also hard to cleanse. |
+| **Shigeru** | 0 | Medium | four centuries of clean data, but EMB usage opens corruption channels. |
+| **Akira** | 0 | Very Low | 100% ATT = natural corruption resistance. Almost impossible to corrupt. |
+| **Kanna** | 0 | High | High INS = she can SEE corruption, which means it can see HER. |
+| **Goro** | 0 | High | Low ATT = poor data integrity. Corruption finds easy entry points. |
+| **Hina** | 0 | Medium | Low ATT but healing abilities give partial immunity. |
+| **Genzo** | 5 | Medium | Trace corruption from defection. |
+| **Sayo** | 0 | Low | Clean village data. High ATT protects her. |
+| **Hachi** | 0 | Medium | Mid ATT. Street-level corruption exposure. |
+| **Yuki** | 0 | Low | High ATT. Aerial units have natural resistance. |
+| **Raiga** | 0 | Medium | Practical resistance. Not immune, not vulnerable. |
+| **Mio** | 0 | Low | Well-structured noble data. |
+| **Kagura** | 0 | Medium | Fluid data is hard to corrupt but also hard to cleanse. |
 | **Kira** | 15 | Very High | Joins with corruption from dark magic studies. Highest risk unit. |
 | **Zael** | 20 | Very High | Joins partially corrupted. Cleansing is a mini-quest. |
 | **Elara** | 0 | Very Low | Light magic = natural anti-corruption. Can cleanse self. |
 | **Ghael** | 10 | High | Former boss — System touched his data. Residual corruption. |
-| **Echo** | 0 | Special | System-created. Technically immune (corruption IS the System). But if Echo turns against the System, vulnerability becomes Very High. |
+| **Echo** | 0 | Special | System-created. Technically immune (corruption IS the Blackflame). But if Echo turns against the Blackflame, vulnerability becomes Very High. |
 
 ---
 
@@ -547,7 +547,7 @@ STA primarily degrades body-related stats: STR, SPD, DEF, SKL. Mental/magical st
 | Heal (staff) | +2 | Channeling healing is physical work. |
 | Wait (no action) | +0 | Resting costs nothing. |
 | Carry/Rescue an ally | +3 per turn | Hauling someone is exhausting. |
-| LOOP action | +2 | Accessing cycle memory strains the body. |
+| EMB action | +2 | Accessing cycle memory strains the body. |
 
 ### STA Thresholds
 
@@ -564,27 +564,27 @@ STA primarily degrades body-related stats: STR, SPD, DEF, SKL. Mental/magical st
 | Action | STA Reduction | Notes |
 |--------|-------------|-------|
 | Wait (take no action for a turn) | -5 | Active rest. The main way to recover mid-chapter. |
-| Stand on Fort | -3 per turn (passive) | Automatic — triggers even without Wait. Bram can recover here. |
+| Stand on Fort | -3 per turn (passive) | Automatic — triggers even without Wait. Goro can recover here. |
 | Stand on Throne | -5 per turn (passive) | Automatic — triggers even without Wait. Best rest point. |
-| Lira's heal | -2 (bonus) | Her healing soothes physical fatigue too. |
+| Hina's heal | -2 (bonus) | Her healing soothes physical fatigue too. |
 | Use Vulnerary | -3 (bonus) | Medicine helps fatigue alongside HP. |
 
 ### STA Per Character (Full Roster)
 
 | Character | STA Rate | Max Comfortable | Notes |
 |-----------|---------|----------------|-------|
-| **Ren** | Normal (1.0×) | ~30 | 347 cycles of muscle memory = efficient, but still human. |
-| **Kael** | Low (0.8×) | ~38 | Cavalier endurance. Highest ceiling. |
-| **Senna** | High (1.2×) | ~22 | Physically weak. Can't march AND cast. |
-| **Bram** | Low (0.8×) | ~38 | Raw conditioning. But No Patience = always moving. |
-| **Lira** | High (1.3×) | ~20 | Physically frail. Needs fort rotation. |
-| **Voss** | Very Low (0.7×) | ~42 | 300 cycles standing still = incredible stamina. |
-| **Nira** | Normal (1.0×) | ~30 | Village archer. Average endurance. |
-| **Coda** | Low (0.85×) | ~35 | Thief conditioning. Quick and efficient. |
-| **Yuel** | Normal (1.0×) | ~30 | Pegasus knight — mount does the work. |
-| **Rook** | Low (0.8×) | ~38 | Mercenary endurance. Battle-hardened. |
-| **Faye** | High (1.2×) | ~22 | Mounted healer but physically frail. |
-| **Orin** | Normal (1.0×) | ~30 | Dancer stamina is average — Dance action costs STA. |
+| **Shigeru** | Normal (1.0×) | ~30 | four centuries of muscle memory = efficient, but still human. |
+| **Akira** | Low (0.8×) | ~38 | Cavalier endurance. Highest ceiling. |
+| **Kanna** | High (1.2×) | ~22 | Physically weak. Can't march AND cast. |
+| **Goro** | Low (0.8×) | ~38 | Raw conditioning. But No Patience = always moving. |
+| **Hina** | High (1.3×) | ~20 | Physically frail. Needs fort rotation. |
+| **Genzo** | Very Low (0.7×) | ~42 | 300 cycles standing still = incredible stamina. |
+| **Sayo** | Normal (1.0×) | ~30 | Village archer. Average endurance. |
+| **Hachi** | Low (0.85×) | ~35 | Thief conditioning. Quick and efficient. |
+| **Yuki** | Normal (1.0×) | ~30 | Pegasus knight — mount does the work. |
+| **Raiga** | Low (0.8×) | ~38 | Mercenary endurance. Battle-hardened. |
+| **Mio** | High (1.2×) | ~22 | Mounted healer but physically frail. |
+| **Kagura** | Normal (1.0×) | ~30 | Dancer stamina is average — Dance action costs STA. |
 | **Kira** | High (1.25×) | ~21 | Dark magic drains physically. Frail. |
 | **Zael** | Low (0.8×) | ~38 | Wyvern rider. Mount carries the load. |
 | **Elara** | Normal (1.1×) | ~27 | Monastic fitness. Slightly below average. |
@@ -595,8 +595,8 @@ STA primarily degrades body-related stats: STR, SPD, DEF, SKL. Mental/magical st
 
 | Interaction | Effect |
 |-------------|--------|
-| High STA + Low SYNC | Physical collapse + data instability = dangerous. Unit may glitch-teleport to a random adjacent tile when Exhausted. |
-| High STA + LOOP | Exhausted body + cycle memory strain: LOOP actions cost +1 STA per 10 LOOP spent. Ren burning 30 LOOP for Echo while Exhausted is brutal. |
+| High STA + Low ATT | Physical collapse + data instability = dangerous. Unit may glitch-teleport to a random adjacent tile when Exhausted. |
+| High STA + EMB | Exhausted body + cycle memory strain: EMB actions cost +1 STA per 10 EMB spent. Shigeru burning 30 EMB for Echo while Exhausted is brutal. |
 | High STA + Low LOY | Exhausted + resentful: LOY drops -1 per turn while Fatigued or worse. "You're running me into the ground." |
 | High STA + CRP | Exhaustion lowers corruption resistance. +1 CRP per turn while Exhausted on corrupted tiles (instead of the normal +2, total +3). |
 
@@ -605,9 +605,9 @@ STA primarily degrades body-related stats: STR, SPD, DEF, SKL. Mental/magical st
 STA creates a **pacing problem** the player must solve:
 - **Push hard, rest later**: Rush objectives but risk units Collapsing at the worst moment.
 - **Rotate units**: Swap frontline fighters with rested backline. Forces you to use your whole roster.
-- **Cavalry trap**: Kael/mounted units move far = high STA per turn. Their strength (mobility) becomes a cost.
-- **Healer dilemma**: Lira exhausts fastest but is most needed. Do you heal one more ally or let her rest?
-- **Voss's niche**: His absurd stamina makes him the reliable late-fight anchor when everyone else is winded.
+- **Cavalry trap**: Akira/mounted units move far = high STA per turn. Their strength (mobility) becomes a cost.
+- **Healer dilemma**: Hina exhausts fastest but is most needed. Do you heal one more ally or let her rest?
+- **Genzo's niche**: His absurd stamina makes him the reliable late-fight anchor when everyone else is winded.
 
 ---
 
@@ -615,55 +615,55 @@ STA creates a **pacing problem** the player must solve:
 
 Each character has unique passives tied to their narrative role — NOT genre-based, but rooted in who they are and how they relate to the system. All characters use standard SRPG actions (Attack, Heal, Wait, Item, Seize).
 
-### Ren — Lord
+### Shigeru — Lord
 
 | Passive | Effect |
 |---------|--------|
-| **Cycle Memory** | At chapter start, Ren can reveal 3 of: all chest/village locations, all enemy starting positions, reinforcement turn numbers, boss stat block, hidden item drops. He's done this 347 times. |
+| **Cycle Memory** | At chapter start, Shigeru can reveal 3 of: all chest/village locations, all enemy starting positions, reinforcement turn numbers, boss stat block, hidden item drops. He's done this 347 times. |
 | **Route Optimization** | Can move through ally-occupied tiles. +1 MOV when moving toward objective tiles (throne/village/chest). |
 | **Speedrunner's Curse** | -20% EXP gain. If stationary for 3+ consecutive turns, -5 all stats until he moves. |
 
-### Kael — Cavalier
+### Akira — Cavalier
 
 | Passive | Effect |
 |---------|--------|
 | **True Strike** | Attacks can never deal less than 1 damage, even against max-DEF enemies. |
-| **Stability Anchor** | While alive, all allies gain +2 SYNC per chapter. On death: all allies -10 SYNC immediately. |
+| **Stability Anchor** | While alive, all allies gain +2 ATT per chapter. On death: all allies -10 ATT immediately. |
 
-### Senna — Mage
+### Kanna — Mage
 
 | Passive | Effect |
 |---------|--------|
-| **Exploit** | +25% damage against enemies whose full stats are visible (via AWR threshold or ally reveal). |
+| **Exploit** | +25% damage against enemies whose full stats are visible (via INS threshold or ally reveal). |
 | **Data Dependency** | -15% hit rate against enemies whose stats are NOT visible. If an RNG outcome contradicts her expectations, -5 all stats for 1 turn. |
 
-### Bram — Fighter
+### Goro — Fighter
 
 | Passive | Effect |
 |---------|--------|
-| **Reckless** | If Bram attacks an enemy and kills them, he can act again immediately (move + attack only). Chains up to 2 bonus turns. Each successive attack has -10% hit. |
+| **Reckless** | If Goro attacks an enemy and kills them, he can act again immediately (move + attack only). Chains up to 2 bonus turns. Each successive attack has -10% hit. |
 | **No Patience** | Cannot use Wait. If no enemies are in attack range and no other actions available, auto-moves toward nearest enemy. |
 
-### Lira — Cleric
+### Hina — Cleric
 
 | Passive | Effect |
 |---------|--------|
-| **Empathy Aura** | Adjacent allies gain +10 hit and +10 avoid. (Stacks with CHA aura — Lira's is flat bonus on top of CHA-based scaling.) |
+| **Empathy Aura** | Adjacent allies gain +10 hit and +10 avoid. (Stacks with CHA aura — Hina's is flat bonus on top of CHA-based scaling.) |
 | **Devoted Healer** | Healing the same ally 3 times in one chapter grants that ally +2 to a random stat permanently (for that chapter). |
 
-### Voss — Soldier
+### Genzo — Soldier
 
 | Passive | Effect |
 |---------|--------|
 | **Defector's Resolve** | +3 ATK when fighting enemy soldiers. |
-| **Faction Ghost** | Ally staff users heal Voss for 5 less HP. Cannot enter villages or forts. |
+| **Faction Ghost** | Ally staff users heal Genzo for 5 less HP. Cannot enter villages or forts. |
 | **Residual Data** | Standing on a tile where an enemy died: +3 to that enemy's highest stat for 2 turns. |
 
 ---
 
 ## Body Targeting System (Unlocked Ch2+)
 
-Discovered by Senna in Ch2 by reading enemy unit data structure. A universal combat upgrade — when attacking, the player can choose WHERE to hit.
+Discovered by Kanna in Ch2 by reading enemy unit data structure. A universal combat upgrade — when attacking, the player can choose WHERE to hit.
 
 | Target | Hit Mod | Damage Mod | Special Effect |
 |--------|---------|-----------|----------------|
@@ -671,14 +671,14 @@ Discovered by Senna in Ch2 by reading enemy unit data structure. A universal com
 | **Head** | -25% hit | +50% damage | If hits: target is **Dazed** — -10 hit rate for 2 turns |
 | **Weapon Arm** | -15% hit | -20% damage | If hits: target's ATK halved for 1 turn |
 | **Legs** | -10% hit | -30% damage | If hits: target's MOV halved (round down) for 2 turns |
-| **Weak Point** | -35% hit | +100% damage | Only available if enemy stats are fully revealed (high AWR or ally ability). Near-impossible to land but devastating. |
+| **Weak Point** | -35% hit | +100% damage | Only available if enemy stats are fully revealed (high INS or ally ability). Near-impossible to land but devastating. |
 
 ### Body Targeting × Character Interactions
 
-- **Senna**: Exploit passive (+25% on revealed enemies) stacks with Weak Point (+100%). Devastating if she can see enemy stats.
-- **Voss**: Residual Data from death tiles halves body targeting hit penalties for 2 turns. "I know where their armor is thin."
-- **Ren**: 347 cycles of experience. Permanent -5% reduction to ALL body targeting hit penalties.
-- **Bram**: High STR + Reckless chains mean he can target Legs on first hit (cripple MOV) then follow up with Head on the bonus turn.
+- **Kanna**: Exploit passive (+25% on revealed enemies) stacks with Weak Point (+100%). Devastating if she can see enemy stats.
+- **Genzo**: Residual Data from death tiles halves body targeting hit penalties for 2 turns. "I know where their armor is thin."
+- **Shigeru**: four centuries of experience. Permanent -5% reduction to ALL body targeting hit penalties.
+- **Goro**: High STR + Reckless chains mean he can target Legs on first hit (cripple MOV) then follow up with Head on the bonus turn.
 
 ---
 
@@ -686,15 +686,15 @@ Discovered by Senna in Ch2 by reading enemy unit data structure. A universal com
 
 How all six meta-stats interact in practice:
 
-| Situation | AWR | LOOP | SYNC | LOY | CRP | STA |
+| Situation | INS | EMB | ATT | LOY | CRP | STA |
 |-----------|-----|------|------|-----|-----|-----|
 | Combat forecast | Higher = more info | — | High = clean display | — | High = garbled display | — |
 | Before attack | Decoded = peek result | Déjà Vu = guaranteed hit | Low = stat fluctuation | Low = may refuse | — | High = physical stat penalties |
 | Enemy phase | — | Recall = preview moves | High = immune to corruption | — | High = may act as enemy | — |
 | Ally near death | — | Last Words = survive | — | Sworn = auto-shield | — | — |
 | Ally dies | ALL +8-12 | ALL +8 | ALL -10 | ALL -3 to -8 | — | — |
-| Kael dies (Ch8) | +extra | +extra | -10 extra | varies | — | — |
-| Corrupted tile | +3-5 AWR if witnessed | — | -2 | — | +2 per turn | — |
+| Akira dies (Ch8) | +extra | +extra | -10 extra | varies | — | — |
+| Corrupted tile | +3-5 INS if witnessed | — | -2 | — | +2 per turn | — |
 | Ch25 boss | Reveals weapon cycle | High = harder boss | Low = more map corruption | — | +5 per hit taken | Accumulates fast — long fight |
 | Between chapters | — | No regen | — | Stable | -3 | Resets to 0 |
 | Movement | — | — | — | — | — | +1 per tile moved |
@@ -705,24 +705,24 @@ How all six meta-stats interact in practice:
 ## Example Stat Blocks
 
 ```
-Ren — Lord
+Shigeru — Lord
 HP: 22  STR: 8  MAG: 2  SPD: 9  DEF: 7  RES: 3  SKL: 10  LCK: 5  CHA: 9  WIL: 4  MOV: 5
-AWR: 95    LOOP: 347    SYNC: 75%    LOY: —    CRP: 0    STA: 0
+INS: 95    EMB: 347    ATT: 75%    LOY: —    CRP: 0    STA: 0
 Actions: Attack | Item | Seize | Wait
 Passive: Cycle Memory | Route Optimization | Speedrunner's Curse
 Gender: Male
 Activity: Irregular — hasn't had a normal sleep schedule in 300+ cycles. Sleeps when he crashes, wakes when nightmares do.
-MBTI: INTJ — "The Architect." 347 cycles turned him into a cold strategist who sees 15 moves ahead.
-       But he used to be ENFP. 347 cycles of failure beat the optimism out of him.
+MBTI: INTJ — "The Architect." four centuries turned him into a cold strategist who sees 15 moves ahead.
+       But he used to be ENFP. four centuries of failure beat the optimism out of him.
 Fav Category: Alcohol      Fav Food: Whiskey ("Only thing that still tastes different each cycle.")
 Hate Category: Sweets      Hate Food: Frosted cake ("I've eaten this exact cake 347 times at the same banquet.")
 Fav Cuisine: 北国風 (Nordic)   Hate Cuisine: 和風 (Japanese)
 ```
 
 ```
-Kael — Cavalier
+Akira — Cavalier
 HP: 24  STR: 9  MAG: 1  SPD: 8  DEF: 8  RES: 2  SKL: 7  LCK: 6  CHA: 7  WIL: 10  MOV: 7
-AWR: 0     LOOP: 0      SYNC: 100%   LOY: 90    CRP: 0    STA: 0
+INS: 0     EMB: 0      ATT: 100%   LOY: 90    CRP: 0    STA: 0
 Actions: Attack | Wait | Item
 Passive: True Strike | Stability Anchor
 Gender: Male
@@ -735,24 +735,24 @@ Fav Cuisine: 洋風 (Western)    Hate Cuisine: 和風 (Japanese)
 ```
 
 ```
-Senna — Mage
+Kanna — Mage
 HP: 19  STR: 2  MAG: 10 SPD: 7  DEF: 3  RES: 8  SKL: 9  LCK: 4  CHA: 3  WIL: 7  MOV: 5
-AWR: 25    LOOP: 0      SYNC: 85%    LOY: 40    CRP: 0    STA: 0
+INS: 25    EMB: 0      ATT: 85%    LOY: 40    CRP: 0    STA: 0
 Actions: Attack | Item | Wait
 Passive: Exploit | Data Dependency
 Gender: Female
 Activity: Night — does her best analysis between midnight and 4am. "Less noise in the data at night."
 MBTI: INTP — "The Logician." Lives inside her own head. Would rather solve an equation than talk to a person.
-       Gains J tendencies as AWR rises — the more she sees, the more she needs to control.
+       Gains J tendencies as INS rises — the more she sees, the more she needs to control.
 Fav Category: Seafood      Fav Food: Salt-baked sea bream ("Clean flavor. Predictable. I can taste each element separately.")
 Hate Category: Spicy       Hate Food: Fire pepper stew ("Uncontrolled variable. My tongue can't analyze anything past the pain.")
 Fav Cuisine: 和風 (Japanese)   Hate Cuisine: 中華風 (Chinese)
 ```
 
 ```
-Bram — Fighter
+Goro — Fighter
 HP: 28  STR: 12  MAG: 0  SPD: 6  DEF: 8  RES: 1  SKL: 5  LCK: 3  CHA: 6  WIL: 8  MOV: 5
-AWR: 35    LOOP: 0      SYNC: 40%    LOY: 55    CRP: 0    STA: 0
+INS: 35    EMB: 0      ATT: 40%    LOY: 55    CRP: 0    STA: 0
 Actions: Attack | Item
 Passive: Reckless (bonus turns on kill) | No Patience (cannot Wait)
 Gender: Male
@@ -765,24 +765,24 @@ Fav Cuisine: 中華風 (Chinese)   Hate Cuisine: 洋風 (Western)
 ```
 
 ```
-Lira — Cleric
+Hina — Cleric
 HP: 18  STR: 1  MAG: 8  SPD: 7  DEF: 3  RES: 9  SKL: 6  LCK: 8  CHA: 5  WIL: 3  MOV: 5
-AWR: 30    LOOP: 0      SYNC: 35%    LOY: 70    CRP: 0    STA: 0
+INS: 30    EMB: 0      ATT: 35%    LOY: 70    CRP: 0    STA: 0
 Actions: Heal | Item | Wait
 Passive: Empathy Aura | Devoted Healer
 Gender: Female
 Activity: Morning — cheerful early riser. Makes tea for everyone. "Morning is when the best story events happen!"
 MBTI: ENFJ — "The Protagonist." Ironic — she thinks she's the protagonist of a dating sim.
-       Reads people better than Senna reads data. The emotional core of every room she's in.
+       Reads people better than Kanna reads data. The emotional core of every room she's in.
 Fav Category: Sweets       Fav Food: Caramel pudding ("It's sweet and warm and soft... like a hug you can eat!")
 Hate Category: Alcohol     Hate Food: Whiskey ("It BURNS. How is this a DRINK? This is an ATTACK.")
 Fav Cuisine: 南国風 (Tropical)  Hate Cuisine: 北国風 (Nordic)
 ```
 
 ```
-Voss — Soldier
+Genzo — Soldier
 HP: 23  STR: 8  MAG: 1  SPD: 5  DEF: 10  RES: 2  SKL: 7  LCK: 3  CHA: 2  WIL: 6  MOV: 5
-AWR: 5→35  LOOP: 150    SYNC: 55%    LOY: 25    CRP: 5    STA: 0
+INS: 5→35  EMB: 150    ATT: 55%    LOY: 25    CRP: 5    STA: 0
 Actions: Attack | Item | Wait
 Passive: Defector's Resolve | Faction Ghost | Residual Data
 Gender: Male
@@ -840,12 +840,12 @@ Worst case (hated taste + hated cuisine): -2 stat, -1 stat, LOY -3.
 
 | Character | Fav Cuisine | Hate Cuisine | Notes |
 |-----------|------------|-------------|-------|
-| **Ren** | 北国風 (Nordic) | 和風 (Japanese) | Loves Nordic — smoky, strong, warming. Hates Japanese — too delicate, too precise, reminds him of scripted elegance. "Every tea ceremony plays out the same way." |
-| **Kael** | 洋風 (Western) | 和風 (Japanese) | Western man through and through. Steak, bread, cheese. Raw fish is incomprehensible to him. |
-| **Senna** | 和風 (Japanese) | 中華風 (Chinese) | Loves Japanese — clean, analytical flavors she can deconstruct. Chinese is chaos: "Too many spices. I can't isolate the variables." |
-| **Bram** | 中華風 (Chinese) | 洋風 (Western) | Chinese heat matches his personality. Western food is "too SLOW. Too much butter. Where's the FIRE?" |
-| **Lira** | 南国風 (Tropical) | 北国風 (Nordic) | Tropical — sweet, bright, romantic. Nordic is too heavy and grim: "This food has no LOVE in it." |
-| **Voss** | 和風 (Japanese) | 南国風 (Tropical) | Japanese — simple, clean, respectful. Tropical is too sweet, too colorful. "I don't trust food that looks happy." |
+| **Shigeru** | 北国風 (Nordic) | 和風 (Japanese) | Loves Nordic — smoky, strong, warming. Hates Japanese — too delicate, too precise, reminds him of scripted elegance. "Every tea ceremony plays out the same way." |
+| **Akira** | 洋風 (Western) | 和風 (Japanese) | Western man through and through. Steak, bread, cheese. Raw fish is incomprehensible to him. |
+| **Kanna** | 和風 (Japanese) | 中華風 (Chinese) | Loves Japanese — clean, analytical flavors she can deconstruct. Chinese is chaos: "Too many spices. I can't isolate the variables." |
+| **Goro** | 中華風 (Chinese) | 洋風 (Western) | Chinese heat matches his personality. Western food is "too SLOW. Too much butter. Where's the FIRE?" |
+| **Hina** | 南国風 (Tropical) | 北国風 (Nordic) | Tropical — sweet, bright, romantic. Nordic is too heavy and grim: "This food has no LOVE in it." |
+| **Genzo** | 和風 (Japanese) | 南国風 (Tropical) | Japanese — simple, clean, respectful. Tropical is too sweet, too colorful. "I don't trust food that looks happy." |
 
 ### Food as Items
 
@@ -893,13 +893,13 @@ Alcohol has unique bonuses and risks beyond normal food:
 
 ### Food × Character Interactions
 
-- **Ren** loves whiskey — it's one of the few things that still feels unpredictable after 347 cycles. Lira HATES whiskey. If Ren drinks near Lira: "That's not a beverage, that's a WAR CRIME."
-- **Ren** hates frosted cake — the same scripted banquet scene, 347 times, same cake. "I can tell you the exact position of every crumb."
-- **Bram** and **Senna** are food rivals — Bram's favorite (chili oil dumplings) is close to Senna's nightmare. Bram intentionally eats spicy food near Senna to annoy her.
-- **Kael** refuses sashimi but loves grilled steak. Simple man. Senna finds this baffling: "It's the same protein. The preparation is irrelevant." Kael: "It's NOT the same."
-- **Voss** chose white rice as his first free meal after defection. It means everything to him. As his LOY rises, he starts trying new foods — each new food is a small act of freedom.
-- **Lira** tries to organize group meals as "bonding events." Mechanically useful — shared meals between two units boost both LOY. She keeps a mental ranking of everyone's favorites.
-- **Kael + Bram** drinking ale together is one of the highest LOY gain events in the game. Two soldiers, no pretense, just beer. (+8 LOY each)
+- **Shigeru** loves whiskey — it's one of the few things that still feels unpredictable after four centuries. Hina HATES whiskey. If Shigeru drinks near Hina: "That's not a beverage, that's a WAR CRIME."
+- **Shigeru** hates frosted cake — the same scripted banquet scene, 347 times, same cake. "I can tell you the exact position of every crumb."
+- **Goro** and **Kanna** are food rivals — Goro's favorite (chili oil dumplings) is close to Kanna's nightmare. Goro intentionally eats spicy food near Kanna to annoy her.
+- **Akira** refuses sashimi but loves grilled steak. Simple man. Kanna finds this baffling: "It's the same protein. The preparation is irrelevant." Akira: "It's NOT the same."
+- **Genzo** chose white rice as his first free meal after defection. It means everything to him. As his LOY rises, he starts trying new foods — each new food is a small act of freedom.
+- **Hina** tries to organize group meals as "bonding events." Mechanically useful — shared meals between two units boost both LOY. She keeps a mental ranking of everyone's favorites.
+- **Akira + Goro** drinking ale together is one of the highest LOY gain events in the game. Two soldiers, no pretense, just beer. (+8 LOY each)
 
 ---
 
@@ -913,11 +913,11 @@ Full skill definitions, categories, and acquisition rules: see [skills.md](skill
 
 ## Open Questions
 
-- **AWR cap behavior**: Should AWR ever exceed 100? What happens if system corruption pushes it past the max? *Recommendation: Hard cap at 100. Echo at 95 max is close enough.*
-- **LOOP negative**: Can LOOP go negative? What happens if you overspend? *Recommendation: No — minimum 0. Overspend is prevented by UI. Narrative potential (borrowing future memories) is cool but mechanically complex.*
-- **SYNC floor**: Should SYNC have a minimum? Or can a character hit 0%? *Recommendation: Minimum 5%. At 0% the unit would be unplayable.*
+- **INS cap behavior**: Should INS ever exceed 100? What happens if system corruption pushes it past the max? *Recommendation: Hard cap at 100. Echo at 95 max is close enough.*
+- **EMB negative**: Can EMB go negative? What happens if you overspend? *Recommendation: No — minimum 0. Overspend is prevented by UI. Narrative potential (borrowing future memories) is cool but mechanically complex.*
+- **ATT floor**: Should ATT have a minimum? Or can a character hit 0%? *Recommendation: Minimum 5%. At 0% the unit would be unplayable.*
 - **Body targeting on magic**: Do magic attacks use body targeting? *Recommendation: No — magic hits Body always. Keeps physical vs magical distinct.*
-- **Low SYNC randomness**: ±1 feels safe, ±3 might be too chaotic. *Needs playtesting.*
+- **Low ATT randomness**: ±1 feels safe, ±3 might be too chaotic. *Needs playtesting.*
 - ~~**Promoted class caps**: Unpromoted caps defined (20). Promoted caps TBD.~~ **RESOLVED**: See stat caps table above (Base 20, Promoted 30, Master 35/40).
 - **Time-of-day shift triggers**: Fixed turn count per map or event-driven? *Recommendation: Per-map config. Most maps are single time, some have scripted shifts.*
 - **Enemy CHA/WIL/STA**: Do enemies use the same systems? *Recommendation: Enemies use CHA (aggro targeting) and WIL (corruption resistance), but NOT STA. Enemy STA would add complexity without meaningful player interaction.*

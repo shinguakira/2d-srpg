@@ -5,12 +5,12 @@ import type { EndingFlags } from '../../src/core/endings';
 function makeFlags(overrides: Partial<EndingFlags> = {}): EndingFlags {
   return {
     totalDeaths: 0,
-    zaelRecruited: true,
-    ghaelRecruited: true,
-    echoSaved: true,
-    systemNegotiated: false,
-    finalSaveCrystalUsed: true,
-    systemDefeated: true,
+    tsubameRecruited: true,
+    shrineKeeperSaved: true,
+    takeshiSpared: true,
+    takeshiReasoned: false,
+    sealRelit: true,
+    blackflameEnded: true,
     ...overrides,
   };
 }
@@ -33,7 +33,7 @@ describe('Endings', () => {
     });
 
     it('returns true when crystal used + system defeated but not all recruited', () => {
-      const flags = makeFlags({ zaelRecruited: false });
+      const flags = makeFlags({ tsubameRecruited: false });
       expect(evaluateEnding(flags)).toBe('true');
     });
 
@@ -43,21 +43,21 @@ describe('Endings', () => {
     });
 
     it('returns true when crystal used but echo not saved', () => {
-      const flags = makeFlags({ echoSaved: false });
+      const flags = makeFlags({ takeshiSpared: false });
       expect(evaluateEnding(flags)).toBe('true');
     });
 
     it('returns bittersweet when system defeated without crystal', () => {
-      const flags = makeFlags({ finalSaveCrystalUsed: false });
+      const flags = makeFlags({ sealRelit: false });
       expect(evaluateEnding(flags)).toBe('bittersweet');
     });
 
     it('returns bittersweet as default when system defeated', () => {
       const flags = makeFlags({
-        finalSaveCrystalUsed: false,
-        zaelRecruited: false,
-        ghaelRecruited: false,
-        echoSaved: false,
+        sealRelit: false,
+        tsubameRecruited: false,
+        shrineKeeperSaved: false,
+        takeshiSpared: false,
       });
       expect(evaluateEnding(flags)).toBe('bittersweet');
     });
@@ -72,9 +72,9 @@ describe('Endings', () => {
       }
     });
 
-    it('perfect ending has appropriate title', () => {
+    it('perfect ending is the one that names the fourth flame', () => {
       const text = getEndingText('perfect');
-      expect(text.title).toContain('Perfect');
+      expect(text.title).toContain('Fourth Flame');
     });
   });
 

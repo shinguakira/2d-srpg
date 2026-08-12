@@ -13,6 +13,33 @@ npx playwright test  # Run E2E tests (needs dev server running)
 
 Fire Emblem-style tactical SRPG. React 18 + TypeScript + Vite. **DOM-only** (no canvas) for E2E testability. Zustand for state (no Redux, no Context).
 
+## Story
+
+A straight, classical SRPG story in the vein of *FE: The Sacred Stones* — no meta,
+no fourth wall, nobody knows they are in a game. **Shigeru**, prince of the fallen
+kingdom of Amagi, carries the **Flamebrand**; **Akira** is his sworn retainer;
+**Takeshi**, Emperor of Kurogane, is the final boss — a shaven-headed giant who took
+the sealed **Blackflame** into his own body because he intends to end war rather than
+postpone it again.
+
+Rules when writing dialogue:
+
+- **No irony about the setting.** Nobody comments on tropes, mechanics, or narrative
+  structure. Tactical vocabulary (avoid, terrain cost, weapon triangle) is fine — it
+  is how soldiers talk about their trade.
+- **Enemies are people with orders.** Nearly every boss knows something is wrong in
+  the north and has been told not to look at it. Killing them should cost something.
+- **Takeshi is never written as mad.** He is polite, patient and certain, and he
+  makes the strongest argument in the game for his own position.
+- Some identifiers still carry the *old* meta-fiction (`awr`, `sync`, `loop`,
+  terrain `glitched` / `data_void`). Those are internal only — the player-facing
+  labels are Insight / Attunement / Emberlight and Blighted / Abyssal Rift. Don't
+  reintroduce the old vocabulary in user-visible strings.
+
+Story bible: `specs/story/` — `world.md`, `characters.md`, `bosses.md`,
+`arc-structure.md`, and `chapters/ch1.md`…`ch25.md`. The exact dialogue lives in
+`src/data/chapters/`; the specs describe intent.
+
 ## Directory Structure
 
 ```

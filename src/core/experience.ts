@@ -105,4 +105,3 @@ export function previewBonusExp(
   }
   return { wouldLevel: false, projectedGains: null };
 }
-

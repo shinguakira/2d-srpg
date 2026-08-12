@@ -16,7 +16,9 @@ test.describe('Chapter 3 — The Bandits of Borgo', () => {
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
     await page.waitForTimeout(300);
 
-    await expect(page.locator('[data-testid="tile-9-10"] [data-testid="unit-shigeru"]')).toBeVisible();
+    await expect(
+      page.locator('[data-testid="tile-9-10"] [data-testid="unit-shigeru"]'),
+    ).toBeVisible();
     await expect(
       page.locator('[data-testid="tile-14-10"] [data-testid="unit-akira"]'),
     ).toBeVisible();

@@ -22,14 +22,14 @@
   - "Testing physical resilience... acceptable."
   - "Testing adaptive tactics... interesting."
 - [ ] System explains through arena design: this is assessment, not malice
-- [ ] Turn 6: System reflects on Kael: "Subject designation 'Kael'. Termination was... unscheduled."
+- [ ] Turn 6: System reflects on Akira: "Subject designation 'Akira'. Termination was... unscheduled."
 - [ ] Turn 12: Sentinel Alpha spawns — "Final assessment. Show me your resolve."
 
 ### Epilogue
 - [ ] System is not evil — it's grieving, trying to find a perfect playthrough
-- [ ] Party reassesses: "The System isn't our enemy. It's... desperate."
-- [ ] Senna: "A save manager. It's a save manager trying to find the perfect save."
-- [ ] Ren: "I've known for a long time. But I couldn't tell you."
+- [ ] Party reassesses: "The Blackflame isn't our enemy. It's... desperate."
+- [ ] Kanna: "A save manager. It's a save manager trying to find the perfect save."
+- [ ] Shigeru: "I've known for a long time. But I couldn't tell you."
 - [ ] System Fragment acquired: partial insight into System's architecture
 
 ## Chapter 17: "Data Recovery"
@@ -46,20 +46,20 @@
   - "Cycle #1. A real game. A real player. Everything was genuine."
   - Party reacts: "This was all... a game?"
 - [ ] Data Node Beta capture:
-  - "The player saved. The System remembered. The player... left."
-  - "Never returned. But the System kept running."
+  - "The player saved. The Blackflame remembered. The player... left."
+  - "Never returned. But the Blackflame kept running."
 - [ ] Data Node Gamma capture:
-  - "347 cycles. Each one an attempt to reach the ending the player never saw."
-  - "The System isn't evil. It's a save file manager for a player who abandoned their game."
+  - "four centuries. Each one an attempt to reach the ending the player never saw."
+  - "The Blackflame isn't evil. It's a save file manager for a player who abandoned their game."
 - [ ] System boss encounter:
-  - If AWR ≥ 70: negotiate option available
+  - If INS ≥ 70: negotiate option available
   - Negotiate dialogue: "You understand now. Will you let me try again?"
-  - Ren refuses: "No more resets."
+  - Shigeru refuses: "No more resets."
 
 ### Epilogue
 - [ ] Emotional processing: System is tragic, not villainous
-- [ ] Senna: "Can we... help it? Instead of fighting it?"
-- [ ] Ren: "We can end the loop. That's the kindest thing."
+- [ ] Kanna: "Can we... help it? Instead of fighting it?"
+- [ ] Shigeru: "We can end the loop. That's the kindest thing."
 - [ ] Party debate: empathy vs necessity
 
 ## Chapter 18: "Legacy Weapons"
@@ -68,14 +68,14 @@
 
 ### Prologue
 - [ ] Mountain fortress: legendary weapons sealed inside
-- [ ] Intel on Ghael: "He's a general who defected from the System"
+- [ ] Intel on Ghael: "He's a general who defected from the Blackflame"
 - [ ] Ghael was a past-cycle boss who learned the truth
 
 ### Mid-Battle — Ghael Recruitment
 - [ ] Ghael's defensive line: professional, not hostile by nature
 - [ ] Reducing Ghael's HP: "You fight with purpose. Not like the constructs."
 - [ ] Talk action (if conditions met):
-  - Ren: "You know what this world is."
+  - Shigeru: "You know what this world is."
   - Ghael: "I've known for decades. I chose to protect what I could."
   - "Every cycle, I guard these weapons. Every cycle, someone comes."
   - "This time... I'll come with you."
@@ -96,29 +96,29 @@
 - [ ] Memory Guardian blocks the path: summons ghosts of past bosses
 
 ### Mid-Battle — The Choice
-- [ ] Ghost boss encounters: Phantom Garrek (callback), Phantom Morryn (callback)
+- [ ] Ghost boss encounters: Phantom Baraku (callback), Phantom Doumeki (callback)
   - Brief recognition dialogue with each phantom
-- [ ] System Emissary encounter (Cycle #1 Ren replica):
+- [ ] System Emissary encounter (Cycle #1 Shigeru replica):
   - "I am what you were. In the first cycle."
   - "Before the loops. Before the grief. Before the knowledge."
 - [ ] Terminal seize triggers THE CHOICE:
-  - System: "One more reset. Nobody dies. Kael lives. Everything is perfect."
-  - Ren (internal struggle — the player feels this):
+  - System: "One more reset. Nobody dies. Akira lives. Everything is perfect."
+  - Shigeru (internal struggle — the player feels this):
   - "..."
   - "No."
   - "Even if the ending is imperfect, it's OURS."
   - System: "You would choose grief over perfection?"
-  - Ren: "There is no perfect save. There's just... the one we finish."
+  - Shigeru: "There is no perfect save. There's just... the one we finish."
 - [ ] Party reactions (LOY shifts):
-  - Senna: proud, vindicated
-  - Bram: relieved (didn't want to forget the fights)
-  - Lira: emotional, spiritual validation
+  - Kanna: proud, vindicated
+  - Goro: relieved (didn't want to forget the fights)
+  - Hina: emotional, spiritual validation
   - Others: personalized reactions
 
 ### Epilogue
 - [ ] Commitment made: no resets, forward only
 - [ ] System withdraws: "Then finish it. I'll be waiting."
-- [ ] Hidden Kael Memory Shard (if found): brief emotional callback
+- [ ] Hidden Akira Memory Shard (if found): brief emotional callback
 - [ ] Arc transition
 
 ## Chapter 20: "Point of No Return"
@@ -128,12 +128,12 @@
 ### Prologue
 - [ ] System withdraws cooperation: world begins unraveling
 - [ ] Terrain corruption visible: the game itself is breaking down
-- [ ] Echo introduction (if present): System Construct with free will
+- [ ] Echo introduction (if present): Blackflame Colossus with free will
   - "I was created to stop you. But I chose differently."
 
 ### Mid-Battle
 - [ ] Turn 5: Echo defection scene
-  - "The System created me. But it gave me too much data. Enough to understand."
+  - "The Blackflame created me. But it gave me too much data. Enough to understand."
   - "I choose to end the loop. Even if it means I cease to exist."
 - [ ] Multi-phase Sentinel Omega boss:
   - Phase 1: "DIRECTIVE: PREVENT PROGRESS"
@@ -142,22 +142,22 @@
 - [ ] Corruption storm narration: world visibly degrading
 
 ### Epilogue
-- [ ] Ren seizes gateway: "No going back now."
+- [ ] Shigeru seizes gateway: "No going back now."
 - [ ] Arc 4 conclusion: party committed, world breaking, but together
 - [ ] Echo (if alive): "In the next cycle, I won't exist. This is the only time I get to choose."
 - [ ] Final preparation for Arc 5: inventory, promotions, last support conversations
-- [ ] Arc transition: LOOP regen +10, final CRP decay
+- [ ] Arc transition: EMB regen +10, final CRP decay
 
 ## Character Data Files
 
 - [ ] Create Ghael character data: veteran general, centuries of cycle memory, weary but resolute
-- [ ] Create Echo character data: System Construct choosing free will, existential awareness
+- [ ] Create Echo character data: Blackflame Colossus choosing free will, existential awareness
 
 ## Validation
 
 - [ ] System narration in ch16 uses distinct voice (not player faction)
 - [ ] Data node captures reveal lore in correct order (Alpha→Beta→Gamma)
-- [ ] Negotiate mechanic in ch17 checks AWR threshold correctly
+- [ ] Negotiate mechanic in ch17 checks INS threshold correctly
 - [ ] Campaign flag `system_negotiated` persists
 - [ ] The Choice dialogue in ch19 plays fully (no early termination)
 - [ ] Echo defection in ch20 only if conditions met

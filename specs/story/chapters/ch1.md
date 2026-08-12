@@ -1,93 +1,61 @@
-# Chapter 1: "Not This Again"
+# Chapter 1: The Fall of Amagi
+
+Exact dialogue lives in `src/data/chapters/chapter1.ts`. This file is the design
+intent behind it.
 
 ## Summary
 
-The tutorial chapter — except the Lord has done it 346 times before and is completely over it. Comedy comes from Ren trying to speedrun while his allies experience everything for the first time. Introduces movement, attacking, weapon triangle, terrain basics, and the Seize objective. Garrek the tutorial boss is the only other character who remembers — and he's exhausted.
+The tutorial. Amagi's capital fell before dawn; the prince is on the south road
+with what is left of his father's guard, and the border keep at **Shirakawa** is
+already flying Kurogane colours. Teaches movement, attacking, the weapon triangle,
+terrain, villages, and Seize.
 
-## Prologue Dialogue
+The chapter has to do two jobs at once: teach the game, and establish that Shigeru
+is a young man carrying something far too heavy who has decided not to stop moving.
 
-**Scene**: A village. Smoke rising. Bandits approaching. The classic SRPG opening.
+## Setup
 
-- **Kael**: "Lord Ren! Bandits are attacking the village! We must—"
-- **Ren**: "Defend the east bridge, route the enemies, save the villager at tile 3,7. I know."
-- **Kael**: "...How do you know about the villager?"
-- **Ren**: "Lucky guess. Let's go."
+- **Map**: 25×12, plains and forest, throne at (11,1), two villages
+- **Objective**: Seize the throne
+- **Deploy**: 5 slots, preparation skipped, `shigeru` forced
+- **Player**: Shigeru, Akira, Kanna, Hina (epilogue), Goro (turn 2)
+- **Boss**: Baraku on the throne
+- **Par**: 8 turns
 
-## Mid-Battle Events
+## Beats
 
-### Turn 2 — Bram Joins
+**Prologue.** Akira reports the keep taken. Shigeru orders the assault because the
+road runs through it and there is nowhere else to be. Akira notes he has not slept;
+Shigeru answers *"I would rather my father were alive. Form up."* — the chapter's
+whole characterisation in one line.
 
-Bram charges onto the map from the south edge uninvited.
+**Turn 2 — Goro arrives.** A woodcutter who has been fighting brigands alone since
+sunup, cheerfully insubordinate. Akira disapproves on procedural grounds.
 
-- **Bram**: "FINALLY! A BATTLE! Where's the combo meter??"
-- **Ren**: "There's no combo meter. You get one attack per turn."
-- **Bram**: "...What kind of sick game is this?"
-- **Ren**: "The kind with 5-tile movement and weapon triangles. Stay behind Kael."
+**Turn 3 — weapon triangle.** Goro's axe bounces off a lancer. Kanna explains the
+triangle as drill-yard fact, not game mechanic. Kept short and unpatronising.
 
-### Turn 3 — Weapon Triangle Lesson
+**Turn 4 — Baraku's introduction.** He has worked this road for twenty years. He
+took Kurogane pay because that army was going to walk over him either way, and they
+hold his brother's village. He is not a monster and the player should notice.
 
-Bram (axe) attacks a soldier (lance) and does poor damage. Kael (lance) attacks a brigand (axe) and crits.
+**Boss pre-combat** (Shigeru steps to (11,2)). Shigeru offers him the road south.
+Baraku cannot take it. *"Don't be sorry. Be quick."*
 
-- **Bram**: "Why did I hit like a WET NAPKIN? I have the highest STR!"
-- **Senna**: "Weapon triangle. Axes lose to lances, lances lose to swords, swords lose to axes."
-- **Bram**: "That's ROCK PAPER SCISSORS. This game is ROCK PAPER SCISSORS."
-- **Ren**: "Welcome to tactical RPGs."
+**Boss death.** He names the village — Shirakawa — so that somebody will know it.
+Shigeru says he will remember, and Baraku is visibly surprised that a prince would.
 
-### Turn 4 — Boss Intro
+**Villages.** A hand axe from a farmer's father; a wind tome left by a scholar who
+fled north. Both plant the northward drift of everything in this world.
 
-Garrek steps forward for his scripted villain speech.
+**Epilogue.** Akira calls it a victory; Shigeru calls it one gate. Hina arrives from
+the Hitotsu shrine, sent to find the Flamebrand's bearer, and immediately orders the
+prince to sit down and let her look at his arm. He obeys. *"It was the only order
+anyone gave him that day that he obeyed."*
 
-- **Garrek**: "I am Garrek the Terr— stop YAWNING. This is my INTRO SPEECH."
-- **Ren**: "I've heard it 347 times, Garrek."
-- **Garrek**: "Well I've GIVEN it 347 times and it still deserves RESPECT."
-- **Ren**: "Can we skip to the part where I beat you with the Rapier?"
-- **Garrek**: "NO. We do the speech. We do the fight. We do this PROPERLY."
+## Supports
 
-### Village Visit (optional)
-
-If player visits the village tile:
-
-- **Villager**: "Thank you, brave hero! Please take this sword—"
-- **Ren**: "Iron Blade, +8 might, 80 hit. Thanks, same as last time."
-- **Villager**: "...Have we met?"
-
-## Boss Fight — Garrek
-
-Garrek the Bandit Chief. Fighter (axe), Tier 1 awareness (Full — remembers all 347 cycles). Level 5, 30 HP. Aggressive AI that switches to Boss (stays on throne) after Turn 3. Beatable by Ren alone with Rapier.
-
-- **Pre-combat**: Garrek drops the act. Quiet moment.
-  - **Garrek**: "You remember too, don't you?"
-  - **Ren**: "...How long have you known?"
-  - **Garrek**: "Every cycle. All 347. I've been the tutorial boss since the beginning. You at least get to MOVE. I stand on this throne and wait to die."
-  - **Ren**: "I'm sorry."
-  - **Garrek**: "Just make it quick."
-
-- **Post-combat**:
-  - **Garrek**: *(defeated)* "See you next cycle."
-  - **Ren**: "...Maybe not."
-  - **Garrek**: "You say that every time."
-
-## Epilogue Dialogue
-
-**Lira joins the party.**
-
-- **Kael**: "A fine victory! Our first battle together!"
-- **Ren**: *(quietly)* "Yeah. The first."
-- **Lira**: *(appearing)* "Excuse me! Is this where the story starts? I heard there would be character development and meaningful bonds!"
-- **Ren**: "...Who are you?"
-- **Lira**: "I'm your healer! And possibly your love interest? The game hasn't decided yet."
-- **Ren**: "We don't have a romance system."
-- **Lira**: "...We WHAT?"
-
-**[Roster after Ch1: Ren, Kael, Senna, Bram, Lira — 5 units]**
-
-## Story Beats Delivered
-
-- Ren's memory of past cycles (established, not explained yet)
-- Bram's "wrong genre" gag (introduced — thinks he's in a fighting game)
-- Lira's "wrong genre" gag (introduced — thinks she's in a dating sim)
-- Garrek's full awareness (Tier 1 — remembers all 347 cycles, not just recent ones)
-- Weapon triangle taught through gameplay + Bram's comedic failure
-- Seize objective introduced (take the throne)
-- Tone set: funny but with cracks of something deeper underneath
-- Garrek's post-combat line plants the seed — "See you next cycle" vs Ren's hope that this time is different
+- **Shigeru × Akira** — Akira notices he has not eaten since Amagi. Establishes that
+  Akira is the one person who asks and waits for a real answer.
+- **Kanna × Hina** — faith vs measurement, handled with respect on both sides.
+  *"It was not a refusal. I said I cannot measure it."*

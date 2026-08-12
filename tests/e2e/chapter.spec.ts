@@ -52,7 +52,9 @@ test.describe('Chapter 1 — Full Game Flow', () => {
     await page.waitForTimeout(300);
 
     // Shigeru at (10, 10)
-    await expect(page.locator('[data-testid="tile-10-10"] [data-testid="unit-shigeru"]')).toBeVisible();
+    await expect(
+      page.locator('[data-testid="tile-10-10"] [data-testid="unit-shigeru"]'),
+    ).toBeVisible();
     // Akira at (13, 10)
     await expect(
       page.locator('[data-testid="tile-13-10"] [data-testid="unit-akira"]'),

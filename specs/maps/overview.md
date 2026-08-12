@@ -11,7 +11,7 @@ Maps are tactical puzzles, not empty arenas. Every map should:
 1. **Teach something**: Each map introduces or reinforces a mechanic (terrain, weapon type, objective, enemy behavior)
 2. **Force decisions**: Multiple valid approaches — rush the boss, clear methodically, split the party, protect NPCs
 3. **Scale with the roster**: Early maps are tight (6 units). Late maps are wide (12 units) with multiple fronts
-4. **Support the story**: Map layout reflects narrative (a monastery looks like a monastery, the System's domain looks abstract)
+4. **Support the story**: Map layout reflects narrative (a monastery looks like a monastery, the Blackflame's domain looks abstract)
 5. **Respect the player's time**: No filler. Every tile, enemy, and chest placement has a reason.
 
 ---
@@ -92,7 +92,7 @@ Maps are tactical puzzles, not empty arenas. Every map should:
 |----|------|--------|-------------|
 | 6 | "New Alliances" | Coastal town with docks | Water tiles block ground movement. Multiple entry points. NPC ally positions. |
 | 7 | "The Seed Breaks" | Open beach — no cover | Survive map. Enemies flood from all sides. Minimal defensive terrain. Teaches positioning over terrain. |
-| 8 | "The Last Ride" | Castle with inner courtyard | Tight indoor map. Kael holds rear chokepoint. Reinforcements from behind. |
+| 8 | "The Last Ride" | Castle with inner courtyard | Tight indoor map. Akira holds rear chokepoint. Reinforcements from behind. |
 | 9 | "The Void Left Behind" | Narrow canyon/road | Linear escape route. Pursuers from behind. Side paths for optional combat. |
 | 10 | "What We Carry" | Ruined fortress on cliff | Multi-level feel. Boss at center. Guard positions surround. Dual objective requires splitting. |
 
@@ -100,7 +100,7 @@ Maps are tactical puzzles, not empty arenas. Every map should:
 
 ### Arc 3 — Corrupted Highlands (Mountains/Dark)
 
-**Tileset**: Mountain, corrupted tile, lava, ruins, monastery, dark forest, Data Void
+**Tileset**: Mountain, corrupted tile, lava, ruins, monastery, dark forest, Abyssal Rift
 
 | Ch | Name | Layout | Key Features |
 |----|------|--------|-------------|
@@ -118,7 +118,7 @@ Maps are tactical puzzles, not empty arenas. Every map should:
 
 | Ch | Name | Layout | Key Features |
 |----|------|--------|-------------|
-| 16 | "Through Its Eyes" | Abstract grid — symmetric, artificial | The System's perspective. Perfectly symmetrical. Ballista positions. Feels "designed." |
+| 16 | "Through Its Eyes" | Abstract grid — symmetric, artificial | The Blackflame's perspective. Perfectly symmetrical. Ballista positions. Feels "designed." |
 | 17 | "Data Recovery" | Archive/dungeon with fog | Fog of war throughout. Data node tiles to capture. Hidden enemies. Torch-dependent exploration. |
 | 18 | "Legacy Weapons" | Relic vault / fortress hybrid | Treasure-heavy map. 4+ chests with rare items. Strong guards. Ghael blocks a chokepoint. |
 | 19 | "The Offer" | Corridor leading to System terminal | Linear with branching side rooms. Memory Shard on hidden tile. Survive objective with increasing waves. |
@@ -165,7 +165,7 @@ Maps are tactical puzzles, not empty arenas. Every map should:
 | Pattern | Description | Used In |
 |---------|-------------|---------|
 | **Throne** | Boss on throne tile (+3 DEF, +10 Avoid, HP regen) | Ch1-3, Ch5, Ch7, Ch10, Ch14-16, Ch18, Ch20, Ch22, Ch25 |
-| **Roaming** | Boss moves toward party (Aggressive AI) | Ch4, Ch6, Ch8 boss Morryn, Ch9, Ch21 |
+| **Roaming** | Boss moves toward party (Aggressive AI) | Ch4, Ch6, Ch8 boss Doumeki, Ch9, Ch21 |
 | **Flying** | Boss airborne, must be grounded | Ch5 (sub-boss), Ch6 |
 | **Arena** | Boss in open area, no terrain advantage | Ch24 |
 | **Multi-phase** | Boss changes behavior at HP thresholds | Ch20, Ch24, Ch25 |
@@ -175,7 +175,7 @@ Maps are tactical puzzles, not empty arenas. Every map should:
 
 - **Player spawns**: Bottom or left side of map (convention — advancing "forward")
 - **Boss position**: Top or right side (or center for arena maps)
-- **Reinforcement spawns**: Edges of map, behind player, or from Data Void tiles
+- **Reinforcement spawns**: Edges of map, behind player, or from Abyssal Rift tiles
 - **NPC positions**: Near player spawns (protect objective) or scattered (rescue objective)
 
 ---

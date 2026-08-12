@@ -16,8 +16,12 @@ test.describe('Chapter 4 — Ancient Horrors', () => {
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
     await page.waitForTimeout(300);
 
-    await expect(page.locator('[data-testid="tile-7-9"] [data-testid="unit-shigeru"]')).toBeVisible();
-    await expect(page.locator('[data-testid="tile-10-9"] [data-testid="unit-akira"]')).toBeVisible();
+    await expect(
+      page.locator('[data-testid="tile-7-9"] [data-testid="unit-shigeru"]'),
+    ).toBeVisible();
+    await expect(
+      page.locator('[data-testid="tile-10-9"] [data-testid="unit-akira"]'),
+    ).toBeVisible();
     await expect(page.locator('[data-testid="tile-6-9"] [data-testid="unit-kanna"]')).toBeVisible();
     await expect(page.locator('[data-testid="tile-11-9"] [data-testid="unit-hina"]')).toBeVisible();
   });

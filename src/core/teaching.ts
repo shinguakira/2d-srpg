@@ -3,7 +3,7 @@ import { SKILLS } from '../data/skills';
 import { ALL_CLASSES } from '../data/promotedClasses';
 
 /**
- * Get the LOOP + CRP cost for teaching a skill.
+ * Emberlight + Corruption cost of teaching a skill.
  */
 export function getTeachingCost(skillId: string): { loop: number; crp: number } {
   const skill = SKILLS[skillId];
@@ -26,7 +26,7 @@ export function getTeachingCost(skillId: string): { loop: number; crp: number } 
 
 /**
  * Check if Shigeru can teach a specific skill to a student.
- * LOOP is a Phase 4 resource — if the unit doesn't have it, teaching is gated.
+ * Emberlight is a Phase 4 resource — if the unit lacks it, teaching stays gated.
  */
 export function canTeach(
   lord: Unit,
@@ -51,18 +51,21 @@ export function canTeach(
     return { eligible: false, reason: 'Class innate skill' };
   }
 
-  // LOOP gate: in Phase 4 this will check a LOOP resource on Shigeru.
-  // For now, teaching is gated — always returns ineligible until LOOP is available.
+  // Emberlight gate: spending an ember to pass on a technique costs Shigeru
+  // something permanent. Gated until the resource exists on the unit.
   const hasLoop = 'loop' in lord && typeof (lord as Record<string, unknown>).loop === 'number';
   if (!hasLoop) {
-    return { eligible: false, reason: 'Teaching requires LOOP (available in later chapters)' };
+    return {
+      eligible: false,
+      reason: 'Teaching requires Emberlight (available in later chapters)',
+    };
   }
 
   return { eligible: true };
 }
 
 /**
- * Apply teaching: student learns the skill, deduct LOOP from Shigeru, add CRP.
+ * Apply teaching: the student learns the skill, Shigeru spends Emberlight and takes Corruption.
  * Returns updated copies of both units.
  */
 export function applyTeaching(
@@ -76,7 +79,7 @@ export function applyTeaching(
     learnedSkills: [...student.learnedSkills, skillId],
   };
 
-  // Deduct LOOP if available (Phase 4)
+  // Spend Emberlight if the resource exists (Phase 4)
   let newLord = { ...lord };
   if ('loop' in newLord && typeof (newLord as Record<string, unknown>).loop === 'number') {
     (newLord as Record<string, unknown>).loop =

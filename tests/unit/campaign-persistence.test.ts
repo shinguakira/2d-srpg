@@ -75,15 +75,7 @@ function resolve(attacker: Unit, defender: Unit, difficulty: 'classic' | 'casual
   const map = makeMap(4, 4);
   map.tiles[attacker.position.y][attacker.position.x].occupantId = attacker.id;
   map.tiles[defender.position.y][defender.position.x].occupantId = defender.id;
-  return applyCombatResult(
-    units,
-    map,
-    attacker.id,
-    defender.id,
-    defenderDies(),
-    null,
-    difficulty,
-  );
+  return applyCombatResult(units, map, attacker.id, defender.id, defenderDies(), null, difficulty);
 }
 
 beforeEach(() => {

@@ -1,133 +1,109 @@
 # Enemies
 
-Enemy types, awareness tiers, and design guidelines. For AI behavior details, see [ai.md](../gameplay/ai.md). For boss details, see [bosses.md](bosses.md).
+Enemy types and writing guidelines. For AI behaviour see [ai.md](../gameplay/ai.md);
+for named bosses see [bosses.md](bosses.md).
 
 ---
 
-## The System (Main Villain)
+## The Two Enemies
 
-See [world.md](world.md) → "The System — Expanded Villain Profile" for full details.
+The campaign has two distinct hostile forces and they should never feel alike.
 
-- **Awareness Tier**: 5 (System-Level)
-- **Manifests through**: forced resets, impossible enemy spawns, terrain corruption, stat manipulation
-- **Motivation**: Broken save manager trying to find a deathless playthrough. Not evil — tragic.
-- **Escalation**: Dormant (Arc 1) → Intervening (Arc 2) → Resisting (Arc 3) → Confronting (Arc 4) → Final Stand (Arc 5)
-- **Final form (Ch24-25)**: ???_CORRUPTED (Kael's data) and the System itself
+### 1. The Kurogane Empire
 
----
+A real army: disciplined, well fed, well paid, and marching because their emperor
+told them this war would be the last one — and they believe him. Kurogane soldiers
+are not monsters and are never written as monsters.
 
-## Enemy Class Types
+Genzo is the party's window into them, which is why he defects in Ch2 and why his
+death in Ch8 costs the player something.
 
-### Base Enemy Classes (Arc 1-2)
+### 2. The Blackflame
 
-| Class | Weapons | Awareness | Key Trait | First Appears |
-|-------|---------|-----------|-----------|--------------|
-| **Brigand** | Axe | Tier 4 (Unaware) | Weak, numerous, disposable. Know they're disposable. | Ch1 |
-| **Soldier** | Lance | Tier 4 (Unaware) | Disciplined, follow orders. The System's intended design. | Ch1 |
-| **Archer** | Bow | Tier 4 (Unaware) | 2-range only. Proud of their range. Can't counter melee. | Ch2 |
-| **Knight** | Lance | Tier 4 (Unaware) | High DEF, low SPD. Teaches effective weapons. | Ch2 |
-| **Mage** | Anima tomes | Tier 2 (Partial) | High MAG resonance = partial system awareness. | Ch2 |
-| **Cavalier** | Lance/Sword | Tier 4 (Unaware) | Mobile. Canto. Teaches anti-cavalry tactics. | Ch4 |
-| **Thief** | Knife | Tier 3-4 | Races to chests/villages. Survival AI. | Ch4 |
-| **Dark Mage** | Dark tomes | Tier 2 (Partial) | CRP on hit. Nosferatu drain. | Ch7 |
-| **Pegasus Knight** | Lance | Tier 4 | Flying. Bow-vulnerable. Fast flankers. | Ch8 |
-
-### Promoted Enemy Classes (Arc 3-4)
-
-| Class | Weapons | Key Trait | First Appears |
-|-------|---------|-----------|--------------|
-| **Paladin** | Lance/Sword | Fast, tough mounted. Canto + high stats. | Ch11 |
-| **General** | Lance/Sword | Max DEF wall. Effective weapons required. | Ch12 |
-| **Sage** | Anima/Staff | Can attack AND heal. Priority kill target. | Ch12 |
-| **Sniper** | Bow | Long range, high crit. Dangerous on elevated terrain. | Ch13 |
-| **Assassin** | Knife | Lethality skill. Ambush AI in fog. | Ch13 |
-| **Berserker** | Axe | High crit, high STR. Glass cannon. | Ch14 |
-| **Wyvern Lord** | Axe/Lance | Flying tank. Only bows and wind magic effective. | Ch15 |
-| **Bishop** | Light/Staff | Healer AI. Light magic hurts corrupted party members. | Ch15 |
-| **Druid** | Dark/Staff | High CRP spread. Nosferatu drain + healing. | Ch16 |
-| **Swordmaster** | Sword | Extreme speed + crit. Hard to hit, deadly counter. | Ch17 |
-| **War Monk** | Light/Axe | Hybrid fighter-healer. Surprisingly tanky. | Ch18 |
-
-### Master/Special Enemy Classes (Arc 4-5)
-
-| Class | Weapons | Key Trait | First Appears |
-|-------|---------|-----------|--------------|
-| **Marshal** | All physical | Master class. Can equip any physical weapon. | Ch20 |
-| **Archsage** | All magic | Master class. Can equip any tome. | Ch21 |
-| **System Construct** | Any (assigned) | Artificial units. No CRP. High flat stats. No growth — pure data. | Ch18 |
-| **Corrupted** | Randomized | Stat randomization ±3 each turn. CRP on contact. Tier 5 corruption. | Ch11+ |
-
-### Corrupted Variants
-
-Any base or promoted enemy class can become "Corrupted" in Arc 3+:
-- Sprite has visual glitch effects (color bleeding, frame skipping)
-- Stats randomize ±1-3 each turn
-- Attacks spread +3 CRP on hit
-- May ignore AI behavior and act erratically
-- Drop CRP-related items on death
+Not an army. It does not negotiate, hold ground, or take prisoners. It hollows
+things out. Its "units" are the people it has already taken.
 
 ---
 
-## Generic Enemy — Awareness by Type
+## Kurogane Enemy Classes
 
-Not every enemy talks. Only 1-2 per chapter get dialogue for comedic/dramatic beats.
+### Arc 1-2
 
-### Soldiers (Tier 4 — Unaware)
-Follow orders without question. The most "normal" enemies.
-- Occasional beat: "For the commander!" (they genuinely mean it)
+| Class | Weapons | Key trait | First appears |
+|-------|---------|-----------|---------------|
+| **Brigand** | Axe | Hill bandits, mostly on Kurogane pay rather than in Kurogane service | Ch1 |
+| **Soldier** | Lance | The Empire's backbone. Disciplined, ordinary, doing a job | Ch1 |
+| **Archer** | Bow | 2-range only, no melee counter | Ch2 |
+| **Knight** | Lance | High DEF, low SPD. Teaches effective weapons | Ch2 |
+| **Mage** | Anima tomes | Ranged burst, fragile | Ch2 |
+| **Cavalier** | Lance/Sword | Mobile, canto. Teaches anti-cavalry positioning | Ch4 |
+| **Thief** | Knife | Races for chests and villages. Survival AI | Ch4 |
+| **Pegasus Knight** | Lance | Flying, bow-vulnerable, fast flankers | Ch6 |
+| **Shaman** | Dark tomes | Nosferatu drain; inflicts Corruption on hit | Ch7 |
 
-### Brigands (Tier 4 — Unaware, but bitter)
-Know they're weak. Don't know WHY they feel disposable.
-- Occasional beat: "Why do I always spawn near the strongest enemy...?"
+### Arc 3-4 (promoted)
 
-### Mages (Tier 2 — Partially Aware)
-High MAG stat resonance means enemy mages sometimes perceive the system layer.
-- Occasional beat: "I KNOW I should retreat, but something compels me forward." (describing their AI)
-
-### Archers (Tier 4 — Unaware)
-Defined entirely by their 2-range. It's their whole personality.
-- Occasional beat: "You can't reach me from there!" (proud, genuine)
-
-### Knights (Tier 4 — Unaware)
-Absolute faith in their armor. Can't comprehend effective weapons.
-- Occasional beat: "My defense is impenetrable— wait, what IS that weapon?"
-
-### Dark Mages (Tier 2 — Partially Aware)
-See the system layer through dark magic. Half-understand what they're seeing.
-- Occasional beat: "The void between spells... there's DATA in it."
-
-### Assassins (Tier 2 — Partially Aware)
-Trained killers who notice the gaps between turns.
-- Occasional beat: "During their phase, we freeze. Don't you find that... unnatural?"
-
-### Reinforcements (Tier 4 — Disoriented)
-Spawned mid-battle. Arrive confused. Don't know where they came from.
-- Occasional beat: "Wait, when did this battle START? ...Why am I already fighting?"
-
-### System Constructs (Tier 5 — System-Level)
-Not people. Data shaped like soldiers. No personality, no dialogue, no mercy.
-- Occasional text: `[UNIT_0x3F7A: ENGAGING HOSTILE. NO FURTHER DATA.]`
-
-### Corrupted Units (Tier varies — Broken)
-Former enemies or allies consumed by corruption. Speak in fragments of who they were.
-- Occasional beat: "H̸e̵l̵p̸ ̶m̶e̷.̸ ̷I̵'̶m̵ ̶s̴t̸i̷l̷l̶ ̷i̵n̸ ̶h̸e̵r̸e̷.̵"
+| Class | Weapons | Key trait | First appears |
+|-------|---------|-----------|---------------|
+| **Paladin** | Lance/Sword | Fast, tough, canto | Ch11 |
+| **General** | Lance/Sword | Maximum-DEF wall | Ch12 |
+| **Sage** | Anima/Staff | Attacks *and* heals. Priority target | Ch12 |
+| **Sniper** | Bow | Long range, high crit, loves elevation | Ch13 |
+| **Assassin** | Knife | Lethality. Ambushes in fog | Ch13 |
+| **Berserker** | Axe | Glass cannon | Ch14 |
+| **Wyvern Lord** | Axe/Lance | Flying tank. Bows and wind only | Ch15 |
+| **Bishop** | Light/Staff | Healer AI; light magic hurts corrupted party members | Ch15 |
+| **Swordmaster** | Sword | Extreme speed and crit | Ch17 |
+| **Marshal / Archsage** | All physical / all magic | Master-class officers | Ch20+ |
 
 ---
 
-## Enemy Introduction Schedule
+## Blackflame Enemies
 
-| Arc | New Enemy Types | Total Enemy Variety |
-|-----|----------------|-------------------|
-| Arc 1 | Brigand, Soldier, Archer, Knight, Mage, Cavalier, Thief | 7 base types |
-| Arc 2 | Dark Mage, Pegasus Knight, enemy Healer (Cleric) | +3 = 10 types |
-| Arc 3 | Paladin, General, Sage, Sniper, Assassin, Berserker, Wyvern Lord, Bishop, Corrupted | +9 promoted = 19 types |
-| Arc 4 | Druid, Swordmaster, War Monk, Marshal, Archsage, System Construct | +6 = 25 types |
-| Arc 5 | All types deployed. Master class enemies. Full corrupted variants. | 25+ types |
+### Revenant
+
+The dead the Blackflame has stood back up. They keep their own faces and their own
+kit, which is the most upsetting fact in the setting and should be treated that way
+— Hina's instruction in Ch7 is *"do not look at their faces."*
+
+- Uses the `shaman` frame; ids `ch7_corrupted_*`
+- Comes out of blighted stone rather than marching in from a map edge
+- Ch7 is the introduction: four waves, out of the fortress's north wall, some in
+  Amagi colours
+
+### Blackflame Colossus
+
+Not a revenant — a revenant was one person. A Colossus has been **assembled**, out
+of several.
+
+- `ch10_construct` · knight frame · HP 50 / STR 15 / DEF 14 / RES 10 / SPD 3
+- Slow, nearly unkillable head-on, and single-minded: it goes for an objective, not
+  for whoever is nearest
+- On death its ash runs north along the ground **against the wind**, which is the
+  first trail the party can actually follow
+
+### Blighted terrain
+
+Terrain is an enemy in its own right from Ch3 onward.
+
+| Terrain | Display name | Effect |
+|---|---|---|
+| `glitched` | **Blighted** | +2 Corruption per turn standing on it |
+| `data_void` | **Abyssal Rift** | Impassable; -2 DEF, -20 avoid nearby; +3 Corruption |
+| `corrupted_fort` | **Defiled Fort** | Fort cover, but +1 Corruption |
+| `broken_throne` | **Broken Throne** | Reduced throne bonuses |
+| `memory` | **Hallowed Ground** | Restores Attunement; the blight will not cross it |
 
 ---
 
-## Open Questions
+## Writing generic enemies
 
-- **Named mini-bosses**: Should recurring mini-bosses have unique portraits? *Recommendation: Yes for 3-4 key recurring enemies. Others use generic class portraits.*
-- **Enemy recruitment**: Beyond Voss, Zael, and Ghael, should any other enemies be recruitable? *Recommendation: Keep it rare. 3 enemy-to-ally conversions is already a lot.*
-- **Corrupted ally**: Can a player unit who hits CRP 100 become a permanent enemy on the map? *Recommendation: Yes — this is the stated mechanic. They fight against you until killed. Worse than death.*
+Only one or two enemies per chapter get lines. Keep them short and human.
+
+- **Soldiers** mean it when they shout for their commander. They are not cynics.
+- **Brigands** are opportunists who took the winning side's coin and know exactly
+  what that makes them.
+- **Officers** almost all know something is wrong in the north and have been told
+  not to look at it. That order is the recurring note of the whole campaign.
+- **Revenants do not speak.** Ever. If a revenant says something, the scene is
+  broken.

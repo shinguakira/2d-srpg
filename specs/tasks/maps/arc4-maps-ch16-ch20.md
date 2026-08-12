@@ -1,7 +1,7 @@
 # Arc 4 Maps: Chapters 16-20 — "Awakening"
 
 > **Prerequisites:** Gameplay Phase 5 (fog of war), Phase 6 (multi-phase bosses, negotiate)
-> **Spec refs:** `specs/maps/ch16.md`–`ch20.md`, `specs/tasks/campaign-flags.md` (AWR calc, negotiate, recruitment)
+> **Spec refs:** `specs/maps/ch16.md`–`ch20.md`, `specs/tasks/campaign-flags.md` (INS calc, negotiate, recruitment)
 > **Deployment slots:** 10→12
 > **Key mechanics:** System Constructs, fog of war, multi-phase bosses
 
@@ -13,7 +13,7 @@
 
 ### Config
 - [ ] Create chapter16.ts — 16×18 grid, objective: Survive 12 turns → Defeat Sentinel Alpha
-- [ ] Par turns: 25, deployment slots: 10, force deploy: Ren
+- [ ] Par turns: 25, deployment slots: 10, force deploy: Shigeru
 
 ### Terrain
 - [ ] Perfectly symmetrical arena (reflects System's perspective)
@@ -23,7 +23,7 @@
 - [ ] Central open arena, minimal cover
 
 ### Enemies
-- [ ] Boss: System Sentinel Alpha — System Construct, Lv18, all weapon types
+- [ ] Boss: System Sentinel Alpha — Blackflame Colossus, Lv18, all weapon types
   - 70 HP, immune to CRP, immune to status, drops System Fragment
   - Appears Turn 12 (after survive phase)
 - [ ] Test Batch waves (survive phase):
@@ -55,7 +55,7 @@
 
 ### Config
 - [ ] Create chapter17.ts — 18×20 grid, objective: Capture 3 data nodes + Boss Kill/Negotiate
-- [ ] Par turns: 25, deployment slots: 10, force deploy: Ren
+- [ ] Par turns: 25, deployment slots: 10, force deploy: Shigeru
 - [ ] Fog of war: ON (vision range 3, thief 5)
 
 ### Terrain
@@ -67,9 +67,9 @@
 - [ ] Wall tiles forming maze-like corridors
 
 ### Enemies
-- [ ] Boss: The System — System Construct, Lv20, dark tomes, MAG 25, RES 20
+- [ ] Boss: The Blackflame — Blackflame Colossus, Lv20, dark tomes, MAG 25, RES 20
   - 75 HP, regen 5 HP/turn
-  - Negotiation possible: party avg AWR ≥ 70 (`floor(sum(deployed.awr) / count)`) AND boss HP ≤ 50% → Ren Talk
+  - Negotiation possible: party avg INS ≥ 70 (`floor(sum(deployed.awr) / count)`) AND boss HP ≤ 50% → Shigeru Talk
 - [ ] 8 Construct guardians — Lv14-16, guard AI at data nodes (2-3 per node)
 - [ ] 4 Ambush constructs — hidden in fog, attack when player enters range
 - [ ] Total: ~13 enemies
@@ -83,8 +83,8 @@
 - [ ] All 3 captured: boss room door opens
 
 ### Negotiate Mechanic
-- [ ] Check conditions: Ren adjacent to boss, boss HP ≤ 50%, party avg AWR ≥ 70
-- [ ] Negotiate action appears in Ren's action menu
+- [ ] Check conditions: Shigeru adjacent to boss, boss HP ≤ 50%, party avg INS ≥ 70
+- [ ] Negotiate action appears in Shigeru's action menu
 - [ ] Success: boss stands down, chapter ends peacefully
 - [ ] Set campaign flag: `system_negotiated = true`
 - [ ] Flag effect: ch25 boss Phase 1 stats -20%
@@ -97,7 +97,7 @@
 
 ### Config
 - [ ] Create chapter18.ts — 18×20 grid, objective: Boss Kill / Recruit Ghael
-- [ ] Par turns: 28, deployment slots: 11, force deploy: Ren
+- [ ] Par turns: 28, deployment slots: 11, force deploy: Shigeru
 
 ### Terrain
 - [ ] Mountain fortress: Ghael's defensive line at row 8 (fort tiles, stationary)
@@ -108,8 +108,8 @@
 ### Enemies
 - [ ] Boss: Ghael the Ironwall — General, Lv18, steel_lance + javelin
   - 70 HP, DEF 28, RES 8, stationary on fort
-  - Recruitable: reduce to ≤5 HP, Ren Talk
-- [ ] Alt Boss (if Ghael recruited): Relic Warden — System Construct, Lv16, 50 HP
+  - Recruitable: reduce to ≤5 HP, Shigeru Talk
+- [ ] Alt Boss (if Ghael recruited): Relic Warden — Blackflame Colossus, Lv16, 50 HP
   - Spawns blocking vault exit after Ghael recruitment
 - [ ] 6 Soldiers — Lv15-16, defensive line along row 8
 - [ ] 4 Knights — Lv15, guard AI at fortress entrance
@@ -118,14 +118,14 @@
 
 ### Conditional Recruitment — Ghael
 - [ ] Create Ghael unit data: Lv18, steel_lance + javelin, General class
-- [ ] Recruitment: reduce to ≤5 HP + Ren Talk action
+- [ ] Recruitment: reduce to ≤5 HP + Shigeru Talk action
 - [ ] If recruited: Relic Warden spawns as secondary boss, Ghael joins roster
 - [ ] If killed: no secondary boss, miss Ghael permanently
 - [ ] Campaign flag: `ghael_recruited = true/false`
 
 ### Rewards
 - [ ] West treasure room: Master Crown #1 (story reward)
-- [ ] East treasure room: Legendary weapon (Prf for Ren or random party member)
+- [ ] East treasure room: Legendary weapon (Prf for Shigeru or random party member)
 - [ ] Ghael defeat/recruit: Master Seal
 
 ---
@@ -136,7 +136,7 @@
 
 ### Config
 - [ ] Create chapter19.ts — 16×20 grid, objective: Seize System terminal
-- [ ] Par turns: 15 (survive-style pacing), deployment slots: 11, force deploy: Ren
+- [ ] Par turns: 15 (survive-style pacing), deployment slots: 11, force deploy: Shigeru
 
 ### Terrain
 - [ ] Symmetrical corridors (System inner sanctum)
@@ -144,14 +144,14 @@
 - [ ] Archive chamber (lore room)
 - [ ] Memory Guardian blocking terminal at (4, 8)
 - [ ] Terminal throne at (2, 8) — seize target
-- [ ] Hidden tile: Kael's Memory Shard at (15, 19) — no visual indicator
+- [ ] Hidden tile: Akira's Memory Shard at (15, 19) — no visual indicator
 
 ### Enemies
-- [ ] Boss: Memory Guardian — System Construct, Lv19, MAG 24, RES 22
+- [ ] Boss: Memory Guardian — Blackflame Colossus, Lv19, MAG 24, RES 22
   - 65 HP, summons ghost bosses every 3 turns
-- [ ] Ghost bosses (summons): Phantom Garrek, Phantom Thane, Phantom Morryn
+- [ ] Ghost bosses (summons): Phantom Baraku, Phantom Ryuji, Phantom Doumeki
   - Each Lv10-12, one weapon, aggressive AI, despawn after 3 turns
-- [ ] System Emissary — System Construct, replica of Cycle #1 Ren
+- [ ] System Emissary — Blackflame Colossus, replica of Cycle #1 Shigeru
   - Non-hostile, Talk triggers dialogue
 - [ ] 4 Construct guards — Lv16, guard AI in corridors
 - [ ] Total: ~6 permanent + rotating ghost summons
@@ -160,10 +160,10 @@
 - [ ] Ghost summons: every 3 turns, Memory Guardian creates phantom enemies
 - [ ] System Emissary Talk: triggers The Choice dialogue
   - "One more reset. Fix everything."
-  - Ren refuses: "Even if the ending is imperfect, it's OURS."
+  - Shigeru refuses: "Even if the ending is imperfect, it's OURS."
   - Not a real mechanical choice — game continues regardless
   - LOY shift based on party members' reactions
-- [ ] Hidden Kael Memory Shard: step on (15,19) to receive item
+- [ ] Hidden Akira Memory Shard: step on (15,19) to receive item
 - [ ] Terminal seize: chapter ends with arc transition
 
 ---
@@ -174,7 +174,7 @@
 
 ### Config
 - [ ] Create chapter20.ts — 20×22 grid, objective: Boss Kill (Sentinel Omega)
-- [ ] Par turns: 25, deployment slots: 12, force deploy: Ren
+- [ ] Par turns: 25, deployment slots: 12, force deploy: Shigeru
 - [ ] Weather: Corruption Storm (+1 CRP/turn all units)
 
 ### Terrain
@@ -185,7 +185,7 @@
 - [ ] Terrain corrupts every 2 turns (plains → glitched, shrinking playable area)
 
 ### Enemies
-- [ ] Boss: System Sentinel Omega — System Construct, Lv22, multi-phase
+- [ ] Boss: System Sentinel Omega — Blackflame Colossus, Lv22, multi-phase
   - Phase 1 (80-40 HP): physical stats (STR 24, DEF 22), melee weapons
   - Phase 2 (40-0 HP): magic stats (MAG 26, RES 20), +2 MOV, ranged
   - 80 HP total, phase transition at 40 HP
@@ -195,8 +195,8 @@
 - [ ] Total: ~11 initial + reinforcements
 
 ### Conditional Recruitment — Echo
-- [ ] Echo (System Construct with free will) appears Turn 5 as green ally NPC
-- [ ] Create Echo unit data: Lv18, unique tome, System Construct class
+- [ ] Echo (Blackflame Colossus with free will) appears Turn 5 as green ally NPC
+- [ ] Create Echo unit data: Lv18, unique tome, Blackflame Colossus class
 - [ ] Echo auto-joins roster if alive at chapter end
 - [ ] Campaign flag: `echo_saved = true/false`
 - [ ] If Echo dies during chapter: permanently lost
@@ -205,7 +205,7 @@
 - [ ] Turn 2: Terrain corruption begins (2-tile spread per 2 turns)
 - [ ] Turn 5: Echo defects from System, appears as ally
 - [ ] Phase transition: Sentinel Omega shifts at 40 HP (stat swap + dialogue)
-- [ ] Chapter end: Ren seizes gateway, Arc 4 conclusion
+- [ ] Chapter end: Shigeru seizes gateway, Arc 4 conclusion
 - [ ] "No resets from now on" commitment dialogue
 
 ### Validation (All Arc 4)
@@ -213,15 +213,15 @@
 - [ ] Fog of war in ch17: tiles outside vision dimmed, hidden enemies not rendered
 - [ ] Fog: enemy entering vision → reveal flash, enemy leaving → hidden again
 - [ ] Ballista in ch16: Fire Ballista action, 3-10 range, 15 fixed damage, 75% hit
-- [ ] Negotiate in ch17: conditions checked (party avg AWR ≥ 70, boss HP ≤ 50%, Ren adjacent)
+- [ ] Negotiate in ch17: conditions checked (party avg INS ≥ 70, boss HP ≤ 50%, Shigeru adjacent)
 - [ ] Negotiate sets `system_negotiated = true` → ch25 Phase 1 stats -20%
 - [ ] Ghost summons in ch19: spawn every 3 turns, despawn after 3 turns
 - [ ] Multi-phase boss in ch20: Sentinel Omega transitions at 40 HP (physical → magic stats)
 - [ ] Weather (corruption storm) in ch20: +1 CRP/turn to ALL units on map
 - [ ] Terrain corruption spread in ch20: plains → glitched every 2 turns
 - [ ] Campaign flags persist: `system_negotiated`, `ghael_recruited`, `echo_saved`
-- [ ] Ghael recruitment: ≤5 HP + Ren Talk → Relic Warden spawns as secondary boss
+- [ ] Ghael recruitment: ≤5 HP + Shigeru Talk → Relic Warden spawns as secondary boss
 - [ ] Echo survival: alive at ch20 end → `echo_saved = true`, added to roster
 - [ ] Save/load: all Arc 4 flags persist correctly
-- [ ] E2E: ch17 with AWR ≥ 70 → negotiate succeeds → peaceful end
-- [ ] E2E: ch17 with AWR < 70 → must defeat boss traditionally
+- [ ] E2E: ch17 with INS ≥ 70 → negotiate succeeds → peaceful end
+- [ ] E2E: ch17 with INS < 70 → must defeat boss traditionally

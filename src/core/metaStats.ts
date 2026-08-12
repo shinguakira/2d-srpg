@@ -150,9 +150,9 @@ export function getStaCombatNote(sta: number): string | null {
   return null;
 }
 
-// ===== LOOP / Memory Blade =====
+// ===== Emberlight / Flamebrand =====
 
-/** Memory Blade might based on LOOP: 1 + floor(LOOP / 30) */
+/** Flamebrand might from remaining Emberlight: 1 + floor(EMB / 30) */
 export function getMemoryBladeMight(loop: number): number {
   return 1 + Math.floor(loop / 30);
 }

@@ -241,7 +241,7 @@ score += target.aggroWeight × 0.3
 where: aggroWeight = 10 + CHA×2 + (maxHP - currentHP)/2
 ```
 
-This makes high-CHA units (Ren: CHA 9 → weight 28) natural aggro magnets, while low-CHA units (Voss: CHA 2 → weight 14) are nearly ignored.
+This makes high-CHA units (Shigeru: CHA 9 → weight 28) natural aggro magnets, while low-CHA units (Genzo: CHA 2 → weight 14) are nearly ignored.
 
 ### Terrain Aggro Modifier (Design Spec)
 
@@ -326,18 +326,18 @@ Enemies act in the order they were computed (currently: iteration order of the u
 
 ## Enemy AI × Meta-Stats (Design Spec)
 
-### AWR-Based Information
+### INS-Based Information
 
-| Player AWR Level | AI Behavior Change |
+| Player INS Level | AI Behavior Change |
 |-----------------|-------------------|
-| AWR Blind (0-10) | AI targets randomly (player can't see stats, AI plays fair) |
-| AWR Aware (11-30) | Normal AI scoring |
-| AWR Decoded (61-90) | AI becomes smarter — considers weapon triangle in scoring |
-| AWR Awake (91-100) | AI plays optimally — considers terrain, support bonuses, future turns |
+| INS Blind (0-10) | AI targets randomly (player can't see stats, AI plays fair) |
+| INS Aware (11-30) | Normal AI scoring |
+| INS Decoded (61-90) | AI becomes smarter — considers weapon triangle in scoring |
+| INS Awake (91-100) | AI plays optimally — considers terrain, support bonuses, future turns |
 
-### SYNC-Based Consistency
+### ATT-Based Consistency
 
-| SYNC State | AI Effect |
+| ATT State | AI Effect |
 |-----------|-----------|
 | Volatile (<30%) | 20% chance enemy AI acts randomly (wrong target, suboptimal move) |
 | Anchored (>90%) | AI acts perfectly — no randomization, optimal play |
@@ -388,7 +388,7 @@ Summary guidelines for enemy placement and behavior assignment across 25 chapter
 | Pegasus Knight | Aggressive | 9-12 | Flying. Teaches bow effectiveness. |
 | Healer (enemy cleric) | Healer | 8-10 | Heals allies. Priority kill target. |
 | Named mini-boss | Survival | 10-14 | Retreats to heal, returns. |
-| Boss | Boss | 12-16 | Ch8 boss kills Kael (scripted). |
+| Boss | Boss | 12-16 | Ch8 boss kills Akira (scripted). |
 | Reinforcements | Aggressive | 7-11 | Multi-wave from Turn 4-5. |
 
 **Arc 2 AI philosophy**: Introduce Survival and Healer. Enemies feel smarter — they retreat, they heal, they kite.
@@ -431,8 +431,8 @@ Summary guidelines for enemy placement and behavior assignment across 25 chapter
 | Everything from Arc 4 | Mixed | 27-33 | Higher levels, more aggressive. |
 | Master class enemies | Aggressive/Coordinated | 28-33 | Regular occurrence now. |
 | Corrupted elites | Aggressive | 28-33 | High CRP, stat chaos, bonus dark damage. |
-| ???_CORRUPTED (Ch24) | Boss (unique) | 33 | Kael's data. Cycling weapons. 3 phases. |
-| System (Ch25 boss) | Boss (unique) | 35 | Reads LOOP data. Adapts to player strategy. |
+| ???_CORRUPTED (Ch24) | Boss (unique) | 33 | Akira's data. Cycling weapons. 3 phases. |
+| System (Ch25 boss) | Boss (unique) | 35 | Reads EMB data. Adapts to player strategy. |
 | Reinforcements | Continuous | 27-30 | Every 2-3 turns. Corruption Storm spawns extras. |
 
 **Arc 5 AI philosophy**: Everything at once. Coordinated squads, ambushes, healers, flying threats. The full AI toolkit deployed simultaneously.
@@ -445,7 +445,7 @@ Summary guidelines for enemy placement and behavior assignment across 25 chapter
 - ~~**Retreat behavior**~~: **RESOLVED** — Survival AI type.
 - ~~**Healer enemies**~~: **RESOLVED** — Healer AI type.
 - ~~**Coordinated attacks**~~: **RESOLVED** — Coordinated AI type (Arc 4+).
-- **AI cheating**: Should boss AI know player unit stats regardless of AWR? *Recommendation: Bosses always see player stats. They ARE the System's agents.*
+- **AI cheating**: Should boss AI know player unit stats regardless of INS? *Recommendation: Bosses always see player stats. They ARE the Blackflame's agents.*
 - **Aggro leashing**: Should aggressive enemies that chase too far give up and return? *Recommendation: No leash — aggressive means aggressive. Guard behavior is the "leashed" version.*
 - **Enemy item usage**: Should all enemies with items use them (not just Survival)? *Recommendation: Yes — any enemy with a Vulnerary uses it at ≤40% HP. Adds realism.*
 - **Thief escape**: If a thief reaches the map edge with stolen loot, does the item disappear? *Recommendation: Yes — creates real urgency. The item is gone.*

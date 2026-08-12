@@ -51,7 +51,7 @@ Collapsible section below main forecast stats showing the source of each modifie
 ### Grouping
 
 Modifiers are grouped under two headers:
-- **You** (blue `#60a5fa`): attacker-side modifiers (triangle, weather, support, SYNC, STA, effectiveness, proficiency)
+- **You** (blue `#60a5fa`): attacker-side modifiers (triangle, weather, support, ATT, STA, effectiveness, proficiency)
 - **Foe** (red `#ef4444`): defender-side modifiers (terrain, weather, STA, effectiveness, proficiency)
 
 ### Modifier Sources
@@ -61,7 +61,7 @@ Modifiers are grouped under two headers:
 | Weapon triangle | You | "Triangle: HIT +15, DMG +1" | `getWeaponTriangle()` |
 | Weather (player) | You | "Weather: HIT -15" | `getWeatherCombatModifiers()` |
 | Support | You | "Support: HIT +10, AVO +10" | `getSupportCombatBonuses()` |
-| SYNC bonus | You | "SYNC 85: HIT +5" | `applySyncHitBonus()` |
+| ATT bonus | You | "ATT 85: HIT +5" | `applySyncHitBonus()` |
 | STA penalty (player) | You | "STA 32: SPD -1" | `getStaCombatNote()` |
 | Effectiveness (player) | You | "Effective: Mt x3" | `isEffectiveAgainst()` |
 | Non-proficient (player) | You | "Not proficient: HIT -20" | proficiency check in `combat.ts` |

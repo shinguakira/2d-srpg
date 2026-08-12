@@ -46,9 +46,7 @@ export function useClipFrame(clip: Clip, restartKey?: string | number, phase = 0
 
   const step = Math.floor((now - startedAt) / (1000 / clip.fps));
   const n = clip.frames.length;
-  const i = clip.loop
-    ? (((step + phase) % n) + n) % n
-    : Math.max(0, Math.min(step, n - 1));
+  const i = clip.loop ? (((step + phase) % n) + n) % n : Math.max(0, Math.min(step, n - 1));
   return clip.frames[i];
 }
 

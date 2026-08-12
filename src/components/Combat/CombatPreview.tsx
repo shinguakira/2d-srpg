@@ -184,10 +184,10 @@ export function CombatPreview() {
         playerModifiers.push({ label: `Support: ${parts.join(', ')}`, color: '#f472b6' });
       }
     }
-    // SYNC hit bonus
+    // Attunement hit bonus
     if (playerFullUnit && applySyncHitBonus(playerFullUnit.metaStats.sync) > 0) {
       playerModifiers.push({
-        label: `SYNC ${playerFullUnit.metaStats.sync}: HIT +5`,
+        label: `ATT ${playerFullUnit.metaStats.sync}: HIT +5`,
         color: '#22d3ee',
       });
     }

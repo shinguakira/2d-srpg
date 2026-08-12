@@ -165,38 +165,28 @@ export const PLAYER_UNITS: Record<string, Unit> = {
     statOverrides: { spd: 10, lck: 9 },
   }),
 
-  // Akira NPC clone — used in ch8 when Akira becomes an ally NPC for the death sequence
+  // Genzo NPC clone — ch8 turns Genzo into an ally NPC holding the south corridor
   genzo_npc: createUnit(
     'genzo_npc',
-    'Akira',
-    'cavalier',
+    'Genzo',
+    'soldier',
     'ally',
-    ['iron_lance', 'iron_sword'],
+    ['iron_lance', 'garrison_lance'],
     8,
     '',
     ['vulnerary'],
     {
       aiBehavior: { type: 'aggressive' },
-      deathQuote: 'This time... I choose...',
+      deathQuote: 'Eleven years... on a wall... and I chose this one...',
       statOverrides: { hp: 28, str: 10, def: 8, spd: 8, skl: 8, lck: 6 },
     },
   ),
 
   // Elder Toki — ch10 protect target NPC
-  elder_toki: createUnit(
-    'elder_toki',
-    'Elder Toki',
-    'cleric',
-    'ally',
-    ['heal_staff'],
-    1,
-    '',
-    [],
-    {
-      aiBehavior: { type: 'stationary' },
-      statOverrides: { hp: 14, def: 2, res: 4, mag: 3 },
-    },
-  ),
+  elder_toki: createUnit('elder_toki', 'Elder Toki', 'cleric', 'ally', ['heal_staff'], 1, '', [], {
+    aiBehavior: { type: 'stationary' },
+    statOverrides: { hp: 14, def: 2, res: 4, mag: 3 },
+  }),
 };
 
 // Enemy templates
@@ -618,7 +608,7 @@ export const ENEMY_UNITS: Record<string, Unit> = {
   // Ch6 reinforcements — Turn 12 overwhelming wave
   ch6_reinforce_5: createUnit(
     'ch6_reinforce_5',
-    'Imperial Soldier',
+    'Kurogane Soldier',
     'soldier',
     'enemy',
     ['steel_lance'],
@@ -626,7 +616,7 @@ export const ENEMY_UNITS: Record<string, Unit> = {
   ),
   ch6_reinforce_6: createUnit(
     'ch6_reinforce_6',
-    'Imperial Soldier',
+    'Kurogane Soldier',
     'soldier',
     'enemy',
     ['steel_lance'],
@@ -634,7 +624,7 @@ export const ENEMY_UNITS: Record<string, Unit> = {
   ),
   ch6_reinforce_7: createUnit(
     'ch6_reinforce_7',
-    'Imperial Fighter',
+    'Kurogane Fighter',
     'fighter',
     'enemy',
     ['steel_axe'],
@@ -642,7 +632,7 @@ export const ENEMY_UNITS: Record<string, Unit> = {
   ),
   ch6_reinforce_8: createUnit(
     'ch6_reinforce_8',
-    'Imperial Fighter',
+    'Kurogane Fighter',
     'fighter',
     'enemy',
     ['steel_axe'],
@@ -650,7 +640,7 @@ export const ENEMY_UNITS: Record<string, Unit> = {
   ),
   ch6_reinforce_9: createUnit(
     'ch6_reinforce_9',
-    'Imperial Cavalry',
+    'Kurogane Cavalry',
     'cavalier',
     'enemy',
     ['steel_lance'],
@@ -658,7 +648,7 @@ export const ENEMY_UNITS: Record<string, Unit> = {
   ),
   ch6_reinforce_10: createUnit(
     'ch6_reinforce_10',
-    'Imperial Cavalry',
+    'Kurogane Cavalry',
     'cavalier',
     'enemy',
     ['steel_lance'],

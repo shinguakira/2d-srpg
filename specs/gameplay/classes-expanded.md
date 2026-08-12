@@ -11,7 +11,7 @@ See [promotion.md](promotion.md) for promotion mechanics and item requirements.
 ## New Base Classes (10)
 
 ### Archer
-Nira's class. Ranged physical damage. Bows only — 2-range, no melee counter.
+Sayo's class. Ranged physical damage. Bows only — 2-range, no melee counter.
 
 | HP | STR | MAG | DEF | RES | SPD | SKL | LCK | CHA | WIL | MOV |
 |----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
@@ -26,7 +26,7 @@ Nira's class. Ranged physical damage. Bows only — 2-range, no melee counter.
 - **Weakness**: Melee-vulnerable. If an enemy reaches her, she can't fight back. Low bulk.
 
 ### Thief
-Coda's class. Utility specialist. Knives + Lockpick + Steal.
+Hachi's class. Utility specialist. Knives + Lockpick + Steal.
 
 | HP | STR | MAG | DEF | RES | SPD | SKL | LCK | CHA | WIL | MOV |
 |----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
@@ -43,7 +43,7 @@ Coda's class. Utility specialist. Knives + Lockpick + Steal.
 - **Weakness**: Lowest combat stats. Cannot trade blows — hit-and-run only.
 
 ### Pegasus Knight
-Yuel's class. Flying lance user. High mobility, mage-killer.
+Yuki's class. Flying lance user. High mobility, mage-killer.
 
 | HP | STR | MAG | DEF | RES | SPD | SKL | LCK | CHA | WIL | MOV |
 |----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
@@ -75,7 +75,7 @@ Zael's class. Flying heavy attacker. Axe + lance.
 - **Weakness**: Bows effective (×3). Very low RES (0 base, 5% growth). Mages and archers destroy Wyvern Riders.
 
 ### Troubadour
-Faye's class. Mounted healer. Staff only until promotion.
+Mio's class. Mounted healer. Staff only until promotion.
 
 | HP | STR | MAG | DEF | RES | SPD | SKL | LCK | CHA | WIL | MOV |
 |----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
@@ -91,7 +91,7 @@ Faye's class. Mounted healer. Staff only until promotion.
 - **Weakness**: Cannot fight back. Mounted penalty in rough terrain. Low WIL.
 
 ### Mercenary
-Rook's class. Balanced sword fighter. The "generic good unit."
+Raiga's class. Balanced sword fighter. The "generic good unit."
 
 | HP | STR | MAG | DEF | RES | SPD | SKL | LCK | CHA | WIL | MOV |
 |----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
@@ -139,7 +139,7 @@ Elara's class. Light magic user. Anti-corruption specialist.
 - **Weakness**: Low STR means no physical combat. Moderate stats — not the best at anything except fighting corruption.
 
 ### Dancer
-Orin's class. Unique support. Cannot attack, cannot promote. Dance refreshes allies.
+Kagura's class. Unique support. Cannot attack, cannot promote. Dance refreshes allies.
 
 | HP | STR | MAG | DEF | RES | SPD | SKL | LCK | CHA | WIL | MOV |
 |----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
@@ -149,11 +149,11 @@ Orin's class. Unique support. Cannot attack, cannot promote. Dance refreshes all
 |----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
 | 40 | 5 | 5 | 10 | 15 | 45 | 15 | 50 | 40 | 15 |
 
-- **Dance**: Adjacent ally who has already acted can act again this turn. Uses Orin's action.
+- **Dance**: Adjacent ally who has already acted can act again this turn. Uses Kagura's action.
 - **No weapons**: Cannot attack or equip weapons. Period.
 - **No promotion**: Stays Dancer forever. This IS the class.
 - **High LCK/CHA**: 50% LCK growth helps Miracle skill activation. 40% CHA makes him an aggro magnet — dangerous.
-- **Weakness**: Cannot fight. Cannot take a hit. The most fragile unit. If Orin dies, the party loses its strongest support action.
+- **Weakness**: Cannot fight. Cannot take a hit. The most fragile unit. If Kagura dies, the party loses its strongest support action.
 
 ### Armor Knight
 Ghael's class. Immovable wall. Highest DEF, lowest SPD.
@@ -292,7 +292,7 @@ Available at Level 30+ with a Master Seal (rare, Arc 4-5 only). Stat caps raised
 
 | Master Class | Promotes From | Weapons | MOV | Stat Caps | Unique Skill |
 |-------------|--------------|---------|-----|-----------|-------------|
-| **Overlord** | Great Lord, Conqueror | Sword+Lance+Axe | 7 | 35 all | **Cycle Authority**: All allies within 3 tiles gain +3 all stats. Ren only. |
+| **Overlord** | Great Lord, Conqueror | Sword+Lance+Axe | 7 | 35 all | **Unbroken Vigil**: All allies within 3 tiles gain +3 all stats. Shigeru only. |
 | **Archsage** | Sage, Druid, Saint | All magic+Staff | 6 | 35 all | **Tri-Magic**: No magic triangle disadvantage. |
 | **Marshal** | General (either path), Paladin | Sword+Lance+Axe | 6 | 35 all, 40 DEF | **Ironwall**: Cannot be moved by Shove/knockback. Reduces all damage by 3 (flat). |
 | **Reaver** | Warrior, Berserker, Hero | Sword+Axe+Bow | 6 | 35 all, 40 STR | **Bloodlust**: Heal 30% of damage dealt. Always active (no activation roll). |
@@ -305,13 +305,13 @@ Available at Level 30+ with a Master Seal (rare, Arc 4-5 only). Stat caps raised
 
 - Master classes are **endgame rewards**, not expected for every unit
 - Only 2-3 Master Seals exist across the entire campaign
-- Ren's Overlord is unique — only he can use it (Prf class)
+- Shigeru's Overlord is unique — only he can use it (Prf class)
 - Master classes don't add new weapon types — they combine existing promoted weapons
 - The stat cap increase (30 → 35) matters most for units that were already capping stats
 
 ---
 
-## Unique Class: System Construct (Echo)
+## Unique Class: Blackflame Colossus (Echo)
 
 Echo's class. One-of-a-kind. Cannot promote through normal means.
 
@@ -327,7 +327,7 @@ Echo's class. One-of-a-kind. Cannot promote through normal means.
 - **Any weapon (one at a time)**: Can equip any weapon type. Switches during preparation. Cannot change mid-chapter.
 - **System Link**: Gains +2 to all stats when standing on glitched tiles (instead of CRP penalty).
 - **No promotion**: Cannot promote. Stat caps are already 30 (equivalent to promoted). Growth rates compensate over time.
-- **Narrative design**: Echo mirrors Ren — good at everything, best at nothing. But where Ren has 347 cycles of knowledge, Echo has raw system access.
+- **Narrative design**: Echo mirrors Shigeru — good at everything, best at nothing. But where Shigeru has four centuries of knowledge, Echo has raw system access.
 
 ---
 
@@ -349,7 +349,7 @@ Echo's class. One-of-a-kind. Cannot promote through normal means.
 | **Assassin** (enemy) | Knife | High SPD, Lethality, fragile. |
 | **War Monk** (enemy) | Light+Staff | Anti-corruption aura. Heals allies. Arc 3+. |
 | **Corrupted** | Cycles | Randomized stats, shifting weapon type. Arc 3+. |
-| **System Construct** | Varies | Artificial units created by the System. Perfect stats, predictable AI. Arc 4+. |
+| **Blackflame Colossus** | Varies | Artificial units created by the Blackflame. Perfect stats, predictable AI. Arc 4+. |
 
 ---
 
@@ -360,7 +360,7 @@ Echo's class. One-of-a-kind. Cannot promote through normal means.
 | Arc 1 (Ch1-5) | Lord, Cavalier, Mage, Fighter, Cleric, Soldier, Archer, Thief, Pegasus Knight | Brigand, Archer, Knight, Boss |
 | Arc 2 (Ch6-10) | Mercenary, Troubadour, Dancer | Dark Mage, Berserker, Paladin, Wyvern Rider |
 | Arc 3 (Ch11-15) | Shaman, Wyvern Rider, Monk | Sniper, General, Sage, Assassin, Corrupted, War Monk |
-| Arc 4 (Ch16-20) | Armor Knight, System Construct | Pegasus Knight (enemy), System Construct |
+| Arc 4 (Ch16-20) | Armor Knight, Blackflame Colossus | Pegasus Knight (enemy), Blackflame Colossus |
 | Arc 5 (Ch21-25) | — (no new classes) | All types + System Constructs |
 
 ---

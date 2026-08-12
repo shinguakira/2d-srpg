@@ -7,13 +7,13 @@
 
 ## Description
 
-The combat forecast shows final DMG/HIT/CRIT numbers but never explains what modifiers contribute to them. When hit rate is unexpectedly low, the player cannot tell if it's from weather, weapon triangle, terrain avoid, low SYNC, or enemy skills. This prevents learning the combat system and making informed positioning decisions.
+The combat forecast shows final DMG/HIT/CRIT numbers but never explains what modifiers contribute to them. When hit rate is unexpectedly low, the player cannot tell if it's from weather, weapon triangle, terrain avoid, low ATT, or enemy skills. This prevents learning the combat system and making informed positioning decisions.
 
 ## Current Behavior
 
 - `CombatPreview.tsx` shows flat DMG/HIT/CRIT values computed by `calculateCombatForecast` in `combat.ts`
 - Weapon triangle text shown separately at bottom — the only modifier surfaced
-- Weather, support, SYNC, STA, terrain, proficiency, and effectiveness modifiers are invisible
+- Weather, support, ATT, STA, terrain, proficiency, and effectiveness modifiers are invisible
 - Player must mentally reconstruct why numbers differ from expectations
 
 ## Expected Behavior
@@ -28,7 +28,7 @@ Collapsible "Modifiers" section below the main forecast stats. Collapsed by defa
 | Terrain | "Terrain (Forest): AVO +20, DEF +1" | `getTerrainData()` in `terrain.ts` |
 | Weather | "Rain: HIT -15 (bow)" | `getWeatherCombatModifiers()` in `weather.ts` |
 | Support | "Support (Marcus B): HIT +10, AVO +10" | `getTotalSupportBonuses()` in `support.ts` |
-| SYNC | "SYNC 85: HIT +5" | `applySyncHitBonus()` in `metaStats.ts` |
+| ATT | "ATT 85: HIT +5" | `applySyncHitBonus()` in `metaStats.ts` |
 | STA | "STA 32: SPD -1" | threshold check in `metaStats.ts` |
 | Effectiveness | "Effective: Mt x3" | `isEffectiveAgainst()` in `combat.ts` |
 | Non-proficient | "Not proficient: HIT -20" | proficiency check in `combat.ts` |

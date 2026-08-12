@@ -17,14 +17,14 @@ type Set = (partial: Partial<GameState>) => void;
 
 // ===== Per-Turn Meta-Stat Updates =====
 
-/** Canned anomaly dialogue lines for AWR ≥ 30 units adjacent to glitched terrain */
+/** Canned remarks for INS >= 30 units standing next to blighted ground */
 const ANOMALY_LINES: Record<string, string> = {
-  shigeru: "This glitch... it's the same as cycle #203.",
-  kanna: 'The data corruption here is measurable. Fascinating.',
-  goro: "Something feels OFF about this spot. My skin's crawling.",
-  hina: 'I can feel the wrongness seeping in...',
-  akira: "Stay sharp. The ground here isn't right.",
-  genzo: "I've seen terrain like this before — on the other side.",
+  shigeru: "The ground here is wrong. My father's sword is warm against my back.",
+  kanna: 'The blight is measurable here. Appalling, and fascinating.',
+  goro: 'Something is off about this spot. My skin is crawling.',
+  hina: 'I can feel it seeping in. Stand somewhere else, please.',
+  akira: 'Stay sharp. The ground here is not right.',
+  genzo: 'I have seen ground like this before. On the other side of the border.',
 };
 const DEFAULT_ANOMALY_LINE = 'Something feels... wrong about this place.';
 

@@ -285,7 +285,7 @@ export const WEAPONS: Record<string, Weapon> = {
   },
   data_knife: {
     id: 'data_knife',
-    name: 'Data Knife',
+    name: 'Shadowfang',
     type: 'knife',
     might: 5,
     hit: 100,
@@ -457,13 +457,13 @@ export const WEAPONS: Record<string, Weapon> = {
     maxDurability: 30,
   },
 
-  // ===== Prf — Memory Blade (Shigeru) =====
+  // ===== Prf — the Flamebrand (Shigeru) =====
 
   memory_blade: {
     id: 'memory_blade',
-    name: 'Memory Blade',
+    name: 'Flamebrand',
     type: 'sword',
-    might: 1, // dynamic: 1 + floor(LOOP / 30)
+    might: 1, // dynamic: 1 + floor(Emberlight / 30)
     hit: 85,
     crit: 5,
     weight: 4,
@@ -479,7 +479,7 @@ export const WEAPONS: Record<string, Weapon> = {
 
   cycle_breaker_bow: {
     id: 'cycle_breaker_bow',
-    name: 'Cycle Breaker',
+    name: 'Sealbreaker',
     type: 'bow',
     might: 14,
     hit: 80,

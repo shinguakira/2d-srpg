@@ -454,7 +454,7 @@ export const CHAPTER_8: ChapterData = {
               },
               {
                 speaker: 'Doumeki',
-                text: 'Boy. Go north and look at what your Emperor is carrying. Then decide whether any of us were ever soldiers at all.',
+                text: 'Boy. Go west and look at what your Emperor is carrying. Then decide whether any of us were ever soldiers at all.',
                 speakerFaction: 'enemy',
               },
             ],

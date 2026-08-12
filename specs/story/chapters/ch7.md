@@ -24,8 +24,8 @@ she has charted where the blight will surface, and eleven times it has surfaced
 somewhere else. She asks for it to be said aloud, before it matters, that her eyes
 may be worth very little today.
 
-**Turn 1.** The ward-stone has gone cold — either the north is empty, or the thing
-is no longer in the north.
+**Turn 1.** The ward-stone has gone cold — either the west is empty, or the thing
+is no longer out west.
 
 **Turn 3 — revenants.** They climb out of the grey stone. Goro sees one wearing
 Amagi colours. Hina names them and gives the instruction that defines them for the

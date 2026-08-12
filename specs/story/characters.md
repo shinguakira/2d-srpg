@@ -20,7 +20,7 @@ public, which his officers find reassuring and his enemies find readable.
 **Arc**: Ch1 flight → Ch5 realising the blight follows *him* → Ch8 giving Genzo
 permission to die → Ch10 refusing Takeshi to his face → Arc 3 walking west.
 
-**Key line** (Ch8): *"I have not lost anyone since Amagi and I am not starting
+**Key line** (Ch8): *"I have not lost anyone since Izuhara and I am not starting
 tonight because it is efficient."*
 
 ## Akira — Cavalier

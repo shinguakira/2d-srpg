@@ -7,10 +7,10 @@ const W: TerrainType = 'water';
 const X: TerrainType = 'wall';
 const T: TerrainType = 'fort';
 
-// 16 columns x 16 rows — coastal fortress with corridors and corrupted north edge
+// 16 columns x 16 rows — the fortress at the Cut; blighted seaward edge along row 0
 const terrain: TerrainType[][] = [
   // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
-  [W, W, P, P, P, P, P, P, P, P, P, P, P, P, W, W], // row 0  — corrupted spawn edge (north)
+  [W, W, P, P, P, P, P, P, P, P, P, P, P, P, W, W], // row 0  — blighted seaward edge (revenant spawns)
   [W, P, P, X, X, P, P, P, P, P, P, X, X, P, P, W], // row 1  — fortress walls
   [M, P, P, X, T, P, P, P, P, P, P, T, X, P, P, M], // row 2  — forts inside walls (Isonami at 4,2)
   [M, P, P, P, P, P, X, P, P, X, P, P, P, P, P, M], // row 3  — inner corridors (2-wide)
@@ -191,7 +191,7 @@ export const CHAPTER_7: ChapterData = {
             lines: [
               {
                 speaker: 'Kanna',
-                text: 'The ward-stone has gone cold. Not cracked — cold, as though there were nothing left in the north for it to point at.',
+                text: 'The ward-stone has gone cold. Not cracked — cold, as though there were nothing left out west for it to point at.',
                 speakerFaction: 'player',
               },
               {
@@ -201,7 +201,7 @@ export const CHAPTER_7: ChapterData = {
               },
               {
                 speaker: 'Kanna',
-                text: 'It could. It could also mean it is no longer in the north. Watch the wall, my lord.',
+                text: 'It could. It could also mean it is no longer out west. Watch the wall, my lord.',
                 speakerFaction: 'player',
               },
             ],

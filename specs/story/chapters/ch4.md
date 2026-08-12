@@ -4,9 +4,9 @@ Exact dialogue lives in `src/data/chapters/chapter4.ts`.
 
 ## Summary
 
-Tsutsu, the southern cape. Sea raiders are burning the district's storehouses. A split-forces
-chapter that teaches objective triage — the target is not the enemy, it is three
-roofs full of the town's winter grain.
+Tsutsu, the southern cape. Sea raiders are burning the district's storehouses. A
+split-forces chapter that teaches objective triage — the target is not the enemy, it
+is three roofs full of the town's winter grain.
 
 ## Setup
 

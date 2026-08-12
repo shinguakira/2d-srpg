@@ -202,8 +202,8 @@ export function TitleScreen() {
 
   return (
     <div className="title-screen" data-testid="title-screen">
-      <h1 className="title-screen__title">Fire Emblem: Renais</h1>
-      <p className="title-screen__subtitle">Tactical RPG</p>
+      <h1 className="title-screen__title">The Sacred Flame</h1>
+      <p className="title-screen__subtitle">A Tale of Amagi</p>
       <div className="title-screen__menu">
         <button
           className="title-screen__btn"

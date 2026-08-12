@@ -4,9 +4,10 @@ Exact dialogue lives in `src/data/chapters/chapter5.ts`.
 
 ## Summary
 
-**Arc 1 climax.** The highland fortress of General Tetsuzan. Introduces flight, and
-turns the campaign around: the blight is not spreading, it is *walking toward the
-Flamebrand*, and therefore toward the party. The company stops running south.
+**Arc 1 climax.** Kaneda, the old border fortress on Shiroyama above Aso Bay, held
+by General Tetsuzan. Introduces flight, and turns the campaign around: the blight is
+not spreading, it is *walking toward the Flamebrand*, and therefore toward the party.
+The company stops running and turns west.
 
 ## Setup
 

@@ -40,10 +40,10 @@ unit for two chapters.
 
 **Prologue — the argument.** Genzo lays out Doumeki's method. Akira proposes
 splitting the company; Genzo refuses it — half the company does not take Doumeki.
-What is needed is everything going north and one man in the corridor who knows how
-long it can be held.
+What is needed is everything going up to the throne and one man in the corridor who
+knows how long it can be held.
 
-Shigeru says no, twice, and gives his reason: *"I have not lost anyone since Amagi
+Shigeru says no, twice, and gives his reason: *"I have not lost anyone since Izuhara
 and I am not starting tonight because it is efficient."*
 
 Genzo's answer is the line the chapter is built on:
@@ -67,13 +67,13 @@ has Goro hold her.
 
 **Boss death.** Doumeki asks who held the corridor for nine turns. Told it was
 Genzo: *"He was the only man in my command who ever asked me a question. I had him
-posted to a wall for it."* Then he sends Shigeru north to look at what his emperor
+posted to a wall for it."* Then he sends Shigeru west to look at what his emperor
 is carrying.
 
 **Epilogue — the cost.** Shigeru's confession is that he *gave permission*: said the
-word out loud and then turned around and walked north. Kanna refuses to soften it and
-refuses to let him only feel the guilt: the fortress is theirs and eleven people are
-alive who would not be, and both are true at once.
+word out loud and then turned around and walked up to the throne. Kanna refuses to
+soften it and refuses to let him only feel the guilt: the fortress is theirs and
+eleven people are alive who would not be, and both are true at once.
 
 Goro puts his fist into the wall. Akira counts the turns — nine, on foot, alone, and
 nothing in the histories of this kingdom like it. Mio could not get down the stair.

@@ -5,10 +5,10 @@ intent behind it.
 
 ## Summary
 
-The tutorial. Kurogane landed at Komoda, the king died on the sand and Izuhara burned; the prince is on the coast road south
-with what is left of his father's guard, and the border keep at **Kuta** is
-already flying Kurogane colours. Teaches movement, attacking, the weapon triangle,
-terrain, villages, and Seize.
+The tutorial. Kurogane landed at Komoda, the king died on the sand and Izuhara
+burned; the prince is on the coast road south with what is left of his father's
+guard, and the gate keep at **Kuta** is already flying Kurogane colours. Teaches
+movement, attacking, the weapon triangle, terrain, villages, and Seize.
 
 The chapter has to do two jobs at once: teach the game, and establish that Shigeru
 is a young man carrying something far too heavy who has decided not to stop moving.

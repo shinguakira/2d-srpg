@@ -6,7 +6,7 @@ Exact dialogue lives in `src/data/chapters/chapter6.ts`.
 
 **Arc 2 opener.** A coastal harbour held by a Kurogane patrol with air cover. Two
 recruits, escalating reinforcement waves, and the news that the blight has already
-gone *past* the party in the night — the south road is cut, so turning north stops
+gone *past* the party in the night — every road south is cut, so turning west stops
 being a choice.
 
 ## Setup
@@ -22,10 +22,10 @@ being a choice.
 ## Beats
 
 **Prologue — the fifth mark.** Raiga's last contract was guarding a caravan out of
-the highlands. There is no caravan and there are no highlands: grey ground where the
+the Sasu valley. There is no pack train and there is no valley: grey ground where the
 road was, nothing to walk back to. Kanna realises it has passed them in the night —
 it is between them and the south road. Raiga signs on because everyone else on the
-coast is running from the north and these are the only fools walking at it.
+bay is running east and these are the only fools walking the other way.
 
 **Turn 4 — Mio.** A mounted healer treating a Kurogane soldier mid-battle. Akira
 asks if she is one of theirs; Hina answers *"She is on the side of the hurt. I know

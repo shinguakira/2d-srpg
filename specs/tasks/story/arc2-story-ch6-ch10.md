@@ -54,7 +54,7 @@
 - [x] Party support for Lisette (each character's perspective)
 - [x] Shigeru admits more about cycles (partial truth)
 
-## Chapter 8: "The Last Ride" — GENZO'S DEATH
+## Chapter 8: "The Last Ride" — HALVAR'S DEATH
 
 > **Ref:** [`specs/story/chapters/ch8.md`](specs/story/chapters/ch8.md), [`specs/story/characters/akira.md`](specs/story/characters/akira.md)
 

@@ -76,7 +76,7 @@
 
 ---
 
-## Chapter 8: "The Last Ride" (18×20) — GENZO'S DEATH
+## Chapter 8: "The Last Ride" (18×20) — HALVAR'S DEATH
 
 > **Ref:** [`specs/maps/ch8.md`](specs/maps/ch8.md), [`specs/story/chapters/ch8.md`](specs/story/chapters/ch8.md), [`specs/story/characters/akira.md`](specs/story/characters/akira.md)
 

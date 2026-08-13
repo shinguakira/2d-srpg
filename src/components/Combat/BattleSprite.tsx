@@ -1,13 +1,14 @@
 import type { Faction, WeaponType } from '../../core/types';
-import { getSheet, spriteBox, framePosition } from '../sprites/spriteSheetConfig';
+import { getSheet, getClip, spriteBox, framePosition } from '../sprites/spriteSheetConfig';
+import type { ClipName } from '../sprites/spriteSheetConfig';
 import { useClipFrame, phaseOf } from '../sprites/useClipFrame';
 
 type BattleSpriteProps = {
   classId: string;
   faction: Faction;
   mirrored?: boolean;
-  pose?: 'idle' | 'attack';
-  /** Combat animation phase — changing it replays the attack from frame 0. */
+  pose?: ClipName;
+  /** Combat animation phase — changing it replays a one-shot clip from frame 0. */
   phase?: string;
   weaponType?: WeaponType;
   weaponId?: string;
@@ -28,12 +29,14 @@ export function BattleSprite({
   static: isStatic,
 }: BattleSpriteProps) {
   const sheet = getSheet(classId, unitId);
-  const clip = pose === 'attack' ? sheet.clips.attack : sheet.clips.idle;
+  const clip = getClip(sheet, pose);
 
+  // One-shot clips restart whenever the pose or the hit index changes; looping
+  // ones run free, offset per unit so identical classes are not in lockstep.
   const animated = useClipFrame(
     clip,
-    pose === 'attack' ? `${pose}:${phase ?? ''}` : undefined,
-    pose === 'idle' && unitId ? phaseOf(unitId) : 0,
+    clip.loop ? undefined : `${pose}:${phase ?? ''}`,
+    clip.loop && unitId ? phaseOf(unitId) : 0,
   );
   const frame = isStatic ? clip.frames[0] : animated;
 

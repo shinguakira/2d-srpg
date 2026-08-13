@@ -5,6 +5,7 @@ import { useUIStore, getScaledDuration } from '../../stores/uiStore';
 import { BattleSprite } from './BattleSprite';
 import { WeaponEffect } from './WeaponEffect';
 import type { WeaponType } from '../../core/types';
+import type { ClipName } from '../sprites/spriteSheetConfig';
 import { getWeaponTriangle } from '../../core/combat';
 
 /**
@@ -301,21 +302,43 @@ export function CombatAnimation() {
   const playerCls = playerIsAttacking ? attackerCls : defenderCls;
   const enemyCls = playerIsAttacking ? defenderCls : attackerCls;
 
-  // Sprite poses
-  const attackerPose =
+  /* Sprite poses. The defender now has its own clips — a flinch on impact, a
+     lean-away on a miss, a collapse on death — instead of standing at idle
+     through all three while only the CSS transform moved. */
+  const attackerSwinging =
     phase === 'windup' ||
     phase === 'dash' ||
     phase === 'strike' ||
     phase === 'impact' ||
     phase === 'crit-pause' ||
     phase === 'spell-fly' ||
-    phase === 'spell-hit'
-      ? 'attack'
-      : 'idle';
-  const defenderPose = 'idle';
+    phase === 'spell-hit';
+  const attackerPose: ClipName = attackerSwinging
+    ? currentHit?.crit && currentHit.hit
+      ? 'crit'
+      : 'attack'
+    : 'idle';
+  const defenderPose: ClipName =
+    phase === 'death'
+      ? 'die'
+      : phase === 'dodge'
+        ? 'dodge'
+        : phase === 'impact' || phase === 'spell-hit'
+          ? 'hit'
+          : 'idle';
 
   const playerPose = playerIsAttacking ? attackerPose : defenderPose;
   const enemyPose = playerIsAttacking ? defenderPose : attackerPose;
+  /* Restart key. The attacker's swing keys on the hit index so it plays once
+     straight through windup → dash → strike rather than restarting at each
+     sub-phase; the defender's reactions key on the pose so each one starts
+     when it begins. */
+  const playerKey = playerIsAttacking
+    ? `${combatAnimationStep}`
+    : `${combatAnimationStep}:${defenderPose}`;
+  const enemyKey = playerIsAttacking
+    ? `${combatAnimationStep}:${defenderPose}`
+    : `${combatAnimationStep}`;
 
   // Show weapon effect during specific phases
   const showEffect =
@@ -409,7 +432,7 @@ export function CombatAnimation() {
               faction={playerSide.info.faction}
               mirrored={false}
               pose={playerPose}
-              phase={phase}
+              phase={playerKey}
               weaponType={playerSide.info.weaponType}
               weaponId={playerSide.info.weaponId}
               unitId={playerSide.info.unitId}
@@ -471,7 +494,7 @@ export function CombatAnimation() {
               faction={enemySide.info.faction}
               mirrored={true}
               pose={enemyPose}
-              phase={phase}
+              phase={enemyKey}
               weaponType={enemySide.info.weaponType}
               weaponId={enemySide.info.weaponId}
               unitId={enemySide.info.unitId}

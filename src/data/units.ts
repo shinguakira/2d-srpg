@@ -79,6 +79,10 @@ export const PLAYER_UNITS: Record<string, Unit> = {
     ['vulnerary'],
     {
       deathQuote: { en: 'My lord... ride on...', ja: '殿下……先へ……' },
+      // Speed and strength, paid for in armour: +3 SPD and +2 STR over a stock
+      // cavalier, -2 DEF. He kills things before they get a second swing and
+      // punishes you when he doesn't.
+      statOverrides: { str: 9, spd: 9, skl: 7, def: 4 },
     },
   ),
   lisette: createUnit('lisette', 'Lisette', 'mage', 'player', ['fire', 'thunder'], 1, '', [], {
@@ -900,6 +904,30 @@ export const ENEMY_UNITS: Record<string, Unit> = {
   }),
   ch10_fighter_1: createUnit('ch10_fighter_1', 'Raider', 'fighter', 'enemy', ['steel_axe'], 8),
   ch10_fighter_2: createUnit('ch10_fighter_2', 'Raider', 'fighter', 'enemy', ['hand_axe'], 8),
+  // ===== Ch25 — Takeshi, Emperor of Ash (final boss) =====
+  //
+  // Defined here ahead of the chapter so his sheet has an owner and he shows up
+  // in the debug Characters and Sprites views. Conqueror is the lord-line
+  // promoted class, which is the point: he and Shigeru are the same class tree.
+  takeshi: createUnit(
+    'takeshi',
+    'Takeshi',
+    'conqueror',
+    'enemy',
+    ['steel_axe', 'hand_axe'],
+    20,
+    '',
+    [],
+    {
+      aiBehavior: { type: 'boss' },
+      deathQuote: {
+        en: 'Somebody has to hold it. ...See that it is you.',
+        ja: '誰かが抱えねばならん。……それが貴殿であるように。',
+      },
+      statOverrides: { hp: 70, str: 20, def: 18, res: 12, spd: 13, skl: 16, lck: 10 },
+    },
+  ),
+
   // System Construct — ch10 Turn 6 spawn, special high-stat enemy
   ch10_construct: createUnit(
     'ch10_construct',

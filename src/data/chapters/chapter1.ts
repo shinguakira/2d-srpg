@@ -10,21 +10,32 @@ const T: TerrainType = 'fort';
 const V: TerrainType = 'village';
 const H: TerrainType = 'throne';
 
+const B: TerrainType = 'bridge';
+
+/**
+ * Kuta: the river runs the width of the map with two crossings, the keep sits
+ * on the far bank behind a single gate, and the village is caught between the
+ * two — which is what the prologue says is happening.
+ *
+ * The shape is the lesson. Turn 1 is a real decision (west bridge or east),
+ * neither route is safe, both converge on one gate, and the only way into the
+ * keep is a tile wide.
+ */
 // 25 columns x 12 rows — fills 16:9 desktop with square tiles
 const terrain: TerrainType[][] = [
   //0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
-  [M, M, M, F, P, P, P, P, P, F, P, P, P, F, P, P, P, P, P, F, P, F, M, M, M], // row 0
-  [M, M, F, P, P, F, P, P, P, P, P, H, P, P, P, P, F, P, P, P, F, P, F, M, M], // row 1 — throne at (11,1)
-  [M, F, P, P, P, P, P, P, F, P, P, P, P, P, F, P, P, P, P, P, P, P, P, F, M], // row 2
-  [F, P, P, V, P, P, P, P, P, P, P, P, P, P, P, P, P, P, V, P, P, P, P, P, F], // row 3
-  [P, P, P, P, P, F, P, P, P, P, P, T, P, P, P, F, P, P, P, P, F, P, P, P, P], // row 4
-  [P, P, P, P, W, W, P, P, P, P, P, P, P, P, P, W, W, P, P, P, P, P, P, P, P], // row 5
-  [P, P, F, P, W, P, P, P, P, P, P, P, P, P, P, P, W, P, P, F, P, P, P, F, P], // row 6
-  [P, P, P, P, P, P, F, P, P, P, P, P, P, P, F, P, P, P, P, P, P, P, F, P, P], // row 7
-  [P, P, F, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, F, P, P, P, P, F], // row 8
-  [F, P, P, P, P, P, P, P, F, P, X, F, P, P, P, P, P, F, P, P, P, P, P, P, F], // row 9
-  [M, F, P, P, P, F, P, P, P, P, X, P, P, P, F, P, P, P, P, F, P, P, F, P, M], // row 10
-  [M, M, F, P, P, P, P, P, P, X, X, X, P, P, P, P, P, P, P, P, F, F, F, M, M], // row 11
+  [M, M, M, P, P, P, F, X, X, X, X, X, X, X, X, X, F, P, P, P, M, M, M, M, M], // row 0  — keep back wall
+  [M, M, F, P, P, P, P, X, P, P, P, H, P, P, P, X, P, P, P, F, M, M, M, M, M], // row 1  — throne at (11,1)
+  [M, F, P, P, T, P, P, X, P, T, P, P, P, T, P, X, P, P, T, P, F, M, M, M, M], // row 2  — garrison forts
+  [M, F, P, P, P, P, P, X, X, X, X, P, X, X, X, X, P, P, P, P, P, F, M, M, M], // row 3  — the gate, one tile wide
+  [P, P, P, P, F, P, P, P, P, P, P, P, P, P, P, P, P, P, V, P, P, P, F, M, M], // row 4  — approach + east village
+  [P, P, F, P, P, P, P, P, F, V, P, P, P, P, F, P, P, P, P, P, F, P, P, M, M], // row 5  — Kuta, against the water
+  [W, W, W, W, W, B, W, W, W, W, W, W, W, W, W, W, W, W, B, W, W, W, W, W, W], // row 6  — the river, two bridges
+  [P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P], // row 7
+  [P, F, P, P, P, P, F, P, P, P, P, P, P, P, P, F, P, P, P, P, F, P, P, F, P], // row 8
+  [F, P, P, P, T, P, P, P, P, P, P, P, P, P, P, P, P, P, P, T, P, P, P, P, F], // row 9
+  [M, F, P, P, P, F, P, P, P, P, P, P, P, P, P, P, P, F, P, P, P, P, F, P, M], // row 10
+  [M, M, F, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, F, F, M, M, M], // row 11 — the party arrives here
 ];
 
 export const CHAPTER_1: ChapterData = {
@@ -35,16 +46,21 @@ export const CHAPTER_1: ChapterData = {
   mapHeight: 12,
   terrain,
   playerUnits: [
-    { unitId: 'shigeru', position: { x: 10, y: 10 } },
+    { unitId: 'shigeru', position: { x: 11, y: 10 } },
     { unitId: 'akira', position: { x: 13, y: 10 } },
-    { unitId: 'lisette', position: { x: 9, y: 11 } },
-    { unitId: 'mirelle', position: { x: 14, y: 11 } },
-    { unitId: 'gareth', position: { x: 12, y: 11 } },
+    { unitId: 'lisette', position: { x: 10, y: 11 } },
+    { unitId: 'mirelle', position: { x: 12, y: 11 } },
+    // Gareth starts across the field on his own — the turn 2 scene is him
+    // hailing the company, not joining it, so he has to be visible first.
+    { unitId: 'gareth', position: { x: 3, y: 9 } },
   ],
   enemyUnits: [
-    { unitId: 'fighter_1', position: { x: 8, y: 2 } },
-    { unitId: 'fighter_3', position: { x: 11, y: 4 } },
-    { unitId: 'soldier_1', position: { x: 5, y: 1 } },
+    // One brigand on each route so neither crossing is free, the lance in the
+    // middle where Gareth will reach it around turn 3 (his weapon-triangle
+    // lesson), and Hagen alone behind the gate.
+    { unitId: 'fighter_1', position: { x: 7, y: 5 } },
+    { unitId: 'soldier_1', position: { x: 12, y: 4 } },
+    { unitId: 'fighter_3', position: { x: 17, y: 4 } },
     { unitId: 'hagen', position: { x: 11, y: 1 } }, // boss on throne
   ],
   objective: {
@@ -97,7 +113,7 @@ export const CHAPTER_1: ChapterData = {
   },
   villages: [
     {
-      position: { x: 3, y: 3 },
+      position: { x: 9, y: 5 },
       reward: {
         type: 'weapon',
         weaponId: 'hand_axe',
@@ -109,7 +125,7 @@ export const CHAPTER_1: ChapterData = {
       },
     },
     {
-      position: { x: 18, y: 3 },
+      position: { x: 18, y: 4 },
       reward: {
         type: 'weapon',
         weaponId: 'wind',

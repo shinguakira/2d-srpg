@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import {
   ALL_SHEETS,
+  CLIP_NAMES,
+  getClip,
+  hasClip,
   spriteBox,
   framePosition,
   type SpriteSheet,
   type ClipName,
 } from '../sprites/spriteSheetConfig';
 import { useClipFrame } from '../sprites/useClipFrame';
-
-const CLIP_NAMES: ClipName[] = ['idle', 'attack'];
 
 export function SpritesView({
   selectedId,
@@ -71,7 +72,7 @@ function ClipPlayer({
   clip: ClipName;
   contentPx: number;
 }) {
-  const frame = useClipFrame(sheet.clips[clip]);
+  const frame = useClipFrame(getClip(sheet, clip));
   return <FrameCell sheet={sheet} frame={frame} contentPx={contentPx} />;
 }
 
@@ -179,12 +180,15 @@ function SheetDetail({ id, sheet }: { id: string; sheet: SpriteSheet }) {
         <h3 className="debug-screen__section-title">Clips</h3>
         <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           {CLIP_NAMES.map((name) => {
-            const clip = sheet.clips[name];
+            const clip = getClip(sheet, name);
+            // A sheet that has no art for a state still plays something. Say
+            // which, so a missing animation cannot pass as a working one.
+            const own = hasClip(sheet, name);
             return (
               <div
                 key={name}
                 style={{
-                  border: `2px solid ${name === 'idle' ? '#3b82f6' : '#ef4444'}`,
+                  border: `2px solid ${own ? (name === 'idle' ? '#3b82f6' : '#ef4444') : '#475569'}`,
                   borderRadius: 8,
                   padding: 8,
                   background: 'rgba(0,0,0,0.3)',
@@ -192,10 +196,17 @@ function SheetDetail({ id, sheet }: { id: string; sheet: SpriteSheet }) {
                   flexDirection: 'column',
                   alignItems: 'center',
                   gap: 4,
+                  opacity: own ? 1 : 0.55,
                 }}
               >
-                <div style={{ fontSize: 12, color: name === 'idle' ? '#3b82f6' : '#ef4444' }}>
+                <div
+                  style={{
+                    fontSize: 12,
+                    color: own ? (name === 'idle' ? '#3b82f6' : '#ef4444') : '#94a3b8',
+                  }}
+                >
                   {name}
+                  {own ? '' : ' (fallback)'}
                 </div>
                 <ClipPlayer sheet={sheet} clip={name} contentPx={contentPx} />
                 <div style={{ fontSize: 10, color: '#94a3b8' }}>
@@ -208,11 +219,11 @@ function SheetDetail({ id, sheet }: { id: string; sheet: SpriteSheet }) {
         </div>
       </div>
 
-      {CLIP_NAMES.map((name) => (
+      {CLIP_NAMES.filter((name) => hasClip(sheet, name)).map((name) => (
         <div className="debug-screen__section" key={name}>
           <h3 className="debug-screen__section-title">Frame strip — {name}</h3>
           <div style={{ display: 'flex', gap: 4, overflowX: 'auto', padding: '4px 0' }}>
-            {sheet.clips[name].frames.map((f) => (
+            {getClip(sheet, name).frames.map((f) => (
               <div
                 key={f}
                 style={{

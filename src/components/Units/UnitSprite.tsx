@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import type { Unit } from '../../core/types';
 import { sortAndTruncateEffects, renderStatusIcon } from '../sprites/statusEffectIcons';
-import { getSheet, spriteBox, framePosition } from '../sprites/spriteSheetConfig';
+import { getSheet, getClip, spriteBox, framePosition } from '../sprites/spriteSheetConfig';
 import { useClipFrame, phaseOf } from '../sprites/useClipFrame';
 import '../../styles/ui/boss.css';
 
@@ -88,7 +88,15 @@ export const UnitSprite = memo(function UnitSprite({
             ? 'unit-sprite--idle'
             : '';
 
-  const frame = useClipFrame(sheet.clips.idle, undefined, phaseOf(unit.id));
+  /* A dying unit plays its collapse if the sheet has one; the fade-out is the
+     CSS removal animation on top. Sheets without a `die` clip hold frame 0,
+     which is what they did before. */
+  const clip = getClip(sheet, isRemoving ? 'die' : 'idle');
+  const frame = useClipFrame(
+    clip,
+    clip.loop ? undefined : `${unit.id}:die`,
+    clip.loop ? phaseOf(unit.id) : 0,
+  );
   const box = spriteBox(sheet, tileSize * CONTENT_RATIO);
   const pos = framePosition(sheet, box, frame);
 

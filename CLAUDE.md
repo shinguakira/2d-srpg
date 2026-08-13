@@ -151,9 +151,20 @@ src/
 
 ## Sprites
 
-Every unit visual comes from a PNG sprite sheet described in
-`components/sprites/spriteSheetConfig.ts`. Three things are kept separate on
-purpose — collapsing them is what caused the bugs this system replaced:
+There are two kinds of sheet, and they are read through the same interface.
+
+**Generated (Shigeru, Akira, Takeshi).** Drawn by `tools/sprites/`, not by hand:
+a zlib-only PNG encoder, a polygon rasteriser, and a rig that builds frames from
+joint angles. A character is a palette plus part shapes plus one pose table per
+clip. `node tools/sprites/build.mjs` writes `src/assets/sprites/<id>-battle.png`
+**and** `src/components/sprites/generatedSheets.ts`, so grid size, anchor and
+frame numbers are measured from the render and cannot drift from the art. Edit
+the character module, never the PNG. The build warns when a pose reaches outside
+its frame.
+
+**Hand-measured (everything else).** The AI-generated sheets, described directly
+in `spriteSheetConfig.ts`. Three things are kept separate on purpose —
+collapsing them is what caused the bugs this system replaced:
 
 1. **The sheet** — `cols`/`rows`/`sheetW`/`sheetH`. Frame size is derived as
    `sheetW/cols` and stays **fractional**. Do not round it; `1536/7 = 219.43`
@@ -171,8 +182,15 @@ purpose — collapsing them is what caused the bugs this system replaced:
 
 Rules when touching this:
 
+- **Clips are the FE set:** `idle`, `walk`, `attack`, `crit`, `dodge`, `hit`,
+  `die`. Only `idle` and `attack` are mandatory — read clips through
+  `getClip(sheet, name)`, which falls back for the sheets that lack them, and
+  `hasClip()` to tell a real animation from a fallback. The debug Sprites view
+  labels fallbacks so a missing animation cannot pass as a working one.
 - **Sizing goes through `spriteBox(sheet, contentPx)`** where `contentPx` is the
-  desired on-screen height of the character. Never size by frame height.
+  desired on-screen height of the character. Never size by frame height. A sheet
+  can declare a `charHeight` smaller than it draws to render bigger than its
+  neighbours — that is how Takeshi is a head taller than everyone else.
 - **Never put the sprite in a flex container.** It is absolutely positioned from
   its anchor. As a flex child it gets `flex-shrink`-ed and the feet are cropped.
 - **All sheets are RGBA.** There is no blend-mode transparency hack; if you add

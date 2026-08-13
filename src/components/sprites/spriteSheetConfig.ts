@@ -17,7 +17,6 @@
  * tile at a consistent size instead of floating or sinking. Re-measure with
  * the debug Sprites view if the art changes.
  */
-import lordBattle from '../../assets/sprites/lord-battle.png';
 import cavalierBattle from '../../assets/sprites/cavalier-battle.png';
 import mageBattle from '../../assets/sprites/mage-battle.png';
 import fighterBattle from '../../assets/sprites/fighter-battle.png';
@@ -27,6 +26,7 @@ import genericBattle from '../../assets/sprites/generic-battle.png';
 import pegasusBattle from '../../assets/sprites/pegasus-battle.png';
 import garethBattle from '../../assets/sprites/gareth-battle.png';
 import hagenBattle from '../../assets/sprites/hagen-battle.png';
+import { GENERATED_SHEETS } from './generatedSheets';
 
 export type Clip = {
   /** Frame numbers, row-major from 0. */
@@ -35,7 +35,22 @@ export type Clip = {
   readonly loop: boolean;
 };
 
-export type ClipName = 'idle' | 'attack';
+/**
+ * The Fire Emblem battle-animation set. `idle` and `attack` are mandatory
+ * because every sheet has them; the rest are optional so the ten hand-measured
+ * sheets keep working, and `getClip` resolves the gaps.
+ */
+export type ClipName = 'idle' | 'walk' | 'attack' | 'crit' | 'dodge' | 'hit' | 'die';
+
+export const CLIP_NAMES: readonly ClipName[] = [
+  'idle',
+  'walk',
+  'attack',
+  'crit',
+  'dodge',
+  'hit',
+  'die',
+];
 
 export type SpriteSheet = {
   readonly url: string;
@@ -58,7 +73,9 @@ export type SpriteSheet = {
     /** Artwork height as a fraction of frame height. Drives display scale. */
     readonly height: number;
   };
-  readonly clips: Readonly<Record<ClipName, Clip>>;
+  readonly clips: { readonly idle: Clip; readonly attack: Clip } & Partial<
+    Readonly<Record<ClipName, Clip>>
+  >;
 };
 
 /** `count` consecutive frame numbers starting at `start`. */
@@ -92,17 +109,11 @@ const GENERIC_SHEET: SpriteSheet = {
 };
 
 const BASE_SHEETS: Record<string, SpriteSheet> = {
-  lord: {
-    url: lordBattle,
-    cols: 8,
-    rows: 4,
-    sheetW: 1536,
-    sheetH: 1024,
-    pixelArt: false,
-    content: { cx: 0.5, bottom: 0.922, height: 0.77 },
-    // Frames 4+ of row 0 dissolve into petal VFX, so idle stops at 3.
-    clips: { idle: idle(0, 4), attack: attack(24, 5) },
-  },
+  // Every lord-line class renders as Shigeru. The sheet that used to sit here
+  // was a black-clad swordsman with a katana and falling cherry blossom — the
+  // one thing `specs/story` rules out outright — and it was the only art for
+  // the class.
+  lord: GENERATED_SHEETS.shigeru,
   cavalier: {
     url: cavalierBattle,
     cols: 9,
@@ -249,12 +260,45 @@ function resolveBaseClass(classId: string): string {
 }
 
 export function getSheet(classId: string, unitId?: string): SpriteSheet {
+  if (unitId && GENERATED_SHEETS[unitId]) return GENERATED_SHEETS[unitId];
   if (unitId && UNIT_SHEETS[unitId]) return UNIT_SHEETS[unitId];
   return BASE_SHEETS[resolveBaseClass(classId)] ?? GENERIC_SHEET;
 }
 
-/** Every distinct sheet, for the debug viewer. */
+/** A one-frame clip, used when a sheet has no art for a state. */
+function still(frame: number): Clip {
+  return { frames: [frame], fps: 1, loop: false };
+}
+
+/**
+ * The clip to play for `name`, falling back for sheets that do not have it.
+ *
+ * The ten AI-generated sheets only ever had idle and attack, so asking any of
+ * them for a flinch has to resolve to something — a held idle frame reads as
+ * "no reaction", which is what those sheets can honestly do.
+ */
+export function getClip(sheet: SpriteSheet, name: ClipName): Clip {
+  const own = sheet.clips[name];
+  if (own) return own;
+  switch (name) {
+    case 'crit':
+      return sheet.clips.attack;
+    case 'hit':
+    case 'die':
+      return still(sheet.clips.idle.frames[0]);
+    default:
+      return sheet.clips.idle;
+  }
+}
+
+/** True when the sheet actually draws this state rather than falling back. */
+export function hasClip(sheet: SpriteSheet, name: ClipName): boolean {
+  return sheet.clips[name] != null;
+}
+
+/** Every distinct sheet, for the debug viewer. Generated ones first. */
 export const ALL_SHEETS: ReadonlyArray<{ id: string; sheet: SpriteSheet }> = [
+  ...Object.entries(GENERATED_SHEETS).map(([id, sheet]) => ({ id, sheet })),
   ...Object.entries(BASE_SHEETS).map(([id, sheet]) => ({ id, sheet })),
   ...Object.entries(UNIT_SHEETS).map(([id, sheet]) => ({ id, sheet })),
 ];

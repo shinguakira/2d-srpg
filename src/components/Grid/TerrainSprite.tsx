@@ -65,6 +65,11 @@ export const TerrainSprite = memo(function TerrainSprite({
           <stop offset="60%" stopColor="#ff8800" stopOpacity="0.2" />
           <stop offset="100%" stopColor="#ff6600" stopOpacity="0" />
         </radialGradient>
+        <linearGradient id="t-plank" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#b98a54" />
+          <stop offset="45%" stopColor="#8a6238" />
+          <stop offset="100%" stopColor="#5e4022" />
+        </linearGradient>
         <linearGradient id="t-peak-light" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%" stopColor="#a0a098" />
           <stop offset="100%" stopColor="#707068" />
@@ -114,6 +119,8 @@ function renderTerrain(terrain: TerrainType) {
       return <BrokenThroneTerrain />;
     case 'memory':
       return <MemoryTerrain />;
+    case 'bridge':
+      return <BridgeTerrain />;
     default:
       return <rect width="48" height="48" fill="url(#t-grass)" />;
   }
@@ -228,6 +235,55 @@ function MountainTerrain() {
       <rect x="0" y="38" width="48" height="10" fill="rgba(140,160,140,0.1)" />
       {/* Edge depth */}
       <rect x="0" y="46" width="48" height="2" fill="rgba(0,0,0,0.12)" />
+    </>
+  );
+}
+
+/**
+ * Bridge — planking over the same water the neighbouring tiles draw, so a
+ * crossing reads as a crossing. Chapter 1 turns on the player seeing at a
+ * glance where the river can be crossed; before this the tile fell through to
+ * the default and drew grass in the middle of a river.
+ */
+function BridgeTerrain() {
+  return (
+    <>
+      <rect width="48" height="48" fill="url(#t-water)" />
+      <path
+        d="M0,14 Q10,10 20,14 Q30,18 40,14 Q48,11 48,14"
+        fill="none"
+        stroke="#4a8ad0"
+        strokeWidth="1.6"
+        opacity="0.6"
+      />
+      <path
+        d="M0,34 Q10,30 20,34 Q30,38 40,34 Q48,31 48,34"
+        fill="none"
+        stroke="#4a8ad0"
+        strokeWidth="1.6"
+        opacity="0.6"
+      />
+      {/* Deck */}
+      <rect y="9" width="48" height="30" fill="#8a6238" />
+      <rect y="9" width="48" height="30" fill="url(#t-plank)" opacity="0.55" />
+      {Array.from({ length: 7 }, (_, i) => (
+        <line
+          key={i}
+          x1={i * 7 + 3}
+          y1="9"
+          x2={i * 7 + 3}
+          y2="39"
+          stroke="#6b4a2a"
+          strokeWidth="1.2"
+          opacity="0.8"
+        />
+      ))}
+      {/* Rails */}
+      <rect y="7" width="48" height="4" fill="#5e4022" />
+      <rect y="37" width="48" height="4" fill="#4a3119" />
+      {[4, 20, 36].map((x) => (
+        <rect key={x} x={x} y="5" width="4" height="8" fill="#6b4a2a" />
+      ))}
     </>
   );
 }

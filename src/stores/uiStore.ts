@@ -66,9 +66,10 @@ export function getScaledDuration(baseDuration: number, speed: AnimationSpeed): 
   return mult === 0 ? 16 : Math.max(16, baseDuration * mult);
 }
 
-// Load persisted preferences
+// Load persisted preferences. Japanese is the default — English is opt-in via
+// the title-screen toggle, and only a stored 'en' switches away from it.
 const savedLang: Lang =
-  (typeof localStorage !== 'undefined' && localStorage.getItem('lang')) === 'ja' ? 'ja' : 'en';
+  (typeof localStorage !== 'undefined' && localStorage.getItem('lang')) === 'en' ? 'en' : 'ja';
 
 // Load persisted animation speed
 const savedSpeed =

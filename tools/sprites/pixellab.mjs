@@ -402,6 +402,46 @@ try {
       `\nnext: node tools/sprites/import.mjs ${path.relative(ROOT, sheetFile).replaceAll('\\', '/')} ` +
         `${id} --cols ${strip.count} --rows 1`,
     );
+  } else if (cmd === 'skeleton') {
+    // Measure a sprite's rest pose, in the shape poses.mjs wants pasted in.
+    //
+    // The pose tables are relative — rotations and offsets from wherever the
+    // character actually stands — so they survive a redraw. This table does
+    // not: a new base with different proportions puts every joint somewhere
+    // else, and animating against a stale one bends the wrong limb.
+    const res = await call('estimate-skeleton', { image: image(positional[0]) });
+    const round = (n) => Number(n.toFixed(4));
+    const order = [
+      'NOSE',
+      'LEFT EYE',
+      'RIGHT EYE',
+      'LEFT EAR',
+      'RIGHT EAR',
+      'NECK',
+      'LEFT SHOULDER',
+      'RIGHT SHOULDER',
+      'LEFT ELBOW',
+      'RIGHT ELBOW',
+      'LEFT ARM',
+      'RIGHT ARM',
+      'LEFT HIP',
+      'RIGHT HIP',
+      'LEFT KNEE',
+      'RIGHT KNEE',
+      'LEFT LEG',
+      'RIGHT LEG',
+    ];
+    const by = Object.fromEntries(res.keypoints.map((k) => [k.label, k]));
+    const missing = order.filter((label) => !by[label]);
+    if (missing.length) console.error(`  ! not found: ${missing.join(', ')}`);
+    console.log('export const BASE = {');
+    for (const label of order) {
+      const k = by[label];
+      if (!k) continue;
+      const key = /^[A-Z]+$/.test(label) ? label : `'${label}'`;
+      console.log(`  ${key}: [${round(k.x)}, ${round(k.y)}],`);
+    }
+    console.log('};');
   } else if (cmd === 'rotate') {
     const from = image(positional[0]);
     const size = Number(arg('size', 64));
@@ -421,6 +461,7 @@ try {
         '  gen <id> "<description>" [--ref style.png] [--size 64]\n' +
         '  sheet <id> <ref.png> "<description>" [--only walk,attack] [--force]\n' +
         '  portrait <id> "<description>" [--size 128] [--ref style.png]\n' +
+        '  skeleton - <png>\n' +
         '  rotate <id> <png> [--dirs 4]',
     );
     process.exit(1);

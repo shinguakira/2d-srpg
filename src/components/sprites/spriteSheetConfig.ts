@@ -181,32 +181,28 @@ const BASE_SHEETS: Record<string, SpriteSheet> = {
 
 /** Per-unit overrides — take priority over the class lookup. */
 const UNIT_SHEETS: Record<string, SpriteSheet> = {
-  // The base pose, one frame, while the design is being settled. Animating it
-  // is `pixellab.mjs sheet` plus a re-import and comes after — regenerating 21
-  // frames of a character who is about to be redrawn is 21 frames of waste, and
-  // an out-of-date sheet on the field is worse than a still one.
-  //
-  // Every clip points at frame 0 deliberately: `hasClip` stays true, so the
-  // debug view does not label these as missing art when they are simply not
-  // drawn yet.
+  // The full FE clip set, posed in tools/sprites/poses.mjs and rendered through
+  // PixelLab's skeleton animator; `tools/sprites/import.mjs` quantised it and
+  // measured the anchor off the pixels. Three frames per clip is not a stylistic
+  // choice — that endpoint is a three-frame window and refuses any other count.
   shigeru: {
     url: shigeruPx,
-    cols: 1,
+    cols: 21,
     rows: 1,
-    sheetW: 64,
+    sheetW: 1344,
     sheetH: 64,
     // 57px of art shown at ~31px on the map but much larger in combat and in
     // dialogue, where it is scaled UP and nearest keeps the pixels square.
     pixelArt: true,
     content: { cx: 0.4922, bottom: 0.9531, height: 0.8906 },
     clips: {
-      idle: { frames: [0], fps: 1, loop: true },
-      walk: { frames: [0], fps: 1, loop: true },
-      attack: { frames: [0], fps: 1, loop: false },
-      crit: { frames: [0], fps: 1, loop: false },
-      dodge: { frames: [0], fps: 1, loop: false },
-      hit: { frames: [0], fps: 1, loop: false },
-      die: { frames: [0], fps: 1, loop: false },
+      idle: { frames: [0, 1, 2], fps: 4, loop: true },
+      walk: { frames: [3, 4, 5], fps: 8, loop: true },
+      attack: { frames: [6, 7, 8], fps: 12, loop: false },
+      crit: { frames: [9, 10, 11], fps: 14, loop: false },
+      dodge: { frames: [12, 13, 14], fps: 12, loop: false },
+      hit: { frames: [15, 16, 17], fps: 12, loop: false },
+      die: { frames: [18, 19, 20], fps: 8, loop: false },
     },
   },
   mirelle: BASE_SHEETS.pegasus,

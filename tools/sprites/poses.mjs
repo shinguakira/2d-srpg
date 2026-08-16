@@ -27,32 +27,37 @@ import { encodePNG } from './png.mjs';
 import { Canvas, capsule, ellipse } from './raster.mjs';
 
 /**
- * Shigeru standing, as measured by estimate-skeleton on shigeru-base.png. Every
- * pose below is a transform of this, so if the base sprite is redrawn this
- * table has to be re-measured — the poses are relative, the anchor is not.
+ * Shigeru standing, measured off the shipped sprite with
+ * `pixellab.mjs skeleton - src/assets/sprites/shigeru_px-battle.png`.
+ *
+ * Re-measure whenever the base art changes. The poses below are relative and
+ * survive a redraw; this table does not — the previous Shigeru filled 42 of 64
+ * rows and this one fills 57, so every joint moved and the rotations that used
+ * to put a sword overhead put it out sideways instead.
  *
  * LEFT is the character's left, which is screen right: LEFT SHOULDER sits at
- * x 0.571 and RIGHT SHOULDER at 0.385. He faces the camera.
+ * x 0.596 and RIGHT SHOULDER at 0.450. He faces the camera, sword point-down
+ * in his left hand.
  */
 export const BASE = {
-  NOSE: [0.4991, 0.3573],
-  'LEFT EYE': [0.5209, 0.3238],
-  'RIGHT EYE': [0.4706, 0.3238],
-  'LEFT EAR': [0.5142, 0.3053],
-  'RIGHT EAR': [0.4387, 0.307],
-  NECK: [0.4781, 0.4471],
-  'LEFT SHOULDER': [0.5713, 0.448],
-  'RIGHT SHOULDER': [0.385, 0.4463],
-  'LEFT ELBOW': [0.6183, 0.5319],
-  'RIGHT ELBOW': [0.3665, 0.5453],
-  'LEFT ARM': [0.578, 0.594],
-  'RIGHT ARM': [0.4588, 0.6091],
-  'LEFT HIP': [0.5243, 0.6343],
-  'RIGHT HIP': [0.442, 0.6376],
-  'LEFT KNEE': [0.5663, 0.7283],
-  'RIGHT KNEE': [0.3967, 0.7316],
-  'LEFT LEG': [0.6082, 0.7937],
-  'RIGHT LEG': [0.3581, 0.7988],
+  NOSE: [0.5587, 0.2077],
+  'LEFT EYE': [0.5783, 0.1795],
+  'RIGHT EYE': [0.5283, 0.1817],
+  'LEFT EAR': [0.5522, 0.1599],
+  'RIGHT EAR': [0.4805, 0.1686],
+  NECK: [0.5229, 0.311],
+  'LEFT SHOULDER': [0.5957, 0.3012],
+  'RIGHT SHOULDER': [0.45, 0.3208],
+  'LEFT ELBOW': [0.624, 0.4513],
+  'RIGHT ELBOW': [0.4218, 0.46],
+  'LEFT ARM': [0.6805, 0.5665],
+  'RIGHT ARM': [0.437, 0.5948],
+  'LEFT HIP': [0.5827, 0.5274],
+  'RIGHT HIP': [0.4957, 0.5383],
+  'LEFT KNEE': [0.5957, 0.7122],
+  'RIGHT KNEE': [0.4761, 0.7209],
+  'LEFT LEG': [0.6087, 0.8709],
+  'RIGHT LEG': [0.4457, 0.8883],
 };
 
 const Z_INDEX = {
@@ -191,55 +196,56 @@ const CLIPS = {
   // The planted leg stays where it is and the hips drop toward it.
   walk: [
     [
-      ['move', 'leg.l', -0.05, -0.13],
+      ['move', 'leg.l', -0.035, -0.1],
       ['rot', 'shin.l', -35],
-      ['move', 'upper', 0, 0.022],
+      ['move', 'upper', 0, 0.02],
       ['rot', 'arm.r', -30],
       ['rot', 'arm.l', 20],
     ],
     [
-      ['move', 'upper', 0, -0.035],
-      ['move', 'legs', 0, -0.02],
+      ['move', 'upper', 0, -0.03],
+      ['move', 'legs', 0, -0.018],
       ['rot', 'arm.r', -8],
       ['rot', 'arm.l', 8],
     ],
     [
-      ['move', 'leg.r', 0.05, -0.13],
+      ['move', 'leg.r', 0.035, -0.1],
       ['rot', 'shin.r', 35],
-      ['move', 'upper', 0, 0.022],
+      ['move', 'upper', 0, 0.02],
       ['rot', 'arm.l', 30],
       ['rot', 'arm.r', -20],
     ],
   ],
 
-  // The sword is in the left hand — the blade sits above it in the base sprite —
-  // so the whole swing is one shoulder rotating through about 210 degrees, with
-  // the body leaning into it.
+  // The sword is in the left hand, point down, so the whole swing is one
+  // shoulder rotating through about 240 degrees with the body leaning into it.
   //
-  // The arm hangs down and out from the shoulder at about 60 degrees, so
-  // "overhead" is -150, not -90: at -100 the elbow ends up level with the
-  // shoulder and the swing reads as a punch to the side.
+  // The rest arm hangs at 79 degrees below horizontal, which is what sets these
+  // numbers: overhead is -170, not -90. Rotations are relative to whatever the
+  // BASE arm happens to be doing, so this is the line that has to be redone
+  // every time the base sprite is — the previous Shigeru held the sword up and
+  // out at 60 degrees, and -150 was overhead for him.
   attack: [
     [
-      ['rot', 'arm.l', -150],
-      ['rot', 'hand.l', -30],
+      ['rot', 'arm.l', -170],
+      ['rot', 'hand.l', -25],
       ['rot', 'torso', 8],
       ['move', 'upper', 0.026, -0.016],
     ],
     [
-      ['rot', 'arm.l', 45],
+      ['rot', 'arm.l', 30],
       ['rot', 'hand.l', 20],
       ['rot', 'torso', -16],
-      ['move', 'all', -0.045, 0],
+      ['move', 'all', -0.04, 0],
       ['move', 'upper', -0.03, 0.012],
-      ['move', 'leg.r', -0.04, 0],
+      ['move', 'leg.r', -0.035, 0],
     ],
     [
-      ['rot', 'arm.l', 90],
+      ['rot', 'arm.l', 65],
       ['rot', 'torso', -24],
-      ['move', 'all', -0.06, 0],
-      ['move', 'upper', -0.04, 0.026],
-      ['move', 'leg.r', -0.06, 0.004],
+      ['move', 'all', -0.055, 0],
+      ['move', 'upper', -0.04, 0.024],
+      ['move', 'leg.r', -0.05, 0.004],
     ],
   ],
 
@@ -247,21 +253,21 @@ const CLIPS = {
   // land deep.
   crit: [
     [
-      ['rot', 'arm.l', -30],
+      ['rot', 'arm.l', -40],
       ['rot', 'hand.l', -25],
       ['move', 'upper', 0.01, 0.026],
       ['rot', 'torso', 5],
     ],
     [
-      ['rot', 'arm.l', -160],
-      ['rot', 'hand.l', -40],
-      ['move', 'all', 0.01, -0.055],
+      ['rot', 'arm.l', -178],
+      ['rot', 'hand.l', -35],
+      ['move', 'all', 0.01, -0.05],
       ['rot', 'leg.l', -12],
       ['rot', 'leg.r', 12],
     ],
     [
-      ['rot', 'arm.l', 80],
-      ['move', 'upper', -0.03, 0.03],
+      ['rot', 'arm.l', 75],
+      ['move', 'upper', -0.03, 0.028],
       ['rot', 'torso', -14],
       ['move', 'legs', 0, 0.004],
     ],
@@ -310,39 +316,43 @@ const CLIPS = {
   // Down and out. The last frame is absolute rather than a transform: a body on
   // the ground is not a standing body rotated, and trying to get there by
   // rotating the torso 90 degrees puts the head through the hip.
+  //
+  // Absolute means it is tied to the sprite's own floor — this Shigeru's feet
+  // sit at y 0.88, so he lies at 0.82-0.92. Re-measure the base and these move
+  // with it or he sinks into the tile.
   die: [
     [
       ['rot', 'torso', 12],
-      ['move', 'upper', 0.012, 0.03],
+      ['move', 'upper', 0.012, 0.026],
       ['rot', 'arm.l', 22],
       ['rot', 'arm.r', -16],
     ],
     [
       ['rot', 'torso', 26],
-      ['move', 'all', 0.012, 0.06],
+      ['move', 'all', 0.012, 0.04],
       ['rot', 'leg.l', -24],
       ['rot', 'leg.r', 20],
       ['rot', 'arm.l', 45],
     ],
     [
-      ['set', 'NECK', 0.395, 0.788],
-      ['set', 'NOSE', 0.338, 0.79],
-      ['set', 'LEFT EYE', 0.344, 0.777],
-      ['set', 'RIGHT EYE', 0.344, 0.803],
-      ['set', 'LEFT EAR', 0.366, 0.772],
-      ['set', 'RIGHT EAR', 0.368, 0.808],
-      ['set', 'LEFT SHOULDER', 0.43, 0.774],
-      ['set', 'RIGHT SHOULDER', 0.434, 0.814],
-      ['set', 'LEFT ELBOW', 0.382, 0.752],
-      ['set', 'RIGHT ELBOW', 0.4, 0.842],
-      ['set', 'LEFT ARM', 0.322, 0.756],
-      ['set', 'RIGHT ARM', 0.35, 0.852],
-      ['set', 'LEFT HIP', 0.552, 0.79],
-      ['set', 'RIGHT HIP', 0.556, 0.826],
-      ['set', 'LEFT KNEE', 0.638, 0.802],
-      ['set', 'RIGHT KNEE', 0.642, 0.836],
-      ['set', 'LEFT LEG', 0.7, 0.824],
-      ['set', 'RIGHT LEG', 0.703, 0.85],
+      ['set', 'NECK', 0.4, 0.85],
+      ['set', 'NOSE', 0.33, 0.855],
+      ['set', 'LEFT EYE', 0.336, 0.842],
+      ['set', 'RIGHT EYE', 0.336, 0.868],
+      ['set', 'LEFT EAR', 0.358, 0.837],
+      ['set', 'RIGHT EAR', 0.36, 0.873],
+      ['set', 'LEFT SHOULDER', 0.435, 0.836],
+      ['set', 'RIGHT SHOULDER', 0.44, 0.876],
+      ['set', 'LEFT ELBOW', 0.385, 0.812],
+      ['set', 'RIGHT ELBOW', 0.405, 0.902],
+      ['set', 'LEFT ARM', 0.322, 0.816],
+      ['set', 'RIGHT ARM', 0.352, 0.914],
+      ['set', 'LEFT HIP', 0.565, 0.852],
+      ['set', 'RIGHT HIP', 0.568, 0.888],
+      ['set', 'LEFT KNEE', 0.66, 0.864],
+      ['set', 'RIGHT KNEE', 0.664, 0.898],
+      ['set', 'LEFT LEG', 0.735, 0.886],
+      ['set', 'RIGHT LEG', 0.738, 0.912],
     ],
   ],
 };

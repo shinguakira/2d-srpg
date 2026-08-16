@@ -1,5 +1,8 @@
 /* ===== Unit Stats Panel ===== */
 .unit-stats-panel {
+  /* Same: informational, so it must not eat clicks on the tiles beneath it.
+     Its one interactive child re-enables them below. */
+  pointer-events: none;
   position: absolute;
   top: 12px;
   left: 12px;
@@ -61,4 +64,9 @@
 .unit-stats-panel__empty {
   opacity: 0.5;
   font-size: 12px;
+}
+
+.meta-stats__header {
+  /* The collapse toggle is the only thing in the panel you can click. */
+  pointer-events: auto;
 }

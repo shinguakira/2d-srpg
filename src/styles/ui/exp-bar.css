@@ -7,6 +7,11 @@
   justify-content: center;
   z-index: 250;
   cursor: pointer;
+  /* This is a full-screen click-catcher: it swallows every click until it is
+     dismissed. Without a visible backdrop it read as the game freezing — you
+     press End Turn, the click dismisses an overlay you cannot see, and nothing
+     happens. Every other modal here dims; this one did not. */
+  background: rgba(0, 0, 0, 0.45);
 }
 
 .exp-bar__panel {

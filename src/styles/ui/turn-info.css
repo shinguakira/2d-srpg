@@ -1,5 +1,9 @@
 /* ===== Turn Info ===== */
 .turn-info {
+  /* Read-only HUD drawn over the map. Without this it swallowed clicks on the
+     top row of tiles — 17 of them, which is why the north edge of every map
+     felt dead. */
+  pointer-events: none;
   background: rgba(0, 0, 0, 0.75);
   color: #fff;
   padding: 8px 16px;

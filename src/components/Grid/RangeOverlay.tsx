@@ -39,7 +39,12 @@ export const RangeOverlay = memo(function RangeOverlay() {
     <div
       className="range-overlay"
       data-testid="range-overlay"
-      style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }}
+      /* Stretched rather than pinned at 0,0. With no width or height this box
+         measured 0x0, so it and every wrapper inside it counted as hidden to
+         anything that decides visibility from a bounding box — the highlights
+         painted fine but the containers were untestable. `pointer-events: none`
+         means covering the grid costs nothing. */
+      style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
     >
       {/* Danger zone (rendered first = behind everything) */}
       {showDangerZone &&
@@ -66,9 +71,15 @@ export const RangeOverlay = memo(function RangeOverlay() {
           );
         })}
 
-      {/* Hover range preview (lighter opacity, behind selection ranges) */}
+      {/* Hover range preview (lighter opacity, behind selection ranges).
+          Every child is absolutely positioned, so without a box of its own the
+          wrapper measures 0x0 — it renders but counts as hidden to anything
+          that checks visibility by bounding box. */}
       {showHoverRange && (
-        <div data-testid="hover-range-overlay">
+        <div
+          data-testid="hover-range-overlay"
+          style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
+        >
           {/* Hover attack range (red for all factions) */}
           {Array.from(hoverAttackRange).map((key) => {
             const pos = parsePos(key);

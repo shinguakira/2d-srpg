@@ -6,10 +6,8 @@
 //   node tools/sprites/pixellab.mjs portrait <id> "<description>" [--size 128]
 //   node tools/sprites/pixellab.mjs rotate <id> <png> --dirs 4
 //
-// One image per command, by design. See AGENTS.md: a sheet is one generation,
-// because separate calls are separate diffusion samples and return separate
-// drawings of a similar character. The multi-call `sheet` command that used to
-// live here produced twenty-one different Shigerus and has been removed.
+// One image per command. See AGENTS.md: a sheet is one generation, because
+// separate calls are separate diffusion samples.
 //
 // The key lives in .env.local as PIXELLAB_SECRET and is never printed. Output
 // lands in tools/sprites/out/, then `import.mjs` is what puts it in the game —

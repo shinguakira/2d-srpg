@@ -26,7 +26,7 @@ import genericBattle from '../../assets/sprites/generic-battle.png';
 import pegasusBattle from '../../assets/sprites/pegasus-battle.png';
 import garethBattle from '../../assets/sprites/gareth-battle.png';
 import hagenBattle from '../../assets/sprites/hagen-battle.png';
-import shigeruPx from '../../assets/sprites/shigeru_px-battle.png';
+import shigeruSheet from '../../assets/sprites/shigeru-sheet.png';
 import { GENERATED_SHEETS } from './generatedSheets';
 
 export type Clip = {
@@ -181,28 +181,29 @@ const BASE_SHEETS: Record<string, SpriteSheet> = {
 
 /** Per-unit overrides — take priority over the class lookup. */
 const UNIT_SHEETS: Record<string, SpriteSheet> = {
-  // Twenty-one frames that came from seven separate generations, so it is
-  // twenty-one different drawings of a similar character. Being replaced — see
-  // AGENTS.md: a sheet is one generation. Do not extend this by adding calls.
+  // Straight from PixelLab, unmodified. Shigeru is a registered character there
+  // (`create-character-v3` from the approved standing frame), and each clip is
+  // an animation of that saved character — so every frame is the same drawing
+  // by construction rather than by tuning.
+  //
+  // Clips come back at their own canvas sizes; they are centred and
+  // bottom-aligned into 84px here so the feet stay on the tile.
   shigeru: {
-    url: shigeruPx,
-    cols: 21,
+    url: shigeruSheet,
+    cols: 46,
     rows: 1,
-    sheetW: 2688,
-    sheetH: 128,
-    // 57px of art in a 128px frame. The frame is that big only to leave room
-    // above his head for an overhead swing — the character is unchanged, so
-    // this is still low-resolution art and still wants nearest.
+    sheetW: 3864,
+    sheetH: 84,
     pixelArt: true,
-    content: { cx: 0.5234, bottom: 0.8594, height: 0.4453 },
+    content: { cx: 0.494, bottom: 0.9643, height: 0.6786 },
     clips: {
-      idle: { frames: [0, 1, 2], fps: 4, loop: true },
-      walk: { frames: [3, 4, 5], fps: 8, loop: true },
-      attack: { frames: [6, 7, 8], fps: 12, loop: false },
-      crit: { frames: [9, 10, 11], fps: 14, loop: false },
-      dodge: { frames: [12, 13, 14], fps: 12, loop: false },
-      hit: { frames: [15, 16, 17], fps: 12, loop: false },
-      die: { frames: [18, 19, 20], fps: 8, loop: false },
+      idle: { frames: [0, 1, 2, 3], fps: 6, loop: true },
+      walk: { frames: [4, 5, 6, 7, 8, 9, 10, 11, 12], fps: 10, loop: true },
+      attack: { frames: [13, 14, 15, 16, 17, 18, 19], fps: 12, loop: false },
+      crit: { frames: [20, 21, 22, 23, 24, 25, 26, 27, 28], fps: 14, loop: false },
+      dodge: { frames: [29, 30, 31, 32, 33], fps: 12, loop: false },
+      hit: { frames: [34, 35, 36, 37, 38], fps: 12, loop: false },
+      die: { frames: [39, 40, 41, 42, 43, 44, 45], fps: 8, loop: false },
     },
   },
   mirelle: BASE_SHEETS.pegasus,

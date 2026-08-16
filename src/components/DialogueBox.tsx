@@ -1,7 +1,7 @@
 import { useEffect, useCallback } from 'react';
 import { useCampaignStore } from '../stores/campaignStore';
-import { BattleSprite } from './Combat/BattleSprite';
-import type { Faction } from '../core/types';
+import { Portrait } from './sprites/Portrait';
+import { SPEAKERS } from './sprites/portraits';
 import { useT } from '../i18n/useT';
 
 const FACTION_COLORS: Record<string, string> = {
@@ -9,22 +9,6 @@ const FACTION_COLORS: Record<string, string> = {
   enemy: '#f87171',
 };
 const NARRATOR_COLOR = '#fbbf24';
-
-/** Map character names to their class/faction/unitId for portrait display */
-const SPEAKER_PORTRAITS: Record<string, { classId: string; faction: Faction; unitId?: string }> = {
-  Shigeru: { classId: 'lord', faction: 'player', unitId: 'shigeru' },
-  Akira: { classId: 'cavalier', faction: 'player', unitId: 'akira' },
-  Lisette: { classId: 'mage', faction: 'player', unitId: 'lisette' },
-  Mirelle: { classId: 'cleric', faction: 'player', unitId: 'mirelle' },
-  Gareth: { classId: 'fighter', faction: 'player', unitId: 'gareth' },
-  Halvar: { classId: 'soldier', faction: 'player', unitId: 'halvar' },
-  Bryn: { classId: 'archer', faction: 'player', unitId: 'bryn' },
-  Fenn: { classId: 'thief', faction: 'player', unitId: 'fenn' },
-  Bone: { classId: 'fighter', faction: 'enemy' },
-  Zonta: { classId: 'soldier', faction: 'enemy' },
-  Bazba: { classId: 'fighter', faction: 'enemy' },
-  Naxos: { classId: 'soldier', faction: 'enemy' },
-};
 
 export function DialogueBox() {
   const T = useT();
@@ -55,18 +39,11 @@ export function DialogueBox() {
     ? (FACTION_COLORS[line.speakerFaction] ?? NARRATOR_COLOR)
     : NARRATOR_COLOR;
 
-  const portrait = SPEAKER_PORTRAITS[line.speaker];
-
   return (
     <div className="dialogue" data-testid="dialogue-box" onClick={handleAdvance}>
-      {portrait && (
+      {SPEAKERS[line.speaker] && (
         <div className="dialogue__portrait" key={line.speaker}>
-          <BattleSprite
-            classId={portrait.classId}
-            faction={portrait.faction}
-            unitId={portrait.unitId}
-            static
-          />
+          <Portrait speaker={line.speaker} />
         </div>
       )}
       <div className="dialogue__panel">

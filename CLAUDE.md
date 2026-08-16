@@ -151,9 +151,38 @@ src/
 
 ## Sprites
 
-There are two kinds of sheet, and they are read through the same interface.
+There are three kinds of sheet, and they are read through the same interface.
 
-**Generated (Shigeru, Akira, Takeshi).** Drawn by `tools/sprites/`, not by hand:
+**Commissioned (Shigeru).** Generated through the PixelLab API by
+`tools/sprites/pixellab.mjs`, which talks to the REST endpoints directly — the
+`@pixellab-code/pixellab` SDK validates responses against a `usage` shape the
+service no longer returns, so successful calls come back as "Response validation
+failed" after the money is spent. Three commands, in order:
+
+```bash
+node tools/sprites/pixellab.mjs base <id> <ref.png> "<desc>"        # redraw at 64px
+node tools/sprites/pixellab.mjs sheet <id> <base.png> "<desc>"      # all 7 clips
+node tools/sprites/import.mjs tools/sprites/out/<id>-sheet.png <id> --cols 21 --rows 1
+```
+
+Poses come from `tools/sprites/poses.mjs`, not from a text prompt. Text-driven
+animation cannot do this job: asked for an attack it draws the slash *effect*
+and shrinks the character behind it, and the guidance knobs trade appearance
+against movement so hard that enough weight to move a limb is enough to produce
+a different person. `animate-with-skeleton` separates them — appearance from the
+reference image, pose from keypoints. Constraints that are not negotiable:
+
+- **Exactly 3 frames per clip.** The endpoint is a three-frame window.
+- **Keypoints are normalised 0..1.** Pixel coordinates are accepted, ignored,
+  and returned as three identical frames — it reads as "the pose did nothing".
+- **`pose_guidance_scale` 20, `reference_guidance_scale` 1.** Below ~15 every
+  frame comes back standing.
+- **The reference must be exactly `image_size`** and at least 64px.
+
+`node tools/sprites/poses.mjs preview out.png` draws the pose tables as stick
+figures. Check there first — the API is metered, eyeballing a pose is free.
+
+**Rig-drawn (Akira, Takeshi).** Drawn by `tools/sprites/`, not by hand:
 a zlib-only PNG encoder, a polygon rasteriser, and a rig that builds frames from
 joint angles. A character is a palette plus part shapes plus one pose table per
 clip. `node tools/sprites/build.mjs` writes `src/assets/sprites/<id>-battle.png`
@@ -207,6 +236,38 @@ Rules when touching this:
 
 The **Debug → Sprites** screen renders every sheet with its clips, frame strips,
 anchor and content values — use it to verify after changing art or clips.
+
+`import.mjs` cleans anything generated before it reaches the game: hard alpha,
+`#282828` for the line work, and a colour budget enforced by **median cut**. Not
+by keeping the most common colours — a smooth-shaded generated sheet arrives
+with thousands, the most frequent are all shades of the outline, and that
+quantiser silently returned fifteen versions of black and painted the whole
+sheet dark.
+
+## Portraits
+
+Fire Emblem draws a character twice: the sprite above, and a portrait that only
+appears in conversation. They are not the same picture scaled — at 32px a face
+is three pixels of skin.
+
+`src/components/sprites/portraits.ts` globs `src/assets/portraits/*.png`, so a
+portrait is installed by dropping in `<speaker-slug>.png` (`Elder Ilse` →
+`elder-ilse.png`) and nothing else. A speaker with no file falls back to their
+battle sprite, scaled up. `SPEAKERS` in that file is the single map from script
+name to art, shared by `DialogueBox` (prologue) and `EventDialogue` (in battle);
+it used to be duplicated in both, with different casts, and the copy that had
+gone stale drew nothing at all for the chapter 1 boss.
+
+Generate and install one with:
+
+```bash
+node tools/sprites/pixellab.mjs portrait <id> "<description>" --size 128
+node tools/sprites/import.mjs tools/sprites/out/<id>-portrait.png <id> --portrait
+```
+
+Both callers set `--portrait-height` and `--portrait-sprite-scale` on the
+container; the scale exists only to blow the sprite fallback up and must never
+be applied to real portrait art.
 
 ## Game Flow
 

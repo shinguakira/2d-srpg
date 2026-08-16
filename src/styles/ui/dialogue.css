@@ -12,21 +12,25 @@
 }
 
 .dialogue__portrait {
+  /* The scale lives on .portrait--sprite, not here: it exists to blow a 32px
+     map sprite up to conversation size, and a real portrait must not get it.
+     Keeping it here would also mean the appear animation has to restate it,
+     which is how it silently stopped composing the first time. */
+  --portrait-sprite-scale: 2.5;
+  --portrait-height: 260px;
   margin-bottom: 16px;
   animation: portrait-appear 0.3s ease;
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
-  transform: scale(2.5);
-  transform-origin: bottom center;
 }
 
 @keyframes portrait-appear {
   0% {
     opacity: 0;
-    transform: scale(2.5) translateY(8px);
+    transform: translateY(8px);
   }
   100% {
     opacity: 1;
-    transform: scale(2.5) translateY(0);
+    transform: translateY(0);
   }
 }
 

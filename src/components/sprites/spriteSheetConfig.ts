@@ -26,6 +26,7 @@ import genericBattle from '../../assets/sprites/generic-battle.png';
 import pegasusBattle from '../../assets/sprites/pegasus-battle.png';
 import garethBattle from '../../assets/sprites/gareth-battle.png';
 import hagenBattle from '../../assets/sprites/hagen-battle.png';
+import shigeruPx from '../../assets/sprites/shigeru_px-battle.png';
 import { GENERATED_SHEETS } from './generatedSheets';
 
 export type Clip = {
@@ -180,6 +181,34 @@ const BASE_SHEETS: Record<string, SpriteSheet> = {
 
 /** Per-unit overrides — take priority over the class lookup. */
 const UNIT_SHEETS: Record<string, SpriteSheet> = {
+  // The base pose, one frame, while the design is being settled. Animating it
+  // is `pixellab.mjs sheet` plus a re-import and comes after — regenerating 21
+  // frames of a character who is about to be redrawn is 21 frames of waste, and
+  // an out-of-date sheet on the field is worse than a still one.
+  //
+  // Every clip points at frame 0 deliberately: `hasClip` stays true, so the
+  // debug view does not label these as missing art when they are simply not
+  // drawn yet.
+  shigeru: {
+    url: shigeruPx,
+    cols: 1,
+    rows: 1,
+    sheetW: 64,
+    sheetH: 64,
+    // 57px of art shown at ~31px on the map but much larger in combat and in
+    // dialogue, where it is scaled UP and nearest keeps the pixels square.
+    pixelArt: true,
+    content: { cx: 0.4922, bottom: 0.9531, height: 0.8906 },
+    clips: {
+      idle: { frames: [0], fps: 1, loop: true },
+      walk: { frames: [0], fps: 1, loop: true },
+      attack: { frames: [0], fps: 1, loop: false },
+      crit: { frames: [0], fps: 1, loop: false },
+      dodge: { frames: [0], fps: 1, loop: false },
+      hit: { frames: [0], fps: 1, loop: false },
+      die: { frames: [0], fps: 1, loop: false },
+    },
+  },
   mirelle: BASE_SHEETS.pegasus,
   gareth: {
     url: garethBattle,
@@ -260,8 +289,10 @@ function resolveBaseClass(classId: string): string {
 }
 
 export function getSheet(classId: string, unitId?: string): SpriteSheet {
-  if (unitId && GENERATED_SHEETS[unitId]) return GENERATED_SHEETS[unitId];
+  // Hand-placed overrides win over the generated rig art, so a character can be
+  // swapped to imported art without deleting its generator entry.
   if (unitId && UNIT_SHEETS[unitId]) return UNIT_SHEETS[unitId];
+  if (unitId && GENERATED_SHEETS[unitId]) return GENERATED_SHEETS[unitId];
   return BASE_SHEETS[resolveBaseClass(classId)] ?? GENERIC_SHEET;
 }
 
@@ -296,11 +327,19 @@ export function hasClip(sheet: SpriteSheet, name: ClipName): boolean {
   return sheet.clips[name] != null;
 }
 
-/** Every distinct sheet, for the debug viewer. Generated ones first. */
+/**
+ * Every sheet, for the debug viewer. Generated ones first.
+ *
+ * The same name can appear in more than one registry — `shigeru` is both a rig
+ * render and a per-unit override, and which one the game uses is decided by
+ * `getSheet`'s priority order. The id carries the registry so the two are
+ * distinguishable on screen and so React does not get two children under one
+ * key, which it silently resolves by dropping one of them.
+ */
 export const ALL_SHEETS: ReadonlyArray<{ id: string; sheet: SpriteSheet }> = [
-  ...Object.entries(GENERATED_SHEETS).map(([id, sheet]) => ({ id, sheet })),
+  ...Object.entries(GENERATED_SHEETS).map(([id, sheet]) => ({ id: `${id} (rig)`, sheet })),
   ...Object.entries(BASE_SHEETS).map(([id, sheet]) => ({ id, sheet })),
-  ...Object.entries(UNIT_SHEETS).map(([id, sheet]) => ({ id, sheet })),
+  ...Object.entries(UNIT_SHEETS).map(([id, sheet]) => ({ id: `${id} (unit)`, sheet })),
 ];
 
 export type SpriteBox = {

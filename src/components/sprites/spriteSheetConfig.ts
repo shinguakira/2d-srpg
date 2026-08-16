@@ -189,12 +189,13 @@ const UNIT_SHEETS: Record<string, SpriteSheet> = {
     url: shigeruPx,
     cols: 21,
     rows: 1,
-    sheetW: 1344,
-    sheetH: 64,
-    // 57px of art shown at ~31px on the map but much larger in combat and in
-    // dialogue, where it is scaled UP and nearest keeps the pixels square.
+    sheetW: 2688,
+    sheetH: 128,
+    // 57px of art in a 128px frame. The frame is that big only to leave room
+    // above his head for an overhead swing — the character is unchanged, so
+    // this is still low-resolution art and still wants nearest.
     pixelArt: true,
-    content: { cx: 0.4922, bottom: 0.9531, height: 0.8906 },
+    content: { cx: 0.5234, bottom: 0.8594, height: 0.4453 },
     clips: {
       idle: { frames: [0, 1, 2], fps: 4, loop: true },
       walk: { frames: [3, 4, 5], fps: 8, loop: true },

@@ -236,6 +236,32 @@ for (let y = 0; y < fh; y++) {
 }
 const charHeight = Number(arg('char-height', y1 - y0 + 1));
 
+// Warn when a frame's art runs into the edge of its cell. `build.mjs` has done
+// this for the rig-drawn sheets since the beginning; the imported ones went
+// without, and an overhead sword swing came back with the raised hand sliced
+// off at the top of two frames and nothing said so.
+const clipped = [];
+for (let f = 0; f < cols * rows; f++) {
+  const ox = (f % cols) * fw;
+  const oy = Math.floor(f / cols) * fh;
+  const at = (x, y) => data[((oy + y) * png.width + ox + x) * 4 + 3] >= 8;
+  const cols_ = [...Array(fw).keys()];
+  const rows_ = [...Array(fh).keys()];
+  const sides = [
+    cols_.some((x) => at(x, 0)) && 'T',
+    cols_.some((x) => at(x, fh - 1)) && 'B',
+    rows_.some((y) => at(0, y)) && 'L',
+    rows_.some((y) => at(fw - 1, y)) && 'R',
+  ].filter(Boolean);
+  if (sides.length) clipped.push(`${f}${sides.join('')}`);
+}
+if (clipped.length) {
+  console.warn(
+    `  ! art touches the frame edge and is being cut off: ${clipped.join(' ')}\n` +
+      `    (T/B/L/R). Give the source more margin — see pixellab.mjs canvas.`,
+  );
+}
+
 const out = isPortrait
   ? path.join(ROOT, 'src/assets/portraits', `${id}.png`)
   : path.join(ROOT, 'src/assets/sprites', `${id}-battle.png`);
@@ -261,7 +287,11 @@ console.log(`
     rows: ${rows},
     sheetW: ${png.width},
     sheetH: ${png.height},
-    pixelArt: ${fh <= 64},   // nearest only when the source is small enough to be scaled UP
+    // Nearest only for genuinely low-resolution art. Judged on the character,
+    // not the frame: padding a 57px figure into a 128px canvas for headroom
+    // leaves it just as low-resolution as it was, and keying off frame height
+    // silently turned nearest off the first time that happened.
+    pixelArt: ${charHeight <= 72},
     content: {
       cx: ${(((x0 + x1) / 2 + 0.5) / fw).toFixed(4)},
       bottom: ${((y1 + 1) / fh).toFixed(4)},

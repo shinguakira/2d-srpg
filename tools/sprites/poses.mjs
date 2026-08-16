@@ -27,37 +27,37 @@ import { encodePNG } from './png.mjs';
 import { Canvas, capsule, ellipse } from './raster.mjs';
 
 /**
- * Shigeru standing, measured off the shipped sprite with
- * `pixellab.mjs skeleton - src/assets/sprites/shigeru_px-battle.png`.
+ * Shigeru standing, measured with
+ * `pixellab.mjs skeleton - tools/sprites/out/shigeru-ref128.png` — the
+ * swordless reference, re-canvassed to 128x128 so there is room above his head.
  *
- * Re-measure whenever the base art changes. The poses below are relative and
- * survive a redraw; this table does not — the previous Shigeru filled 42 of 64
- * rows and this one fills 57, so every joint moved and the rotations that used
- * to put a sword overhead put it out sideways instead.
+ * Re-measure whenever the reference changes, including a change of frame size:
+ * keypoints are normalised to the frame, so padding moves every one of them.
+ * The poses below are relative and survive a redraw; this table does not.
  *
  * LEFT is the character's left, which is screen right: LEFT SHOULDER sits at
- * x 0.596 and RIGHT SHOULDER at 0.450. He faces the camera, sword point-down
- * in his left hand.
+ * x 0.570 and RIGHT SHOULDER at 0.501. He faces the camera. His hands are
+ * empty — the sword is drawn back on afterwards by weapon.mjs.
  */
 export const BASE = {
-  NOSE: [0.5587, 0.2077],
-  'LEFT EYE': [0.5783, 0.1795],
-  'RIGHT EYE': [0.5283, 0.1817],
-  'LEFT EAR': [0.5522, 0.1599],
-  'RIGHT EAR': [0.4805, 0.1686],
-  NECK: [0.5229, 0.311],
-  'LEFT SHOULDER': [0.5957, 0.3012],
-  'RIGHT SHOULDER': [0.45, 0.3208],
-  'LEFT ELBOW': [0.624, 0.4513],
-  'RIGHT ELBOW': [0.4218, 0.46],
-  'LEFT ARM': [0.6805, 0.5665],
-  'RIGHT ARM': [0.437, 0.5948],
-  'LEFT HIP': [0.5827, 0.5274],
-  'RIGHT HIP': [0.4957, 0.5383],
-  'LEFT KNEE': [0.5957, 0.7122],
-  'RIGHT KNEE': [0.4761, 0.7209],
-  'LEFT LEG': [0.6087, 0.8709],
-  'RIGHT LEG': [0.4457, 0.8883],
+  NOSE: [0.5505, 0.4889],
+  'LEFT EYE': [0.5603, 0.4758],
+  'RIGHT EYE': [0.5342, 0.478],
+  'LEFT EAR': [0.5537, 0.4639],
+  'RIGHT EAR': [0.5124, 0.4671],
+  NECK: [0.5353, 0.5334],
+  'LEFT SHOULDER': [0.5701, 0.5258],
+  'RIGHT SHOULDER': [0.5005, 0.541],
+  'LEFT ELBOW': [0.5809, 0.5943],
+  'RIGHT ELBOW': [0.4863, 0.6106],
+  'LEFT ARM': [0.6027, 0.6487],
+  'RIGHT ARM': [0.4918, 0.6802],
+  'LEFT HIP': [0.5635, 0.6389],
+  'RIGHT HIP': [0.52, 0.6487],
+  'LEFT KNEE': [0.5711, 0.7346],
+  'RIGHT KNEE': [0.5103, 0.7444],
+  'LEFT LEG': [0.5788, 0.8194],
+  'RIGHT LEG': [0.4972, 0.8281],
 };
 
 const Z_INDEX = {
@@ -80,6 +80,20 @@ const Z_INDEX = {
   'LEFT LEG': -1,
   'RIGHT LEG': -1,
 };
+
+/**
+ * How tall the figure is as a fraction of its frame, measured off the same
+ * reference as BASE — 57px of art in a 128px canvas.
+ *
+ * Every `move` below is scaled by this. They are written as fractions of the
+ * *character*, not of the frame, because the frame has now changed size twice:
+ * a knee lift of 0.1 was 11% of a leg when he filled 89% of a 64px frame and
+ * 55% of one when the canvas grew to 128. Scaling here means one number moves
+ * when the canvas does, instead of forty.
+ */
+const BODY = 0.445;
+const AUTHORED_BODY = 0.89;
+const MOVE = BODY / AUTHORED_BODY;
 
 const HEAD = ['NOSE', 'LEFT EYE', 'RIGHT EYE', 'LEFT EAR', 'RIGHT EAR'];
 const ARMS = [
@@ -157,8 +171,8 @@ function apply(ops) {
       const [group, dx, dy] = rest;
       const joints = GROUPS[group] ?? [group];
       for (const j of joints) {
-        pose[j][0] += dx;
-        pose[j][1] += dy;
+        pose[j][0] += dx * MOVE;
+        pose[j][1] += dy * MOVE;
       }
     } else if (op === 'set') {
       const [joint, x, y] = rest;
@@ -217,14 +231,14 @@ const CLIPS = {
     ],
   ],
 
-  // The sword is in the left hand, point down, so the whole swing is one
-  // shoulder rotating through about 240 degrees with the body leaning into it.
+  // The sword hand is the left one, so the whole swing is that one shoulder
+  // rotating through about 235 degrees with the body leaning into it.
   //
-  // The rest arm hangs at 79 degrees below horizontal, which is what sets these
+  // The rest arm hangs at 81 degrees below horizontal, which is what sets these
   // numbers: overhead is -170, not -90. Rotations are relative to whatever the
   // BASE arm happens to be doing, so this is the line that has to be redone
-  // every time the base sprite is — the previous Shigeru held the sword up and
-  // out at 60 degrees, and -150 was overhead for him.
+  // every time the reference is — the first Shigeru held his sword up and out
+  // at 60 degrees, and -150 was overhead for him.
   attack: [
     [
       ['rot', 'arm.l', -170],
@@ -317,9 +331,10 @@ const CLIPS = {
   // the ground is not a standing body rotated, and trying to get there by
   // rotating the torso 90 degrees puts the head through the hip.
   //
-  // Absolute means it is tied to the sprite's own floor — this Shigeru's feet
-  // sit at y 0.88, so he lies at 0.82-0.92. Re-measure the base and these move
-  // with it or he sinks into the tile.
+  // These are the one thing here that is neither relative nor body-scaled, so
+  // they are also the one thing that has to be retyped whenever the canvas
+  // changes: his feet sit at y 0.83 of a 128px frame, so he lies across
+  // 0.78-0.86. Get it wrong and he sinks into the tile.
   die: [
     [
       ['rot', 'torso', 12],
@@ -335,24 +350,24 @@ const CLIPS = {
       ['rot', 'arm.l', 45],
     ],
     [
-      ['set', 'NECK', 0.4, 0.85],
-      ['set', 'NOSE', 0.33, 0.855],
-      ['set', 'LEFT EYE', 0.336, 0.842],
-      ['set', 'RIGHT EYE', 0.336, 0.868],
-      ['set', 'LEFT EAR', 0.358, 0.837],
-      ['set', 'RIGHT EAR', 0.36, 0.873],
-      ['set', 'LEFT SHOULDER', 0.435, 0.836],
-      ['set', 'RIGHT SHOULDER', 0.44, 0.876],
-      ['set', 'LEFT ELBOW', 0.385, 0.812],
-      ['set', 'RIGHT ELBOW', 0.405, 0.902],
-      ['set', 'LEFT ARM', 0.322, 0.816],
-      ['set', 'RIGHT ARM', 0.352, 0.914],
-      ['set', 'LEFT HIP', 0.565, 0.852],
-      ['set', 'RIGHT HIP', 0.568, 0.888],
-      ['set', 'LEFT KNEE', 0.66, 0.864],
-      ['set', 'RIGHT KNEE', 0.664, 0.898],
-      ['set', 'LEFT LEG', 0.735, 0.886],
-      ['set', 'RIGHT LEG', 0.738, 0.912],
+      ['set', 'NECK', 0.44, 0.805],
+      ['set', 'NOSE', 0.375, 0.808],
+      ['set', 'LEFT EYE', 0.379, 0.798],
+      ['set', 'RIGHT EYE', 0.379, 0.818],
+      ['set', 'LEFT EAR', 0.398, 0.794],
+      ['set', 'RIGHT EAR', 0.4, 0.822],
+      ['set', 'LEFT SHOULDER', 0.468, 0.796],
+      ['set', 'RIGHT SHOULDER', 0.471, 0.826],
+      ['set', 'LEFT ELBOW', 0.428, 0.778],
+      ['set', 'RIGHT ELBOW', 0.443, 0.846],
+      ['set', 'LEFT ARM', 0.378, 0.781],
+      ['set', 'RIGHT ARM', 0.4, 0.856],
+      ['set', 'LEFT HIP', 0.575, 0.808],
+      ['set', 'RIGHT HIP', 0.578, 0.834],
+      ['set', 'LEFT KNEE', 0.655, 0.818],
+      ['set', 'RIGHT KNEE', 0.658, 0.842],
+      ['set', 'LEFT LEG', 0.72, 0.834],
+      ['set', 'RIGHT LEG', 0.722, 0.854],
     ],
   ],
 };
@@ -376,6 +391,18 @@ export function skeletonFrames(clip) {
 }
 
 export const CLIP_NAMES = Object.keys(CLIPS);
+
+/**
+ * One frame's joints in pixels, for anything that has to draw on top of the
+ * rendered sheet. The generator takes normalised coordinates; a rasteriser
+ * wants the frame's own grid.
+ */
+export function posePixels(clip, frame, size) {
+  const frames = CLIPS[clip];
+  if (!frames) throw new Error(`unknown clip ${clip}`);
+  const pose = apply(frames[frame]);
+  return Object.fromEntries(Object.entries(pose).map(([k, [x, y]]) => [k, [x * size, y * size]]));
+}
 
 // ---------------------------------------------------------------------------
 // Preview

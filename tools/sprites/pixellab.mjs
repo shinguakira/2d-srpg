@@ -334,17 +334,23 @@ try {
           view: arg('view', 'side'),
           direction: facing,
           reference_image: reference,
-          // Defaults are reference 1.1 / pose 3, and at anything under about
-          // pose 15 the model treats the skeleton as a suggestion: every frame
-          // comes back standing, in a flawless copy of the reference. These are
-          // the ends of both ranges, and they are where a limb finally moves.
+          // These two trade movement against identity and both ends are wrong.
+          // At the service defaults (reference 1.1 / pose 3) every frame comes
+          // back standing, in a flawless copy of the reference. At the far end
+          // (reference 1 / pose 20) limbs finally move, but nothing pulls the
+          // model back toward the same drawing: measured over the first pass,
+          // consecutive frames of the attack clip shared 28% of their
+          // silhouette — three unrelated pictures rather than one character.
+          //
+          // 3/12 keeps the pose and holds the character. Check it the same way,
+          // by measuring silhouette overlap, rather than by eye.
           //
           // Note the coordinates stay normalised 0..1. Sending them in pixels
           // is silently accepted and silently ignored — three identical frames
           // come back, which reads as "the pose did nothing" rather than as an
           // error.
-          reference_guidance_scale: Number(arg('guidance', 1)),
-          pose_guidance_scale: Number(arg('pose-guidance', 20)),
+          reference_guidance_scale: Number(arg('guidance', 3)),
+          pose_guidance_scale: Number(arg('pose-guidance', 12)),
         });
         const images = res.images ?? [];
         images.forEach((img, i) => writeImage(files[i], img));
@@ -402,6 +408,63 @@ try {
       `\nnext: node tools/sprites/import.mjs ${path.relative(ROOT, sheetFile).replaceAll('\\', '/')} ` +
         `${id} --cols ${strip.count} --rows 1`,
     );
+  } else if (cmd === 'canvas') {
+    // Re-frame a sprite without resizing it, to leave room above the head.
+    //
+    // Local, free, and necessary: the approved base fills 57 of its 64 rows,
+    // which leaves four rows of headroom, and an overhead sword swing needs
+    // about fifteen. The first animated pass came back with the raised hand
+    // sliced off at the top of the frame on two clips. `content` anchors by
+    // measured artwork, so a taller frame costs nothing downstream.
+    //
+    // The skeleton must be measured on the padded file, not the original —
+    // keypoints are normalised to the frame, and the frame just changed.
+    //
+    // Only 16, 32, 64, 128 and 256 are accepted; 80 comes back as "Canvas must
+    // be size 256x256, 128x128, ...". So the step up from a 64px frame is 128,
+    // and the character keeps its pixel size rather than being resampled into
+    // it — the endpoint follows the reference's scale, and a non-integer
+    // upscale of pixel art is worse than empty margin.
+    const png = decodePNG(readFileSync(path.resolve(positional[0])));
+    const size = Number(arg('size', 128));
+    const bottom = Number(arg('bottom', 0.86));
+
+    let y1 = -1;
+    let x0 = png.width;
+    let x1 = -1;
+    for (let y = 0; y < png.height; y++) {
+      for (let x = 0; x < png.width; x++) {
+        if (png.data[(y * png.width + x) * 4 + 3] < 8) continue;
+        if (y > y1) y1 = y;
+        if (x < x0) x0 = x;
+        if (x > x1) x1 = x;
+      }
+    }
+    const dx = Math.round(size / 2 - (x0 + x1 + 1) / 2);
+    const dy = Math.round(size * bottom - (y1 + 1));
+    const out = new Uint8ClampedArray(size * size * 4);
+    for (let y = 0; y < png.height; y++) {
+      for (let x = 0; x < png.width; x++) {
+        const ty = y + dy;
+        const tx = x + dx;
+        if (tx < 0 || ty < 0 || tx >= size || ty >= size) continue;
+        const s = (y * png.width + x) * 4;
+        out.set(png.data.subarray(s, s + 4), (ty * size + tx) * 4);
+      }
+    }
+    writeFileSync(path.resolve(positional[1]), encodePNG(size, size, out));
+
+    let top = size;
+    for (let y = 0; y < size && top === size; y++) {
+      for (let x = 0; x < size; x++) {
+        if (out[(y * size + x) * 4 + 3] >= 8) {
+          top = y;
+          break;
+        }
+      }
+    }
+    console.log(`${positional[0]} ${png.width}x${png.height} -> ${positional[1]} ${size}x${size}`);
+    console.log(`  offset ${dx},${dy} — art at y ${top}..${y1 + dy}, ${top} rows of headroom`);
   } else if (cmd === 'skeleton') {
     // Measure a sprite's rest pose, in the shape poses.mjs wants pasted in.
     //

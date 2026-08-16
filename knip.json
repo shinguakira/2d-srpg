@@ -2,10 +2,8 @@
   "$schema": "./node_modules/knip/schema.json",
   "entry": [
     "tests/**/*.{test,spec}.ts",
-    "tools/sprites/build.mjs",
     "tools/sprites/import.mjs",
-    "tools/sprites/pixellab.mjs",
-    "tools/sprites/poses.mjs"
+    "tools/sprites/pixellab.mjs"
   ],
   "project": ["src/**/*.{ts,tsx}", "tests/**/*.ts", "tools/**/*.mjs"]
 }

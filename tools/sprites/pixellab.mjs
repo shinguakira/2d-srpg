@@ -3,9 +3,13 @@
 //
 //   node tools/sprites/pixellab.mjs balance
 //   node tools/sprites/pixellab.mjs gen <id> "<description>" [--ref <png>] [--size 64]
-//   node tools/sprites/pixellab.mjs sheet <id> <ref.png> "<desc>" [--only walk,attack]
 //   node tools/sprites/pixellab.mjs portrait <id> "<description>" [--size 128]
 //   node tools/sprites/pixellab.mjs rotate <id> <png> --dirs 4
+//
+// One image per command, by design. See AGENTS.md: a sheet is one generation,
+// because separate calls are separate diffusion samples and return separate
+// drawings of a similar character. The multi-call `sheet` command that used to
+// live here produced twenty-one different Shigerus and has been removed.
 //
 // The key lives in .env.local as PIXELLAB_SECRET and is never printed. Output
 // lands in tools/sprites/out/, then `import.mjs` is what puts it in the game —
@@ -20,19 +24,13 @@
 //
 // House spec, applied to every request so generated art matches what is already
 // on the field: 15 colours plus transparency, #282828 outline, no background,
-// side view facing east. See the measurements in px-shigeru.mjs for where those
-// numbers came from.
-//
-// The API is metered per call, so `sheet` caches every frame it receives to
-// disk and skips clips it has already paid for. Re-running after a failure
-// costs nothing for the clips that already landed; `--force` overrides.
+// side view facing east.
 
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { decodePNG } from './pngRead.mjs';
 import { encodePNG } from './png.mjs';
-import { skeletonFrames, FRAMES } from './poses.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const OUT = path.join(ROOT, 'tools/sprites/out');
@@ -94,7 +92,6 @@ function arg(name, fallback) {
   const i = process.argv.indexOf('--' + name);
   return i > 0 ? process.argv[i + 1] : fallback;
 }
-const has = (name) => process.argv.includes('--' + name);
 
 /**
  * Per-character exclusions, appended to the house negative prompt.
@@ -113,16 +110,6 @@ const NEGATIVE =
   'anti-aliasing, blur, glow, gradient, muted colors, desaturated, high resolution, ' +
   'detailed face, chibi, super deformed';
 
-// Animation needs a much longer list than a still does. Told to animate an
-// attack, the model draws the *effect* rather than the character: two white
-// crescents the width of the frame, with a shrunken figure somewhere behind
-// them. Fire Emblem draws none of that — the sword moves, and that is the
-// animation. Everything here is a shape that showed up uninvited.
-const NO_EFFECTS =
-  'motion blur, speed lines, slash effect, sword trail, energy trail, swoosh, ' +
-  'white arc, crescent, glow, sparks, particles, smoke, dust cloud, magic effect, ' +
-  'special effects, flying cloth, cape covering the body, kneeling, sitting, crouching';
-
 /** The constraints every sprite in this game has to satisfy. */
 function houseStyle(size) {
   return {
@@ -136,24 +123,6 @@ function houseStyle(size) {
     negative_description: NEGATIVE,
   };
 }
-
-// The Fire Emblem clip set, in the order the game asks for them. `action` is
-// only used by the `--text` fallback; the poses that do the actual work live in
-// poses.mjs, which is also where the frame count comes from.
-const CLIPS = [
-  { name: 'idle', action: 'standing at the ready, breathing, sword held low', fps: 4, loop: true },
-  { name: 'walk', action: 'walking forward, legs striding', fps: 8, loop: true },
-  {
-    name: 'attack',
-    action: 'raising the sword and swinging it down in a slash',
-    fps: 12,
-    loop: false,
-  },
-  { name: 'crit', action: 'a two-handed overhead sword strike', fps: 14, loop: false },
-  { name: 'dodge', action: 'leaning sharply back to evade a blow', fps: 12, loop: false },
-  { name: 'hit', action: 'recoiling backward after being struck', fps: 12, loop: false },
-  { name: 'die', action: 'collapsing to the ground and lying still', fps: 8, loop: false },
-].map((c) => ({ ...c, frames: FRAMES }));
 
 /**
  * Nearest-neighbour scale. Used to bring a reference up to the size the animate
@@ -190,28 +159,6 @@ function sameSize(file, size) {
   return out;
 }
 
-/** Lay frames out left-to-right in one row, which is what SpriteSheet wants. */
-function compose(frameFiles) {
-  const frames = frameFiles.map((f) => decodePNG(readFileSync(f)));
-  const fw = frames[0].width;
-  const fh = frames[0].height;
-  const odd = frames.find((f) => f.width !== fw || f.height !== fh);
-  if (odd) throw new Error(`frames are not all ${fw}x${fh} — got ${odd.width}x${odd.height}`);
-
-  const sheetW = fw * frames.length;
-  const out = new Uint8ClampedArray(sheetW * fh * 4);
-  frames.forEach((frame, i) => {
-    for (let y = 0; y < fh; y++) {
-      for (let x = 0; x < fw; x++) {
-        const src = (y * fw + x) * 4;
-        const dst = (y * sheetW + i * fw + x) * 4;
-        out.set(frame.data.subarray(src, src + 4), dst);
-      }
-    }
-  });
-  return { width: sheetW, height: fh, data: out, fw, fh, count: frames.length };
-}
-
 const [, , cmd, id, ...rest] = process.argv;
 const positional = rest.filter((a, i) => !a.startsWith('--') && !rest[i - 1]?.startsWith('--'));
 const startBalance = (await call('balance')).usd;
@@ -237,35 +184,6 @@ try {
       ? await call('generate-image-bitforge', { ...body, style_image: image(sameSize(ref, size)) })
       : await call('generate-image-pixflux', body);
     console.log('saved ' + writeImage(path.join(OUT, `${id}.png`), res.image));
-  } else if (cmd === 'base') {
-    // Redraw an approved sprite at the size the animator needs.
-    //
-    // animate-with-text will not take a reference under 64px, and doubling a
-    // 32px sprite with nearest gives it 2x2 blocks to read — it cannot make out
-    // a sword in that, so it drops the sword and invents a character. Passing
-    // the doubled sprite as init_image at high strength keeps the pose, the
-    // palette and the silhouette while the model redraws at native resolution.
-    const refFile = path.resolve(positional[0]);
-    const description = positional[1] ?? '';
-    const ref = decodePNG(readFileSync(refFile));
-    const size = Number(arg('size', 64));
-    const up = nearest(ref, size, size);
-    const upFile = path.join(OUT, `${id}-ref-${size}.png`);
-    writeFileSync(upFile, encodePNG(size, size, up.data));
-    const res = await call('generate-image-bitforge', {
-      ...houseStyle(size),
-      description,
-      direction: arg('facing', 'south'),
-      init_image: image(upFile),
-      init_image_strength: Number(arg('init-strength', 600)),
-      style_image: image(upFile),
-      style_strength: Number(arg('style-strength', 60)),
-      // The 32px original leaves a wide margin, and doubling it doubles the
-      // margin too — the figure would only get 44 of the 64 rows. Filling the
-      // frame is the whole point of redrawing at this size.
-      coverage_percentage: Number(arg('coverage', 90)),
-    });
-    console.log('saved ' + writeImage(path.join(OUT, `${id}-base.png`), res.image));
   } else if (cmd === 'portrait') {
     // A portrait is not a scaled-up map sprite. Fire Emblem draws it separately
     // at a size where a face is actually a face, so this one deliberately drops
@@ -292,219 +210,6 @@ try {
       ? await call('generate-image-bitforge', { ...body, style_image: image(sameSize(ref, size)) })
       : await call('generate-image-pixflux', body);
     console.log('saved ' + writeImage(path.join(OUT, `${id}-portrait.png`), res.image));
-  } else if (cmd === 'sheet') {
-    const refFile = path.resolve(positional[0]);
-    const description = positional[1] ?? '';
-    const ref = decodePNG(readFileSync(refFile));
-    // The reference may be smaller than the endpoint's 64px floor — Shigeru's
-    // is 32 — so it gets doubled first. The sheet then runs at twice the field
-    // sprite's resolution, which costs nothing: `content` anchors by measured
-    // artwork, not by frame size.
-    const size = Math.max(64, Number(arg('size', ref.width)));
-    // Which way the reference faces. Getting this wrong is not a small error:
-    // asked to animate a front-facing sprite as an east-facing one, the model
-    // reinterprets the pose from scratch and returns a kneeling stranger.
-    const facing = arg('facing', 'south');
-    const only = arg('only')?.split(',');
-    const clips = CLIPS.filter((clip) => !only || only.includes(clip.name));
-    const dir = path.join(OUT, id + '-frames');
-    mkdirSync(dir, { recursive: true });
-
-    const reference = image(sameSize(refFile, size));
-
-    console.log(
-      `${id}: ${size}x${size} from ${path.basename(refFile)} (${ref.width}x${ref.height})`,
-    );
-
-    const layout = [];
-    let cursor = 0;
-    for (const clip of clips) {
-      const files = Array.from({ length: clip.frames }, (_, i) =>
-        path.join(dir, `${clip.name}-${i}.png`),
-      );
-      if (files.every(existsSync) && !has('force')) {
-        console.log(`  ${clip.name.padEnd(7)} cached (${clip.frames} frames)`);
-      } else if (!has('text')) {
-        // Pose from poses.mjs, appearance from the reference. See the note at
-        // the top of that file for why the text endpoint is the fallback and
-        // not the default.
-        const res = await call('animate-with-skeleton', {
-          image_size: { width: size, height: size },
-          skeleton_keypoints: skeletonFrames(clip.name),
-          view: arg('view', 'side'),
-          direction: facing,
-          reference_image: reference,
-          // These two trade movement against identity and both ends are wrong.
-          // At the service defaults (reference 1.1 / pose 3) every frame comes
-          // back standing, in a flawless copy of the reference. At the far end
-          // (reference 1 / pose 20) limbs finally move, but nothing pulls the
-          // model back toward the same drawing: measured over the first pass,
-          // consecutive frames of the attack clip shared 28% of their
-          // silhouette — three unrelated pictures rather than one character.
-          //
-          // 3/12 keeps the pose and holds the character. Check it the same way,
-          // by measuring silhouette overlap, rather than by eye.
-          //
-          // Note the coordinates stay normalised 0..1. Sending them in pixels
-          // is silently accepted and silently ignored — three identical frames
-          // come back, which reads as "the pose did nothing" rather than as an
-          // error.
-          reference_guidance_scale: Number(arg('guidance', 3)),
-          pose_guidance_scale: Number(arg('pose-guidance', 12)),
-        });
-        const images = res.images ?? [];
-        images.forEach((img, i) => writeImage(files[i], img));
-        clip.frames = images.length;
-        console.log(`  ${clip.name.padEnd(7)} ${images.length} frames (skeleton)`);
-      } else {
-        const res = await call('animate-with-text', {
-          image_size: { width: size, height: size },
-          description,
-          action: clip.action,
-          reference_image: reference,
-          n_frames: clip.frames,
-          view: arg('view', 'side'),
-          direction: facing,
-          negative_description: NEGATIVE + ', ' + NO_EFFECTS,
-          // Defaults are image 1.5 / text 7.5, and that balance is wrong here:
-          // the text wins, the model illustrates the sentence, and the
-          // character stops being the character. Pull the image up and the
-          // text down so the action nudges a sprite that already exists.
-          image_guidance_scale: Number(arg('guidance', 6)),
-          text_guidance_scale: Number(arg('text-guidance', 4)),
-          inpainting_images: Array.from({ length: clip.frames }, () => null),
-        });
-        // The service is free to return fewer frames than asked for; the clip
-        // table is what has to bend, not the layout maths.
-        const images = res.images ?? [];
-        images.forEach((img, i) => writeImage(files[i], img));
-        clip.frames = images.length;
-        console.log(`  ${clip.name.padEnd(7)} ${images.length} frames`);
-      }
-      layout.push({ ...clip, from: cursor });
-      cursor += clip.frames;
-    }
-
-    const all = layout.flatMap((clip) =>
-      Array.from({ length: clip.frames }, (_, i) => path.join(dir, `${clip.name}-${i}.png`)),
-    );
-    const strip = compose(all);
-    const sheetFile = path.join(OUT, `${id}-sheet.png`);
-    writeFileSync(sheetFile, encodePNG(strip.width, strip.height, strip.data));
-
-    console.log(
-      `\nsheet ${strip.width}x${strip.height}  ${strip.count} frames of ${strip.fw}x${strip.fh}`,
-    );
-    console.log(`saved ${path.relative(ROOT, sheetFile)}\n`);
-    console.log('  clips: {');
-    for (const clip of layout) {
-      const frames = Array.from({ length: clip.frames }, (_, i) => clip.from + i).join(', ');
-      console.log(
-        `    ${clip.name}: { frames: [${frames}], fps: ${clip.fps}, loop: ${clip.loop} },`,
-      );
-    }
-    console.log('  },');
-    console.log(
-      `\nnext: node tools/sprites/import.mjs ${path.relative(ROOT, sheetFile).replaceAll('\\', '/')} ` +
-        `${id} --cols ${strip.count} --rows 1`,
-    );
-  } else if (cmd === 'canvas') {
-    // Re-frame a sprite without resizing it, to leave room above the head.
-    //
-    // Local, free, and necessary: the approved base fills 57 of its 64 rows,
-    // which leaves four rows of headroom, and an overhead sword swing needs
-    // about fifteen. The first animated pass came back with the raised hand
-    // sliced off at the top of the frame on two clips. `content` anchors by
-    // measured artwork, so a taller frame costs nothing downstream.
-    //
-    // The skeleton must be measured on the padded file, not the original —
-    // keypoints are normalised to the frame, and the frame just changed.
-    //
-    // Only 16, 32, 64, 128 and 256 are accepted; 80 comes back as "Canvas must
-    // be size 256x256, 128x128, ...". So the step up from a 64px frame is 128,
-    // and the character keeps its pixel size rather than being resampled into
-    // it — the endpoint follows the reference's scale, and a non-integer
-    // upscale of pixel art is worse than empty margin.
-    const png = decodePNG(readFileSync(path.resolve(positional[0])));
-    const size = Number(arg('size', 128));
-    const bottom = Number(arg('bottom', 0.86));
-
-    let y1 = -1;
-    let x0 = png.width;
-    let x1 = -1;
-    for (let y = 0; y < png.height; y++) {
-      for (let x = 0; x < png.width; x++) {
-        if (png.data[(y * png.width + x) * 4 + 3] < 8) continue;
-        if (y > y1) y1 = y;
-        if (x < x0) x0 = x;
-        if (x > x1) x1 = x;
-      }
-    }
-    const dx = Math.round(size / 2 - (x0 + x1 + 1) / 2);
-    const dy = Math.round(size * bottom - (y1 + 1));
-    const out = new Uint8ClampedArray(size * size * 4);
-    for (let y = 0; y < png.height; y++) {
-      for (let x = 0; x < png.width; x++) {
-        const ty = y + dy;
-        const tx = x + dx;
-        if (tx < 0 || ty < 0 || tx >= size || ty >= size) continue;
-        const s = (y * png.width + x) * 4;
-        out.set(png.data.subarray(s, s + 4), (ty * size + tx) * 4);
-      }
-    }
-    writeFileSync(path.resolve(positional[1]), encodePNG(size, size, out));
-
-    let top = size;
-    for (let y = 0; y < size && top === size; y++) {
-      for (let x = 0; x < size; x++) {
-        if (out[(y * size + x) * 4 + 3] >= 8) {
-          top = y;
-          break;
-        }
-      }
-    }
-    console.log(`${positional[0]} ${png.width}x${png.height} -> ${positional[1]} ${size}x${size}`);
-    console.log(`  offset ${dx},${dy} — art at y ${top}..${y1 + dy}, ${top} rows of headroom`);
-  } else if (cmd === 'skeleton') {
-    // Measure a sprite's rest pose, in the shape poses.mjs wants pasted in.
-    //
-    // The pose tables are relative — rotations and offsets from wherever the
-    // character actually stands — so they survive a redraw. This table does
-    // not: a new base with different proportions puts every joint somewhere
-    // else, and animating against a stale one bends the wrong limb.
-    const res = await call('estimate-skeleton', { image: image(positional[0]) });
-    const round = (n) => Number(n.toFixed(4));
-    const order = [
-      'NOSE',
-      'LEFT EYE',
-      'RIGHT EYE',
-      'LEFT EAR',
-      'RIGHT EAR',
-      'NECK',
-      'LEFT SHOULDER',
-      'RIGHT SHOULDER',
-      'LEFT ELBOW',
-      'RIGHT ELBOW',
-      'LEFT ARM',
-      'RIGHT ARM',
-      'LEFT HIP',
-      'RIGHT HIP',
-      'LEFT KNEE',
-      'RIGHT KNEE',
-      'LEFT LEG',
-      'RIGHT LEG',
-    ];
-    const by = Object.fromEntries(res.keypoints.map((k) => [k.label, k]));
-    const missing = order.filter((label) => !by[label]);
-    if (missing.length) console.error(`  ! not found: ${missing.join(', ')}`);
-    console.log('export const BASE = {');
-    for (const label of order) {
-      const k = by[label];
-      if (!k) continue;
-      const key = /^[A-Z]+$/.test(label) ? label : `'${label}'`;
-      console.log(`  ${key}: [${round(k.x)}, ${round(k.y)}],`);
-    }
-    console.log('};');
   } else if (cmd === 'rotate') {
     const from = image(positional[0]);
     const size = Number(arg('size', 64));
@@ -521,10 +226,8 @@ try {
     console.error(
       'usage:\n' +
         '  balance\n' +
-        '  gen <id> "<description>" [--ref style.png] [--size 64]\n' +
-        '  sheet <id> <ref.png> "<description>" [--only walk,attack] [--force]\n' +
+        '  gen <id> "<description>" [--ref style.png] [--size 64] [--negative "..."]\n' +
         '  portrait <id> "<description>" [--size 128] [--ref style.png]\n' +
-        '  skeleton - <png>\n' +
         '  rotate <id> <png> [--dirs 4]',
     );
     process.exit(1);

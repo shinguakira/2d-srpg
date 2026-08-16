@@ -181,10 +181,9 @@ const BASE_SHEETS: Record<string, SpriteSheet> = {
 
 /** Per-unit overrides — take priority over the class lookup. */
 const UNIT_SHEETS: Record<string, SpriteSheet> = {
-  // The full FE clip set, posed in tools/sprites/poses.mjs and rendered through
-  // PixelLab's skeleton animator; `tools/sprites/import.mjs` quantised it and
-  // measured the anchor off the pixels. Three frames per clip is not a stylistic
-  // choice — that endpoint is a three-frame window and refuses any other count.
+  // Twenty-one frames that came from seven separate generations, so it is
+  // twenty-one different drawings of a similar character. Being replaced — see
+  // AGENTS.md: a sheet is one generation. Do not extend this by adding calls.
   shigeru: {
     url: shigeruPx,
     cols: 21,

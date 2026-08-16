@@ -1,5 +1,10 @@
 # CLAUDE.md — AI Agent Guide
 
+> **Read `AGENTS.md` first.** It lists the rules that override judgement — what
+> the art pipeline may and may not do, and what must never be deleted. This file
+> describes how the project works; that one describes what is not up for
+> discussion.
+
 ## Quick Start
 
 ```bash
@@ -151,49 +156,43 @@ src/
 
 ## Sprites
 
-There are three kinds of sheet, and they are read through the same interface.
+> Read the art rules in `AGENTS.md` before touching any of this.
 
-**Commissioned (Shigeru).** Generated through the PixelLab API by
-`tools/sprites/pixellab.mjs`, which talks to the REST endpoints directly — the
-`@pixellab-code/pixellab` SDK validates responses against a `usage` shape the
-service no longer returns, so successful calls come back as "Response validation
-failed" after the money is spent. Three commands, in order:
+Four files, and that is the whole pipeline:
+
+| | |
+|---|---|
+| `pixellab.mjs` | talks to the API — one image per command |
+| `import.mjs` | cleans what comes back and writes it into `src/assets/` |
+| `png.mjs` / `pngRead.mjs` | PNG encode / decode |
+
+It calls the REST endpoints directly rather than through
+`@pixellab-code/pixellab`: the SDK validates responses against a `usage` shape
+the service no longer returns, so successful calls come back as "Response
+validation failed" after the money is spent.
 
 ```bash
-node tools/sprites/pixellab.mjs base <id> <ref.png> "<desc>"        # redraw at 64px
-node tools/sprites/pixellab.mjs sheet <id> <base.png> "<desc>"      # all 7 clips
-node tools/sprites/import.mjs tools/sprites/out/<id>-sheet.png <id> --cols 21 --rows 1
+node tools/sprites/pixellab.mjs gen <id> "<desc>" [--ref style.png] [--negative "..."]
+node tools/sprites/import.mjs tools/sprites/out/<id>.png <id> --cols N --rows 1
 ```
 
-Poses come from `tools/sprites/poses.mjs`, not from a text prompt. Text-driven
-animation cannot do this job: asked for an attack it draws the slash *effect*
-and shrinks the character behind it, and the guidance knobs trade appearance
-against movement so hard that enough weight to move a limb is enough to produce
-a different person. `animate-with-skeleton` separates them — appearance from the
-reference image, pose from keypoints. Constraints that are not negotiable:
+Endpoint constraints found the hard way:
 
-- **Exactly 3 frames per clip.** The endpoint is a three-frame window.
-- **Keypoints are normalised 0..1.** Pixel coordinates are accepted, ignored,
-  and returned as three identical frames — it reads as "the pose did nothing".
-- **`pose_guidance_scale` 20, `reference_guidance_scale` 1.** Below ~15 every
-  frame comes back standing.
-- **The reference must be exactly `image_size`** and at least 64px.
+- **Canvas is 16, 32, 64, 128 or 256.** 80 is rejected outright.
+- **A second image — style, init, reference — must match `image_size` exactly.**
+- Per-character negatives go in `--negative`. The model reads "prince" as
+  androgynous and will give him a woman's face and hair past the shoulders
+  unless told otherwise; that exclusion is wrong for half the cast, so it does
+  not live in the shared list.
 
-`node tools/sprites/poses.mjs preview out.png` draws the pose tables as stick
-figures. Check there first — the API is metered, eyeballing a pose is free.
+`import.mjs` enforces the house spec on anything it touches: hard alpha, at most
+15 colours by **median cut** (not by frequency — see the comment there, the
+obvious quantiser returns fifteen shades of black), `#282828` for the line work,
+and a warning when art runs into the edge of its frame.
 
-**Rig-drawn (Akira, Takeshi).** Drawn by `tools/sprites/`, not by hand:
-a zlib-only PNG encoder, a polygon rasteriser, and a rig that builds frames from
-joint angles. A character is a palette plus part shapes plus one pose table per
-clip. `node tools/sprites/build.mjs` writes `src/assets/sprites/<id>-battle.png`
-**and** `src/components/sprites/generatedSheets.ts`, so grid size, anchor and
-frame numbers are measured from the render and cannot drift from the art. Edit
-the character module, never the PNG. The build warns when a pose reaches outside
-its frame.
-
-**Hand-measured (everything else).** The AI-generated sheets, described directly
-in `spriteSheetConfig.ts`. Three things are kept separate on purpose —
-collapsing them is what caused the bugs this system replaced:
+**Sheets described by hand.** Everything in `spriteSheetConfig.ts`. Three things
+are kept separate on purpose — collapsing them is what caused the bugs this
+system replaced:
 
 1. **The sheet** — `cols`/`rows`/`sheetW`/`sheetH`. Frame size is derived as
    `sheetW/cols` and stays **fractional**. Do not round it; `1536/7 = 219.43`

@@ -25,7 +25,13 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { decodePNG } from './pngRead.mjs';
 import { encodePNG } from './png.mjs';
-import { OUTLINE } from './pixel.mjs';
+
+/**
+ * The line-work colour every sheet in this game shares. Not `#000000`, which is
+ * what generators reach for and what makes imported art stop matching the rest
+ * of the set. Measured off real GBA Fire Emblem sprites.
+ */
+const OUTLINE = '#282828';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
@@ -236,10 +242,9 @@ for (let y = 0; y < fh; y++) {
 }
 const charHeight = Number(arg('char-height', y1 - y0 + 1));
 
-// Warn when a frame's art runs into the edge of its cell. `build.mjs` has done
-// this for the rig-drawn sheets since the beginning; the imported ones went
-// without, and an overhead sword swing came back with the raised hand sliced
-// off at the top of two frames and nothing said so.
+// Warn when a frame's art runs into the edge of its cell. An overhead sword
+// swing once came back with the raised hand sliced off at the top of two
+// frames and nothing said so.
 const clipped = [];
 for (let f = 0; f < cols * rows; f++) {
   const ox = (f % cols) * fw;

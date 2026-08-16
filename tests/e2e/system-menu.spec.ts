@@ -133,29 +133,29 @@ test.describe('System Menu (総合メニュー)', () => {
   });
 
   test('clicking player unit does not open system menu', async ({ page }) => {
-    // Click Shigeru at (10, 10) — should select unit, not open menu
-    await page.click('[data-testid="tile-10-10"]');
+    // Click Shigeru at (11, 10) — should select unit, not open menu
+    await page.click('[data-testid="tile-11-10"]');
     await page.waitForTimeout(200);
 
     const menu = page.locator('[data-testid="system-menu"]');
     await expect(menu).not.toBeVisible();
 
     // Move range should be visible instead
-    const moveRange = page.locator('[data-testid="move-range-9-10"]');
+    const moveRange = page.locator('[data-testid="move-range-10-10"]');
     await expect(moveRange).toBeVisible();
   });
 
   test('clicking enemy unit does not open system menu', async ({ page }) => {
     // Inspecting an enemy must not be treated as clicking empty ground.
-    await page.click('[data-testid="tile-11-4"]');
+    await page.click('[data-testid="tile-12-7"]');
     await page.waitForTimeout(200);
 
     await expect(page.locator('[data-testid="system-menu"]')).not.toBeVisible();
   });
 
   test('clicking already-acted player unit does not open system menu', async ({ page }) => {
-    // Select Shigeru at (10, 10)
-    await page.click('[data-testid="tile-10-10"]');
+    // Select Shigeru at (11, 10)
+    await page.click('[data-testid="tile-11-10"]');
     await page.waitForTimeout(200);
 
     // Move to adjacent tile

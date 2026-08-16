@@ -51,22 +51,22 @@ test.describe('Chapter 1 — Full Game Flow', () => {
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
     await page.waitForTimeout(300);
 
-    // Shigeru at (10, 10)
+    // Shigeru at (11, 10)
     await expect(
-      page.locator('[data-testid="tile-10-10"] [data-testid="unit-shigeru"]'),
+      page.locator('[data-testid="tile-11-10"] [data-testid="unit-shigeru"]'),
     ).toBeVisible();
     // Akira at (13, 10)
     await expect(
       page.locator('[data-testid="tile-13-10"] [data-testid="unit-akira"]'),
     ).toBeVisible();
-    // Lisette at (9, 11)
+    // Lisette at (10, 11)
     await expect(
-      page.locator('[data-testid="tile-9-11"] [data-testid="unit-lisette"]'),
+      page.locator('[data-testid="tile-10-11"] [data-testid="unit-lisette"]'),
     ).toBeVisible();
 
-    // fighter_3 at (11, 4)
+    // fighter_1 at (12, 7)
     await expect(
-      page.locator('[data-testid="tile-11-4"] [data-testid="unit-fighter_3"]'),
+      page.locator('[data-testid="tile-12-7"] [data-testid="unit-fighter_1"]'),
     ).toBeVisible();
   });
 
@@ -81,14 +81,14 @@ test.describe('Chapter 1 — Full Game Flow', () => {
       'mountain',
     );
 
-    // Fort at (11, 4)
-    await expect(page.locator('[data-testid="tile-11-4"]')).toHaveAttribute('data-terrain', 'fort');
+    // Fort at (9, 2)
+    await expect(page.locator('[data-testid="tile-9-2"]')).toHaveAttribute('data-terrain', 'fort');
 
-    // Water at (4, 5)
-    await expect(page.locator('[data-testid="tile-4-5"]')).toHaveAttribute('data-terrain', 'water');
+    // Water at (4, 6)
+    await expect(page.locator('[data-testid="tile-4-6"]')).toHaveAttribute('data-terrain', 'water');
 
-    // Village at (3, 3)
-    await expect(page.locator('[data-testid="tile-3-3"]')).toHaveAttribute(
+    // Village at (9, 5)
+    await expect(page.locator('[data-testid="tile-9-5"]')).toHaveAttribute(
       'data-terrain',
       'village',
     );
@@ -100,14 +100,14 @@ test.describe('Chapter 1 — Full Game Flow', () => {
     await page.waitForSelector('[data-testid="tactical-grid"]', { timeout: 10000 });
     await page.waitForTimeout(300);
 
-    // Move Akira to attack fighter_3
+    // Move Akira to attack fighter_1
     await page.click('[data-testid="tile-13-10"]');
     await page.waitForTimeout(200);
-    await page.click('[data-testid="tile-11-5"]');
+    await page.click('[data-testid="tile-12-8"]');
     await page.waitForTimeout(200);
     await page.click('[data-testid="action-attack"]');
     await page.waitForTimeout(200);
-    await page.click('[data-testid="tile-11-4"]');
+    await page.click('[data-testid="tile-12-7"]');
     await page.waitForTimeout(200);
     // Combat starts immediately — no confirm step
 
@@ -128,11 +128,11 @@ test.describe('Chapter 1 — Full Game Flow', () => {
     // Do the same moves
     await page.click('[data-testid="tile-13-10"]');
     await page.waitForTimeout(200);
-    await page.click('[data-testid="tile-11-5"]');
+    await page.click('[data-testid="tile-12-8"]');
     await page.waitForTimeout(200);
     await page.click('[data-testid="action-attack"]');
     await page.waitForTimeout(200);
-    await page.click('[data-testid="tile-11-4"]');
+    await page.click('[data-testid="tile-12-7"]');
     await page.waitForTimeout(200);
     // Combat starts immediately — no confirm step
 

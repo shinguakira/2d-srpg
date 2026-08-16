@@ -46,9 +46,11 @@ test.describe('Start Menu & Dialogue', () => {
     await page.click('[data-testid="mode-confirm"]');
     await page.waitForTimeout(300);
 
-    // Ch1 prologue has 7 lines — click through all of them
-    for (let i = 0; i < 7; i++) {
-      await page.click('[data-testid="dialogue-box"]');
+    // Click through the prologue until it ends. Counting the lines instead
+    // breaks every time the script is edited — which is exactly what happened.
+    const box = page.locator('[data-testid="dialogue-box"]');
+    for (let i = 0; i < 20 && (await box.isVisible().catch(() => false)); i++) {
+      await box.click();
       await page.waitForTimeout(150);
     }
 

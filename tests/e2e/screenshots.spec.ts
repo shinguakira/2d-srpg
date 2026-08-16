@@ -10,6 +10,28 @@ async function startBattle(page: import('@playwright/test').Page) {
   await page.waitForTimeout(2800);
 }
 
+// Helper: click through anything covering the screen. Level-up popups, the
+// EXP bar and turn-start scenes are all full-screen click catchers, and a test
+// that dismisses only some of them stalls on the next click it makes.
+async function dismissModals(page: import('@playwright/test').Page) {
+  for (let i = 0; i < 12; i++) {
+    const modal = page.locator(
+      '[data-testid="event-dialogue"], [data-testid="level-up-popup"], [data-testid="exp-bar"]',
+    );
+    if (
+      await modal
+        .first()
+        .isVisible()
+        .catch(() => false)
+    ) {
+      await modal.first().click();
+      await page.waitForTimeout(350);
+    } else {
+      break;
+    }
+  }
+}
+
 // Helper: end player turn and wait for enemy phase to fully resolve
 async function endTurnAndWait(page: import('@playwright/test').Page) {
   await page.keyboard.press('e');
@@ -28,18 +50,11 @@ async function endTurnAndWait(page: import('@playwright/test').Page) {
       break;
     }
   }
-  // Dismiss level-up popups
-  for (let i = 0; i < 5; i++) {
-    const lu = page.locator('[data-testid="level-up-popup"]');
-    if (await lu.isVisible().catch(() => false)) {
-      await lu.click();
-      await page.waitForTimeout(500);
-    } else {
-      break;
-    }
-  }
+  await dismissModals(page);
   // Wait for player phase banner to dismiss
   await page.waitForTimeout(3000);
+
+  await dismissModals(page);
 }
 
 // Helper: click a tile
@@ -109,7 +124,7 @@ test.describe('Screenshot Report — Battle Map & UI Panels', () => {
 
   test('08 - Unit Stats Panel (player)', async ({ page }) => {
     await startBattle(page);
-    await page.hover('[data-testid="tile-10-10"]');
+    await page.hover('[data-testid="tile-11-10"]');
     await page.waitForTimeout(400);
     await page.screenshot({ path: 'screenshots/e2e/08-unit-stats-player.png' });
   });
@@ -123,14 +138,14 @@ test.describe('Screenshot Report — Battle Map & UI Panels', () => {
 
   test('10 - Terrain Info (fort)', async ({ page }) => {
     await startBattle(page);
-    await page.hover('[data-testid="tile-11-4"]');
+    await page.hover('[data-testid="tile-12-7"]');
     await page.waitForTimeout(400);
     await page.screenshot({ path: 'screenshots/e2e/10-terrain-fort.png' });
   });
 
   test('11 - Unit Detail Screen (Shigeru)', async ({ page }) => {
     await startBattle(page);
-    await clickTile(page, 10, 10);
+    await clickTile(page, 11, 10);
     await page.keyboard.press('i');
     await page.waitForSelector('[data-testid="unit-detail-screen"]', { timeout: 3000 });
     await page.waitForTimeout(500);
@@ -159,7 +174,7 @@ test.describe('Screenshot Report — Battle Map & UI Panels', () => {
 test.describe('Screenshot Report — Movement & Actions', () => {
   test('14 - Movement Range (Shigeru)', async ({ page }) => {
     await startBattle(page);
-    await clickTile(page, 10, 10); // Select Shigeru
+    await clickTile(page, 11, 10); // Select Shigeru
     await page.waitForTimeout(400);
     await page.screenshot({ path: 'screenshots/e2e/14-movement-range.png' });
   });
@@ -176,8 +191,8 @@ test.describe('Screenshot Report — Movement & Actions', () => {
 
   test('16 - Action Menu (Shigeru move up)', async ({ page }) => {
     await startBattle(page);
-    // Select Shigeru at (10,10), move to (9,9) (10,9 is wall)
-    await clickTile(page, 10, 10);
+    // Select Shigeru at (11,10), move to (9,9) (10,9 is wall)
+    await clickTile(page, 11, 10);
     await clickTile(page, 9, 9);
     await page.waitForSelector('[data-testid="action-menu"]', { timeout: 5000 });
     await page.waitForTimeout(200);
@@ -197,13 +212,13 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     await endTurnAndWait(page);
 
     // Turn 2: Move Akira toward enemies. Aggressive fighters should have moved south.
-    // fighter_1 started at (8,2), fighter_3 at (11,4)
+    // fighter_1 starts at (12,7), south of the river
     // Akira is at (13,10), MOV 7. Try to reach adjacent to where enemies moved.
     await clickTile(page, 13, 10);
     await page.waitForTimeout(200);
 
-    // Try clicking (14,4) — Akira should be able to reach this
-    await clickTile(page, 14, 4);
+    // (12,8) is beside fighter_1, who is on this side of the river
+    await clickTile(page, 12, 8);
     await page.waitForTimeout(300);
 
     const actionMenu = page.locator('[data-testid="action-menu"]');
@@ -235,12 +250,12 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
       await page.waitForTimeout(200);
     }
 
-    // Fallback: try Shigeru at (10,10) → move to (10,5) area
+    // Fallback: try Shigeru at (11,10) → move to (11,8) area
     await page.keyboard.press('Escape');
     await page.waitForTimeout(200);
-    await clickTile(page, 10, 10);
+    await clickTile(page, 11, 10);
     await page.waitForTimeout(200);
-    await clickTile(page, 10, 5);
+    await clickTile(page, 11, 8);
     await page.waitForTimeout(300);
 
     const actionMenu2 = page.locator('[data-testid="action-menu"]');
@@ -278,7 +293,7 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     // Try Akira first
     await clickTile(page, 13, 10);
     await page.waitForTimeout(200);
-    await clickTile(page, 14, 4);
+    await clickTile(page, 12, 8);
     await page.waitForTimeout(300);
 
     let attacked = false;
@@ -318,9 +333,9 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
 
     if (!attacked) {
       // Try Shigeru
-      await clickTile(page, 10, 10);
+      await clickTile(page, 11, 10);
       await page.waitForTimeout(200);
-      await clickTile(page, 10, 5);
+      await clickTile(page, 11, 8);
       await page.waitForTimeout(300);
       const am2 = page.locator('[data-testid="action-menu"]');
       if (await am2.isVisible().catch(() => false)) {
@@ -376,7 +391,7 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
 
     // Move player units north to bait enemies into attacking on their turn
     // Move Shigeru from (10,10) to (9,7) (wall at 10,9 blocks straight path)
-    await clickTile(page, 10, 10);
+    await clickTile(page, 11, 10);
     await clickTile(page, 9, 7);
     await page.waitForTimeout(200);
     await page.click('[data-testid="action-wait"]');
@@ -405,14 +420,7 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
       await page.waitForTimeout(200);
     }
 
-    // Dismiss level-ups
-    for (let i = 0; i < 3; i++) {
-      const lu = page.locator('[data-testid="level-up-popup"]');
-      if (await lu.isVisible().catch(() => false)) {
-        await lu.click();
-        await page.waitForTimeout(400);
-      } else break;
-    }
+    await dismissModals(page);
 
     // Wait for more combat animations
     for (let i = 0; i < 5; i++) {
@@ -435,6 +443,7 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     await page.screenshot({ path: 'screenshots/e2e/19b-after-enemy-turn.png' });
 
     // Hover a unit that likely took damage
+    await dismissModals(page);
     await page.hover('[data-testid="tile-9-7"]');
     await page.waitForTimeout(400);
     await page.screenshot({ path: 'screenshots/e2e/19c-damaged-unit.png' });
@@ -452,9 +461,9 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     await page.click('[data-testid="action-wait"]');
     await page.waitForTimeout(200);
 
-    // Move Mirelle close but safe (14,11 → 14,9)
-    await clickTile(page, 14, 11);
-    await clickTile(page, 14, 9);
+    // Move Mirelle close but safe (12,11 → 12,9)
+    await clickTile(page, 12, 11);
+    await clickTile(page, 12, 9);
     await page.waitForTimeout(200);
     await page.click('[data-testid="action-wait"]');
     await page.waitForTimeout(200);
@@ -463,7 +472,7 @@ test.describe('Screenshot Report — Combat (enemy advances first)', () => {
     await endTurnAndWait(page);
 
     // Turn 2: Try to heal Akira with Mirelle
-    await clickTile(page, 14, 9);
+    await clickTile(page, 12, 9);
     await page.waitForTimeout(200);
     // Move Mirelle adjacent to where Akira might be
     await clickTile(page, 13, 8);

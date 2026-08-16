@@ -8,8 +8,8 @@ test.describe('Right-Click Unit Detail', () => {
   });
 
   test('right-click player unit during idle opens detail modal', async ({ page }) => {
-    // Right-click Shigeru at (10, 10)
-    await page.click('[data-testid="tile-10-10"]', { button: 'right' });
+    // Right-click Shigeru at (11, 10)
+    await page.click('[data-testid="tile-11-10"]', { button: 'right' });
     await page.waitForTimeout(200);
 
     const detail = page.locator('[data-testid="unit-detail-screen"]');
@@ -23,7 +23,7 @@ test.describe('Right-Click Unit Detail', () => {
 
   test('right-click enemy unit during idle opens detail modal', async ({ page }) => {
     // Right-click enemy fighter at (11, 4)
-    await page.click('[data-testid="tile-11-4"]', { button: 'right' });
+    await page.click('[data-testid="tile-12-7"]', { button: 'right' });
     await page.waitForTimeout(200);
 
     const detail = page.locator('[data-testid="unit-detail-screen"]');
@@ -46,15 +46,15 @@ test.describe('Right-Click Unit Detail', () => {
 
   test('right-click during move selection cancels action', async ({ page }) => {
     // Select Shigeru to enter move_target phase
-    await page.click('[data-testid="tile-10-10"]');
+    await page.click('[data-testid="tile-11-10"]');
     await page.waitForTimeout(200);
 
     // Move range should be visible
-    const moveRange = page.locator('[data-testid="move-range-9-10"]');
+    const moveRange = page.locator('[data-testid="move-range-10-10"]');
     await expect(moveRange).toBeVisible();
 
     // Right-click to cancel
-    await page.click('[data-testid="tile-10-10"]', { button: 'right' });
+    await page.click('[data-testid="tile-11-10"]', { button: 'right' });
     await page.waitForTimeout(200);
 
     // Should be back to idle — move range gone

@@ -8,8 +8,8 @@ test.describe('Hover Range Preview', () => {
   });
 
   test('hovering a player unit shows movement and attack range overlay', async ({ page }) => {
-    // Hover over Shigeru at (10, 10) — Lord class, mov=5
-    await page.hover('[data-testid="tile-10-10"]');
+    // Hover over Shigeru at (11, 10) — Lord class, mov=5
+    await page.hover('[data-testid="tile-11-10"]');
     await page.waitForTimeout(200);
 
     // Hover range overlay should appear
@@ -19,7 +19,7 @@ test.describe('Hover Range Preview', () => {
 
   test('hovering empty tile clears hover range', async ({ page }) => {
     // First hover a unit
-    await page.hover('[data-testid="tile-10-10"]');
+    await page.hover('[data-testid="tile-11-10"]');
     await page.waitForTimeout(200);
 
     const hoverOverlay = page.locator('[data-testid="hover-range-overlay"]');
@@ -35,18 +35,18 @@ test.describe('Hover Range Preview', () => {
 
   test('hover range disappears when unit is selected', async ({ page }) => {
     // Hover Shigeru
-    await page.hover('[data-testid="tile-10-10"]');
+    await page.hover('[data-testid="tile-11-10"]');
     await page.waitForTimeout(200);
 
     const hoverOverlay = page.locator('[data-testid="hover-range-overlay"]');
     await expect(hoverOverlay).toBeVisible();
 
     // Click to select — should switch to selection range, hover range clears
-    await page.click('[data-testid="tile-10-10"]');
+    await page.click('[data-testid="tile-11-10"]');
     await page.waitForTimeout(200);
 
     // Selection range should be visible instead
-    const moveRange = page.locator('[data-testid="move-range-9-10"]');
+    const moveRange = page.locator('[data-testid="move-range-10-10"]');
     await expect(moveRange).toBeVisible();
 
     // Hover overlay should be gone

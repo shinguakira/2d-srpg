@@ -50,14 +50,14 @@ test.describe('Debug Screen Screenshots', () => {
     await page.screenshot({ path: 'screenshots/debug/05-mirelle-detail.png' });
   });
 
-  test('06 - Enemy unit detail (Bone - Boss)', async ({ page }) => {
+  test('06 - Enemy unit detail (Hagen - Boss)', async ({ page }) => {
     await page.goto('/');
     await page.waitForSelector('[data-testid="title-screen"]', { timeout: 10000 });
     await page.click('[data-testid="debug-btn"]');
     await page.waitForSelector('[data-testid="debug-screen"]', { timeout: 5000 });
-    await page.click('[data-testid="debug-unit-bone"]');
+    await page.click('[data-testid="debug-unit-hagen"]');
     await page.waitForTimeout(200);
-    await page.screenshot({ path: 'screenshots/debug/06-bone-detail.png' });
+    await page.screenshot({ path: 'screenshots/debug/06-hagen-detail.png' });
   });
 
   test('07 - Weapons tab with icons', async ({ page }) => {

@@ -55,10 +55,10 @@ export const CHAPTER_1: ChapterData = {
     { unitId: 'gareth', position: { x: 3, y: 9 } },
   ],
   enemyUnits: [
-    // One brigand on each route so neither crossing is free, the lance in the
-    // middle where Gareth will reach it around turn 3 (his weapon-triangle
-    // lesson), and Hagen alone behind the gate.
-    { unitId: 'fighter_1', position: { x: 7, y: 5 } },
+    // One brigand has already crossed and is on the party's bank, so the first
+    // fight happens on turn 1 instead of after two turns of walking — the river
+    // decision should cost you something, not just delay you.
+    { unitId: 'fighter_1', position: { x: 12, y: 7 } },
     { unitId: 'soldier_1', position: { x: 12, y: 4 } },
     { unitId: 'fighter_3', position: { x: 17, y: 4 } },
     { unitId: 'hagen', position: { x: 11, y: 1 } }, // boss on throne

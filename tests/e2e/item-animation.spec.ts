@@ -9,14 +9,14 @@ test.describe('Item Usage Animation', () => {
 
   test('using vulnerary on damaged unit shows item animation', async ({ page }) => {
     // Step 1: Attack with Akira to take counter damage
-    // Akira (cavalier, mov=7) at (13, 10) → move to (11, 5) adjacent to fighter_3 at (11, 4)
+    // Akira (cavalier, mov=7) at (13, 10) → move to (12, 8) adjacent to fighter_1 at (12, 7)
     await page.click('[data-testid="tile-13-10"]');
     await page.waitForTimeout(200);
-    await page.click('[data-testid="tile-11-5"]');
+    await page.click('[data-testid="tile-12-8"]');
     await page.waitForTimeout(200);
     await page.click('[data-testid="action-attack"]');
     await page.waitForTimeout(200);
-    await page.click('[data-testid="tile-11-4"]');
+    await page.click('[data-testid="tile-12-7"]');
     await page.waitForTimeout(500);
 
     // Wait for combat animation to finish
@@ -34,19 +34,19 @@ test.describe('Item Usage Animation', () => {
     }
 
     // End turn — all other units wait in place (or end turn button)
-    await page.click('[data-testid="end-turn-btn"]');
+    await page.click('[data-testid="end-turn-button"]');
     await page.waitForTimeout(500);
 
     // Wait for enemy phase to complete and player phase to start again
     await expect(page.locator('[data-testid="phase-banner"]')).not.toBeVisible({ timeout: 15000 });
     await page.waitForTimeout(1000);
 
-    // Step 3: Select Akira (now at 11, 5 after previous move) — should be damaged
-    await page.click('[data-testid="tile-11-5"]');
+    // Step 3: Select Akira (now at 12, 8 after previous move) — should be damaged
+    await page.click('[data-testid="tile-12-8"]');
     await page.waitForTimeout(200);
 
     // Click same tile to move in place
-    await page.click('[data-testid="tile-11-5"]');
+    await page.click('[data-testid="tile-12-8"]');
     await page.waitForTimeout(200);
 
     // Step 4: Use Item → Vulnerary

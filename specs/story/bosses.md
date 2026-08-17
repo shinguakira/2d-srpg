@@ -108,3 +108,25 @@ plus blight-born monsters that get less human as the party goes west.
   (`takeshiSpared` → *The Fourth Flame*).
 - **Ch10 appearance**: unarmed, alone, asks for the Flamebrand, is refused, and walks
   away. Nobody raises a bow, and afterwards none of them can say why.
+
+---
+
+## Post-campaign — Akira ★★★ *(hidden final boss)*
+
+The one companion the campaign promises will not leave. Fought after the credits,
+as post-game content, and reached by playing for it rather than by finishing.
+
+What is decided:
+
+- It is **Akira**, and the fight is the last thing in the game.
+- He looks **wrong**. Through the campaign he is white-haired; here his hair is
+  black and he is dressed in a plain modern suit, a red and black tie at his
+  throat, unshaven. Nothing else in this world dresses like that, and the player
+  is meant to notice before a word is said.
+- Art exists: `src/assets/portraits/akira-secret-boss.png`. It is deliberately
+  not wired into the game — nothing reads it yet.
+
+What is not decided: how the fight is unlocked, what he says, why he is like
+that, and whether the campaign is allowed to foreshadow it. See
+[characters.md](characters.md) for the Akira the player spends the campaign
+with.

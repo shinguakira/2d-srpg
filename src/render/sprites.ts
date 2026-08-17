@@ -273,12 +273,13 @@ const SHEET_UNITS: Record<string, { url: string; clips: Record<Clip, SheetClip> 
  * 会話パートの立ち絵。マップのスプライトとは別物で、こちらは顔が顔として描ける
  * 大きさで一枚絵になっている（FE も分けている）。
  *
- * 絵は 128px の枠に収まっているが、枠いっぱいには描かれていない。`cx` は顔の
- * 中心の列、`bottom` は絵の下端の行、`height` は髪の先から下端までの高さ。この
- * 三つが無いと、枠を基準に置いたときに顔の位置が絵ごとにずれる。
+ * 絵は枠いっぱいには描かれていないことがあるので、寸法を絵ごとに持つ。`cx` は
+ * 顔の中心の列、`bottom` は絵の下端の行、`height` は髪の先から下端までの高さ。
+ * この三つが無いと、枠を基準に置いたときに顔の位置が絵ごとにずれる。
+ *
+ * 絵ごとに大きさが違ってよい。シゲルは 128px、アキラは 220px で、解像度も画風も
+ * 揃っていない。
  */
-const PORTRAIT_FRAME = 128;
-
 const PORTRAIT_UNITS: Record<string, { url: string; cx: number; bottom: number; height: number }> = {
   p_shigeru: { url: shigeruPortraitUrl, cx: 56.5, bottom: 128, height: 120 },
 };
@@ -608,14 +609,13 @@ function drawPortraitImage(
 
   // 枠ではなく絵の高さを h に合わせる。コードで描く立ち絵と背丈を揃えるため。
   const scale = h / def.height;
-  const size = PORTRAIT_FRAME * scale;
 
   ctx.save();
   if (dim) ctx.filter = 'brightness(0.42) saturate(0.65)';
   ctx.imageSmoothingEnabled = false;
   ctx.translate(cx, baseY - def.bottom * scale);
   if (facing < 0) ctx.scale(-1, 1);
-  ctx.drawImage(img, -def.cx * scale, 0, size, size);
+  ctx.drawImage(img, -def.cx * scale, 0, img.naturalWidth * scale, img.naturalHeight * scale);
   ctx.restore();
   return true;
 }

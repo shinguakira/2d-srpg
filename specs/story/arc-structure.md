@@ -126,8 +126,11 @@ in the uncut wood under Tateragyama.
 ## Post-campaign — the Upper Country
 
 North across the Cut: Mitake, the cold coasts, the watchtowers that look at the
-enemy shore. Optional maps at higher difficulty, no story dependency, and nothing
-there that the campaign requires the player to have seen.
+enemy shore. Optional maps at higher difficulty; the campaign never requires any
+of it.
+
+At the end of it is a **hidden final boss, and it is Akira** — the one companion
+the campaign guarantees will live. See [bosses.md](bosses.md#post-campaign--akira-hidden-final-boss).
 
 ---
 

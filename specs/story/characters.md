@@ -32,10 +32,13 @@ tonight because it is efficient."*
 
 Shigeru's sworn retainer since they were children. Formal to the point of comedy,
 completely immovable, and the only person who asks the prince how he is and waits
-for a real answer.
+for a real answer. **White-haired**, and young enough that people remark on it.
 
 He survives the whole campaign. That is deliberate: the companion who does not die
 is what makes Halvar's death land instead of feeling like a quota.
+
+He is also the **post-game hidden final boss**, black-haired and in a modern
+suit — see [bosses.md](bosses.md). Nothing in the campaign explains that yet.
 
 **Voice**: "my lord" in every other sentence, doctrine-first, dryly funny about it.
 

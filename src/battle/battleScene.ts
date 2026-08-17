@@ -1,6 +1,6 @@
 import type { BattleEvent, BattleResult, LevelUpResult } from './combat';
 import { maxHp, terrainAtPos } from './combat';
-import { drawUnitSprite } from '../render/sprites';
+import { drawUnitSprite, type Clip } from '../render/sprites';
 import { classOf } from '../data/classes';
 import type { Stats, Unit } from '../types';
 
@@ -234,6 +234,37 @@ export class BattleScene {
     return this.phase === 'done';
   }
 
+  /**
+   * この瞬間このユニットが再生すべきクリップと、その進行度。
+   *
+   * 時計ではなく演出の進行に紐づける。斬撃は踏み込みの途中で当たり、被弾は当たった
+   * 瞬間から始まる。時計で回すと剣を振り終わってから当たったりする。
+   */
+  private clipFor(unit: Unit): { clip: Clip; clipT: number } {
+    const dead = (unit === this.attacker ? this.aHp : this.dHp) <= 0;
+    if (dead) {
+      // 倒れる側は outro のあいだに崩れ落ちる
+      return { clip: 'die', clipT: Math.min(1, this.t / 0.7) };
+    }
+
+    if (this.phase !== 'strike') return { clip: 'idle', clipT: NaN };
+
+    const ev = this.currentEvent();
+    if (!ev) return { clip: 'idle', clipT: NaN };
+
+    const striker = ev.by === 'attacker' ? this.attacker : this.defender;
+    const windup = ev.crit ? 0.36 : 0.2;
+    const total = windup + 0.42;
+
+    if (unit === striker) {
+      return { clip: ev.crit ? 'crit' : 'attack', clipT: Math.min(1, this.t / total) };
+    }
+    // 受け側。外したなら回避、当たったなら被弾。どちらも当たる瞬間から始める。
+    if (this.t < windup) return { clip: 'idle', clipT: NaN };
+    const p = Math.min(1, (this.t - windup) / 0.42);
+    return { clip: ev.hit ? 'hit' : 'dodge', clipT: p };
+  }
+
   private drawSide(ctx: CanvasRenderingContext2D, unit: Unit, x: number, facing: number, dying: boolean, alive: number) {
     const active = this.phase === 'strike' && (this.lungeBy === 'attacker') === (unit === this.attacker);
     const lunge = active ? this.lunge : 0;
@@ -264,10 +295,13 @@ export class BattleScene {
     ctx.ellipse(px, GROUND_Y + 2, 96, 20, 0, 0, Math.PI * 2);
     ctx.stroke();
 
+    const anim = this.clipFor(unit);
     drawUnitSprite(ctx, unit, px, GROUND_Y, SPRITE, {
       facing,
       ground: false,
       bob: alive > 0 ? Math.sin(this.t * 4 + (facing > 0 ? 0 : 1)) * 4 : 0,
+      clip: anim.clip,
+      clipT: Number.isNaN(anim.clipT) ? undefined : anim.clipT,
     });
     ctx.restore();
   }

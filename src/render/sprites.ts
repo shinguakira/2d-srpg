@@ -217,6 +217,9 @@ function drawMonsterShape(ctx: CanvasRenderingContext2D, classId: string, cx: nu
   ctx.fill();
 }
 
+/** シート持ちのユニットが再生できるアニメーション */
+export type Clip = 'idle' | 'walk' | 'attack' | 'crit' | 'dodge' | 'hit' | 'die';
+
 export interface SpriteOpts {
   /** 1 = 右向き, -1 = 左向き */
   facing?: number;
@@ -225,19 +228,46 @@ export interface SpriteOpts {
   showWeapon?: boolean;
   /** 足元の影とチームリングを描くか（戦闘画面では自前で描く） */
   ground?: boolean;
+  /** 再生するアニメーション。シートを持たないユニットでは無視される */
+  clip?: Clip;
+  /**
+   * クリップ内の進行度 0..1。攻撃や被弾のように「戦闘演出の進み方に合わせて
+   * コマを送りたい」ものは、時計ではなく演出側から位置を渡す。省略すると時計で
+   * 回るので、待機と歩行はこちらでよい。
+   */
+  clipT?: number;
 }
 
 /**
  * シゲルだけは実際に発注したスプライトを使う。
  *
- * 46 コマ 7 クリップの 1 枚シートで、PixelLab に登録したキャラから生成している
- * ので全コマが同じ絵。ここでは待機の 4 コマだけを回している。
+ * 84px 四方 46 コマの 1 枚シート。PixelLab に登録したキャラから生成しているので
+ * 全コマが同じ絵で、クリップ間で別人にならない。
  * 他のユニットはこのファイルがコードで描く（PoC のやり方をそのまま採用）。
  */
-const SHEET_UNITS: Record<string, { url: string; frames: [number, number]; fps: number }> = {
-  p_shigeru: { url: shigeruSheetUrl, frames: [0, 4], fps: 6 },
-};
 const SHEET_FRAME = 84;
+
+interface SheetClip {
+  /** 開始コマとコマ数 */
+  at: [number, number];
+  fps: number;
+  loop: boolean;
+}
+
+const SHIGERU_CLIPS: Record<Clip, SheetClip> = {
+  idle: { at: [0, 4], fps: 6, loop: true },
+  walk: { at: [4, 9], fps: 10, loop: true },
+  attack: { at: [13, 7], fps: 12, loop: false },
+  crit: { at: [20, 9], fps: 14, loop: false },
+  dodge: { at: [29, 5], fps: 12, loop: false },
+  hit: { at: [34, 5], fps: 12, loop: false },
+  die: { at: [39, 7], fps: 8, loop: false },
+};
+
+const SHEET_UNITS: Record<string, { url: string; clips: Record<Clip, SheetClip> }> = {
+  p_shigeru: { url: shigeruSheetUrl, clips: SHIGERU_CLIPS },
+};
+
 const sheetImages = new Map<string, HTMLImageElement>();
 
 function sheetImage(url: string): HTMLImageElement | undefined {
@@ -251,14 +281,31 @@ function sheetImage(url: string): HTMLImageElement | undefined {
 }
 
 /** シート持ちのユニットを描く。まだ読み込めていなければ false を返す */
-function drawFromSheet(ctx: CanvasRenderingContext2D, u: Unit, cx: number, cy: number, s: number, facing: number): boolean {
+function drawFromSheet(
+  ctx: CanvasRenderingContext2D,
+  u: Unit,
+  cx: number,
+  cy: number,
+  s: number,
+  facing: number,
+  opts: SpriteOpts,
+): boolean {
   const def = SHEET_UNITS[u.id];
   if (!def) return false;
   const img = sheetImage(def.url);
   if (!img) return false;
 
-  const [from, count] = def.frames;
-  const frame = from + (Math.floor(performance.now() / (1000 / def.fps)) % count);
+  const clip = def.clips[opts.clip ?? 'idle'];
+  const [from, count] = clip.at;
+  let step: number;
+  if (opts.clipT === undefined) {
+    step = Math.floor(performance.now() / (1000 / clip.fps));
+  } else {
+    step = Math.floor(opts.clipT * count);
+  }
+  // ループしないクリップは最後のコマで止める。死亡が待機に戻ってしまうのが
+  // 一番目につく。
+  const frame = from + (clip.loop ? step % count : Math.min(count - 1, Math.max(0, step)));
   // 84px の枠に 57px の絵。枠ではなく絵の高さで合わせないと、他のユニットと
   // 背丈が揃わない。
   const scale = (s * 1.35) / SHEET_FRAME;
@@ -299,7 +346,7 @@ export function drawUnitSprite(ctx: CanvasRenderingContext2D, u: Unit, cx: numbe
 
   const top = cy - bob;
 
-  if (drawFromSheet(ctx, u, cx, top, s, facing)) {
+  if (drawFromSheet(ctx, u, cx, top, s, facing, opts)) {
     ctx.restore();
     return;
   }

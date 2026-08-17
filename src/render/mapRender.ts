@@ -267,7 +267,16 @@ function drawUnits(ctx: CanvasRenderingContext2D, g: Game, time: number) {
       ctx.restore();
     }
 
-    drawUnitSprite(ctx, u, cx, cy, TILE * 1.12, { acted: u.acted && u.team === 'player', bob });
+    // 歩いているのはひとりだけ。歩行クリップを持つユニットはそれを再生する。
+    const clip = g.walk?.unit === u ? 'walk' : 'idle';
+    // 移動中は進行方向を向く。マップは正面向きの絵なので左右の反転だけ。
+    const facing = g.walk?.unit === u && u.px !== u.x ? (u.x > u.px ? 1 : -1) : undefined;
+    drawUnitSprite(ctx, u, cx, cy, TILE * 1.12, {
+      acted: u.acted && u.team === 'player',
+      bob,
+      clip,
+      facing,
+    });
 
     const bw = TILE * 0.6;
     drawHpBar(ctx, cx - bw / 2, OY + u.py * TILE + TILE - 5, bw, 3, u.hp, maxHp(u));

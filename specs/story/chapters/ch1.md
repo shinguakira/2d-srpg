@@ -1,7 +1,7 @@
 # Chapter 1: The Road to Kuta
 
-Exact dialogue lives in `src/data/chapters/chapter1.ts`. This file is the design
-intent behind it.
+Chapter 1 is the only chapter implemented. Its script is in `src/story/script.ts`,
+recast onto the ported game's roster; this file is the design intent behind it.
 
 ## Summary
 

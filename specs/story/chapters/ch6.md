@@ -1,6 +1,6 @@
 # Chapter 6: The Harbour at Kechi
 
-Exact dialogue lives in `src/data/chapters/chapter6.ts`.
+Not implemented.
 
 ## Summary
 

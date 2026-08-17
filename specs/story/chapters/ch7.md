@@ -1,6 +1,6 @@
 # Chapter 7: What the Wall Held
 
-Exact dialogue lives in `src/data/chapters/chapter7.ts`.
+Not implemented.
 
 ## Summary
 

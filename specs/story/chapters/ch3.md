@@ -1,6 +1,6 @@
 # Chapter 3: The Shiine Hills
 
-Exact dialogue lives in `src/data/chapters/chapter3.ts`.
+Not implemented.
 
 ## Summary
 

@@ -1,6 +1,6 @@
 # Chapter 2: The Sasu Crossing
 
-Exact dialogue lives in `src/data/chapters/chapter2.ts`.
+Not implemented.
 
 ## Summary
 

@@ -1,6 +1,6 @@
 # Chapter 5: Kaneda, Above the Clouds
 
-Exact dialogue lives in `src/data/chapters/chapter5.ts`.
+Not implemented.
 
 ## Summary
 

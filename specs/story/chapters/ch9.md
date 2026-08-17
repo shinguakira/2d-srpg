@@ -1,6 +1,6 @@
 # Chapter 9: The Empty Place
 
-Exact dialogue lives in `src/data/chapters/chapter9.ts`.
+Not implemented.
 
 ## Summary
 

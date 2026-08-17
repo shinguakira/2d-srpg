@@ -1,6 +1,8 @@
 # Chapter 8: The Last Stand on Yatate
 
-Exact dialogue lives in `src/data/chapters/chapter8.ts`. **Halvar dies here.** This
+Not implemented.
+
+**Halvar dies here.** This
 is the campaign's turning point and the chapter everything before it is building
 toward.
 

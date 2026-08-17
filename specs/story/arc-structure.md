@@ -133,7 +133,7 @@ there that the campaign requires the player to have seen.
 
 ## Endings
 
-Evaluated in `src/core/endings.ts`.
+Evaluated in a scoring pass that does not exist yet.
 
 | Ending | Condition | Title |
 |---|---|---|

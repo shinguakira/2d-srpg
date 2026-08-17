@@ -1,6 +1,6 @@
 # Chapter 4: The Cape of Tsutsu
 
-Exact dialogue lives in `src/data/chapters/chapter4.ts`.
+Not implemented.
 
 ## Summary
 

@@ -72,9 +72,18 @@ are kept deliberately and are **not wired into the renderer yet**.
 `tools/sprites/` is the PixelLab client. `reference/shigeru.png` is the one
 approved standing frame; see `AGENTS.md` before touching any of it.
 
-## Story
+## Specs
 
-`specs/story/` still describes the Tsushima campaign — Shigeru, Akira, Takeshi,
-25 chapters. **The ported game does not implement any of it**: it ships the
-PoC's single chapter with the FE8 cast. The specs are kept as the design target,
-not as a description of the code.
+**`specs/systems/`** documents how the game actually works, written from the
+code — combat arithmetic, the unit model, supports, terrain and the turn, and
+the presentation layer. Keep it true to the code; it is the reference, not a
+wish list.
+
+**`specs/story/`** is the Tsushima campaign: Shigeru, Akira, Takeshi, 25
+chapters. Only chapter 1's script and Shigeru himself are in the game. Read it
+as the design target, never as a description of the code.
+
+The `gameplay/`, `maps/`, `ui/`, `progression/` and `tasks/` folders documented
+the React implementation and were removed with it. So was `old/`, a frozen
+archive of an abandoned meta-fiction draft that the current story replaced. Git
+history has all of it.

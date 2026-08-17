@@ -1,30 +1,32 @@
 # Game Specs
 
-Design specifications for the 2D SRPG project.
-
 ## Structure
 
-- **story/** — Narrative, characters, chapter scripts
-- **gameplay/** — Combat, classes, weapons, items, AI, balance
-- **maps/** — Per-chapter map layouts, objectives, placements
-- **ui/** — HUD, animations, camera
-- **progression/** — Campaign flow, saves, preparation
-- **old/** — ⚠️ ARCHIVED SNAPSHOT. DO NOT DELETE. See below.
+- **systems/** — how the game actually works. Written from the code, kept true
+  to it.
+- **story/** — the narrative: world, characters, bosses, arc, 25 chapter
+  scripts. This is design intent, and most of it is **not implemented**.
 
-## ⚠️ WARNING: specs/old/ is READ-ONLY archive
+## systems/ describes the code; story/ describes the intent
 
-**NEVER delete `specs/old/` or any files inside it.**
+The game is a port of a Fire Emblem: The Sacred Stones PoC — TypeScript and
+Canvas 2D, one chapter, the PoC's cast. `systems/` documents that.
 
-This folder is a frozen snapshot of the specs at a point in time, kept for reference and diff comparison. It must NEVER be modified, renamed, moved, or deleted — by humans or AI agents.
+`story/` is the Tsushima campaign: Shigeru, Akira, Takeshi, twenty-five chapters
+across the island. Of it, only chapter 1's script and Shigeru himself are in the
+game. Everything else is a target, not a description. Do not read `story/` as an
+account of what the code does.
 
-- Do NOT "clean up" by removing old/
-- Do NOT merge old/ back into the main specs
-- Do NOT update files inside old/ to match current specs
-- If you need a new snapshot, create a new folder (e.g. `old-v2/`)
+The specs that used to sit here — `gameplay/`, `maps/`, `ui/`, `progression/`,
+`tasks/` — documented a React and Zustand implementation that no longer exists.
+`old/` held a frozen archive of an earlier draft in which the world was openly a
+game running on its 347th reset, with a different cast entirely; the current
+story replaced it outright. All of it was removed rather than left to rot, on
+the owner's instruction. Git history has every file.
 
 ## Conventions
 
 - Keep files under 150 lines to stay context-friendly
 - One topic per file — split if it grows too large
 - Use tables for stat blocks
-- Reference code paths where relevant (e.g. `src/core/combat.ts`)
+- Reference code paths where relevant (e.g. `src/battle/combat.ts`)

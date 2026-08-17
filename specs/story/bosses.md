@@ -118,11 +118,20 @@ as post-game content, and reached by playing for it rather than by finishing.
 
 What is decided:
 
-- It is **Akira**, and the fight is the last thing in the game.
+- It is **Akira** — the old retainer the player has called ジェイガン for
+  twenty-five chapters, whose real name is not spoken once in the campaign. This
+  fight is where the name arrives, and the fight is the last thing in the game.
 - He looks **wrong**. Through the campaign he is white-haired; here his hair is
   black and he is dressed in a plain modern suit, a red and black tie at his
   throat, unshaven. Nothing else in this world dresses like that, and the player
   is meant to notice before a word is said.
+- He is **young here, and everything else follows from that**. This — Akira in
+  his twenties, black-haired, unlined — is the fixed point. He is an old man
+  through the whole campaign *because* he is young at the end. That is his
+  special property as a character, it is deliberate, and it is the reason the
+  age gap exists at all. It is not two commissions that drifted, and nobody is
+  to tidy it away by ageing this portrait or de-ageing the other one.
+- What the property actually is, and how the game says so, is not written.
 - Art exists: `src/assets/portraits/akira-secret-boss.png`. It is deliberately
   not wired into the game — nothing reads it yet.
 

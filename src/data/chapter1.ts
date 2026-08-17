@@ -83,8 +83,8 @@ const PLAYERS: Seed[] = [
     seals: 1,
   },
   {
-    id: 'p_seth',
-    name: 'ゼス',
+    id: 'p_akira',
+    name: 'ジェイガン',
     classId: 'cavalier',
     level: 4,
     x: 10,

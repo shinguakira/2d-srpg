@@ -43,7 +43,7 @@ chapter is playable and speaks the right beats under other names:
 | This file | `src/story/script.ts` |
 |---|---|
 | Shigeru | シゲル `p_shigeru` |
-| Akira | ゼス `p_seth` |
+| **Akira** | **ジェイガン `p_akira`** — renamed off the PoC's ゼス, and he has his portrait. The name plate says ジェイガン because that is the alias he uses in the campaign |
 | Lisette | テオ `p_teo` |
 | Mirelle | ミナ `p_mina` |
 | Gareth | ガロン `p_garon` |

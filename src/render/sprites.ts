@@ -1,6 +1,7 @@
 import { classOf } from '../data/classes';
 import { battleWeapon, equippedWeapon } from '../battle/combat';
 import type { Unit, WeaponType } from '../types';
+import akiraPortraitUrl from '../assets/portraits/akira.png';
 import shigeruPortraitUrl from '../assets/portraits/shigeru.png';
 import shigeruSheetUrl from '../assets/sprites/shigeru-sheet.png';
 
@@ -282,6 +283,9 @@ const SHEET_UNITS: Record<string, { url: string; clips: Record<Clip, SheetClip> 
  */
 const PORTRAIT_UNITS: Record<string, { url: string; cx: number; bottom: number; height: number }> = {
   p_shigeru: { url: shigeruPortraitUrl, cx: 56.5, bottom: 128, height: 120 },
+  // 本編では「ジェイガン」と名乗る。id が本名なのは、絵と仕様書を辿れるように
+  // するため（specs/story/characters.md）
+  p_akira: { url: akiraPortraitUrl, cx: 112, bottom: 220, height: 220 },
 };
 
 const sheetImages = new Map<string, HTMLImageElement>();

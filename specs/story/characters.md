@@ -30,9 +30,21 @@ tonight because it is efficient."*
 
 ## Akira — Cavalier
 
-Shigeru's sworn retainer since they were children. Formal to the point of comedy,
+**In the campaign he is called ジェイガン, and that is not his name.** Nobody says
+"Akira" — not Shigeru, not the script, not the name plate. The player learns it in
+the post-game from the young man at the end. `p_akira` is only the unit id, and
+is never shown.
+
+Sworn to Shigeru since they were children. Formal to the point of comedy,
 completely immovable, and the only person who asks the prince how he is and waits
-for a real answer. **White-haired**, and young enough that people remark on it.
+for a real answer.
+
+**He is an old man** — white-haired, lined, greying — and that is not ordinary
+ageing. Akira does not run through time the way the rest of the cast does: the
+young Akira at the very end of the game is the fixed point, and the old man
+beside Shigeru in chapter 1 follows from it. Do not explain it with a normal
+biography and do not write him as an old family servant — he and Shigeru grew up
+together and he looks like this anyway. See [bosses.md](bosses.md).
 
 He survives the whole campaign. That is deliberate: the companion who does not die
 is what makes Halvar's death land instead of feeling like a quota.

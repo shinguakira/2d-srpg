@@ -178,7 +178,7 @@ let frozen = false;
   if (dev) {
     const pick = (name: string) => game.units.find((u) => u.name === name)!;
     if (dev === 'move') {
-      const u = pick('ゼス');
+      const u = pick('ジェイガン');
       game.cursor = { x: u.x, y: u.y };
       game.confirm();
       game.cursor = { x: u.x + 3, y: u.y - 4 };
@@ -243,9 +243,9 @@ let frozen = false;
       for (let k = 0; k < 2; k++) game.dialogue?.advance();
     }
     if (dev === 'support') {
-      // シゲルとゼスの支援会話（C）
+      // シゲルとアキラの支援会話（C）
       const a = pick('シゲル');
-      const b = pick('ゼス');
+      const b = pick('ジェイガン');
       for (const u of [a, b]) {
         const link = u.supports.find((s) => s.with === (u === a ? b.id : a.id));
         if (link) link.points = 100;

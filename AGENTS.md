@@ -38,5 +38,6 @@ size — not the number of calls.
 ## Never delete
 
 - `specs/old/` — frozen archive, read-only.
-- Any `src/assets/sprites/*.png` the game imports. Some cannot be regenerated.
-  Check `spriteSheetConfig.ts` and `generatedSheets.ts` first.
+- `src/assets/sprites/*.png` and `tools/sprites/reference/`. Nothing in the
+  renderer reads them today — `src/render/sprites.ts` draws characters in code —
+  but they were commissioned and approved, and several cannot be regenerated.

@@ -1,13 +1,9 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 140,
   "singleQuote": true,
-  "ignorePatterns": [
-    "/dist",
-    "/public",
-    "/screenshots",
-    "/test-results",
-    "/specs",
-    "/.claude",
-    "*.md"
-  ]
+  "semi": true,
+  "trailingComma": "all",
+  "//": "Markdown は表の桁揃えが全角文字を 1 桁と数えて崩れるため対象外にする",
+  "ignorePatterns": ["dist", "**/*.md"]
 }

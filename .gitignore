@@ -23,10 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# Raw generator output. Only what import.mjs writes into src/assets belongs in
-# the repo; everything upstream of that is re-runnable.
+# Raw generator output — only approved art is committed.
 tools/sprites/out/
 
-# Playwright failure artifacts
-test-results/
-playwright-report/

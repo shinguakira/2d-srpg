@@ -1,9 +1,4 @@
 {
-  "$schema": "./node_modules/knip/schema.json",
-  "entry": [
-    "tests/**/*.{test,spec}.ts",
-    "tools/sprites/import.mjs",
-    "tools/sprites/pixellab.mjs"
-  ],
-  "project": ["src/**/*.{ts,tsx}", "tests/**/*.ts", "tools/**/*.mjs"]
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "project": ["src/**/*.ts"]
 }

@@ -1,28 +1,41 @@
-/**
- * Seeded pseudo-random number generator.
- * Uses a linear congruential generator for deterministic results.
- * All game randomness must go through this — no Math.random() calls.
- */
-export class SeededRandom {
-  private seed: number;
+/** 再現性のある乱数（xorshift32） */
+class Rng {
+  private s: number;
 
-  constructor(seed: number) {
-    this.seed = seed;
+  constructor(seed = 20260817) {
+    this.s = seed >>> 0 || 1;
   }
 
-  /** Returns a float in [0, 1) */
   next(): number {
-    this.seed = (this.seed * 9301 + 49297) % 233280;
-    return this.seed / 233280;
+    let x = this.s;
+    x ^= x << 13;
+    x >>>= 0;
+    x ^= x >>> 17;
+    x ^= x << 5;
+    x >>>= 0;
+    this.s = x;
+    return x / 0x100000000;
   }
 
-  /** Returns an integer in [min, max] inclusive */
-  nextInt(min: number, max: number): number {
-    return Math.floor(this.next() * (max - min + 1)) + min;
+  /** 0..99 */
+  roll(): number {
+    return Math.floor(this.next() * 100);
   }
 
-  /** Returns true with the given probability (0-100) */
-  roll(percent: number): boolean {
-    return this.next() * 100 < percent;
+  /** FE準拠の 2RN 命中判定（表示命中より体感命中が高くなる） */
+  hitCheck(displayed: number): boolean {
+    if (displayed >= 100) return true;
+    if (displayed <= 0) return false;
+    const avg = (this.roll() + this.roll()) / 2;
+    return avg < displayed;
+  }
+
+  /** 1RN 判定（必殺・成長率） */
+  check(rate: number): boolean {
+    if (rate <= 0) return false;
+    if (rate >= 100) return true;
+    return this.roll() < rate;
   }
 }
+
+export const rng = new Rng(Math.floor(Math.random() * 0xffffffff));

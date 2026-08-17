@@ -1,51 +1,227 @@
-# 2D SRPG — Fire Emblem-Style Tactical RPG
+# FE 聖魔の光石風 2D SRPG — PoC
 
-![Battle Map](screenshots/e2e/07-battle-map.png)
-
-A Fire Emblem-inspired tactical strategy RPG built with **React 18 + TypeScript + Vite**. DOM-only rendering (no canvas) for full E2E testability.
-
-## Features
-
-- **Tactical grid combat** — movement ranges, attack ranges, danger zones
-- **Weapon triangle** — swords > axes > lances > swords, magic triangle
-- **GBA-style battle animations** — dash-across choreography, critical hit pauses, dodge leaps
-- **Enemy AI** — aggressive, stationary, guard, and boss behaviors
-- **Full campaign** — multiple chapters, reinforcements, seize objectives
-- **RPG progression** — EXP, level-ups with stat growths, permadeath
-- **Staff healing & consumable items**
-- **Terrain effects** — forests, forts, throne with defense/avoid bonuses
-- **Seeded RNG** — deterministic gameplay via `?seed=` URL param
-
-## Quick Start
+『ファイアーエムブレム 聖魔の光石』(GBA) の戦闘システムと会話パートを再現した
+2D シミュレーション RPG の PoC。TypeScript + Canvas 2D のみ。エンジンも画像アセットも使っていない
+（キャラクターの立ち絵・マップチップはすべてコードで描画）。
 
 ```bash
-npm install
-npm run dev          # Dev server at localhost:5173
-npm run build        # Production build
-npx vitest run       # Unit tests
-npx playwright test  # E2E tests (needs dev server)
+pnpm install
+pnpm dev      # http://localhost:5183
 ```
 
-## Tech Stack
+### 開発コマンド
 
-- **React 18** — functional components + hooks
-- **TypeScript** — strict mode
-- **Vite** — dev server + bundler
-- **Zustand** — state management (3 stores: game, UI, campaign)
-- **Vitest** — unit tests for core game logic
-- **Playwright** — E2E tests with screenshot capture
-- **SVG sprites** — all art generated inline, no external assets
+| コマンド | 内容 |
+| --- | --- |
+| `pnpm build` | 型チェック + 本番ビルド |
+| `pnpm lint` / `pnpm lint:fix` | oxlint（`--fix` で自動修正） |
+| `pnpm format` / `pnpm format:check` | oxfmt |
+| `pnpm knip` | 未使用のファイル・エクスポート・依存の検出 |
+| `pnpm check` | tsc → oxlint → oxfmt --check → knip をまとめて実行 |
 
-## Architecture
+設定は `.oxlintrc.json` / `.oxfmtrc.json` / `knip.json`。
+oxfmt は Markdown を対象外にしている（表の桁揃えが全角文字を 1 桁と数えて崩れるため）。
+
+## 操作
+
+| キー | 動作 |
+| --- | --- |
+| ↑↓←→ / WASD / マウス移動 | カーソル |
+| Z / Enter / 左クリック | 決定（ユニット選択 → 移動先 → コマンド → 対象）／会話送り |
+| X / Esc / 右クリック | キャンセル（移動前の位置に戻る）／会話の早送り |
+| T | 敵の攻撃範囲（危険地帯）の表示切替 |
+| E | 自軍フェイズを終了 |
+| R | リスタート |
+
+勝利条件は敵の全滅、敗北条件はエイリーク（ロード）の死亡。
+
+---
+
+## 戦闘計算（`src/battle/combat.ts`）
+
+| 項目 | 式 |
+| --- | --- |
+| 攻撃 | `力（魔法なら魔力） + 威力 + 三すくみ(±1) + 支援(攻)` |
+| ダメージ | `攻撃 - (守備 or 魔防 + 地形の守備 + 支援(守))`（最低 0） |
+| 命中 | `武器命中 + 技×2 + 幸運÷2 + 三すくみ(±15) + 支援(命中)` |
+| 回避 | `攻速×2 + 幸運 + 地形の回避 + 支援(回避)` |
+| 表示命中 | `命中 - 回避` |
+| 必殺 | `武器必殺 + 技÷2 + クラス補正 + 支援(必殺) - 相手の幸運 - 支援(必殺回避)` |
+| 攻速 | `速さ - max(0, 重さ - 体格)` |
+| 追撃 | 攻速の差が 4 以上 |
+| 必殺ダメージ | 通常ダメージ × 3 |
+| 特効 | **武器の威力 × 3** |
+
+- **命中判定は 2RN**（乱数 2 回の平均）。表示 80% が体感 90% 台になる FE 特有の挙動まで再現。
+- **武器三すくみ**: 剣 > 斧 > 槍 > 剣（威力 ±1 / 命中 ±15）
+- **魔法三すくみ**: 理 > 光 > 闇 > 理
+- **攻撃順**: 攻撃 → 反撃 → 攻撃側の追撃 → 防御側の追撃。反撃は射程が届く場合のみ。
+- **経験値**: `(31 + 相手Lv - 自Lv) / 3`、撃破時は `+20 + Lv差×2`（ボス +40）。
+
+### 特効
+
+| 武器 | 特効対象 |
+| --- | --- |
+| レイピア | 重装・騎馬 |
+| アーマーキラー / ハンマー | 重装 |
+| ホースキラー | 騎馬 |
+| 弓 | 飛行 |
+| 光魔法・神聖武器 | 魔物 |
+
+司祭（クラスチェンジ先）はクラス固有で魔物特効を持つ。
+
+例: エイリークのレイピア（威力 5）でアーマージェネラルを攻撃すると威力が 15 として計算される。
+
+---
+
+## 支援システム（`src/battle/support.ts`）
+
+原作どおりの計算式で実装している。
+
+- 効果 = **`(自分の属性値 + 相手の属性値) × 支援ランク`**（C=1 / B=2 / A=3、小数切り捨て）
+- **支援相手が 3 マス以内**にいるときだけ発動
+- 友好度のしきい値は **C=81 / B=161 / A=241**、1 ユニットが持てる支援は合計 **5 段階**まで
+- 隣接した状態で自軍フェイズを迎えると友好度が上がり、しきい値を超えると
+  「支援」コマンドが出て**支援会話**が発生 → ランク確定
+
+属性ごとの寄与（1 ランクぶん）:
+
+| 属性 | 攻 | 守 | 命中 | 回避 | 必殺 | 必殺回避 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 火 | 0.5 | – | 2.5 | 2.5 | 2.5 | – |
+| 雷 | – | 0.5 | – | 2.5 | 2.5 | 2.5 |
+| 風 | 0.5 | – | 2.5 | – | 2.5 | 2.5 |
+| 氷 | – | 0.5 | 2.5 | 2.5 | – | 2.5 |
+| 闇 | – | – | 2.5 | 2.5 | 2.5 | 2.5 |
+| 光 | 0.5 | 0.5 | 2.5 | – | 2.5 | – |
+| 理 | 0.5 | 0.5 | – | 2.5 | – | 2.5 |
+
+例: 光のエイリークと理のゼスが支援 A なら、両者に `攻撃・守備 +3、命中・回避・必殺・必殺回避 +7`。
+
+> 原作の友好度上昇は隣接 1 ターンあたり +2〜4 だが、1 マップで完結する PoC のため
+> `SUPPORT_GAIN_PER_TURN = 28`（3 ターン隣接で C）に加速している。しきい値は原作のまま。
+
+---
+
+## 会話パート（`src/story/`）
+
+FE 風のテキストボックス（立ち絵 + 名前ウィンドウ + タイプライター表示）。
+
+| 種類 | 発生条件 |
+| --- | --- |
+| オープニング | ゲーム開始時 |
+| 支援会話 C/B/A | 隣接した支援ペアで「支援」コマンド |
+| 説得 | エイリークが傭兵ロウに隣接して「会話」→ **仲間になる** |
+| 戦闘前会話 | エイリークがボス・ヴァルガに隣接して「会話」→ ヴァルガの守備 −2 |
+| 死亡時のセリフ | ユニットが倒れたとき |
+| エンディング / 敗北 | 決着時 |
+
+立ち絵は `src/render/sprites.ts` の `drawPortrait()` がクラスの色・髪色から生成している。
+
+---
+
+## 武器レベル
+
+E → D → C → B → A → S。熟練度のしきい値は GBA 系準拠（D=31 / C=71 / B=121 / A=181 / S=251）。
+クラスごとに扱える武器種と上限ランクが決まっていて、ランクが足りない武器は装備できない。
+攻撃・杖の使用で熟練度が 1 ずつ上がる。
+
+## クラスチェンジ
+
+Lv10 以上でマスタープルフを使うと **2 択で上級職に分岐**（聖魔の光石の目玉）。
+
+| 下級職 | → |
+| --- | --- |
+| ソシアルナイト | パラディン / グレートナイト |
+| 戦士 | ウォーリア / バーサーカー |
+| アーチャー | スナイパー / レンジャー |
+| 魔道士 | 賢者 / マージナイト |
+| 僧侶 | 司祭 / ヴァルキュリア |
+| 修道士 | 司祭 / 賢者 |
+| ペガサスナイト | ファルコンナイト / 飛竜ナイト |
+
+## 魔物
+
+聖石の封印が緩んで湧いた個体として、屍兵・バエル（蜘蛛）・モーグル（眼球）・ガーゴイルを実装。
+バエルとモーグルは人型ではない専用スプライトで描画する。光魔法と神聖武器が特効。
+
+---
+
+## そのほか実装済みの要素
+
+- グリッドマップ、地形（平地/草原/道/林/山/水/砦/門）と守備・回避補正、砦の毎ターン回復
+- 移動タイプ別コスト（歩行 / 騎馬 / 飛行）。飛行は水と山を無視、騎馬は山に入れない
+- ダイクストラによる移動範囲、経路矢印、敵をすり抜けられない判定
+- 戦闘予測パネル（HP / 威力 / 命中 / 必殺 / 追撃 / 三すくみ / 特効 / 支援）
+- 戦闘アニメーション: 踏み込み、被弾フラッシュ、必殺時の画面シェイクと白フラッシュ、
+  ダメージ / MISS / 必殺 / 特効 のポップアップ、HP バーの補間、EXP バー、レベルアップウィンドウ
+- 敵 AI: 攻撃可能な全マス × 全対象を評価（期待ダメージ・撃破可否・反撃リスク・地形）して最善手を選ぶ。
+  `aggressive`（接近する） / `guard`（射程内に入るまで動かない） / `boss`（玉座から動かない）
+- 危険地帯表示（T キー）、待機 / 攻撃 / 杖 / 会話 / 支援 / 道具（武器の持ち替え・傷薬・マスタープルフ）
+
+## 構成
 
 ```
 src/
-  core/        Pure game logic (combat, pathfinding, AI, RNG) — zero React imports
-  data/        Static data (weapons, units, classes, chapters)
-  stores/      Zustand stores + action modules
-  components/  React UI layer (grid, units, combat, menus)
-  hooks/       Custom hooks (keyboard, camera, game loop)
-  styles/      CSS organized by component
+  main.ts                 入力・ループ・開発用シーン
+  types.ts
+  core/rng.ts             xorshift32 + 2RN 命中判定
+  core/grid.ts            移動範囲（ダイクストラ）・経路・射程
+  battle/combat.ts        ★戦闘計算（命中・ダメージ・追撃・反撃・特効・経験値）
+  battle/support.ts       ★支援システム（属性表・3マス判定・友好度）
+  battle/battleScene.ts   ★戦闘アニメーション演出
+  story/dialogue.ts       ★会話パートのエンジン（立ち絵・タイプライター）
+  story/script.ts         ★台本（オープニング / 支援 C・B・A / 説得 / 死亡 / エンディング）
+  game/game.ts            ステートマシン（選択→移動→コマンド→対象→戦闘／会話）
+  game/ai.ts              敵 AI と危険地帯計算
+  render/mapRender.ts     マップ・UI 描画
+  render/sprites.ts       プログラム生成のスプライトと立ち絵
+  data/                   地形・武器・クラス・マップ・ユニット定義
 ```
 
-See [CLAUDE.md](CLAUDE.md) for the full architecture guide.
+## 開発用 URL パラメータ
+
+スクリーンショットや演出確認のために、起動時の状態を作れる。
+
+```
+?dev=move            ユニット選択 + 移動範囲 + 危険地帯
+?dev=menu            移動後の行動メニュー
+?dev=target          戦闘予測パネル
+?dev=battle          戦闘アニメーション
+?dev=levelup         レベルアップ演出
+?dev=opening         オープニングの会話
+?dev=talk            説得の会話
+?dev=support         支援会話
+&adv=1.5             指定秒数だけ進めた状態で停止
+```
+
+（`?dev=` を付けるとオープニングの会話はスキップされる）
+
+## 調整するなら
+
+- ユニットの能力・属性・配置: `src/data/chapter1.ts`
+- 武器の威力・命中・必殺・射程・特効: `src/data/weapons.ts`
+- クラスの武器適性・クラスチェンジ先: `src/data/classes.ts`
+- 台本: `src/story/script.ts`
+- AI の評価関数: `src/game/ai.ts` の `evaluate()`
+
+## 絵づくりの方針
+
+GBA 系 FE の実画面を見て、次の特徴を取り込んでいる（画像は使わず、すべてコードで描画）。
+
+- **会話**: 枠なしの立ち絵が画面下端で切れ、クリーム色の吹き出し（茶色の縁＋話者へ伸びるしっぽ）に濃色のテキスト
+- **顔グラ**: 髪のシルエットを顔より大きく取り、毛先を尖らせる。目はアーモンド型で虹彩をまぶたで切り、
+  太い上まつげとハイライトを入れる
+- **UI**: 青灰グラデーションのウィンドウ＋明色の細枠。ラベルは金、数値は白の縁取り文字
+- **コマンドメニュー**: 上下に木のバーが付いた巻物風。選択カーソルは指差しの手
+- **戦闘画面**: 上隅に金枠の名前プレート、隅に 命中/威力/必殺 の小箱、HP は目盛り式ゲージ
+- **マップスプライト**: 2.5 頭身、暗色のアウトライン、受け光、武器を持つ腕
+
+## 参考にした資料
+
+- [支援効果 ‐ ファイアーエムブレム 聖魔の光石 | RRPG](https://rrpg.jp/fe_seima/support.html)
+- [Fire Emblem The Sacred Stones - Support system | Fire Emblem WoD](https://www.fireemblemwod.com/fe8/ENG_apoyo.htm)
+- [Supports / calculation | Serenes Forest](https://serenesforest.net/the-sacred-stones/characters/supports/calculation/)
+- [3すくみ - ファイアーエムブレム用語辞典](https://w.atwiki.jp/fedic/pages/82.html)
+- [クラスチェンジ ‐ ファイアーエムブレム 聖魔の光石 | RRPG](https://rrpg.jp/fe_seima/cc.html)
+- 絵づくりの参考（実画面の確認用）: [Fire Emblem: The Sacred Stones - Fire Emblem Wiki](https://fireemblemwiki.org/wiki/Fire_Emblem:_The_Sacred_Stones) ／ [Eirika/Gallery](https://fireemblemwiki.org/wiki/Eirika/Gallery)

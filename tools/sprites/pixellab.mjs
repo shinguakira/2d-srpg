@@ -104,9 +104,7 @@ const extraNegative = () => {
   return extra ? ', ' + extra : '';
 };
 
-const NEGATIVE =
-  'anti-aliasing, blur, glow, gradient, muted colors, desaturated, high resolution, ' +
-  'detailed face, chibi, super deformed';
+const NEGATIVE = 'anti-aliasing, blur, glow, gradient, muted colors, desaturated, high resolution, detailed face, chibi, super deformed';
 
 /** The constraints every sprite in this game has to satisfy. */
 function houseStyle(size) {
@@ -200,9 +198,7 @@ try {
       direction: arg('facing', 'south-east'),
       no_background: true,
       coverage_percentage: Number(arg('coverage', 95)),
-      negative_description:
-        'full body, legs, feet, tiny face, chibi, super deformed, blur, gradient, photorealistic' +
-        extraNegative(),
+      negative_description: 'full body, legs, feet, tiny face, chibi, super deformed, blur, gradient, photorealistic' + extraNegative(),
     };
     const res = ref
       ? await call('generate-image-bitforge', { ...body, style_image: image(sameSize(ref, size)) })

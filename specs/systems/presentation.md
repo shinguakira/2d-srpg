@@ -5,9 +5,18 @@ One `<canvas>` at 960×640, one frame loop in `src/main.ts`.
 
 ## Layout
 
-`TILE` 40, origin `(80, 40)`, so the board can be at most 22×15. Chapter 1 is
-20×14. A map larger than the ceiling will run off the canvas — there is no
-camera and no scrolling.
+`TILE` 40, origin `(80, 40)`, so the visible board is at most 22×15. Chapter 1
+is 20×14 and fits.
+
+**There is no camera.** A map larger than the window runs off the canvas, which
+is why chapter 1 was sized to fit rather than to the design.
+
+That is backwards and it blocks the campaign. `specs/story/chapter-scale.md`
+sizes chapters the way GBA Fire Emblem does — 20×14 rising to 34×24 — because
+those games scroll. **Nothing past Ch5 can be built until the camera exists**:
+scroll to follow the cursor, keep the selected unit in frame, clamp at the map
+edges, and convert screen to tile through the offset instead of the constant it
+uses now.
 
 ## Drawing
 

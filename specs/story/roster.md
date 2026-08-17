@@ -39,11 +39,16 @@ Master roster for the 25-chapter campaign. Units 1-12 are implemented in
 | Ch1 | 5 | `shigeru` (preparation skipped) |
 | Ch2 | 5 | `shigeru` |
 | Ch3 | 6 | `shigeru` |
-| Ch4 | 7 | `shigeru` |
-| Ch5-7 | 7 | `shigeru` |
-| Ch8 | 8 | `shigeru`, `halvar` — Halvar must be present for the corridor to be held |
-| Ch9 | 7 | `shigeru` |
-| Ch10 | 8 | `shigeru` |
+| Ch4-5 | 7 | `shigeru` |
+| Ch6-9 | 8 | `shigeru`; Ch8 also `halvar` — he must be present to hold the corridor |
+| Ch10 | 9 | `shigeru` |
+| Ch11-13 | 10 | `shigeru` |
+| Ch14-16 | 11 | `shigeru` |
+| Ch17-22, Ch25 | 12 | `shigeru` |
+| Ch23-24 | 16 | `shigeru` |
+
+See [chapter-scale.md](chapter-scale.md) for board sizes, enemy counts and
+reinforcements, and for why these numbers are shaped the way they are.
 
 ## Permadeath and scripted loss
 

@@ -5,7 +5,8 @@
 - **systems/** — how the game actually works. Written from the code, kept true
   to it.
 - **story/** — the narrative: world, characters, bosses, arc, 25 chapter
-  scripts. This is design intent, and most of it is **not implemented**.
+  scripts, and the scale each chapter is built to. This is design intent, and
+  most of it is **not implemented**.
 
 ## systems/ describes the code; story/ describes the intent
 

@@ -11,12 +11,13 @@ being a choice.
 
 ## Setup
 
-- **Map**: 16×18, harbour town, cliffs, two bridges, water channel
+- **Map**: 24×16, harbour town, cliffs, two bridges, water channel
 - **Objective**: Defeat Captain Aeryn
-- **Deploy**: 7 slots, `shigeru` forced
+- **Deploy**: 8 slots, `shigeru` forced
+- **Enemies**: 14
 - **Boss**: Captain Aeryn (pegasus knight, aggressive)
 - **Joins**: `corwin` (prologue), `nadine` (turn 4)
-- **Reinforcements**: turn 8 heavy cavalry ×4; turn 12 a full column ×6
+- **Reinforcements**: 3 on turns 3 and 6, heavy cavalry off the coast road
 - **Par**: 16 turns
 
 ## Beats
@@ -31,7 +32,7 @@ bay is running east and these are the only fools walking the other way.
 asks if she is one of theirs; Mirelle answers *"She is on the side of the hurt. I know
 that side."*
 
-**Turns 8 and 12 — the waves.** Mechanical pressure, not story: the chapter should
+**Turns 3 and 6 — the waves.** Mechanical pressure, not story: the chapter should
 feel like a fight the party wins by finishing on time rather than by killing
 everything.
 
@@ -41,7 +42,7 @@ twice, and the second report came back with her commission attached and a note
 telling her to fly lower. *"Then you are braver than my whole wing, boy, and I hope
 somebody writes it down."*
 
-She is written to be recruitable later (Arc 4, `tsubameRecruited`).
+She is written to be recruitable later (Arc 4, `aerynRecruited`).
 
 **Epilogue — why they fight.** Nadine asks why the Kurogane boy she treated is
 fighting at all. Corwin gives the cynic's answer; Halvar corrects him, and it is the

@@ -1,8 +1,13 @@
 # Characters
 
-The playable cast, in join order. Stats, classes and levels live in
-`src/data/units.ts` — this file is the writing brief. One rule holds for all of
-them: nobody knows they are in a game, and nobody talks like they do.
+The playable cast, in join order. This file is the writing brief; no stat block
+here has been written down in code yet. **Of this cast only Shigeru exists in the
+game** — the units in `src/data/chapter1.ts` are still the ported PoC's, and the
+chapter 1 script speaks their names. See [roster.md](roster.md) for how the two
+line up.
+
+One rule holds for all of them: nobody knows they are in a game, and nobody
+talks like they do.
 
 ## Shigeru — Lord (protagonist)
 
@@ -75,9 +80,9 @@ He is the veteran who knows how the enemy actually operates, and he uses that
 knowledge exactly once: in Ch8 he tells Shigeru what General Wulfram will do,
 volunteers to be the man in the corridor, and disobeys a direct order to stay.
 
-**Death**: scripted, Ch8 turn 13, after holding the south corridor alone for nine
-turns as an ally NPC. Sets `halvar_dead`; the campaign store removes him from the
-roster permanently and applies grief to everyone for two chapters.
+**Death**: scripted, Ch8 turn 13, after holding the south corridor alone from turn
+4 as an ally NPC — nine turns. He is off the roster for good afterwards, and the
+company fights the next two chapters at reduced stats.
 
 **Key line**: *"You will lose someone tonight either way. The only question you get
 to answer is whether it is somebody who chose it."*
@@ -123,9 +128,9 @@ before, on better people than her, and says so once, quietly, and then never aga
 
 ## NPCs
 
-- **Halvar (ally NPC)** — `halvar_npc`, Ch8 only, spawns when he takes the corridor.
-- **Elder Ilse** — `elder_ilse`, Ch10 protect target. Keeper of a four-hundred-year
-  village chronicle that records every time the Blackflame stirred.
+- **Halvar (ally NPC)** — Ch8 only, from turn 4 when he takes the corridor.
+- **Elder Ilse** — Ch10 protect target. Keeper of a four-hundred-year village
+  chronicle that records every time the Blackflame stirred.
 - **King Sadao** — Shigeru's father. Dies before Ch1. Refused Takeshi the Flamebrand
   four times.
 

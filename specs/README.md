@@ -18,12 +18,8 @@ across the island. Of it, only chapter 1's script and Shigeru himself are in the
 game. Everything else is a target, not a description. Do not read `story/` as an
 account of what the code does.
 
-The specs that used to sit here — `gameplay/`, `maps/`, `ui/`, `progression/`,
-`tasks/` — documented a React and Zustand implementation that no longer exists.
-`old/` held a frozen archive of an earlier draft in which the world was openly a
-game running on its 347th reset, with a different cast entirely; the current
-story replaced it outright. All of it was removed rather than left to rot, on
-the owner's instruction. Git history has every file.
+Everything that documented the deleted React implementation was removed with it.
+Git history has it.
 
 ## Conventions
 

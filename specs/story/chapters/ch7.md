@@ -11,11 +11,13 @@ like something that notices being measured.
 
 ## Setup
 
-- **Map**: 16×16, fortress interior, corridors, blighted north edge
+- **Map**: 24×18, fortress interior, corridors, blighted north edge
 - **Objective**: Survive 12 turns
-- **Deploy**: 7 slots, `shigeru` forced
+- **Deploy**: 8 slots, `shigeru` forced
+- **Enemies**: 15
 - **Optional boss**: Admiral Varro (stationary) — drops a Hero Crest
-- **Reinforcements**: revenant waves on turns 3, 5, 7, 9, out of the north wall
+- **Reinforcements**: revenant waves of 3 on turns 3, 5, 7 and 9, out of the
+  north wall
 
 ## Beats
 

@@ -25,15 +25,12 @@ The shape is: deployment roughly doubles across the campaign, reinforcement
 timer as the game goes on. Waves stay small — three or four — the whole way
 through. What changes is how often they come and from how many directions.
 
-## Sizes need a camera first
+## The window is 20×14; the map is not
 
-At `TILE` 40 on a 960×640 canvas the visible board is 22×15, and there is no
-camera or scrolling. Every size below past Arc 1 exceeds that.
-
-**This table is written for the game with a camera, not the one without it.**
-Nothing beyond Ch5 can be built until the camera exists. Sizing the campaign
-down to fit a missing feature would be the wrong way round — GBA Fire Emblem
-scrolls, and the maps are drawn at the size the chapter needs.
+The camera scrolls, so a chapter is drawn at the size it needs rather than the
+size that fits on screen. The window shows twenty tiles by fourteen and the
+board runs past it — see `specs/systems/presentation.md`. Only Ch1 and Ch2 fit
+without scrolling, and that is a property of those two chapters, not a limit.
 
 ## The table
 
@@ -61,7 +58,7 @@ defence; Ch10 is the arc's set-piece.
 | Ch | Title | Size | Deploy | Enemies | Reinforcements | Objective |
 |---|---|---|---|---|---|---|
 | 6 | The Harbour at Kechi | 24×16 | 8 | 14 | 3 on turns 3 and 6 | Defeat Captain Aeryn |
-| 7 | What the Wall Held | 24×18 | 8 | 15 | 4 on turn 5, 4 on turn 9 | Survive 12 turns |
+| 7 | What the Wall Held | 24×18 | 8 | 15 | 3 on turns 3, 5, 7, 9 | Survive 12 turns |
 | 8 | The Last Stand on Yatate | 26×18 | 8 | 16 | 3 per turn, turns 4-9, two edges | Defeat General Wulfram and seize |
 | 9 | The Empty Place | 24×16 | 8 | 12 | 3 on turn 6 | Rout |
 | 10 | The Sands of Komoda | 26×18 | 9 | 18 | 4 on turns 3, 6, 9 | Defeat Ezrin, protect Elder Ilse |

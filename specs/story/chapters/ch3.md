@@ -10,12 +10,13 @@ their first close look at blighted ground.
 
 ## Setup
 
-- **Map**: 25×12, rolling hills, forest belts, two forts (9,3) and (9,5)
+- **Map**: 22×15, rolling hills, forest belts, two hill forts
 - **Objective**: Rout
 - **Deploy**: 6 slots, `shigeru` forced
-- **Boss**: Captain Olrik, on the (9,5) fort
+- **Enemies**: 10
+- **Boss**: Captain Olrik, on the upper fort
 - **Recruitable**: `bryn`
-- **Reinforcements**: turn 4, two brigands from the south corners
+- **Reinforcements**: 3 on turn 4, from the south corners
 - **Par**: 10 turns
 
 ## Beats

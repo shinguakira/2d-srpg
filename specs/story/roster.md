@@ -1,8 +1,11 @@
 # Character Roster
 
-Master roster for the 25-chapter campaign. Units 1-12 are implemented in
-`src/data/units.ts`; 13-20 are Arc 3-5 placeholders. See
-[characters.md](characters.md) for writing briefs and
+Master roster for the 25-chapter campaign. **None of it is in the game.** There
+is one chapter, its units are the ported PoC's in `src/data/chapter1.ts`, and
+Shigeru is the only name on this list that appears there — as `p_shigeru`,
+holding the PoC's lord stats. Everyone else below is a design target.
+
+See [characters.md](characters.md) for writing briefs and
 [arc-structure.md](arc-structure.md) for chapter context.
 
 ---
@@ -25,7 +28,7 @@ Master roster for the 25-chapter campaign. Units 1-12 are implemented in
 | 12 | **Viviane** | `viviane` | Dancer | Ch9 | — | Performer. Refresh ability. Grief chapter's counterweight. |
 | 13 | *TBD* | — | Shaman | Ch11 | — | Arc 3 — dark magic that answers the blight in its own language. |
 | 14 | *TBD* | — | Wyvern Rider | Ch13 | Conditional | Arc 3 — partially blighted. Can be saved or lost. |
-| 15 | *TBD* | — | Monk | Ch14 | — | Arc 3 — shrine keeper. Light magic vs Corruption. |
+| 15 | *TBD* | — | Monk | Ch14 | — | Arc 3 — shrine keeper. Light magic, effective on the blight's units. |
 | 16 | **Aeryn** | — | Falcon Knight | Ch18 | — | Arc 4 — the Ch6 sky captain, if spared. Ending flag. |
 | 17 | *TBD* | — | Armor Knight | Ch19 | — | Arc 4 — Kurogane officer who stands aside, then turns. |
 | 18-20 | *TBD* | — | — | Arc 5 | — | Shrine wardens / late recruits. |
@@ -52,17 +55,20 @@ reinforcements, and for why these numbers are shaped the way they are.
 
 ## Permadeath and scripted loss
 
-- Ordinary casualties go to `deadUnitIds` and are gone for the rest of the run
-  (classic mode) or retreat at 1 HP (casual mode). Shigeru is always permanent —
-  losing him ends the run either way.
-- **Halvar is different.** His Ch8 death is scripted, not a casualty: the chapter
-  sets the `halvar_dead` event flag, `Game.tsx` bridges it to campaign flags, and
-  `campaignStore` removes him from the roster and applies the `grief` trauma skill
-  to every surviving unit for two chapters.
+Neither of these exists yet — the game has one map, no campaign, and no state
+that outlives it. Both are requirements on whatever ends up carrying the roster
+between chapters.
+
+- Ordinary casualties are gone for the rest of the run. Shigeru is the exception
+  in the other direction: losing him ends the run on the spot, which the game
+  already does.
+- **Halvar is different.** His Ch8 death is scripted rather than a casualty. He
+  dies at a fixed turn whatever the player does, and the two chapters after it
+  are fought by a company that is measurably worse because of it.
 
 ## NPCs
 
-| Name | id | Chapter | Purpose |
-|---|---|---|---|
-| Halvar (ally) | `halvar_npc` | Ch8 | Spawns at (8,16) when he takes the corridor. Soldier, aggressive AI. |
-| Elder Ilse | `elder_ilse` | Ch10 | Protect target. Keeps the village chronicle. Stationary. |
+| Name | Chapter | Purpose |
+|---|---|---|
+| Halvar (ally) | Ch8 | Spawns at the mouth of the south corridor when he takes it. Soldier, aggressive AI. |
+| Elder Ilse | Ch10 | Protect target. Keeps the village chronicle. Stationary. |

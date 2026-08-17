@@ -10,12 +10,13 @@ is three roofs full of the town's winter grain.
 
 ## Setup
 
-- **Map**: 18×10, walled town streets, throne at (8,0), three villages
+- **Map**: 22×16, walled town streets, throne at the north end, three villages
 - **Objective**: Seize the throne (with village-loss pressure)
 - **Deploy**: 7 slots, `shigeru` forced
+- **Enemies**: 11
 - **Boss**: Brask (aggressive — leaves the throne and comes to you)
 - **Joins**: `fenn`, turn 3
-- **Reinforcements**: turn 4, three from the docks
+- **Reinforcements**: 2 on turns 3 and 6, from the docks
 - **Par**: 12 turns
 
 ## Beats

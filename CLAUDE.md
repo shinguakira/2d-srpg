@@ -31,7 +31,7 @@ src/
     grid.ts          Dijkstra movement range, path reconstruction, occupancy
 
   battle/
-    combat.ts        Forecast and resolution. The formulas are in README.md
+    combat.ts        Forecast and resolution. Formulas: specs/systems/combat.md
     battleScene.ts   The battle animation scene
     support.ts       Support ranks, affinity bonuses, adjacency accumulation
 
@@ -47,8 +47,8 @@ src/
 
   render/
     mapRender.ts     Map, units, cursor, range overlays, HUD
-    sprites.ts       Characters drawn in code
-    layout.ts        Tile size and offsets
+    sprites.ts       Characters — Shigeru from a sheet, the rest drawn in code
+    layout.ts        Tile size, the viewport, and the camera
 
   story/
     script.ts        Chapter script
@@ -83,7 +83,5 @@ wish list.
 chapters. Only chapter 1's script and Shigeru himself are in the game. Read it
 as the design target, never as a description of the code.
 
-The `gameplay/`, `maps/`, `ui/`, `progression/` and `tasks/` folders documented
-the React implementation and were removed with it. So was `old/`, a frozen
-archive of an abandoned meta-fiction draft that the current story replaced. Git
-history has all of it.
+Everything that documented the deleted React implementation was removed with it.
+Git history has it.

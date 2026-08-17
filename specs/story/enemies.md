@@ -1,7 +1,8 @@
 # Enemies
 
-Enemy types and writing guidelines. For AI behaviour see [ai.md](../gameplay/ai.md);
-for named bosses see [bosses.md](bosses.md).
+Enemy types and writing guidelines. For AI behaviour see
+[map-and-turns.md](../systems/map-and-turns.md); for named bosses see
+[bosses.md](bosses.md).
 
 ---
 
@@ -39,7 +40,7 @@ things out. Its "units" are the people it has already taken.
 | **Cavalier** | Lance/Sword | Mobile, canto. Teaches anti-cavalry positioning | Ch4 |
 | **Thief** | Knife | Races for chests and villages. Survival AI | Ch4 |
 | **Pegasus Knight** | Lance | Flying, bow-vulnerable, fast flankers | Ch6 |
-| **Shaman** | Dark tomes | Nosferatu drain; inflicts Corruption on hit | Ch7 |
+| **Shaman** | Dark tomes | Nosferatu — heals itself for what it deals | Ch7 |
 
 ### Arc 3-4 (promoted)
 
@@ -66,7 +67,9 @@ The dead the Blackflame has stood back up. They keep their own faces and their o
 kit, which is the most upsetting fact in the setting and should be treated that way
 — Mirelle's instruction in Ch7 is *"do not look at their faces."*
 
-- Uses the `shaman` frame; ids `ch7_corrupted_*`
+- The engine already has the class — `revenant`, clawed, no counter at range,
+  and light magic is effective against it. Chapter 1 fields two, inherited from
+  the PoC
 - Comes out of blighted stone rather than marching in from a map edge
 - Ch7 is the introduction: four waves, out of the fortress's north wall, some in
   Amagi colours
@@ -76,7 +79,7 @@ kit, which is the most upsetting fact in the setting and should be treated that 
 Not a revenant — a revenant was one person. A Colossus has been **assembled**, out
 of several.
 
-- `ch10_construct` · knight frame · HP 50 / STR 15 / DEF 14 / RES 10 / SPD 3
+- Knight frame · HP 50 / STR 15 / DEF 14 / RES 10 / SPD 3
 - Slow, nearly unkillable head-on, and single-minded: it goes for an objective, not
   for whoever is nearest
 - On death its ash runs west along the ground **against the wind**, which is the
@@ -84,15 +87,23 @@ of several.
 
 ### Blighted terrain
 
-Terrain is an enemy in its own right from Ch3 onward.
+Terrain is an enemy in its own right from Ch3 onward. Three new terrains, in the
+same shape as the ones in [map-and-turns.md](../systems/map-and-turns.md) — a map
+character, a def and avo modifier, and a cost per move type. None of them exists
+yet.
 
-| Terrain | Display name | Effect |
-|---|---|---|
-| `glitched` | **Blighted** | +2 Corruption per turn standing on it |
-| `data_void` | **Abyssal Rift** | Impassable; -2 DEF, -20 avoid nearby; +3 Corruption |
-| `corrupted_fort` | **Defiled Fort** | Fort cover, but +1 Corruption |
-| `broken_throne` | **Broken Throne** | Reduced throne bonuses |
-| `memory` | **Hallowed Ground** | Restores Attunement; the blight will not cross it |
+| | def | avo | foot | mounted | flier | on standing |
+|---|---|---|---|---|---|---|
+| **Blighted** | −1 | −10 | 2 | 2 | 1 | lose HP each turn |
+| **Abyssal Rift** | — | — | ∞ | ∞ | ∞ | adjacent tiles take the Blighted penalty |
+| **Hallowed Ground** | +2 | +10 | 1 | 1 | 1 | the blight will not cross it |
+
+The point of the set is that blighted ground is *worse than open field* rather
+than merely slow, so the map itself pushes the player forward. Hallowed Ground is
+the counterweight and the only safe footing in Arc 5.
+
+There is no hidden meter behind any of this. What the blight costs is HP, avoid
+and defence — quantities the game already has and the player can already read.
 
 ---
 

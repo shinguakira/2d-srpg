@@ -5,17 +5,18 @@ Not implemented.
 ## Summary
 
 The grief chapter. A narrow forest pass, an ordinary rout, and a party that is
-mechanically weaker because of it — every unit carries the `grief` trauma skill
-(-3 stats) for this chapter and the next. Viviane joins to give the arc a
-counterweight that is not a joke at grief's expense.
+mechanically weaker because of it — every surviving unit fights this chapter and
+the next at reduced stats. Viviane joins to give the arc a counterweight that is
+not a joke at grief's expense.
 
 ## Setup
 
-- **Map**: 14×14, linear forest pass, forts at (4,4)/(9,4)/(4,8)/(9,8)
+- **Map**: 24×16, a linear forest pass with forts on both flanks
 - **Objective**: Rout
-- **Deploy**: 7 slots, `shigeru` forced
-- **Enemies**: an anonymous raider captain and eight scouts — deliberately not
+- **Deploy**: 8 slots, `shigeru` forced
+- **Enemies**: 12 — an anonymous raider captain and his scouts, deliberately not
   characters
+- **Reinforcements**: 3 on turn 6
 - **Joins**: `viviane`, turn 3
 - **Par**: 18 turns
 

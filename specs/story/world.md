@@ -94,10 +94,10 @@ problem. Arcs 3-5 are walking west to end it.
 
 Rules the game holds itself to, so the fiction and the mechanics agree:
 
-- **It hollows, it does not burn.** Blighted ground (`glitched`) is grey, cold and
-  quiet. Nothing rots on it. Nothing eats there.
-- **It leaves holes.** An **Abyssal Rift** (`data_void`) is where it has fed to
-  completion. No heat, no sound, no shadow. Impassable, and it drags at anyone near.
+- **It hollows, it does not burn.** Blighted ground is grey, cold and quiet.
+  Nothing rots on it. Nothing eats there.
+- **It leaves holes.** An **Abyssal Rift** is where it has fed to completion. No
+  heat, no sound, no shadow. Impassable, and it drags at anyone near.
 - **It stands its dead back up.** Revenants keep their faces and their kit. This is
   the most upsetting fact in the setting and the writing should treat it that way.
 - **It will not cross running water.** Lisette's first proven rule, and the reason the

@@ -15,28 +15,31 @@ costs to answer it.
 
 ## Setup
 
-- **Map**: 18×20; throne at (9,1); a one-wide south corridor with a fort at (8,16)
+- **Map**: 26×18; throne at the north end; a one-wide south corridor with a fort
+  at its mouth
 - **Objective**: Defeat General Wulfram and seize the throne
 - **Deploy**: 8 slots; **`shigeru` and `halvar` force-deployed** — the corridor
   sequence requires him on the field
-- **Boss**: General Wulfram (halberdier) + four knights, three cavaliers, two mages
-- **Reinforcements**: south gate, turns 5 onward
+- **Enemies**: 16 — General Wulfram (halberdier), knights, cavaliers and mages
+- **Reinforcements**: 3 per turn, turns 4 to 9, from the south gate and the east
+  wall at once
 - **Par**: 20 turns
 
 ## The sacrifice sequence
 
-Scripted, in `events`:
+Scripted on the turn counter, not on anything the player does. **He holds for
+nine turns**, and the count is the point — every line about this chapter, here
+and in [characters.md](../characters.md), is built on that number.
 
-| Turn | Event | Effect |
-|---|---|---|
-| 8 | `ch8_halvar_to_npc` | Halvar disobeys the order to stand down. `remove_unit: halvar`, then spawns `halvar_npc` at (8,16) as an **ally**, aggressive AI |
-| 10 | `ch8_halvar_holding` | Off-screen: a lance being set, over and over, in a doorway one man wide |
-| 12 | `ch8_halvar_fading` | He is slowing. Urgency on the throne |
-| 13 | `ch8_halvar_death` | `remove_unit: halvar_npc`, `set_flag halvar_dead=true` |
+| Turn | Effect |
+|---|---|
+| 4 | Halvar disobeys the order to stand down. He leaves the player's control and takes the corridor as an **ally NPC**, aggressive AI |
+| 7 | Off-screen: a lance being set, over and over, in a doorway one man wide |
+| 11 | He is slowing. Urgency on the throne |
+| 13 | He dies. Nine turns held |
 
-`Game.tsx` bridges `halvar_dead` to campaign flags; `campaignStore` then removes him
-from the roster permanently and applies the `grief` trauma skill to every surviving
-unit for two chapters.
+Afterwards he is off the roster for good, and the two chapters that follow are
+fought at reduced stats — see [roster.md](../roster.md).
 
 ## Beats
 
@@ -55,7 +58,7 @@ Halvar's answer is the line the chapter is built on:
 
 Nadine says she will stay near the corridor. Halvar sends her to the prince.
 
-**Turn 8 — the refusal.** *"I am afraid I am going to disobey an order, my lord. It
+**Turn 4 — the refusal.** *"I am afraid I am going to disobey an order, my lord. It
 is becoming a habit."* Eleven years he stood a post because a man told him to. This
 one he picked. He asks Shigeru to tell Takeshi that a sergeant of the second wall
 company stopped believing him.

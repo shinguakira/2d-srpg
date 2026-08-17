@@ -15,12 +15,42 @@ is a young man carrying something far too heavy who has decided not to stop movi
 
 ## Setup
 
-- **Map**: 25×12, plains and forest, throne at (11,1), two villages
+- **Map**: 20×14, a river across the board with two crossings, and a keep whose
+  only entrance is a one-tile gate. Throne at (10,1), gate at (10,4)
 - **Objective**: Seize the throne
 - **Deploy**: 5 slots, preparation skipped, `shigeru` forced
 - **Player**: Shigeru, Akira, Lisette, Mirelle (epilogue), Gareth (turn 2)
+- **Enemies**: 6, no reinforcements
 - **Boss**: Hagen on the throne
 - **Par**: 8 turns
+
+## What the code actually does
+
+The map above is in `src/data/chapter1.ts` and matches. The rest does not, and
+the gaps are the honest list of what chapter 1 still needs:
+
+| | Intent | Implemented |
+|---|---|---|
+| Objective | Seize the throne | Rout — `checkResult` wins when the last enemy dies. There is no seize |
+| Deployment | 5 slots | None. All eight units start on the board |
+| Enemies | 6 brigands on Kurogane pay | 13, including the PoC's monsters — revenants, a bael, a mogall |
+| Villages | Two | No village terrain exists |
+| Cast | Shigeru, Akira, Lisette, Mirelle, Gareth | シゲル plus the PoC's seven |
+
+The script was recast onto the ported roster rather than rewritten, so the
+chapter is playable and speaks the right beats under other names:
+
+| This file | `src/story/script.ts` |
+|---|---|
+| Shigeru | シゲル `p_shigeru` |
+| Akira | ゼス `p_seth` |
+| Lisette | テオ `p_teo` |
+| Mirelle | ミナ `p_mina` |
+| Gareth | ガロン `p_garon` |
+| Hagen | ヴァルガ `e_boss` — a general on a gate, not a brigand chief |
+
+リナ, シエル and アルド have no counterpart here and no lines. The persuade
+target, the mercenary ロウ, is the PoC's and is not in this chapter's design.
 
 ## Beats
 
@@ -39,7 +69,7 @@ triangle as drill-yard fact, not game mechanic. Kept short and unpatronising.
 took Kurogane pay because that army was going to walk over him either way, and they
 hold his brother's village. He is not a monster and the player should notice.
 
-**Boss pre-combat** (Shigeru steps to (11,2)). Shigeru offers him the road south.
+**Boss pre-combat** (Shigeru steps to (10,2), inside the gate). Shigeru offers him the road south.
 Hagen cannot take it. *"Don't be sorry. Be quick."*
 
 **Boss death.** He names the village — Kuta — so that somebody will know it.

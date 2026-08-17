@@ -11,10 +11,15 @@ The company stops running and turns west.
 
 ## Setup
 
+- **Map**: 24×16, a mountain fortress above the cloud line — walls, a courtyard,
+  and open air on three sides for Elin to arrive out of
 - **Objective**: Defeat General Roderic and seize the throne
 - **Deploy**: 7 slots, `shigeru` forced
+- **Enemies**: 13
+- **Reinforcements**: 3 on turn 4, 3 on turn 7
 - **Boss**: General Roderic (general knight) with two escort knights
 - **Joins**: `elin`
+- **Par**: 14 turns
 - **Scripted terrain**: turn 3 terrain shift; turn 5 an Abyssal Rift block opens in
   the NE and nearby enemy AI panics from guard to aggressive; turn 7 the rift moves
 

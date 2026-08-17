@@ -10,9 +10,12 @@ taken off the enemy commander.
 
 ## Setup
 
-- **Map**: 18×10, bridge chokepoint plus a shallow-water flank, throne at (7,0)
+- **Map**: 20×14, bridge chokepoint plus a shallow-water flank, throne on the far
+  bank
 - **Objective**: Seize the throne
 - **Deploy**: 5 slots, `shigeru` forced
+- **Enemies**: 8
+- **Reinforcements**: 2 on turn 3
 - **Boss**: Commander Vidar
 - **Recruitable**: `halvar` — placed as a stationary enemy, defects on turn 3
 - **Par**: 10 turns

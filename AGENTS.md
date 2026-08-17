@@ -17,17 +17,6 @@ Forbidden:
 If the answer to "what draws this pixel?" is "our code", it is forbidden. When
 generated art is wrong, change the request to the generator.
 
-## Only approved references may be sent
-
-`tools/sprites/reference/` holds the images the user has approved. Those are the
-only images that may be sent to the API as a reference, style or init image.
-
-Never send generated output back as a reference. Never send a modified version —
-padding it to meet the endpoint's size requirement is allowed, altering it is
-not.
-
-For Shigeru that is `reference/shigeru.png`: one 64x64 standing frame.
-
 ## One image comes from one generation
 
 Never build a sheet from several API calls. Each call is an independent

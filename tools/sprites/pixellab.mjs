@@ -77,7 +77,9 @@ async function call(endpoint, body) {
 const image = (file) => ({
   type: 'base64',
   base64: readFileSync(path.resolve(file)).toString('base64'),
-  format: 'png',
+  // The format has to match the bytes. A photo handed in as the base for a
+  // character is a JPEG, and claiming it is a PNG is how the upload fails.
+  format: path.extname(file).toLowerCase() === '.png' ? 'png' : 'jpeg',
 });
 
 function writeImage(file, img) {
@@ -193,16 +195,28 @@ try {
       description,
       outline: 'single color black outline',
       shading: 'medium shading',
-      detail: 'medium detail',
+      // Spectacles are the reason this is a knob. A half-rim frame is one or
+      // two pixels at 128 and the model drops it at 'medium detail'.
+      detail: arg('detail', 'medium detail'),
       view: 'side',
       direction: arg('facing', 'south-east'),
       no_background: true,
       coverage_percentage: Number(arg('coverage', 95)),
       negative_description: 'full body, legs, feet, tiny face, chibi, super deformed, blur, gradient, photorealistic' + extraNegative(),
     };
-    const res = ref
-      ? await call('generate-image-bitforge', { ...body, style_image: image(sameSize(ref, size)) })
-      : await call('generate-image-pixflux', body);
+    // --init is the "base it on this" input: pixflux starts from the image
+    // instead of from noise, which is what a supplied face is for. --ref is a
+    // different thing — bitforge copies a style, not a likeness.
+    const init = arg('init');
+    const res = init
+      ? await call('generate-image-pixflux', {
+          ...body,
+          init_image: image(init),
+          init_image_strength: Number(arg('strength', 300)),
+        })
+      : ref
+        ? await call('generate-image-bitforge', { ...body, style_image: image(sameSize(ref, size)) })
+        : await call('generate-image-pixflux', body);
     console.log('saved ' + writeImage(path.join(OUT, `${id}-portrait.png`), res.image));
   } else if (cmd === 'rotate') {
     const from = image(positional[0]);

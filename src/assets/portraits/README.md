@@ -1,21 +1,22 @@
 # Dialogue portraits
 
-One PNG per speaker, named after the speaker as it appears in the script,
-lowercased with non-alphanumerics turned into hyphens:
+One PNG per unit that has one. These are **not** map sprites: a portrait is
+drawn at conversation size and shows head and shoulders, because the whole point
+is the detail that does not survive at 32px. Fire Emblem draws a character
+twice, and so does this.
 
-    Shigeru      -> shigeru.png
-    Elder Ilse   -> elder-ilse.png
+`shigeru.png` is Shigeru's, commissioned through PixelLab from the approved
+design. Everyone else's face is still drawn in code by
+`render/sprites.ts drawFacePortrait`.
 
-`src/components/sprites/portraits.tsx` globs this directory, so a file dropped
-here appears in dialogue with no code change. A speaker with no file here falls
-back to their battle sprite, scaled up.
+Adding one is two steps: drop the file here and add a line to `PORTRAIT_UNITS`
+in `render/sprites.ts`. The registry entry carries the measurements —
 
-These are not map sprites. A portrait is drawn at conversation resolution
-(128px and up) and shows head and shoulders — the whole point is the detail that
-does not survive at 32px. Generate one with:
+    cx      the column the face is centred on
+    bottom  the row the drawing ends at
+    height  hair-top to that bottom row
 
-    node tools/sprites/pixellab.mjs portrait shigeru "<description>" --size 128
+— because the art does not fill its frame, and without them each portrait sits
+at a different height. Measure them off the opaque bounding box.
 
-then crop/clean and save it here. `tools/sprites/out/` is where the raw
-generator output lands and is gitignored; only the finished file belongs in this
-directory.
+See `AGENTS.md` before generating anything.

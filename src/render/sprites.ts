@@ -1,6 +1,7 @@
 import { classOf } from '../data/classes';
 import { battleWeapon, equippedWeapon } from '../battle/combat';
 import type { Unit, WeaponType } from '../types';
+import shigeruPortraitUrl from '../assets/portraits/shigeru.png';
 import shigeruSheetUrl from '../assets/sprites/shigeru-sheet.png';
 
 const SKIN = '#f0c9a0';
@@ -266,6 +267,20 @@ const SHIGERU_CLIPS: Record<Clip, SheetClip> = {
 
 const SHEET_UNITS: Record<string, { url: string; clips: Record<Clip, SheetClip> }> = {
   p_shigeru: { url: shigeruSheetUrl, clips: SHIGERU_CLIPS },
+};
+
+/**
+ * 会話パートの立ち絵。マップのスプライトとは別物で、こちらは顔が顔として描ける
+ * 大きさで一枚絵になっている（FE も分けている）。
+ *
+ * 絵は 128px の枠に収まっているが、枠いっぱいには描かれていない。`cx` は顔の
+ * 中心の列、`bottom` は絵の下端の行、`height` は髪の先から下端までの高さ。この
+ * 三つが無いと、枠を基準に置いたときに顔の位置が絵ごとにずれる。
+ */
+const PORTRAIT_FRAME = 128;
+
+const PORTRAIT_UNITS: Record<string, { url: string; cx: number; bottom: number; height: number }> = {
+  p_shigeru: { url: shigeruPortraitUrl, cx: 56.5, bottom: 128, height: 120 },
 };
 
 const sheetImages = new Map<string, HTMLImageElement>();
@@ -576,10 +591,41 @@ function drawEye(ctx: CanvasRenderingContext2D, x: number, y: number, w: number,
   ctx.stroke();
 }
 
+/** 立ち絵を持つユニットを描く。まだ読み込めていなければ false を返す */
+function drawPortraitImage(
+  ctx: CanvasRenderingContext2D,
+  u: Unit,
+  cx: number,
+  baseY: number,
+  h: number,
+  facing: number,
+  dim: boolean,
+): boolean {
+  const def = PORTRAIT_UNITS[u.id];
+  if (!def) return false;
+  const img = sheetImage(def.url);
+  if (!img) return false;
+
+  // 枠ではなく絵の高さを h に合わせる。コードで描く立ち絵と背丈を揃えるため。
+  const scale = h / def.height;
+  const size = PORTRAIT_FRAME * scale;
+
+  ctx.save();
+  if (dim) ctx.filter = 'brightness(0.42) saturate(0.65)';
+  ctx.imageSmoothingEnabled = false;
+  ctx.translate(cx, baseY - def.bottom * scale);
+  if (facing < 0) ctx.scale(-1, 1);
+  ctx.drawImage(img, -def.cx * scale, 0, size, size);
+  ctx.restore();
+  return true;
+}
+
 /**
- * 会話パート用の立ち絵。GBA 系 FE の顔グラに寄せて、
- * 髪のシルエットを大きく・目を大きく・3/4 向きで描く。
- * cx は顔の中心 X、baseY は胸の切れる位置、h はバスト全体の高さ。
+ * 会話パート用の立ち絵。cx は顔の中心 X、baseY は胸の切れる位置、h はバスト全体
+ * の高さ。
+ *
+ * シゲルだけは発注した一枚絵を使う。それ以外は GBA 系 FE の顔グラに寄せて、
+ * 髪のシルエットを大きく・目を大きく・3/4 向きでコードが描く。
  */
 export function drawFacePortrait(
   ctx: CanvasRenderingContext2D,
@@ -590,6 +636,8 @@ export function drawFacePortrait(
   facing: number,
   dim = false,
 ) {
+  if (drawPortraitImage(ctx, u, cx, baseY, h, facing, dim)) return;
+
   const cls = classOf(u.classId);
   const hair = HAIR[u.classId] ?? '#4a3a30';
   const hairDark = shade(hair, 0.62);

@@ -293,7 +293,7 @@ function frame(now: number) {
     updateHeld(dt);
     game.update(dt);
   }
-  drawScene(ctx, game, time);
+  drawScene(ctx, game, time, frozen ? 0 : dt);
 
   requestAnimationFrame(frame);
 }

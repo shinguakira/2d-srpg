@@ -7,11 +7,13 @@ import { terrainAt } from '../data/terrain';
 import { WEAPON_ICON, WEAPON_LABEL } from '../data/weapons';
 import type { Game } from '../game/game';
 import type { Unit, WeaponType } from '../types';
-import { CANVAS_H, CANVAS_W, OX, OY, TILE } from './layout';
+import { camera, CANVAS_H, CANVAS_W, focusOn, OX, OY, TILE, VIEW_H, VIEW_W } from './layout';
 import { drawHpBar, drawUnitSprite } from './sprites';
 
-const MAP_PX_W = MAP_W * TILE;
-const MAP_PX_H = MAP_H * TILE;
+// HUD はカメラの外で描くので、マップの実寸ではなく窓の大きさに合わせる。
+// マップが窓より大きくなると MAP_W*TILE は画面外を指してしまう。
+const MAP_PX_W = VIEW_W;
+const MAP_PX_H = VIEW_H;
 
 function hash(x: number, y: number) {
   const n = Math.sin(x * 127.1 + y * 311.7) * 43758.5453;
@@ -596,7 +598,7 @@ function drawResult(ctx: CanvasRenderingContext2D, g: Game) {
   ctx.textAlign = 'left';
 }
 
-export function drawScene(ctx: CanvasRenderingContext2D, g: Game, time: number) {
+export function drawScene(ctx: CanvasRenderingContext2D, g: Game, time: number, dt = 0) {
   ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
   ctx.fillStyle = '#0b0e17';
   ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
@@ -606,12 +608,31 @@ export function drawScene(ctx: CanvasRenderingContext2D, g: Game, time: number) 
     return;
   }
 
-  for (let y = 0; y < MAP_H; y++) for (let x = 0; x < MAP_W; x++) drawTile(ctx, x, y);
+  // 歩いているユニットがいればそれを、いなければカーソルを追う。敵フェイズに
+  // 画面外で動かれると何が起きたか分からないので、そこは特に効く。
+  const follow = g.walk?.unit ?? g.cursor;
+  focusOn(follow.x, follow.y, dt);
+
+  // 盤面はカメラの中。窓で切り抜いてから寄せるので、スクロールしても HUD の下に
+  // はみ出さない。HUD はこの外で描くため画面座標のまま。
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(OX, OY, VIEW_W, VIEW_H);
+  ctx.clip();
+  ctx.translate(-Math.round(camera.x), -Math.round(camera.y));
+
+  // 見えているタイルだけ描く。34x24 まで広がるので全面走査は無駄になる。
+  const x0 = Math.max(0, Math.floor(camera.x / TILE));
+  const y0 = Math.max(0, Math.floor(camera.y / TILE));
+  const x1 = Math.min(MAP_W - 1, Math.floor((camera.x + VIEW_W) / TILE));
+  const y1 = Math.min(MAP_H - 1, Math.floor((camera.y + VIEW_H) / TILE));
+  for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) drawTile(ctx, x, y);
 
   drawRanges(ctx, g);
   drawPath(ctx, g);
   drawUnits(ctx, g, time);
   if (!g.result && !g.dialogue) drawCursor(ctx, g, time);
+  ctx.restore();
 
   // 会話パート中はマップ UI を隠す
   if (g.dialogue) {

@@ -17,15 +17,22 @@ Forbidden:
 If the answer to "what draws this pixel?" is "our code", it is forbidden. When
 generated art is wrong, change the request to the generator.
 
-## One image comes from one generation
+## Register the character before asking for more than one image
 
-Never build a sheet from several API calls. Each call is an independent
-diffusion sample, so separate calls return separate drawings of a similar
-character. If a sheet will not fit in one call, change the frame count or the
-size — not the number of calls.
+Two calls to a still endpoint return two drawings of a similar person, never the
+same person, because each call is an independent diffusion sample. So a sheet
+cannot be stitched from ordinary generations.
+
+`create-character-v3` is the way around it. Register the approved standing frame
+once and every later call names the character id instead of describing them
+again; the service is then animating one saved drawing rather than inventing a
+lookalike per clip. Shigeru's forty-six frames across seven clips are seven
+calls, and they agree because of this.
+
+So: **one still is one call. A sheet is a registration and then one call per
+clip.** Stitching stills together is still forbidden.
 
 ## Never delete
 
-- `src/assets/sprites/*.png` and `tools/sprites/reference/`. Nothing in the
-  renderer reads them today — `src/render/sprites.ts` draws characters in code —
-  but they were commissioned and approved, and several cannot be regenerated.
+- `src/assets/sprites/*.png` and `tools/sprites/reference/`. They were
+  commissioned and approved, and several cannot be regenerated.

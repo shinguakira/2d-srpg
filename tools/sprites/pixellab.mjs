@@ -157,9 +157,71 @@ function sameSize(file, size) {
   return out;
 }
 
+/**
+ * The character endpoints live on v2, not v1.
+ *
+ * These are what make a sheet possible. A still is one call and one drawing, but
+ * an animation is one call per clip, and separate calls are separate diffusion
+ * samples — seven clips generated independently come back as seven similar
+ * strangers. Registering the character first fixes that: every clip is the
+ * service animating the same saved character, so the frames agree because they
+ * are the same drawing, not because the settings were tuned until they matched.
+ */
+async function v2(method, path, body) {
+  const res = await fetch(`https://api.pixellab.ai/v2${path}`, {
+    method,
+    headers: { Authorization: `Bearer ${KEY}`, 'Content-Type': 'application/json' },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  const text = await res.text();
+  let json;
+  try {
+    json = JSON.parse(text);
+  } catch {
+    json = text;
+  }
+  if (res.ok) return json;
+  const d = json?.detail;
+  const msg = Array.isArray(d)
+    ? d.map((x) => `${(x.loc ?? []).join('.')}: ${x.msg}`).join('\n  ')
+    : typeof d === 'string'
+      ? d
+      : text.slice(0, 500);
+  throw new Error(`${path} ${res.status}\n  ${msg}`);
+}
+
+/** Frames come back as raw RGBA; lay them out in one row, which is what the game reads. */
+function writeStrip(file, images) {
+  const frames = images.map((im) => {
+    const buf = Buffer.from(im.base64, 'base64');
+    return { w: im.width, h: buf.length / 4 / im.width, data: new Uint8ClampedArray(buf) };
+  });
+  const fw = frames[0].w;
+  const fh = frames[0].h;
+  const W = fw * frames.length;
+  const out = new Uint8ClampedArray(W * fh * 4);
+  frames.forEach((f, i) => {
+    for (let y = 0; y < fh; y++)
+      for (let x = 0; x < fw; x++) out.set(f.data.subarray((y * fw + x) * 4, (y * fw + x) * 4 + 4), (y * W + i * fw + x) * 4);
+  });
+  mkdirSync(path.dirname(file), { recursive: true });
+  writeFileSync(file, encodePNG(W, fh, out));
+  return `${frames.length} frames of ${fw}x${fh}`;
+}
+
 const [, , cmd, id, ...rest] = process.argv;
 const positional = rest.filter((a, i) => !a.startsWith('--') && !rest[i - 1]?.startsWith('--'));
-const startBalance = (await call('balance')).usd;
+// Only used to report what a command cost. The service refuses a connection often
+// enough that letting this throw would abandon work already paid for — a job id
+// polled after a completed generation is the expensive case.
+const balance = async () => {
+  try {
+    return (await call('balance')).usd;
+  } catch {
+    return null;
+  }
+};
+const startBalance = await balance();
 
 try {
   if (cmd === 'balance') {
@@ -218,6 +280,62 @@ try {
         ? await call('generate-image-bitforge', { ...body, style_image: image(sameSize(ref, size)) })
         : await call('generate-image-pixflux', body);
     console.log('saved ' + writeImage(path.join(OUT, `${id}-portrait.png`), res.image));
+  } else if (cmd === 'char') {
+    // Register the approved standing frame as a character. Everything after this
+    // refers to the character id, not to an image.
+    const res = await v2('POST', '/create-character-v3', {
+      name: id,
+      description: positional[0] ?? '',
+      reference_image: image(arg('ref')),
+      view: arg('view', 'side'),
+      no_background: true,
+    });
+    console.log(JSON.stringify(res, null, 1));
+  } else if (cmd === 'anim') {
+    // id is the character id. One call per clip; the registration is what keeps
+    // them the same character.
+    const res = await v2('POST', '/animate-character', {
+      character_id: id,
+      mode: 'v3',
+      action_description: positional[1] ?? '',
+      animation_name: positional[0],
+      frame_count: Number(arg('frames', 6)),
+      directions: [arg('facing', 'south')],
+    });
+    console.log(`${positional[0]} job ${res.background_job_ids[0]}`);
+  } else if (cmd === 'job') {
+    // id is a job id. Poll until it lands, then write what came back.
+    for (let i = 0; i < 120; i++) {
+      let r;
+      try {
+        r = await v2('GET', '/background-jobs/' + id);
+      } catch (e) {
+        // The connection drops often enough that giving up here would throw away
+        // a generation that has already been paid for. Wait and ask again.
+        console.log(`poll ${i}: ${e.message.split('\n')[0]}`);
+        await new Promise((s) => setTimeout(s, 10000));
+        continue;
+      }
+      if (r.status === 'failed') throw new Error('job failed\n  ' + JSON.stringify(r).slice(0, 500));
+      if (r.status === 'completed') {
+        const images = r.last_response?.images;
+        if (images?.length) {
+          const file = arg('out', path.join(OUT, `${id}.png`));
+          console.log('saved ' + file + ' — ' + writeStrip(file, images));
+        } else {
+          // A character registration answers with one PNG per facing instead.
+          const urls = r.last_response?.storage_urls ?? {};
+          for (const [dir, url] of Object.entries(urls)) {
+            const file = path.join(OUT, `${arg('out', id)}-${dir}.png`);
+            mkdirSync(OUT, { recursive: true });
+            writeFileSync(file, Buffer.from(await (await fetch(url)).arrayBuffer()));
+            console.log('saved ' + file);
+          }
+        }
+        break;
+      }
+      await new Promise((s) => setTimeout(s, 10000));
+    }
   } else if (cmd === 'rotate') {
     const from = image(positional[0]);
     const size = Number(arg('size', 64));
@@ -235,14 +353,19 @@ try {
       'usage:\n' +
         '  balance\n' +
         '  gen <id> "<description>" [--ref style.png] [--size 64] [--negative "..."]\n' +
-        '  portrait <id> "<description>" [--size 128] [--ref style.png]\n' +
-        '  rotate <id> <png> [--dirs 4]',
+        '  portrait <id> "<description>" [--size 128] [--ref style.png] [--init base.png] [--strength 300] [--detail "..."]\n' +
+        '  rotate <id> <png> [--dirs 4]\n' +
+        '\n' +
+        '  a sheet, in three steps:\n' +
+        '  char <name> "<description>" --ref reference/<name>.png\n' +
+        '  anim <characterId> <clip> "<how they move>" [--frames 6]\n' +
+        '  job <jobId> [--out clips/<clip>.png]',
     );
     process.exit(1);
   }
 } finally {
   if (cmd !== 'balance') {
-    const end = (await call('balance')).usd;
-    console.log(`\nspent $${(startBalance - end).toFixed(3)}, balance $${end.toFixed(2)}`);
+    const end = await balance();
+    if (startBalance !== null && end !== null) console.log(`\nspent $${(startBalance - end).toFixed(3)}, balance $${end.toFixed(2)}`);
   }
 }

@@ -3,6 +3,7 @@ import { battleWeapon, equippedWeapon } from '../battle/combat';
 import type { Unit, WeaponType } from '../types';
 import akiraPortraitUrl from '../assets/portraits/akira.png';
 import shigeruPortraitUrl from '../assets/portraits/shigeru.png';
+import akiraSheetUrl from '../assets/sprites/akira-sheet.png';
 import shigeruSheetUrl from '../assets/sprites/shigeru-sheet.png';
 
 const SKIN = '#f0c9a0';
@@ -266,8 +267,25 @@ const SHIGERU_CLIPS: Record<Clip, SheetClip> = {
   die: { at: [39, 7], fps: 8, loop: false },
 };
 
+/**
+ * アキラ。84px 四方 38 コマ。シゲルと同じく PixelLab に登録したキャラクターから
+ * 生成しているので、クリップをまたいでも同じ絵のままになる。
+ *
+ * walk がまだ無い。歩行だけ未発注で、当面は待機のコマを流している。
+ */
+const AKIRA_CLIPS: Record<Clip, SheetClip> = {
+  idle: { at: [0, 5], fps: 6, loop: true },
+  walk: { at: [0, 5], fps: 6, loop: true },
+  attack: { at: [5, 7], fps: 12, loop: false },
+  crit: { at: [12, 9], fps: 14, loop: false },
+  dodge: { at: [21, 5], fps: 12, loop: false },
+  hit: { at: [26, 5], fps: 12, loop: false },
+  die: { at: [31, 7], fps: 8, loop: false },
+};
+
 const SHEET_UNITS: Record<string, { url: string; clips: Record<Clip, SheetClip> }> = {
   p_shigeru: { url: shigeruSheetUrl, clips: SHIGERU_CLIPS },
+  p_akira: { url: akiraSheetUrl, clips: AKIRA_CLIPS },
 };
 
 /**

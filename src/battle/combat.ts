@@ -211,6 +211,31 @@ export interface BattleResult {
   expUnit?: Unit;
   expGain: number;
   levelUp?: LevelUpResult;
+  /** 杖。攻撃ではないので、戦闘画面は殴り合いではなく回復として演じる */
+  staffHeal?: { amount: number; staffName: string };
+}
+
+/**
+ * 杖を戦闘画面に載せるための結果。FE は杖にも専用のアニメーションがあり、
+ * 数字だけ動かして終わりにはしない。
+ *
+ * forecast は画面の骨組み（名前・HP・立ち位置）に要るので実物を作るが、
+ * 命中や威力の枠は staffHeal があるときは描かない。
+ */
+export function healResult(healer: Unit, target: Unit, amount: number, staffName: string, units: Unit[]): BattleResult {
+  const f = forecast(healer, { x: healer.x, y: healer.y }, target, { x: target.x, y: target.y }, units);
+  const before = target.hp;
+  const after = Math.min(maxHp(target), before + amount);
+  return {
+    forecast: f,
+    events: [],
+    aStartHp: healer.hp,
+    dStartHp: before,
+    aEndHp: healer.hp,
+    dEndHp: after,
+    expGain: 0,
+    staffHeal: { amount: after - before, staffName },
+  };
 }
 
 const GROWTH_KEYS: (keyof Stats)[] = ['hp', 'str', 'mag', 'skl', 'spd', 'lck', 'def', 'res'];

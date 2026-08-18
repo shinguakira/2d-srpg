@@ -1,5 +1,8 @@
 import type { Script } from './dialogue';
 
+/** 章題。バナー・状況画面・オープニングが同じものを見る */
+export const TITLE = '第1章  「久田への道」';
+
 /**
  * 会話パートの台本。`specs/story/chapters/ch1.md` の第1章「久田への道」。
  *
@@ -16,7 +19,7 @@ const N = (text: string) => ({ text });
 
 export const OPENING: Script = {
   id: 'opening',
-  title: '第1章  「久田への道」',
+  title: TITLE,
   lines: [
     N('黒鉄の船団が夜明けとともに小茂田浜に上陸した。王は西へ馬を駆り、砂の上でこれを迎え撃った。'),
     N('日暮れには王は討たれ、厳原は燃えていた。翌日の正午、王子は父の親衛隊の残りを連れ、海沿いの道を南へ下っていた。'),
@@ -96,6 +99,7 @@ const DEATH_QUOTES: Record<string, string> = {
   p_teo: 'まだ、調べたいことが……あったのに……',
   p_mina: 'みなさんを守れなくて……ごめんなさい……',
   p_shiel: '……空が、遠い……',
+  p_ald: '光は……まだ、ありますか……',
   e_m1: '割に合わねえな……まったく……',
   e_boss: '久田だ。……弟の村の名だ。覚えておけ。',
 };
@@ -235,10 +239,15 @@ export function supportScript(a: string, b: string, rank: number): Script | unde
   return SUPPORT_TABLE[pairKey(a, b)]?.[rank - 1];
 }
 
-export function deathScript(unitId: string, name: string): Script {
+/**
+ * 死に際の台詞。**持っている者だけが喋る。**
+ *
+ * FE で口をきくのは顔グラを持つ者だけで、雑魚は無言で消える。「山賊は倒れた」
+ * のような報告は出ない。台詞が無ければ undefined を返し、呼び出し側は会話を
+ * 挟まずに次へ進む。
+ */
+export function deathScript(unitId: string, name: string): Script | undefined {
   const quote = DEATH_QUOTES[unitId];
-  return {
-    id: `death_${unitId}`,
-    lines: quote ? [{ speaker: name, who: unitId, side: 'left', text: quote }] : [{ text: `${name} は倒れた。` }],
-  };
+  if (!quote) return undefined;
+  return { id: `death_${unitId}`, lines: [{ speaker: name, who: unitId, side: 'left', text: quote }] };
 }

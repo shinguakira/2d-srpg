@@ -13,13 +13,13 @@ import { cloneWeapon, WEXP_THRESHOLD } from './weapons';
 export const MAP: string[] = [
   'wwwwwwwwwwwwwwwwwwww',
   'wwwww..F..G..F.wwwww',
-  'wwwww..........wwwww',
-  'wwwww.F......F.wwwww',
+  'wwwww.D......D.wwwww',
+  'wwwww.C......C.wwwww',
   'wwwwwwwwww.wwwwwwwww',
   'whh..,,...b...,,.hhw',
-  'wh.f...F..b..F....hw',
+  'wh.f...V..b..V....hw',
   'w~~b~~~~~~~~~~~b~~~w',
-  'w.fb....,,.....b.f.w',
+  'w.fS....,,.....b.f.w',
   'w..F.......,,...F..w',
   'w.f...,,......f....w',
   'w....f......f......w',
@@ -27,7 +27,43 @@ export const MAP: string[] = [
   'wwwwwwwwwwwwwwwwwwww',
 ];
 
+/** 扉を開けると地形が変わるので、章の開始時に元へ戻す */
+const PRISTINE = MAP.slice();
+export function resetMap() {
+  for (let i = 0; i < PRISTINE.length; i++) MAP[i] = PRISTINE[i];
+}
+
 export const MAP_W = MAP[0].length;
+
+/**
+ * 章の目標。FE は章ごとに変わる（制圧・撃破・生存・防衛・脱出）。第1章は制圧で、
+ * ロードが玉座に立てば勝ち — 敵を全滅させる必要はない。
+ * specs/story/chapters/ch1.md
+ */
+export const OBJECTIVE = { kind: 'seize' as const, x: 10, y: 1, label: '玉座の制圧' };
+
+/** 村の中身。訪れた者が受け取る。specs/story/chapters/ch1.md の「村」 */
+/** 宝箱の中身。開けた者が受け取る */
+export const CHESTS: { x: number; y: number; weapon?: string; gold?: number }[] = [
+  { x: 6, y: 3, weapon: 'steelSword' },
+  { x: 13, y: 3, gold: 2500 },
+];
+
+/** 武器屋の品揃え。所持金で買う */
+export const SHOP: { weapon: string; price: number }[] = [
+  { weapon: 'ironSword', price: 460 },
+  { weapon: 'ironLance', price: 360 },
+  { weapon: 'ironAxe', price: 270 },
+  { weapon: 'handAxe', price: 300 },
+  { weapon: 'javelin', price: 400 },
+];
+
+export const START_GOLD = 3000;
+
+export const VILLAGES: { x: number; y: number; weapon?: string; potion?: number; text: string }[] = [
+  { x: 7, y: 6, weapon: 'handAxe', text: '親父の手斧だ。持って行ってくれ。あんたらが門を開けてくれるなら。' },
+  { x: 13, y: 6, potion: 2, text: '内地へ逃げた学者の置き土産です。傷薬しか残っていませんが。' },
+];
 export const MAP_H = MAP.length;
 
 function st(
@@ -58,6 +94,7 @@ interface Seed {
   affinity: Affinity;
   wexp?: Partial<Record<string, number>>;
   potion?: number;
+  keys?: number;
   seals?: number;
   ai?: Unit['ai'];
   isLord?: boolean;
@@ -77,6 +114,7 @@ const PLAYERS: Seed[] = [
     stats: st(20, 6, 2, 9, 11, 8, 5, 3, 5, 5),
     growth: st(70, 45, 25, 60, 60, 60, 30, 30, 0, 0),
     weapons: ['rapier', 'ironSword'],
+    keys: 1,
     wexp: { sword: 45 },
     potion: 2,
     isLord: true,
@@ -93,6 +131,7 @@ const PLAYERS: Seed[] = [
     stats: st(24, 8, 1, 8, 8, 5, 8, 2, 10, 7),
     growth: st(80, 50, 15, 45, 45, 35, 40, 20, 0, 0),
     weapons: ['ironLance', 'ironSword', 'javelin'],
+    keys: 2,
     wexp: { lance: 50, sword: 35 },
     potion: 1,
   },
@@ -374,6 +413,7 @@ function build(seed: Seed, team: 'player' | 'enemy'): Unit {
     items,
     equipped: 0,
     potion: seed.potion ?? 0,
+    keys: seed.keys ?? 0,
     acted: false,
     ai: seed.ai,
     isLord: seed.isLord,

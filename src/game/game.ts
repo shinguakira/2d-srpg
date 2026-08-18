@@ -1,17 +1,18 @@
 import { BattleScene, type ExpAnim } from '../battle/battleScene';
-import { battleWeapon, canUse, forecast, gainExp, healAmount, maxHp, resolveBattle, staffOf } from '../battle/combat';
+import { battleWeapon, canUse, forecast, gainExp, healAmount, healResult, maxHp, resolveBattle, staffOf } from '../battle/combat';
 import { accumulateSupport, canRankUp, linkOf, RANK_LABEL } from '../battle/support';
 import { computeMoveRange, key, manhattan, pathTo, unitAt, unkeyX, unkeyY, type MoveRange } from '../core/grid';
-import { createUnits, MAP, MAP_H, MAP_W } from '../data/chapter1';
+import { CHESTS, createUnits, MAP, MAP_H, MAP_W, OBJECTIVE, resetMap, SHOP, START_GOLD, VILLAGES } from '../data/chapter1';
+import { cloneWeapon } from '../data/weapons';
 import { classOf } from '../data/classes';
 import { terrainAt } from '../data/terrain';
 import { DialogueScene, type Script } from '../story/dialogue';
-import { BOSS_TALK, DEFEAT, ENDING, OPENING, RECRUIT_ROU, deathScript, supportScript } from '../story/script';
+import { BOSS_TALK, DEFEAT, ENDING, OPENING, RECRUIT_ROU, TITLE, deathScript, supportScript } from '../story/script';
 import { decideAction, threatTiles } from './ai';
 import type { Pos, Stats, Unit } from '../types';
 
-export type Mode = 'free' | 'move' | 'menu' | 'target' | 'result';
-export type TargetKind = 'attack' | 'staff' | 'talk' | 'support';
+export type Mode = 'free' | 'move' | 'menu' | 'target' | 'result' | 'status';
+export type TargetKind = 'attack' | 'staff' | 'talk' | 'support' | 'trade';
 
 interface MenuItem {
   id: string;
@@ -74,12 +75,28 @@ export class Game {
   /** イベントの発生済みフラグ */
   flags = { bossTalked: false, ending: false };
 
+  /** 所持金。宝箱と武器屋がこれを動かす */
+  gold = START_GOLD;
+
+  /** 開けた宝箱 */
+  opened = new Set<string>();
+
+  /** トレード中の相手 */
+  tradePartner?: Unit;
+
+  /** 訪問済みの村。FE の村は一度きり */
+  visited = new Set<string>();
+
+  /** この章の目標。HUD と勝敗判定が同じものを見る */
+  objective = OBJECTIVE;
+
   private enemyQueue: Unit[] = [];
   private enemyTimer = 0;
   private afterBattle?: () => void;
 
   constructor(skipOpening = false) {
-    if (skipOpening) this.showBanner('第1章  「魔物の谷」', '#8fc0ff');
+    resetMap();
+    if (skipOpening) this.showBanner(TITLE, '#8fc0ff');
     else this.playScript(OPENING, () => this.showBanner('PLAYER PHASE  1', '#8fc0ff'));
   }
 
@@ -227,6 +244,41 @@ export class Game {
   // ---------------------------------------------------------------- menus
 
   /** 隣接していて会話できる相手（説得 / ボス戦闘前会話） */
+  /** ロードが目標の玉座に立っていれば制圧できる */
+  canSeize(u: Unit) {
+    return !!u.isLord && this.objective.kind === 'seize' && u.x === this.objective.x && u.y === this.objective.y;
+  }
+
+  villageAt(x: number, y: number) {
+    if (this.visited.has(x + ',' + y)) return undefined;
+    return VILLAGES.find((v) => v.x === x && v.y === y);
+  }
+
+  chestAt(x: number, y: number) {
+    if (this.opened.has(x + ',' + y)) return undefined;
+    return CHESTS.find((c) => c.x === x && c.y === y);
+  }
+
+  /** 隣接する扉。FE は扉の前に立って開ける */
+  doorNear(u: Unit) {
+    for (const [dx, dy] of [
+      [1, 0],
+      [-1, 0],
+      [0, 1],
+      [0, -1],
+    ]) {
+      const x = u.x + dx;
+      const y = u.y + dy;
+      if (terrainAt(MAP, x, y).id === 'door') return { x, y };
+    }
+    return undefined;
+  }
+
+  /** 隣接する自軍。持ち物をやり取りできる相手 */
+  tradeTargets(u: Unit): Unit[] {
+    return this.alive('player').filter((o) => o !== u && Math.abs(o.x - u.x) + Math.abs(o.y - u.y) === 1);
+  }
+
   talkTargets(u: Unit): Unit[] {
     const out: Unit[] = [];
     for (const t of this.units) {
@@ -255,15 +307,39 @@ export class Game {
     const sup = this.supportTargets(u);
 
     const items: MenuItem[] = [];
+    if (this.canSeize(u)) items.push({ id: 'seize', label: '制圧', enabled: true });
+    if (this.villageAt(u.x, u.y)) items.push({ id: 'visit', label: '訪問', enabled: true });
+    if (this.chestAt(u.x, u.y)) items.push({ id: 'chest', label: '宝箱', enabled: u.keys > 0, sub: `鍵${u.keys}` });
+    if (this.doorNear(u)) items.push({ id: 'door', label: '扉', enabled: u.keys > 0, sub: `鍵${u.keys}` });
+    if (terrainAt(MAP, u.x, u.y).id === 'shop') items.push({ id: 'shop', label: '武器屋', enabled: true });
     if (w) items.push({ id: 'attack', label: '攻撃', enabled: foes.length > 0 });
     if (staff) items.push({ id: 'staff', label: '杖', enabled: allies.length > 0 });
     if (talk.length) items.push({ id: 'talk', label: '会話', enabled: true });
     if (sup.length) items.push({ id: 'support', label: '支援', enabled: true });
+    if (this.tradeTargets(u).length) items.push({ id: 'trade', label: 'トレード', enabled: true });
     items.push({ id: 'item', label: '道具', enabled: true });
     items.push({ id: 'wait', label: '待機', enabled: true });
 
     const first = items.findIndex((i) => i.enabled);
     this.menu = { items, index: first < 0 ? 0 : first, x: 0, y: 0, w: 152 };
+    this.mode = 'menu';
+  }
+
+  /** 空きマスでの決定。FE のマップメニュー */
+  openMapMenu() {
+    this.sel = undefined;
+    this.menu = {
+      items: [
+        { id: 'status', label: '状況', enabled: true },
+        { id: 'endturn', label: 'ターン終了', enabled: true },
+        { id: 'back', label: 'やめる', enabled: true },
+      ],
+      index: 0,
+      x: 0,
+      y: 0,
+      w: 176,
+      title: 'メニュー',
+    };
     this.mode = 'menu';
   }
 
@@ -348,7 +424,8 @@ export class Game {
         if (u.hp <= 0 && !u.dead) {
           u.dead = true;
           this.log(`${u.name} は倒れた`);
-          deaths.push(deathScript(u.id, u.name));
+          const d = deathScript(u.id, u.name);
+          if (d) deaths.push(d);
         }
       }
       this.refreshDanger();
@@ -382,14 +459,116 @@ export class Game {
     const staff = staffOf(u);
     if (!staff) return;
     const amount = healAmount(u, staff);
-    const before = target.hp;
-    target.hp = Math.min(maxHp(target), target.hp + amount);
+    const result = healResult(u, target, amount, staff.name, this.units);
     staff.uses -= 1;
     u.wexp[staff.type] = (u.wexp[staff.type] ?? 0) + 1;
-    this.log(`${u.name} は ${target.name} を ${target.hp - before} 回復した`);
+
+    const from = u.exp;
     const lv = gainExp(u, 11);
-    if (lv) this.log(`${u.name} は レベル ${lv.newLevel} に上がった`);
+    const expAnim: ExpAnim = { unit: u, from, gain: 11, levelUp: lv };
+
+    // HP は即時反映し、演出はスナップショットから再生する（startBattle と同じ）
+    target.hp = result.dEndHp;
+    this.mode = 'free';
+    this.battle = new BattleScene(result, expAnim, () => {
+      this.battle = undefined;
+      this.log(`${u.name} は ${target.name} を ${result.staffHeal!.amount} 回復した`);
+      if (lv) this.log(`${u.name} は レベル ${lv.newLevel} に上がった`);
+      this.endAction(u);
+    });
+  }
+
+  /** 制圧。FE の勝利条件で、敵を殺し切る必要はない */
+  private doSeize(u: Unit) {
+    this.log(`${u.name} は玉座を制圧した`);
+    this.flags.ending = true;
+    this.playScript(ENDING, () => {
+      this.result = 'win';
+      this.mode = 'result';
+      this.showBanner('VICTORY', '#ffd24a');
+    });
+  }
+
+  /** 村を訪ねる。一度きりで、中身は data 側が持つ */
+  private doVisit(u: Unit) {
+    const v = this.villageAt(u.x, u.y);
+    if (!v) return;
+    this.visited.add(v.x + ',' + v.y);
+    if (v.weapon) {
+      u.items.push(cloneWeapon(v.weapon));
+      this.log(`${u.name} は ${u.items[u.items.length - 1].name} を受け取った`);
+    }
+    if (v.potion) {
+      u.potion += v.potion;
+      this.log(`${u.name} は傷薬を ${v.potion} 個受け取った`);
+    }
+    this.playScript({ id: 'village_' + v.x + '_' + v.y, lines: [{ text: v.text }] }, () => this.endAction(u));
+  }
+
+  private doChest(u: Unit) {
+    const c = this.chestAt(u.x, u.y);
+    if (!c) return;
+    this.opened.add(c.x + ',' + c.y);
+    u.keys -= 1;
+    if (c.weapon) {
+      u.items.push(cloneWeapon(c.weapon));
+      this.log(`${u.name} は ${u.items[u.items.length - 1].name} を手に入れた`);
+    }
+    if (c.gold) {
+      this.gold += c.gold;
+      this.log(`${c.gold} ゴールドを手に入れた`);
+    }
     this.endAction(u);
+  }
+
+  private doDoor(u: Unit) {
+    const d = this.doorNear(u);
+    if (!d) return;
+    u.keys -= 1;
+    // 扉は開くと通れるようになる。地形そのものを書き換える
+    MAP[d.y] = MAP[d.y].slice(0, d.x) + '.' + MAP[d.y].slice(d.x + 1);
+    this.log(`${u.name} は扉を開けた`);
+    this.endAction(u);
+  }
+
+  openShopMenu() {
+    const items: MenuItem[] = SHOP.map((s, i) => {
+      const w = cloneWeapon(s.weapon);
+      return { id: `buy:${i}`, label: w.name, enabled: this.gold >= s.price, sub: `${s.price}G` };
+    });
+    items.push({ id: 'wait', label: '出る', enabled: true });
+    this.menu = { items, index: 0, x: 0, y: 0, w: 232, title: `武器屋  所持金 ${this.gold}G` };
+    this.mode = 'menu';
+  }
+
+  private doBuy(u: Unit, i: number) {
+    const s = SHOP[i];
+    if (!s || this.gold < s.price) return;
+    this.gold -= s.price;
+    u.items.push(cloneWeapon(s.weapon));
+    this.log(`${u.name} は ${u.items[u.items.length - 1].name} を買った`);
+    this.openShopMenu();
+  }
+
+  /** トレード。渡す側と受け取る側を一つのメニューに並べる */
+  openTradeMenu(u: Unit, other: Unit) {
+    this.tradePartner = other;
+    const items: MenuItem[] = [];
+    for (const [i, w] of u.items.entries()) items.push({ id: `give:${i}`, label: `→ ${w.name}`, enabled: true, sub: `${w.uses}` });
+    for (const [i, w] of other.items.entries()) items.push({ id: `take:${i}`, label: `← ${w.name}`, enabled: true, sub: `${w.uses}` });
+    items.push({ id: 'wait', label: '終わる', enabled: true });
+    this.menu = { items, index: 0, x: 0, y: 0, w: 220, title: `${other.name} と交換` };
+    this.mode = 'menu';
+  }
+
+  private moveItem(from: Unit, to: Unit, i: number) {
+    const w = from.items[i];
+    if (!w) return;
+    from.items.splice(i, 1);
+    to.items.push(w);
+    if (from.equipped >= from.items.length) from.equipped = Math.max(0, from.items.length - 1);
+    this.log(`${w.name} を ${to.name} へ渡した`);
+    this.openTradeMenu(this.sel!, this.tradePartner!);
   }
 
   private doTalk(target: Unit) {
@@ -463,7 +642,7 @@ export class Game {
   endPlayerPhase() {
     this.clearSelection();
     this.phase = 'enemy';
-    this.showBanner('ENEMY PHASE', '#ff8f8f');
+    this.showBanner('敵軍フェイズ', '#ff8f8f');
     this.enemyQueue = this.alive('enemy').slice();
     this.enemyTimer = 0.7;
     for (const u of this.units) if (u.team === 'enemy') u.acted = false;
@@ -472,7 +651,7 @@ export class Game {
   startPlayerPhase() {
     this.turn += 1;
     this.phase = 'player';
-    this.showBanner(`PLAYER PHASE  ${this.turn}`, '#8fc0ff');
+    this.showBanner(`自軍フェイズ  ${this.turn}`, '#8fc0ff');
     for (const u of this.units) {
       if (u.team !== 'player' || u.dead) continue;
       u.acted = false;
@@ -538,7 +717,8 @@ export class Game {
   checkResult() {
     if (this.result || this.flags.ending) return;
 
-    if (this.alive('enemy').length === 0) {
+    // 制圧の章では敵を全滅させても勝ちにはならない。玉座に立つまで続く。
+    if (this.objective.kind !== 'seize' && this.alive('enemy').length === 0) {
       this.flags.ending = true;
       this.playScript(ENDING, () => {
         this.result = 'win';
@@ -636,12 +816,22 @@ export class Game {
       return;
     }
     if (this.result) return;
+    // 状況画面はどのボタンでも閉じる
+    if (this.mode === 'status') {
+      this.mode = 'free';
+      return;
+    }
     if (this.phase !== 'player') return;
 
     switch (this.mode) {
       case 'free': {
         const u = this.unitAtCursor();
-        if (u && u.team === 'player' && !u.acted) this.selectUnit(u);
+        // FE と同じ: 誰もいない（か動き終わった）マスで決定するとマップメニュー
+        if (!u) {
+          this.openMapMenu();
+          break;
+        }
+        if (u.team === 'player' && !u.acted) this.selectUnit(u);
         else if (u) {
           this.sel = u;
           this.from = { x: u.x, y: u.y };
@@ -679,6 +869,7 @@ export class Game {
         if (this.targetKind === 'attack') this.doAttack(t);
         else if (this.targetKind === 'staff') this.doHeal(t);
         else if (this.targetKind === 'talk') this.doTalk(t);
+        else if (this.targetKind === 'trade') this.openTradeMenu(this.sel!, t);
         else this.doSupport(t);
         break;
       }
@@ -700,11 +891,63 @@ export class Game {
 
   pickMenu() {
     const menu = this.menu;
-    const u = this.sel;
-    if (!menu || !u) return;
-    const item = menu.items[menu.index];
-    if (!item || !item.enabled) return;
+    const item = menu?.items[menu.index];
+    if (!menu || !item || !item.enabled) return;
 
+    // マップメニューはユニットを選んでいない
+    if (item.id === 'status') {
+      this.menu = undefined;
+      this.mode = 'status';
+      return;
+    }
+    if (item.id === 'endturn') {
+      this.menu = undefined;
+      this.endPlayerPhase();
+      return;
+    }
+    const u = this.sel;
+    if (!u) {
+      this.menu = undefined;
+      this.mode = 'free';
+      return;
+    }
+
+    if (item.id === 'seize') {
+      this.doSeize(u);
+      return;
+    }
+    if (item.id === 'chest') {
+      this.doChest(u);
+      return;
+    }
+    if (item.id === 'door') {
+      this.doDoor(u);
+      return;
+    }
+    if (item.id === 'shop') {
+      this.openShopMenu();
+      return;
+    }
+    if (item.id.startsWith('buy:')) {
+      this.doBuy(u, Number(item.id.split(':')[1]));
+      return;
+    }
+    if (item.id === 'visit') {
+      this.doVisit(u);
+      return;
+    }
+    if (item.id === 'trade') {
+      this.beginTargeting('trade', this.tradeTargets(u));
+      return;
+    }
+    if (item.id.startsWith('give:')) {
+      this.moveItem(u, this.tradePartner!, Number(item.id.split(':')[1]));
+      return;
+    }
+    if (item.id.startsWith('take:')) {
+      this.moveItem(this.tradePartner!, u, Number(item.id.split(':')[1]));
+      return;
+    }
     if (item.id === 'attack') {
       const w = battleWeapon(u)!;
       this.beginTargeting('attack', this.enemiesInRange(u, w.minRange, w.maxRange));
@@ -769,6 +1012,11 @@ export class Game {
       return;
     }
     if (this.result) return;
+
+    if (this.mode === 'status') {
+      this.mode = 'free';
+      return;
+    }
 
     switch (this.mode) {
       case 'move':

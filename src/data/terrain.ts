@@ -11,6 +11,10 @@ const TERRAIN: Record<string, TerrainDef> = {
   w: { id: 'wall', name: '岩壁', color: '#2a2b33', color2: '#34363f', def: 0, avo: 0, cost: [INF, INF, INF] },
   '~': { id: 'water', name: '水辺', color: '#22506e', color2: '#2b6389', def: 0, avo: 0, cost: [INF, INF, 1] },
   F: { id: 'fort', name: '砦', color: '#6d6a80', color2: '#7f7c95', def: 2, avo: 20, cost: [1, 1, 1], heal: 0.2 },
+  V: { id: 'village', name: '村', color: '#7a5b3a', color2: '#8d6c47', def: 0, avo: 0, cost: [1, 1, 1] },
+  D: { id: 'door', name: '扉', color: '#5a4632', color2: '#6b543c', def: 0, avo: 0, cost: [INF, INF, INF] },
+  C: { id: 'chest', name: '宝箱', color: '#6d6a80', color2: '#7f7c95', def: 0, avo: 0, cost: [1, 1, 1] },
+  S: { id: 'shop', name: '武器屋', color: '#7a5b3a', color2: '#8d6c47', def: 0, avo: 0, cost: [1, 1, 1] },
   G: { id: 'gate', name: '門', color: '#8a6f45', color2: '#9d8052', def: 3, avo: 20, cost: [1, 1, 1], heal: 0.2 },
 };
 

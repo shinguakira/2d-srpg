@@ -11,14 +11,16 @@ export interface ExpAnim {
   levelUp?: LevelUpResult;
 }
 
-type Phase = 'intro' | 'strike' | 'gap' | 'outro' | 'exp' | 'levelup' | 'done';
+type Phase = 'intro' | 'strike' | 'heal' | 'gap' | 'outro' | 'exp' | 'levelup' | 'done';
 
 const W = 960;
 const H = 640;
 /** 立ち位置 */
 const GROUND_Y = 436;
-const LEFT_X = 272;
-const RIGHT_X = 688;
+// GBA の FE は両者を最初から近くに置き、攻撃側は大きく移動しない。離して置いて
+// 踏み込みで詰めようとすると、届かないか、詰めるのに時間がかかりすぎる。
+const LEFT_X = 350;
+const RIGHT_X = 610;
 const SPRITE = 245;
 
 const STAT_LABELS: [keyof Stats, string][] = [
@@ -31,15 +33,6 @@ const STAT_LABELS: [keyof Stats, string][] = [
   ['def', '守備'],
   ['res', '魔防'],
 ];
-
-interface Popup {
-  text: string;
-  x: number;
-  y: number;
-  t: number;
-  color: string;
-  size: number;
-}
 
 export class BattleScene {
   private phase: Phase = 'intro';
@@ -57,7 +50,6 @@ export class BattleScene {
   private lungeBy: 'attacker' | 'defender' = 'attacker';
   private shake = 0;
   private flash = 0;
-  private popups: Popup[] = [];
   private expShown: number;
   private expTarget: number;
   private levelUpShown = false;
@@ -102,34 +94,21 @@ export class BattleScene {
     this.lungeBy = ev.by;
   }
 
+  /**
+   * 着弾。**数字は出さない。**
+   *
+   * GBA の FE にダメージのポップアップは無く、HP ゲージが減り、その下の数値が
+   * 下がるだけで伝える。MISS も必殺も、避ける絵と斬る絵そのもので見せる。
+   */
   private applyImpact(ev: BattleEvent) {
-    const targetIsDefender = ev.by === 'attacker';
-    const tx = targetIsDefender ? RIGHT_X : LEFT_X;
-    const ty = GROUND_Y - SPRITE * 0.9;
-
-    if (!ev.hit) {
-      this.popups.push({ text: 'MISS', x: tx, y: ty, t: 0, color: '#dbe4ff', size: 34 });
-      return;
-    }
+    if (!ev.hit) return;
     if (ev.crit) {
       this.flash = 1;
       this.shake = 16;
-      this.popups.push({ text: '必殺!', x: tx, y: ty - 46, t: 0, color: '#ffd24a', size: 30 });
     } else {
-      this.shake = 6;
+      this.shake = ev.effective ? 10 : 6;
     }
-    if (ev.effective) {
-      this.popups.push({ text: '特効!', x: tx, y: ty - (ev.crit ? 78 : 46), t: 0, color: '#ff9f4a', size: 26 });
-    }
-    this.popups.push({
-      text: String(ev.damage),
-      x: tx,
-      y: ty,
-      t: 0,
-      color: ev.crit ? '#ffd24a' : '#ffffff',
-      size: ev.crit ? 56 : 42,
-    });
-    if (targetIsDefender) this.dHp = ev.targetHp;
+    if (ev.by === 'attacker') this.dHp = ev.targetHp;
     else this.aHp = ev.targetHp;
   }
 
@@ -144,13 +123,31 @@ export class BattleScene {
 
     this.shake = Math.max(0, this.shake - dt * 45);
     this.flash = Math.max(0, this.flash - dt * 3.4);
-    for (const p of this.popups) p.t += dt;
-    this.popups = this.popups.filter((p) => p.t < 1.0);
 
     switch (this.phase) {
       case 'intro':
-        if (this.t >= 0.4) this.startStrike();
+        if (this.t >= 0.4) {
+          if (this.result.staffHeal) {
+            this.phase = 'heal';
+            this.t = 0;
+          } else this.startStrike();
+        }
         break;
+
+      // 杖を掲げ、光が降り、HP が満ちる
+      case 'heal': {
+        const raise = 0.45;
+        if (this.t >= raise && !this.impacted) {
+          this.impacted = true;
+          this.dHp = this.result.dEndHp;
+          this.flash = 0.7;
+        }
+        if (this.t >= raise + 0.75) {
+          this.phase = 'outro';
+          this.t = 0;
+        }
+        break;
+      }
 
       case 'strike': {
         const ev = this.currentEvent()!;
@@ -240,6 +237,23 @@ export class BattleScene {
    * 時計ではなく演出の進行に紐づける。斬撃は踏み込みの途中で当たり、被弾は当たった
    * 瞬間から始まる。時計で回すと剣を振り終わってから当たったりする。
    */
+  /**
+   * 必殺のときだけ画面ごと変える。GBA の FE は必殺を通常攻撃の強化版ではなく
+   * 別の見せ物として扱う — 背景が沈み、線が寄り、カメラが押し込む。
+   * 戻り値の k は 0..1 で、溜めで上がり着弾後に戻る。
+   */
+  private critFocus() {
+    if (this.phase !== 'strike') return undefined;
+    const ev = this.currentEvent();
+    if (!ev?.crit) return undefined;
+    const windup = 0.36;
+    const total = windup + 0.42;
+    const p = Math.min(1, this.t / total);
+    const at = windup / total;
+    const k = p < at ? p / at : Math.max(0, 1 - (p - at) / (1 - at));
+    return { x: ev.by === 'attacker' ? LEFT_X : RIGHT_X, k };
+  }
+
   private clipFor(unit: Unit): { clip: Clip; clipT: number } {
     const dead = (unit === this.attacker ? this.aHp : this.dHp) <= 0;
     if (dead) {
@@ -268,7 +282,7 @@ export class BattleScene {
   private drawSide(ctx: CanvasRenderingContext2D, unit: Unit, x: number, facing: number, dying: boolean, alive: number) {
     const active = this.phase === 'strike' && (this.lungeBy === 'attacker') === (unit === this.attacker);
     const lunge = active ? this.lunge : 0;
-    const px = x + facing * lunge * 90;
+    const px = x + facing * lunge * 130;
 
     ctx.save();
     if (dying) {
@@ -409,7 +423,9 @@ export class BattleScene {
     ctx.font = '15px "Yu Gothic UI", sans-serif';
     ctx.fillStyle = '#3a2c1c';
     ctx.textAlign = 'left';
-    ctx.fillText(view.weapon ? view.weapon.name : '(武器なし)', x + 12, y + 23);
+    const heal = this.result.staffHeal;
+    const label = heal ? (unit === this.attacker ? heal.staffName : '') : view.weapon ? view.weapon.name : '(武器なし)';
+    ctx.fillText(label, x + 12, y + 23);
     if (view.tri !== 0) {
       ctx.fillStyle = view.tri > 0 ? '#1f7a3a' : '#a03030';
       ctx.font = 'bold 13px "Yu Gothic UI", sans-serif';
@@ -570,6 +586,26 @@ export class BattleScene {
       ctx.fillRect(x0, GROUND_Y - 40, w, 20);
       ctx.restore();
     }
+    // 足場。FE は戦う二人がそれぞれ自分の地形の台に乗る
+    for (const [unit, x] of [
+      [this.attacker, LEFT_X],
+      [this.defender, RIGHT_X],
+    ] as [Unit, number][]) {
+      const t = terrainAtPos(unit);
+      ctx.save();
+      ctx.fillStyle = t.color;
+      ctx.beginPath();
+      ctx.ellipse(x, GROUND_Y + 6, 150, 30, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = t.color2;
+      ctx.beginPath();
+      ctx.ellipse(x, GROUND_Y, 150, 30, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(0,0,0,0.35)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.restore();
+    }
     ctx.textAlign = 'left';
   }
 
@@ -578,6 +614,15 @@ export class BattleScene {
     const sx = (Math.random() - 0.5) * this.shake;
     const sy = (Math.random() - 0.5) * this.shake;
     ctx.translate(sx, sy);
+
+    const crit = this.critFocus();
+    if (crit) {
+      const zoom = 1 + 0.16 * crit.k;
+      const fy = GROUND_Y - SPRITE * 0.4;
+      ctx.translate(crit.x, fy);
+      ctx.scale(zoom, zoom);
+      ctx.translate(-crit.x, -fy);
+    }
 
     // 背景
     const g = ctx.createLinearGradient(0, 0, 0, H);
@@ -588,6 +633,27 @@ export class BattleScene {
     ctx.fillRect(-20, -20, W + 40, H + 40);
 
     this.drawBackdrop(ctx);
+
+    if (crit) {
+      const fy = GROUND_Y - SPRITE * 0.4;
+      ctx.save();
+      ctx.globalAlpha = crit.k * 0.72;
+      ctx.fillStyle = '#05060c';
+      ctx.fillRect(-W, -H, W * 3, H * 3);
+      // 集中線。焦点から外へ抜ける
+      ctx.strokeStyle = 'rgba(255,226,150,0.5)';
+      ctx.lineWidth = 2;
+      for (let i = 0; i < 28; i++) {
+        const a = (i / 28) * Math.PI * 2 + i * 0.37;
+        const r0 = 190 + ((i * 53) % 90);
+        const r1 = r0 + 260 + ((i * 31) % 140);
+        ctx.beginPath();
+        ctx.moveTo(crit.x + Math.cos(a) * r0, fy + Math.sin(a) * r0);
+        ctx.lineTo(crit.x + Math.cos(a) * r1, fy + Math.sin(a) * r1);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
 
     // 地面
     const gg = ctx.createLinearGradient(0, GROUND_Y - 30, 0, H);
@@ -615,34 +681,14 @@ export class BattleScene {
     this.drawSide(ctx, this.defender, RIGHT_X, -1, this.dHp <= 0, this.dHp);
     ctx.restore();
 
-    // 中央: 距離表示
-    ctx.textAlign = 'center';
-    ctx.fillStyle = 'rgba(200,215,255,0.5)';
-    ctx.font = '13px "Yu Gothic UI", sans-serif';
-    ctx.fillText(`距離 ${this.result.forecast.distance}`, W / 2, 46);
-
     this.drawNamePlate(ctx, this.attacker, 'left');
     this.drawNamePlate(ctx, this.defender, 'right');
-    this.drawStatBox(ctx, this.attacker, 'left');
-    this.drawStatBox(ctx, this.defender, 'right');
+    if (!this.result.staffHeal) {
+      this.drawStatBox(ctx, this.attacker, 'left');
+      this.drawStatBox(ctx, this.defender, 'right');
+    }
     this.drawHpRow(ctx, this.attacker, this.aShown, 'left');
     this.drawHpRow(ctx, this.defender, this.dShown, 'right');
-
-    // ダメージポップアップ
-    for (const p of this.popups) {
-      const a = Math.max(0, 1 - p.t * 1.1);
-      const rise = Math.min(1, p.t * 3) * 46;
-      ctx.save();
-      ctx.globalAlpha = a;
-      ctx.textAlign = 'center';
-      ctx.font = `bold ${p.size}px "Consolas", monospace`;
-      ctx.lineWidth = 5;
-      ctx.strokeStyle = 'rgba(0,0,0,0.85)';
-      ctx.strokeText(p.text, p.x, p.y - rise);
-      ctx.fillStyle = p.color;
-      ctx.fillText(p.text, p.x, p.y - rise);
-      ctx.restore();
-    }
 
     if (this.phase === 'exp' || this.phase === 'levelup') this.drawExpBar(ctx);
     if (this.phase === 'levelup') this.drawLevelUp(ctx);

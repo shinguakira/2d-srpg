@@ -283,9 +283,13 @@ const AKIRA_CLIPS: Record<Clip, SheetClip> = {
   die: { at: [31, 7], fps: 8, loop: false },
 };
 
-const SHEET_UNITS: Record<string, { url: string; clips: Record<Clip, SheetClip> }> = {
-  p_shigeru: { url: shigeruSheetUrl, clips: SHIGERU_CLIPS },
-  p_akira: { url: akiraSheetUrl, clips: AKIRA_CLIPS },
+/**
+ * 絵は 84px の枠いっぱいには描かれていない。足元の行が違うので、枠ではなくこの
+ * 行を基準に置かないとユニットごとに浮く。全コマを走査した最下端の一つ下。
+ */
+const SHEET_UNITS: Record<string, { url: string; bottom: number; clips: Record<Clip, SheetClip> }> = {
+  p_shigeru: { url: shigeruSheetUrl, bottom: 81, clips: SHIGERU_CLIPS },
+  p_akira: { url: akiraSheetUrl, bottom: 73, clips: AKIRA_CLIPS },
 };
 
 /**
@@ -353,7 +357,7 @@ function drawFromSheet(
   ctx.imageSmoothingEnabled = false;
   ctx.translate(cx, cy);
   if (facing < 0) ctx.scale(-1, 1);
-  ctx.drawImage(img, frame * SHEET_FRAME, 0, SHEET_FRAME, SHEET_FRAME, -w / 2, -w * 0.965, w, w);
+  ctx.drawImage(img, frame * SHEET_FRAME, 0, SHEET_FRAME, SHEET_FRAME, -w / 2, -(def.bottom / SHEET_FRAME) * w, w, w);
   ctx.restore();
   return true;
 }

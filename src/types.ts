@@ -99,6 +99,8 @@ export interface Unit {
   items: Weapon[];
   equipped: number;
   potion: number;
+  /** 扉と宝箱を開ける鍵。FE の「鍵」 */
+  keys: number;
   acted: boolean;
   ai?: AiKind;
   isLord?: boolean;

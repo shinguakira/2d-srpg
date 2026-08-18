@@ -2,6 +2,7 @@ import { battleWeapon, equippedWeapon, maxHp, weaponRankOf } from '../battle/com
 import { AFFINITY_COLOR, AFFINITY_NAME, RANK_LABEL, SUPPORT_THRESHOLD, supportBonus } from '../battle/support';
 import { key } from '../core/grid';
 import { MAP, MAP_H, MAP_W } from '../data/chapter1';
+import { TITLE } from '../story/script';
 import { classOf } from '../data/classes';
 import { terrainAt } from '../data/terrain';
 import { WEAPON_ICON, WEAPON_LABEL } from '../data/weapons';
@@ -70,6 +71,10 @@ function feText(
 }
 
 const GOLD = '#ffd86a';
+
+/** drawScene が毎フレーム差し替える。村の戸を閉めるためだけの参照 */
+let visitedVillages: ReadonlySet<string> = new Set();
+let openedChests: ReadonlySet<string> = new Set();
 
 function drawTile(ctx: CanvasRenderingContext2D, x: number, y: number) {
   const t = terrainAt(MAP, x, y);
@@ -151,6 +156,51 @@ function drawTile(ctx: CanvasRenderingContext2D, x: number, y: number) {
         ctx.quadraticCurveTo(sx + TILE / 2, wy + 5, sx + TILE - 5, wy);
         ctx.stroke();
       }
+      break;
+    case 'village': {
+      // 訪問済みは戸を閉めて暗くする。FE も一度きりで、済んだ村は見分けがつく
+      const done = visitedVillages.has(x + ',' + y);
+      ctx.fillStyle = done ? '#4a3a2a' : '#8a6a44';
+      ctx.fillRect(sx + 7, sy + 16, TILE - 14, TILE - 20);
+      ctx.fillStyle = done ? '#5c4632' : '#a8804f';
+      ctx.beginPath();
+      ctx.moveTo(sx + 4, sy + 17);
+      ctx.lineTo(sx + TILE / 2, sy + 6);
+      ctx.lineTo(sx + TILE - 4, sy + 17);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = done ? '#2a2018' : '#3a2c1c';
+      ctx.fillRect(sx + TILE / 2 - 4, sy + TILE - 12, 8, 8);
+      break;
+    }
+    case 'door':
+      ctx.fillStyle = '#3a2c1c';
+      ctx.fillRect(sx + 6, sy + 6, TILE - 12, TILE - 8);
+      ctx.fillStyle = '#7a6244';
+      ctx.fillRect(sx + 9, sy + 9, TILE - 18, TILE - 12);
+      ctx.fillStyle = '#d8c56a';
+      ctx.fillRect(sx + TILE - 15, sy + TILE / 2 - 2, 4, 4);
+      break;
+    case 'chest': {
+      const taken = openedChests.has(x + ',' + y);
+      ctx.fillStyle = taken ? '#4a4636' : '#8a6a2a';
+      ctx.fillRect(sx + 8, sy + 18, TILE - 16, TILE - 26);
+      ctx.fillStyle = taken ? '#5c5844' : '#b8933c';
+      ctx.fillRect(sx + 8, sy + 13, TILE - 16, 7);
+      if (!taken) {
+        ctx.fillStyle = '#f0e0a0';
+        ctx.fillRect(sx + TILE / 2 - 2, sy + 17, 4, 6);
+      }
+      break;
+    }
+    case 'shop':
+      ctx.fillStyle = '#5a4632';
+      ctx.fillRect(sx + 6, sy + 16, TILE - 12, TILE - 20);
+      ctx.fillStyle = '#c0503a';
+      ctx.fillRect(sx + 4, sy + 11, TILE - 8, 7);
+      ctx.fillStyle = '#e8d8a0';
+      ctx.fillRect(sx + TILE / 2 - 5, sy + 22, 10, 3);
+      ctx.fillRect(sx + TILE / 2 - 1, sy + 22, 2, 10);
       break;
     case 'fort':
       ctx.fillStyle = '#565368';
@@ -256,7 +306,8 @@ function drawUnits(ctx: CanvasRenderingContext2D, g: Game, time: number) {
   const sorted = g.units.filter((u) => !u.dead).sort((a, b) => a.py - b.py);
   for (const u of sorted) {
     const cx = OX + u.px * TILE + TILE / 2;
-    const cy = OY + u.py * TILE + TILE * 0.86;
+    // 足元はタイルの下端に置く。0.86 だと 40px のタイルで 5.6px 浮いて見えた。
+    const cy = OY + u.py * TILE + TILE * 0.97;
     const selected = g.sel === u && (g.mode === 'move' || g.mode === 'menu');
     const bob = selected ? Math.abs(Math.sin(time * 5)) * 4 : 0;
 
@@ -421,11 +472,13 @@ function drawHandCursor(ctx: CanvasRenderingContext2D, x: number, y: number, wob
 
 function drawMenu(ctx: CanvasRenderingContext2D, g: Game, time: number) {
   const m = g.menu;
-  if (!m || !g.sel) return;
+  if (!m) return;
   const rowH = 34;
   const h = (m.title ? 28 : 10) + m.items.length * rowH + 10;
-  const ux = OX + g.sel.x * TILE;
-  const uy = OY + g.sel.y * TILE;
+  // マップメニューはユニットを選ばずに開く。その場合はカーソルの横に出す。
+  const anchor = g.sel ?? g.cursor;
+  const ux = OX + anchor.x * TILE - camera.x;
+  const uy = OY + anchor.y * TILE - camera.y;
   let x = ux + TILE + 8;
   if (x + m.w > OX + MAP_PX_W) x = ux - m.w - 8;
   let y = uy;
@@ -547,7 +600,12 @@ function drawTopBar(ctx: CanvasRenderingContext2D, g: Game) {
   feText(ctx, `ターン ${g.turn}`, 148, 27, { size: 14, color: GOLD });
   feText(ctx, `自軍 ${g.alive('player').length}  /  敵 ${g.alive('enemy').length}`, 244, 27, { size: 13 });
   if (g.showDanger) feText(ctx, '[T] 敵攻撃範囲 ON', 392, 27, { size: 13, color: '#ff9a9a' });
-  feText(ctx, '目標: 敵の全滅  /  敗北: シゲル死亡', CANVAS_W - 16, 27, { size: 12, align: 'right', color: '#b9c6e6' });
+  const lord = g.units.find((u) => u.isLord);
+  feText(ctx, `目標: ${g.objective.label}  /  敗北: ${lord?.name ?? 'ロード'}死亡`, CANVAS_W - 16, 27, {
+    size: 12,
+    align: 'right',
+    color: '#b9c6e6',
+  });
 }
 
 function drawMessages(ctx: CanvasRenderingContext2D, g: Game) {
@@ -558,6 +616,34 @@ function drawMessages(ctx: CanvasRenderingContext2D, g: Game) {
     ctx.fillStyle = `rgba(220,232,255,${alpha})`;
     ctx.fillText(m.text, 16, CANVAS_H - 16 - (g.messages.length - 1 - i) * 18);
   });
+}
+
+/** FE のマップメニューにある「状況」。何を達成すれば終わるかを画面から読めるようにする */
+function drawStatus(ctx: CanvasRenderingContext2D, g: Game) {
+  if (g.mode !== 'status') return;
+  ctx.fillStyle = 'rgba(6,9,18,0.86)';
+  ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+
+  const x = 200;
+  let y = 150;
+  feText(ctx, '状況', x, y, { size: 30, color: '#f0e6c8' });
+  y += 56;
+  const lord = g.units.find((u) => u.isLord);
+  const rows: [string, string][] = [
+    ['章', TITLE],
+    ['目標', g.objective.label],
+    ['敗北条件', `${lord?.name ?? 'ロード'}の死亡`],
+    ['ターン', String(g.turn)],
+    ['自軍', `${g.alive('player').length} 人`],
+    ['敵', `${g.alive('enemy').length} 人`],
+    ['所持金', `${g.gold} G`],
+  ];
+  for (const [k, v] of rows) {
+    feText(ctx, k, x, y, { size: 16, color: '#9fb0d8' });
+    feText(ctx, v, x + 160, y, { size: 18, color: '#e8eefc' });
+    y += 34;
+  }
+  feText(ctx, 'X / 右クリックで戻る', CANVAS_W / 2, CANVAS_H - 70, { size: 14, align: 'center', color: '#8b9ac0' });
 }
 
 function drawBanner(ctx: CanvasRenderingContext2D, g: Game) {
@@ -610,6 +696,8 @@ export function drawScene(ctx: CanvasRenderingContext2D, g: Game, time: number, 
 
   // 歩いているユニットがいればそれを、いなければカーソルを追う。敵フェイズに
   // 画面外で動かれると何が起きたか分からないので、そこは特に効く。
+  visitedVillages = g.visited;
+  openedChests = g.opened;
   const follow = g.walk?.unit ?? g.cursor;
   focusOn(follow.x, follow.y, dt);
 
@@ -644,12 +732,15 @@ export function drawScene(ctx: CanvasRenderingContext2D, g: Game, time: number, 
   const inTarget = g.mode === 'target';
   const forecastOnLeft = g.cursor.x >= MAP_W / 2;
   const hovered = inTarget ? g.targets[g.targetIndex] : g.unitAtCursor();
-  if (hovered) drawUnitPanel(ctx, g, hovered, inTarget && forecastOnLeft ? 'right' : 'left');
+  // FE と同じで、パネルはカーソルに被らない側へ寄る
+  const away: 'left' | 'right' = g.cursor.x < MAP_W / 2 ? 'right' : 'left';
+  if (hovered) drawUnitPanel(ctx, g, hovered, inTarget ? (forecastOnLeft ? 'right' : 'left') : away);
   if (!inTarget) drawTerrainPanel(ctx, g);
   drawMenu(ctx, g, time);
   drawForecast(ctx, g);
   drawTopBar(ctx, g);
   drawMessages(ctx, g);
+  drawStatus(ctx, g);
   drawBanner(ctx, g);
   drawResult(ctx, g);
 }

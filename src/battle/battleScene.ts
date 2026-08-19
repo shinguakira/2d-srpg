@@ -2,6 +2,7 @@ import type { BattleEvent, BattleResult, LevelUpResult } from './combat';
 import { maxHp, terrainAtPos } from './combat';
 import { drawUnitSprite, type Clip } from '../render/sprites';
 import { classOf } from '../data/classes';
+import { shade } from '../render/sprites';
 import type { Stats, Unit } from '../types';
 
 export interface ExpAnim {
@@ -562,7 +563,12 @@ export class BattleScene {
     ctx.restore();
   }
 
-  /** 立っている地形を背景の丘として描き、戦闘画面に場所の情報を出す */
+  /**
+   * 戦場の背景。**画面の高さを使い切る。**
+   *
+   * FE は戦闘画面の上半分を空のまま置かず、立っている地形の景色で埋める。
+   * 左右で別々に描くのは、二人が違う地形に立っていることがあるため。
+   */
   private drawBackdrop(ctx: CanvasRenderingContext2D) {
     const sides: [Unit, number, number][] = [
       [this.attacker, 0, W / 2],
@@ -571,19 +577,74 @@ export class BattleScene {
     for (const [unit, x0, w] of sides) {
       const t = terrainAtPos(unit);
       ctx.save();
-      ctx.globalAlpha = 0.55;
-      ctx.fillStyle = t.color;
       ctx.beginPath();
-      ctx.moveTo(x0, GROUND_Y - 20);
-      ctx.lineTo(x0, GROUND_Y - 110);
-      ctx.quadraticCurveTo(x0 + w * 0.3, GROUND_Y - 160, x0 + w * 0.55, GROUND_Y - 118);
-      ctx.quadraticCurveTo(x0 + w * 0.8, GROUND_Y - 80, x0 + w, GROUND_Y - 120);
-      ctx.lineTo(x0 + w, GROUND_Y - 20);
+      ctx.rect(x0, 0, w, GROUND_Y);
+      ctx.clip();
+
+      // 空。地形の色をわずかに混ぜて、場所ごとに空気の色が変わる
+      const sky = ctx.createLinearGradient(0, 0, 0, GROUND_Y);
+      sky.addColorStop(0, '#131a30');
+      sky.addColorStop(0.72, shade(t.color, 0.55));
+      sky.addColorStop(1, shade(t.color, 0.8));
+      ctx.fillStyle = sky;
+      ctx.fillRect(x0, 0, w, GROUND_Y);
+
+      // 遠景。地形ごとに輪郭を変える
+      const far = shade(t.color, 0.45);
+      const mid = shade(t.color, 0.7);
+      const hz = GROUND_Y - 210;
+      ctx.fillStyle = far;
+      ctx.beginPath();
+      ctx.moveTo(x0, GROUND_Y);
+      switch (t.id) {
+        case 'mountain':
+        case 'peak':
+          for (let i = 0; i <= 4; i++) {
+            ctx.lineTo(x0 + (w * i) / 4 - w / 8, hz + (i % 2 ? 70 : -40));
+            ctx.lineTo(x0 + (w * i) / 4, hz + (i % 2 ? -50 : 60));
+          }
+          break;
+        case 'forest':
+          for (let i = 0; i <= 10; i++) {
+            const cx = x0 + (w * i) / 10;
+            ctx.lineTo(cx - w / 30, hz + 90);
+            ctx.lineTo(cx, hz + 10 + ((i * 37) % 50));
+            ctx.lineTo(cx + w / 30, hz + 90);
+          }
+          break;
+        case 'fort':
+        case 'gate':
+        case 'throne':
+          for (let i = 0; i <= 8; i++) {
+            const cx = x0 + (w * i) / 8;
+            ctx.lineTo(cx, hz + 60);
+            ctx.lineTo(cx, hz + (i % 2 ? 60 : 20));
+            ctx.lineTo(cx + w / 16, hz + (i % 2 ? 60 : 20));
+            ctx.lineTo(cx + w / 16, hz + 60);
+          }
+          break;
+        case 'water':
+          ctx.lineTo(x0, hz + 120);
+          ctx.lineTo(x0 + w, hz + 120);
+          break;
+        default:
+          for (let i = 0; i <= 6; i++) {
+            ctx.quadraticCurveTo(x0 + (w * (i - 0.5)) / 6, hz + 40 + ((i * 53) % 70), x0 + (w * i) / 6, hz + 80);
+          }
+      }
+      ctx.lineTo(x0 + w, GROUND_Y);
       ctx.closePath();
       ctx.fill();
-      ctx.globalAlpha = 0.28;
-      ctx.fillStyle = t.color2;
-      ctx.fillRect(x0, GROUND_Y - 40, w, 20);
+
+      // 近景の土手
+      ctx.fillStyle = mid;
+      ctx.beginPath();
+      ctx.moveTo(x0, GROUND_Y);
+      ctx.lineTo(x0, GROUND_Y - 70);
+      ctx.quadraticCurveTo(x0 + w * 0.45, GROUND_Y - 110, x0 + w, GROUND_Y - 60);
+      ctx.lineTo(x0 + w, GROUND_Y);
+      ctx.closePath();
+      ctx.fill();
       ctx.restore();
     }
     // 足場。FE は戦う二人がそれぞれ自分の地形の台に乗る

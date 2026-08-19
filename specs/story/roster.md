@@ -17,11 +17,11 @@ See [characters.md](characters.md) for writing briefs and
 | 1 | **Shigeru** | `shigeru` | Lord | Ch1 | — | Protagonist. Bears the Flamebrand. Must survive every chapter. |
 | 2 | **Akira** | `akira` | Cavalier | Ch1 | — | Sworn retainer. Survives the campaign — deliberately. |
 | 3 | **Lisette** | `lisette` | Mage | Ch1 | — | Court scholar. Tracks the blight. Crisis chapter is Ch7. |
-| 4 | **Mirelle** | `mirelle` | Cleric | Ch1 (epilogue) | — | Shrine maiden of Shiratake. Supplies the setting's folklore. |
+| 4 | **Mirelle** | `mirelle` | Cleric | Ch1 (epilogue) | — | Shrine maiden of Shirato. Supplies the setting's folklore. |
 | 5 | **Gareth** | `gareth` | Fighter | Ch1 (turn 2) | — | Woodcutter. Asks the questions the player is thinking. |
 | 6 | **Halvar** | `halvar` | Soldier | Ch2 (defects) | **Ch8 (dies)** | Kurogane sergeant. His death is the campaign's turning point. |
-| 7 | **Bryn** | `bryn` | Archer | Ch3 | — | Shiine huntress. Speaks in single words. |
-| 8 | **Fenn** | `fenn` | Thief | Ch4 | — | Tsutsu pickpocket. Feeds people with stolen keys. |
+| 7 | **Bryn** | `bryn` | Archer | Ch3 | — | Shena huntress. Speaks in single words. |
+| 8 | **Fenn** | `fenn` | Thief | Ch4 | — | Suza pickpocket. Feeds people with stolen keys. |
 | 9 | **Elin** | `elin` | Pegasus Knight | Ch5 | — | Sky Watch rider. Sees the blight from above first. |
 | 10 | **Corwin** | `corwin` | Mercenary | Ch6 | — | Sellsword. The company's memento mori. |
 | 11 | **Nadine** | `nadine` | Troubadour | Ch6 | — | Heals both armies and will not be argued out of it. |

@@ -1,13 +1,13 @@
-# Chapter 1: The Road to Kuta
+# Chapter 1: The Road to Kureha
 
 Chapter 1 is the only chapter implemented. Its script is in `src/story/script.ts`,
 recast onto the ported game's roster; this file is the design intent behind it.
 
 ## Summary
 
-The tutorial. Kurogane landed at Komoda, the king died on the sand and Izuhara
+The tutorial. Kurogane landed at Kodo, the king died on the sand and Ilza
 burned; the prince is on the coast road south with what is left of his father's
-guard, and the gate keep at **Kuta** is already flying Kurogane colours. Teaches
+guard, and the gate keep at **Kureha** is already flying Kurogane colours. Teaches
 movement, attacking, the weapon triangle, terrain, villages, and Seize.
 
 The chapter has to do two jobs at once: teach the game, and establish that Shigeru
@@ -72,20 +72,20 @@ hold his brother's village. He is not a monster and the player should notice.
 **Boss pre-combat** (Shigeru steps to (10,2), inside the gate). Shigeru offers him the road south.
 Hagen cannot take it. *"Don't be sorry. Be quick."*
 
-**Boss death.** He names the village — Kuta — so that somebody will know it.
+**Boss death.** He names the village — Kureha — so that somebody will know it.
 Shigeru says he will remember, and Hagen is visibly surprised that a prince would.
 
 **Villages.** A hand axe from a farmer's father; a wind tome left by a scholar who
 fled inland. Both plant the westward pull of everything in this world.
 
 **Epilogue.** Akira calls it a victory; Shigeru calls it one gate. Mirelle arrives from
-the Shiratake shrine, sent to find the Flamebrand's bearer, and immediately orders the
+the Shirato shrine, sent to find the Flamebrand's bearer, and immediately orders the
 prince to sit down and let her look at his arm. He obeys. *"It was the only order
 anyone gave him that day that he obeyed."*
 
 ## Supports
 
-- **Shigeru × Akira** — Akira notices he has not eaten since Izuhara. Establishes that
+- **Shigeru × Akira** — Akira notices he has not eaten since Ilza. Establishes that
   Akira is the one person who asks and waits for a real answer.
 - **Lisette × Mirelle** — faith vs measurement, handled with respect on both sides.
   *"It was not a refusal. I said I cannot measure it."*

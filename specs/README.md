@@ -13,7 +13,7 @@
 The game is a port of a Fire Emblem: The Sacred Stones PoC — TypeScript and
 Canvas 2D, one chapter, the PoC's cast. `systems/` documents that.
 
-`story/` is the Tsushima campaign: Shigeru, Akira, Takeshi, twenty-five chapters
+`story/` is the Amagi campaign: Shigeru, Akira, Takeshi, twenty-five chapters
 across the island. Of it, only chapter 1's script and Shigeru himself are in the
 game. Everything else is a target, not a description. Do not read `story/` as an
 account of what the code does.

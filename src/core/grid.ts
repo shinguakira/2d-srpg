@@ -1,4 +1,4 @@
-import { MAP, MAP_H, MAP_W } from '../data/chapter1';
+import { MAP, MAP_H, MAP_W } from '../data/chapters';
 import { classOf, MOVE_INDEX } from '../data/classes';
 import { terrainAt } from '../data/terrain';
 import type { Pos, Unit } from '../types';

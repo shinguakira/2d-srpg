@@ -1,6 +1,6 @@
 import { battleWeapon, forecast } from '../battle/combat';
 import { computeMoveRange, key, manhattan, unkeyX, unkeyY } from '../core/grid';
-import { MAP } from '../data/chapter1';
+import { MAP } from '../data/chapters';
 import { terrainAt } from '../data/terrain';
 import type { Pos, Unit } from '../types';
 

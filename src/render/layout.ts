@@ -1,4 +1,4 @@
-import { MAP_H, MAP_W } from '../data/chapter1';
+import { MAP_H, MAP_W } from '../data/chapters';
 
 export const TILE = 40;
 export const CANVAS_W = 960;

@@ -1,4 +1,4 @@
-# Chapter 6: The Harbour at Kechi
+# Chapter 6: The Harbour at Kesh
 
 Not implemented.
 
@@ -23,7 +23,7 @@ being a choice.
 ## Beats
 
 **Prologue — the fifth mark.** Corwin's last contract was guarding a caravan out of
-the Sasu valley. There is no pack train and there is no valley: grey ground where the
+the Sarz valley. There is no pack train and there is no valley: grey ground where the
 road was, nothing to walk back to. Lisette realises it has passed them in the night —
 it is between them and the south road. Corwin signs on because everyone else on the
 bay is running east and these are the only fools walking the other way.

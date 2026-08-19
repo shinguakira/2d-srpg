@@ -18,12 +18,12 @@ player should feel the cost of each one.
 - Twenty years working the same stretch of road. Took Kurogane coin because the
   army was going to walk over him either way, and they hold his brother's village.
 - **Pre-combat**: *"So you are the prince. You look about twelve."*
-- **Death**: *"Kuta. The village is called Kuta. Somebody ought to know that."*
+- **Death**: *"Kureha. The village is called Kureha. Somebody ought to know that."*
 
 ### Ch2 — Commander Vidar
 - Cavalier (lance, steel lance) · AI: boss
 - Professional. Refuses to read past his orders on principle, and says so.
-- **Drops**: a **cracked shrine ward** from the seal at Are — the campaign's first
+- **Drops**: a **cracked shrine ward** from the seal at Arn — the campaign's first
   hard evidence, and the reason the party starts looking west.
 - **Key line**: *"A soldier who reads past his orders is a soldier looking for a reason to run."*
 
@@ -98,7 +98,7 @@ plus blight-born monsters that get less human as the party goes west.
   the elbow in a bark-like pattern from carrying the Blackflame.
 - Once the finest general on the continent, and sworn brother to King Sadao. Taught
   Shigeru's father to ride.
-- He broke the seal at Are himself and took the Blackflame into his own body,
+- He broke the seal at Arn himself and took the Blackflame into his own body,
   because the 347 knights bought the world four centuries and he intends to end it
   instead of postponing it again.
 - **He is never written as mad.** He is polite, patient, and completely certain. He

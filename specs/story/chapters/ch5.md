@@ -1,10 +1,10 @@
-# Chapter 5: Kaneda, Above the Clouds
+# Chapter 5: Kandel, Above the Clouds
 
 Not implemented.
 
 ## Summary
 
-**Arc 1 climax.** Kaneda, the old border fortress on Shiroyama above Aso Bay, held
+**Arc 1 climax.** Kandel, the old border fortress on Kandel above Asha Bay, held
 by General Roderic. Introduces flight, and turns the campaign around: the blight is
 not spreading, it is *walking toward the Flamebrand*, and therefore toward the party.
 The company stops running and turns west.
@@ -29,7 +29,7 @@ The company stops running and turns west.
 sky out over the western cliffs, the size of a village, with no cloud and no colour, and
 her mare will not fly within a mile of it. Lisette asks the only question that
 matters — *what bearing?* — and gets west-north-west. *"Four marks on one bearing is
-not a line any more. It is an arrow, and the point of it is the shrine at Are."*
+not a line any more. It is an arrow, and the point of it is the shrine at Arn."*
 
 **Turn 3 — the ground changes.** Terrain rewrites itself under the party. Lisette's
 plotted routes are void; the working rule becomes "trust only ground you have just
@@ -53,9 +53,9 @@ edge of the rift for an hour, was not afraid of it, and said: *"Good. It is stil
 hungry."*
 
 **Epilogue — the turn.** Lisette lays every mark on the survey maps: a line being
-drawn from the shrine at Are to *them*, past two cities to get here. Mirelle names
+drawn from the shrine at Arn to *them*, past two cities to get here. Mirelle names
 what it is coming for — the Flamebrand. Halvar says the rest out loud, because nobody
-else will: the shrine at Are held the Blackflame, Takeshi went in alone, and the
+else will: the shrine at Arn held the Blackflame, Takeshi went in alone, and the
 thing that was sealed there knows where the sword is.
 
 Akira draws the consequence: every town they pass through is a town it burns after

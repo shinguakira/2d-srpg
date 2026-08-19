@@ -132,6 +132,8 @@ export interface TerrainDef {
   cost: [number, number, number];
   /** ターン開始時の回復割合(0-1) */
   heal?: number;
+  /** 玉座だけが持つ魔防補正 */
+  res?: number;
 }
 
 export interface Pos {

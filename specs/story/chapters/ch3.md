@@ -1,4 +1,4 @@
-# Chapter 3: The Shiine Hills
+# Chapter 3: The Shena Hills
 
 Not implemented.
 
@@ -50,7 +50,7 @@ whether there was a way where he lives. Shigeru admits there wasn't one he could
 find in the time he had — and tells her to keep asking.
 
 **Epilogue.** Lisette's second mark: a stand of pines grey to the roots, no fire, same
-bearing as the Sasu line. *"Two marks make a line, my lord. Three would make it a
+bearing as the Sarz line. *"Two marks make a line, my lord. Three would make it a
 road."* And it is coming inland toward them, keeping pace.
 
 ## Supports

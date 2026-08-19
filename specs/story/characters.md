@@ -25,22 +25,20 @@ public, which his officers find reassuring and his enemies find readable.
 **Arc**: Ch1 flight → Ch5 realising the blight follows *him* → Ch8 giving Halvar
 permission to die → Ch10 refusing Takeshi to his face → Arc 3 walking west.
 
-**Key line** (Ch8): *"I have not lost anyone since Izuhara and I am not starting
+**Key line** (Ch8): *"I have not lost anyone since Ilza and I am not starting
 tonight because it is efficient."*
 
 ## Akira — Cavalier
 
 **In the campaign he is called ジェイガン, and that is not his name.** Nobody says
 "Akira" — not Shigeru, not the script, not the name plate. The player learns it in
-the post-game from the young man at the end. `p_akira` is only the unit id, and
-is never shown.
+the post-game from the young man at the end. `p_akira` is only the unit id.
 
 Sworn to Shigeru since they were children. Formal to the point of comedy,
 completely immovable, and the only person who asks the prince how he is and waits
 for a real answer.
 
-**He is an old man** — white-haired, lined, greying — and that is not ordinary
-ageing. Akira does not run through time the way the rest of the cast does: the
+**He is an old man** — white-haired, lined — and that is not ordinary ageing. Akira does not run through time the way the rest of the cast does: the
 young Akira at the very end of the game is the fixed point, and the old man
 beside Shigeru in chapter 1 follows from it. Do not explain it with a normal
 biography and do not write him as an old family servant — he and Shigeru grew up
@@ -49,8 +47,8 @@ together and he looks like this anyway. See [bosses.md](bosses.md).
 He survives the whole campaign. That is deliberate: the companion who does not die
 is what makes Halvar's death land instead of feeling like a quota.
 
-He is also the **post-game hidden final boss**, black-haired and in a modern
-suit — see [bosses.md](bosses.md). Nothing in the campaign explains that yet.
+He is also the **post-game hidden final boss** — black-haired, in a modern suit.
+See [bosses.md](bosses.md).
 
 **Voice**: "my lord" in every other sentence, doctrine-first, dryly funny about it.
 
@@ -60,7 +58,7 @@ will be there for that as well."*
 ## Lisette — Mage
 
 Court scholar of the shrine archives. Blunt, impatient, catalogues heraldry for
-fun. She is the one who notices the grey line at the Sasu bridge in Ch2 and spends
+fun. She is the one who notices the grey line at the Sarz bridge in Ch2 and spends
 five chapters proving it is a line and not a coincidence.
 
 **Arc — the spine of Arc 2.** She builds a model of where the blight will surface.
@@ -71,7 +69,7 @@ changing the question from *where will it go* to *what does it want*.
 
 ## Mirelle — Cleric
 
-Shrine maiden of Shiratake, sent to find the Flamebrand's bearer. Warm, extremely
+Shrine maiden of Shirato, sent to find the Flamebrand's bearer. Warm, extremely
 loud, physically fearless about grabbing wounded soldiers of either army. She prays
 for enemies and means it.
 
@@ -80,7 +78,7 @@ She is the one who supplies the setting's folklore — ashfall, the Abyss, reven
 
 ## Gareth — Fighter
 
-Woodcutter out of the Sasu uplands. Big, loud, warm, and considerably sharper than
+Woodcutter out of the Sarz uplands. Big, loud, warm, and considerably sharper than
 he lets on: his questions are the ones that turn a lecture into a lesson ("So the
 slow ground is the safe ground"). Serves as the player's proxy for tutorial beats
 without ever being stupid.
@@ -104,13 +102,13 @@ to answer is whether it is somebody who chose it."*
 
 ## Bryn — Archer
 
-Huntress of the Sasu woods, found defending a village alone from high ground.
+Huntress of the Sarz woods, found defending a village alone from high ground.
 Answers in single words and does not consider this a personality flaw. Green. No.
 No.
 
 ## Fenn — Thief
 
-Pickpocket of Tsutsu harbour, cheerful, morally flexible, feeds people with stolen
+Pickpocket of Suza harbour, cheerful, morally flexible, feeds people with stolen
 keys. Hums when concentrating, which is how Shigeru catches them. Their thief's
 instinct — *watch which door the owner never opens* — is what unsticks Lisette in Ch7.
 

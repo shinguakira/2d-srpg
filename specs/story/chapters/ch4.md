@@ -1,10 +1,10 @@
-# Chapter 4: The Cape of Tsutsu
+# Chapter 4: The Cape of Suza
 
 Not implemented.
 
 ## Summary
 
-Tsutsu, the southern cape. Sea raiders are burning the district's storehouses. A
+Suza, the southern cape. Sea raiders are burning the district's storehouses. A
 split-forces chapter that teaches objective triage — the target is not the enemy, it
 is three roofs full of the town's winter grain.
 
@@ -46,7 +46,7 @@ it just conquered. Halvar, flatly: *"A hungry province does not raise an army. T
 not cruelty, my lord. That is the manual."*
 
 **Epilogue — the third mark.** Fenn warns the party off a back lane behind the
-north storehouse: no cat in Tsutsu will walk it. Asked which way it runs — *"North-
+north storehouse: no cat in Suza will walk it. Asked which way it runs — *"North-
 north-west. Straight as a rule. Why has everyone gone quiet?"* Lisette walks it end to
 end that night with a lamp and comes back without saying what she found.
 

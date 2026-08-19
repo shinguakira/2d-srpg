@@ -17,7 +17,7 @@
     "unicorn/no-array-sort": "off",
     "unicorn/no-array-reverse": "off",
     // デバッグ用に window へ生やしている __game / __draw を許可する
-    "no-underscore-dangle": ["error", { "allow": ["__game", "__draw"] }]
+    "no-underscore-dangle": ["error", { "allow": ["__game", "__draw", "__app"] }]
   },
   "env": {
     "builtin": true,

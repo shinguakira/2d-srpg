@@ -2,16 +2,18 @@ import { BattleScene, type ExpAnim } from '../battle/battleScene';
 import { battleWeapon, canUse, forecast, gainExp, healAmount, healResult, maxHp, resolveBattle, staffOf } from '../battle/combat';
 import { accumulateSupport, canRankUp, linkOf, RANK_LABEL } from '../battle/support';
 import { computeMoveRange, key, manhattan, pathTo, unitAt, unkeyX, unkeyY, type MoveRange } from '../core/grid';
-import { CHESTS, createUnits, MAP, MAP_H, MAP_W, OBJECTIVE, resetMap, SHOP, START_GOLD, VILLAGES } from '../data/chapter1';
+import { CHESTS, createEnemies, loadChapter, MAP, MAP_H, MAP_W, OBJECTIVE, SHOP, TITLE, VILLAGES } from '../data/chapters';
+import { build } from '../data/roster';
+import type { Campaign } from './campaign';
 import { cloneWeapon } from '../data/weapons';
 import { classOf } from '../data/classes';
 import { terrainAt } from '../data/terrain';
 import { DialogueScene, type Script } from '../story/dialogue';
-import { BOSS_TALK, DEFEAT, ENDING, OPENING, RECRUIT_ROU, TITLE, deathScript, supportScript } from '../story/script';
+import { BOSS_TALK, DEFEAT, ENDING, OPENING, RECRUIT_ROU, deathScript, supportScript } from '../story/script';
 import { decideAction, threatTiles } from './ai';
 import type { Pos, Stats, Unit } from '../types';
 
-export type Mode = 'free' | 'move' | 'menu' | 'target' | 'result' | 'status';
+export type Mode = 'free' | 'move' | 'menu' | 'target' | 'result' | 'status' | 'unit' | 'options';
 export type TargetKind = 'attack' | 'staff' | 'talk' | 'support' | 'trade';
 
 interface MenuItem {
@@ -44,7 +46,7 @@ export interface FloatMsg {
 }
 
 export class Game {
-  units: Unit[] = createUnits();
+  units: Unit[] = [];
   turn = 1;
   phase: 'player' | 'enemy' = 'player';
   mode: Mode = 'free';
@@ -75,8 +77,19 @@ export class Game {
   /** イベントの発生済みフラグ */
   flags = { bossTalked: false, ending: false };
 
+  /**
+   * FE のオプション。戦闘アニメを切れるのが本体で、切ると戦闘は一行の報告になる。
+   * 原作でも多くの人がこれを切って遊ぶ。
+   */
+  options = { battleAnim: true, terrainWindow: true, textSpeed: 1 };
+  optionIndex = 0;
+
+  /** 詳細画面で見ているユニットとページ。FE の R ボタンの画面 */
+  inspect?: Unit;
+  inspectPage = 0;
+
   /** 所持金。宝箱と武器屋がこれを動かす */
-  gold = START_GOLD;
+  gold = 0;
 
   /** 開けた宝箱 */
   opened = new Set<string>();
@@ -94,10 +107,23 @@ export class Game {
   private enemyTimer = 0;
   private afterBattle?: () => void;
 
-  constructor(skipOpening = false) {
-    resetMap();
+  /**
+   * 章ひとつぶん。自軍は campaign が持ち回るので受け取るだけで、敵と地形は
+   * その章の定義から作る。
+   */
+  constructor(
+    private readonly campaign: Campaign,
+    skipOpening = false,
+  ) {
+    loadChapter(campaign.chapter);
+    this.units = [...campaign.fielded(), ...createEnemies(build)];
+    this.gold = campaign.gold;
+    this.objective = OBJECTIVE;
+    const first = this.units.find((u) => u.team === 'player');
+    if (first) this.cursor = { x: first.x, y: first.y };
     if (skipOpening) this.showBanner(TITLE, '#8fc0ff');
-    else this.playScript(OPENING, () => this.showBanner('PLAYER PHASE  1', '#8fc0ff'));
+    else if (campaign.chapter === 0) this.playScript(OPENING, () => this.showBanner('自軍フェイズ  1', '#8fc0ff'));
+    else this.showBanner(TITLE, '#8fc0ff');
   }
 
   // ---------------------------------------------------------------- helpers
@@ -326,11 +352,26 @@ export class Game {
   }
 
   /** 空きマスでの決定。FE のマップメニュー */
+  /** カーソルの下のユニットの詳細を開く。FE の R */
+  openUnitStatus() {
+    if (this.busy || this.dialogue || this.result) return;
+    if (this.mode === 'unit') {
+      this.mode = 'free';
+      return;
+    }
+    const u = this.unitAtCursor() ?? this.sel;
+    if (!u) return;
+    this.inspect = u;
+    this.inspectPage = 0;
+    this.mode = 'unit';
+  }
+
   openMapMenu() {
     this.sel = undefined;
     this.menu = {
       items: [
         { id: 'status', label: '状況', enabled: true },
+        { id: 'options', label: 'オプション', enabled: true },
         { id: 'endturn', label: 'ターン終了', enabled: true },
         { id: 'back', label: 'やめる', enabled: true },
       ],
@@ -433,6 +474,12 @@ export class Game {
       else onDone();
     };
 
+    // アニメを切っていれば画面を出さず、結果だけをログに流す
+    if (!this.options.battleAnim) {
+      this.afterBattle?.();
+      this.afterBattle = undefined;
+      return;
+    }
     this.battle = new BattleScene(result, expAnim, () => {
       /* 終了検知は update 側で行う */
     });
@@ -470,6 +517,12 @@ export class Game {
     // HP は即時反映し、演出はスナップショットから再生する（startBattle と同じ）
     target.hp = result.dEndHp;
     this.mode = 'free';
+    if (!this.options.battleAnim) {
+      this.log(`${u.name} は ${target.name} を ${result.staffHeal!.amount} 回復した`);
+      if (lv) this.log(`${u.name} は レベル ${lv.newLevel} に上がった`);
+      this.endAction(u);
+      return;
+    }
     this.battle = new BattleScene(result, expAnim, () => {
       this.battle = undefined;
       this.log(`${u.name} は ${target.name} を ${result.staffHeal!.amount} 回復した`);
@@ -781,6 +834,19 @@ export class Game {
   // ---------------------------------------------------------------- input
 
   moveCursor(dx: number, dy: number) {
+    if (this.mode === 'options') {
+      if (dy) this.optionIndex = (this.optionIndex + (dy > 0 ? 1 : 2)) % 3;
+      if (dx) {
+        if (this.optionIndex === 0) this.options.battleAnim = !this.options.battleAnim;
+        if (this.optionIndex === 1) this.options.terrainWindow = !this.options.terrainWindow;
+        if (this.optionIndex === 2) this.options.textSpeed = (this.options.textSpeed % 3) + 1;
+      }
+      return;
+    }
+    if (this.mode === 'unit') {
+      if (dx) this.inspectPage = (this.inspectPage + (dx > 0 ? 1 : 2)) % 3;
+      return;
+    }
     if (this.dialogue) return;
     if (this.mode === 'target') {
       if (dx !== 0 || dy !== 0) {
@@ -816,7 +882,11 @@ export class Game {
       return;
     }
     if (this.result) return;
-    // 状況画面はどのボタンでも閉じる
+    // 状況画面と詳細画面はどのボタンでも閉じる
+    if (this.mode === 'unit' || this.mode === 'options') {
+      this.mode = 'free';
+      return;
+    }
     if (this.mode === 'status') {
       this.mode = 'free';
       return;
@@ -898,6 +968,12 @@ export class Game {
     if (item.id === 'status') {
       this.menu = undefined;
       this.mode = 'status';
+      return;
+    }
+    if (item.id === 'options') {
+      this.menu = undefined;
+      this.optionIndex = 0;
+      this.mode = 'options';
       return;
     }
     if (item.id === 'endturn') {
@@ -1013,7 +1089,7 @@ export class Game {
     }
     if (this.result) return;
 
-    if (this.mode === 'status') {
+    if (this.mode === 'status' || this.mode === 'unit' || this.mode === 'options') {
       this.mode = 'free';
       return;
     }

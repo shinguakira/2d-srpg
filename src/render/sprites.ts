@@ -549,7 +549,7 @@ export function drawUnitSprite(ctx: CanvasRenderingContext2D, u: Unit, cx: numbe
 const clampByte = (v: number) => Math.max(0, Math.min(255, Math.round(v)));
 
 /** 色を明るく／暗くする（髪の 3 階調用） */
-function shade(hex: string, f: number): string {
+export function shade(hex: string, f: number): string {
   const n = parseInt(hex.slice(1), 16);
   const r = clampByte(((n >> 16) & 255) * f);
   const g = clampByte(((n >> 8) & 255) * f);

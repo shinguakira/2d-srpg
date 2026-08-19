@@ -1,5 +1,5 @@
 import { classOf } from '../data/classes';
-import { MAP } from '../data/chapter1';
+import { MAP } from '../data/chapters';
 import { terrainAt } from '../data/terrain';
 import { rankAtLeast, rankFromWexp, triangle } from '../data/weapons';
 import { rng } from '../core/rng';
@@ -108,7 +108,11 @@ function rawStats(me: RawSide, foe: RawSide, distance: number) {
   const hit = w ? w.hit + me.unit.stats.skl * 2 + Math.floor(me.unit.stats.lck / 2) + triHit + me.support.hit : 0;
   const crit = w ? w.crit + Math.floor(me.unit.stats.skl / 2) + (classOf(me.unit.classId).critBonus ?? 0) + me.support.crit : 0;
 
-  const terrain = terrainAtPos(me.pos);
+  // 飛行は砦・門・玉座しか受けない。林や山の上でも回避と守備は乗らない。
+  const raw = terrainAtPos(me.pos);
+  const flier = classOf(me.unit.classId).moveType === 'flier';
+  const keeps = raw.id === 'fort' || raw.id === 'gate' || raw.id === 'throne';
+  const terrain = flier && !keeps ? { ...raw, avo: 0, def: 0, res: 0 } : raw;
   const as = attackSpeed(me.unit, w);
   const avo = as * 2 + me.unit.stats.lck + terrain.avo + me.support.avo;
   const ddg = me.unit.stats.lck + me.support.ddg;
@@ -134,8 +138,11 @@ export function forecast(aUnit: Unit, aPos: Pos, dUnit: Unit, dPos: Pos, units: 
   const ra = rawStats(a, d, distance);
   const rd = rawStats(d, a, distance);
 
-  const aDefStat = (rd.magical ? aUnit.stats.res : aUnit.stats.def) + a.support.def;
-  const dDefStat = (ra.magical ? dUnit.stats.res : dUnit.stats.def) + d.support.def;
+  // 玉座は魔防を上げる。守備と違って地形の def ではなく能力側に乗る。
+  const aRes = ra.terrain.res ?? 0;
+  const dRes = rd.terrain.res ?? 0;
+  const aDefStat = (rd.magical ? aUnit.stats.res + aRes : aUnit.stats.def) + a.support.def;
+  const dDefStat = (ra.magical ? dUnit.stats.res + dRes : dUnit.stats.def) + d.support.def;
 
   const aDamage = Math.max(0, ra.atk - (dDefStat + rd.terrain.def));
   const dDamage = Math.max(0, rd.atk - (aDefStat + ra.terrain.def));

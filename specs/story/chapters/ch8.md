@@ -1,4 +1,4 @@
-# Chapter 8: The Last Stand on Yatate
+# Chapter 8: The Last Stand on Yatan
 
 Not implemented.
 
@@ -48,7 +48,7 @@ splitting the company; Halvar refuses it — half the company does not take Wulf
 What is needed is everything going up to the throne and one man in the corridor who
 knows how long it can be held.
 
-Shigeru says no, twice, and gives his reason: *"I have not lost anyone since Izuhara
+Shigeru says no, twice, and gives his reason: *"I have not lost anyone since Ilza
 and I am not starting tonight because it is efficient."*
 
 Halvar's answer is the line the chapter is built on:

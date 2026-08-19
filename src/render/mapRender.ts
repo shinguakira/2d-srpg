@@ -1,15 +1,15 @@
 import { battleWeapon, equippedWeapon, maxHp, weaponRankOf } from '../battle/combat';
 import { AFFINITY_COLOR, AFFINITY_NAME, RANK_LABEL, SUPPORT_THRESHOLD, supportBonus } from '../battle/support';
 import { key } from '../core/grid';
-import { MAP, MAP_H, MAP_W } from '../data/chapter1';
-import { TITLE } from '../story/script';
+import { MAP, MAP_H, MAP_W, TITLE } from '../data/chapters';
+
 import { classOf } from '../data/classes';
 import { terrainAt } from '../data/terrain';
-import { WEAPON_ICON, WEAPON_LABEL } from '../data/weapons';
+import { rankFromWexp, WEAPON_ICON, WEAPON_LABEL } from '../data/weapons';
 import type { Game } from '../game/game';
 import type { Unit, WeaponType } from '../types';
 import { camera, CANVAS_H, CANVAS_W, focusOn, OX, OY, TILE, VIEW_H, VIEW_W } from './layout';
-import { drawHpBar, drawUnitSprite } from './sprites';
+import { drawFacePortrait, drawHpBar, drawUnitSprite } from './sprites';
 
 // HUD はカメラの外で描くので、マップの実寸ではなく窓の大きさに合わせる。
 // マップが窓より大きくなると MAP_W*TILE は画面外を指してしまう。
@@ -173,6 +173,38 @@ function drawTile(ctx: CanvasRenderingContext2D, x: number, y: number) {
       ctx.fillRect(sx + TILE / 2 - 4, sy + TILE - 12, 8, 8);
       break;
     }
+    case 'throne':
+      ctx.fillStyle = '#4a3557';
+      ctx.fillRect(sx + 9, sy + 8, TILE - 18, TILE - 10);
+      ctx.fillStyle = '#a98cc0';
+      ctx.fillRect(sx + 9, sy + 8, TILE - 18, 6);
+      ctx.fillStyle = '#6b4f80';
+      ctx.fillRect(sx + 12, sy + 18, TILE - 24, TILE - 22);
+      ctx.fillStyle = '#e0c060';
+      ctx.fillRect(sx + TILE / 2 - 6, sy + 4, 12, 4);
+      break;
+    case 'peak':
+      ctx.fillStyle = '#413a33';
+      ctx.beginPath();
+      ctx.moveTo(sx + 2, sy + TILE - 3);
+      ctx.lineTo(sx + TILE / 2, sy + 3);
+      ctx.lineTo(sx + TILE - 2, sy + TILE - 3);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = '#e8e8f0';
+      ctx.beginPath();
+      ctx.moveTo(sx + TILE / 2 - 7, sy + 14);
+      ctx.lineTo(sx + TILE / 2, sy + 3);
+      ctx.lineTo(sx + TILE / 2 + 7, sy + 14);
+      ctx.closePath();
+      ctx.fill();
+      break;
+    case 'sand':
+      ctx.fillStyle = 'rgba(255,255,255,0.10)';
+      for (let i = 0; i < 5; i++) {
+        ctx.fillRect(sx + hash(x * 5 + i, y) * TILE, sy + hash(x, y * 5 + i) * TILE, 5, 2);
+      }
+      break;
     case 'door':
       ctx.fillStyle = '#3a2c1c';
       ctx.fillRect(sx + 6, sy + 6, TILE - 12, TILE - 8);
@@ -619,6 +651,136 @@ function drawMessages(ctx: CanvasRenderingContext2D, g: Game) {
 }
 
 /** FE のマップメニューにある「状況」。何を達成すれば終わるかを画面から読めるようにする */
+/**
+ * ユニットの詳細画面。FE の R ボタンで開く、顔グラ付きの複数ページのやつ。
+ * 左右でページを送る: 能力 / 装備 / 支援。
+ */
+/** FE のオプション。戦闘アニメを切れるのが本体 */
+function drawOptions(ctx: CanvasRenderingContext2D, g: Game) {
+  if (g.mode !== 'options') return;
+  ctx.fillStyle = 'rgba(6,9,18,0.9)';
+  ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+
+  const x = 300;
+  let y = 190;
+  feText(ctx, 'オプション', x, y, { size: 30, color: '#f0e6c8' });
+  y += 60;
+  const rows: [string, string][] = [
+    ['戦闘アニメ', g.options.battleAnim ? '表示' : '省略'],
+    ['地形ウィンドウ', g.options.terrainWindow ? '表示' : '非表示'],
+    ['文字送り', ['', '遅い', '普通', '速い'][g.options.textSpeed]],
+  ];
+  for (const [i, [k, v]] of rows.entries()) {
+    const on = i === g.optionIndex;
+    if (on) {
+      ctx.fillStyle = 'rgba(120,160,240,0.18)';
+      ctx.fillRect(x - 16, y - 24, 400, 36);
+      feText(ctx, '▶', x - 40, y, { size: 18, color: '#ffd24a' });
+    }
+    feText(ctx, k, x, y, { size: 18, color: on ? '#ffffff' : '#9fb0d8' });
+    feText(ctx, v, x + 250, y, { size: 18, color: on ? '#ffd24a' : '#c8d4ee' });
+    y += 46;
+  }
+  feText(ctx, '↑↓ 選ぶ  /  ←→ 変える  /  X で戻る', CANVAS_W / 2, CANVAS_H - 80, {
+    size: 14,
+    align: 'center',
+    color: '#8b9ac0',
+  });
+}
+
+function drawUnitStatus(ctx: CanvasRenderingContext2D, g: Game) {
+  if (g.mode !== 'unit' || !g.inspect) return;
+  const u = g.inspect;
+  const cls = classOf(u.classId);
+  ctx.fillStyle = 'rgba(6,9,18,0.92)';
+  ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+
+  // 左: 顔グラと名札
+  drawFacePortrait(ctx, u, 190, CANVAS_H - 40, 330, 1);
+  ctx.save();
+  ctx.fillStyle = 'rgba(10,16,30,0.8)';
+  ctx.fillRect(40, 64, 300, 92);
+  ctx.strokeStyle = '#c9a25a';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(40, 64, 300, 92);
+  ctx.restore();
+  feText(ctx, u.name, 60, 104, { size: 30, color: '#f0e6c8' });
+  feText(ctx, `${cls.name}  Lv.${u.level}`, 60, 136, { size: 16, color: '#9fb0d8' });
+  feText(ctx, `EXP ${u.exp} / 100`, 240, 136, { size: 14, color: '#9fb0d8' });
+
+  const pages = ['能力', '装備', '支援'];
+  let px = 400;
+  for (const [i, p] of pages.entries()) {
+    const on = i === g.inspectPage;
+    feText(ctx, p, px, 96, { size: 18, color: on ? '#ffd24a' : '#6f7fa4' });
+    if (on) {
+      ctx.fillStyle = '#ffd24a';
+      ctx.fillRect(px, 104, 40, 2);
+    }
+    px += 70;
+  }
+  feText(ctx, '←→ ページ  /  X で戻る', CANVAS_W - 40, 96, { size: 13, align: 'right', color: '#7d8cb0' });
+
+  const x = 400;
+  let y = 160;
+  const row = (k: string, v: string, colour = '#e8eefc') => {
+    feText(ctx, k, x, y, { size: 15, color: '#9fb0d8' });
+    feText(ctx, v, x + 150, y, { size: 18, color: colour });
+    y += 32;
+  };
+
+  if (g.inspectPage === 0) {
+    row('HP', `${u.hp} / ${maxHp(u)}`);
+    const s = u.stats;
+    const g2 = u.growth;
+    for (const [k, label] of [
+      ['str', '力'],
+      ['mag', '魔力'],
+      ['skl', '技'],
+      ['spd', '速さ'],
+      ['lck', '幸運'],
+      ['def', '守備'],
+      ['res', '魔防'],
+    ] as [keyof typeof s, string][]) {
+      feText(ctx, label, x, y, { size: 15, color: '#9fb0d8' });
+      feText(ctx, String(s[k]), x + 150, y, { size: 18, color: '#e8eefc' });
+      feText(ctx, `成長 ${g2[k]}%`, x + 210, y, { size: 13, color: '#6f7fa4' });
+      y += 32;
+    }
+    row('体格', String(s.con));
+    row('移動', String(s.mov));
+    row('属性', AFFINITY_NAME[u.affinity], AFFINITY_COLOR[u.affinity]);
+  } else if (g.inspectPage === 1) {
+    for (const [i, w] of u.items.entries()) {
+      const eq = i === u.equipped;
+      feText(ctx, (eq ? '▶ ' : '  ') + w.name, x, y, { size: 18, color: eq ? '#ffd24a' : '#e8eefc' });
+      feText(ctx, `${WEAPON_LABEL[w.type]} ${w.rank}`, x + 210, y, { size: 13, color: '#9fb0d8' });
+      feText(ctx, `${w.uses}`, x + 320, y, { size: 15, color: '#9fb0d8' });
+      y += 30;
+    }
+    if (u.potion) row('傷薬', String(u.potion));
+    if (u.keys) row('鍵', String(u.keys));
+    y += 12;
+    feText(ctx, '武器レベル', x, y, { size: 15, color: '#9fb0d8' });
+    y += 28;
+    for (const [type, wexp] of Object.entries(u.wexp)) {
+      if (!wexp) continue;
+      feText(ctx, WEAPON_LABEL[type as keyof typeof WEAPON_LABEL] ?? type, x, y, { size: 15, color: '#e8eefc' });
+      feText(ctx, `${rankFromWexp(wexp)}  (${wexp})`, x + 150, y, { size: 15, color: '#9fb0d8' });
+      y += 26;
+    }
+  } else {
+    if (!u.supports.length) feText(ctx, '支援の相手はいない', x, y, { size: 16, color: '#6f7fa4' });
+    for (const link of u.supports) {
+      const other = g.units.find((o) => o.id === link.with);
+      feText(ctx, other?.name ?? link.with, x, y, { size: 18, color: '#e8eefc' });
+      feText(ctx, RANK_LABEL[link.rank], x + 180, y, { size: 18, color: '#ffd24a' });
+      feText(ctx, `${link.points}`, x + 230, y, { size: 14, color: '#6f7fa4' });
+      y += 32;
+    }
+  }
+}
+
 function drawStatus(ctx: CanvasRenderingContext2D, g: Game) {
   if (g.mode !== 'status') return;
   ctx.fillStyle = 'rgba(6,9,18,0.86)';
@@ -728,19 +890,26 @@ export function drawScene(ctx: CanvasRenderingContext2D, g: Game, time: number, 
     return;
   }
 
+  // 状況・詳細は画面を占有する。後ろに小窓が透けるのはおかしい
+  const fullscreen = g.mode === 'status' || g.mode === 'unit' || g.mode === 'options';
+
   // 対象選択中は戦闘予測と反対側にユニット情報を出す
   const inTarget = g.mode === 'target';
   const forecastOnLeft = g.cursor.x >= MAP_W / 2;
   const hovered = inTarget ? g.targets[g.targetIndex] : g.unitAtCursor();
   // FE と同じで、パネルはカーソルに被らない側へ寄る
   const away: 'left' | 'right' = g.cursor.x < MAP_W / 2 ? 'right' : 'left';
-  if (hovered) drawUnitPanel(ctx, g, hovered, inTarget ? (forecastOnLeft ? 'right' : 'left') : away);
-  if (!inTarget) drawTerrainPanel(ctx, g);
-  drawMenu(ctx, g, time);
-  drawForecast(ctx, g);
-  drawTopBar(ctx, g);
-  drawMessages(ctx, g);
+  if (!fullscreen) {
+    if (hovered) drawUnitPanel(ctx, g, hovered, inTarget ? (forecastOnLeft ? 'right' : 'left') : away);
+    if (!inTarget && g.options.terrainWindow) drawTerrainPanel(ctx, g);
+    drawMenu(ctx, g, time);
+    drawForecast(ctx, g);
+    drawTopBar(ctx, g);
+    drawMessages(ctx, g);
+  }
   drawStatus(ctx, g);
+  drawUnitStatus(ctx, g);
+  drawOptions(ctx, g);
   drawBanner(ctx, g);
   drawResult(ctx, g);
 }

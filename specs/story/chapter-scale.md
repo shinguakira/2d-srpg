@@ -44,11 +44,11 @@ to teach that the map is not static.
 
 | Ch | Title | Size | Deploy | Enemies | Reinforcements | Objective |
 |---|---|---|---|---|---|---|
-| 1 | The Road to Kuta | 20×14 | 5 | 6 | — | Seize the throne |
-| 2 | The Sasu Crossing | 20×14 | 5 | 8 | 2 on turn 3 | Seize the throne |
-| 3 | The Shiine Hills | 22×15 | 6 | 10 | 3 on turn 4 | Rout |
-| 4 | The Cape of Tsutsu | 22×16 | 7 | 11 | 2 on turns 3 and 6 | Seize the throne |
-| 5 | Kaneda, Above the Clouds | 24×16 | 7 | 13 | 3 on turn 4, 3 on turn 7 | Defeat General Roderic and seize |
+| 1 | The Road to Kureha | 20×14 | 5 | 6 | — | Seize the throne |
+| 2 | The Sarz Crossing | 20×14 | 5 | 8 | 2 on turn 3 | Seize the throne |
+| 3 | The Shena Hills | 22×15 | 6 | 10 | 3 on turn 4 | Rout |
+| 4 | The Cape of Suza | 22×16 | 7 | 11 | 2 on turns 3 and 6 | Seize the throne |
+| 5 | Kandel, Above the Clouds | 24×16 | 7 | 13 | 3 on turn 4, 3 on turn 7 | Defeat General Roderic and seize |
 
 ### Arc 2 — The Broken Seal
 
@@ -57,11 +57,11 @@ defence; Ch10 is the arc's set-piece.
 
 | Ch | Title | Size | Deploy | Enemies | Reinforcements | Objective |
 |---|---|---|---|---|---|---|
-| 6 | The Harbour at Kechi | 24×16 | 8 | 14 | 3 on turns 3 and 6 | Defeat Captain Aeryn |
+| 6 | The Harbour at Kesh | 24×16 | 8 | 14 | 3 on turns 3 and 6 | Defeat Captain Aeryn |
 | 7 | What the Wall Held | 24×18 | 8 | 15 | 3 on turns 3, 5, 7, 9 | Survive 12 turns |
-| 8 | The Last Stand on Yatate | 26×18 | 8 | 16 | 3 per turn, turns 4-9, two edges | Defeat General Wulfram and seize |
+| 8 | The Last Stand on Yatan | 26×18 | 8 | 16 | 3 per turn, turns 4-9, two edges | Defeat General Wulfram and seize |
 | 9 | The Empty Place | 24×16 | 8 | 12 | 3 on turn 6 | Rout |
-| 10 | The Sands of Komoda | 26×18 | 9 | 18 | 4 on turns 3, 6, 9 | Defeat Ezrin, protect Elder Ilse |
+| 10 | The Sands of Kodo | 26×18 | 9 | 18 | 4 on turns 3, 6, 9 | Defeat Ezrin, protect Elder Ilse |
 
 ### Arc 3 — The Ash Road
 
@@ -72,9 +72,9 @@ with everyone". Blight edges replace some reinforcements as the pressure.
 |---|---|---|---|---|---|---|
 | 11 | The Ash Road | 28×18 | 10 | 16 | 3 per turn, turns 3-7, behind | Escape west with everyone alive |
 | 12 | The Silent Village | 26×18 | 10 | 14 | triggered, 4 per trigger, 3 triggers | Survive, night, fog of war |
-| 13 | The Uchiyama Basin | 28×20 | 10 | 20 | 4 on turns 2, 5, 8 | Seize the far bridgehead |
+| 13 | The Uzia Basin | 28×20 | 10 | 20 | 4 on turns 2, 5, 8 | Seize the far bridgehead |
 | 14 | The Shrine on the Cape | 26×20 | 11 | 18 | 3 per turn, turns 4-8 | Defend the shrine precinct |
-| 15 | The Burning of Tsutsu | 28×20 | 11 | 22 | 4 on turns 3 and 6 | Rout, turn limit from the blight edge |
+| 15 | The Burning of Suza | 28×20 | 11 | 22 | 4 on turns 3 and 6 | Rout, turn limit from the blight edge |
 
 ### Arc 4 — The Empire's Back
 
@@ -84,14 +84,14 @@ about who stops fighting rather than who dies.
 | Ch | Title | Size | Deploy | Enemies | Reinforcements | Objective |
 |---|---|---|---|---|---|---|
 | 16 | The Man Who Filed Nothing | 28×20 | 11 | 18 | triggered, 3 per trigger, 2 triggers | Seize |
-| 17 | The Fords of Sasu | 30×20 | 12 | 20 | 3 per turn, turns 2-8, both banks | Hold the fords 10 turns |
+| 17 | The Fords of Sarz | 30×20 | 12 | 20 | 3 per turn, turns 2-8, both banks | Hold the fords 10 turns |
 | 18 | Two Crowns | 30×20 | 12 | 24 | 4 on turns 4 and 8 | Boss kill, scripted defection |
-| 19 | The Flame on Shiratake | 30×22 | 12 | 24 | 3 per turn, turns 3-9 | Protect the shrine keeper |
+| 19 | The Flame on Shirato | 30×22 | 12 | 24 | 3 per turn, turns 3-9 | Protect the shrine keeper |
 | 20 | The Wood That Was Never Cut | 32×22 | 12 | 26 | triggered, 4 per trigger, 4 triggers | Seize |
 
 ### Arc 5 — The Three Flames
 
-The walk to Are. Two of these are deliberately oversized set-pieces in FE8's
+The walk to Arn. Two of these are deliberately oversized set-pieces in FE8's
 Ch19-20 mould, with the deployment to match.
 
 | Ch | Title | Size | Deploy | Enemies | Reinforcements | Objective |
@@ -99,7 +99,7 @@ Ch19-20 mould, with the deployment to match.
 | 21 | The Forbidden Ground | 30×22 | 12 | 22 | 3 per turn, turns 3-8 | Survive the crossing |
 | 22 | Sworn Brothers | 30×20 | 12 | 24 | 4 on turns 4 and 7 | Reach the stone at the centre |
 | 23 | The Oath of Three Hundred | 32×24 | **16** | 28 | 4 per turn, turns 2-10 | Boss kill |
-| 24 | The Cliffs of Are | 32×24 | **16** | 30 | triggered, 5 per trigger, 4 triggers | Advance to the river mouth |
+| 24 | The Cliffs of Arn | 32×24 | **16** | 30 | triggered, 5 per trigger, 4 triggers | Advance to the river mouth |
 | 25 | The Sea Gate | 34×24 | 12 | 26 | triggered waves, 10 turns | Defeat Takeshi |
 
 ## Notes on the shape

@@ -12,6 +12,20 @@ type Tag = 'armor' | 'cavalry' | 'flier' | 'monster' | 'dragon';
 /** 支援の属性 */
 export type Affinity = 'fire' | 'thunder' | 'wind' | 'ice' | 'dark' | 'light' | 'anima';
 
+/**
+ * 状態異常。FE8 は杖と魔物がこれを撒いてくる。持続はターン数で、
+ * 自軍フェイズの頭で 1 ずつ減る。
+ */
+export type StatusKind = 'sleep' | 'silence' | 'berserk' | 'poison';
+
+interface StatusEffect {
+  kind: StatusKind;
+  turns: number;
+}
+
+/** 杖の効き方。回復以外の杖はこれで分岐する */
+type StaffKind = 'heal' | 'physic' | 'restore' | 'sleep' | 'silence' | 'berserk';
+
 export interface Weapon {
   id: string;
   name: string;
@@ -29,6 +43,12 @@ export interface Weapon {
   effective?: Tag[];
   /** 説明（アイテム画面用） */
   note?: string;
+  /** 杖の効き方。無ければただの回復杖として扱う */
+  staffKind?: StaffKind;
+  /** 当たると状態異常にする武器（毒の牙など） */
+  inflicts?: StatusKind;
+  /** 状態異常を撒く杖と武器が使う持続ターン */
+  statusTurns?: number;
 }
 
 export interface Stats {
@@ -71,6 +91,15 @@ export interface UnitClass {
   promoGain?: Partial<Stats>;
   /** 魔物特効を持つ（FE8 の司祭のスキル「魔物特効」） */
   slayer?: boolean;
+  /**
+   * 再移動。GBA FE の騎馬と飛行は、攻撃でも交換でも、行動したあとに
+   * 残りの移動力ぶんだけもう一度動ける。
+   */
+  canto?: boolean;
+  /** 盗む（シーフ） */
+  steal?: boolean;
+  /** 踊る（踊り子） */
+  dance?: boolean;
 }
 
 type AiKind = 'aggressive' | 'guard' | 'boss';
@@ -115,6 +144,14 @@ export interface Unit {
   seals: number;
   /** 説得で仲間にできる敵か（説得できるユニットの ID） */
   recruitableBy?: string;
+  /** 状態異常。1 つしか重ならない */
+  status?: StatusEffect;
+  /** 救出して担いでいる相手の id。担ぐと技と速さが半分になる */
+  rescuing?: string;
+  /** 救出されて盤上から消えている */
+  carried?: boolean;
+  /** 再移動が残っている（カント）。行動後に移動だけできる */
+  canto?: boolean;
   /** 描画用の補間位置（タイル単位） */
   px: number;
   py: number;

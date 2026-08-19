@@ -1,6 +1,8 @@
 # Chapter 3: The Shena Hills
 
-Not implemented.
+Built. The 22x15 map, the ten enemies, two villages, two shops and the turn-4
+reinforcements are in `src/data/chapters/ch3.ts`; the cast and the script below
+are not.
 
 ## Summary
 

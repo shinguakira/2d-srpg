@@ -31,11 +31,11 @@ the gaps are the honest list of what chapter 1 still needs:
 
 | | Intent | Implemented |
 |---|---|---|
-| Objective | Seize the throne | Rout — `checkResult` wins when the last enemy dies. There is no seize |
-| Deployment | 5 slots | None. All eight units start on the board |
-| Enemies | 6 brigands on Kurogane pay | 13, including the PoC's monsters — revenants, a bael, a mogall |
-| Villages | Two | No village terrain exists |
-| Cast | Shigeru, Akira, Lisette, Mirelle, Gareth | シゲル plus the PoC's seven |
+| Objective | Seize the throne | **Seize** — the lord takes the throne at (10,1) and the chapter ends |
+| Deployment | 5 slots | **5 slots**, chosen in the preparation screen |
+| Villages | Two | **Two**, at (7,6) and (13,6) |
+| Enemies | 6 brigands on Kurogane pay | 12, including the PoC's monsters — revenants, a bael, a mogall |
+| Cast | Shigeru, Akira, Lisette, Mirelle, Gareth | シゲル and ジェイガン, plus the PoC's six |
 
 The script was recast onto the ported roster rather than rewritten, so the
 chapter is playable and speaks the right beats under other names:

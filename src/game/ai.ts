@@ -1,5 +1,5 @@
 import { battleWeapon, forecast } from '../battle/combat';
-import { computeMoveRange, key, manhattan, unkeyX, unkeyY } from '../core/grid';
+import { computeMoveRange, manhattan, unkeyX, unkeyY } from '../core/grid';
 import { MAP } from '../data/chapters';
 import { terrainAt } from '../data/terrain';
 import type { Pos, Unit } from '../types';
@@ -38,7 +38,9 @@ function evaluate(unit: Unit, dest: Pos, target: Unit, units: Unit[]): Candidate
 }
 
 export function decideAction(unit: Unit, units: Unit[]): EnemyAction {
-  const foes = units.filter((u) => !u.dead && u.team !== unit.team);
+  // 狂戦は敵味方を見ない。バーサクを受けた者は隣の誰にでも斬りかかる
+  const berserk = unit.status?.kind === 'berserk';
+  const foes = units.filter((u) => !u.dead && !u.carried && u !== unit && (berserk || u.team !== unit.team));
   if (!foes.length) return { kind: 'wait' };
 
   const w = battleWeapon(unit);
@@ -105,30 +107,4 @@ export function decideAction(unit: Unit, units: Unit[]): EnemyAction {
   }
   if (bestTile.x === unit.x && bestTile.y === unit.y) return { kind: 'wait' };
   return { kind: 'move', dest: bestTile };
-}
-
-export function threatTiles(units: Unit[]): Set<number> {
-  const out = new Set<number>();
-  for (const u of units) {
-    if (u.dead || u.team !== 'enemy') continue;
-    const w = battleWeapon(u);
-    if (!w) continue;
-    const stand = u.ai === 'boss' ? [key(u.x, u.y)] : [...computeMoveRange(u, units).stand];
-    for (const k of stand) {
-      const bx = unkeyX(k);
-      const by = unkeyY(k);
-      for (let dy = -w.maxRange; dy <= w.maxRange; dy++) {
-        for (let dx = -w.maxRange; dx <= w.maxRange; dx++) {
-          const d = Math.abs(dx) + Math.abs(dy);
-          if (d < w.minRange || d > w.maxRange) continue;
-          const nx = bx + dx;
-          const ny = by + dy;
-          if (terrainAt(MAP, nx, ny).id === 'wall') continue;
-          out.add(key(nx, ny));
-        }
-      }
-      out.add(k);
-    }
-  }
-  return out;
 }

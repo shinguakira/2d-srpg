@@ -1,7 +1,8 @@
 # Presentation
 
 TypeScript and Canvas 2D. No framework, no state library, no asset pipeline.
-One `<canvas>` at 960×640, one frame loop in `src/main.ts`.
+One `<canvas>` at 960×640, one frame loop in `src/main.ts`. The buffer is always
+that size; only the CSS box it is stretched into changes.
 
 ## Layout and the camera
 
@@ -28,11 +29,106 @@ enemy that moves off-screen during its phase brings the camera with it.
 `specs/story/chapter-scale.md` sizes chapters 20×14 rising to 34×24, the way GBA
 Fire Emblem does. Everything past 20×14 scrolls.
 
+## Fitting a phone
+
+`render/viewport.ts`. The canvas is a fixed 960×640 buffer; CSS stretches it to
+whatever the window is. `fitCanvas` picks the largest whole-canvas scale that
+fits and pins the element to the centre of the viewport.
+
+**In portrait the canvas is rotated 90°.** The board is 3:2 landscape, so a
+portrait phone that letterboxed it would show the game at less than half the
+size. Rotating means the player turns the phone rather than squinting, and once
+they do the browser reports landscape and the rotation drops away. The cost is
+that `getBoundingClientRect()` then returns the *rotated* bounding box, so every
+pointer coordinate has to go through `toCanvas`, which un-rotates about the
+centre. Nothing may read `clientX` directly.
+
+## Touch
+
+`render/touch.ts`. `touchUI` is on when the pointer is coarse, when a touch
+pointer is seen, or with `?touch=1`. It changes three things: on-screen buttons
+appear, menu rows grow from 34px to 44px, and every keyboard hint is replaced by
+its touch equivalent.
+
+Buttons live in the 80px pillars either side of the board and the strip below it
+— never over the board, which would hide units. The right pillar is 決定 and
+戻る, the GBA's A and B; the left carries メニュー, 敵範囲 and 詳細, stacked from
+the bottom, and drops the ones that would do nothing in the current mode.
+
+Cursor movement has no buttons. **A tap acts, a drag looks**: pressing the board
+moves the cursor there, sliding keeps moving it, and lifting confirms only if
+the finger never travelled more than 12px. Without that there is no way to read
+a tile's terrain or an enemy's weapon without also attacking it.
+
+Full-screen panels are pressed directly rather than through a d-pad — the option
+rows toggle on tap, the detail screen's page headings switch pages. Both hit
+tests live in `mapRender.ts` next to the code that draws them, because they are
+the same numbers.
+
+The screens outside a chapter (`render/screens.ts`) each export a `hit*`
+function beside their `draw*`: title rows, world-map nodes and the chapter card,
+roster rows, and the セーブ / 出撃 / 戻る buttons.
+
+## There is no persistent HUD
+
+GBA Fire Emblem keeps nothing on screen permanently. Turn count, army sizes,
+objective and defeat condition all live in the 状況 screen; the map itself is
+map, plus small windows that come and go.
+
+So the map screen carries only:
+
+- a **terrain window** (option: on/off) with the tile's name, def and avo
+- a **unit window** (option: off / balloon / panel) for whatever the cursor is
+  over. The balloon is name, level, HP and any status; the panel is the full
+  stat block. Full details are always a press of R away
+- a **combat forecast** while choosing a target (option: off / brief / full)
+- an **objective window** that slides in at the start of a phase and leaves
+  (option: on/off)
+
+The two windows dodge each other: the unit window takes the side away from the
+cursor and the terrain window takes the other one, so neither hides the other.
+
+The forecast shows HP, 威力, 命中 and 必殺 and nothing else. Weapon triangle is
+a small arrow beside the weapon's name, and effectiveness turns that name
+orange —— never the words "有利" or "特効".
+
+## Options
+
+Ten rows, in `game/options.ts`, stored on the campaign so they survive a
+chapter. Each is an index into a list of labels; left and right cycle it.
+
+戦闘アニメ（省略 / キャラのみ / 背景あり）・ゲーム速度・文字送り・地形
+ウィンドウ・ユニットウィンドウ・戦闘ウィンドウ・目標表示・オートカーソル・
+オートターンエンド・ウィンドウカラー。
+
+FE8 also has music and sound-effect switches. This game has no audio at all, so
+those two rows are absent rather than dead.
+
+**ウィンドウカラー** feeds `panel()`, which every window on the map draws
+through, so one option repaints the whole HUD.
+
+## Full-screen panels
+
+Four of them, all reached from the map menu or R, all drawn by `mapRender.ts`:
+
+| | |
+|---|---|
+| 状況 | chapter, objective, defeat condition, turn, army sizes, funds |
+| ユニット | every deployed unit as a row, six pages —— 基本 / 能力 / 装備 / 個人 / 武器レベル / 支援 |
+| ガイド | the same table the title screen's guide reads, from `data/guide.ts` |
+| オプション | the ten rows above |
+
+Opening a unit's details remembers the mode it came from and returns there, so
+pressing R while choosing an attack target does not lose the target.
+
 ## Drawing
 
 | | |
 |---|---|
-| `render/mapRender.ts` | map, units, cursor, ranges, HUD, banners |
+| `render/mapRender.ts` | map, units, cursor, ranges, windows, full-screen panels |
+| `render/screens.ts` | title, world map, preparations and its four sub-screens, shop, guide |
+| `render/touch.ts` | the on-screen buttons |
+| `render/viewport.ts` | scaling, portrait rotation, pointer coordinates |
 | `render/sprites.ts` | characters |
 | `battle/battleScene.ts` | the battle animation |
 | `story/dialogue.ts` | the dialogue box |
@@ -42,9 +138,14 @@ Fire Emblem does. Everything past 20×14 scrolls.
 `sprites.ts` builds every character out of shapes, coloured from the class table.
 No PNG involved, which is the PoC's approach and was adopted deliberately.
 
-**Shigeru is the exception.** He renders from `assets/sprites/shigeru-sheet.png`,
-a single 84px-square, 46-frame sheet generated from a character registered with
-PixelLab — so every frame is the same drawing rather than a fresh one.
+**Shigeru and Akira are the exceptions.** Shigeru renders from
+`assets/sprites/shigeru-sheet.png`, Akira from `akira-sheet.png` (38 frames,
+six clips —— he has no walk, so walk falls back to idle). Both also have
+dialogue portraits in `assets/portraits/`.
+
+Both sheets are 84px squares generated from characters registered with PixelLab,
+so every frame is the same drawing rather than a fresh one. Shigeru's 46 frames
+run:
 
 | clip | frames | fps | loops |
 |---|---|---|---|

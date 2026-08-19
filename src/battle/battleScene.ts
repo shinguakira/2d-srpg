@@ -40,6 +40,10 @@ export class BattleScene {
   private t = 0;
   private idx = 0;
   private speed = 1;
+  /** ゲーム速度。オプションの「はやい」で 2 になる */
+  baseSpeed = 1;
+  /** 「キャラのみ」だと地形の背景を描かない */
+  backdrop = true;
 
   private aHp: number;
   private dHp: number;
@@ -114,7 +118,7 @@ export class BattleScene {
   }
 
   update(dtRaw: number) {
-    const dt = dtRaw * this.speed;
+    const dt = dtRaw * this.speed * this.baseSpeed;
     this.t += dt;
 
     // HP バーの補間
@@ -570,6 +574,8 @@ export class BattleScene {
    * 左右で別々に描くのは、二人が違う地形に立っていることがあるため。
    */
   private drawBackdrop(ctx: CanvasRenderingContext2D) {
+    // オプションの「キャラのみ」。FE の「背景なし」に当たる
+    if (!this.backdrop) return;
     const sides: [Unit, number, number][] = [
       [this.attacker, 0, W / 2],
       [this.defender, W / 2, W / 2],

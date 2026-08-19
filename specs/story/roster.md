@@ -1,9 +1,10 @@
 # Character Roster
 
-Master roster for the 25-chapter campaign. **None of it is in the game.** There
-is one chapter, its units are the ported PoC's in `src/data/chapter1.ts`, and
-Shigeru is the only name on this list that appears there — as `p_shigeru`,
-holding the PoC's lord stats. Everyone else below is a design target.
+Master roster for the 25-chapter campaign. **Almost none of it is in the game.**
+Three chapters are built and the units in them are the ported PoC's, in
+`src/data/roster.ts`. Two names on this list appear there: Shigeru as
+`p_shigeru`, and Akira as `p_akira` under the alias ジェイガン. Everyone else
+below is a design target.
 
 See [characters.md](characters.md) for writing briefs and
 [arc-structure.md](arc-structure.md) for chapter context.

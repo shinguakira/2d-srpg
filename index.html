@@ -2,7 +2,10 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <title>FE風 2D SRPG - 戦闘PoC</title>
     <style>
       :root {
@@ -16,28 +19,43 @@
         color: #cfd6e6;
         font-family: 'Segoe UI', 'Yu Gothic UI', 'Hiragino Kaku Gothic ProN', sans-serif;
         overflow: hidden;
+        /* 指でめくれない。ゲーム側がスクロールもズームも自前で持つ */
+        overscroll-behavior: none;
+        touch-action: none;
+        -webkit-user-select: none;
+        user-select: none;
       }
-      #wrap {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-      }
+      /*
+        canvas は viewport の中央に固定して、大きさと回転は viewport.ts が入れる。
+        flex で並べると縦持ちの 90 度回転が中央からずれるので、絶対配置にしてある。
+      */
       canvas {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transform-origin: center;
         background: #10131d;
-        border: 1px solid #2a3350;
-        border-radius: 6px;
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
         image-rendering: pixelated;
-        max-width: 100vw;
-        max-height: calc(100vh - 46px);
+        touch-action: none;
+        -webkit-tap-highlight-color: transparent;
       }
       #hint {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 6px;
+        text-align: center;
         font-size: 12px;
         letter-spacing: 0.02em;
         color: #7f8aa8;
+        pointer-events: none;
+      }
+      /* 指のときは画面の中にボタンが出るので、キーボードの案内は邪魔にしかならない */
+      @media (pointer: coarse) {
+        #hint {
+          display: none;
+        }
       }
       b {
         color: #b9c6e6;
@@ -45,12 +63,10 @@
     </style>
   </head>
   <body>
-    <div id="wrap">
-      <canvas id="game" width="960" height="640"></canvas>
-      <div id="hint">
-        <b>↑↓←→ / クリック</b> カーソル ・ <b>Z / Enter</b> 決定 ・ <b>X / 右クリック</b> キャンセル ・ <b>T</b> 敵の攻撃範囲 ・
-        <b>E</b> ターン終了 ・ <b>R</b> リスタート
-      </div>
+    <canvas id="game" width="960" height="640"></canvas>
+    <div id="hint">
+      <b>↑↓←→ / クリック</b> カーソル ・ <b>Z / Enter</b> 決定 ・ <b>X / 右クリック</b> キャンセル ・ <b>R</b> ユニット詳細 ・
+      <b>E</b> ターン終了 ・ <b>Shift+R</b> リスタート
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>

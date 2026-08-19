@@ -30,7 +30,13 @@ const PAPER = '#f2e9d2';
 const INK = '#33271b';
 const FRAME = '#4a3524';
 
-const CHARS_PER_SEC = 42;
+/** 0 遅い / 1 ふつう / 2 速い。オプションがここを書き換える */
+const SPEEDS = [22, 42, 90];
+let charsPerSec = SPEEDS[1];
+
+export function setTextSpeed(level: number) {
+  charsPerSec = SPEEDS[Math.max(0, Math.min(SPEEDS.length - 1, level))];
+}
 
 /**
  * FE 風の会話パート。
@@ -61,7 +67,7 @@ export class DialogueScene {
   update(dt: number) {
     if (this.done) return;
     this.t += dt;
-    this.shown = Math.min(this.fullLength, this.shown + dt * CHARS_PER_SEC * (this.fast ? 4 : 1));
+    this.shown = Math.min(this.fullLength, this.shown + dt * charsPerSec * (this.fast ? 4 : 1));
   }
 
   /** Z / クリック */

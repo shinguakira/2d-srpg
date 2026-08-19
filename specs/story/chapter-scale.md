@@ -32,6 +32,13 @@ size that fits on screen. The window shows twenty tiles by fourteen and the
 board runs past it — see `specs/systems/presentation.md`. Only Ch1 and Ch2 fit
 without scrolling, and that is a property of those two chapters, not a limit.
 
+## Reinforcements
+
+The engine spawns them: a chapter lists `reinforcements` as `{turn, at, seed}`
+and they arrive at the start of that turn's player phase. Ch2 and Ch3 carry the
+waves this table gives them; Ch1 has none, as listed. Everything from Ch4 on is
+still only a row here.
+
 ## The table
 
 Enemy counts are units on the board at turn 1. Reinforcements are listed

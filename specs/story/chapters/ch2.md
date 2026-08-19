@@ -1,6 +1,8 @@
 # Chapter 2: The Sarz Crossing
 
-Not implemented.
+Built. The map, the eight enemies, the village, the shop, the arena and the
+turn-3 reinforcements are in `src/data/chapters/ch2.ts`; the cast and the script
+below are not.
 
 ## Summary
 

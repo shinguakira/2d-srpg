@@ -125,8 +125,9 @@ export const ROSTER: Seed[] = [
     affinity: 'light',
     stats: st(16, 1, 6, 6, 8, 9, 2, 7, 4, 5),
     growth: st(50, 10, 55, 40, 50, 60, 10, 50, 0, 0),
-    weapons: ['heal'],
-    wexp: { staff: 40 },
+    // 杖は回復だけではない。リザーブで状態異常を解き、スリープで敵を止める
+    weapons: ['heal', 'restore', 'sleepStaff'],
+    wexp: { staff: 125 },
     potion: 2,
   },
   {

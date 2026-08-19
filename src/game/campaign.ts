@@ -1,6 +1,7 @@
-import type { Unit } from '../types';
-import { CHAPTERS, loadChapter, START_GOLD } from '../data/chapters';
+import type { Unit, Weapon } from '../types';
+import { CHAPTERS, chapterDef, isStoryChapter, loadChapter, START_GOLD } from '../data/chapters';
 import { build, createRoster, ROSTER } from '../data/roster';
+import { DEFAULT_OPTIONS, type GameOptions } from './options';
 
 const SAVE_KEY = 'srpg-save-v1';
 
@@ -19,13 +20,20 @@ export class Campaign {
   deployed: string[] = [];
   /** 到達済みの章。ワールドマップでどこまで行けるか */
   cleared = 0;
+  /**
+   * 輸送隊。FE は 5 枠に収まらない持ち物をここへ預ける。章をまたいで残り、
+   * 準備画面と、章の中ではロードに手が届くところで出し入れできる。
+   */
+  convoy: Weapon[] = [];
+  /** オプション。章をまたいで残るので campaign が持ち、Game が借りる */
+  options: GameOptions = { ...DEFAULT_OPTIONS };
 
   constructor() {
     this.autoDeploy();
   }
 
   get def() {
-    return CHAPTERS[this.chapter];
+    return chapterDef(this.chapter);
   }
 
   /** 出撃枠ぶんだけ上から詰める。ロードは必ず出る */
@@ -68,8 +76,9 @@ export class Campaign {
     this.autoDeploy();
   }
 
-  /** 章を終えた。次があれば進める */
+  /** 章を終えた。次があれば進める。塔と群れは進行に数えない */
   finish() {
+    if (!isStoryChapter(this.chapter)) return;
     this.cleared = Math.max(this.cleared, this.chapter + 1);
   }
 

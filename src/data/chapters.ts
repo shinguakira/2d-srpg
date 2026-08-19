@@ -3,6 +3,7 @@ import type { Seed } from './roster';
 import { CH1 } from './chapters/ch1';
 import { CH2 } from './chapters/ch2';
 import { CH3 } from './chapters/ch3';
+import { SKIRMISH, TOWER } from './chapters/extra';
 
 export interface Village {
   x: number;
@@ -19,6 +20,16 @@ export interface Chest {
   gold?: number;
 }
 
+/**
+ * 増援。FE は「そのターンの敵軍フェイズの頭に、盤の縁や砦から湧く」ので、
+ * 湧く場所と湧くターンだけ持たせる。turn は自軍フェイズのターン数で数える。
+ */
+export interface Reinforcement {
+  turn: number;
+  at: Pos;
+  seed: Seed;
+}
+
 export interface ChapterDef {
   title: string;
   map: string[];
@@ -32,9 +43,31 @@ export interface ChapterDef {
   villages: Village[];
   chests: Chest[];
   shop: { weapon: string; price: number }[];
+  /** 途中で湧く敵。無い章は空 */
+  reinforcements?: Reinforcement[];
+  /** 闘技場の相手の強さ。地形 A を置いた章だけ使う */
+  arenaLevel?: number;
 }
 
+/** 本編。ワールドマップに並ぶのはこれだけで、cleared もこれを数える */
 export const CHAPTERS: ChapterDef[] = [CH1, CH2, CH3];
+
+/**
+ * 本編の外の戦い。塔と、彷徨く魔物の群れ。章番号の続きに置いて、
+ * loadChapter からは同じ番号で引けるようにする。
+ */
+export const TOWER_INDEX = CHAPTERS.length;
+export const SKIRMISH_INDEX = CHAPTERS.length + 1;
+const ALL_CHAPTERS: ChapterDef[] = [...CHAPTERS, TOWER, SKIRMISH];
+
+export function chapterDef(index: number): ChapterDef {
+  return ALL_CHAPTERS[Math.max(0, Math.min(ALL_CHAPTERS.length - 1, index))];
+}
+
+/** 本編の章か。塔と群れは進行に数えない */
+export function isStoryChapter(index: number) {
+  return index < CHAPTERS.length;
+}
 
 /**
  * いま読み込んでいる章。
@@ -52,11 +85,13 @@ export let OBJECTIVE = CH1.objective;
 export let VILLAGES: Village[] = CH1.villages;
 export let CHESTS: Chest[] = CH1.chests;
 export let SHOP = CH1.shop;
+export let REINFORCEMENTS: Reinforcement[] = CH1.reinforcements ?? [];
+export let ARENA_LEVEL = CH1.arenaLevel ?? 0;
 
 export const START_GOLD = 3000;
 
 export function loadChapter(index: number) {
-  const c = CHAPTERS[Math.max(0, Math.min(CHAPTERS.length - 1, index))];
+  const c = chapterDef(index);
   CHAPTER = index;
   TITLE = c.title;
   MAP = c.map.slice();
@@ -66,10 +101,19 @@ export function loadChapter(index: number) {
   VILLAGES = c.villages;
   CHESTS = c.chests;
   SHOP = c.shop;
+  REINFORCEMENTS = c.reinforcements ?? [];
+  ARENA_LEVEL = c.arenaLevel ?? 0;
+}
+
+/** 扉を開けた後の地形を書き戻す。中断から再開するときに使う */
+export function setMap(rows: string[]) {
+  MAP = rows.slice();
+  MAP_W = MAP[0].length;
+  MAP_H = MAP.length;
 }
 
 function chapter(): ChapterDef {
-  return CHAPTERS[CHAPTER];
+  return chapterDef(CHAPTER);
 }
 
 /** その章の敵。自軍は campaign 側が持ち回る */

@@ -23,6 +23,7 @@ const TERRAIN: Record<string, TerrainDef> = {
   D: { id: 'door', name: '扉', color: '#5a4632', color2: '#6b543c', def: 0, avo: 0, cost: [INF, INF, INF] },
   C: { id: 'chest', name: '宝箱', color: '#6d6a80', color2: '#7f7c95', def: 0, avo: 0, cost: [1, 1, 1] },
   S: { id: 'shop', name: '武器屋', color: '#7a5b3a', color2: '#8d6c47', def: 0, avo: 10, cost: [1, 1, 1] },
+  A: { id: 'arena', name: '闘技場', color: '#8a6448', color2: '#9d7455', def: 0, avo: 0, cost: [1, 1, 1] },
   G: { id: 'gate', name: '門', color: '#8a6f45', color2: '#9d8052', def: 3, avo: 20, cost: [1, 1, 1], heal: 0.1 },
   T: { id: 'throne', name: '玉座', color: '#7c5f8a', color2: '#8e6f9d', def: 3, avo: 20, cost: [1, 1, 1], heal: 0.1, res: 5 },
 };

@@ -76,6 +76,26 @@ const CLASSES: Record<string, UnitClass> = {
     promotion: { item: 'masterSeal', options: ['bishop', 'sage'] },
     promoGain: { hp: 3, mag: 2, skl: 2, spd: 1, def: 2, res: 3, con: 1 },
   },
+  thief: {
+    id: 'thief',
+    name: 'シーフ',
+    moveType: 'foot',
+    ranks: { sword: 'E' },
+    color: '#4a4a68',
+    accent: '#cfcfe8',
+    steal: true,
+    promotion: { item: 'masterSeal', options: ['rogue', 'assassin'] },
+    promoGain: { hp: 3, str: 1, skl: 2, spd: 2, def: 1, res: 2, con: 1 },
+  },
+  dancer: {
+    id: 'dancer',
+    name: '踊り子',
+    moveType: 'foot',
+    ranks: { sword: 'E' },
+    color: '#c05a86',
+    accent: '#ffd8e8',
+    dance: true,
+  },
   pegasus: {
     id: 'pegasus',
     name: 'ペガサスナイト',
@@ -207,6 +227,28 @@ const CLASSES: Record<string, UnitClass> = {
     tags: ['flier'],
     promoted: true,
   },
+  rogue: {
+    id: 'rogue',
+    name: 'ローグ',
+    moveType: 'foot',
+    ranks: { sword: 'A' },
+    color: '#3d3d5c',
+    accent: '#dcdcf4',
+    promoted: true,
+    steal: true,
+    critBonus: 5,
+  },
+  assassin: {
+    id: 'assassin',
+    name: 'アサシン',
+    moveType: 'foot',
+    ranks: { sword: 'S' },
+    color: '#2f3350',
+    accent: '#d0d4f0',
+    promoted: true,
+    steal: true,
+    critBonus: 10,
+  },
   wyvernKnight: {
     id: 'wyvernKnight',
     name: '飛竜ナイト',
@@ -276,6 +318,12 @@ const CLASSES: Record<string, UnitClass> = {
   },
 };
 
+// GBA FE では騎馬と飛行はもれなく再移動（カント）を持つ。クラスごとに書くと
+// 増やしたときに必ずつけ忘れるので、移動型から起こす。
+for (const c of Object.values(CLASSES)) {
+  if (c.moveType === 'mounted' || c.moveType === 'flier') c.canto = true;
+}
+
 export function classOf(id: string): UnitClass {
   const c = CLASSES[id];
   if (!c) throw new Error(`unknown class: ${id}`);
@@ -283,3 +331,14 @@ export function classOf(id: string): UnitClass {
 }
 
 export const MOVE_INDEX = { foot: 0, mounted: 1, flier: 2 } as const;
+
+/**
+ * 援護（Aid）。救出できる相手の体格の上限で、GBA FE はこの式。
+ * 騎馬は 25 − 体格、飛行は 20 − 体格、歩行は 体格 − 1。
+ */
+export function aidOf(u: { classId: string; stats: { con: number } }): number {
+  const t = classOf(u.classId).moveType;
+  if (t === 'mounted') return Math.max(0, 25 - u.stats.con);
+  if (t === 'flier') return Math.max(0, 20 - u.stats.con);
+  return Math.max(0, u.stats.con - 1);
+}

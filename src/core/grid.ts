@@ -39,10 +39,12 @@ export interface MoveRange {
  * ・敵ユニットのいるマスは通過不可
  * ・味方のいるマスは通過できるが停止できない
  */
-export function computeMoveRange(unit: Unit, units: Unit[]): MoveRange {
+export function computeMoveRange(unit: Unit, units: Unit[], movOverride?: number): MoveRange {
+  const mov = movOverride ?? unit.stats.mov;
   const occupied = new Map<number, Unit>();
   for (const u of units) {
-    if (!u.dead) occupied.set(key(u.x, u.y), u);
+    // 担がれている者は盤上にいない
+    if (!u.dead && !u.carried) occupied.set(key(u.x, u.y), u);
   }
 
   const cost = new Map<number, number>();
@@ -68,7 +70,7 @@ export function computeMoveRange(unit: Unit, units: Unit[]): MoveRange {
       const step = moveCost(unit, nx, ny);
       if (step >= 99) continue;
       const nc = cc + step;
-      if (nc > unit.stats.mov) continue;
+      if (nc > mov) continue;
       const nk = key(nx, ny);
       if (cost.has(nk) && cost.get(nk)! <= nc) continue;
       cost.set(nk, nc);
@@ -98,5 +100,5 @@ export function pathTo(range: MoveRange, x: number, y: number): Pos[] {
 }
 
 export function unitAt(units: Unit[], x: number, y: number): Unit | undefined {
-  return units.find((u) => !u.dead && u.x === x && u.y === y);
+  return units.find((u) => !u.dead && !u.carried && u.x === x && u.y === y);
 }

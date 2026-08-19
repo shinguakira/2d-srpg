@@ -11,12 +11,12 @@
 ## systems/ describes the code; story/ describes the intent
 
 The game is a port of a Fire Emblem: The Sacred Stones PoC — TypeScript and
-Canvas 2D, one chapter, the PoC's cast. `systems/` documents that.
+Canvas 2D, three chapters, the PoC's cast. `systems/` documents that.
 
 `story/` is the Amagi campaign: Shigeru, Akira, Takeshi, twenty-five chapters
-across the island. Of it, only chapter 1's script and Shigeru himself are in the
-game. Everything else is a target, not a description. Do not read `story/` as an
-account of what the code does.
+across the island. Three are built, and the cast in them is still the PoC's with
+two exceptions. Everything else is a target, not a description. Do not read
+`story/` as an account of what the code does.
 
 Everything that documented the deleted React implementation was removed with it.
 Git history has it.

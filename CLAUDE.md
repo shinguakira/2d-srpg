@@ -36,41 +36,52 @@ src/
     support.ts       Support ranks, affinity bonuses, adjacency accumulation
 
   data/
-    chapter1.ts      Map string + unit placement
+    chapters.ts      The live chapter: map, objective, villages, chests, shop
+    chapters/        ch1.ts ch2.ts ch3.ts — one per chapter; extra.ts is the tower and skirmishes
+    roster.ts        The player units, which outlive any one chapter
     classes.ts       Class table: weapon ranks, move type, promotion branches
     weapons.ts       Weapon table, weapon-rank thresholds, the triangle
     terrain.ts       Terrain by map character
+    guide.ts         The guide table, read by both the title screen and the map menu
 
   game/
-    game.ts          Turn flow, selection, commands, victory
+    game.ts          One chapter: turn flow, selection, commands, victory
+    campaign.ts      What survives a chapter — roster, gold, convoy, options, save
+    options.ts       The ten option rows and the window palettes
+    suspend.ts       Suspend and resume, mid-chapter
     ai.ts            Enemy decision-making
 
   render/
-    mapRender.ts     Map, units, cursor, range overlays, HUD
-    sprites.ts       Characters — Shigeru from a sheet, the rest drawn in code
+    mapRender.ts     Map, units, cursor, ranges, windows, full-screen panels
+    screens.ts       Title, world map, preparations and its sub-screens, shop, guide
+    sprites.ts       Characters — Shigeru and Akira from sheets, the rest in code
     layout.ts        Tile size, the viewport, and the camera
+    touch.ts         On-screen buttons for phones, and their hit tests
+    viewport.ts      Fitting the canvas to the window; portrait rotation
 
   story/
     script.ts        Chapter script
     dialogue.ts      Dialogue box rendering and advance
 
   assets/
-    sprites/         PNG sheets kept from the previous version — see below
-    portraits/       Dialogue portraits (currently empty)
+    sprites/         Battle/map sheets — shigeru-sheet.png, akira-sheet.png
+    portraits/       Dialogue portraits — shigeru.png, akira.png
 ```
 
 ## Art
 
-`src/render/sprites.ts` draws every character **in code**. Nothing there reads a
-PNG. That is how the PoC works and it is what got adopted.
+**Shigeru and Akira have commissioned art; nobody else does.** They render from
+84px sheets — `shigeru-sheet.png` (46 frames, seven clips) and
+`akira-sheet.png` (38 frames, six — walk is missing) — and from portraits in
+`assets/portraits/`. Both are registered PixelLab characters, which is what
+makes the frames agree with each other.
 
-`src/assets/sprites/` still holds the sheets commissioned through PixelLab
-before the port, including `shigeru-sheet.png` — 46 frames across seven clips,
-generated from a registered character so every frame is the same drawing. They
-are kept deliberately and are **not wired into the renderer yet**.
+Everyone else is drawn in code by `sprites.ts`, inherited from the PoC. That is
+not a licence to add more: see `AGENTS.md`.
 
-`tools/sprites/` is the PixelLab client. `reference/shigeru.png` is the one
-approved standing frame; see `AGENTS.md` before touching any of it.
+`tools/sprites/` is the PixelLab client — `char` to register, `anim` per
+clip, `job` to collect. `reference/` holds the standing frames those
+registrations were built from.
 
 ## Specs
 
@@ -79,9 +90,9 @@ code — combat arithmetic, the unit model, supports, terrain and the turn, and
 the presentation layer. Keep it true to the code; it is the reference, not a
 wish list.
 
-**`specs/story/`** is the Tsushima campaign: Shigeru, Akira, Takeshi, 25
-chapters. Only chapter 1's script and Shigeru himself are in the game. Read it
-as the design target, never as a description of the code.
+**`specs/story/`** is the Amagi campaign: Shigeru, Akira, Takeshi, 25 chapters.
+Three of them are built. Every place name is invented — no real map, on purpose.
+Read the rest as the design target, never as a description of the code.
 
 Everything that documented the deleted React implementation was removed with it.
 Git history has it.

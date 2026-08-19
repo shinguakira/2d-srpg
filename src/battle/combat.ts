@@ -3,7 +3,7 @@ import { MAP } from '../data/chapters';
 import { terrainAt } from '../data/terrain';
 import { rankAtLeast, rankFromWexp, triangle } from '../data/weapons';
 import { rng } from '../core/rng';
-import type { Pos, Rank, Stats, Unit, Weapon } from '../types';
+import type { Pos, Rank, Stats, StatusKind, Unit, Weapon } from '../types';
 import { supportBonus, ZERO_BONUS, type SupportBonus } from './support';
 
 const MAX_LEVEL = 20;
@@ -28,17 +28,70 @@ export function equippedWeapon(u: Unit): Weapon | undefined {
   return w && canUse(u, w) ? w : undefined;
 }
 
+/** サイレス中は魔法書も封じられる。剣や槍は振れる */
+function usableInBattle(u: Unit, w: Weapon): boolean {
+  if (w.type === 'staff' || w.uses <= 0 || !canUse(u, w)) return false;
+  return !(silenced(u) && w.magical);
+}
+
 /** 攻撃可能な武器（杖以外） */
 export function battleWeapon(u: Unit): Weapon | undefined {
   const eq = equippedWeapon(u);
-  if (eq && eq.type !== 'staff' && eq.uses > 0) return eq;
-  return u.items.find((w) => w.type !== 'staff' && w.uses > 0 && canUse(u, w));
+  if (eq && usableInBattle(u, eq)) return eq;
+  return u.items.find((w) => usableInBattle(u, w));
+}
+
+/** 攻撃に使える武器を全部。FE は「攻撃」のあとに武器を選ばせる */
+export function battleWeapons(u: Unit): Weapon[] {
+  return u.items.filter((w) => usableInBattle(u, w));
+}
+
+/**
+ * 担いでいるあいだの能力。GBA FE は救出中に技と速さが半分になる。
+ * 戦闘の計算は全部ここを通す。u.stats を直に読むと担ぎが効かない。
+ */
+function effStats(u: Unit): Stats {
+  if (!u.rescuing) return u.stats;
+  return { ...u.stats, skl: Math.floor(u.stats.skl / 2), spd: Math.floor(u.stats.spd / 2) };
 }
 
 /** 攻速: 速さ - max(0, 重さ - 体格) */
 function attackSpeed(u: Unit, w?: Weapon): number {
   const weight = w ? w.weight : 0;
-  return u.stats.spd - Math.max(0, weight - u.stats.con);
+  const s = effStats(u);
+  return s.spd - Math.max(0, weight - s.con);
+}
+
+/** サイレスは杖と魔法を封じる */
+function silenced(u: Unit): boolean {
+  return u.status?.kind === 'silence';
+}
+
+/** 眠っているあいだは反撃もできない */
+function asleep(u: Unit): boolean {
+  return u.status?.kind === 'sleep';
+}
+
+/** 毒で毎ターン減る HP。GBA の正確な値は資料が無いので固定の 3 にしてある */
+const POISON_DAMAGE = 3;
+
+/**
+ * 杖の射程。リブローと状態異常の杖は魔力の半分まで届く。
+ * 武器表の maxRange はその上限を切る役目しか持たない。
+ */
+export function staffRange(u: Unit, w: Weapon): number {
+  if (!w.staffKind || w.staffKind === 'heal' || w.staffKind === 'restore') return w.maxRange;
+  return Math.max(1, Math.min(w.maxRange, Math.floor(u.stats.mag / 2)));
+}
+
+/**
+ * 状態異常の杖の命中。FE8 は命中と回避を別に出して引く。
+ * 命中 = 30 + 魔力x5 + 技 / 回避 = 魔防x5 + 距離x2
+ */
+export function staffHitRate(caster: Unit, target: Unit, distance: number): number {
+  const hit = 30 + caster.stats.mag * 5 + effStats(caster).skl;
+  const avo = target.stats.res * 5 + distance * 2;
+  return clamp(hit - avo, 0, 100);
 }
 
 export function terrainAtPos(p: Pos) {
@@ -97,16 +150,20 @@ function rawStats(me: RawSide, foe: RawSide, distance: number) {
   const triMt = tri * 1;
   const triHit = tri * 15;
 
-  const canAttack = !!w && w.type !== 'staff' && w.uses > 0 && distance >= w.minRange && distance <= w.maxRange;
+  // 眠っているあいだは反撃もできない
+  const canAttack = !!w && w.type !== 'staff' && w.uses > 0 && distance >= w.minRange && distance <= w.maxRange && !asleep(me.unit);
 
   const magical = !!w?.magical;
-  const power = magical ? me.unit.stats.mag : me.unit.stats.str;
+  const s = effStats(me.unit);
+  const power = magical ? s.mag : s.str;
   const effective = isEffective(me.unit, w, foe.unit);
   const mt = w ? (effective ? w.mt * EFFECTIVE_MULTIPLIER : w.mt) : 0;
   const atk = w ? power + mt + triMt + me.support.atk : 0;
 
-  const hit = w ? w.hit + me.unit.stats.skl * 2 + Math.floor(me.unit.stats.lck / 2) + triHit + me.support.hit : 0;
-  const crit = w ? w.crit + Math.floor(me.unit.stats.skl / 2) + (classOf(me.unit.classId).critBonus ?? 0) + me.support.crit : 0;
+  // S ランクの武器を振ると命中と必殺に +5。FE8 の「S ランクボーナス」
+  const sRank = w && weaponRankOf(me.unit, w.type) === 'S' ? 5 : 0;
+  const hit = w ? w.hit + s.skl * 2 + Math.floor(s.lck / 2) + triHit + sRank + me.support.hit : 0;
+  const crit = w ? w.crit + Math.floor(s.skl / 2) + (classOf(me.unit.classId).critBonus ?? 0) + sRank + me.support.crit : 0;
 
   // 飛行は砦・門・玉座しか受けない。林や山の上でも回避と守備は乗らない。
   const raw = terrainAtPos(me.pos);
@@ -114,8 +171,8 @@ function rawStats(me: RawSide, foe: RawSide, distance: number) {
   const keeps = raw.id === 'fort' || raw.id === 'gate' || raw.id === 'throne';
   const terrain = flier && !keeps ? { ...raw, avo: 0, def: 0, res: 0 } : raw;
   const as = attackSpeed(me.unit, w);
-  const avo = as * 2 + me.unit.stats.lck + terrain.avo + me.support.avo;
-  const ddg = me.unit.stats.lck + me.support.ddg;
+  const avo = as * 2 + s.lck + terrain.avo + me.support.avo;
+  const ddg = s.lck + me.support.ddg;
 
   return { w, canAttack, atk, hit, crit, avo, ddg, as, tri, magical, terrain, effective };
 }
@@ -220,6 +277,8 @@ export interface BattleResult {
   levelUp?: LevelUpResult;
   /** 杖。攻撃ではないので、戦闘画面は殴り合いではなく回復として演じる */
   staffHeal?: { amount: number; staffName: string };
+  /** 当たって付いた状態異常。演出が終わってから game が貼る */
+  inflicted?: { on: Actor; kind: StatusKind; turns: number };
 }
 
 /**
@@ -269,13 +328,55 @@ export function gainExp(unit: Unit, amount: number): LevelUpResult | undefined {
   return { before, gains, newLevel: unit.level };
 }
 
+/**
+ * 経験値。FE8 の式をそのまま使う。
+ *
+ * ダメージを与えた  [31 + (敵Lv + 敵クラス補正A) − (自Lv + 自クラス補正A)] / クラス係数
+ * 倒した            上の値 + (敵Lv×敵係数 + 敵クラス補正B) − (自Lv×自係数 + 自クラス補正B) + 20 + ボス補正
+ *
+ * 上級職はクラス補正A が 20、係数が 3、クラス補正B が 60。上級職を倒すと旨く、
+ * 上級職で下級職を倒しても伸びない、という GBA FE の手触りがここから出る。
+ */
+function classPower(u: Unit) {
+  return classOf(u.classId).promoted ? 3 : 1;
+}
+function classBonusA(u: Unit) {
+  return classOf(u.classId).promoted ? 20 : 0;
+}
+function classBonusB(u: Unit) {
+  return classOf(u.classId).promoted ? 60 : 0;
+}
+
 function expForCombat(attacker: Unit, defender: Unit, killed: boolean, dealt: boolean): number {
-  const diff = defender.level - attacker.level;
-  const hitExp = Math.max(1, Math.floor((31 + diff) / 3));
+  const hitExp = Math.max(
+    1,
+    Math.floor((31 + (defender.level + classBonusA(defender)) - (attacker.level + classBonusA(attacker))) / classPower(attacker)),
+  );
   if (!killed) return dealt ? hitExp : 1;
-  let exp = hitExp + 20 + Math.max(0, diff) * 2;
+  const defeat =
+    defender.level * classPower(defender) + classBonusB(defender) - (attacker.level * classPower(attacker) + classBonusB(attacker));
+  let exp = hitExp + Math.max(0, defeat) + 20;
   if (defender.isBoss) exp += 40;
-  return Math.min(100, exp);
+  return Math.min(100, Math.max(1, exp));
+}
+
+/** 状態異常をかける。すでに何かかかっていれば上書きする（FE も重ならない） */
+export function applyStatus(u: Unit, kind: StatusKind, turns: number) {
+  u.status = { kind, turns };
+}
+
+/** 自軍・敵軍フェイズの頭で呼ぶ。毒が削り、残りターンが減る */
+export function tickStatus(u: Unit): number {
+  const st = u.status;
+  if (!st) return 0;
+  let damage = 0;
+  if (st.kind === 'poison') {
+    damage = Math.min(u.hp - 1, POISON_DAMAGE);
+    if (damage > 0) u.hp -= damage;
+  }
+  st.turns -= 1;
+  if (st.turns <= 0) u.status = undefined;
+  return damage;
 }
 
 /** 武器を使うと熟練度が上がる */
@@ -296,6 +397,7 @@ export function resolveBattle(aUnit: Unit, aPos: Pos, dUnit: Unit, dPos: Pos, un
   const aStartHp = aHp;
   const dStartHp = dHp;
   let aDealt = false;
+  let inflicted: BattleResult['inflicted'];
 
   const strike = (by: Actor): boolean => {
     const side = by === 'attacker' ? fc.attacker : fc.defender;
@@ -315,6 +417,11 @@ export function resolveBattle(aUnit: Unit, aPos: Pos, dUnit: Unit, dPos: Pos, un
     const targetHp = by === 'attacker' ? dHp : aHp;
     events.push({ by, hit, crit, damage: dmg, effective: side.effective, targetHp, killed: targetHp <= 0 });
 
+    // 毒の牙のように当たると状態異常になる武器。倒してしまったなら意味がない
+    if (hit && targetHp > 0 && side.weapon?.inflicts) {
+      inflicted = { on: by === 'attacker' ? 'defender' : 'attacker', kind: side.weapon.inflicts, turns: side.weapon.statusTurns ?? 5 };
+    }
+
     if (side.weapon) side.weapon.uses = Math.max(0, side.weapon.uses - 1);
     gainWexp(side.unit, side.weapon);
     return true;
@@ -333,6 +440,7 @@ export function resolveBattle(aUnit: Unit, aPos: Pos, dUnit: Unit, dPos: Pos, un
     aEndHp: aHp,
     dEndHp: dHp,
     expGain: 0,
+    inflicted,
   };
 
   // 経験値は戦闘に参加したプレイヤー側ユニットへ
@@ -355,7 +463,13 @@ export function healAmount(healer: Unit, staff: Weapon): number {
 }
 
 export function staffOf(u: Unit): Weapon | undefined {
-  return u.items.find((w) => w.type === 'staff' && w.uses > 0 && canUse(u, w));
+  return staves(u)[0];
+}
+
+/** 持っている杖を全部。サイレス中は一本も振れない */
+export function staves(u: Unit): Weapon[] {
+  if (silenced(u)) return [];
+  return u.items.filter((w) => w.type === 'staff' && w.uses > 0 && canUse(u, w));
 }
 
 export function maxHp(u: Unit): number {

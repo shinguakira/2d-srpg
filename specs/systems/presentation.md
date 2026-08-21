@@ -129,9 +129,31 @@ sheets — so for them the swing itself is different art. Everyone else reuses t
 attack clip under the new staging, because our code does not draw characters.
 
 **Level-up.** The EXP bar fills, then a window scales up carrying the unit's
-**portrait** on the left and the eight stats on the right. Rows appear one at a
-time, 0.09s apart; a stat that rose is green with `+n` and throws a four-pointed
-star. It holds 2.2 seconds.
+**portrait** on the left and the eight stats on the right — **all of them, at
+their old values, from the first frame**.
+
+Then it goes down the list one beat at a time, 0.34s apart. A stat that rose
+ticks up by one, pops, throws a four-pointed star and **rings**; a stat that did
+not simply passes. A marker sits on the row about to resolve. The pitch climbs
+with each gain, so a good level sounds like a rising phrase.
+
+That waiting is the whole screen. Revealing the rows progressively, or printing
+the new numbers straight away, turns a set-piece into a receipt.
+
+## Sound
+
+`audio/sfx.ts`. **Every waveform is generated; there are no audio files.** The
+GBA's sound is a few square and triangle channels, and WebAudio's oscillators do
+the same job, so bells and impacts cost nothing on disk.
+
+Level-up rings, the closing chord, and the three combat sounds — hit, effective,
+critical, and a miss that just cuts air. All of it runs through one master gain,
+which is what the 効果音 option switches and what `__app.sfx()` taps when a clip
+is being recorded. `AudioContext` starts suspended under the autoplay rules and
+wakes on the first sound; the game always passes through a keypress or a tap
+before combat, so nothing is lost.
+
+There is no music, so there is no music option.
 
 ## The dialogue box
 

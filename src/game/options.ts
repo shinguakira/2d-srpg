@@ -1,8 +1,8 @@
 /**
  * FE8 のオプション。値は全部「何番目か」の整数で持ち、左右で 1 ずつ回す。
  *
- * 原作にある音楽と効果音は置いていない。この game には音が一つも無いので、
- * 動かないスイッチを並べるほうが嘘になる。
+ * 音楽は無いので置いていない。効果音は WebAudio でその場で作っているので
+ * スイッチがある —— 動かないスイッチを並べるほうが嘘になる、という線引き。
  *
  * 章をまたいで残るものなので campaign が持ち、Game は開始時に借りる。
  */
@@ -25,6 +25,8 @@ export interface GameOptions {
   autoCursor: number;
   /** 0 なし / 1 あり。全員動かし終えたら自動でターンを終える */
   autoEndTurn: number;
+  /** 0 なし / 1 あり */
+  sfx: number;
   /** ウィンドウの色 0..3 */
   windowColor: number;
 }
@@ -45,6 +47,7 @@ export const OPTION_ROWS: OptionRow[] = [
   { key: 'showObjective', label: '目標表示', values: ['なし', 'あり'] },
   { key: 'autoCursor', label: 'オートカーソル', values: ['その場', '次のユニット'] },
   { key: 'autoEndTurn', label: 'オートターンエンド', values: ['なし', 'あり'] },
+  { key: 'sfx', label: '効果音', values: ['なし', 'あり'] },
   { key: 'windowColor', label: 'ウィンドウカラー', values: ['青', '緑', '赤', '灰'] },
 ];
 
@@ -58,6 +61,7 @@ export const DEFAULT_OPTIONS: GameOptions = {
   showObjective: 1,
   autoCursor: 1,
   autoEndTurn: 0,
+  sfx: 1,
   windowColor: 0,
 };
 

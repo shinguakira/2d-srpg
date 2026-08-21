@@ -4,6 +4,7 @@ import { drawFacePortrait, drawUnitSprite, type Clip } from '../render/sprites';
 import { classOf } from '../data/classes';
 import { shade } from '../render/sprites';
 import { fontOf } from '../render/text';
+import { critSound, hitSound, levelUpChord, missSound, statPing } from '../audio/sfx';
 import type { Stats, Unit } from '../types';
 
 export interface ExpAnim {
@@ -30,6 +31,17 @@ const SPRITE = 245;
  * という一拍が入る。原作の必殺が通常攻撃と別物に見えるのはこの間があるから。
  */
 const CRIT_WINDUP = 0.52;
+
+/**
+ * レベルアップの拍。**能力は一つずつ、間を置いて上がる。**
+ *
+ * 原作のレベルアップは結果の報告ではなく、上から順に一拍ずつめくって
+ * 「次は上がるか」を待たせる時間そのものが見せ場になっている。表を一気に
+ * 出してしまうと、その待ちが消えて数字の一覧になる。
+ */
+const LV_OPEN = 0.34;
+const LV_BEAT = 0.34;
+const LV_HOLD = 1.1;
 
 const STAT_LABELS: [keyof Stats, string][] = [
   ['hp', 'HP'],
@@ -73,6 +85,11 @@ export class BattleScene {
   private expShown: number;
   private expTarget: number;
   private levelUpShown = false;
+  /** どの拍まで進んだか。−1 は「まだ一つも上がっていない」 */
+  private lvBeat = -1;
+  /** 上がった回数。音の高さがこれで上がっていく */
+  private lvRung = 0;
+  private lvClosed = false;
 
   constructor(
     public readonly result: BattleResult,
@@ -121,6 +138,11 @@ export class BattleScene {
    * 下がるだけで伝える。MISS も必殺も、避ける絵と斬る絵そのもので見せる。
    */
   private applyImpact(ev: BattleEvent) {
+    if (this.speed === 1) {
+      if (!ev.hit) missSound();
+      else if (ev.crit) critSound();
+      else hitSound(ev.effective);
+    }
     if (!ev.hit) return;
     if (ev.crit) {
       this.flash = 1;
@@ -246,12 +268,26 @@ export class BattleScene {
         break;
       }
 
-      case 'levelup':
-        if (this.t >= 2.2) {
+      case 'levelup': {
+        // 拍が進むたびに、そこが上がる能力なら鳴らす。早送り中は鳴らさない
+        const beat = Math.floor((this.t - LV_OPEN) / LV_BEAT);
+        const lv = this.exp?.levelUp;
+        if (lv && beat > this.lvBeat) {
+          for (let i = this.lvBeat + 1; i <= Math.min(beat, STAT_LABELS.length - 1); i++) {
+            if (lv.gains[STAT_LABELS[i][0]] && this.speed === 1) statPing(this.lvRung++);
+          }
+          this.lvBeat = beat;
+          if (beat >= STAT_LABELS.length && this.speed === 1 && !this.lvClosed) {
+            this.lvClosed = true;
+            levelUpChord();
+          }
+        }
+        if (this.t >= LV_OPEN + STAT_LABELS.length * LV_BEAT + LV_HOLD) {
           this.phase = 'done';
           this.onDone();
         }
         break;
+      }
 
       case 'done':
         break;
@@ -609,31 +645,49 @@ export class BattleScene {
     ctx.font = fontOf(17);
     ctx.fillText(`${this.exp.unit.name}   Lv.${lv.newLevel - 1} → ${lv.newLevel}`, px, y + 70);
 
-    let row = 0;
-    for (const [k, label] of STAT_LABELS) {
+    // **能力は最初から全部、上がる前の値で並んでいる。**
+    // そこから一拍ずつ、上がるものだけが +1 されていく。どれが上がるか
+    // 分からないまま待つ時間が、この画面の中身そのもの。
+    for (const [row, [k, label]] of STAT_LABELS.entries()) {
       const col = row % 2;
       const line = Math.floor(row / 2);
       const sx = px + col * 132;
       const sy = y + 112 + line * 34;
       const gain = lv.gains[k] ?? 0;
-      const delay = 0.3 + row * 0.09;
-      if (this.t < delay) {
-        row++;
-        continue;
-      }
+      const at = LV_OPEN + row * LV_BEAT;
+      const since = this.t - at;
+      const risen = since >= 0;
+
       ctx.fillStyle = '#93a2c4';
       ctx.font = fontOf(14);
       ctx.fillText(label, sx, sy);
+
+      // 上がった直後だけ数字が跳ねる
+      const pop = gain && risen && since < 0.26 ? 1 + (1 - since / 0.26) * 0.55 : 1;
+      ctx.save();
+      ctx.translate(sx + 48, sy);
+      ctx.scale(pop, pop);
       ctx.font = fontOf(17);
-      ctx.fillStyle = gain ? '#8cf0a8' : '#c3cee6';
-      ctx.fillText(String(lv.before[k] + gain), sx + 48, sy);
-      if (gain) {
+      ctx.fillStyle = gain && risen ? '#8cf0a8' : '#c3cee6';
+      ctx.fillText(String(lv.before[k] + (risen ? gain : 0)), 0, 0);
+      ctx.restore();
+
+      if (gain && risen) {
         ctx.fillStyle = '#8cf0a8';
         ctx.font = fontOf(14);
         ctx.fillText(`+${gain}`, sx + 84, sy);
-        BattleScene.sparkle(ctx, sx + 62, sy - 6, (this.t - delay) / 0.5);
+        BattleScene.sparkle(ctx, sx + 62, sy - 6, since / 0.45);
       }
-      row++;
+      // いま来ている拍に指をかける。次にどれが上がるかを見せる印
+      if (!risen && this.t >= at - LV_BEAT) {
+        ctx.fillStyle = `rgba(255,210,74,${(0.35 + Math.abs(Math.sin(this.t * 14)) * 0.5).toFixed(2)})`;
+        ctx.beginPath();
+        ctx.moveTo(sx - 14, sy - 10);
+        ctx.lineTo(sx - 6, sy - 5);
+        ctx.lineTo(sx - 14, sy);
+        ctx.closePath();
+        ctx.fill();
+      }
     }
     ctx.restore();
   }

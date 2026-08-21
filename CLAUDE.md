@@ -30,6 +30,9 @@ src/
     rng.ts           xorshift32. `hitCheck` is 2RN — the average of two rolls
     grid.ts          Dijkstra movement range, path reconstruction, occupancy
 
+  audio/
+    sfx.ts           Every waveform generated on the fly; there are no sound files
+
   battle/
     combat.ts        Forecast and resolution. Formulas: specs/systems/combat.md
     battleScene.ts   The battle animation scene

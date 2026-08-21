@@ -37,6 +37,7 @@ import {
 import { flashPad, hitPad, padFor, setTouchUI, touchUI } from './render/touch';
 import { detectTouch, fitCanvas, toCanvas } from './render/viewport';
 import { loadFont } from './render/text';
+import { sfxStream } from './audio/sfx';
 import { clearSuspend, hasSuspend, loadSuspend, saveSuspend } from './game/suspend';
 
 const canvas = document.getElementById('game') as HTMLCanvasElement;
@@ -74,6 +75,8 @@ declare global {
       campaign: () => Campaign;
       frame: (t: number) => void;
       tap: (x: number, y: number) => void;
+      /** 効果音のバス。録画に音を乗せるときだけ使う */
+      sfx: () => MediaStream | undefined;
     };
   }
 }
@@ -85,6 +88,7 @@ window.__app = {
   campaign: () => campaign,
   frame: (t) => frame(t),
   tap: (x, y) => tap(x, y),
+  sfx: () => sfxStream(),
 };
 
 function restart() {

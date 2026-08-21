@@ -38,6 +38,7 @@ import { cloneWeapon } from '../data/weapons';
 import { aidOf, classOf } from '../data/classes';
 import { terrainAt } from '../data/terrain';
 import { rng } from '../core/rng';
+import { setSfx } from '../audio/sfx';
 import { GUIDE_COUNT } from '../data/guide';
 import { DEFAULT_OPTIONS, OPTION_ROWS, type GameOptions } from './options';
 import { DialogueScene, setTextSpeed, type Script } from '../story/dialogue';
@@ -206,6 +207,7 @@ export class Game {
     this.objective = OBJECTIVE;
     this.options = { ...campaign.options };
     setTextSpeed(this.options.textSpeed);
+    setSfx(!!this.options.sfx);
     this.pendingReinforcements = REINFORCEMENTS.slice();
     if (this.options.showObjective) this.objectiveNotice = 2.2;
     const first = this.units.find((u) => u.team === 'player');
@@ -1826,6 +1828,7 @@ export class Game {
     const n = row.values.length;
     this.options[row.key] = (this.options[row.key] + (dir > 0 ? 1 : n - 1)) % n;
     if (row.key === 'textSpeed') setTextSpeed(this.options.textSpeed);
+    if (row.key === 'sfx') setSfx(!!this.options.sfx);
   }
 
   /** ユニット一覧に並べる面々。担がれている者も含めて全員 */

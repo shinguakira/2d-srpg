@@ -37,7 +37,7 @@ const ENEMIES: Seed[] = [
     classId: 'brigand',
     level: 2,
     x: 13,
-    y: 6,
+    y: 5,
     affinity: 'fire',
     stats: st(22, 7, 0, 4, 5, 1, 3, 0, 13, 5),
     growth: st(70, 45, 0, 30, 30, 15, 20, 5, 0, 0),
@@ -118,26 +118,26 @@ const ENEMIES: Seed[] = [
     name: '屍兵',
     classId: 'revenant',
     level: 3,
-    x: 6,
+    x: 4,
     y: 2,
     affinity: 'dark',
     stats: st(24, 7, 0, 3, 4, 0, 4, 2, 12, 4),
     growth: st(70, 40, 0, 25, 25, 0, 25, 10, 0, 0),
     weapons: ['claw'],
-    ai: 'aggressive',
+    ai: 'guard',
   },
   {
     id: 'e_rev2',
     name: '屍兵',
     classId: 'revenant',
     level: 2,
-    x: 13,
+    x: 15,
     y: 2,
     affinity: 'dark',
     stats: st(22, 6, 0, 3, 4, 0, 4, 2, 12, 4),
     growth: st(70, 40, 0, 25, 25, 0, 25, 10, 0, 0),
     weapons: ['claw'],
-    ai: 'aggressive',
+    ai: 'guard',
   },
   {
     id: 'e_bael1',
@@ -183,38 +183,52 @@ const ENEMIES: Seed[] = [
 ];
 
 /**
- * 第1章 クレハ。川が盤面を横断し、渡河点は東西の二つだけ。対岸にはクロガネの旗が
- * 上がった砦があり、入口は一マスの門しかない。specs/story/chapters/ch1.md
+ * 第1章 クレハ。海沿いの街道が南から北へ抜け、川を渡り、クロガネの旗が上がった
+ * 関門に突き当たる。渡河点は街道の橋と西の小橋の二つ。門は一マスしかない。
+ * specs/story/chapters/ch1.md
  */
 export const CH1: ChapterDef = {
   title: '第1章  「クレハへの道」',
+  /*
+   * 「クレハへの道」。**道が主役の盤面**なので、道が一本通っていないと章が成立しない。
+   *
+   * 出撃地点（南端）から中央の街道が北へ伸び、川を橋で渡り、村を左右に見ながら
+   * 門へ突き当たる。他に行く道は無い —— それがこの章の一文そのもの。
+   *
+   * 城の中は三部屋。門から入れるのは玉座の間だけで、左右の宝物庫へは扉を開ける
+   * しかない。鍵は自軍に 3 つしかなく、扉 2 と宝箱 2 で 4 回要る。全部は取れない。
+   *
+   * 東の縁は海。四辺を同じ厚さの岩で囲うと箱に見えるうえ、海沿いの道という
+   * 設定とも噛み合わない。
+   */
   map: [
     'wwwwwwwwwwwwwwwwwwww',
-    'wwwww..F..T..F.wwwww',
-    'wwwww.D......D.wwwww',
-    'wwwww.C......C.wwwww',
+    'www.C.w...T..w.C.www',
+    'www...D..F.F.D...www',
+    'www...w......w...www',
     'wwwwwwwwwwGwwwwwwwww',
-    'whh..,,...b...,,.hhw',
-    'wh.f...V..b..V....hw',
-    'w~~b~~~~~~~~~~~b~~~w',
-    'w.fS....,,.....b.f.w',
-    'w..F.......,,...F..w',
-    'w.f...,,......f....w',
-    'w....f......f......w',
-    'w..b...........b...w',
-    'wwwwwwwwwwwwwwwwwwww',
+    'whh.,,....b..,,.hh~w',
+    'wh.fb..V..b..V...h~w',
+    'w~~~b~~~~~b~~~~~~~~w',
+    'w.fSb...,,b.....f.~w',
+    'w..F......b.....F.~w',
+    'w.f...,,..b....f..~w',
+    'w....f....b..f....~w',
+    'w.........b.......~w',
+    'wwwwwwwwwwbwwwwwwwww',
   ],
   objective: { kind: 'seize', x: 10, y: 1, label: '玉座の制圧' },
   deploy: 5,
+  // 街道の上とその両脇。行軍の途中という格好で並べる
   starts: [
-    { x: 9, y: 12 },
     { x: 10, y: 12 },
-    { x: 8, y: 12 },
+    { x: 9, y: 12 },
     { x: 11, y: 12 },
-    { x: 9, y: 11 },
     { x: 10, y: 11 },
-    { x: 8, y: 11 },
+    { x: 9, y: 11 },
     { x: 11, y: 11 },
+    { x: 8, y: 12 },
+    { x: 12, y: 12 },
   ],
   enemies: ENEMIES,
   villages: [
@@ -222,8 +236,8 @@ export const CH1: ChapterDef = {
     { x: 13, y: 6, potion: 2, text: '内地へ逃げた学者の置き土産です。傷薬しか残っていませんが。' },
   ],
   chests: [
-    { x: 6, y: 3, weapon: 'steelSword' },
-    { x: 13, y: 3, gold: 2500 },
+    { x: 4, y: 1, weapon: 'steelSword' },
+    { x: 15, y: 1, gold: 2500 },
   ],
   shop: [
     { weapon: 'ironSword', price: 460 },

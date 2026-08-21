@@ -123,20 +123,22 @@ function computeFamily(tx: number, ty: number): Family {
   const own = FAMILY[terrainAt(MAP, tx, ty).id];
   if (own) return own;
   const votes = new Map<Family, number>();
-  for (const [dx, dy] of [
-    [1, 0],
-    [-1, 0],
-    [0, 1],
-    [0, -1],
-    [1, 1],
-    [-1, -1],
-    [1, -1],
-    [-1, 1],
+  // 隣は重く、角は軽く。橋の四方は水でも、斜めは岸なので角を同じ重さで
+  // 数えると橋が草の上に架かってしまう
+  for (const [dx, dy, weight] of [
+    [1, 0, 3],
+    [-1, 0, 3],
+    [0, 1, 3],
+    [0, -1, 3],
+    [1, 1, 1],
+    [-1, -1, 1],
+    [1, -1, 1],
+    [-1, 1, 1],
   ] as const) {
     const f = FAMILY[terrainAt(MAP, tx + dx, ty + dy).id];
     // 岩壁は「周り」に数えない。城門の下が石畳になってしまう
     if (!f || f === 'stone') continue;
-    votes.set(f, (votes.get(f) ?? 0) + 1);
+    votes.set(f, (votes.get(f) ?? 0) + weight);
   }
   let best: Family = 'grass';
   let n = 0;

@@ -15,8 +15,16 @@ is a young man carrying something far too heavy who has decided not to stop movi
 
 ## Setup
 
-- **Map**: 20×14, a river across the board with two crossings, and a keep whose
-  only entrance is a one-tile gate. Throne at (10,1), gate at (10,4)
+- **Map**: 20×14. The coast road runs south to north up the middle of the board,
+  crosses the river on its own bridge, passes between the two villages and stops
+  at the keep gate. There is a second, smaller crossing to the west by the shop.
+  Throne at (10,1), gate at (10,4). The eastern edge is sea, not cliff —— this is
+  the coast road, and a board fenced on all four sides by identical rock reads as
+  a box rather than a place.
+- **The keep is three rooms.** The gate opens on the throne room only; a treasure
+  room sits either side behind a door at (6,2) and (13,2), each holding a chest
+  and a revenant. The company carries three keys and four locks stand between it
+  and everything —— two doors, two chests. It cannot have all of it.
 - **Objective**: Seize the throne
 - **Deploy**: 5 slots, preparation skipped, `shigeru` forced
 - **Player**: Shigeru, Akira, Lisette, Mirelle (epilogue), Gareth (turn 2)
@@ -26,14 +34,15 @@ is a young man carrying something far too heavy who has decided not to stop movi
 
 ## What the code actually does
 
-The map above is in `src/data/chapter1.ts` and matches. The rest does not, and
-the gaps are the honest list of what chapter 1 still needs:
+The map above is in `src/data/chapters/ch1.ts` and matches. The rest does not,
+and the gaps are the honest list of what chapter 1 still needs:
 
 | | Intent | Implemented |
 |---|---|---|
 | Objective | Seize the throne | **Seize** — the lord takes the throne at (10,1) and the chapter ends |
 | Deployment | 5 slots | **5 slots**, chosen in the preparation screen |
-| Villages | Two | **Two**, at (7,6) and (13,6) |
+| Villages | Two | **Two**, at (7,6) and (13,6), one either side of the road |
+| Chests | — | **Two**, at (4,1) and (15,1), each behind a door |
 | Enemies | 6 brigands on Kurogane pay | 12, including the PoC's monsters — revenants, a bael, a mogall |
 | Cast | Shigeru, Akira, Lisette, Mirelle, Gareth | シゲル and ジェイガン, plus the PoC's six |
 

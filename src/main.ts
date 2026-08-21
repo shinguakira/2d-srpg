@@ -681,6 +681,9 @@ let frozen = false;
       game.confirm();
       game.menu!.index = game.menu!.items.findIndex((it) => it.id === 'attack');
       game.confirm();
+      // 攻撃のあとに武器を選ぶ。レイピアを選んで予測を出す
+      game.menu!.index = 0;
+      game.confirm();
     }
     if (dev === 'battle' || dev === 'levelup' || dev === 'menu') {
       const a = pick('ガロン');
@@ -695,7 +698,10 @@ let frozen = false;
       game.cursor = { x: a.x, y: a.y };
       game.confirm();
       if (dev !== 'menu') {
-        // 行動メニューを開いたところで止める（menu 以外は攻撃まで進める）
+        // 行動メニューを開いたところで止める（menu 以外は攻撃まで進める）。
+        // 攻撃 → 武器を選ぶ → 対象を選ぶ、の三段
+        game.menu!.index = game.menu!.items.findIndex((it) => it.id === 'attack');
+        game.confirm();
         game.menu!.index = 0;
         game.confirm();
         game.confirm();

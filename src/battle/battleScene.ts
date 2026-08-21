@@ -1,6 +1,6 @@
 import type { BattleEvent, BattleResult, LevelUpResult } from './combat';
 import { maxHp, terrainAtPos } from './combat';
-import { drawUnitSprite, type Clip } from '../render/sprites';
+import { drawFacePortrait, drawUnitSprite, type Clip } from '../render/sprites';
 import { classOf } from '../data/classes';
 import { shade } from '../render/sprites';
 import { fontOf } from '../render/text';
@@ -24,6 +24,12 @@ const GROUND_Y = 436;
 const LEFT_X = 350;
 const RIGHT_X = 610;
 const SPRITE = 245;
+
+/**
+ * 必殺の溜め。通常の 0.2 に対してここまで伸ばすと、寄って・暗くなって・構えて、
+ * という一拍が入る。原作の必殺が通常攻撃と別物に見えるのはこの間があるから。
+ */
+const CRIT_WINDUP = 0.52;
 
 const STAT_LABELS: [keyof Stats, string][] = [
   ['hp', 'HP'],
@@ -56,6 +62,14 @@ export class BattleScene {
   private lungeBy: 'attacker' | 'defender' = 'attacker';
   private shake = 0;
   private flash = 0;
+  /**
+   * ヒットストップ。必殺が当たった瞬間だけ世界を止める。
+   * 一番安く効く「重さ」の出し方で、当たった実感はほとんどこれで出る。
+   */
+  private freeze = 0;
+  /** 必殺の炸裂。0..1 で外へ広がる */
+  private burst = 0;
+  private burstX = 0;
   private expShown: number;
   private expTarget: number;
   private levelUpShown = false;
@@ -110,7 +124,11 @@ export class BattleScene {
     if (!ev.hit) return;
     if (ev.crit) {
       this.flash = 1;
-      this.shake = 16;
+      this.shake = 20;
+      // 止めて、炸裂させる。必殺を通常攻撃の強い版にしないための二つ
+      this.freeze = 0.11;
+      this.burst = 0.001;
+      this.burstX = ev.by === 'attacker' ? RIGHT_X : LEFT_X;
     } else {
       this.shake = ev.effective ? 10 : 6;
     }
@@ -119,8 +137,15 @@ export class BattleScene {
   }
 
   update(dtRaw: number) {
+    // 止まっているあいだは時計も演出も進まない。飛ばしているときは止めない
+    if (this.freeze > 0 && this.speed === 1) {
+      this.freeze -= dtRaw;
+      if (this.burst > 0) this.burst = Math.min(1, this.burst + dtRaw * 3);
+      return;
+    }
     const dt = dtRaw * this.speed * this.baseSpeed;
     this.t += dt;
+    if (this.burst > 0) this.burst = this.burst >= 1 ? 0 : Math.min(1, this.burst + dt * 2.6);
 
     // HP バーの補間
     const rate = 26 * dt;
@@ -157,7 +182,7 @@ export class BattleScene {
 
       case 'strike': {
         const ev = this.currentEvent()!;
-        const windup = ev.crit ? 0.36 : 0.2;
+        const windup = ev.crit ? CRIT_WINDUP : 0.2;
         const recover = 0.42;
         if (this.t < windup) {
           // 溜め: 前へ踏み込む
@@ -252,11 +277,13 @@ export class BattleScene {
     if (this.phase !== 'strike') return undefined;
     const ev = this.currentEvent();
     if (!ev?.crit) return undefined;
-    const windup = 0.36;
+    const windup = CRIT_WINDUP;
     const total = windup + 0.42;
     const p = Math.min(1, this.t / total);
     const at = windup / total;
-    const k = p < at ? p / at : Math.max(0, 1 - (p - at) / (1 - at));
+    // 溜めのあいだに寄り切って、そこで**留まる**。着弾してから引く。
+    // 山なりに上げ下げすると、一番見せたい瞬間にはもう引き始めている
+    const k = p < at ? Math.min(1, (p / at) * 1.35) : Math.max(0, 1 - Math.max(0, (p - at) / (1 - at) - 0.45) / 0.55);
     return { x: ev.by === 'attacker' ? LEFT_X : RIGHT_X, k };
   }
 
@@ -273,7 +300,7 @@ export class BattleScene {
     if (!ev) return { clip: 'idle', clipT: NaN };
 
     const striker = ev.by === 'attacker' ? this.attacker : this.defender;
-    const windup = ev.crit ? 0.36 : 0.2;
+    const windup = ev.crit ? CRIT_WINDUP : 0.2;
     const total = windup + 0.42;
 
     if (unit === striker) {
@@ -433,10 +460,11 @@ export class BattleScene {
     const label = heal ? (unit === this.attacker ? heal.staffName : '') : view.weapon ? view.weapon.name : '(武器なし)';
     ctx.fillText(label, x + 12, y + 23);
     if (view.tri !== 0) {
+      // 三すくみは印だけ。マップの予測窓と同じで、原作は言葉で書かない
       ctx.fillStyle = view.tri > 0 ? '#1f7a3a' : '#a03030';
-      ctx.font = fontOf(13, true);
+      ctx.font = fontOf(15);
       ctx.textAlign = 'right';
-      ctx.fillText(view.tri > 0 ? '▲有利' : '▼不利', x + w - 12, y + 23);
+      ctx.fillText(view.tri > 0 ? '▲' : '▼', x + w - 12, y + 24);
       ctx.textAlign = 'left';
     }
 
@@ -509,10 +537,35 @@ export class BattleScene {
     ctx.fillText(`${Math.round(this.expShown)} / 100`, x + w - 18, y + 74);
   }
 
+  /** 上がった能力に飛ぶ星。四芒星をひとつ、弾けて消える */
+  private static sparkle(ctx: CanvasRenderingContext2D, x: number, y: number, k: number) {
+    if (k <= 0 || k >= 1) return;
+    const r = 6 + k * 14;
+    ctx.save();
+    ctx.globalAlpha = 1 - k;
+    ctx.fillStyle = '#fff6c8';
+    ctx.beginPath();
+    for (let i = 0; i < 4; i++) {
+      const a = (i / 4) * Math.PI * 2 - Math.PI / 2;
+      const b = a + Math.PI / 4;
+      ctx.lineTo(x + Math.cos(a) * r, y + Math.sin(a) * r);
+      ctx.lineTo(x + Math.cos(b) * r * 0.3, y + Math.sin(b) * r * 0.3);
+    }
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+
+  /**
+   * レベルアップ。**顔グラを添えて、上がった能力に星を飛ばす。**
+   *
+   * FE のレベルアップは数字の報告ではなく、そのキャラの見せ場として作られている。
+   * 顔が出て、能力が一つずつ上から捲れて、伸びたところで音と星が来る。
+   */
   private drawLevelUp(ctx: CanvasRenderingContext2D) {
     const lv = this.exp?.levelUp;
     if (!lv || !this.exp) return;
-    const w = 380;
+    const w = 470;
     const h = 300;
     const x = (W - w) / 2;
     const y = 180;
@@ -531,23 +584,39 @@ export class BattleScene {
     ctx.fill();
     ctx.stroke();
 
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#ffd24a';
-    ctx.font = fontOf(26, true);
-    ctx.fillText('LEVEL UP!', W / 2, y + 40);
-    ctx.fillStyle = '#eaf0ff';
-    ctx.font = fontOf(18, true);
-    ctx.fillText(`${this.exp.unit.name}   Lv.${lv.newLevel - 1} → ${lv.newLevel}`, W / 2, y + 70);
+    // 顔グラ。窓の中で下端が切れるように切り抜く
+    ctx.save();
+    ctx.beginPath();
+    ctx.roundRect(x + 4, y + 4, 178, h - 8, 10);
+    ctx.clip();
+    ctx.fillStyle = 'rgba(30,40,66,0.9)';
+    ctx.fillRect(x + 4, y + 4, 178, h - 8);
+    drawFacePortrait(ctx, this.exp.unit, x + 94, y + h + 6, 300, 1);
+    ctx.restore();
+    ctx.strokeStyle = 'rgba(255,210,74,0.4)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(x + 186, y + 12);
+    ctx.lineTo(x + 186, y + h - 12);
+    ctx.stroke();
 
+    const px = x + 198;
     ctx.textAlign = 'left';
+    ctx.fillStyle = '#ffd24a';
+    ctx.font = fontOf(24);
+    ctx.fillText('LEVEL UP!', px, y + 42);
+    ctx.fillStyle = '#eaf0ff';
+    ctx.font = fontOf(17);
+    ctx.fillText(`${this.exp.unit.name}   Lv.${lv.newLevel - 1} → ${lv.newLevel}`, px, y + 70);
+
     let row = 0;
     for (const [k, label] of STAT_LABELS) {
       const col = row % 2;
       const line = Math.floor(row / 2);
-      const sx = x + 30 + col * 175;
-      const sy = y + 110 + line * 34;
+      const sx = px + col * 132;
+      const sy = y + 112 + line * 34;
       const gain = lv.gains[k] ?? 0;
-      const delay = 0.25 + row * 0.07;
+      const delay = 0.3 + row * 0.09;
       if (this.t < delay) {
         row++;
         continue;
@@ -555,13 +624,14 @@ export class BattleScene {
       ctx.fillStyle = '#93a2c4';
       ctx.font = fontOf(14);
       ctx.fillText(label, sx, sy);
-      ctx.font = fontOf(16, true);
-      ctx.fillStyle = gain ? '#7ce89a' : '#c3cee6';
-      ctx.fillText(String(lv.before[k] + gain), sx + 52, sy);
+      ctx.font = fontOf(17);
+      ctx.fillStyle = gain ? '#8cf0a8' : '#c3cee6';
+      ctx.fillText(String(lv.before[k] + gain), sx + 48, sy);
       if (gain) {
-        ctx.fillStyle = '#7ce89a';
-        ctx.font = fontOf(14, true);
-        ctx.fillText(`+${gain}`, sx + 92, sy);
+        ctx.fillStyle = '#8cf0a8';
+        ctx.font = fontOf(14);
+        ctx.fillText(`+${gain}`, sx + 84, sy);
+        BattleScene.sparkle(ctx, sx + 62, sy - 6, (this.t - delay) / 0.5);
       }
       row++;
     }
@@ -749,6 +819,18 @@ export class BattleScene {
     this.drawSide(ctx, this.defender, RIGHT_X, -1, this.dHp <= 0, this.dHp);
     ctx.restore();
 
+    // 必殺の溜めのあいだは斬るほうにだけ光が残る。受けるほうは影に沈める。
+    // 透かすのではなく上から暗を掛ける —— 透かすと背景が抜けて幽霊になる
+    if (crit && crit.k > 0.02) {
+      const striking = this.currentEvent()?.by === 'attacker';
+      const mid = (LEFT_X + RIGHT_X) / 2;
+      const shadeGrad = ctx.createLinearGradient(striking ? mid - 60 : mid + 60, 0, striking ? W + 40 : -40, 0);
+      shadeGrad.addColorStop(0, 'rgba(4,5,12,0)');
+      shadeGrad.addColorStop(1, `rgba(4,5,12,${(crit.k * 0.72).toFixed(3)})`);
+      ctx.fillStyle = shadeGrad;
+      ctx.fillRect(-40, -40, W + 80, GROUND_Y + 70);
+    }
+
     this.drawNamePlate(ctx, this.attacker, 'left');
     this.drawNamePlate(ctx, this.defender, 'right');
     if (!this.result.staffHeal) {
@@ -757,6 +839,31 @@ export class BattleScene {
     }
     this.drawHpRow(ctx, this.attacker, this.aShown, 'left');
     this.drawHpRow(ctx, this.defender, this.dShown, 'right');
+
+    // 必殺の炸裂。刃は描かない —— 輪と破片だけで当たった衝撃を出す
+    if (this.burst > 0) {
+      const b = this.burst;
+      const by = GROUND_Y - SPRITE * 0.42;
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, 1 - b);
+      ctx.strokeStyle = '#fff2c0';
+      ctx.lineWidth = 14 * (1 - b) + 2;
+      ctx.beginPath();
+      ctx.arc(this.burstX, by, 30 + b * 190, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.strokeStyle = 'rgba(255,214,120,0.85)';
+      ctx.lineWidth = 5 * (1 - b) + 1;
+      for (let i = 0; i < 14; i++) {
+        const a = (i / 14) * Math.PI * 2 + 0.4;
+        const r0 = 30 + b * 120;
+        const r1 = r0 + 70 * (1 - b) + 20;
+        ctx.beginPath();
+        ctx.moveTo(this.burstX + Math.cos(a) * r0, by + Math.sin(a) * r0);
+        ctx.lineTo(this.burstX + Math.cos(a) * r1, by + Math.sin(a) * r1);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
 
     if (this.phase === 'exp' || this.phase === 'levelup') this.drawExpBar(ctx);
     if (this.phase === 'levelup') this.drawLevelUp(ctx);

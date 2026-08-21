@@ -111,6 +111,28 @@ drawn before a webfont lands is baked in the fallback — and gives up after 1.5
 seconds so a dead connection cannot stop the game starting. The stack falls back
 through Yu Gothic UI.
 
+## The critical, and the level-up
+
+`battle/battleScene.ts`. Both are set-pieces in the original, not louder versions
+of the ordinary case, so both are staged rather than decorated.
+
+**Critical.** The windup runs 0.52s against a normal blow's 0.2 — long enough for
+a beat of anticipation. During it the camera pushes in on the striker and
+**holds** there rather than easing back, the screen darkens, gold speed lines
+converge, and a gradient drops the receiving side into shadow (drawn over them,
+not as transparency — fading a sprite makes a ghost). Impact **freezes the world
+for 0.11s**, flashes white, shakes 20px, and throws a ring and shards out of the
+point of contact.
+
+Shigeru and Akira play a dedicated **`crit` clip** — nine frames each from their
+sheets — so for them the swing itself is different art. Everyone else reuses the
+attack clip under the new staging, because our code does not draw characters.
+
+**Level-up.** The EXP bar fills, then a window scales up carrying the unit's
+**portrait** on the left and the eight stats on the right. Rows appear one at a
+time, 0.09s apart; a stat that rose is green with `+n` and throws a four-pointed
+star. It holds 2.2 seconds.
+
 ## The dialogue box
 
 `story/dialogue.ts`. FE8's box is a **speech balloon that shrinks to fit the

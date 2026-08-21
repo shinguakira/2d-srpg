@@ -7,6 +7,14 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <title>FE風 2D SRPG - 戦闘PoC</title>
+    <!--
+      GBA の FE の文字は 16px のビットマップフォント一種類。DotGothic16 は
+      その時代の日本語ドットゴシックなので、画面の字がいちばん近くなる。
+      読み込めなければ Yu Gothic UI に落ちる（render/text.ts の並び）。
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet" />
     <style>
       :root {
         color-scheme: dark;

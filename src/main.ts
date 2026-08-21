@@ -36,6 +36,7 @@ import {
 } from './render/screens';
 import { flashPad, hitPad, padFor, setTouchUI, touchUI } from './render/touch';
 import { detectTouch, fitCanvas, toCanvas } from './render/viewport';
+import { loadFont } from './render/text';
 import { clearSuspend, hasSuspend, loadSuspend, saveSuspend } from './game/suspend';
 
 const canvas = document.getElementById('game') as HTMLCanvasElement;
@@ -815,4 +816,5 @@ function frame(now: number) {
 
   requestAnimationFrame(frame);
 }
-requestAnimationFrame(frame);
+// ドットのフォントが来てから最初の一枚を描く。先に描くと代替フォントで焼ける
+void loadFont().then(() => requestAnimationFrame(frame));

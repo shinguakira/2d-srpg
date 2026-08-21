@@ -4,8 +4,24 @@
  * GBA の FE は数字も見出しも本文も同じビットマップフォント一つで書かれていて、
  * 等幅と可変幅が混じることはない。以前はここが場所ごとにばらばらで、同じ画面の
  * 中に Yu Gothic UI と Consolas が並んでいた。
+ *
+ * DotGothic16 はその時代の日本語ドットゴシック。読み込みは index.html にあり、
+ * 落ちたら後ろの並びで描かれる。
  */
-const FONT = '"Yu Gothic UI", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Meiryo", sans-serif';
+const FONT = '"DotGothic16", "Yu Gothic UI", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif';
+
+/**
+ * 読み込みを待つ。canvas の文字はフォントが来る前に描くと代替で焼かれるので、
+ * 最初の一枚を出す前に一度だけ待つ。落ちても待たずに進む。
+ */
+export function loadFont(): Promise<unknown> {
+  const f = document.fonts;
+  if (!f) return Promise.resolve();
+  const want = Promise.all([f.load('16px DotGothic16'), f.load('bold 16px DotGothic16')]).catch(() => undefined);
+  // 回線が死んでいるときに待ち続けない。1.5 秒で見切って代替で始める
+  const giveUp = new Promise((r) => setTimeout(r, 1500));
+  return Promise.race([want, giveUp]);
+}
 
 export function fontOf(size: number, bold = false) {
   return `${bold ? 'bold ' : ''}${size}px ${FONT}`;

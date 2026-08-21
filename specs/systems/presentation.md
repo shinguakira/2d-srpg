@@ -102,8 +102,26 @@ perimeter**. Stroking every tile is the same grid by another route.
 
 `render/text.ts` owns the only font stack in the codebase, and every drawing
 routine goes through `fontOf` / `feText` / `plainText`. GBA Fire Emblem writes
-numbers, headings and prose in one bitmap font; before this there were three
+numbers, headings and prose in **one bitmap font**; before this there were three
 families on screen at once, with `Consolas` for numerals.
+
+The face is **DotGothic16**, the Japanese dot gothic of that era, linked from
+`index.html`. `loadFont()` holds the first frame until it arrives — canvas text
+drawn before a webfont lands is baked in the fallback — and gives up after 1.5
+seconds so a dead connection cannot stop the game starting. The stack falls back
+through Yu Gothic UI.
+
+## The dialogue box
+
+`story/dialogue.ts`. FE8's box is a **speech balloon that shrinks to fit the
+line and sits over the speaker's head**, with a tail pointing down at them. It
+is near-white with a thin dark outline, and there is **no name plate** — the
+portrait and the tail say who is talking. Narration gets the same balloon,
+centred, without a tail.
+
+Text is 28px, which is what FE8's 16px on a 240px-wide screen works out to at
+960. Ours was 21px in a fixed 832px band with a name plate and cream paper — a
+later-Fire-Emblem look, not this one.
 
 ## There is no persistent HUD
 

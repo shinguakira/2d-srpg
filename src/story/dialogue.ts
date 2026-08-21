@@ -22,14 +22,32 @@ export interface Script {
 const W = 960;
 const H = 640;
 
-/** 吹き出し */
-const BOX = { x: 64, y: 92, w: 832, h: 186 };
+/**
+ * 吹き出し。**FE8 のそれは台詞の量に合わせて縮み、話し手の頭の上に出る。**
+ *
+ * 画面幅いっぱいの帯ではないし、名前の札も付かない —— 誰が喋っているかは
+ * 立ち絵と、下へ伸びるしっぽが指す先で分かる、というのが原作の作り。
+ */
+const BUBBLE = {
+  maxW: 620,
+  minW: 280,
+  padX: 32,
+  padY: 34,
+  line: 46,
+  radius: 20,
+  /** 文字の大きさ。実機は 240px 幅に 16px なので、960px なら 28px 相当 */
+  size: 28,
+  /** 吹き出しの底。ここから上へ伸びる */
+  bottom: 296,
+};
 /** 立ち絵（画面下端で切れる） */
 const PORTRAIT = { h: 344, leftX: 236, rightX: 724, baseY: 648 };
 
-const PAPER = '#f2e9d2';
-const INK = '#33271b';
-const FRAME = '#4a3524';
+/** 実機の吹き出しは白に近い薄灰。紙色ではない */
+const PAPER = '#eef0f6';
+const PAPER_LOW = '#d6dae6';
+const INK = '#242034';
+const FRAME = '#191524';
 
 /** 0 遅い / 1 ふつう / 2 速い。オプションがここを書き換える */
 const SPEEDS = [22, 42, 90];
@@ -114,7 +132,10 @@ export class DialogueScene {
     return out;
   }
 
-  /** 吹き出しの輪郭（tailX を渡すと下向きのしっぽが付く） */
+  /**
+   * 吹き出しの輪郭。tailX を渡すと下向きのしっぽが付き、その先が話し手になる。
+   * 角は大きめに丸める —— 実機の吹き出しもかなり丸い。
+   */
   private bubblePath(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number, tailX: number | null) {
     const b = y + h;
     ctx.beginPath();
@@ -124,16 +145,34 @@ export class DialogueScene {
     ctx.lineTo(x + w, b - r);
     ctx.quadraticCurveTo(x + w, b, x + w - r, b);
     if (tailX !== null) {
-      const tx = Math.max(x + r + 40, Math.min(x + w - r - 40, tailX));
-      ctx.lineTo(tx + 26, b);
-      ctx.lineTo(tx - 6, b + 34);
-      ctx.lineTo(tx - 14, b);
+      const tx = Math.max(x + r + 30, Math.min(x + w - r - 30, tailX));
+      ctx.lineTo(tx + 20, b);
+      ctx.lineTo(tx - 4, b + 30);
+      ctx.lineTo(tx - 12, b);
     }
     ctx.lineTo(x + r, b);
     ctx.quadraticCurveTo(x, b, x, b - r);
     ctx.lineTo(x, y + r);
     ctx.quadraticCurveTo(x, y, x + r, y);
     ctx.closePath();
+  }
+
+  /** 台詞を折り返し、それを包む吹き出しの位置と大きさを決める */
+  private layout(ctx: CanvasRenderingContext2D) {
+    ctx.font = fontOf(BUBBLE.size);
+    const rows = this.wrap(ctx, this.line.text, BUBBLE.maxW - BUBBLE.padX * 2);
+    let widest = 0;
+    for (const r of rows) widest = Math.max(widest, ctx.measureText(r).width);
+    // 最後の行のうしろに送りマークが出るので、そのぶんだけ余分に取る
+    const w = Math.min(BUBBLE.maxW, Math.max(BUBBLE.minW, Math.ceil(widest) + BUBBLE.padX * 2 + 30));
+    const h = rows.length * BUBBLE.line + BUBBLE.padY * 2 - (BUBBLE.line - BUBBLE.size);
+
+    // 話し手の頭の上に置く。真ん中に寄せると誰の台詞か分からなくなる
+    const side = this.line.side;
+    const anchor = side === 'left' ? PORTRAIT.leftX : side === 'right' ? PORTRAIT.rightX : W / 2;
+    const x = Math.max(28, Math.min(W - 28 - w, anchor - w / 2));
+    const y = BUBBLE.bottom - h;
+    return { rows, x, y, w, h, tailX: side ? anchor : null };
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -163,7 +202,7 @@ export class DialogueScene {
     // 見出し
     if (this.script.title) {
       ctx.textAlign = 'center';
-      ctx.font = fontOf(26, true);
+      ctx.font = fontOf(30);
       ctx.lineWidth = 5;
       ctx.strokeStyle = 'rgba(0,0,0,0.8)';
       ctx.strokeText(this.script.title, W / 2, 60);
@@ -171,54 +210,43 @@ export class DialogueScene {
       ctx.fillText(this.script.title, W / 2, 60);
     }
 
-    // 吹き出し
-    const tailX = line.side === 'left' ? PORTRAIT.leftX + 40 : line.side === 'right' ? PORTRAIT.rightX - 40 : null;
+    // 吹き出し。**名前の札は付けない** —— 立ち絵としっぽが話し手を指す
+    const { rows, x, y, w, h, tailX } = this.layout(ctx);
+    this.wrapped = rows;
+
     ctx.save();
-    ctx.shadowColor = 'rgba(0,0,0,0.55)';
-    ctx.shadowBlur = 14;
-    ctx.shadowOffsetY = 5;
-    this.bubblePath(ctx, BOX.x, BOX.y, BOX.w, BOX.h, 22, tailX);
-    ctx.fillStyle = PAPER;
+    ctx.shadowColor = 'rgba(0,0,0,0.5)';
+    ctx.shadowBlur = 12;
+    ctx.shadowOffsetY = 4;
+    this.bubblePath(ctx, x, y, w, h, BUBBLE.radius, tailX);
+    const paper = ctx.createLinearGradient(0, y, 0, y + h);
+    paper.addColorStop(0, PAPER);
+    paper.addColorStop(1, PAPER_LOW);
+    ctx.fillStyle = paper;
     ctx.fill();
     ctx.restore();
-    this.bubblePath(ctx, BOX.x, BOX.y, BOX.w, BOX.h, 22, tailX);
+    this.bubblePath(ctx, x, y, w, h, BUBBLE.radius, tailX);
     ctx.strokeStyle = FRAME;
-    ctx.lineWidth = 4;
+    ctx.lineWidth = 3;
     ctx.stroke();
-
-    // 名前プレート
-    if (line.speaker) {
-      ctx.font = fontOf(18, true);
-      const nameW = Math.max(104, ctx.measureText(line.speaker).width + 40);
-      ctx.fillStyle = PAPER;
-      ctx.strokeStyle = FRAME;
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.roundRect(BOX.x + 26, BOX.y - 20, nameW, 38, 10);
-      ctx.fill();
-      ctx.stroke();
-      ctx.textAlign = 'center';
-      ctx.fillStyle = INK;
-      ctx.fillText(line.speaker, BOX.x + 26 + nameW / 2, BOX.y + 6);
-    }
 
     // 本文
     ctx.textAlign = 'left';
-    ctx.font = fontOf(21);
-    this.wrapped = this.wrap(ctx, line.text, BOX.w - 76);
+    ctx.font = fontOf(BUBBLE.size);
+    const tx = x + BUBBLE.padX;
     let remain = Math.floor(this.shown);
-    let ly = BOX.y + 66;
-    let lastX = BOX.x + 38;
+    let ly = y + BUBBLE.padY + BUBBLE.size * 0.72;
+    let lastX = tx;
     let lastY = ly;
-    ctx.fillStyle = line.speaker ? INK : '#4a3a28';
-    for (const row of this.wrapped) {
+    ctx.fillStyle = line.speaker ? INK : '#3c3850';
+    for (const row of rows) {
       if (remain <= 0) break;
       const part = row.slice(0, remain);
       remain -= row.length;
-      ctx.fillText(part, BOX.x + 38, ly);
-      lastX = BOX.x + 38 + ctx.measureText(part).width;
+      ctx.fillText(part, tx, ly);
+      lastX = tx + ctx.measureText(part).width;
       lastY = ly;
-      ly += 34;
+      ly += BUBBLE.line;
     }
 
     // 送りマーク（文末に出る）
@@ -227,9 +255,9 @@ export class DialogueScene {
       ctx.strokeStyle = '#25476e';
       ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.moveTo(lastX + 12, lastY - 12);
-      ctx.lineTo(lastX + 28, lastY - 12);
-      ctx.lineTo(lastX + 20, lastY - 1);
+      ctx.moveTo(lastX + 8, lastY - 18);
+      ctx.lineTo(lastX + 26, lastY - 18);
+      ctx.lineTo(lastX + 17, lastY - 4);
       ctx.closePath();
       ctx.fill();
       ctx.stroke();

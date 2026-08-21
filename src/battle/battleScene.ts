@@ -1,7 +1,7 @@
 import type { BattleEvent, BattleResult, LevelUpResult } from './combat';
 import { maxHp, terrainAtPos } from './combat';
 import { drawFacePortrait, drawUnitSprite, type Clip } from '../render/sprites';
-import { classOf } from '../data/classes';
+import { classOf, isMagicClass } from '../data/classes';
 import { shade } from '../render/sprites';
 import { fontOf } from '../render/text';
 import { critSound, hitSound, levelUpChord, missSound, statPing } from '../audio/sfx';
@@ -43,16 +43,55 @@ const LV_OPEN = 0.34;
 const LV_BEAT = 0.34;
 const LV_HOLD = 1.1;
 
-const STAT_LABELS: [keyof Stats, string][] = [
-  ['hp', 'HP'],
-  ['str', '力'],
-  ['mag', '魔力'],
-  ['skl', '技'],
-  ['spd', '速さ'],
-  ['lck', '幸運'],
-  ['def', '守備'],
-  ['res', '魔防'],
-];
+/**
+ * 能力の並び。**原作の枠は 8 行、2 列 4 段。**
+ *
+ * 左の列に HP・力・技・速さ、右の列に幸運・守備・魔防・体格。上がる順もこの
+ * 並びのままで、左を上から下、続いて右を上から下へ降りる。
+ *
+ * 力と魔力は**どちらか一方しか出ない**。原作は物理職なら「力」、魔法職なら
+ * 「魔力」がその一行を占める。両方並べると 9 行になって枠が崩れる。
+ *
+ * 体格は普通のレベルアップでは伸びないが、行は出る。空けておくのが原作。
+ */
+const LV_ROWS = 8;
+
+function statRows(u: Unit): [keyof Stats, string][] {
+  const power: [keyof Stats, string] = isMagicClass(u.classId) ? ['mag', '魔力'] : ['str', '力'];
+  return [['hp', 'HP'], power, ['skl', '技'], ['spd', '速さ'], ['lck', '幸運'], ['def', '守備'], ['res', '魔防'], ['con', '体格']];
+}
+
+/**
+ * レベルアップ画面の実寸。**GBA の 240×160 で測った値をそのまま 4 倍している。**
+ *
+ * 原作は画面の左に置いた大きな枠と、その上に浮いたクラス名の板の二段組で、
+ * 顔は枠の外、右に立っている。中央に置いた一枚窓ではない。
+ */
+const LV_PLAQUE = { x: 36, y: 180, w: 504, h: 88 };
+const LV_PANEL = { x: 24, y: 304, w: 528, h: 288 };
+/** 一段目の文字の下端。罫もここに乗る */
+const LV_BASE = 372;
+const LV_PITCH = 64;
+/** ラベルの左端。列の間隔は原作どおり 64px（GBA の 16px） */
+const LV_COL = [64, 312];
+/** ラベル左端からの距離。数字は右端揃え、+N と星はその右 */
+const LV_NUM_R = 160;
+const LV_PLUS = 168;
+const LV_STAR = 208;
+
+const LV_INK = {
+  panel: '#7394b5',
+  panelLip: '#84add6',
+  frameDark: '#393129',
+  frameLip: '#efdece',
+  frameShade: '#524a42',
+  label: '#fff78c',
+  labelEdge: '#4a4208',
+  num: '#c6ffff',
+  numEdge: '#18185a',
+  plus: '#ffe74a',
+  rule: ['#c6efa5', '#def79c', '#f7ff8c'],
+};
 
 export class BattleScene {
   private phase: Phase = 'intro';
@@ -90,6 +129,8 @@ export class BattleScene {
   /** 上がった回数。音の高さがこれで上がっていく */
   private lvRung = 0;
   private lvClosed = false;
+  /** 出す能力の並び。クラスで力か魔力かが変わるので一度だけ決める */
+  private readonly lvRows: [keyof Stats, string][];
 
   constructor(
     public readonly result: BattleResult,
@@ -102,6 +143,7 @@ export class BattleScene {
     this.dShown = this.dHp;
     this.expShown = exp ? exp.from : 0;
     this.expTarget = exp ? Math.min(100, exp.from + exp.gain) : 0;
+    this.lvRows = exp ? statRows(exp.unit) : [];
   }
 
   get attacker(): Unit {
@@ -273,16 +315,16 @@ export class BattleScene {
         const beat = Math.floor((this.t - LV_OPEN) / LV_BEAT);
         const lv = this.exp?.levelUp;
         if (lv && beat > this.lvBeat) {
-          for (let i = this.lvBeat + 1; i <= Math.min(beat, STAT_LABELS.length - 1); i++) {
-            if (lv.gains[STAT_LABELS[i][0]] && this.speed === 1) statPing(this.lvRung++);
+          for (let i = this.lvBeat + 1; i <= Math.min(beat, LV_ROWS - 1); i++) {
+            if (lv.gains[this.lvRows[i][0]] && this.speed === 1) statPing(this.lvRung++);
           }
           this.lvBeat = beat;
-          if (beat >= STAT_LABELS.length && this.speed === 1 && !this.lvClosed) {
+          if (beat >= LV_ROWS && this.speed === 1 && !this.lvClosed) {
             this.lvClosed = true;
             levelUpChord();
           }
         }
-        if (this.t >= LV_OPEN + STAT_LABELS.length * LV_BEAT + LV_HOLD) {
+        if (this.t >= LV_OPEN + LV_ROWS * LV_BEAT + LV_HOLD) {
           this.phase = 'done';
           this.onDone();
         }
@@ -540,153 +582,227 @@ export class BattleScene {
     });
   }
 
+  /**
+   * 経験値のゲージ。**レベルアップと同じ枠と同じ色で描く。**
+   *
+   * ここはレベルアップに直結する一枚で、原作でも同じ意匠のまま続く。別の窓の
+   * 作りにすると、伸びたゲージが弾けて能力の枠になる、という繋がりが切れる。
+   */
   private drawExpBar(ctx: CanvasRenderingContext2D) {
     if (!this.exp) return;
-    const w = 420;
-    const x = (W - w) / 2;
-    const y = 92;
-    ctx.fillStyle = 'rgba(10,14,24,0.94)';
-    ctx.strokeStyle = '#5f7ec0';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.roundRect(x, y, w, 82, 10);
-    ctx.fill();
-    ctx.stroke();
+    const w = 452;
+    const x = LV_PANEL.x + 8;
+    const y = 88;
+    const h = 84;
+    BattleScene.lvFrame(ctx, x, y, w, h, LV_INK.panel, 14);
 
-    ctx.fillStyle = '#eaf0ff';
-    ctx.font = fontOf(18, true);
-    ctx.textAlign = 'left';
-    ctx.fillText(`${this.exp.unit.name}  EXP +${this.exp.gain}`, x + 18, y + 30);
+    BattleScene.ink(ctx, this.exp.unit.name, x + 30, y + 40, 28, '#ffffff', '#2a2018');
+    BattleScene.ink(ctx, 'EXP', x + 236, y + 40, 28, LV_INK.label, LV_INK.labelEdge);
+    BattleScene.ink(ctx, String(Math.round(this.expShown)), x + w - 30, y + 40, 28, LV_INK.num, LV_INK.numEdge, 'right');
 
-    const bw = w - 36;
-    ctx.fillStyle = '#2b3145';
-    ctx.fillRect(x + 18, y + 44, bw, 16);
-    ctx.fillStyle = '#66c6ff';
-    ctx.fillRect(x + 18, y + 44, bw * (this.expShown / 100), 16);
-    ctx.strokeStyle = '#0b0e18';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(x + 18, y + 44, bw, 16);
-
-    ctx.textAlign = 'right';
-    ctx.font = fontOf(14, true);
-    ctx.fillStyle = '#cfe0ff';
-    ctx.fillText(`${Math.round(this.expShown)} / 100`, x + w - 18, y + 74);
+    // ゲージ。原作の経験値は金色で、目盛りは刻まれていない
+    const bw = w - 60;
+    const bx = x + 30;
+    const by = y + 52;
+    ctx.fillStyle = LV_INK.frameShade;
+    ctx.fillRect(bx - 3, by - 3, bw + 6, 20);
+    ctx.fillStyle = '#2c3a52';
+    ctx.fillRect(bx, by, bw, 14);
+    const g = ctx.createLinearGradient(0, by, 0, by + 14);
+    g.addColorStop(0, '#ffffe0');
+    g.addColorStop(0.45, LV_INK.plus);
+    g.addColorStop(1, '#c68410');
+    ctx.fillStyle = g;
+    ctx.fillRect(bx, by, (bw * this.expShown) / 100, 14);
   }
 
-  /** 上がった能力に飛ぶ星。四芒星をひとつ、弾けて消える */
-  private static sparkle(ctx: CanvasRenderingContext2D, x: number, y: number, k: number) {
-    if (k <= 0 || k >= 1) return;
-    const r = 6 + k * 14;
+  /**
+   * 上がった能力に立つ星。**原作の星は飛んで消えない。上がった印として残る。**
+   *
+   * 形は実機の 7×7 ドットをそのまま起こしたもの。上に長い穂、左右に角、下は
+   * 二股に割れて足になる。真円の四芒星ではない。
+   */
+  private static star(ctx: CanvasRenderingContext2D, cx: number, cy: number, size: number, pop: number) {
+    const s = (size / 7) * pop;
+    // セル座標（中心は 3,3）
+    const pts: [number, number][] = [
+      [3, -0.6],
+      [4.6, 1.8],
+      [7.2, 3],
+      [4.6, 4.2],
+      [5.4, 7.2],
+      [3, 5.6],
+      [0.6, 7.2],
+      [1.4, 4.2],
+      [-1.2, 3],
+      [1.4, 1.8],
+    ];
     ctx.save();
-    ctx.globalAlpha = 1 - k;
-    ctx.fillStyle = '#fff6c8';
     ctx.beginPath();
-    for (let i = 0; i < 4; i++) {
-      const a = (i / 4) * Math.PI * 2 - Math.PI / 2;
-      const b = a + Math.PI / 4;
-      ctx.lineTo(x + Math.cos(a) * r, y + Math.sin(a) * r);
-      ctx.lineTo(x + Math.cos(b) * r * 0.3, y + Math.sin(b) * r * 0.3);
+    for (const [i, [px, py]] of pts.entries()) {
+      const x = cx + (px - 3) * s;
+      const y = cy + (py - 3) * s;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
     }
     ctx.closePath();
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = LV_INK.frameShade;
+    ctx.stroke();
+    const g = ctx.createLinearGradient(0, cy - size * 0.6, 0, cy + size * 0.6);
+    g.addColorStop(0, '#ffffe0');
+    g.addColorStop(0.5, LV_INK.rule[2]);
+    g.addColorStop(1, LV_INK.rule[0]);
+    ctx.fillStyle = g;
     ctx.fill();
     ctx.restore();
   }
 
+  /** 縁取りの付いた一行。FE の文字は色ごとに縁の色が決まっている */
+  private static ink(
+    ctx: CanvasRenderingContext2D,
+    s: string,
+    x: number,
+    y: number,
+    size: number,
+    fill: string,
+    edge: string,
+    align: CanvasTextAlign = 'left',
+  ) {
+    ctx.font = fontOf(size);
+    ctx.textAlign = align;
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = Math.max(3, size * 0.28);
+    ctx.strokeStyle = edge;
+    ctx.strokeText(s, x, y);
+    ctx.fillStyle = fill;
+    ctx.fillText(s, x, y);
+    ctx.textAlign = 'left';
+  }
+
+  /** 原作の枠。外は黒、内に明るい縁、その内側に影、そして地 */
+  private static lvFrame(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    fill: string | CanvasGradient,
+    r: number,
+  ) {
+    const ring = (ix: number, iy: number, iw: number, ih: number, rr: number, color: string) => {
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.roundRect(ix, iy, iw, ih, rr);
+      ctx.fill();
+    };
+    ring(x, y, w, h, r, LV_INK.frameDark);
+    ring(x + 5, y + 5, w - 10, h - 10, r - 2, LV_INK.frameLip);
+    ring(x + 9, y + 9, w - 18, h - 18, r - 4, LV_INK.frameShade);
+    ctx.fillStyle = fill;
+    ctx.beginPath();
+    ctx.roundRect(x + 12, y + 12, w - 24, h - 24, Math.max(2, r - 6));
+    ctx.fill();
+  }
+
   /**
-   * レベルアップ。**顔グラを添えて、上がった能力に星を飛ばす。**
+   * レベルアップ。**原作の版組をそのまま起こす。**
    *
-   * FE のレベルアップは数字の報告ではなく、そのキャラの見せ場として作られている。
-   * 顔が出て、能力が一つずつ上から捲れて、伸びたところで音と星が来る。
+   * 画面の左に能力の枠、その上にクラス名と Lv の板、顔は枠の外で右に立つ。
+   * 中央に一枚窓を置いて顔を嵌め込むのは後年の作りで、GBA の FE ではない。
+   *
+   * 能力は最初から八つとも、**上がる前の値で**並んでいる。そこから一拍ずつ、
+   * 上がるものだけが繰り上がって星が立つ。どれが上がるか分からないまま待つ
+   * 時間そのものが、この画面の中身。
    */
   private drawLevelUp(ctx: CanvasRenderingContext2D) {
     const lv = this.exp?.levelUp;
     if (!lv || !this.exp) return;
-    const w = 470;
-    const h = 300;
-    const x = (W - w) / 2;
-    const y = 180;
-    const appear = Math.min(1, this.t * 4);
+    const unit = this.exp.unit;
+    const open = Math.min(1, this.t / 0.14);
 
+    // 顔は枠の外。窓に嵌めず、右にそのまま立たせる
+    drawFacePortrait(ctx, unit, 772, 646, 402, -1);
+
+    // ── クラス名と Lv の板
     ctx.save();
-    ctx.translate(W / 2, y + h / 2);
-    ctx.scale(appear, appear);
-    ctx.translate(-W / 2, -(y + h / 2));
-
-    ctx.fillStyle = 'rgba(10,14,24,0.96)';
-    ctx.strokeStyle = '#ffd24a';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.roundRect(x, y, w, h, 12);
-    ctx.fill();
-    ctx.stroke();
-
-    // 顔グラ。窓の中で下端が切れるように切り抜く
-    ctx.save();
-    ctx.beginPath();
-    ctx.roundRect(x + 4, y + 4, 178, h - 8, 10);
-    ctx.clip();
-    ctx.fillStyle = 'rgba(30,40,66,0.9)';
-    ctx.fillRect(x + 4, y + 4, 178, h - 8);
-    drawFacePortrait(ctx, this.exp.unit, x + 94, y + h + 6, 300, 1);
+    ctx.translate(0, LV_PLAQUE.y + LV_PLAQUE.h / 2);
+    ctx.scale(1, open);
+    ctx.translate(0, -(LV_PLAQUE.y + LV_PLAQUE.h / 2));
+    const brown = ctx.createLinearGradient(0, LV_PLAQUE.y, 0, LV_PLAQUE.y + LV_PLAQUE.h);
+    brown.addColorStop(0, 'rgba(74,56,40,0.82)');
+    brown.addColorStop(1, 'rgba(40,28,20,0.86)');
+    BattleScene.lvFrame(ctx, LV_PLAQUE.x, LV_PLAQUE.y, LV_PLAQUE.w, LV_PLAQUE.h, brown, 20);
+    // 両端の飾り鋲
+    for (const bx of [LV_PLAQUE.x + 10, LV_PLAQUE.x + LV_PLAQUE.w - 10]) {
+      const by = LV_PLAQUE.y + LV_PLAQUE.h / 2;
+      ctx.fillStyle = LV_INK.frameDark;
+      ctx.beginPath();
+      ctx.arc(bx, by, 21, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = LV_INK.frameLip;
+      ctx.beginPath();
+      ctx.arc(bx, by, 16, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = LV_INK.frameShade;
+      ctx.beginPath();
+      ctx.arc(bx, by, 7, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    const cls = classOf(unit.classId).name;
+    const py = LV_PLAQUE.y + 64;
+    BattleScene.ink(ctx, cls, LV_PLAQUE.x + 64, py, 34, '#ffffff', '#2a2018');
+    BattleScene.ink(ctx, 'Lv', LV_PLAQUE.x + 288, py, 34, LV_INK.label, LV_INK.labelEdge);
+    // Lv は上がった瞬間に繰り上がる。開いた時点ではまだ前の値
+    const shownLv = this.t >= LV_OPEN ? lv.newLevel : lv.newLevel - 1;
+    BattleScene.ink(ctx, String(shownLv), LV_PLAQUE.x + 436, py, 34, LV_INK.num, LV_INK.numEdge, 'right');
     ctx.restore();
-    ctx.strokeStyle = 'rgba(255,210,74,0.4)';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(x + 186, y + 12);
-    ctx.lineTo(x + 186, y + h - 12);
-    ctx.stroke();
 
-    const px = x + 198;
-    ctx.textAlign = 'left';
-    ctx.fillStyle = '#ffd24a';
-    ctx.font = fontOf(24);
-    ctx.fillText('LEVEL UP!', px, y + 42);
-    ctx.fillStyle = '#eaf0ff';
-    ctx.font = fontOf(17);
-    ctx.fillText(`${this.exp.unit.name}   Lv.${lv.newLevel - 1} → ${lv.newLevel}`, px, y + 70);
+    // ── 能力の枠
+    ctx.save();
+    ctx.translate(0, LV_PANEL.y + LV_PANEL.h / 2);
+    ctx.scale(1, open);
+    ctx.translate(0, -(LV_PANEL.y + LV_PANEL.h / 2));
+    BattleScene.lvFrame(ctx, LV_PANEL.x, LV_PANEL.y, LV_PANEL.w, LV_PANEL.h, LV_INK.panel, 14);
+    ctx.fillStyle = LV_INK.panelLip;
+    ctx.fillRect(LV_PANEL.x + 12, LV_PANEL.y + 12, 4, LV_PANEL.h - 24);
 
-    // **能力は最初から全部、上がる前の値で並んでいる。**
-    // そこから一拍ずつ、上がるものだけが +1 されていく。どれが上がるか
-    // 分からないまま待つ時間が、この画面の中身そのもの。
-    for (const [row, [k, label]] of STAT_LABELS.entries()) {
-      const col = row % 2;
-      const line = Math.floor(row / 2);
-      const sx = px + col * 132;
-      const sy = y + 112 + line * 34;
+    for (const [row, [k, label]] of this.lvRows.entries()) {
+      const cx = LV_COL[Math.floor(row / 4)];
+      const base = LV_BASE + (row % 4) * LV_PITCH;
       const gain = lv.gains[k] ?? 0;
-      const at = LV_OPEN + row * LV_BEAT;
-      const since = this.t - at;
+      const since = this.t - (LV_OPEN + row * LV_BEAT);
       const risen = since >= 0;
+      const value = lv.before[k] + (risen ? gain : 0);
 
-      ctx.fillStyle = '#93a2c4';
-      ctx.font = fontOf(14);
-      ctx.fillText(label, sx, sy);
+      // 罫。ラベルの右から +N の手前まで、数字の後ろを通って伸びる
+      ctx.font = fontOf(36);
+      const lw = ctx.measureText(label).width;
+      const rx0 = cx + lw + 8;
+      const rx1 = cx + LV_PLUS - 8;
+      if (rx1 > rx0) {
+        for (const [i, c] of LV_INK.rule.entries()) {
+          ctx.fillStyle = c;
+          ctx.fillRect(rx0, base - 11 + i * 4, rx1 - rx0, 4);
+        }
+      }
+
+      BattleScene.ink(ctx, label, cx, base, 36, LV_INK.label, LV_INK.labelEdge);
 
       // 上がった直後だけ数字が跳ねる
-      const pop = gain && risen && since < 0.26 ? 1 + (1 - since / 0.26) * 0.55 : 1;
+      const pop = gain && risen && since < 0.24 ? 1 + (1 - since / 0.24) * 0.5 : 1;
       ctx.save();
-      ctx.translate(sx + 48, sy);
+      ctx.translate(cx + LV_NUM_R, base);
       ctx.scale(pop, pop);
-      ctx.font = fontOf(17);
-      ctx.fillStyle = gain && risen ? '#8cf0a8' : '#c3cee6';
-      ctx.fillText(String(lv.before[k] + (risen ? gain : 0)), 0, 0);
+      BattleScene.ink(ctx, String(value), 0, 0, 36, LV_INK.num, LV_INK.numEdge, 'right');
       ctx.restore();
 
       if (gain && risen) {
-        ctx.fillStyle = '#8cf0a8';
-        ctx.font = fontOf(14);
-        ctx.fillText(`+${gain}`, sx + 84, sy);
-        BattleScene.sparkle(ctx, sx + 62, sy - 6, since / 0.45);
-      }
-      // いま来ている拍に指をかける。次にどれが上がるかを見せる印
-      if (!risen && this.t >= at - LV_BEAT) {
-        ctx.fillStyle = `rgba(255,210,74,${(0.35 + Math.abs(Math.sin(this.t * 14)) * 0.5).toFixed(2)})`;
-        ctx.beginPath();
-        ctx.moveTo(sx - 14, sy - 10);
-        ctx.lineTo(sx - 6, sy - 5);
-        ctx.lineTo(sx - 14, sy);
-        ctx.closePath();
-        ctx.fill();
+        BattleScene.ink(ctx, `+${gain}`, cx + LV_PLUS, base, 36, LV_INK.plus, LV_INK.frameShade);
+        // 星は跳ねてから居座る。飛んで消えない
+        const grow = since < 0.2 ? 0.4 + (since / 0.2) * 0.75 : 1;
+        BattleScene.star(ctx, cx + LV_STAR, base - 44, 26, grow);
       }
     }
     ctx.restore();

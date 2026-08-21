@@ -128,17 +128,39 @@ Shigeru and Akira play a dedicated **`crit` clip** — nine frames each from the
 sheets — so for them the swing itself is different art. Everyone else reuses the
 attack clip under the new staging, because our code does not draw characters.
 
-**Level-up.** The EXP bar fills, then a window scales up carrying the unit's
-**portrait** on the left and the eight stats on the right — **all of them, at
-their old values, from the first frame**.
+**Level-up.** The layout is **measured off real FE8 screenshots at 240×160 and
+multiplied by four**, which is exactly what 960×640 is. Every number in
+`LV_PLAQUE`, `LV_PANEL`, `LV_COL` and the rest came off a pixel ruler, not off a
+guess at what it looked like.
 
-Then it goes down the list one beat at a time, 0.34s apart. A stat that rose
-ticks up by one, pops, throws a four-pointed star and **rings**; a stat that did
-not simply passes. A marker sits on the row about to resolve. The pitch climbs
-with each gain, so a good level sounds like a rising phrase.
+What that gives is two frames stacked in the **left half of the screen** — a
+narrow plaque carrying *class* and *Lv*, and under it the stat panel, 132×72 in
+GBA pixels. The **portrait stands outside them, on the right**, at full size. It
+is not inset into a window; the original never puts it in one, and a face in a
+box turns the screen into a dialog.
+
+The panel is two columns of four in the original's order — HP, 力, 技, 速さ down
+the left, 幸運, 守備, 魔防, 体格 down the right. **力 and 魔力 never both appear**:
+the class picks one and it takes that row (see `specs/systems/units.md`).
+**体格 has a row even though nothing raises it**, which is what FE8 does.
+
+Colour is the original's: gold labels on a `#7394b5` field, pale blue numerals,
+gold `+N`, and a three-line pale rule running from each label out under its
+number to the `+`. The gain star is the real 7×7 sprite traced out — a long top
+spike, side horns, two feet — and it **appears when the stat rises and stays**.
+A star that flies off and fades is a particle effect; the original's is a mark.
+
+All eight are on screen **at their old values from the first frame**. Then it
+goes down the list one beat at a time, 0.34s apart: a stat that rose ticks up by
+one, pops, plants its star and **rings**, a stat that did not simply passes. The
+pitch climbs with each gain, so a good level sounds like a rising phrase.
 
 That waiting is the whole screen. Revealing the rows progressively, or printing
 the new numbers straight away, turns a set-piece into a receipt.
+
+The **EXP gauge** that precedes it is drawn with the same frame and the same
+palette, because it is the same set-piece — the bar fills, and the frame it
+filled in becomes the frame the stats arrive in.
 
 ## Sound
 

@@ -1,4 +1,4 @@
-import { classOf } from '../data/classes';
+import { classOf, isMagicClass } from '../data/classes';
 import { MAP } from '../data/chapters';
 import { terrainAt } from '../data/terrain';
 import { rankAtLeast, rankFromWexp, triangle } from '../data/weapons';
@@ -314,7 +314,11 @@ export function gainExp(unit: Unit, amount: number): LevelUpResult | undefined {
   unit.exp -= 100;
   const before: Stats = { ...unit.stats };
   const gains: Partial<Record<keyof Stats, number>> = {};
+  // 使わないほうの力は伸びない。物理職の魔力と魔法職の腕力は据え置きで、
+  // GBA FE の「力」が一枠しかないのと同じ扱いになる
+  const dead: keyof Stats = isMagicClass(unit.classId) ? 'str' : 'mag';
   for (const k of GROWTH_KEYS) {
+    if (k === dead) continue;
     const rate = unit.growth[k];
     if (rate <= 0) continue;
     if (unit.stats[k] >= STAT_CAP[k]) continue;

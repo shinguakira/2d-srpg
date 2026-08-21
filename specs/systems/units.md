@@ -17,6 +17,14 @@ Growth rates are a parallel `Stats` block, read as percentages, rolled once per
 level. `con` and `mov` do not grow. Caps are 20 for most stats, 60 hp, 30 lck,
 25 con, 15 mov.
 
+**Only one of `str` and `mag` ever grows.** GBA Fire Emblem has a single Pow
+stat that reads as strength with a sword and as magic with a tome; splitting it
+in two is this game's choice, and left alone it lets a fighter drift up in magic
+he can never spend. `gainExp` skips the one the class cannot use —
+`isMagicClass` in `classes.ts`, true for anima, light, dark or staff — so the
+tables keep their off-stat percentages but nothing rolls against them. The
+level-up screen shows the same single row, and would otherwise be hiding gains.
+
 **Aid** is derived rather than stored, by `aidOf` in `classes.ts`: mounted
 `25 − con`, flier `20 − con`, foot `con − 1`. It is the ceiling on whose `con`
 this unit can pick up. FE8 splits mounted by sex (25 male, 20 female); this

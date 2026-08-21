@@ -333,6 +333,19 @@ export function classOf(id: string): UnitClass {
 export const MOVE_INDEX = { foot: 0, mounted: 1, flier: 2 } as const;
 
 /**
+ * 魔法を使うクラスか。
+ *
+ * GBA の FE に「力」と「魔力」は無く、**枠は一つ**で、物理武器なら腕力、魔道書
+ * なら魔力として働く。こちらは二つに分けているので、どちらが本物かをクラスで
+ * 決める。レベルアップの八行に両方は載らないし、載せると使わないほうの数字が
+ * 伸びていく。
+ */
+export function isMagicClass(id: string): boolean {
+  const { ranks } = classOf(id);
+  return Boolean(ranks.anima ?? ranks.light ?? ranks.dark ?? ranks.staff);
+}
+
+/**
  * 援護（Aid）。救出できる相手の体格の上限で、GBA FE はこの式。
  * 騎馬は 25 − 体格、飛行は 20 − 体格、歩行は 体格 − 1。
  */

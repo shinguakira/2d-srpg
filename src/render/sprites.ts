@@ -2,7 +2,15 @@ import { classOf } from '../data/classes';
 import { battleWeapon, equippedWeapon } from '../battle/combat';
 import type { Unit, WeaponType } from '../types';
 import akiraPortraitUrl from '../assets/portraits/akira.png';
+import aldPortraitUrl from '../assets/portraits/ald.png';
+import garonPortraitUrl from '../assets/portraits/garon.png';
+import minaPortraitUrl from '../assets/portraits/mina.png';
+import rinaPortraitUrl from '../assets/portraits/rina.png';
+import rouPortraitUrl from '../assets/portraits/rou.png';
+import shielPortraitUrl from '../assets/portraits/shiel.png';
 import shigeruPortraitUrl from '../assets/portraits/shigeru.png';
+import teoPortraitUrl from '../assets/portraits/teo.png';
+import vargaPortraitUrl from '../assets/portraits/varga.png';
 import akiraSheetUrl from '../assets/sprites/akira-sheet.png';
 import shigeruSheetUrl from '../assets/sprites/shigeru-sheet.png';
 
@@ -308,6 +316,18 @@ const PORTRAIT_UNITS: Record<string, { url: string; cx: number; bottom: number; 
   // 本編では「ジェイガン」と名乗る。id が本名なのは、絵と仕様書を辿れるように
   // するため（specs/story/characters.md）
   p_akira: { url: akiraPortraitUrl, cx: 112, bottom: 220, height: 220 },
+  // 残りの自軍六人と、会話に出る二人。シゲルの一枚を style_image にして起こした
+  // ので画風は同じ系統で、height は 128 で揃えてある —— 同じ枠に同じ寄りで
+  // 描かれているので、顔の大きさは絵の高さではなく枠の高さで揃う。bottom だけ
+  // 絵ごとに違うのは、胸から下がどこで切れているかが違うため。
+  p_garon: { url: garonPortraitUrl, cx: 63.5, bottom: 120, height: 128 },
+  p_rina: { url: rinaPortraitUrl, cx: 64, bottom: 124, height: 128 },
+  p_teo: { url: teoPortraitUrl, cx: 64, bottom: 128, height: 128 },
+  p_mina: { url: minaPortraitUrl, cx: 63.5, bottom: 128, height: 128 },
+  p_shiel: { url: shielPortraitUrl, cx: 64, bottom: 116, height: 128 },
+  p_ald: { url: aldPortraitUrl, cx: 64, bottom: 112, height: 128 },
+  e_m1: { url: rouPortraitUrl, cx: 63, bottom: 128, height: 128 },
+  e_boss: { url: vargaPortraitUrl, cx: 64, bottom: 128, height: 128 },
 };
 
 const sheetImages = new Map<string, HTMLImageElement>();
@@ -650,8 +670,10 @@ function drawPortraitImage(
  * 会話パート用の立ち絵。cx は顔の中心 X、baseY は胸の切れる位置、h はバスト全体
  * の高さ。
  *
- * シゲルだけは発注した一枚絵を使う。それ以外は GBA 系 FE の顔グラに寄せて、
- * 髪のシルエットを大きく・目を大きく・3/4 向きでコードが描く。
+ * **喋る顔は全員が描き起こしの一枚絵**で、`PORTRAIT_UNITS` に載っている。
+ * ここから下のコード描画は、登録の無いユニット —— 名前のない敵や村人 —— の
+ * 受け皿。GBA 系 FE の顔グラに寄せて、髪のシルエットを大きく・目を大きく・
+ * 3/4 向きで組む。
  */
 export function drawFacePortrait(
   ctx: CanvasRenderingContext2D,

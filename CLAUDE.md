@@ -75,14 +75,19 @@ src/
 
 ## Art
 
-**Shigeru and Akira have commissioned art; nobody else does.** They render from
-84px sheets — `shigeru-sheet.png` (46 frames, seven clips) and
-`akira-sheet.png` (38 frames, six — walk is missing) — and from portraits in
-`assets/portraits/`. Both are registered PixelLab characters, which is what
-makes the frames agree with each other.
+**Only Shigeru and Akira have animated sheets.** They render from 84px sheets —
+`shigeru-sheet.png` (46 frames, seven clips) and `akira-sheet.png` (38 frames,
+six — walk is missing). Both are registered PixelLab characters, which is what
+makes the frames agree with each other. Nobody else has one, and on the map and
+in battle everyone else is drawn in code by `sprites.ts`, inherited from the
+PoC. That is not a licence to add more: see `AGENTS.md`.
 
-Everyone else is drawn in code by `sprites.ts`, inherited from the PoC. That is
-not a licence to add more: see `AGENTS.md`.
+**Dialogue portraits are a separate set, and they are art for everyone who
+speaks.** `assets/portraits/` holds one per unit; the ten that are not
+Shigeru's or Akira's were generated from Shigeru's portrait as a style image,
+so the conversation cast is one artist's hand. What is drawn in code is the
+fallback for units without an entry. `assets/portraits/README.md` has the
+recipe and the three ways it goes wrong.
 
 `tools/sprites/` is the PixelLab client — `char` to register, `anim` per
 clip, `job` to collect. `reference/` holds the standing frames those

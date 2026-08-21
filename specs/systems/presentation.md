@@ -260,8 +260,22 @@ No PNG involved, which is the PoC's approach and was adopted deliberately.
 
 **Shigeru and Akira are the exceptions.** Shigeru renders from
 `assets/sprites/shigeru-sheet.png`, Akira from `akira-sheet.png` (38 frames,
-six clips —— he has no walk, so walk falls back to idle). Both also have
-dialogue portraits in `assets/portraits/`.
+six clips —— he has no walk, so walk falls back to idle).
+
+**The dialogue portrait is not the map sprite, and it is art for the whole
+speaking cast.** `PORTRAIT_UNITS` in `sprites.ts` maps a unit id to a PNG in
+`assets/portraits/`, and everyone who says a line has one: the seven of the
+roster plus Ald, and ロウ and ヴァルガ from chapter 1. The eight after Shigeru
+and Akira were generated one call each with **Shigeru's portrait as bitforge's
+`style_image`**, so the conversation reads as one artist rather than as a
+gallery. The code-drawn face is what a unit with no entry falls back to ——
+enemies, villagers —— not what the cast uses.
+
+The registry carries `cx`, `bottom` and `height` because the drawings do not
+fill their frames the same way. The eight share `height: 128`: they came out of
+the same 128px setup with the head in the same place, so the face size has to
+come from the frame. Scaling each to its own bounding box instead makes a
+short bust —— one that stops at the collarbone —— render half again too large.
 
 Both sheets are 84px squares generated from characters registered with PixelLab,
 so every frame is the same drawing rather than a fresh one. Shigeru's 46 frames

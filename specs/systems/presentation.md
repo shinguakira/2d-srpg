@@ -69,6 +69,42 @@ The screens outside a chapter (`render/screens.ts`) each export a `hit*`
 function beside their `draw*`: title rows, world-map nodes and the chapter card,
 roster rows, and the セーブ / 出撃 / 戻る buttons.
 
+## The map has no grid
+
+`render/ground.ts`. GBA Fire Emblem's maps have **no grid lines and no
+checkerboard**. Grass is a scatter of a dozen near-identical mint tones whose
+pattern runs straight through tile boundaries; forests, mountains and cliffs are
+objects standing on that ground, not pictures of a tile, and they overlap their
+neighbours. Palette taken from the real Chapter 1: `#68c8a0` grass, `#204088`
+water, `#f0f080` sand, `#f8f890`/`#606048` rock.
+
+So the board is **baked to one offscreen canvas** and blitted, instead of being
+painted a tile at a time:
+
+- The ground is a 2px scatter picked from smoothly interpolated noise —
+  interpolated, because a noise that snaps to a lattice draws rectangles, and a
+  rectangle the size of a tile is a grid. The two octaves use 9px and 53px,
+  neither of which divides 40.
+- Where two grounds meet, the boundary is dithered over 7px rather than cut.
+- **Buildings and roads have no ground colour of their own.** A fort in a field
+  stands on grass; a bridge stands on water. Painting a fort's tile as stone
+  puts a grey square on the field, and a grey square is a grid cell.
+- Roads join up with their neighbours into one ribbon; an isolated road tile is
+  an irregular patch of bare earth, not a paved square.
+
+Rebaking costs about 50ms and happens when the chapter loads, a door opens, or a
+village is visited. Drawing a frame is then one `drawImage`.
+
+The movement and attack overlays fill their tiles but **outline only the region's
+perimeter**. Stroking every tile is the same grid by another route.
+
+## Fonts
+
+`render/text.ts` owns the only font stack in the codebase, and every drawing
+routine goes through `fontOf` / `feText` / `plainText`. GBA Fire Emblem writes
+numbers, headings and prose in one bitmap font; before this there were three
+families on screen at once, with `Consolas` for numerals.
+
 ## There is no persistent HUD
 
 GBA Fire Emblem keeps nothing on screen permanently. Turn count, army sizes,

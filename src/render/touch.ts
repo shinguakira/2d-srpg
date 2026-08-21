@@ -1,5 +1,6 @@
 import type { Game } from '../game/game';
 import { CANVAS_W } from './layout';
+import { fontOf } from './text';
 
 /**
  * 指で遊ぶための画面上のボタン。GBA に十字キーと A/B があったのと同じ理由で、
@@ -96,7 +97,7 @@ export function drawPadButton(ctx: CanvasRenderingContext2D, b: PadButton, dt = 
 
   // 4 文字（メニュー）でも柱に収まるように、長い札だけ細くする
   const size = b.label.length >= 4 ? 14 : 17;
-  ctx.font = `${size}px "Yu Gothic UI", sans-serif`;
+  ctx.font = fontOf(size);
   ctx.textAlign = 'center';
   ctx.fillStyle = lit ? '#ffffff' : '#cfd9f2';
   ctx.fillText(b.label, b.x + b.w / 2, b.y + b.h / 2 + size / 2 - 1);

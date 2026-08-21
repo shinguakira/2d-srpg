@@ -9,6 +9,7 @@ import { CANVAS_H, CANVAS_W } from './layout';
 import { drawFacePortrait, drawUnitSprite } from './sprites';
 import { maxHp } from '../battle/combat';
 import { drawPadButton, inRect, type PadButton, touchUI } from './touch';
+import { plainText as text } from './text';
 
 /**
  * 章の外側の画面。FE8 の順に、タイトル → ワールドマップ → 準備 → 章 と巡る。
@@ -40,21 +41,6 @@ function drawButtons(ctx: CanvasRenderingContext2D, list: PadButton[]) {
 function hitButton(list: PadButton[], x: number, y: number) {
   if (!touchUI) return undefined;
   return list.find((b) => inRect(x, y, b.x - 6, b.y - 6, b.w + 12, b.h + 12))?.id;
-}
-
-function text(
-  ctx: CanvasRenderingContext2D,
-  s: string,
-  x: number,
-  y: number,
-  o: { size?: number; color?: string; align?: CanvasTextAlign; bold?: boolean } = {},
-) {
-  ctx.save();
-  ctx.font = `${o.bold ? 'bold ' : ''}${o.size ?? 16}px "Yu Gothic UI", sans-serif`;
-  ctx.fillStyle = o.color ?? '#e8eefc';
-  ctx.textAlign = o.align ?? 'left';
-  ctx.fillText(s, x, y);
-  ctx.restore();
 }
 
 function backdrop(ctx: CanvasRenderingContext2D) {

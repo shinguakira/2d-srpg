@@ -3,6 +3,7 @@ import { maxHp, terrainAtPos } from './combat';
 import { drawUnitSprite, type Clip } from '../render/sprites';
 import { classOf } from '../data/classes';
 import { shade } from '../render/sprites';
+import { fontOf } from '../render/text';
 import type { Stats, Unit } from '../types';
 
 export interface ExpAnim {
@@ -334,7 +335,7 @@ export class BattleScene {
     o: { size?: number; color?: string; bold?: boolean; align?: CanvasTextAlign; mono?: boolean } = {},
   ) {
     const size = o.size ?? 14;
-    ctx.font = `${o.bold ? 'bold ' : ''}${size}px ${o.mono ? '"Consolas", monospace' : '"Yu Gothic UI", sans-serif'}`;
+    ctx.font = fontOf(size, o.bold);
     ctx.textAlign = o.align ?? 'left';
     ctx.lineJoin = 'round';
     ctx.strokeStyle = 'rgba(14,10,20,0.95)';
@@ -425,7 +426,7 @@ export class BattleScene {
     ctx.strokeStyle = '#7c5a30';
     ctx.lineWidth = 2.5;
     ctx.stroke();
-    ctx.font = '15px "Yu Gothic UI", sans-serif';
+    ctx.font = fontOf(15);
     ctx.fillStyle = '#3a2c1c';
     ctx.textAlign = 'left';
     const heal = this.result.staffHeal;
@@ -433,7 +434,7 @@ export class BattleScene {
     ctx.fillText(label, x + 12, y + 23);
     if (view.tri !== 0) {
       ctx.fillStyle = view.tri > 0 ? '#1f7a3a' : '#a03030';
-      ctx.font = 'bold 13px "Yu Gothic UI", sans-serif';
+      ctx.font = fontOf(13, true);
       ctx.textAlign = 'right';
       ctx.fillText(view.tri > 0 ? '▲有利' : '▼不利', x + w - 12, y + 23);
       ctx.textAlign = 'left';
@@ -489,7 +490,7 @@ export class BattleScene {
     ctx.stroke();
 
     ctx.fillStyle = '#eaf0ff';
-    ctx.font = 'bold 18px "Yu Gothic UI", sans-serif';
+    ctx.font = fontOf(18, true);
     ctx.textAlign = 'left';
     ctx.fillText(`${this.exp.unit.name}  EXP +${this.exp.gain}`, x + 18, y + 30);
 
@@ -503,7 +504,7 @@ export class BattleScene {
     ctx.strokeRect(x + 18, y + 44, bw, 16);
 
     ctx.textAlign = 'right';
-    ctx.font = 'bold 14px "Consolas", monospace';
+    ctx.font = fontOf(14, true);
     ctx.fillStyle = '#cfe0ff';
     ctx.fillText(`${Math.round(this.expShown)} / 100`, x + w - 18, y + 74);
   }
@@ -532,10 +533,10 @@ export class BattleScene {
 
     ctx.textAlign = 'center';
     ctx.fillStyle = '#ffd24a';
-    ctx.font = 'bold 26px "Yu Gothic UI", sans-serif';
+    ctx.font = fontOf(26, true);
     ctx.fillText('LEVEL UP!', W / 2, y + 40);
     ctx.fillStyle = '#eaf0ff';
-    ctx.font = 'bold 18px "Yu Gothic UI", sans-serif';
+    ctx.font = fontOf(18, true);
     ctx.fillText(`${this.exp.unit.name}   Lv.${lv.newLevel - 1} → ${lv.newLevel}`, W / 2, y + 70);
 
     ctx.textAlign = 'left';
@@ -552,14 +553,14 @@ export class BattleScene {
         continue;
       }
       ctx.fillStyle = '#93a2c4';
-      ctx.font = '14px "Yu Gothic UI", sans-serif';
+      ctx.font = fontOf(14);
       ctx.fillText(label, sx, sy);
-      ctx.font = 'bold 16px "Consolas", monospace';
+      ctx.font = fontOf(16, true);
       ctx.fillStyle = gain ? '#7ce89a' : '#c3cee6';
       ctx.fillText(String(lv.before[k] + gain), sx + 52, sy);
       if (gain) {
         ctx.fillStyle = '#7ce89a';
-        ctx.font = 'bold 14px "Yu Gothic UI", sans-serif';
+        ctx.font = fontOf(14, true);
         ctx.fillText(`+${gain}`, sx + 92, sy);
       }
       row++;
@@ -769,7 +770,7 @@ export class BattleScene {
 
     ctx.textAlign = 'center';
     ctx.fillStyle = 'rgba(190,205,235,0.45)';
-    ctx.font = '12px "Yu Gothic UI", sans-serif';
+    ctx.font = fontOf(12);
     ctx.fillText('Z / X で早送り', W / 2, H - 14);
     ctx.textAlign = 'left';
   }

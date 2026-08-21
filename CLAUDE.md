@@ -52,6 +52,8 @@ src/
     ai.ts            Enemy decision-making
 
   render/
+    ground.ts        The board baked to one canvas — no grid, no per-tile fills
+    text.ts          The only font stack; every drawing routine goes through it
     mapRender.ts     Map, units, cursor, ranges, windows, full-screen panels
     screens.ts       Title, world map, preparations and its sub-screens, shop, guide
     sprites.ts       Characters — Shigeru and Akira from sheets, the rest in code

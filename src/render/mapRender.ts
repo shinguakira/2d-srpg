@@ -11,18 +11,15 @@ import { ROSTER_PAGE_LABEL, ROSTER_PAGES, STATUS_LABEL, type Game } from '../gam
 import { OPTION_ROWS, WINDOW_COLORS } from '../game/options';
 import type { Unit, WeaponType } from '../types';
 import { camera, CANVAS_H, CANVAS_W, focusOn, OX, OY, TILE, VIEW_H, VIEW_W } from './layout';
+import { groundCanvas } from './ground';
 import { drawFacePortrait, drawHpBar, drawUnitSprite } from './sprites';
+import { feText, fontOf } from './text';
 import { drawPad, inRect, padFor, touchUI } from './touch';
 
 // HUD はカメラの外で描くので、マップの実寸ではなく窓の大きさに合わせる。
 // マップが窓より大きくなると MAP_W*TILE は画面外を指してしまう。
 const MAP_PX_W = VIEW_W;
 const MAP_PX_H = VIEW_H;
-
-function hash(x: number, y: number) {
-  const n = Math.sin(x * 127.1 + y * 311.7) * 43758.5453;
-  return n - Math.floor(n);
-}
 
 /**
  * FE 風のウィンドウ。色はオプションの「ウィンドウカラー」で 4 通りに変わる。
@@ -56,220 +53,7 @@ function panel(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h
   ctx.stroke();
 }
 
-/** 白抜き文字（FE のフォントは濃い縁取りが付く） */
-function feText(
-  ctx: CanvasRenderingContext2D,
-  text: string,
-  x: number,
-  y: number,
-  opts: { size?: number; color?: string; bold?: boolean; align?: CanvasTextAlign; mono?: boolean } = {},
-) {
-  const size = opts.size ?? 14;
-  const family = opts.mono ? '"Consolas", monospace' : '"Yu Gothic UI", sans-serif';
-  ctx.font = `${opts.bold ? 'bold ' : ''}${size}px ${family}`;
-  ctx.textAlign = opts.align ?? 'left';
-  ctx.lineJoin = 'round';
-  ctx.strokeStyle = 'rgba(16,12,24,0.92)';
-  ctx.lineWidth = Math.max(2.5, size * 0.3);
-  ctx.strokeText(text, x, y);
-  ctx.fillStyle = opts.color ?? '#ffffff';
-  ctx.fillText(text, x, y);
-  ctx.textAlign = 'left';
-}
-
 const GOLD = '#ffd86a';
-
-/** drawScene が毎フレーム差し替える。村の戸を閉めるためだけの参照 */
-let visitedVillages: ReadonlySet<string> = new Set();
-let openedChests: ReadonlySet<string> = new Set();
-
-function drawTile(ctx: CanvasRenderingContext2D, x: number, y: number) {
-  const t = terrainAt(MAP, x, y);
-  const sx = OX + x * TILE;
-  const sy = OY + y * TILE;
-  const r = hash(x, y);
-
-  ctx.fillStyle = r > 0.5 ? t.color2 : t.color;
-  ctx.fillRect(sx, sy, TILE, TILE);
-
-  ctx.save();
-  ctx.beginPath();
-  ctx.rect(sx, sy, TILE, TILE);
-  ctx.clip();
-
-  switch (t.id) {
-    case 'plain':
-    case 'grass':
-      ctx.fillStyle = 'rgba(255,255,255,0.07)';
-      for (let i = 0; i < 3; i++) {
-        const px = sx + hash(x * 3 + i, y) * TILE;
-        const py = sy + hash(x, y * 3 + i) * TILE;
-        ctx.fillRect(px, py, 3, 2);
-      }
-      break;
-    case 'road':
-      ctx.strokeStyle = 'rgba(0,0,0,0.15)';
-      ctx.lineWidth = 2;
-      ctx.strokeRect(sx + 1, sy + 1, TILE - 2, TILE - 2);
-      ctx.fillStyle = 'rgba(255,255,255,0.08)';
-      for (let i = 0; i < 4; i++) {
-        ctx.fillRect(sx + hash(x + i, y) * TILE, sy + hash(x, y + i) * TILE, 4, 3);
-      }
-      break;
-    case 'forest':
-      for (let i = 0; i < 3; i++) {
-        const cx = sx + 8 + ((i * 13 + hash(x, y + i) * 8) % (TILE - 14));
-        const cy = sy + 12 + hash(x + i, y) * 16;
-        ctx.fillStyle = '#1f3d26';
-        ctx.beginPath();
-        ctx.moveTo(cx, cy - 12);
-        ctx.lineTo(cx + 8, cy + 4);
-        ctx.lineTo(cx - 8, cy + 4);
-        ctx.closePath();
-        ctx.fill();
-        ctx.fillStyle = '#5a3c24';
-        ctx.fillRect(cx - 1.5, cy + 3, 3, 5);
-      }
-      break;
-    case 'mountain':
-      ctx.fillStyle = '#4e463d';
-      ctx.beginPath();
-      ctx.moveTo(sx + 4, sy + TILE - 4);
-      ctx.lineTo(sx + TILE / 2, sy + 6);
-      ctx.lineTo(sx + TILE - 4, sy + TILE - 4);
-      ctx.closePath();
-      ctx.fill();
-      ctx.fillStyle = '#d8d8e0';
-      ctx.beginPath();
-      ctx.moveTo(sx + TILE / 2 - 6, sy + 15);
-      ctx.lineTo(sx + TILE / 2, sy + 6);
-      ctx.lineTo(sx + TILE / 2 + 6, sy + 15);
-      ctx.closePath();
-      ctx.fill();
-      break;
-    case 'wall':
-      ctx.fillStyle = 'rgba(255,255,255,0.05)';
-      ctx.fillRect(sx + 3, sy + 3, TILE - 6, TILE / 2 - 5);
-      ctx.fillRect(sx + 3, sy + TILE / 2 + 2, TILE / 2 - 5, TILE / 2 - 5);
-      ctx.fillRect(sx + TILE / 2 + 2, sy + TILE / 2 + 2, TILE / 2 - 5, TILE / 2 - 5);
-      break;
-    case 'water':
-      ctx.strokeStyle = 'rgba(255,255,255,0.18)';
-      ctx.lineWidth = 2;
-      for (let i = 0; i < 3; i++) {
-        const wy = sy + 8 + i * 11 + hash(x, y + i) * 4;
-        ctx.beginPath();
-        ctx.moveTo(sx + 5, wy);
-        ctx.quadraticCurveTo(sx + TILE / 2, wy + 5, sx + TILE - 5, wy);
-        ctx.stroke();
-      }
-      break;
-    case 'village': {
-      // 訪問済みは戸を閉めて暗くする。FE も一度きりで、済んだ村は見分けがつく
-      const done = visitedVillages.has(x + ',' + y);
-      ctx.fillStyle = done ? '#4a3a2a' : '#8a6a44';
-      ctx.fillRect(sx + 7, sy + 16, TILE - 14, TILE - 20);
-      ctx.fillStyle = done ? '#5c4632' : '#a8804f';
-      ctx.beginPath();
-      ctx.moveTo(sx + 4, sy + 17);
-      ctx.lineTo(sx + TILE / 2, sy + 6);
-      ctx.lineTo(sx + TILE - 4, sy + 17);
-      ctx.closePath();
-      ctx.fill();
-      ctx.fillStyle = done ? '#2a2018' : '#3a2c1c';
-      ctx.fillRect(sx + TILE / 2 - 4, sy + TILE - 12, 8, 8);
-      break;
-    }
-    case 'throne':
-      ctx.fillStyle = '#4a3557';
-      ctx.fillRect(sx + 9, sy + 8, TILE - 18, TILE - 10);
-      ctx.fillStyle = '#a98cc0';
-      ctx.fillRect(sx + 9, sy + 8, TILE - 18, 6);
-      ctx.fillStyle = '#6b4f80';
-      ctx.fillRect(sx + 12, sy + 18, TILE - 24, TILE - 22);
-      ctx.fillStyle = '#e0c060';
-      ctx.fillRect(sx + TILE / 2 - 6, sy + 4, 12, 4);
-      break;
-    case 'peak':
-      ctx.fillStyle = '#413a33';
-      ctx.beginPath();
-      ctx.moveTo(sx + 2, sy + TILE - 3);
-      ctx.lineTo(sx + TILE / 2, sy + 3);
-      ctx.lineTo(sx + TILE - 2, sy + TILE - 3);
-      ctx.closePath();
-      ctx.fill();
-      ctx.fillStyle = '#e8e8f0';
-      ctx.beginPath();
-      ctx.moveTo(sx + TILE / 2 - 7, sy + 14);
-      ctx.lineTo(sx + TILE / 2, sy + 3);
-      ctx.lineTo(sx + TILE / 2 + 7, sy + 14);
-      ctx.closePath();
-      ctx.fill();
-      break;
-    case 'sand':
-      ctx.fillStyle = 'rgba(255,255,255,0.10)';
-      for (let i = 0; i < 5; i++) {
-        ctx.fillRect(sx + hash(x * 5 + i, y) * TILE, sy + hash(x, y * 5 + i) * TILE, 5, 2);
-      }
-      break;
-    case 'door':
-      ctx.fillStyle = '#3a2c1c';
-      ctx.fillRect(sx + 6, sy + 6, TILE - 12, TILE - 8);
-      ctx.fillStyle = '#7a6244';
-      ctx.fillRect(sx + 9, sy + 9, TILE - 18, TILE - 12);
-      ctx.fillStyle = '#d8c56a';
-      ctx.fillRect(sx + TILE - 15, sy + TILE / 2 - 2, 4, 4);
-      break;
-    case 'chest': {
-      const taken = openedChests.has(x + ',' + y);
-      ctx.fillStyle = taken ? '#4a4636' : '#8a6a2a';
-      ctx.fillRect(sx + 8, sy + 18, TILE - 16, TILE - 26);
-      ctx.fillStyle = taken ? '#5c5844' : '#b8933c';
-      ctx.fillRect(sx + 8, sy + 13, TILE - 16, 7);
-      if (!taken) {
-        ctx.fillStyle = '#f0e0a0';
-        ctx.fillRect(sx + TILE / 2 - 2, sy + 17, 4, 6);
-      }
-      break;
-    }
-    case 'shop':
-      ctx.fillStyle = '#5a4632';
-      ctx.fillRect(sx + 6, sy + 16, TILE - 12, TILE - 20);
-      ctx.fillStyle = '#c0503a';
-      ctx.fillRect(sx + 4, sy + 11, TILE - 8, 7);
-      ctx.fillStyle = '#e8d8a0';
-      ctx.fillRect(sx + TILE / 2 - 5, sy + 22, 10, 3);
-      ctx.fillRect(sx + TILE / 2 - 1, sy + 22, 2, 10);
-      break;
-    case 'fort':
-      ctx.fillStyle = '#565368';
-      ctx.fillRect(sx + 6, sy + 12, TILE - 12, TILE - 16);
-      ctx.fillStyle = '#8b8aa3';
-      for (let i = 0; i < 3; i++) ctx.fillRect(sx + 6 + i * 10, sy + 6, 7, 8);
-      ctx.fillStyle = '#2a2833';
-      ctx.fillRect(sx + TILE / 2 - 4, sy + TILE - 14, 8, 10);
-      break;
-    case 'gate':
-      ctx.fillStyle = '#6b5433';
-      ctx.fillRect(sx + 4, sy + 8, TILE - 8, TILE - 10);
-      ctx.fillStyle = '#3a2c18';
-      ctx.beginPath();
-      ctx.moveTo(sx + 10, sy + TILE - 2);
-      ctx.lineTo(sx + 10, sy + 20);
-      ctx.quadraticCurveTo(sx + TILE / 2, sy + 8, sx + TILE - 10, sy + 20);
-      ctx.lineTo(sx + TILE - 10, sy + TILE - 2);
-      ctx.closePath();
-      ctx.fill();
-      ctx.fillStyle = '#c8a24a';
-      ctx.fillRect(sx + TILE / 2 - 1, sy + 20, 2, TILE - 22);
-      break;
-  }
-  ctx.restore();
-
-  ctx.strokeStyle = 'rgba(0,0,0,0.09)';
-  ctx.lineWidth = 1;
-  ctx.strokeRect(sx + 0.5, sy + 0.5, TILE - 1, TILE - 1);
-}
 
 function fillTile(ctx: CanvasRenderingContext2D, k: number, color: string) {
   const x = k % 256;
@@ -282,18 +66,45 @@ function fillTile(ctx: CanvasRenderingContext2D, k: number, color: string) {
  * 移動範囲と攻撃範囲。**敵の攻撃範囲を全部いっぺんに塗る機能は無い。**
  * GBA の FE にそれは無く、敵を一体選んだときだけその一体ぶんが赤く出る。
  */
-function drawRanges(ctx: CanvasRenderingContext2D, g: Game) {
-  if (g.mode === 'move' || g.mode === 'menu') {
-    for (const k of g.atkTiles) fillTile(ctx, k, 'rgba(220,60,60,0.28)');
-    for (const k of g.moveTiles) fillTile(ctx, k, 'rgba(70,130,255,0.32)');
-    ctx.strokeStyle = 'rgba(150,200,255,0.35)';
-    ctx.lineWidth = 1;
-    for (const k of g.moveTiles) {
-      const x = k % 256;
-      const y = Math.floor(k / 256);
-      ctx.strokeRect(OX + x * TILE + 0.5, OY + y * TILE + 0.5, TILE - 1, TILE - 1);
+/**
+ * 範囲のふち。**マスごとに枠を引かない。**
+ * 一マスずつ囲うとそれが格子になってしまうので、区画の外周だけをなぞる。
+ */
+function outlineRegion(ctx: CanvasRenderingContext2D, tiles: ReadonlySet<number>, color: string) {
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (const k of tiles) {
+    const x = k % 256;
+    const y = Math.floor(k / 256);
+    const sx = OX + x * TILE;
+    const sy = OY + y * TILE;
+    if (!tiles.has(key(x, y - 1))) {
+      ctx.moveTo(sx, sy);
+      ctx.lineTo(sx + TILE, sy);
+    }
+    if (!tiles.has(key(x, y + 1))) {
+      ctx.moveTo(sx, sy + TILE);
+      ctx.lineTo(sx + TILE, sy + TILE);
+    }
+    if (!tiles.has(key(x - 1, y))) {
+      ctx.moveTo(sx, sy);
+      ctx.lineTo(sx, sy + TILE);
+    }
+    if (!tiles.has(key(x + 1, y))) {
+      ctx.moveTo(sx + TILE, sy);
+      ctx.lineTo(sx + TILE, sy + TILE);
     }
   }
+  ctx.stroke();
+}
+
+function drawRanges(ctx: CanvasRenderingContext2D, g: Game) {
+  if (g.mode !== 'move' && g.mode !== 'menu') return;
+  for (const k of g.atkTiles) fillTile(ctx, k, 'rgba(200,40,40,0.30)');
+  for (const k of g.moveTiles) fillTile(ctx, k, 'rgba(40,90,220,0.34)');
+  outlineRegion(ctx, g.atkTiles, 'rgba(255,140,140,0.45)');
+  outlineRegion(ctx, g.moveTiles, 'rgba(160,205,255,0.55)');
 }
 
 function drawPath(ctx: CanvasRenderingContext2D, g: Game) {
@@ -358,7 +169,7 @@ function drawUnitMarks(ctx: CanvasRenderingContext2D, u: Unit, cx: number, top: 
     ctx.strokeStyle = color;
     ctx.lineWidth = 1;
     ctx.stroke();
-    ctx.font = '10px "Yu Gothic UI", sans-serif';
+    ctx.font = fontOf(10);
     ctx.fillStyle = color;
     ctx.textAlign = 'center';
     ctx.fillText(label.slice(0, 1), x + 10, top + 11);
@@ -431,7 +242,7 @@ function drawCursor(ctx: CanvasRenderingContext2D, g: Game, time: number) {
 
 function statLine(ctx: CanvasRenderingContext2D, label: string, value: string, x: number, y: number) {
   feText(ctx, label, x, y, { size: 12, color: GOLD });
-  feText(ctx, value, x + 66, y, { size: 14, bold: true, align: 'right', mono: true });
+  feText(ctx, value, x + 66, y, { size: 14, bold: true, align: 'right' });
 }
 
 /**
@@ -448,7 +259,7 @@ function drawUnitBalloon(ctx: CanvasRenderingContext2D, g: Game, u: Unit, side: 
   feText(ctx, u.name, x + 12, y + 24, { size: 16, bold: true });
   feText(ctx, `Lv.${u.level}`, x + w - 12, y + 24, { size: 12, align: 'right', color: GOLD });
   drawHpBar(ctx, x + 12, y + 34, w - 66, 8, u.hp, maxHp(u));
-  feText(ctx, `${u.hp}/${maxHp(u)}`, x + w - 12, y + 42, { size: 12, align: 'right', mono: true });
+  feText(ctx, `${u.hp}/${maxHp(u)}`, x + w - 12, y + 42, { size: 12, align: 'right' });
   const marks: string[] = [];
   if (u.status) marks.push(STATUS_LABEL[u.status.kind]);
   if (u.rescuing) marks.push('救出中');
@@ -469,7 +280,7 @@ function drawUnitPanel(ctx: CanvasRenderingContext2D, g: Game, u: Unit, side: 'l
   if (u.team === 'player') feText(ctx, `EXP ${u.exp}`, x + w - 12, y + 44, { size: 12, align: 'right', color: GOLD });
 
   feText(ctx, `HP`, x + 12, y + 63, { size: 12, color: GOLD });
-  feText(ctx, `${u.hp}/${maxHp(u)}`, x + 78, y + 63, { size: 13, bold: true, align: 'right', mono: true });
+  feText(ctx, `${u.hp}/${maxHp(u)}`, x + 78, y + 63, { size: 13, bold: true, align: 'right' });
   drawHpBar(ctx, x + 12, y + 68, w - 24, 8, u.hp, maxHp(u));
 
   const left = x + 12;
@@ -619,7 +430,7 @@ function drawMenu(ctx: CanvasRenderingContext2D, g: Game, time: number) {
       drawHandCursor(ctx, x + 24, iy + rowH / 2, Math.sin(time * 6) * 2);
     }
     feText(ctx, it.label, x + 44, ty, { size: 17, color: it.enabled ? '#ffffff' : '#93a0bb' });
-    if (it.sub) feText(ctx, it.sub, x + m.w - 12, ty, { size: 13, align: 'right', mono: true, color: GOLD });
+    if (it.sub) feText(ctx, it.sub, x + m.w - 12, ty, { size: 13, align: 'right', color: GOLD });
   });
 }
 
@@ -685,8 +496,8 @@ function drawForecast(ctx: CanvasRenderingContext2D, g: Game) {
   rows.forEach((r, i) => {
     const yy = y + 58 + i * 26;
     feText(ctx, r[0], cx, yy, { size: 12, align: 'center', color: GOLD });
-    feText(ctx, r[1], lx, yy, { size: 18, bold: true, mono: true });
-    feText(ctx, r[2], rx, yy, { size: 18, bold: true, mono: true, align: 'right' });
+    feText(ctx, r[1], lx, yy, { size: 18, bold: true });
+    feText(ctx, r[2], rx, yy, { size: 18, bold: true, align: 'right' });
   });
 
   if (!detail) return;
@@ -726,7 +537,7 @@ function drawObjectiveNotice(ctx: CanvasRenderingContext2D, g: Game) {
 
 function drawMessages(ctx: CanvasRenderingContext2D, g: Game) {
   ctx.textAlign = 'left';
-  ctx.font = '13px "Yu Gothic UI", sans-serif';
+  ctx.font = fontOf(13);
   g.messages.forEach((m, i) => {
     const alpha = Math.max(0, Math.min(1, 4 - m.t));
     ctx.fillStyle = `rgba(220,232,255,${alpha})`;
@@ -1099,7 +910,7 @@ function drawBanner(ctx: CanvasRenderingContext2D, g: Game) {
   ctx.fillRect(0, CANVAS_H / 2 - 44, CANVAS_W, 3);
   ctx.fillRect(0, CANVAS_H / 2 + 41, CANVAS_W, 3);
   ctx.textAlign = 'center';
-  ctx.font = 'bold 40px "Yu Gothic UI", sans-serif';
+  ctx.font = fontOf(40, true);
   ctx.fillStyle = b.color;
   ctx.fillText(b.text, CANVAS_W / 2, CANVAS_H / 2 + 14);
   ctx.restore();
@@ -1111,10 +922,10 @@ function drawResult(ctx: CanvasRenderingContext2D, g: Game) {
   ctx.fillStyle = 'rgba(6,9,18,0.82)';
   ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
   ctx.textAlign = 'center';
-  ctx.font = 'bold 56px "Yu Gothic UI", sans-serif';
+  ctx.font = fontOf(56, true);
   ctx.fillStyle = g.result === 'win' ? '#ffd24a' : '#ff7070';
   ctx.fillText(g.result === 'win' ? '勝　利' : '敗　北', CANVAS_W / 2, CANVAS_H / 2 - 10);
-  ctx.font = '16px "Yu Gothic UI", sans-serif';
+  ctx.font = fontOf(16);
   ctx.fillStyle = '#c3cee6';
   ctx.fillText(`${g.turn} ターンで決着`, CANVAS_W / 2, CANVAS_H / 2 + 30);
   ctx.fillStyle = '#8b9ac0';
@@ -1134,8 +945,6 @@ export function drawScene(ctx: CanvasRenderingContext2D, g: Game, time: number, 
 
   // 歩いているユニットがいればそれを、いなければカーソルを追う。敵フェイズに
   // 画面外で動かれると何が起きたか分からないので、そこは特に効く。
-  visitedVillages = g.visited;
-  openedChests = g.opened;
   windowScheme = WINDOW_COLORS[g.options.windowColor] ?? WINDOW_COLORS[0];
   const follow = g.walk?.unit ?? g.cursor;
   focusOn(follow.x, follow.y, dt);
@@ -1148,12 +957,8 @@ export function drawScene(ctx: CanvasRenderingContext2D, g: Game, time: number, 
   ctx.clip();
   ctx.translate(-Math.round(camera.x), -Math.round(camera.y));
 
-  // 見えているタイルだけ描く。34x24 まで広がるので全面走査は無駄になる。
-  const x0 = Math.max(0, Math.floor(camera.x / TILE));
-  const y0 = Math.max(0, Math.floor(camera.y / TILE));
-  const x1 = Math.min(MAP_W - 1, Math.floor((camera.x + VIEW_W) / TILE));
-  const y1 = Math.min(MAP_H - 1, Math.floor((camera.y + VIEW_H) / TILE));
-  for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) drawTile(ctx, x, y);
+  // 地表は一枚に焼いてある。マスごとに塗らないので継ぎ目も格子も出ない
+  ctx.drawImage(groundCanvas(g.visited, g.opened), OX, OY);
 
   drawRanges(ctx, g);
   drawPath(ctx, g);

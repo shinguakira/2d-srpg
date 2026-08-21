@@ -1,4 +1,5 @@
 import { drawFacePortrait } from '../render/sprites';
+import { fontOf } from '../render/text';
 import type { Unit } from '../types';
 
 export interface Line {
@@ -162,7 +163,7 @@ export class DialogueScene {
     // 見出し
     if (this.script.title) {
       ctx.textAlign = 'center';
-      ctx.font = 'bold 26px "Yu Gothic UI", sans-serif';
+      ctx.font = fontOf(26, true);
       ctx.lineWidth = 5;
       ctx.strokeStyle = 'rgba(0,0,0,0.8)';
       ctx.strokeText(this.script.title, W / 2, 60);
@@ -187,7 +188,7 @@ export class DialogueScene {
 
     // 名前プレート
     if (line.speaker) {
-      ctx.font = 'bold 18px "Yu Gothic UI", sans-serif';
+      ctx.font = fontOf(18, true);
       const nameW = Math.max(104, ctx.measureText(line.speaker).width + 40);
       ctx.fillStyle = PAPER;
       ctx.strokeStyle = FRAME;
@@ -203,7 +204,7 @@ export class DialogueScene {
 
     // 本文
     ctx.textAlign = 'left';
-    ctx.font = '21px "Yu Gothic UI", sans-serif';
+    ctx.font = fontOf(21);
     this.wrapped = this.wrap(ctx, line.text, BOX.w - 76);
     let remain = Math.floor(this.shown);
     let ly = BOX.y + 66;
@@ -235,7 +236,7 @@ export class DialogueScene {
     }
 
     ctx.textAlign = 'center';
-    ctx.font = '12px "Yu Gothic UI", sans-serif';
+    ctx.font = fontOf(12);
     ctx.fillStyle = 'rgba(200,214,240,0.45)';
     ctx.fillText('Z / クリック で送る ・ X で早送り', W / 2, H - 12);
     ctx.textAlign = 'left';

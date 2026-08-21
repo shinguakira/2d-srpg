@@ -395,7 +395,9 @@ function tileAt(x: number, y: number) {
 
 /** 盤面をなぞってカーソルだけ動かしてよい場面か */
 function canScrub() {
-  return screen === 'chapter' && !game.busy && !game.menu && !game.result && game.mode !== 'target' && game.mode === 'free';
+  if (screen !== 'chapter' || game.busy || game.menu || game.result || game.dialogue) return false;
+  // move 中も動かす。カーソルが動かないと移動先までの経路矢印が引けない
+  return game.mode === 'free' || game.mode === 'move';
 }
 
 function padAction(id: string) {

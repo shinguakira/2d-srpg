@@ -11,6 +11,11 @@ nothing in the writing should suggest otherwise.
 here is made up, because a map labelled with real towns reads as a documentary
 rather than a game, and that is the wrong feeling entirely.
 
+The shape is Tsushima. **[geography.md](geography.md) is the mapping** —— which
+real place each invented one stands on, what the real island hands the campaign
+for free, where the design has left it on purpose, and how to name the next place
+so it matches the ones already here.
+
 The *shape* is borrowed and worth keeping, because it is already the map a
 tactician would want: one long landmass cut in two by a channel, an enormous
 drowned bay in the middle, an interior that is almost entirely forest, a spine of
@@ -90,7 +95,7 @@ waist by a narrow channel — **the Cut** — into two countries:
 | **The Stone Gate** | The last headland before Arn. A gallery cut through the rock by Amagi engineers so the 347 could march an army up a two-wide cliff path — then filled and warded from the Arn side once the sealing was done. See below. |
 | **Asha Bay** | The great bay in the island's waist — a drowned maze of inlets, headlands and islets with more shoreline than the rest of the coast combined. Impossible to blockade, impossible to navigate without a local. |
 | **Kandel** | The ancient border fortress above Asha Bay's south shore. Built four centuries ago to watch the western sea; garrisoned ever since out of habit. |
-| **Shirato** | Twin-peaked holy mountain, 518m, above Asha Bay's south shore. Primeval forest, and the northern Sacred Flame. |
+| **Shirato** | Twin-peaked holy mountain, 518m, above Asha Bay's south shore. Two bare pale crags standing out of primeval forest, **visible from most of the Lower Country**, and the northern Sacred Flame. The one landmark the player learns to check. |
 | **Yatan** | The island's highest peak, 648m. With Maishi and Taragi it rings the **Uzia basin**, the only wide valley inland. |
 | **Taragi** | 558m. Old forest, never cut. Its heart is **the Dreadful Place**, where the 347 are buried and where no layman may set foot. |
 
@@ -137,7 +142,11 @@ Rules the game holds itself to, so the fiction and the mechanics agree:
 Three shrines, three flames, all in the Lower Country:
 
 - **Arn** (west) — over the seal itself. Takeshi broke this one.
-- **Shirato** (north) — above Asha Bay. Mirelle's shrine.
+- **Shirato** (north) — above Asha Bay. Mirelle's shrine, and **the only one you
+  can see from off the mountain**. Its twin crags are pale stone above dark
+  forest, and from a distance nobody can tell whether the white on the summit is
+  the rock or the grey. The party should get that wrong at least once. When Suza
+  goes out in Ch15 nobody has to say two are left — they turn around and look.
 - **Suza** (south) — on the cape, the oldest shrine-town.
 
 While the other two burn, the seal is cracked rather than open. The endgame question
@@ -160,5 +169,5 @@ at the shrine the 347 died to raise.
   strongest argument in the game for his own position, and Shigeru never wins the
   argument — he only refuses it.
 
-See also: [characters.md](characters.md), [roster.md](roster.md),
-[bosses.md](bosses.md), [arc-structure.md](arc-structure.md).
+See also: [geography.md](geography.md), [characters.md](characters.md),
+[roster.md](roster.md), [bosses.md](bosses.md), [arc-structure.md](arc-structure.md).

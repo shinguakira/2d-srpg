@@ -102,8 +102,12 @@ the presentation layer. Keep it true to the code; it is the reference, not a
 wish list.
 
 **`specs/story/`** is the Amagi campaign: Shigeru, Akira, Takeshi, 25 chapters.
-Three of them are built. Every place name is invented — no real map, on purpose.
-Read the rest as the design target, never as a description of the code.
+Three of them are built. Read the rest as the design target, never as a
+description of the code.
+
+Every place name is invented, but the island's **shape is Tsushima's** —
+`specs/story/geography.md` holds the mapping, what the real island hands the
+campaign for free, and the rule for naming the next place.
 
 Everything that documented the deleted React implementation was removed with it.
 Git history has it.

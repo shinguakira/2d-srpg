@@ -16,7 +16,7 @@ never crosses the channel.
 | Arc | Chapters | Title | Where | Tone |
 |---|---|---|---|---|
 | 1 | 1-5 | **Flight** | East coast → Sarz valley → Suza → Kandel | Grim but bright; a company forming |
-| 2 | 6-10 | **The Broken Seal** | Asha Bay → the Cut → Yatan → Shirato → Kodo | Darkening; grief |
+| 2 | 6-10 | **The Broken Seal** | Kesh → the Cut → Yatan → the Maishi pass → Kodo | Darkening; grief |
 | 3 | 11-15 | **The Ash Road** | Inland, into the country the blight has taken | Bleak, endurance |
 | 4 | 16-20 | **The Empire's Back** | Kurogane-held ground going grey behind the front | Bittersweet, political |
 | 5 | 21-25 | **The Three Flames** | Taragi → the west cliffs → **Arn** | Earned catharsis |
@@ -25,8 +25,8 @@ never crosses the channel.
 
 The campaign is a circuit of the Lower Country that ends where the story began —
 at the western cliffs. **It is a circuit because it has to be:** there is no road
-down the west coast, so the fifteen miles from Asha Bay to Arn have to be walked
-the long way round, and the last four miles are behind a door.
+down the west coast, so the fifteen kilometres from Asha Bay to Arn have to be walked
+the long way round, and the last six kilometres are behind a door.
 
 ```
                          the Cut (7)
@@ -48,9 +48,9 @@ the long way round, and the last four miles are behind a door.
 
 Two walls, and everything between Ch6 and Ch24 is the detour around them:
 
-- **`╎` Imasa → Arn.** Fifteen miles of cliff with nowhere to land. No road was
+- **`╎` Imasa → Arn.** Fifteen kilometres of cliff with nowhere to land. No road was
   ever cut, so the company turns around at Ch6 and goes the length of the island.
-- **`═══` Kodo → Arn.** Four miles of cliff path that ends at the Stone Gate,
+- **`═══` Kodo → Arn.** Six kilometres of cliff path that ends at the Stone Gate,
   filled and warded. They reach it in Ch10 and cannot open it until Ch24.
 
 ---
@@ -82,7 +82,7 @@ assembled on the run down the east coast and then west across the island.
 
 - **Ch1 — The Road to Kureha.** The coast-road gate keep south of Ilza, held by
   brigands on Kurogane pay. Boss: Hagen. Joins: Gareth (turn 2), Mirelle (epilogue).
-- **Ch2 — The Sarz Crossing.** The garrison on the only bridge for thirty miles.
+- **Ch2 — The Sarz Crossing.** The garrison on the only bridge for fifty kilometres.
   Boss: Commander Vidar. Joins: Halvar (turn 3, defects). Vidar carries a **cracked
   shrine ward from Arn** — the first hard evidence.
 - **Ch3 — The Shena Hills.** Brigands in the Sarz uplands. Boss: Captain Olrik.
@@ -99,7 +99,7 @@ assembled on the run down the east coast and then west across the island.
 - **Ch6 — The Harbour at Kesh.** The crossroads at the island's neck. Boss:
   Captain Aeryn. Joins: Corwin, Nadine. The blight has passed them and every road
   south is cut —— and then the company learns at **Imasa** that there is no road
-  west either, and never was. Arn is fifteen miles away and has to be walked at
+  west either, and never was. Arn is fifteen kilometres away and has to be walked at
   from the other end of the country. **This is why the campaign is twenty-five
   chapters** ([geography.md](geography.md#why-arn-takes-twenty-chapters)).
 - **Ch7 — What the Wall Held.** The fortress at the Cut. Survive 12 turns while
@@ -108,13 +108,14 @@ assembled on the run down the east coast and then west across the island.
 - **Ch8 — The Last Stand on Yatan.** The fortress on the island's highest ground,
   two fronts. Boss: General Wulfram. **Halvar dies** holding the lower corridor for
   nine turns, by his own choice and against a direct order. Grief for two chapters.
-- **Ch9 — The Empty Place.** The uncut forest under Shirato. Joins: Viviane.
+- **Ch9 — The Empty Place.** The forest pass under **Maishi**, on the way down from
+  Yatan to the Sarz. Joins: Viviane.
 - **Ch10 — The Sands of Kodo.** The invasion beach, one arc later: village below,
   fortified hill above. Boss: Grand Magus Ezrin. A **Blackflame Colossus** spawns on
   turn 6 and goes for Elder Ilse's chronicle. Afterwards the party takes the cliff
-  road north and is stopped four miles short at the **Stone Gate** — the second
+  road north and is stopped six kilometres short at the **Stone Gate** — the second
   failed approach. **Arc close: Takeshi appears in person**, unarmed, offers to
-  carry the Flamebrand the four miles they cannot walk it, and is refused.
+  carry the Flamebrand the six kilometres they cannot walk it, and is refused.
 
 ## Arc 3 — The Ash Road (Ch11-15)
 
@@ -163,7 +164,7 @@ Evaluated in a scoring pass that does not exist yet.
 
 | Ending | Condition | Title |
 |---|---|---|
-| Perfect | Seal relit + Blackflame ended + 0 deaths + Aeryn recruited + shrine keeper saved + **Takeshi spared** | *The Fourth Flame* |
+| Perfect | Seal relit + Blackflame ended + 0 deaths + `aerynRecruited` + `shiratoKeeperSaved` + **`takeshiSpared`** | *The Fourth Flame* |
 | True | Seal relit + Blackflame ended | *The Seal Restored* |
 | Bittersweet | Blackflame ended, seal never relit | *Ash and Aftermath* |
 | Tragic | 5 or more deaths | *What It Took* |

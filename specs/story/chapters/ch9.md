@@ -4,14 +4,18 @@ Not implemented.
 
 ## Summary
 
-The grief chapter. A narrow forest pass, an ordinary rout, and a party that is
+The grief chapter. **The forest pass under Maishi**, on the way down from Yatan
+to the Sarz —— a place with no shrine, no history and nothing to say about
+itself, which is the point. A narrow forest pass, an ordinary rout, and a party that is
 mechanically weaker because of it — every surviving unit fights this chapter and
 the next at reduced stats. Viviane joins to give the arc a counterweight that is
 not a joke at grief's expense.
 
 ## Setup
 
-- **Map**: 24×16, a linear forest pass with forts on both flanks
+- **Map**: 24×16, a linear forest pass with forts on both flanks. Ordinary hill
+  forest —— **not** the primeval wood, which belongs to Shirato in Ch19 and
+  Taragi in Ch20 and should not be spent here
 - **Objective**: Rout
 - **Deploy**: 8 slots, `shigeru` forced
 - **Enemies**: 12 — an anonymous raider captain and his scouts, deliberately not

@@ -60,16 +60,16 @@ Asked whether he still believes it, Halvar says he believes *Takeshi* believes i
 ## Epilogue, second half — the road that is not there
 
 They turned west at Kandel. From Kesh the way west is down to **Imasa** on the
-bay's south shore, and from Imasa, Arn is fifteen miles south-west. Lisette has
+bay's south shore, and from Imasa, Arn is fifteen kilometres south-west. Lisette has
 it plotted. Corwin, who has walked this island for twenty years for money, is the
 one who has to say it:
 
 > **There is no road. Not a bad road, not a road the grey has taken. There has
-> never been a road.** The cliffs come down onto the water for fifteen miles and
+> never been a road.** The cliffs come down onto the water for fifteen kilometres and
 > there is nowhere on that shore to put a boat, so nobody ever cut one.
 
 The two places you can land on that coast are Kodo and Arn, and **both are
-reached from inland.** To walk fifteen miles the company has to go back east
+reached from inland.** To walk fifteen kilometres the company has to go back east
 through Kesh, south the length of the country, and come at the coast down the
 Sarz.
 

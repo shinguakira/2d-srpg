@@ -95,8 +95,19 @@ player should feel the cost of each one.
 
 ## Arc 3-5 (planned)
 
-Ch11-24 bosses are Kurogane officers in provinces that are themselves going grey,
+Ch11-23 bosses are Kurogane officers in provinces that are themselves going grey,
 plus blight-born monsters that get less human as the party goes west.
+
+### Ch24 — the rearguard commander
+
+- Kurogane officer holding the headland in front of the **Stone Gate** · AI: boss
+- He has not been told to win. He has been told to make them late, and he knows
+  what being late costs them, because he has watched the road behind them going.
+- **Key line**: *"He does not need you dead. He needs you tired. There is a
+  difference and you will feel it tomorrow."*
+- **Mechanic**: killing him does not open the gate and the gate does not need him
+  dead. He is a tax on the turns the ward and the stone cost — the first boss in
+  the campaign who stands in front of a clock rather than a door.
 
 ### Ch25 — Takeshi, Emperor of Ash ★★★ *(final boss)*
 - Shaven-headed, a head taller than anyone else on the field, both arms burned to

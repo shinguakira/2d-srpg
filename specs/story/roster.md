@@ -36,7 +36,7 @@ See [characters.md](characters.md) for writing briefs and
 | 12 | **Viviane** | `viviane` | Dancer | Ch9 | — | Performer. Refresh ability. Grief chapter's counterweight. |
 | 13 | *TBD* | — | Shaman | Ch11 | — | Arc 3 — dark magic that answers the blight in its own language. |
 | 14 | *TBD* | — | Wyvern Rider | Ch13 | Conditional | Arc 3 — partially blighted. Can be saved or lost. |
-| 15 | **Ald** | `p_ald` ✅ | Monk | Ch14 | — | Arc 3 — shrine keeper. Light magic, effective on the blight's units. |
+| 15 | **Ald** | `p_ald` ✅ | Monk | Ch14 | — | Arc 3 — **Suza warden** (not the Shirato keeper of Ch19). Light magic, effective on the blight's units, and the ward-reader Ch24 needs. |
 | 16 | **Aeryn** | — | Falcon Knight | Ch18 | — | Arc 4 — the Ch6 sky captain, if spared. Ending flag. |
 | 17 | *TBD* | — | Armor Knight | Ch19 | — | Arc 4 — Kurogane officer who stands aside, then turns. |
 | 18-20 | *TBD* | — | — | Arc 5 | — | Shrine wardens / late recruits. |

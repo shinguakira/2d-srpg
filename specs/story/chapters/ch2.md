@@ -15,7 +15,7 @@ game has no way to fire a script on a given turn yet.
 
 ## Summary
 
-The Sarz river garrison — the only bridge for thirty miles. Introduces a recruitable
+The Sarz river garrison — the only bridge for fifty kilometres. Introduces a recruitable
 enemy, chokepoint tactics, and the campaign's real plot: a **cracked shrine ward**
 taken off the enemy commander.
 

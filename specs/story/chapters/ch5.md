@@ -27,7 +27,7 @@ The company stops running and turns west.
 
 **Prologue — the fourth mark.** Elin lands to warn them off: there is a hole in the
 sky out over the western cliffs, the size of a village, with no cloud and no colour, and
-her mare will not fly within a mile of it. Lisette asks the only question that
+her mare will not fly within a kilometre of it. Lisette asks the only question that
 matters — *what bearing?* — and gets west-north-west. *"Four marks on one bearing is
 not a line any more. It is an arrow, and the point of it is the shrine at Arn."*
 

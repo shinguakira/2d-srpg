@@ -1,7 +1,8 @@
 # Chapter 1: The Road to Kureha
 
-Chapter 1 is the only chapter implemented. Its script is in `src/story/script.ts`,
-recast onto the ported game's roster; this file is the design intent behind it.
+Built. The map, the twelve enemies, the villages, the chests, the shop and the
+doors are in `src/data/chapters/ch1.ts`; the prologue, the boss conversation, the
+persuade and the epilogue are in `src/story/chapters/ch1.ts`.
 
 ## Summary
 
@@ -23,7 +24,7 @@ is a young man carrying something far too heavy who has decided not to stop movi
   a box rather than a place.
 - **The keep is three rooms.** The gate opens on the throne room only; a treasure
   room sits either side behind a door at (6,2) and (13,2), each holding a chest
-  and a revenant. The company carries three keys and four locks stand between it
+  and a brigand posted to sit on it. The company carries three keys and four locks stand between it
   and everything —— two doors, two chests. It cannot have all of it.
 - **Objective**: Seize the throne
 - **Deploy**: 5 slots, preparation skipped, `shigeru` forced
@@ -43,7 +44,7 @@ and the gaps are the honest list of what chapter 1 still needs:
 | Deployment | 5 slots | **5 slots**, chosen in the preparation screen |
 | Villages | Two | **Two**, at (7,6) and (13,6), one either side of the road |
 | Chests | — | **Two**, at (4,1) and (15,1), each behind a door |
-| Enemies | 6 brigands on Kurogane pay | 12, including the PoC's monsters — revenants, a bael, a mogall |
+| Enemies | 6 brigands on Kurogane pay | 12, all human. The PoC's revenants, bael and mogall were pulled out —— **the revenant's first appearance is Ch7's set piece** and cannot also be two nameless kills in the tutorial |
 | Cast | Shigeru, Akira, Lisette, Mirelle, Gareth | **All five**, plus Bryn, Elin, Ald and Corwin, who are all deployable from turn 1 |
 
 **The names on this page are the names in the game.** The read-it-sideways table

@@ -54,6 +54,13 @@ garrisoned, rebuilt and re-garrisoned for the next twelve hundred years. General
 Roderic in Ch5 — nine men lost to the rift in his own courtyard, three reports
 filed, ordered to hold the fortress — is that institution given a face.
 
+Amagi puts Kandel in the same years as the sealing, which the real fort does not
+supply and which is worth the small departure: **Kandel exists because of the
+Blackflame.** It was built to watch for the next one. So Ch5 is a man who has
+been ordered not to look west, holding a fortress that was raised for no other
+purpose than looking west, while the thing it was built for opens a hole in his
+courtyard. Nobody in the chapter says this. The player can have it.
+
 **Ground nobody is allowed to walk on, that is therefore still standing.** The
 Dreadful Place on Tatera-san was genuinely closed to laymen, and four centuries
 of forest survived precisely because of it. Ch20-23 do not have to invent the
@@ -101,7 +108,7 @@ real coast rather than an invention.
 
 ### From the north — Imasa, Ch6
 
-Imasa sits on Asha Bay's south shore, under Shirato. Arn is fifteen miles
+Imasa sits on Asha Bay's south shore, under Shirato. Arn is fifteen kilometres
 south-west of it. On a map that is an afternoon.
 
 **There is no road, and there never was one.** The west coast between the bay and
@@ -111,20 +118,20 @@ The two places you *can* land on that coast — Kodo and Arn — are both reache
 from inland, which is exactly why the 347 had to cut the Stone Gate.
 
 So the party turns west at Kandel, walks to Imasa, and finds out that **west is
-not a direction you can travel on this island.** To reach a thing fifteen miles
+not a direction you can travel on this island.** To reach a thing fifteen kilometres
 away they have to go back east through Kesh, south the length of the country,
 and come at the coast down the Sarz. *That* is the route Arcs 3 and 4 walk, and
 Lisette should be the one who measures it and says the number out loud.
 
 ### From the south — Kodo, Ch10
 
-The second attempt has a road: four miles of cliff path north from Kodo Beach.
+The second attempt has a road: six kilometres of cliff path north from Kodo Beach.
 They take it, and it ends at the **Stone Gate**, filled and warded, with Arn
 visible past the headland and no way through.
 
 **This is what makes Takeshi's offer at Ch10 land.** He walks down the hill road
 at the one place they have just been stopped, and offers to carry the sword the
-four miles they cannot walk it. He came in by sea, alone, under the arch at low
+six kilometres they cannot walk it. He came in by sea, alone, under the arch at low
 tide — and he knows perfectly well that an army cannot.
 
 ### The rule the route is built on
@@ -132,7 +139,7 @@ tide — and he knows perfectly well that an army cannot.
 > **Arn cannot be reached until the Stone Gate is opened, and the Stone Gate
 > cannot be opened by the company that is standing at Kodo in Ch10.**
 
-Opening it needs a keeper who can read the ward (recruited Ch14), enough bodies
+Opening it needs the Suza warden who can read the ward (recruited Ch14), enough bodies
 to hold a closing road (deployment reaches 16 by Ch23), and Lisette's rules about
 running water and hallowed ground (Ch17, Ch21). Everything Arcs 3 and 4 hand the
 player is a component of Ch24, and the player should be able to feel that

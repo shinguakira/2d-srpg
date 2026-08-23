@@ -94,7 +94,7 @@ about who stops fighting rather than who dies.
 | 17 | The Fords of Sarz | 30×20 | 12 | 20 | 3 per turn, turns 2-8, both banks | Hold the fords 10 turns |
 | 18 | Two Crowns | 30×20 | 12 | 24 | 4 on turns 4 and 8 | Boss kill, scripted defection |
 | 19 | The Flame on Shirato | 30×22 | 12 | 24 | 3 per turn, turns 3-9 | Protect the shrine keeper |
-| 20 | The Wood That Was Never Cut | 32×22 | 12 | 26 | triggered, 4 per trigger, 4 triggers | Seize |
+| 20 | The Wood That Was Never Cut | 32×22 | 12 | 26 | triggered, 4 per trigger, 4 triggers | Survive the crossing |
 
 ### Arc 5 — The Three Flames
 

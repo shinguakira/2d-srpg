@@ -20,7 +20,7 @@ where you can land a boat and where you cannot.
 | In Amagi | Tsushima | What carries over |
 |---|---|---|
 | **Amagi** | 対馬 | Seventy kilometres north to south, fifteen across. Around 89% forest, almost no flat ground, and a rias coastline that turns every advance into a peninsula problem |
-| **The Cut** | 万関瀬戸 | The channel that divides the island in two. Lower Country / Upper Country = 下島 / 上島 |
+| **The Cut** | 万関瀬戸 | The channel that divides the island in two. Lower Country = 下島, and **the campaign never crosses it** |
 | **Asha Bay** | 浅茅湾 | The drowned bay in the island's waist. More shoreline than the rest of the coast combined, impossible to blockade, impossible to navigate without a local |
 | **Ilza** | 厳原 | East coast, mid-island. The only real town, and the seat |
 | **Kandel** | 金田城 | The ancient mountain fortress over Asō Bay, **built to watch the western sea and garrisoned ever since out of habit** |
@@ -35,7 +35,6 @@ where you can land a boat and where you cannot.
 | **Uzia basin** | 内山盆地 | The one wide valley inland |
 | **Kesh** | 鶏知 | The crossroads at the island's neck, where the east coast and the bay all but touch. Everything crossing the island goes through it |
 | **Imasa** | 今里 | Asha Bay's south shore, under Shirato. **The end of the road on that side —— see below** |
-| **Mitan** | 三根 | Upper Country |
 | **Shimba**, **Shena**, **Kureha**, **Maishi** | — | Positioned like real places on the same coasts, but not lifted from named ones |
 
 ---

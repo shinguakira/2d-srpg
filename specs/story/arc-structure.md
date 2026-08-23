@@ -146,9 +146,11 @@ in the uncut wood under Taragi.
 
 ## Post-campaign — the Upper Country
 
-North across the Cut: Mitan, the cold coasts, the watchtowers that look at the
-enemy shore. Optional maps at higher difficulty; the campaign never requires any
-of it.
+North across the Cut. **It has no named places and does not need any**: chapters
+1-25 never cross the channel, so naming the far side is inventing geography
+nobody visits. Cold coasts and watchtowers looking at the enemy shore is as much
+as the setting owes it. If post-campaign maps are ever built, they get named
+then, out of [geography.md](geography.md#naming-a-new-place).
 
 At the end of it is a **hidden final boss, and it is Akira** — the one companion
 the campaign guarantees will live. See [bosses.md](bosses.md#post-campaign--akira-hidden-final-boss).

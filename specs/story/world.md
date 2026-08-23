@@ -78,9 +78,10 @@ waist by a narrow channel — **the Cut** — into two countries:
 
 - **The Lower Country** — everything south of the Cut. The royal
   seat, the mountains, the shrines, the seal. **The entire campaign happens here.**
-- **The Upper Country** — north of the Cut. Watchtowers, cold coasts,
-  and Mitan standing over it. Optional post-campaign content; the story never
-  requires it.
+- **The Upper Country** — north of the Cut. **Nothing in the campaign happens
+  there and it has no named places**, deliberately: chapters 1-25 never cross the
+  channel, so naming the far side would be inventing geography nobody visits. If
+  post-campaign content ever needs it, it gets named then.
 
 ### The Lower Country, by region
 

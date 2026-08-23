@@ -12,15 +12,15 @@ design, and it is the one everything else is measured against. `akira.png` is
 Akira's — the old man the campaign calls ジェイガン, registered against
 `p_akira` — and it is the odd one out: 220px, painted, not pixel art.
 
-The other eight came later, from **`shigeru.png` handed to
+The other ten came later, from **`shigeru.png` handed to
 `generate-image-bitforge` as the `style_image`**, one call each:
 
 | | who |
 |---|---|
-| `garon.png` `rina.png` `teo.png` `mina.png` `shiel.png` `ald.png` | the rest of the roster |
-| `rou.png` `varga.png` | ロウ and ヴァルガ, who speak in chapter 1 |
+| `gareth.png` `bryn.png` `lisette.png` `mirelle.png` `elin.png` `ald.png` `corwin.png` | the rest of the roster |
+| `hagen.png` `vidar.png` `olrik.png` | the bosses of chapters 1, 2 and 3 |
 
-All eight are 128px with the head in the same place, which is why they share
+All ten are 128px with the head in the same place, which is why they share
 `height: 128` in the registry — the face size comes from the frame, not from
 how far down each drawing happens to stop.
 

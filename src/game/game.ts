@@ -19,6 +19,7 @@ import { accumulateSupport, canRankUp, linkOf, RANK_LABEL } from '../battle/supp
 import { computeMoveRange, key, manhattan, pathTo, unitAt, unkeyX, unkeyY, type MoveRange } from '../core/grid';
 import {
   ARENA_LEVEL,
+  chapterDef,
   CHESTS,
   createEnemies,
   loadChapter,
@@ -41,8 +42,9 @@ import { rng } from '../core/rng';
 import { setSfx } from '../audio/sfx';
 import { GUIDE_COUNT } from '../data/guide';
 import { DEFAULT_OPTIONS, OPTION_ROWS, type GameOptions } from './options';
-import { DialogueScene, setTextSpeed, type Script } from '../story/dialogue';
-import { BOSS_TALK, DEFEAT, ENDING, OPENING, RECRUIT_ROU, deathScript, supportScript } from '../story/script';
+import { DialogueScene, setTextSpeed, type ChapterScripts, type Script } from '../story/dialogue';
+import { DEFEAT } from '../story/chapters/common';
+import { deathScript, supportScript } from '../story/script';
 import { decideAction } from './ai';
 import type { Pos, Stats, StatusKind, Unit, Weapon } from '../types';
 
@@ -189,6 +191,14 @@ export class Game {
   /** この章の目標。HUD と勝敗判定が同じものを見る */
   objective = OBJECTIVE;
 
+  /**
+   * この章の会話。**章の定義から借りる。**
+   *
+   * 以前は script.ts の定数を直に読んでいたので、第2章をクリアしても第1章の
+   * 幕切れが流れ、ヴィダルもオルリクもハーゲンの台詞を喋っていた。
+   */
+  private scripts: ChapterScripts;
+
   private enemyQueue: Unit[] = [];
   private enemyTimer = 0;
   private afterBattle?: () => void;
@@ -202,6 +212,7 @@ export class Game {
     skipOpening = false,
   ) {
     loadChapter(campaign.chapter);
+    this.scripts = chapterDef(campaign.chapter).scripts ?? {};
     this.units = [...campaign.fielded(), ...createEnemies(build)];
     this.gold = campaign.gold;
     this.objective = OBJECTIVE;
@@ -212,8 +223,8 @@ export class Game {
     if (this.options.showObjective) this.objectiveNotice = 2.2;
     const first = this.units.find((u) => u.team === 'player');
     if (first) this.cursor = { x: first.x, y: first.y };
-    if (skipOpening) this.showBanner(TITLE, '#8fc0ff');
-    else if (campaign.chapter === 0) this.playScript(OPENING, () => this.showBanner('自軍フェイズ  1', '#8fc0ff'));
+    const opening = this.scripts.opening;
+    if (!skipOpening && opening) this.playScript(opening, () => this.showBanner('自軍フェイズ  1', '#8fc0ff'));
     else this.showBanner(TITLE, '#8fc0ff');
   }
 
@@ -246,15 +257,42 @@ export class Game {
 
   // ---------------------------------------------------------------- 会話
 
+  /**
+   * 会話に出す顔を引く。**盤の上に居なくても喋れる。**
+   *
+   * 出撃枠は五人だが、幕間で口をきくのはそれより多い —— 第2章の終わりで灰を
+   * 「灰降り」と呼ぶのはミレイユで、彼女が出撃していたとは限らない。盤の上に
+   * 居なければロスターから借りる。原作の幕間もそうなっている。
+   */
+  private speaker(id: string): Unit | undefined {
+    return this.byId(id) ?? this.campaign.roster.find((u) => u.id === id);
+  }
+
   playScript(script: Script, after?: () => void) {
     this.dialogue = new DialogueScene(
       script,
-      (id) => this.byId(id),
+      (id) => this.speaker(id),
       () => {
         this.dialogue = undefined;
         after?.();
       },
     );
+  }
+
+  /**
+   * 章に勝った。台本があれば流してから結果画面へ行く。
+   *
+   * 塔と魔物の群れには台本が無いので、そのまま VICTORY になる。
+   */
+  private win() {
+    const done = () => {
+      this.result = 'win';
+      this.mode = 'result';
+      this.showBanner('VICTORY', '#ffd24a');
+    };
+    const ending = this.scripts.ending;
+    if (ending) this.playScript(ending, done);
+    else done();
   }
 
   playScripts(scripts: Script[], after?: () => void) {
@@ -1034,11 +1072,7 @@ export class Game {
   private doSeize(u: Unit) {
     this.log(`${u.name} は玉座を制圧した`);
     this.flags.ending = true;
-    this.playScript(ENDING, () => {
-      this.result = 'win';
-      this.mode = 'result';
-      this.showBanner('VICTORY', '#ffd24a');
-    });
+    this.win();
   }
 
   /** 村を訪ねる。一度きりで、中身は data 側が持つ */
@@ -1129,19 +1163,24 @@ export class Game {
     this.mode = 'free';
 
     if (target.team === 'enemy' && target.recruitableBy === u.id) {
-      this.playScript(RECRUIT_ROU, () => {
+      const join = () => {
         target.team = 'player';
         target.ai = undefined;
         target.recruitableBy = undefined;
         target.acted = true;
         this.log(`${target.name} が仲間になった`);
         this.endAction(u);
-      });
+      };
+      // 台本があれば喋ってから、無ければ黙って加わる
+      const recruit = this.scripts.recruit?.[target.id];
+      if (recruit) this.playScript(recruit, join);
+      else join();
       return;
     }
 
-    if (target.isBoss) {
-      this.playScript(BOSS_TALK, () => {
+    const bossTalk = this.scripts.bossTalk;
+    if (target.isBoss && bossTalk) {
+      this.playScript(bossTalk, () => {
         this.flags.bossTalked = true;
         target.stats.def = Math.max(0, target.stats.def - 2);
         this.log(`${target.name} の守備が下がった`);
@@ -1327,21 +1366,18 @@ export class Game {
     // 制圧の章では敵を全滅させても勝ちにはならない。玉座に立つまで続く。
     if (this.objective.kind !== 'seize' && this.alive('enemy').length === 0) {
       this.flags.ending = true;
-      this.playScript(ENDING, () => {
-        this.result = 'win';
-        this.mode = 'result';
-        this.showBanner('VICTORY', '#ffd24a');
-      });
+      this.win();
       return;
     }
     const lord = this.units.find((u) => u.isLord);
     if (this.alive('player').length === 0 || (lord && lord.dead)) {
       this.flags.ending = true;
-      this.playScript(DEFEAT, () => {
+      const lost = () => {
         this.result = 'lose';
         this.mode = 'result';
         this.showBanner('DEFEAT', '#ff7070');
-      });
+      };
+      this.playScript(this.scripts.defeat ?? DEFEAT, lost);
     }
   }
 

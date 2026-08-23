@@ -19,6 +19,29 @@ export interface Script {
   lines: Line[];
 }
 
+/**
+ * 一つの章が持つ台本。**章ごとに違うものは全部ここに集める。**
+ *
+ * 以前は `script.ts` の定数を game が直に import していて、第1章のぶんしか
+ * 無かった。第2章をクリアしても「第1章 終了」のミレイユ加入が流れ、ヴィダルも
+ * オルリクもハーゲンの台詞を喋っていた。
+ *
+ * 無いものは黙って飛ばす。塔と魔物の群れには台本が無いので、勝てばそのまま
+ * 結果画面へ行く。
+ */
+export interface ChapterScripts {
+  /** 章の頭。無ければ章タイトルの帯だけ出る */
+  opening?: Script;
+  /** 勝ったとき */
+  ending?: Script;
+  /** 負けたとき。省略すると共通のものが使われる */
+  defeat?: Script;
+  /** ボスに「会話」したとき */
+  bossTalk?: Script;
+  /** 説得。鍵は説得される側のユニット ID */
+  recruit?: Record<string, Script>;
+}
+
 const W = 960;
 const H = 640;
 

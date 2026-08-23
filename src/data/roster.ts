@@ -39,7 +39,16 @@ export interface Seed {
   recruitableBy?: string;
 }
 
-/** 自軍の顔ぶれ。章をまたいで持ち越すので、章のデータからは切り離してある */
+/**
+ * 自軍の顔ぶれ。章をまたいで持ち越すので、章のデータからは切り離してある。
+ *
+ * **id は `specs/story/roster.md` の設計名、`name` は劇中の表記。** 二つが
+ * 分かれているのはジェイガンの都合で、彼の設計名は Akira、劇中で名乗るのは
+ * ジェイガンという別名。他の面々は素直に一致する。
+ *
+ * 加入章は設計側にあるが（ガレスは第1章の2ターン目、ブリンは第3章…）、
+ * ここは今のところ全員を最初から並べている。加入の段取りはまだ無い。
+ */
 export const ROSTER: Seed[] = [
   {
     id: 'p_shigeru',
@@ -74,8 +83,8 @@ export const ROSTER: Seed[] = [
     potion: 1,
   },
   {
-    id: 'p_garon',
-    name: 'ガロン',
+    id: 'p_gareth',
+    name: 'ガレス',
     classId: 'fighter',
     level: 3,
     x: 8,
@@ -88,8 +97,8 @@ export const ROSTER: Seed[] = [
     potion: 1,
   },
   {
-    id: 'p_rina',
-    name: 'リナ',
+    id: 'p_bryn',
+    name: 'ブリン',
     classId: 'archer',
     level: 2,
     x: 11,
@@ -102,8 +111,8 @@ export const ROSTER: Seed[] = [
     potion: 1,
   },
   {
-    id: 'p_teo',
-    name: 'テオ',
+    id: 'p_lisette',
+    name: 'リゼット',
     classId: 'mage',
     level: 2,
     x: 9,
@@ -116,8 +125,8 @@ export const ROSTER: Seed[] = [
     potion: 1,
   },
   {
-    id: 'p_mina',
-    name: 'ミナ',
+    id: 'p_mirelle',
+    name: 'ミレイユ',
     classId: 'cleric',
     level: 2,
     x: 10,
@@ -131,8 +140,8 @@ export const ROSTER: Seed[] = [
     potion: 2,
   },
   {
-    id: 'p_shiel',
-    name: 'シエル',
+    id: 'p_elin',
+    name: 'エリン',
     classId: 'pegasus',
     level: 3,
     x: 8,

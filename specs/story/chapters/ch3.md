@@ -1,8 +1,15 @@
 # Chapter 3: The Shena Hills
 
 Built. The 22x15 map, the ten enemies, two villages, two shops and the turn-4
-reinforcements are in `src/data/chapters/ch3.ts`; the cast and the script below
-are not.
+reinforcements are in `src/data/chapters/ch3.ts`, and the prologue, the boss
+conversation and the epilogue are in `src/story/chapters/ch3.ts`.
+
+Two shifts from the page. **Halvar's procedural deduction goes to Akira** —
+Halvar has no unit, and a career retainer can reason the same way about how an
+army burns a village. **Bryn is already in the company**, so her turn-3 arrival
+does not happen and her one rule — *do not let them get close* — is said in the
+prologue instead. The turn-5 blight is in the epilogue, because nothing can fire
+a script on a given turn yet.
 
 ## Summary
 

@@ -1,3 +1,4 @@
+import type { ChapterScripts } from '../story/dialogue';
 import type { Pos, Unit } from '../types';
 import type { Seed } from './roster';
 import { CH1 } from './chapters/ch1';
@@ -47,6 +48,8 @@ export interface ChapterDef {
   reinforcements?: Reinforcement[];
   /** 闘技場の相手の強さ。地形 A を置いた章だけ使う */
   arenaLevel?: number;
+  /** その章の会話。無い章（塔・魔物の群れ）は台詞なしで進む */
+  scripts?: ChapterScripts;
 }
 
 /** 本編。ワールドマップに並ぶのはこれだけで、cleared もこれを数える */

@@ -1,9 +1,14 @@
 # Bosses
 
-Chapter bosses for the 25-chapter campaign. None of them is in the game — the
-only boss written down is chapter 1's, and it is the PoC's ヴァルガ rather than
-Hagen. AI behaviour types are documented in
-[map-and-turns.md](../systems/map-and-turns.md).
+Chapter bosses for the 25-chapter campaign. **Three are in the game** —
+ハーゲン `e_boss`, ヴィダル `c2_boss` and オルリク `c3_boss`, each with a
+portrait, a pre-combat conversation and a death line. AI behaviour types are
+documented in [map-and-turns.md](../systems/map-and-turns.md).
+
+Hagen is a general on a gate rather than a brigand chief, because the chapter-1
+map turned into a keep; the rest of his brief holds. Vidar's cracked ward is
+narrated in the chapter-2 epilogue rather than dropped as an item — there is no
+drop system.
 
 **Writing rule for every boss in this game:** they are doing their job. Most of them
 know something is wrong in the west and have been ordered not to look at it. The

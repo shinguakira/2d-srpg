@@ -189,6 +189,20 @@ Text is 28px, which is what FE8's 16px on a 240px-wide screen works out to at
 960. Ours was 21px in a fixed 832px band with a name plate and cream paper — a
 later-Fire-Emblem look, not this one.
 
+**Every script belongs to a chapter.** `ChapterScripts` — opening, ending,
+defeat, boss conversation, and one persuade script per recruitable id — hangs off
+`ChapterDef`, and the chapter files under `story/chapters/` are the only place a
+line of chapter dialogue lives. `Game` borrows the set for the chapter it is
+running and plays whatever is there; a chapter with no opening just shows its
+title band, and the tower and the skirmish have no scripts at all.
+
+Before this, `game.ts` imported five constants straight out of `story/script.ts`
+and there was only ever one chapter's worth of them, so **clearing chapter 2
+played chapter 1's epilogue** — Mirelle arriving at the gate, again — and Vidar
+and Olrik both spoke Hagen's lines about his brother's village. What stays in
+`story/script.ts` is what genuinely crosses chapters: the death quotes and the
+support conversations.
+
 ## There is no persistent HUD
 
 GBA Fire Emblem keeps nothing on screen permanently. Turn count, army sizes,
@@ -264,15 +278,15 @@ six clips —— he has no walk, so walk falls back to idle).
 
 **The dialogue portrait is not the map sprite, and it is art for the whole
 speaking cast.** `PORTRAIT_UNITS` in `sprites.ts` maps a unit id to a PNG in
-`assets/portraits/`, and everyone who says a line has one: the seven of the
-roster plus Ald, and ロウ and ヴァルガ from chapter 1. The eight after Shigeru
-and Akira were generated one call each with **Shigeru's portrait as bitforge's
-`style_image`**, so the conversation reads as one artist rather than as a
-gallery. The code-drawn face is what a unit with no entry falls back to ——
-enemies, villagers —— not what the cast uses.
+`assets/portraits/`, and everyone who says a line has one: the nine of the
+roster, and Hagen, Vidar and Olrik, the bosses of the three built chapters. The
+ten after Shigeru and Akira were generated one call each with **Shigeru's
+portrait as bitforge's `style_image`**, so the conversation reads as one artist
+rather than as a gallery. The code-drawn face is what a unit with no entry falls
+back to —— nameless enemies, villagers —— not what the cast uses.
 
 The registry carries `cx`, `bottom` and `height` because the drawings do not
-fill their frames the same way. The eight share `height: 128`: they came out of
+fill their frames the same way. The ten share `height: 128`: they came out of
 the same 128px setup with the head in the same place, so the face size has to
 come from the frame. Scaling each to its own bounding box instead makes a
 short bust —— one that stops at the collarbone —— render half again too large.

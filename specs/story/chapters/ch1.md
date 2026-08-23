@@ -44,22 +44,22 @@ and the gaps are the honest list of what chapter 1 still needs:
 | Villages | Two | **Two**, at (7,6) and (13,6), one either side of the road |
 | Chests | — | **Two**, at (4,1) and (15,1), each behind a door |
 | Enemies | 6 brigands on Kurogane pay | 12, including the PoC's monsters — revenants, a bael, a mogall |
-| Cast | Shigeru, Akira, Lisette, Mirelle, Gareth | シゲル and ジェイガン, plus the PoC's six |
+| Cast | Shigeru, Akira, Lisette, Mirelle, Gareth | **All five**, plus Bryn, Elin, Ald and Corwin, who are all deployable from turn 1 |
 
-The script was recast onto the ported roster rather than rewritten, so the
-chapter is playable and speaks the right beats under other names:
+**The names on this page are the names in the game.** The read-it-sideways table
+that used to live here — Lisette as テオ, Mirelle as ミナ, Gareth as ガロン — is
+gone; `src/data/roster.ts` carries the design ids now. Two things still differ
+from the design and are deliberate:
 
-| This file | `src/story/script.ts` |
-|---|---|
-| Shigeru | シゲル `p_shigeru` |
-| **Akira** | **ジェイガン `p_akira`** — renamed off the PoC's ゼス, and he has his portrait. The name plate says ジェイガン because that is the alias he uses in the campaign |
-| Lisette | テオ `p_teo` |
-| Mirelle | ミナ `p_mina` |
-| Gareth | ガロン `p_garon` |
-| Hagen | ヴァルガ `e_boss` — a general on a gate, not a brigand chief |
+- **Hagen is ハーゲン `e_boss`, a general on a gate rather than a brigand chief**,
+  because the map is a keep and a keep wants an officer holding it.
+- **The persuade target is Corwin**, `p_corwin`, the PoC's ロウ under his design
+  name. The design has him joining at Ch6; nobody's join chapter is implemented,
+  so he joins here.
 
-リナ, シエル and アルド have no counterpart here and no lines. The persuade
-target, the mercenary ロウ, is the PoC's and is not in this chapter's design.
+Nobody joins mid-chapter either: Gareth's turn-2 arrival and Mirelle's epilogue
+entrance are written as if they happened, but both are on the field from the
+start.
 
 ## Beats
 

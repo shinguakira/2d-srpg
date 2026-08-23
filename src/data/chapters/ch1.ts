@@ -1,3 +1,4 @@
+import { CH1_SCRIPTS } from '../../story/chapters/ch1';
 import type { ChapterDef } from '../chapters';
 import type { Seed } from '../roster';
 import type { Stats } from '../../types';
@@ -45,8 +46,8 @@ const ENEMIES: Seed[] = [
     ai: 'aggressive',
   },
   {
-    id: 'e_m1',
-    name: 'ロウ',
+    id: 'p_corwin',
+    name: 'コルウィン',
     classId: 'mercenary',
     level: 4,
     x: 5,
@@ -168,7 +169,7 @@ const ENEMIES: Seed[] = [
 
   {
     id: 'e_boss',
-    name: 'ヴァルガ',
+    name: 'ハーゲン',
     classId: 'general',
     level: 8,
     x: 10,
@@ -246,4 +247,5 @@ export const CH1: ChapterDef = {
     { weapon: 'handAxe', price: 300 },
     { weapon: 'javelin', price: 400 },
   ],
+  scripts: CH1_SCRIPTS,
 };

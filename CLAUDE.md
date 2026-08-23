@@ -65,7 +65,8 @@ src/
     viewport.ts      Fitting the canvas to the window; portrait rotation
 
   story/
-    script.ts        Chapter script
+    script.ts        Death quotes and support conversations —— what crosses chapters
+    chapters/        ch1.ts ch2.ts ch3.ts —— one chapter's dialogue each
     dialogue.ts      Dialogue box rendering and advance
 
   assets/

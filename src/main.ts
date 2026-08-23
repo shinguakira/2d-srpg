@@ -4,7 +4,7 @@ import { drawScene, hitOptionRow, hitRosterTab, hitUnitTab, menuRowH } from './r
 import { CANVAS_W, OX, OY, screenToTile, VIEW_H, VIEW_W } from './render/layout';
 import { CHAPTERS, MAP_H, MAP_W, SKIRMISH_INDEX, TOWER_INDEX } from './data/chapters';
 import { cloneWeapon } from './data/weapons';
-import { OPENING } from './story/script';
+import { CH1_SCRIPTS } from './story/chapters/ch1';
 import {
   drawGuide,
   drawPrep,
@@ -674,7 +674,7 @@ let frozen = false;
     if (dev === 'target') {
       // 戦闘予測: レイピア（重装特効）でボスに挑む場面
       const a = pick('シゲル');
-      const d = pick('ヴァルガ');
+      const d = pick('ハーゲン');
       a.x = d.x;
       a.y = d.y + 1;
       a.px = a.x;
@@ -690,7 +690,7 @@ let frozen = false;
       game.confirm();
     }
     if (dev === 'battle' || dev === 'levelup' || dev === 'menu') {
-      const a = pick('ガロン');
+      const a = pick('ガレス');
       const d = pick('山賊');
       if (dev === 'levelup') a.exp = 95;
       d.x = a.x + 1;
@@ -712,14 +712,14 @@ let frozen = false;
       }
     }
     if (dev === 'opening') {
-      game.playScript(OPENING);
+      game.playScript(CH1_SCRIPTS.opening!);
       // advance() は 1 回目で全文表示、2 回目で次の行に進む
       for (let i = 0; i < 17; i++) game.dialogue?.advance();
     }
     if (dev === 'talk') {
-      // シゲルが傭兵ロウを説得する場面
+      // シゲルが傭兵コルウィンを説得する場面
       const a = pick('シゲル');
-      const d = pick('ロウ');
+      const d = pick('コルウィン');
       d.x = a.x + 1;
       d.y = a.y;
       d.px = d.x;

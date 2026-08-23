@@ -1,3 +1,4 @@
+import { CH2_SCRIPTS } from '../../story/chapters/ch2';
 import type { ChapterDef } from '../chapters';
 import type { Seed } from '../roster';
 import type { Stats } from '../../types';
@@ -208,4 +209,5 @@ export const CH2: ChapterDef = {
       },
     },
   ],
+  scripts: CH2_SCRIPTS,
 };

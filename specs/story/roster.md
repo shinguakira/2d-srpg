@@ -1,10 +1,17 @@
 # Character Roster
 
-Master roster for the 25-chapter campaign. **Almost none of it is in the game.**
-Three chapters are built and the units in them are the ported PoC's, in
-`src/data/roster.ts`. Two names on this list appear there: Shigeru as
-`p_shigeru`, and Akira as `p_akira` under the alias ジェイガン. Everyone else
-below is a design target.
+Master roster for the 25-chapter campaign.
+
+**The nine who are in the game carry these names.** `src/data/roster.ts` used to
+hold the ported PoC's cast — ガロン, リナ, テオ, ミナ, シエル — under a
+read-it-sideways mapping kept in `chapters/ch1.md`. That is gone: the ids there
+are the ids in this table, prefixed `p_`, and the `name` field is the katakana
+the game prints. Only Akira's two differ, because ジェイガン is the alias he uses
+in the campaign.
+
+Everyone from Halvar down is still a design target. Nobody's **join chapter** is
+implemented either — the whole roster deploys from chapter 1 — so Bryn and Elin
+speak in chapters they have not officially joined yet.
 
 See [characters.md](characters.md) for writing briefs and
 [arc-structure.md](arc-structure.md) for chapter context.
@@ -15,21 +22,21 @@ See [characters.md](characters.md) for writing briefs and
 
 | # | Name | id | Class | Joins | Leaves | Role |
 |---|------|----|-------|-------|--------|------|
-| 1 | **Shigeru** | `shigeru` | Lord | Ch1 | — | Protagonist. Bears the Flamebrand. Must survive every chapter. |
-| 2 | **Akira** | `akira` | Cavalier | Ch1 | — | Sworn retainer. Survives the campaign — deliberately. |
-| 3 | **Lisette** | `lisette` | Mage | Ch1 | — | Court scholar. Tracks the blight. Crisis chapter is Ch7. |
-| 4 | **Mirelle** | `mirelle` | Cleric | Ch1 (epilogue) | — | Shrine maiden of Shirato. Supplies the setting's folklore. |
-| 5 | **Gareth** | `gareth` | Fighter | Ch1 (turn 2) | — | Woodcutter. Asks the questions the player is thinking. |
+| 1 | **Shigeru** | `p_shigeru` ✅ | Lord | Ch1 | — | Protagonist. Bears the Flamebrand. Must survive every chapter. |
+| 2 | **Akira** | `p_akira` ✅ | Cavalier | Ch1 | — | Sworn retainer. Survives the campaign — deliberately. |
+| 3 | **Lisette** | `p_lisette` ✅ | Mage | Ch1 | — | Court scholar. Tracks the blight. Crisis chapter is Ch7. |
+| 4 | **Mirelle** | `p_mirelle` ✅ | Cleric | Ch1 (epilogue) | — | Shrine maiden of Shirato. Supplies the setting's folklore. |
+| 5 | **Gareth** | `p_gareth` ✅ | Fighter | Ch1 (turn 2) | — | Woodcutter. Asks the questions the player is thinking. |
 | 6 | **Halvar** | `halvar` | Soldier | Ch2 (defects) | **Ch8 (dies)** | Kurogane sergeant. His death is the campaign's turning point. |
-| 7 | **Bryn** | `bryn` | Archer | Ch3 | — | Shena huntress. Speaks in single words. |
+| 7 | **Bryn** | `p_bryn` ✅ | Archer | Ch3 | — | Shena huntress. Speaks in single words. |
 | 8 | **Fenn** | `fenn` | Thief | Ch4 | — | Suza pickpocket. Feeds people with stolen keys. |
-| 9 | **Elin** | `elin` | Pegasus Knight | Ch5 | — | Sky Watch rider. Sees the blight from above first. |
-| 10 | **Corwin** | `corwin` | Mercenary | Ch6 | — | Sellsword. The company's memento mori. |
+| 9 | **Elin** | `p_elin` ✅ | Pegasus Knight | Ch5 | — | Sky Watch rider. Sees the blight from above first. |
+| 10 | **Corwin** | `p_corwin` ✅ | Mercenary | Ch6 | — | Sellsword. The company's memento mori. |
 | 11 | **Nadine** | `nadine` | Troubadour | Ch6 | — | Heals both armies and will not be argued out of it. |
 | 12 | **Viviane** | `viviane` | Dancer | Ch9 | — | Performer. Refresh ability. Grief chapter's counterweight. |
 | 13 | *TBD* | — | Shaman | Ch11 | — | Arc 3 — dark magic that answers the blight in its own language. |
 | 14 | *TBD* | — | Wyvern Rider | Ch13 | Conditional | Arc 3 — partially blighted. Can be saved or lost. |
-| 15 | *TBD* | — | Monk | Ch14 | — | Arc 3 — shrine keeper. Light magic, effective on the blight's units. |
+| 15 | **Ald** | `p_ald` ✅ | Monk | Ch14 | — | Arc 3 — shrine keeper. Light magic, effective on the blight's units. |
 | 16 | **Aeryn** | — | Falcon Knight | Ch18 | — | Arc 4 — the Ch6 sky captain, if spared. Ending flag. |
 | 17 | *TBD* | — | Armor Knight | Ch19 | — | Arc 4 — Kurogane officer who stands aside, then turns. |
 | 18-20 | *TBD* | — | — | Arc 5 | — | Shrine wardens / late recruits. |
@@ -56,9 +63,8 @@ reinforcements, and for why these numbers are shaped the way they are.
 
 ## Permadeath and scripted loss
 
-Neither of these exists yet — the game has one map, no campaign, and no state
-that outlives it. Both are requirements on whatever ends up carrying the roster
-between chapters.
+Neither of these exists yet. The campaign does carry the roster between chapters
+now (`game/campaign.ts`), but a casualty simply comes back next chapter.
 
 - Ordinary casualties are gone for the rest of the run. Shigeru is the exception
   in the other direction: losing him ends the run on the spot, which the game

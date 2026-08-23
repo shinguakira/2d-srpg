@@ -1,8 +1,17 @@
 # Chapter 2: The Sarz Crossing
 
 Built. The map, the eight enemies, the village, the shop, the arena and the
-turn-3 reinforcements are in `src/data/chapters/ch2.ts`; the cast and the script
-below are not.
+turn-3 reinforcements are in `src/data/chapters/ch2.ts`, and the prologue, the
+boss conversation and the epilogue are in `src/story/chapters/ch2.ts`.
+
+**Halvar is not.** He has no unit, so his turn-3 defection, his eulogy for Vidar
+and the half of the Arn revelation he supplies — Takeshi went to the shrine alone
+before the war, came back three days later and gave the order to march — are all
+still on this page and not in the game. The chapter closes on the cracked ward
+alone, which is enough to point west. His lines come back when he does.
+
+The turn-2 and turn-4 beats are folded into the prologue and the epilogue: the
+game has no way to fire a script on a given turn yet.
 
 ## Summary
 

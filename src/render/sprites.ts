@@ -3,14 +3,16 @@ import { battleWeapon, equippedWeapon } from '../battle/combat';
 import type { Unit, WeaponType } from '../types';
 import akiraPortraitUrl from '../assets/portraits/akira.png';
 import aldPortraitUrl from '../assets/portraits/ald.png';
-import garonPortraitUrl from '../assets/portraits/garon.png';
-import minaPortraitUrl from '../assets/portraits/mina.png';
-import rinaPortraitUrl from '../assets/portraits/rina.png';
-import rouPortraitUrl from '../assets/portraits/rou.png';
-import shielPortraitUrl from '../assets/portraits/shiel.png';
+import brynPortraitUrl from '../assets/portraits/bryn.png';
+import corwinPortraitUrl from '../assets/portraits/corwin.png';
+import elinPortraitUrl from '../assets/portraits/elin.png';
+import garethPortraitUrl from '../assets/portraits/gareth.png';
+import hagenPortraitUrl from '../assets/portraits/hagen.png';
+import lisettePortraitUrl from '../assets/portraits/lisette.png';
+import mirellePortraitUrl from '../assets/portraits/mirelle.png';
+import olrikPortraitUrl from '../assets/portraits/olrik.png';
 import shigeruPortraitUrl from '../assets/portraits/shigeru.png';
-import teoPortraitUrl from '../assets/portraits/teo.png';
-import vargaPortraitUrl from '../assets/portraits/varga.png';
+import vidarPortraitUrl from '../assets/portraits/vidar.png';
 import akiraSheetUrl from '../assets/sprites/akira-sheet.png';
 import shigeruSheetUrl from '../assets/sprites/shigeru-sheet.png';
 
@@ -320,14 +322,16 @@ const PORTRAIT_UNITS: Record<string, { url: string; cx: number; bottom: number; 
   // ので画風は同じ系統で、height は 128 で揃えてある —— 同じ枠に同じ寄りで
   // 描かれているので、顔の大きさは絵の高さではなく枠の高さで揃う。bottom だけ
   // 絵ごとに違うのは、胸から下がどこで切れているかが違うため。
-  p_garon: { url: garonPortraitUrl, cx: 63.5, bottom: 120, height: 128 },
-  p_rina: { url: rinaPortraitUrl, cx: 64, bottom: 124, height: 128 },
-  p_teo: { url: teoPortraitUrl, cx: 64, bottom: 128, height: 128 },
-  p_mina: { url: minaPortraitUrl, cx: 63.5, bottom: 128, height: 128 },
-  p_shiel: { url: shielPortraitUrl, cx: 64, bottom: 116, height: 128 },
+  p_gareth: { url: garethPortraitUrl, cx: 63.5, bottom: 120, height: 128 },
+  p_bryn: { url: brynPortraitUrl, cx: 64, bottom: 124, height: 128 },
+  p_lisette: { url: lisettePortraitUrl, cx: 63.5, bottom: 128, height: 128 },
+  p_mirelle: { url: mirellePortraitUrl, cx: 63.5, bottom: 128, height: 128 },
+  p_elin: { url: elinPortraitUrl, cx: 64, bottom: 116, height: 128 },
   p_ald: { url: aldPortraitUrl, cx: 64, bottom: 112, height: 128 },
-  e_m1: { url: rouPortraitUrl, cx: 63, bottom: 128, height: 128 },
-  e_boss: { url: vargaPortraitUrl, cx: 64, bottom: 128, height: 128 },
+  p_corwin: { url: corwinPortraitUrl, cx: 63, bottom: 128, height: 128 },
+  e_boss: { url: hagenPortraitUrl, cx: 64, bottom: 128, height: 128 },
+  c2_boss: { url: vidarPortraitUrl, cx: 64, bottom: 128, height: 128 },
+  c3_boss: { url: olrikPortraitUrl, cx: 64, bottom: 120, height: 128 },
 };
 
 const sheetImages = new Map<string, HTMLImageElement>();

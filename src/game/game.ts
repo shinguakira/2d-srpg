@@ -1262,8 +1262,9 @@ export class Game {
       if (u.team !== 'player' || u.dead) continue;
       u.acted = false;
       u.canto = false;
-      // 眠っているあいだは動かせない。狂戦は敵軍フェイズに勝手に動く
-      if (u.status?.kind === 'sleep' || u.status?.kind === 'berserk') u.acted = true;
+      // 眠っているあいだは動かせない。狂戦は敵軍フェイズに勝手に動く。
+      // 味方 NPC は最初から行動済み —— 守る相手に毎ターン「待機」を押させない
+      if (u.npc || u.status?.kind === 'sleep' || u.status?.kind === 'berserk') u.acted = true;
       const dmg = tickStatus(u);
       if (dmg > 0) this.log(`${u.name} は毒で ${dmg} 受けた`);
       const t = terrainAt(MAP, u.x, u.y);
@@ -1311,9 +1312,15 @@ export class Game {
         }
       }
       for (const sp of e.spawn ?? []) {
+        if (this.byId(sp.seed.id)) continue;
         const spot = this.freeNear({ x: sp.seed.x, y: sp.seed.y });
         if (!spot) continue;
-        const u = build({ ...sp.seed, x: spot.x, y: spot.y }, sp.team);
+        // 自軍は campaign の名簿にいる本人を出す。ここで build し直すと、
+        // その章で稼いだぶんが章の終わりに消える
+        const kept = sp.team === 'player' ? this.campaign.roster.find((r) => r.id === sp.seed.id && !r.dead) : undefined;
+        const u = kept ?? build({ ...sp.seed, x: spot.x, y: spot.y }, sp.team);
+        u.x = spot.x;
+        u.y = spot.y;
         u.px = spot.x;
         u.py = spot.y;
         u.acted = true;
@@ -1425,7 +1432,13 @@ export class Game {
     const obj = this.objective;
 
     // 守る相手が倒れたら、その場で負け。**勝ち筋より先に見る**
-    if (obj.guard?.some((id) => this.byId(id)?.dead !== false)) {
+    // `u.dead` は生きているあいだ undefined。`!== false` で見ると全員死んだことになる
+    if (
+      obj.guard?.some((id) => {
+        const u = this.byId(id);
+        return !u || u.dead;
+      })
+    ) {
       this.flags.ending = true;
       this.lose();
       return;

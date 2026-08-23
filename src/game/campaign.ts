@@ -46,18 +46,25 @@ export class Campaign {
     return this.roster.filter((u) => !u.dead && joinedBy(u.id, this.chapter));
   }
 
-  /** 出撃枠ぶんだけ上から詰める。ロードは必ず出る */
+  /** その章で外せない者。ロードと、章が名指ししている者 */
+  forced(): string[] {
+    const lord = this.roster.find((u) => u.isLord && !u.dead);
+    const named = (this.def.forced ?? []).filter((id) => this.roster.some((u) => u.id === id && !u.dead));
+    return [...new Set([lord?.id, ...named].filter((x): x is string => !!x))];
+  }
+
+  /** 出撃枠ぶんだけ上から詰める。ロードと強制出撃は必ず出る */
   autoDeploy() {
     const slots = this.def.deploy;
     const pool = this.available();
-    const lord = pool.find((u) => u.isLord);
-    const rest = pool.filter((u) => !u.isLord);
-    this.deployed = [lord?.id ?? '', ...rest.map((u) => u.id)].filter(Boolean).slice(0, slots);
+    const must = this.forced();
+    const rest = pool.filter((u) => !must.includes(u.id));
+    this.deployed = [...must, ...rest.map((u) => u.id)].slice(0, slots);
   }
 
   toggle(id: string) {
     const u = this.roster.find((r) => r.id === id);
-    if (!u || u.isLord || !joinedBy(u.id, this.chapter)) return;
+    if (!u || this.forced().includes(id) || !joinedBy(u.id, this.chapter)) return;
     const at = this.deployed.indexOf(id);
     if (at >= 0) this.deployed.splice(at, 1);
     else if (this.deployed.length < this.def.deploy) this.deployed.push(id);

@@ -156,6 +156,8 @@ export interface Unit {
   px: number;
   py: number;
   dead?: boolean;
+  /** 味方 NPC。自軍に数えるが操作はできない（第10章のイルゼ長老） */
+  npc?: boolean;
 }
 
 export interface TerrainDef {

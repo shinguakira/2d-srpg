@@ -38,6 +38,7 @@ const WALL: Seed[] = [
   ...mooks('c7_k', MOOK.knight(10), [
     { x: 8, y: 14, ai: 'guard' },
     { x: 14, y: 14, ai: 'guard' },
+    { x: 11, y: 15, ai: 'guard' },
   ]),
 ];
 

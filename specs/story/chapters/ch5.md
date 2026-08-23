@@ -13,7 +13,9 @@ The company stops running and turns west.
 
 - **Map**: 24×16, a mountain fortress above the cloud line — walls, a courtyard,
   and open air on three sides for Elin to arrive out of
-- **Objective**: Defeat General Roderic and seize the throne
+- **Objective**: Seize the throne. The code has no compound objective and does
+  not need one —— **Roderic is standing on the throne**, so the only way to reach
+  it is through him
 - **Deploy**: 7 slots, `shigeru` forced
 - **Enemies**: 13
 - **Reinforcements**: 3 on turn 4, 3 on turn 7

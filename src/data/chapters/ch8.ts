@@ -39,7 +39,7 @@ const HOLD: Seed[] = [
   ...mooks('c8_s', MOOK.soldier(10), [
     { x: 12, y: 13, ai: 'guard' },
     { x: 13, y: 13, ai: 'guard' },
-    { x: 12, y: 15, ai: 'guard' },
+    { x: 11, y: 12, ai: 'guard' },
   ]),
 ];
 
@@ -93,6 +93,8 @@ export const CH8: ChapterDef = {
   ],
   objective: { kind: 'seize', x: 12, y: 1, label: '玉座の制圧' },
   deploy: 8,
+  // 廊下に立つ者が居なければ、この章は成立しない
+  forced: ['p_halvar'],
   starts: [
     { x: 12, y: 16 },
     { x: 11, y: 16 },

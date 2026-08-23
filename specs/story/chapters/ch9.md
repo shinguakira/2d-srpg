@@ -13,7 +13,7 @@ not a joke at grief's expense.
 
 ## Setup
 
-- **Map**: 24×16, a linear forest pass with forts on both flanks. Ordinary hill
+- **Map**: 24×17, a linear forest pass with forts on both flanks. Ordinary hill
   forest —— **not** the primeval wood, which belongs to Shirato in Ch19 and
   Taragi in Ch20 and should not be spent here
 - **Objective**: Rout

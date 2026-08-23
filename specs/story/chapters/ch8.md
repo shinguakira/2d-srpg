@@ -15,11 +15,15 @@ costs to answer it.
 
 ## Setup
 
-- **Map**: 26×18; throne at the north end; a one-wide south corridor with a fort
+- **Map**: 24×19; throne at the north end; a one-wide south corridor with a fort
   at its mouth
-- **Objective**: Defeat General Wulfram and seize the throne
-- **Deploy**: 8 slots; **`shigeru` and `halvar` force-deployed** — the corridor
-  sequence requires him on the field
+- **Objective**: Seize the throne —— Wulfram is on it, so seizing means killing
+  him first
+- **Deploy**: 8 slots; **`p_shigeru` and `p_halvar` force-deployed** —— the
+  corridor sequence requires him on the field, and the chapter names him in
+  `ChapterDef.forced` so the preparation screen will not let him be taken out.
+  Without that, turn 4 and turn 13 fire at a unit who is not there and the whole
+  sequence silently does not happen
 - **Enemies**: 16 — General Wulfram (halberdier), knights, cavaliers and mages
 - **Reinforcements**: 3 per turn, turns 4 to 9, from the south gate and the east
   wall at once

@@ -76,6 +76,7 @@ const ILSE: Seed = {
   stats: st(18, 0, 1, 1, 1, 10, 0, 3, 4, 0),
   growth: st(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   weapons: [],
+  npc: true,
 };
 
 const COLOSSUS: Seed = {
@@ -137,7 +138,7 @@ export const CH10: ChapterDef = {
   ],
   chests: [{ x: 12, y: 2, weapon: 'silenceStaff' }],
   shop: [],
-  reinforcements: [4, 4, 4, 4, 7, 7, 7, 7, 10, 10, 10, 10].map((turn, i) => {
+  reinforcements: [3, 3, 3, 3, 6, 6, 6, 6, 9, 9, 9, 9].map((turn, i) => {
     const from = [
       { x: 1, y: 6 },
       { x: 22, y: 6 },

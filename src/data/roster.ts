@@ -39,6 +39,8 @@ export interface Seed {
   recruitableBy?: string;
   /** 加入する章（0 起点）。無ければ最初から居る */
   joinsAt?: number;
+  /** 味方 NPC。自軍だが操作できず、行動済みで始まる */
+  npc?: boolean;
 }
 
 /**
@@ -281,6 +283,7 @@ export function build(seed: Seed, team: 'player' | 'enemy'): Unit {
     wexp,
     seals: seed.seals ?? 0,
     recruitableBy: seed.recruitableBy,
+    npc: seed.npc,
   };
 }
 

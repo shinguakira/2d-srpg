@@ -28,7 +28,10 @@ const RAIDERS: Seed[] = [
     { x: 11, y: 3, ai: 'guard' },
     { x: 11, y: 13, ai: 'guard' },
   ]),
-  ...mooks('c9_s', MOOK.shaman(10), [{ x: 19, y: 8, ai: 'guard' }]),
+  ...mooks('c9_s', MOOK.shaman(10), [
+    { x: 19, y: 8, ai: 'guard' },
+    { x: 20, y: 4, ai: 'guard' },
+  ]),
 ];
 
 const CAPTAIN: Seed = {

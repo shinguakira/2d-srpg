@@ -179,9 +179,29 @@ function drawUnitMarks(ctx: CanvasRenderingContext2D, u: Unit, cx: number, top: 
   ctx.restore();
 }
 
-function drawUnits(ctx: CanvasRenderingContext2D, g: Game, time: number) {
-  // 担がれている者は盤上にいない
-  const sorted = g.units.filter((u) => !u.dead && !u.carried).sort((a, b) => a.py - b.py);
+/**
+ * 戦場の霧。**見えていないマスに幕を下ろす。**
+ *
+ * 実機は霧の下を真っ黒には塗らない —— 地形は見えていて、そこに何がいるかだけが
+ * 分からない。だから半透明の紺を重ね、敵の描画のほうを止める（`drawUnits`）。
+ */
+function drawFog(ctx: CanvasRenderingContext2D, seen: ReadonlySet<string>) {
+  if (!seen.size) return;
+  ctx.save();
+  ctx.fillStyle = 'rgba(8,10,22,0.62)';
+  for (let y = 0; y < MAP_H; y++) {
+    for (let x = 0; x < MAP_W; x++) {
+      if (seen.has(`${x},${y}`)) continue;
+      ctx.fillRect(OX + x * TILE, OY + y * TILE, TILE, TILE);
+    }
+  }
+  ctx.restore();
+}
+
+function drawUnits(ctx: CanvasRenderingContext2D, g: Game, time: number, seen?: ReadonlySet<string>) {
+  // 担がれている者は盤上にいない。霧の下の敵は、そこにいても描かない
+  const hidden = (u: Unit) => seen?.size && u.team === 'enemy' && !seen.has(`${u.x},${u.y}`);
+  const sorted = g.units.filter((u) => !u.dead && !u.carried && !hidden(u)).sort((a, b) => a.py - b.py);
   for (const u of sorted) {
     const cx = OX + u.px * TILE + TILE / 2;
     // 足元はタイルの下端に置く。0.86 だと 40px のタイルで 5.6px 浮いて見えた。
@@ -517,6 +537,20 @@ function drawForecast(ctx: CanvasRenderingContext2D, g: Game) {
  * 変わったときに一枚出して引っ込め、あとは「状況」画面で読ませる。
  * オプションの「目標表示」を切ると出なくなる。
  */
+/**
+ * 石の洞門の進み具合。`breach` の章にしか出ない。
+ *
+ * 第24章には残りターンの表示が無い（道が減っていくのがそれ）。代わりに要るのは
+ * 「あと何ターン唱えるのか」「あと何回叩けば開くのか」で、それはこの一行。
+ */
+function gateLine(g: Game): string | undefined {
+  const o = g.objective;
+  if (o.kind !== 'breach') return undefined;
+  const need = o.wardTurns ?? 3;
+  if (g.ward < need) return `解呪 ${g.ward} / ${need}`;
+  return `破石 ${g.broken} / ${o.breakTotal ?? 60}`;
+}
+
 function drawObjectiveNotice(ctx: CanvasRenderingContext2D, g: Game) {
   const t = g.objectiveNotice;
   if (t <= 0) return;
@@ -530,7 +564,7 @@ function drawObjectiveNotice(ctx: CanvasRenderingContext2D, g: Game) {
   panel(ctx, x, y, w, h);
   feText(ctx, g.objective.label, x + 14, y + 28, { size: 16, bold: true, color: GOLD });
   const lord = g.units.find((u) => u.isLord);
-  feText(ctx, `敗北: ${lord?.name ?? 'ロード'}の死亡`, x + 14, y + 50, { size: 12, color: '#dbe6ff' });
+  feText(ctx, gateLine(g) ?? `敗北: ${lord?.name ?? 'ロード'}の死亡`, x + 14, y + 50, { size: 12, color: '#dbe6ff' });
   feText(ctx, `ターン ${g.turn}`, x + w - 14, y + 50, { size: 12, align: 'right', color: '#dbe6ff' });
   ctx.restore();
 }
@@ -712,6 +746,7 @@ function drawStatus(ctx: CanvasRenderingContext2D, g: Game) {
   const rows: [string, string][] = [
     ['章', TITLE],
     ['目標', g.objective.label],
+    ...((gateLine(g) ? [['石の洞門', gateLine(g)!]] : []) as [string, string][]),
     ['敗北条件', `${lord?.name ?? 'ロード'}の死亡`],
     ['ターン', String(g.turn)],
     ['自軍', `${g.alive('player').length} 人`],
@@ -960,9 +995,11 @@ export function drawScene(ctx: CanvasRenderingContext2D, g: Game, time: number, 
   // 地表は一枚に焼いてある。マスごとに塗らないので継ぎ目も格子も出ない
   ctx.drawImage(groundCanvas(g.visited, g.opened), OX, OY);
 
+  const seen = g.visible;
+  drawFog(ctx, seen);
   drawRanges(ctx, g);
   drawPath(ctx, g);
-  drawUnits(ctx, g, time);
+  drawUnits(ctx, g, time, seen);
   if (!g.result && !g.dialogue) drawCursor(ctx, g, time);
   ctx.restore();
 

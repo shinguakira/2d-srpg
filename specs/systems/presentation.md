@@ -190,17 +190,47 @@ Text is 28px, which is what FE8's 16px on a 240px-wide screen works out to at
 later-Fire-Emblem look, not this one.
 
 **Turn events run the chapters that need staging.** `ChapterDef.events` is a
-list of `{ turn, script?, spawn?, defect?, toNpc?, kill?, log? }` fired at the
-head of that turn's player phase, before the player can act. It is what lets a
-unit arrive mid-battle (Fenn on Ch4 turn 3, Nadine on Ch6 turn 4, Viviane on Ch9
-turn 3), and what makes **Halvar's nine turns** work — turn 4 hands him to the
-enemy AI as an NPC, turn 13 kills him outright. A scripted death is not a
-casualty: nothing the player does reaches him, which is the chapter.
+list of `{ turn, script?, spawn?, defect?, toNpc?, kill?, terrain?, log? }` fired
+at the head of that turn's player phase, before the player can act. It is what
+lets a unit arrive mid-battle (Fenn on Ch4 turn 3, Nadine on Ch6 turn 4, Viviane
+on Ch9 turn 3, Jorn on Ch11 turn 2, Selma on Ch13 turn 3, Aeryn on Ch18 turn 6),
+what turns Rolf on Ch18 turn 4 with `defect`, and what makes **Halvar's nine
+turns** work — turn 4 hands him to the enemy AI as an NPC, turn 13 kills him
+outright. A scripted death is not a casualty: nothing the player does reaches
+him, which is the chapter.
 
-Objectives are `seize | rout | boss | survive`, and **`guard` composes with any
-of them** — a list of ids that lose the chapter if they fall. FE's "protect X"
-is a defeat condition, not a win condition, and Ch10's Elder Ilse is one:
-an `allies` unit with mov 0 and no weapon, who costs no deployment slot.
+**`terrain` rewrites the board mid-chapter.** Ch15's blight edge climbs a row
+every other turn; Ch24's cliff road goes grey behind the party and then falls
+away entirely, and anything standing on a tile that becomes a rift is shoved
+aside if there is room and lost if there is not.
+
+Objectives are `seize | rout | boss | survive | escape | breach`, and **`guard`
+composes with any of them** — a list of ids that lose the chapter if they fall.
+FE's "protect X" is a defeat condition, not a win condition, and Ch10's Elder
+Ilse is one: an `allies` unit with mov 0 and no weapon, who costs no deployment
+slot. Ch14's Ald and Ch19's keeper are the same shape.
+
+**`escape`** puts a 脱出 command on one tile. Anyone may take it and leaves the
+board alive; **the lord taking it ends the chapter**, so the only question the
+objective asks is what order you send people out in. Ch11 and Ch23.
+
+**`breach` is Ch24 and only Ch24.** Two stages on the gate tile, both resolved at
+the end of the player phase:
+
+| | |
+|---|---|
+| 解呪 | a unit carrying light magic or a staff must hold the gate tile for `wardTurns` consecutive phases. Knocked off, or dead, and the count is zero again |
+| 破石 | after that, every player unit on the gate tile or the two beside it adds its 力 to a running total each phase. The gate opens at `breakTotal` |
+
+The split exists so the chapter cannot be solved with the units the player has
+been winning with: it wants a healer standing still in the open for three turns
+and the bruisers off the line swinging at a wall.
+
+**Fog of war** is `ChapterDef.fog`, a vision radius. Tiles no player unit can see
+are covered by a translucent sheet — the terrain stays readable, but enemies
+standing under it are not drawn at all. Forts, gates and thrones see two tiles
+further, because standing watch ought to mean something. Ch12 is the only chapter
+that uses it.
 
 **Support conversations are not chapter scripts.** They live in
 `story/supports.ts`, nineteen pairs of C/B/A, because FE's supports run on their
@@ -226,8 +256,8 @@ Before this, `game.ts` imported five constants straight out of `story/script.ts`
 and there was only ever one chapter's worth of them, so **clearing chapter 2
 played chapter 1's epilogue** — Mirelle arriving at the gate, again — and Vidar
 and Olrik both spoke Hagen's lines about his brother's village. What stays in
-`story/script.ts` is what genuinely crosses chapters: the death quotes and the
-support conversations.
+`story/script.ts` is the death quotes; the supports moved to `story/supports.ts`
+and the faces of people who only ever speak are in `story/cameo.ts`.
 
 ## There is no persistent HUD
 

@@ -27,6 +27,25 @@ const TERRAIN: Record<string, TerrainDef> = {
   A: { id: 'arena', name: '闘技場', color: '#8a6448', color2: '#9d7455', def: 0, avo: 0, cost: [1, 1, 1] },
   G: { id: 'gate', name: '門', color: '#8a6f45', color2: '#9d8052', def: 3, avo: 20, cost: [1, 1, 1], heal: 0.1 },
   T: { id: 'throne', name: '玉座', color: '#7c5f8a', color2: '#8e6f9d', def: 3, avo: 20, cost: [1, 1, 1], heal: 0.1, res: 5 },
+
+  /**
+   * 灰と裂け目と聖域。**アーク3から先の地面。**
+   *
+   * 灰は通れるが立っていられない —— 毎ターン削られ、守備も回避も下がる。
+   * 裂け目はそれが行き着いた先で、ただの穴。聖域は灰が入れない唯一の地面で、
+   * 第15章でスザの神域が持ちこたえるのも、第21章の禁足地が安全なのも同じ理屈。
+   */
+  /**
+   * 外海。**`~` の水辺と違って、誰も入れない。**
+   *
+   * 水辺は歩兵が三で渡れて飛行が越えられるので、崖道の海側に置くと道が
+   * 道でなくなる。第24章と第25章は「下がる場所が無い」ことが盤の主張なので、
+   * そこは硬い境界でなければならない。
+   */
+  o: { id: 'sea', name: '外海', color: '#1a3c66', color2: '#22497c', def: 0, avo: 0, cost: [INF, INF, INF] },
+  '#': { id: 'blight', name: '灰', color: '#6e6a62', color2: '#7c786e', def: -1, avo: -10, cost: [1, 1, 1], blight: 0.1 },
+  x: { id: 'rift', name: '深淵の裂け目', color: '#1a1220', color2: '#241a2e', def: 0, avo: 0, cost: [INF, INF, INF] },
+  H: { id: 'hallow', name: '聖域', color: '#c8bc98', color2: '#d8ccaa', def: 1, avo: 10, cost: [1, 1, 1], res: 3, hallow: true },
 };
 
 export function terrainAt(map: string[], x: number, y: number): TerrainDef {

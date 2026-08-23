@@ -24,12 +24,14 @@ import {
   createAllies,
   createEnemies,
   EVENTS,
+  FOG,
   loadChapter,
   MAP,
   MAP_H,
   MAP_W,
   OBJECTIVE,
   REINFORCEMENTS,
+  setMap,
   SHOP,
   TITLE,
   VILLAGES,
@@ -52,6 +54,9 @@ import { deathScript } from '../story/script';
 import { supportScript } from '../story/supports';
 import { decideAction } from './ai';
 import type { Pos, Stats, StatusKind, Unit, Weapon } from '../types';
+
+/** 封じの言葉に触れられる者。光魔法か杖 —— 二十四章ぶん支援に回されてきた側 */
+const canUnward = (u: Unit) => u.items.some((w) => (w.type === 'light' || w.type === 'staff') && canUse(u, w));
 
 export type Mode = 'free' | 'move' | 'menu' | 'target' | 'result' | 'status' | 'unit' | 'options' | 'roster' | 'guide';
 export type TargetKind = 'attack' | 'staff' | 'talk' | 'support' | 'trade' | 'rescue' | 'drop' | 'take' | 'steal' | 'dance';
@@ -175,6 +180,16 @@ export class Game {
   /** まだ湧いていない増援。ターンが来たら盤に置く。中断が読み書きする */
   pendingReinforcements: Reinforcement[] = [];
 
+  /**
+   * 石の洞門（`breach` の章）。**解呪してから掘る、の二段。**
+   *
+   * `ward` は光か杖の者が門のマスに立ち続けたターン数。降ろされれば 0 に戻る。
+   * `broken` は解呪後、門とその両隣に立つ者の力を自軍フェイズの終わりに足した値。
+   * 第24章の設計（specs/story/chapters/ch24.md）をそのまま数にしたもの。
+   */
+  ward = 0;
+  broken = 0;
+
   /** 中断から戻ったあとの立て直し。カメラと危険域を今の盤面に合わせる */
   resumeFromSuspend() {
     this.mode = 'free';
@@ -192,6 +207,29 @@ export class Game {
 
   /** 訪問済みの村。FE の村は一度きり */
   visited = new Set<string>();
+
+  /**
+   * 戦場の霧。**いま自軍から見えているマス。**
+   *
+   * 霧のない章では空を返して、描画側は霧なしとして扱う。視界は自軍と味方 NPC の
+   * 位置からのマンハッタン距離で、砦と門の上に立つと一段広い —— 見張りに立つ、
+   * というのがそういう意味であってほしい。
+   */
+  get visible(): Set<string> {
+    const out = new Set<string>();
+    if (!FOG) return out;
+    for (const u of this.alive('player')) {
+      if (u.carried) continue;
+      const t = terrainAt(MAP, u.x, u.y);
+      const r = FOG + (t.id === 'fort' || t.id === 'gate' || t.id === 'throne' ? 2 : 0);
+      for (let dy = -r; dy <= r; dy++) {
+        for (let dx = -r + Math.abs(dy); dx <= r - Math.abs(dy); dx++) {
+          out.add(`${u.x + dx},${u.y + dy}`);
+        }
+      }
+    }
+    return out;
+  }
 
   /** この章の目標。HUD と勝敗判定が同じものを見る */
   objective = OBJECTIVE;
@@ -418,6 +456,36 @@ export class Game {
     return !!u.isLord && this.objective.kind === 'seize' && u.x === this.objective.x && u.y === this.objective.y;
   }
 
+  /**
+   * 脱出できるか。**誰でもできて、ロードが出た時点で章が終わる。**
+   *
+   * FE の脱出と同じで、順番が全部。先に兵を逃がしてから自分が出るのか、
+   * 自分が先に出て置き去りにするのか —— その一点だけを訊く目標。
+   */
+  canEscape(u: Unit) {
+    const o = this.objective;
+    return o.kind === 'escape' && u.x === o.x && u.y === o.y && !u.npc;
+  }
+
+  private doEscape(u: Unit) {
+    u.escaped = true;
+    u.acted = true;
+    this.log(`${u.name} は脱出した`);
+    this.clearSelection();
+    this.mode = 'free';
+    const lord = u.isLord;
+    // 盤から外す。名簿の実体はそのままなので、次の章にはちゃんと出てくる
+    const left = this.alive('player').filter((p) => p !== u && !p.npc).length;
+    this.units = this.units.filter((p) => p !== u);
+    if (lord) {
+      if (left) this.log(`${left} 人が置き去りになった`);
+      this.flags.ending = true;
+      this.win();
+      return;
+    }
+    this.checkResult();
+  }
+
   villageAt(x: number, y: number) {
     if (this.visited.has(x + ',' + y)) return undefined;
     return VILLAGES.find((v) => v.x === x && v.y === y);
@@ -475,6 +543,7 @@ export class Game {
 
     const items: MenuItem[] = [];
     if (this.canSeize(u)) items.push({ id: 'seize', label: '制圧', enabled: true });
+    if (this.canEscape(u)) items.push({ id: 'escape', label: '脱出', enabled: true });
     if (this.villageAt(u.x, u.y)) items.push({ id: 'visit', label: '訪問', enabled: true });
     if (this.chestAt(u.x, u.y)) items.push({ id: 'chest', label: '宝箱', enabled: u.keys > 0, sub: `鍵${u.keys}` });
     if (this.doorNear(u)) items.push({ id: 'door', label: '扉', enabled: u.keys > 0, sub: `鍵${u.keys}` });
@@ -1247,8 +1316,51 @@ export class Game {
 
   // ---------------------------------------------------------------- phases
 
+  /**
+   * 灰の地に立っている者を削る。**魔物は削られない —— そこが自分の地面だから。**
+   *
+   * 立ち止まることを罰するだけの仕組みなので、死にはしない。1 で止める。
+   */
+  private tickBlight(u: Unit) {
+    const t = terrainAt(MAP, u.x, u.y);
+    if (!t.blight || classOf(u.classId).tags?.includes('monster')) return;
+    const dmg = Math.max(1, Math.floor(maxHp(u) * t.blight));
+    if (u.hp <= 1) return;
+    u.hp = Math.max(1, u.hp - dmg);
+    this.log(`${u.name} は灰に ${Math.min(dmg, u.hp + dmg - 1)} 削られた`);
+  }
+
+  /**
+   * 門のマスを見る。自軍フェイズの終わりに一度だけ。
+   *
+   * **解呪はミレイユかアルドの仕事で、掘るのはガレスの仕事。** 二十四章かけて
+   * 支援役として扱われてきた者にしかできない仕事と、腕力にしかできない仕事を
+   * 一つの章に並べる —— それがこの目標の全部（specs/story/chapters/ch24.md）。
+   */
+  private tickGate() {
+    const obj = this.objective;
+    if (obj.kind !== 'breach' || obj.x === undefined || obj.y === undefined) return;
+    const need = obj.wardTurns ?? 3;
+
+    if (this.ward < need) {
+      const keeper = this.alive('player').find((u) => u.x === obj.x && u.y === obj.y && canUnward(u));
+      this.ward = keeper ? this.ward + 1 : 0;
+      if (this.ward >= need) this.log('封じの言葉がほどけた。あとは石だ');
+      else if (keeper) this.log(`解呪 ${this.ward} / ${need}`);
+      return;
+    }
+
+    const total = obj.breakTotal ?? 60;
+    const diggers = this.alive('player').filter((u) => u.y === obj.y && Math.abs(u.x - obj.x!) <= 1);
+    const gain = diggers.reduce((n, u) => n + u.stats.str, 0);
+    if (!gain) return;
+    this.broken = Math.min(total, this.broken + gain);
+    this.log(`破石 ${this.broken} / ${total}`);
+  }
+
   endPlayerPhase() {
     this.clearSelection();
+    this.tickGate();
     this.phase = 'enemy';
     this.showBanner('敵軍フェイズ', '#ff8f8f');
     for (const u of this.units) {
@@ -1258,6 +1370,7 @@ export class Game {
       if (u.status?.kind === 'sleep') u.acted = true;
       const dmg = tickStatus(u);
       if (dmg > 0) this.log(`${u.name} は毒で ${dmg} 受けた`);
+      this.tickBlight(u);
     }
     // 狂戦にかかった自軍もここで動く。誰の指図も受けない
     const berserked = this.alive('player').filter((u) => u.status?.kind === 'berserk' && !u.carried);
@@ -1283,6 +1396,7 @@ export class Game {
         const heal = Math.max(1, Math.floor(maxHp(u) * t.heal));
         u.hp = Math.min(maxHp(u), u.hp + heal);
       }
+      this.tickBlight(u);
     }
     // 隣接している味方同士の友好度が上がる
     accumulateSupport(this.units);
@@ -1344,6 +1458,29 @@ export class Game {
           u.hp = 0;
         }
       }
+      if (e.terrain?.length) {
+        const rows = MAP.slice();
+        for (const t of e.terrain) {
+          if (t.y < 0 || t.y >= rows.length || t.x < 0 || t.x >= rows[t.y].length) continue;
+          rows[t.y] = rows[t.y].slice(0, t.x) + t.ch + rows[t.y].slice(t.x + 1);
+        }
+        setMap(rows);
+        // 裂け目に飲まれた者は落ちる。立ち止まったことへの罰なので、警告は二ターン前に出ている
+        for (const u of this.units) {
+          if (u.dead || terrainAt(MAP, u.x, u.y).id !== 'rift') continue;
+          const spot = this.freeNear({ x: u.x, y: u.y });
+          if (spot && terrainAt(MAP, spot.x, spot.y).id !== 'rift' && manhattan(spot, u) <= 1) {
+            u.x = spot.x;
+            u.y = spot.y;
+            u.px = spot.x;
+            u.py = spot.y;
+            continue;
+          }
+          u.dead = true;
+          u.hp = 0;
+          this.log(`${u.name} は裂け目に落ちた`);
+        }
+      }
       if (e.log) this.log(e.log);
       if (e.script) scripts.push(e.script);
     }
@@ -1356,9 +1493,12 @@ export class Game {
    * FE は自軍フェイズの頭に湧いて、その敵軍フェイズから動く。
    */
   private spawnReinforcements() {
-    const due = this.pendingReinforcements.filter((r) => r.turn <= this.turn);
+    // 引き金つきの増援は、自軍がそこへ踏み込んで初めて湧く
+    const tripped = (r: Reinforcement) => !r.when || this.alive('player').some((u) => manhattan(u, r.when!) <= r.when!.r);
+    const ready = (r: Reinforcement) => r.turn <= this.turn && tripped(r);
+    const due = this.pendingReinforcements.filter(ready);
     if (!due.length) return;
-    this.pendingReinforcements = this.pendingReinforcements.filter((r) => r.turn > this.turn);
+    this.pendingReinforcements = this.pendingReinforcements.filter((r) => !ready(r));
     let n = 0;
     for (const r of due) {
       const spot = this.freeNear(r.at);
@@ -1468,6 +1608,15 @@ export class Game {
         this.win();
         return;
       }
+    } else if (obj.kind === 'breach') {
+      // 門が開けば勝ち。敵を殺し切っても石は退かない
+      if (this.broken >= (obj.breakTotal ?? 60)) {
+        this.flags.ending = true;
+        this.win();
+        return;
+      }
+    } else if (obj.kind === 'escape') {
+      // 脱出は doEscape が決める。ここで敵の全滅を勝ちにすると道が二本になる
     } else if (obj.kind !== 'seize' && this.alive('enemy').length === 0) {
       // 制圧の章では敵を全滅させても勝ちにはならない。玉座に立つまで続く。
       this.flags.ending = true;
@@ -1748,6 +1897,10 @@ export class Game {
 
     if (item.id === 'seize') {
       this.doSeize(u);
+      return;
+    }
+    if (item.id === 'escape') {
+      this.doEscape(u);
       return;
     }
     if (item.id === 'chest') {

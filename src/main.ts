@@ -724,8 +724,10 @@ let frozen = false;
     devIndex = devList.findIndex((e) => e.script);
     screen = 'devStory';
   } else if (dev === 'maps') {
-    // 盤の閲覧。章に入らずに、組んだ盤を全部見る
-    devChapter = 0;
+    // 盤の閲覧。章に入らずに、組んだ盤を全部見る。
+    // ?ch=11 で最初からその章を開く —— 二十七枚を矢印で送るのは検証にならない
+    const ch = Number(params.get('ch') ?? 0);
+    devChapter = ch > 0 ? Math.min(SKIRMISH_INDEX, ch - 1) : 0;
     screen = 'devMaps';
   } else if (dev) {
     const pick = (name: string) => game.units.find((u) => u.name === name)!;

@@ -40,7 +40,7 @@ src/
 
   data/
     chapters.ts      The live chapter: map, objective, villages, chests, shop
-    chapters/        ch1..ch10.ts — one per chapter; common.ts is the mook table; extra.ts is the tower and skirmishes
+    chapters/        ch1..ch25.ts — one per chapter; common.ts is the mook table; extra.ts is the tower and skirmishes
     roster.ts        The player units, which outlive any one chapter
     classes.ts       Class table: weapon ranks, move type, promotion branches
     weapons.ts       Weapon table, weapon-rank thresholds, the triangle
@@ -66,8 +66,10 @@ src/
     viewport.ts      Fitting the canvas to the window; portrait rotation
 
   story/
-    script.ts        Death quotes and support conversations —— what crosses chapters
-    chapters/        ch1..ch10.ts —— one chapter's dialogue each
+    script.ts        Death quotes —— what crosses chapters
+    supports.ts      Support conversations, C/B/A, keyed by the pair
+    cameo.ts         Faces for people who speak but never stand on a board
+    chapters/        ch1..ch25.ts —— one chapter's dialogue each
     dialogue.ts      Dialogue box rendering and advance
 
   assets/
@@ -103,8 +105,9 @@ the presentation layer. Keep it true to the code; it is the reference, not a
 wish list.
 
 **`specs/story/`** is the Amagi campaign: Shigeru, Akira, Takeshi, 25 chapters.
-**Chapters 1-10 are built and playable.** Read the rest as the design target,
-never as a description of the code.
+**All twenty-five chapters are built and playable.** The specs and the code agree
+as of the Arc 3-5 build; the endings scoring pass is still the one thing the specs
+describe that the code does not do.
 
 Every place name is invented, but the island's **shape is Tsushima's** —
 `specs/story/geography.md` holds the mapping, what the real island hands the

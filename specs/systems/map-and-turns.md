@@ -26,10 +26,39 @@ The map is an array of strings and each character is a terrain. `src/data/terrai
 | `F` | 砦 fort | 2 | 20 | 1 | 1 | 1 | 20% |
 | `G` | 門 gate | 3 | 20 | 1 | 1 | 1 | 10% |
 | `T` | 玉座 throne | 3 | 20 | 1 | 1 | 1 | 10% |
+| `o` | 外海 sea | 0 | 0 | ∞ | ∞ | ∞ | |
+| `#` | 灰 blight | −1 | −10 | 1 | 1 | 1 | −10% |
+| `x` | 深淵の裂け目 rift | 0 | 0 | ∞ | ∞ | ∞ | |
+| `H` | 聖域 hallow | 1 | 10 | 1 | 1 | 1 | |
 
-Peaks and mountains stop cavalry outright. Water is wadeable at cost 3 rather
-than a flier-only lane. The **throne also adds +5 res**, which is why a boss
-sitting on one is worse for mages than the def figure suggests.
+### The Arc 3 ground
+
+The last four rows arrive with Ch11 and are what the back half of the campaign
+is built on.
+
+**`#` 灰 is walkable and unlivable.** At the start of its own team's phase every
+unit standing on it loses a tenth of its maximum HP — the mirror of a fort's
+heal, written as `TerrainDef.blight` — and takes −1 def, −10 avo while it stands
+there. It never kills: the tick stops at 1 HP, because it exists to punish
+standing still, not to remove units. **Monsters are immune** (`tags: ['monster']`),
+which is the whole point of them: it is their ground.
+
+**`x` 深淵の裂け目 is what 灰 becomes.** Impassable. Only Ch24 makes tiles turn
+into it, two turns after they turned grey, and anything still standing there
+when they do is shoved to a neighbouring tile if one is free and lost if not.
+
+**`H` 聖域 is the one floor 灰 will not cross.** No blight tick, +1 def, +10 avo,
++3 res. Ch14's shrine precinct establishes it, Ch15 uses it as the only way out
+of a burning town, Ch21 makes it the only safe footing on the board, and Ch25 is
+fought on it.
+
+**`o` 外海 is a hard boundary; `~` 水辺 is not.** Water is wadeable at cost 3 and
+fliers cross it freely, so a cliff road with `~` on the seaward side is not a
+cliff road. Ch24 and Ch25 use `o`, and both chapters' whole argument is that
+there is nowhere to step back to.
+
+Peaks and mountains stop cavalry outright. The **throne also adds +5 res**, which
+is why a boss sitting on one is worse for mages than the def figure suggests.
 
 **`_` exists for the inside of buildings and costs nothing to walk.** It is
 there for the bake, not for the rules: without it a fortress interior is plain
@@ -67,6 +96,7 @@ Commands are offered only when they apply:
 | | |
 |---|---|
 | 制圧 | the lord standing on the objective's throne |
+| 脱出 | anybody standing on an `escape` chapter's exit tile. **The lord leaving ends the chapter**, so the order is the whole question |
 | 訪問 / 宝箱 / 扉 / 武器屋 / 闘技場 | standing on (or beside, for a door) that terrain |
 | 攻撃 | some weapon in the pack reaches somebody. Choosing it opens a **weapon list** first, with how many targets each reaches |
 | 杖 | a staff with a valid target. Also a list, showing each staff's computed range |
@@ -90,6 +120,11 @@ A chapter may list `reinforcements` as `{turn, at, seed}`. They arrive at the
 start of the player phase of that turn, at the named tile or the nearest free
 one, already spent for that turn so they first move on the enemy phase that
 follows. `specs/story/chapter-scale.md` sizes them per chapter.
+
+**A wave may also carry `when: {x, y, r}`** —— then it holds until a player unit
+comes within `r` tiles of that point, and `turn` becomes a floor rather than a
+date. Turn-timed waves punish playing slowly; triggered ones punish advancing
+carelessly, and the back half of the campaign leans on the second.
 
 ## The arena
 

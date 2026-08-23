@@ -93,10 +93,27 @@ player should feel the cost of each one.
 
 ---
 
-## Arc 3-5 (planned)
+## Arc 3-5
 
 Ch11-23 bosses are Kurogane officers in provinces that are themselves going grey,
-plus blight-born monsters that get less human as the party goes west.
+plus blight-born monsters that get less human as the party goes west. **All of
+them are on their boards now.**
+
+| Ch | | |
+|---|---|---|
+| 11 | **タルグ** | A column commander retreating *south* with two hundred of the eight hundred he took in. He cannot understand why anyone would be walking the other way, and asks. |
+| 12 | — | **No boss.** The absence is the chapter: nothing on that board can be negotiated with, threatened or spared. |
+| 13 | **ヴェルダ** | Sniper captain holding the Maishi ridge. Her army left two months ago without sending her a withdrawal order, so the gorge is hers now. Thirty-four people. |
+| 14 | **ケーヴェ** | Reached the cape first and made Shigeru's argument with better manners and more gold. Ordered to put the flame out; did not ask why; says so plainly. Fourth in a row. |
+| 15 | **ハウグ** | Has thrown away the standard and is running north with three hundred of eight hundred. Not from the party. The first Kurogane officer the player watches break. |
+| 16 | **総督ハルヴィク** | Has kept the grey out of his emperor's sight for a year by not filing the reports. Not mad, holds his sword badly, and is the first enemy in the campaign who asks the party to keep going after he loses. |
+| 17 | **ドルグ** | Wants the fords. Knows the blight will not cross running water — three months of staying alive taught him — and wants the bridge anyway, because eight hundred pairs of feet get wet otherwise. |
+| 18 | **ソルグ** | Half his own officer corps has stopped fighting. He has not, because the Emperor saved his life forty years ago. He knows the argument is on the other side. He calls it 義理 and stands there. |
+| 19 | **ヴォルカー** | Sent to put the northern flame out. Did not ask why. Fifth. When Shigeru names the other four he works out for himself that nobody in the chain ever asked. |
+| 20 | — | **No boss.** Revenants and four-century-old armour; the reveal at the end is what the chapter has instead. |
+| 21 | **番人** | Four hundred years on the forbidden ground, and still able to speak — three words at a time. What he says is that his relief never came. |
+| 22 | **ゲルハルト** | Stood at the oath-taking and carried the water. His company killed King Sadao on the sand at Kodo, not Takeshi, and he says so before he dies because it is the last thing anyone can still tell Shigeru. |
+| 23 | — | **No boss.** The wall of names is the chapter. |
 
 ### Ch24 — the rearguard commander
 

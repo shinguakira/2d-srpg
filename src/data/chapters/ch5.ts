@@ -105,8 +105,8 @@ export const CH5: ChapterDef = {
     { turn: 4, at: { x: 11, y: 1 }, seed: { ...MOOK.knight(8), id: 'c5_w1', x: 11, y: 1 } as Seed },
     { turn: 4, at: { x: 10, y: 1 }, seed: { ...MOOK.soldier(8), id: 'c5_w2', x: 10, y: 1, ai: 'aggressive' } as Seed },
     { turn: 4, at: { x: 12, y: 1 }, seed: { ...MOOK.soldier(8), id: 'c5_w3', x: 12, y: 1, ai: 'aggressive' } as Seed },
-    { turn: 7, at: { x: 1, y: 13 }, seed: { ...MOOK.cavalier(9), id: 'c5_w4', x: 1, y: 13, ai: 'aggressive' } as Seed },
-    { turn: 7, at: { x: 22, y: 13 }, seed: { ...MOOK.cavalier(9), id: 'c5_w5', x: 22, y: 13, ai: 'aggressive' } as Seed },
+    { turn: 7, at: { x: 2, y: 13 }, seed: { ...MOOK.cavalier(9), id: 'c5_w4', x: 2, y: 13, ai: 'aggressive' } as Seed },
+    { turn: 7, at: { x: 21, y: 13 }, seed: { ...MOOK.cavalier(9), id: 'c5_w5', x: 21, y: 13, ai: 'aggressive' } as Seed },
     { turn: 7, at: { x: 11, y: 14 }, seed: { ...MOOK.mercenary(9), id: 'c5_w6', x: 11, y: 14, ai: 'aggressive' } as Seed },
   ],
   events: [

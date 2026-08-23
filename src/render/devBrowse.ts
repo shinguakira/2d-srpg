@@ -1,5 +1,6 @@
 import { CHAPTERS, chapterDef, loadChapter, MAP_H, MAP_W, SKIRMISH_INDEX, type ChapterDef } from '../data/chapters';
 import { build, ROSTER } from '../data/roster';
+import { classOf, MOVE_INDEX } from '../data/classes';
 import { terrainAt } from '../data/terrain';
 import { cameo } from '../story/cameo';
 import { DEFEAT } from '../story/chapters/common';
@@ -134,12 +135,16 @@ const at = (p: Pos) => `(${p.x},${p.y})`;
  */
 function problems(def: ChapterDef): string[] {
   const out: string[] = [];
-  const solid = (p: Pos) => terrainAt(def.map, p.x, p.y).cost[0] >= 99;
+  // 通れるかはクラスで違う。峰の上のガーゴイルは正しく、峰の上の狩人は事故
+  const solid = (p: Pos, classId = '') => {
+    const i = classId ? MOVE_INDEX[classOf(classId).moveType] : 0;
+    return terrainAt(def.map, p.x, p.y).cost[i] >= 99;
+  };
   const oob = (p: Pos) => p.x < 0 || p.y < 0 || p.x >= def.map[0].length || p.y >= def.map.length;
 
-  const blocked = (label: string, list: readonly Pos[]) => {
+  const blocked = (label: string, list: readonly (Pos & { classId?: string })[]) => {
     // 増援は同じ口から何波も出る。同じ座標を並べても数が増えるだけで読めない
-    const bad = [...new Set(list.filter((p) => oob(p) || solid(p)).map(at))];
+    const bad = [...new Set(list.filter((p) => oob(p) || solid(p, p.classId)).map(at))];
     if (bad.length) out.push(`${label}が通れない地形の上 ${bad.join(' ')}`);
   };
   blocked('出撃', def.starts);
@@ -147,7 +152,7 @@ function problems(def: ChapterDef): string[] {
   blocked('味方NPC', def.allies ?? []);
   blocked(
     '増援',
-    (def.reinforcements ?? []).map((r) => r.at),
+    (def.reinforcements ?? []).map((r) => ({ x: r.at.x, y: r.at.y, classId: r.seed.classId })),
   );
 
   for (const v of def.villages) if (terrainAt(def.map, v.x, v.y).id !== 'village') out.push(`村 ${at(v)} の地形が村でない`);
@@ -174,6 +179,14 @@ function problems(def: ChapterDef): string[] {
     out.push(`制圧目標 ${at({ x: o.x, y: o.y })} の地形が玉座でない`);
   }
   if (o.kind === 'boss' && !def.enemies.some((e) => e.isBoss)) out.push('ボス撃破が目標なのにボスがいない');
+  if ((o.kind === 'escape' || o.kind === 'breach') && (o.x === undefined || o.y === undefined)) {
+    out.push(`${o.kind === 'escape' ? '脱出口' : '門'}の座標が無い`);
+  }
+  if ((o.kind === 'escape' || o.kind === 'breach') && o.x !== undefined && o.y !== undefined) {
+    const p = { x: o.x, y: o.y };
+    if (oob(p) || solid(p)) out.push(`${o.kind === 'escape' ? '脱出口' : '門'} ${at(p)} が通れない地形`);
+  }
+  if (o.kind === 'survive' && !o.turns) out.push('耐える章なのにターン数が無い');
   for (const id of o.guard ?? []) {
     const here = def.allies?.some((a) => a.id === id) || def.events?.some((e) => e.spawn?.some((s) => s.seed.id === id));
     if (!here) out.push(`守れと言われている ${id} が盤に出てこない`);
@@ -191,22 +204,34 @@ export function drawBoardAudit(ctx: CanvasRenderingContext2D) {
   text(ctx, '盤の点検', 28, 36, { size: 18, color: '#ffd24a' });
   text(ctx, 'Z / X で盤の閲覧へ戻る', CANVAS_W - 28, 36, { size: 13, color: '#7f8aa5', align: 'right' });
 
-  let y = 76;
+  // 二十七枚あるので二段組み。溢れて切れると「点検した」ことにならない
+  const rows: { title: string; bad: string[] }[] = [];
   let total = 0;
   for (let i = 0; i <= SKIRMISH_INDEX; i++) {
     const def = chapterDef(i);
     const bad = problems(def);
     total += bad.length;
-    text(ctx, def.title, 28, y, { size: 14, color: bad.length ? '#ff9a9a' : '#c3cee6' });
-    if (!bad.length) {
-      text(ctx, '異常なし', 300, y, { size: 13, color: '#6f7d96' });
-      y += 22;
-      continue;
+    rows.push({ title: def.title, bad });
+  }
+  const lines = rows.reduce((n, r) => n + 1 + r.bad.length, 0);
+  const half = Math.ceil(lines / 2);
+
+  let y = 76;
+  let x = 24;
+  let drawn = 0;
+  for (const r of rows) {
+    if (x === 24 && drawn >= half) {
+      x = CANVAS_W / 2 + 8;
+      y = 76;
     }
-    y += 22;
-    for (const line of bad) {
-      text(ctx, `⚠ ${line}`, 48, y, { size: 13, color: '#ffc0c0' });
-      y += 20;
+    text(ctx, r.title, x, y, { size: 13, color: r.bad.length ? '#ff9a9a' : '#c3cee6' });
+    if (!r.bad.length) text(ctx, '異常なし', x + 250, y, { size: 12, color: '#6f7d96' });
+    y += 20;
+    drawn += 1;
+    for (const line of r.bad) {
+      text(ctx, `⚠ ${line}`, x + 16, y, { size: 12, color: '#ffc0c0' });
+      y += 18;
+      drawn += 1;
     }
   }
   text(ctx, total ? `${total} 件` : '全部の盤で異常なし', 28, CANVAS_H - 20, {
@@ -349,6 +374,9 @@ export function drawMapBrowser(ctx: CanvasRenderingContext2D, chapter: number) {
     def.events?.length ? `事件 ${def.events.length}` : '',
     def.forced?.length ? `強制 ${def.forced.map(nameOf).join('・')}` : '',
   ].filter(Boolean);
+  // 盤が窓いっぱいに広がる章があるので、下の二行には敷きを入れる
+  ctx.fillStyle = 'rgba(11,14,24,0.82)';
+  ctx.fillRect(0, CANVAS_H - 56, CANVAS_W, 56);
   text(ctx, facts.join('   '), 28, CANVAS_H - 40, { size: 13, color: '#c3cee6' });
 
   text(ctx, `${def.objective.label}${boss ? `   ボス: ${boss.name}` : ''}`, 28, CANVAS_H - 18, {

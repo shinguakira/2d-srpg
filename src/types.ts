@@ -158,6 +158,8 @@ export interface Unit {
   dead?: boolean;
   /** 味方 NPC。自軍に数えるが操作はできない（第10章のイルゼ長老） */
   npc?: boolean;
+  /** 脱出済み。生きているが盤の上にいない（`escape` の章） */
+  escaped?: boolean;
 }
 
 export interface TerrainDef {
@@ -173,6 +175,13 @@ export interface TerrainDef {
   heal?: number;
   /** 玉座だけが持つ魔防補正 */
   res?: number;
+  /**
+   * 灰の地。**ターン開始時に最大 HP のこの割合を持っていく。** `heal` の裏返し。
+   * 魔物は自分の地面なので減らない（`monster` タグ）。
+   */
+  blight?: number;
+  /** 聖域。灰が入ってこられない地面で、そこに立っているあいだ灰を受けない */
+  hallow?: boolean;
 }
 
 export interface Pos {

@@ -17,7 +17,7 @@ import { TILE } from './layout';
  */
 
 /** 地表の系統。マスの種類はこのどれかの上に乗る */
-type Family = 'grass' | 'sand' | 'dirt' | 'stone' | 'water';
+type Family = 'grass' | 'sand' | 'dirt' | 'stone' | 'water' | 'ash' | 'rift' | 'hallow';
 
 /**
  * その地形が地表として何色になるか。
@@ -34,8 +34,12 @@ const FAMILY: Record<string, Family | undefined> = {
   peak: 'grass',
   sand: 'sand',
   water: 'water',
+  sea: 'water',
   wall: 'stone',
   floor: 'stone',
+  blight: 'ash',
+  rift: 'rift',
+  hallow: 'hallow',
   // 以下は周りに従う
   village: undefined,
   shop: undefined,
@@ -58,6 +62,10 @@ const TONES: Record<Family, string[]> = {
   dirt: ['#d8c890', '#c8b878', '#c0b070', '#b0a060', '#a09858'],
   stone: ['#c0c0cc', '#b0b0c0', '#9a9aa8', '#90909e', '#86868f'],
   water: ['#3858a0', '#2c4c94', '#204088', '#1c3c80', '#183474'],
+  // 灰は色が抜けた土。裂け目は穴。聖域は日に灼けた白い石
+  ash: ['#928d83', '#847f75', '#767168', '#69645c', '#5c5851'],
+  rift: ['#2c2038', '#241a2e', '#1a1220', '#140e1a', '#0e0a12'],
+  hallow: ['#ece4cc', '#e0d6b8', '#d2c8a8', '#c4b998', '#b6ab88'],
 };
 
 /** ときどき混ざる差し色。草の黄緑や水の照り返しがこれ */
@@ -102,7 +110,11 @@ function smoothNoise(x: number, y: number, scale: number) {
 
 const isRoad = (x: number, y: number) => terrainAt(MAP, x, y).id === 'road';
 const isWall = (x: number, y: number) => terrainAt(MAP, x, y).id === 'wall';
-const isWater = (x: number, y: number) => terrainAt(MAP, x, y).id === 'water';
+// 岸の描き分けでは水辺も外海も水。片方だけ数えると崖道に岸が生えてしまう
+const isWater = (x: number, y: number) => {
+  const id = terrainAt(MAP, x, y).id;
+  return id === 'water' || id === 'sea';
+};
 
 /**
  * そのマスの地表。自分の色を持たない地形は、周りで一番多い地表を借りる。

@@ -17,7 +17,12 @@ turn 3, Fenn on Ch4 turn 3, Nadine on Ch6 turn 4, Viviane on Ch9 turn 3.
 Two exceptions, both deliberate: Bryn and Elin are simply deployable from Ch3
 and Ch5 rather than walking on mid-battle, and Gareth and Mirelle are on the
 field from the start of Ch1 even though the script has them arriving on turn 2
-and in the epilogue. Everyone from #11 down is still a design target.
+and in the epilogue.
+
+**Everyone below is in the game now.** Jorn joins on Ch11 turn 2, Selma on Ch13
+turn 3, Ald from Ch15 (he stands in the Ch14 shrine as the protect target), and
+Rolf and Aeryn both in Ch18 —— Rolf by defection on turn 4, Aeryn by arrival on
+turn 6.
 
 See [characters.md](characters.md) for writing briefs and
 [arc-structure.md](arc-structure.md) for chapter context.

@@ -59,6 +59,7 @@ src/
     text.ts          The only font stack; every drawing routine goes through it
     mapRender.ts     Map, units, cursor, ranges, windows, full-screen panels
     screens.ts       Title, world map, preparations and its sub-screens, shop, guide
+    devBrowse.ts     ?dev=story and ?dev=maps — read every script, see every board
     sprites.ts       Characters — Shigeru and Akira from sheets, the rest in code
     layout.ts        Tile size, the viewport, and the camera
     touch.ts         On-screen buttons for phones, and their hit tests

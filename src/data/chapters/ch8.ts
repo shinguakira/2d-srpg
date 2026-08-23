@@ -62,7 +62,7 @@ const WULFRAM: Seed = {
 /** 4〜9ターン、南門と東壁から毎ターン三体 */
 const WAVES: ChapterDef['reinforcements'] = [4, 5, 6, 7, 8, 9].flatMap((turn, w) => [
   { turn, at: { x: 12, y: 17 }, seed: { ...MOOK.soldier(10), id: `c8_ws${w}`, x: 12, y: 17, ai: 'aggressive' } as Seed },
-  { turn, at: { x: 22, y: 9 }, seed: { ...MOOK.cavalier(10), id: `c8_we${w}`, x: 22, y: 9, ai: 'aggressive' } as Seed },
+  { turn, at: { x: 22, y: 8 }, seed: { ...MOOK.cavalier(10), id: `c8_we${w}`, x: 22, y: 8, ai: 'aggressive' } as Seed },
   { turn, at: { x: 22, y: 12 }, seed: { ...MOOK.mercenary(10), id: `c8_wm${w}`, x: 22, y: 12, ai: 'aggressive' } as Seed },
 ]);
 

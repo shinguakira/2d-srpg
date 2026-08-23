@@ -32,12 +32,12 @@ const WALL: Seed[] = [
     { x: 19, y: 9, ai: 'guard' },
   ]),
   ...mooks('c7_a', MOOK.archer(9), [
-    { x: 3, y: 12 },
-    { x: 19, y: 12 },
+    { x: 3, y: 11 },
+    { x: 19, y: 11 },
   ]),
   ...mooks('c7_k', MOOK.knight(10), [
-    { x: 8, y: 14, ai: 'guard' },
-    { x: 14, y: 14, ai: 'guard' },
+    { x: 8, y: 13, ai: 'guard' },
+    { x: 14, y: 13, ai: 'guard' },
     { x: 11, y: 15, ai: 'guard' },
   ]),
 ];

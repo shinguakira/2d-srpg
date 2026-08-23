@@ -15,7 +15,20 @@ import { plainText as text } from './text';
  * 章の外側の画面。FE8 の順に、タイトル → ワールドマップ → 準備 → 章 と巡る。
  * 準備は 5 つの小画面に分かれる（ユニット / アイテム / 支援 / マップ確認 / セーブ）。
  */
-export type Screen = 'title' | 'worldmap' | 'prep' | 'prepUnits' | 'prepItems' | 'prepSupports' | 'prepMap' | 'shop' | 'guide';
+export type Screen =
+  | 'title'
+  | 'worldmap'
+  | 'prep'
+  | 'prepUnits'
+  | 'prepItems'
+  | 'prepSupports'
+  | 'prepMap'
+  | 'shop'
+  | 'guide'
+  // 開発用。?dev=story / ?dev=maps でだけ入る（render/devBrowse.ts）。devAudit は盤の閲覧から Z
+  | 'devStory'
+  | 'devMaps'
+  | 'devAudit';
 
 /**
  * 指で触られたときに何が起きるか。章の外の画面はキーボード専用だったので、

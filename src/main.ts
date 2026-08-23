@@ -1,7 +1,7 @@
 import { Game } from './game/game';
 import { Campaign } from './game/campaign';
 import { drawScene, hitOptionRow, hitRosterTab, hitUnitTab, menuRowH } from './render/mapRender';
-import { CANVAS_W, OX, OY, screenToTile, VIEW_H, VIEW_W } from './render/layout';
+import { CANVAS_H, CANVAS_W, OX, OY, screenToTile, VIEW_H, VIEW_W } from './render/layout';
 import { CHAPTERS, MAP_H, MAP_W, SKIRMISH_INDEX, TOWER_INDEX } from './data/chapters';
 import { cloneWeapon } from './data/weapons';
 import { CH1_SCRIPTS } from './story/chapters/ch1';
@@ -34,6 +34,8 @@ import {
   worldNodes,
   type Screen,
 } from './render/screens';
+import { devSpeaker, drawBoardAudit, drawMapBrowser, drawStoryList, storyEntries, type StoryEntry } from './render/devBrowse';
+import { DialogueScene } from './story/dialogue';
 import { flashPad, hitPad, padFor, setTouchUI, touchUI } from './render/touch';
 import { detectTouch, fitCanvas, toCanvas } from './render/viewport';
 import { loadFont } from './render/text';
@@ -54,6 +56,16 @@ let screen: Screen | 'chapter' = devParam ? 'chapter' : 'title';
 let menuIndex = 1;
 /** 準備画面のアイテムで、いま誰の荷物を見ているか */
 let prepUnit = 0;
+
+/**
+ * 開発用の閲覧。**書いた台本を通しで読み、組んだ盤を通しで見るためだけのもの。**
+ * `?dev=story` と `?dev=maps` で入る。どちらからでも X で行き来できるので、
+ * 入口はどちらか一つ覚えていればよい。ゲームの進行には一切関わらない。
+ */
+let devList: StoryEntry[] = [];
+let devIndex = 0;
+let devChapter = 0;
+let devPlaying: DialogueScene | undefined;
 let campaign = new Campaign();
 let game = new Game(campaign, !!devParam);
 
@@ -111,8 +123,52 @@ const OPTION_MID = 480;
 /** 章の外の画面のキー操作。中に入っているときは Game が受け取る */
 function screenKey(k: string) {
   const dy = k === 'ArrowDown' || k === 's' ? 1 : k === 'ArrowUp' || k === 'w' ? -1 : 0;
+  const dx = k === 'ArrowRight' || k === 'd' ? 1 : k === 'ArrowLeft' || k === 'a' ? -1 : 0;
   const ok = k === 'z' || k === 'Enter' || k === ' ';
   const back = k === 'x' || k === 'Escape' || k === 'Backspace';
+
+  // ---- 開発用の閲覧
+  if (screen === 'devStory') {
+    if (devPlaying) {
+      if (back) devPlaying = undefined;
+      else if (ok) devPlaying.advance();
+      return;
+    }
+    if (back) {
+      screen = 'devMaps';
+      return;
+    }
+    if (dy || dx) {
+      const step = dx ? dx * 10 : dy;
+      devIndex = Math.max(0, Math.min(devList.length - 1, devIndex + step));
+      // 見出しは飛ばす。読むものだけを順に当てる
+      while (devList[devIndex]?.header && devIndex + Math.sign(step || 1) >= 0 && devIndex + Math.sign(step || 1) < devList.length) {
+        devIndex += Math.sign(step || 1);
+      }
+    }
+    const script = devList[devIndex]?.script;
+    if (ok && script) devPlaying = new DialogueScene(script, devSpeaker, () => (devPlaying = undefined));
+    return;
+  }
+  if (screen === 'devMaps') {
+    // 本編のあとに塔と群れが続く。遊べる盤は全部見られる
+    const n = SKIRMISH_INDEX + 1;
+    const step = dx || dy;
+    if (step) devChapter = (devChapter + step + n) % n;
+    if (ok) screen = 'devAudit';
+    else if (back) {
+      if (!devList.length) {
+        devList = storyEntries();
+        devIndex = devList.findIndex((e) => e.script);
+      }
+      screen = 'devStory';
+    }
+    return;
+  }
+  if (screen === 'devAudit') {
+    if (ok || back) screen = 'devMaps';
+    return;
+  }
 
   if (screen === 'title') {
     const n = TITLE_ITEMS;
@@ -213,7 +269,6 @@ function screenKey(k: string) {
   }
 
   if (screen === 'prepItems') {
-    const dx = k === 'ArrowRight' || k === 'd' ? 1 : k === 'ArrowLeft' || k === 'a' ? -1 : 0;
     if (dx) {
       prepUnit = (prepUnit + dx + campaign.roster.length) % campaign.roster.length;
       menuIndex = 0;
@@ -663,7 +718,16 @@ let frozen = false;
 {
   const params = new URLSearchParams(location.search);
   const dev = params.get('dev');
-  if (dev) {
+  if (dev === 'story') {
+    // 台本の閲覧。章に入らずに、書いたものを全部読む
+    devList = storyEntries();
+    devIndex = devList.findIndex((e) => e.script);
+    screen = 'devStory';
+  } else if (dev === 'maps') {
+    // 盤の閲覧。章に入らずに、組んだ盤を全部見る
+    devChapter = 0;
+    screen = 'devMaps';
+  } else if (dev) {
     const pick = (name: string) => game.units.find((u) => u.name === name)!;
     if (dev === 'move') {
       const u = pick('ジェイガン');
@@ -790,6 +854,16 @@ function frame(now: number) {
     else if (screen === 'prepItems') drawPrepItems(ctx, campaign, prepUnit, menuIndex);
     else if (screen === 'prepSupports') drawPrepSupports(ctx, campaign, menuIndex);
     else if (screen === 'prepMap') drawPrepMap(ctx, campaign);
+    else if (screen === 'devStory') {
+      // 再生中は一覧を消す。会話の暗幕は半透明なので、下に文字が残ると読めない
+      if (devPlaying) {
+        ctx.fillStyle = '#0b0e18';
+        ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+        devPlaying.update(dt);
+        devPlaying.draw(ctx);
+      } else drawStoryList(ctx, devList, devIndex);
+    } else if (screen === 'devMaps') drawMapBrowser(ctx, devChapter);
+    else if (screen === 'devAudit') drawBoardAudit(ctx);
     else drawGuide(ctx, menuIndex);
     requestAnimationFrame(frame);
     return;

@@ -93,6 +93,8 @@ waist by a narrow channel — **the Cut** — into two countries:
 | **Kodo Beach** | Where the Sarz river meets the western sea. Flat sand between cliffs — the one place on this coast an army can land, which is why it always does. |
 | **Arn** | West coast, four miles north of Kodo, sheer cliff either side. A river, a natural sea arch, and the oldest shrine in the realm standing over the seal. |
 | **The Stone Gate** | The last headland before Arn. A gallery cut through the rock by Amagi engineers so the 347 could march an army up a two-wide cliff path — then filled and warded from the Arn side once the sealing was done. See below. |
+| **Imasa** | Asha Bay's south shore, under Shirato. The road ends here. **There is no coast road south to Arn and there never was one** —— the cliffs come down onto the water and there is nowhere on that shore to land. |
+| **Kesh** | The crossroads at the island's neck, where the east coast and the bay all but touch. Everything that crosses Amagi goes through it. |
 | **Asha Bay** | The great bay in the island's waist — a drowned maze of inlets, headlands and islets with more shoreline than the rest of the coast combined. Impossible to blockade, impossible to navigate without a local. |
 | **Kandel** | The ancient border fortress above Asha Bay's south shore. Built four centuries ago to watch the western sea; garrisoned ever since out of habit. |
 | **Shirato** | Twin-peaked holy mountain, 518m, above Asha Bay's south shore. Two bare pale crags standing out of primeval forest, **visible from most of the Lower Country**, and the northern Sacred Flame. The one landmark the player learns to check. |
@@ -104,6 +106,12 @@ forest almost everywhere, so movement is slow and cover is cheap; steep
 ground with almost no plain; a rias coastline that turns every advance into a
 peninsula problem; and cliffs up to a hundred metres on the west, which is why Arn
 and Kodo are the only two ways in from that sea.
+
+**And both of them are reached from inland.** There is no road down the west
+coast, so a party standing on Asha Bay cannot walk fifteen miles south-west to
+Arn —— it has to cross back east and come the length of the country. That single
+fact is why the campaign takes twenty chapters to cover the last fifteen miles;
+see [geography.md](geography.md#why-arn-takes-twenty-chapters).
 
 ## The Two Threats
 

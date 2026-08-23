@@ -4,10 +4,13 @@ Not implemented.
 
 ## Summary
 
-**Arc 2 opener.** A coastal harbour held by a Kurogane patrol with air cover. Two
-recruits, escalating reinforcement waves, and the news that the blight has already
-gone *past* the party in the night — every road south is cut, so turning west stops
-being a choice.
+**Arc 2 opener.** The crossroads at the island's neck, held by a Kurogane patrol
+with air cover. Two recruits, escalating reinforcement waves, and the news that
+the blight has already gone *past* the party in the night — every road south is
+cut, so turning west stops being a choice.
+
+**And then west turns out not to be a direction.** The chapter's other job is
+geography, and it is the one that sets the shape of the next eighteen chapters.
 
 ## Setup
 
@@ -53,6 +56,33 @@ most important line in the arc:
 
 Asked whether he still believes it, Halvar says he believes *Takeshi* believes it —
 *"that is the part that frightens me."*
+
+## Epilogue, second half — the road that is not there
+
+They turned west at Kandel. From Kesh the way west is down to **Imasa** on the
+bay's south shore, and from Imasa, Arn is fifteen miles south-west. Lisette has
+it plotted. Corwin, who has walked this island for twenty years for money, is the
+one who has to say it:
+
+> **There is no road. Not a bad road, not a road the grey has taken. There has
+> never been a road.** The cliffs come down onto the water for fifteen miles and
+> there is nowhere on that shore to put a boat, so nobody ever cut one.
+
+The two places you can land on that coast are Kodo and Arn, and **both are
+reached from inland.** To walk fifteen miles the company has to go back east
+through Kesh, south the length of the country, and come at the coast down the
+Sarz.
+
+Lisette does the arithmetic and gives the number out loud, and it is the number
+the player is about to spend the next four arcs on. Shigeru does not argue with
+it. **Akira is the one who names the cost** — the thing walking toward them does
+not have to take the long way.
+
+This is also the first hint of the Ch24 answer without spending it: if there is
+no road, then four hundred years ago the 347 did not walk one either. Nobody
+follows that thought yet.
+
+See [geography.md](../geography.md#why-arn-takes-twenty-chapters).
 
 ## Supports
 

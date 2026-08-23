@@ -24,19 +24,34 @@ never crosses the channel.
 ## The route
 
 The campaign is a circuit of the Lower Country that ends where the story began —
-at the western cliffs.
+at the western cliffs. **It is a circuit because it has to be:** there is no road
+down the west coast, so the fifteen miles from Asha Bay to Arn have to be walked
+the long way round, and the last four miles are behind a door.
 
 ```
-              Asha Bay ─── the Cut (7)
-             /    |    \
-       Kandel(5)  |   Kesh(6)
-          |    Shirato(9)
-       ARN(25)    |
-          |    Yatan(8) ── Ilza (falls before ch1)
-       Kodo(10)   |             |
-          \    Sarz(2) ─ Shena(3) ─ Kureha(1)
-          Uzia(13) ─ Taragi(21-23) ─ Suza(4)
+                         the Cut (7)
+                              |
+            Kandel(5) ─── Asha Bay ─── Kesh(6) ─── Ilza(16)
+                 |            |            |            |
+              Imasa ·········· Shirato(9,19)             |
+                 ╎                         \            |
+     ╔═══════════╪═══════════╗              Yatan(8)    |
+     ║  no road. never was.  ║                 |         |
+     ╚═══════════╪═══════════╝          Sarz(2,17) ─ Shena(3) ─ Kureha(1)
+                 ╎                            |
+              ARN(25)                    Uzia(11-13)
+                 |                            |
+      ═══ Stone Gate ═══ (24)           Taragi(20-23)
+                 |                            |
+              Kodo(10) ──────────────────── Suza(4,14,15)
 ```
+
+Two walls, and everything between Ch6 and Ch24 is the detour around them:
+
+- **`╎` Imasa → Arn.** Fifteen miles of cliff with nowhere to land. No road was
+  ever cut, so the company turns around at Ch6 and goes the length of the island.
+- **`═══` Kodo → Arn.** Four miles of cliff path that ends at the Stone Gate,
+  filled and warded. They reach it in Ch10 and cannot open it until Ch24.
 
 ---
 
@@ -81,8 +96,12 @@ assembled on the run down the east coast and then west across the island.
 
 ## Arc 2 — The Broken Seal (Ch6-10)
 
-- **Ch6 — The Harbour at Kesh.** Asha Bay's inner water. Boss: Captain Aeryn.
-  Joins: Corwin, Nadine. The blight has passed them; every road south is cut.
+- **Ch6 — The Harbour at Kesh.** The crossroads at the island's neck. Boss:
+  Captain Aeryn. Joins: Corwin, Nadine. The blight has passed them and every road
+  south is cut —— and then the company learns at **Imasa** that there is no road
+  west either, and never was. Arn is fifteen miles away and has to be walked at
+  from the other end of the country. **This is why the campaign is twenty-five
+  chapters** ([geography.md](geography.md#why-arn-takes-twenty-chapters)).
 - **Ch7 — What the Wall Held.** The fortress at the Cut. Survive 12 turns while
   revenants come out of the seaward wall. Optional boss: Admiral Varro.
   **Lisette's crisis chapter.**
@@ -92,8 +111,10 @@ assembled on the run down the east coast and then west across the island.
 - **Ch9 — The Empty Place.** The uncut forest under Shirato. Joins: Viviane.
 - **Ch10 — The Sands of Kodo.** The invasion beach, one arc later: village below,
   fortified hill above. Boss: Grand Magus Ezrin. A **Blackflame Colossus** spawns on
-  turn 6 and goes for Elder Ilse's chronicle. **Arc close: Takeshi appears in
-  person**, unarmed, and asks for the Flamebrand. He is refused.
+  turn 6 and goes for Elder Ilse's chronicle. Afterwards the party takes the cliff
+  road north and is stopped four miles short at the **Stone Gate** — the second
+  failed approach. **Arc close: Takeshi appears in person**, unarmed, offers to
+  carry the Flamebrand the four miles they cannot walk it, and is refused.
 
 ## Arc 3 — The Ash Road (Ch11-15)
 

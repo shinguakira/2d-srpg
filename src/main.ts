@@ -34,7 +34,8 @@ import {
   worldNodes,
   type Screen,
 } from './render/screens';
-import { devSpeaker, drawBoardAudit, drawMapBrowser, drawStoryList, storyEntries, type StoryEntry } from './render/devBrowse';
+import { devSpeaker, drawBoardAudit, drawMapBrowser, drawStoryList } from './render/devBrowse';
+import { storyEntries, type StoryEntry } from './story/browse';
 import { DialogueScene } from './story/dialogue';
 import { flashPad, hitPad, padFor, setTouchUI, touchUI } from './render/touch';
 import { detectTouch, fitCanvas, toCanvas } from './render/viewport';

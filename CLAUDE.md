@@ -24,6 +24,7 @@ column and mangles Japanese tables.
 ```
 src/
   main.ts            Entry point: canvas, input, the frame loop
+  storyPage.ts       /story.html — the whole script as a readable page (dev only)
   types.ts           Unit, Weapon, Stats, UnitClass, TerrainDef
 
   core/
@@ -59,13 +60,14 @@ src/
     text.ts          The only font stack; every drawing routine goes through it
     mapRender.ts     Map, units, cursor, ranges, windows, full-screen panels
     screens.ts       Title, world map, preparations and its sub-screens, shop, guide
-    devBrowse.ts     ?dev=story and ?dev=maps — read every script, see every board
+    devBrowse.ts     ?dev=story and ?dev=maps — play any script, see every board
     sprites.ts       Characters — Shigeru and Akira from sheets, the rest in code
     layout.ts        Tile size, the viewport, and the camera
     touch.ts         On-screen buttons for phones, and their hit tests
     viewport.ts      Fitting the canvas to the window; portrait rotation
 
   story/
+    browse.ts        Every script in reading order. Knows nothing about canvas
     script.ts        Death quotes —— what crosses chapters
     supports.ts      Support conversations, C/B/A, keyed by the pair
     cameo.ts         Faces for people who speak but never stand on a board

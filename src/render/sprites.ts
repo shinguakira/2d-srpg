@@ -705,6 +705,13 @@ function drawEye(ctx: CanvasRenderingContext2D, x: number, y: number, w: number,
 }
 
 /** 立ち絵を持つユニットを描く。まだ読み込めていなければ false を返す */
+/**
+ * その id に一枚絵があるか。**「口をきく者は全員 顔を持つ」の検算に使う。**
+ * 無ければ `drawFacePortrait` がクラス色から顔を組み立てるので、遊んでいて
+ * 気づけない —— 気づけないものは点検のほうから言わせる。
+ */
+export const hasPortrait = (id: string) => id in PORTRAIT_UNITS;
+
 function drawPortraitImage(
   ctx: CanvasRenderingContext2D,
   u: Unit,

@@ -133,7 +133,7 @@ export const CH7: ChapterDef = {
             speaker: 'ミレイユ',
             who: 'p_mirelle',
             side: 'right',
-            text: '黒炎は人を殺しません。**空ろにして、立たせ直すのです。**',
+            text: '黒炎は人を殺しません。空ろにして、立たせ直すのです。',
           },
           { speaker: 'ミレイユ', who: 'p_mirelle', side: 'right', text: '——顔を見てはいけません。全員です。いいですね。' },
         ],
@@ -152,7 +152,7 @@ export const CH7: ChapterDef = {
             speaker: 'リゼット',
             who: 'p_lisette',
             side: 'right',
-            text: '追い抜かれているのではありません。**私が何と言うかを待っています。**',
+            text: '追い抜かれているのではありません。私が何と言うかを待っています。',
           },
           {
             speaker: 'コルウィン',

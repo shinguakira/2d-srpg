@@ -2,6 +2,18 @@ import { classOf } from '../data/classes';
 import { battleWeapon, equippedWeapon } from '../battle/combat';
 import type { Unit, WeaponType } from '../types';
 import akiraPortraitUrl from '../assets/portraits/akira.png';
+import halvarPortraitUrl from '../assets/portraits/halvar.png';
+import fennPortraitUrl from '../assets/portraits/fenn.png';
+import nadinePortraitUrl from '../assets/portraits/nadine.png';
+import vivianePortraitUrl from '../assets/portraits/viviane.png';
+import braskPortraitUrl from '../assets/portraits/brask.png';
+import rodericPortraitUrl from '../assets/portraits/roderic.png';
+import aerynPortraitUrl from '../assets/portraits/aeryn.png';
+import varroPortraitUrl from '../assets/portraits/varro.png';
+import wulframPortraitUrl from '../assets/portraits/wulfram.png';
+import ezrinPortraitUrl from '../assets/portraits/ezrin.png';
+import ilsePortraitUrl from '../assets/portraits/ilse.png';
+import takeshiPortraitUrl from '../assets/portraits/takeshi.png';
 import aldPortraitUrl from '../assets/portraits/ald.png';
 import brynPortraitUrl from '../assets/portraits/bryn.png';
 import corwinPortraitUrl from '../assets/portraits/corwin.png';
@@ -332,6 +344,20 @@ const PORTRAIT_UNITS: Record<string, { url: string; cx: number; bottom: number; 
   e_boss: { url: hagenPortraitUrl, cx: 64, bottom: 128, height: 128 },
   c2_boss: { url: vidarPortraitUrl, cx: 64, bottom: 128, height: 128 },
   c3_boss: { url: olrikPortraitUrl, cx: 64, bottom: 120, height: 128 },
+  // 第4〜10章で口をきく面々。第9章の斥候隊長だけは意図的に無名なので
+  // 顔グラを持たない（specs/story/bosses.md）
+  p_halvar: { url: halvarPortraitUrl, cx: 64, bottom: 128, height: 128 },
+  p_fenn: { url: fennPortraitUrl, cx: 64, bottom: 128, height: 128 },
+  p_nadine: { url: nadinePortraitUrl, cx: 64, bottom: 128, height: 128 },
+  p_viviane: { url: vivianePortraitUrl, cx: 64, bottom: 128, height: 128 },
+  c4_boss: { url: braskPortraitUrl, cx: 64, bottom: 125, height: 128 },
+  c5_boss: { url: rodericPortraitUrl, cx: 64, bottom: 128, height: 128 },
+  c6_boss: { url: aerynPortraitUrl, cx: 64, bottom: 114, height: 128 },
+  c7_boss: { url: varroPortraitUrl, cx: 64, bottom: 128, height: 128 },
+  c8_boss: { url: wulframPortraitUrl, cx: 64, bottom: 104, height: 128 },
+  c10_boss: { url: ezrinPortraitUrl, cx: 63.5, bottom: 128, height: 128 },
+  c10_ilse: { url: ilsePortraitUrl, cx: 64, bottom: 128, height: 128 },
+  c10_takeshi: { url: takeshiPortraitUrl, cx: 63.5, bottom: 128, height: 128 },
 };
 
 const sheetImages = new Map<string, HTMLImageElement>();

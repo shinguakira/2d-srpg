@@ -202,6 +202,19 @@ of them** — a list of ids that lose the chapter if they fall. FE's "protect X"
 is a defeat condition, not a win condition, and Ch10's Elder Ilse is one:
 an `allies` unit with mov 0 and no weapon, who costs no deployment slot.
 
+**Support conversations are not chapter scripts.** They live in
+`story/supports.ts`, nineteen pairs of C/B/A, because FE's supports run on their
+own clock —— they rise when two units stand next to each other, not when a
+chapter says so. `SUPPORT_PAIRS` is also what `roster.ts` reads to give units
+their support slots, so **a pair with no conversation written accumulates
+nothing**. A unit recruited by persuasion mid-chapter gets its links wired at
+that moment (`linkSupports`), because it was not in the roster when the roster
+was built.
+
+**Nothing in a spoken line may use `**` for emphasis.** The balloon prints one
+weight and one colour, so the asterisks come out as asterisks. They are a
+spec-writing habit and they do not belong in `text`.
+
 **Every script belongs to a chapter.** `ChapterScripts` — opening, ending,
 defeat, boss conversation, and one persuade script per recruitable id — hangs off
 `ChapterDef`, and the chapter files under `story/chapters/` are the only place a
@@ -291,15 +304,25 @@ six clips —— he has no walk, so walk falls back to idle).
 
 **The dialogue portrait is not the map sprite, and it is art for the whole
 speaking cast.** `PORTRAIT_UNITS` in `sprites.ts` maps a unit id to a PNG in
-`assets/portraits/`, and everyone who says a line has one: the nine of the
-roster, and Hagen, Vidar and Olrik, the bosses of the three built chapters. The
-ten after Shigeru and Akira were generated one call each with **Shigeru's
-portrait as bitforge's `style_image`**, so the conversation reads as one artist
-rather than as a gallery. The code-drawn face is what a unit with no entry falls
-back to —— nameless enemies, villagers —— not what the cast uses.
+`assets/portraits/`, and **everyone who says a line has one** —— twenty-two of
+them: the thirteen of the roster, the nine bosses and named speakers of the ten
+built chapters, and Takeshi. All but Shigeru and Akira were generated one call
+each with **Shigeru's portrait as bitforge's `style_image`**, so the conversation
+reads as one artist rather than as a gallery. The code-drawn face is what a unit
+with no entry falls back to —— nameless enemies, villagers —— not what the cast
+uses.
+
+**Two speakers are deliberately faceless.** The Ch9 raider captain has no
+portrait and no death line because Ch9's enemies are not characters, and the
+Colossus is not a person. Everything else with a name has both.
+
+**A speaker does not have to be a unit.** `Game.speaker` looks on the board, then
+in the campaign roster, then in `story/cameo.ts` —— which exists for Takeshi, who
+walks down the hill road in Ch10 and is not a unit until Ch25. Without the third
+step the most important scene in the game plays with an empty right-hand side.
 
 The registry carries `cx`, `bottom` and `height` because the drawings do not
-fill their frames the same way. The ten share `height: 128`: they came out of
+fill their frames the same way. They share `height: 128`: they came out of
 the same 128px setup with the head in the same place, so the face size has to
 come from the frame. Scaling each to its own bounding box instead makes a
 short bust —— one that stops at the collarbone —— render half again too large.

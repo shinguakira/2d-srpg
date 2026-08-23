@@ -17,10 +17,11 @@ The other ten came later, from **`shigeru.png` handed to
 
 | | who |
 |---|---|
-| `gareth.png` `bryn.png` `lisette.png` `mirelle.png` `elin.png` `ald.png` `corwin.png` | the rest of the roster |
-| `hagen.png` `vidar.png` `olrik.png` | the bosses of chapters 1, 2 and 3 |
+| `gareth.png` `bryn.png` `lisette.png` `mirelle.png` `elin.png` `ald.png` `corwin.png` `halvar.png` `fenn.png` `nadine.png` `viviane.png` | the roster |
+| `hagen.png` `vidar.png` `olrik.png` `brask.png` `roderic.png` `aeryn.png` `varro.png` `wulfram.png` `ezrin.png` | the bosses of chapters 1-10 |
+| `ilse.png` `takeshi.png` | the Ch10 elder, and the Emperor |
 
-All ten are 128px with the head in the same place, which is why they share
+All twenty are 128px with the head in the same place, which is why they share
 `height: 128` in the registry — the face size comes from the frame, not from
 how far down each drawing happens to stop.
 
@@ -31,11 +32,23 @@ description (`FLAME RED hair, crimson red spiky hair, scarlet hair`) *and*
 blacklisting the drift in `--negative` (`lavender hair, purple hair, silver
 hair, pale hair`). The same pair of moves is what got Ald blond.
 
-Two other failures worth knowing: without `single character, centred` in the
-description and `two people, duplicate, split image` in the negative it draws
-**two of them side by side** often enough to matter, and without
-`head and shoulders fill the whole frame` plus `--coverage 100` it leaves the
-subject small with dead space under the chin.
+**It draws two of them side by side, and the cause is the framing phrase.**
+`single character, centred` in the description and `two people, duplicate,
+split image` in the negative are not enough on their own —— what actually
+triggers it is **`head and shoulders fill the whole frame` together with
+`--coverage 100`**. Asked to fill a square with one bust, the model will
+sometimes fill it with two. Say `a close bust of ONE person, nobody else in the
+picture` and leave coverage at its default, and it stops.
+
+**Officers come back in a modern peaked cap.** Anything described as a general,
+an admiral or a commander reaches for twentieth-century uniform, and putting
+`cap, peaked cap, military cap, hat` in the negative is not enough. The fix is
+positive: say **`bare headed, no headgear of any kind`** in the description.
+Vidar, Roderic and Varro all needed it.
+
+And the older the character, the harder you have to push: `very old`, an age in
+years, and `young, middle aged` in the negative, or a seventy-year-old general
+comes back at forty.
 
 Two more are kept and deliberately **not** registered:
 

@@ -36,7 +36,7 @@ import {
   type ChapterEvent,
   type Reinforcement,
 } from '../data/chapters';
-import { build } from '../data/roster';
+import { build, linkSupports } from '../data/roster';
 import type { Campaign } from './campaign';
 import { cloneWeapon } from '../data/weapons';
 import { aidOf, classOf } from '../data/classes';
@@ -47,7 +47,9 @@ import { GUIDE_COUNT } from '../data/guide';
 import { DEFAULT_OPTIONS, OPTION_ROWS, type GameOptions } from './options';
 import { DialogueScene, setTextSpeed, type ChapterScripts, type Script } from '../story/dialogue';
 import { DEFEAT } from '../story/chapters/common';
-import { deathScript, supportScript } from '../story/script';
+import { cameo } from '../story/cameo';
+import { deathScript } from '../story/script';
+import { supportScript } from '../story/supports';
 import { decideAction } from './ai';
 import type { Pos, Stats, StatusKind, Unit, Weapon } from '../types';
 
@@ -269,10 +271,13 @@ export class Game {
    *
    * 出撃枠は五人だが、幕間で口をきくのはそれより多い —— 第2章の終わりで灰を
    * 「灰降り」と呼ぶのはミレイユで、彼女が出撃していたとは限らない。盤の上に
-   * 居なければロスターから借りる。原作の幕間もそうなっている。
+   * 居なければロスターから借り、それでも居なければ `CAMEO` を見る。
+   *
+   * 三段目が要るのは**タケシ**のためで、彼は第10章に降りてくるがユニットでは
+   * ない。ここが無いと、この game で一番大事な場面で顔が出ない。
    */
   private speaker(id: string): Unit | undefined {
-    return this.byId(id) ?? this.campaign.roster.find((u) => u.id === id);
+    return this.byId(id) ?? this.campaign.roster.find((u) => u.id === id) ?? cameo(id);
   }
 
   playScript(script: Script, after?: () => void) {
@@ -1175,6 +1180,12 @@ export class Game {
         target.ai = undefined;
         target.recruitableBy = undefined;
         target.acted = true;
+        // **章が終わっても残す。** 説得した相手は campaign の名簿にいないので、
+        // ここで入れないと次の章で消える（第1章のコルウィンがそれだった）
+        if (!this.campaign.roster.some((r) => r.id === target.id)) {
+          this.campaign.roster.push(target);
+          linkSupports(this.campaign.roster);
+        }
         this.log(`${target.name} が仲間になった`);
         this.endAction(u);
       };

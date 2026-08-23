@@ -1,5 +1,5 @@
 import type { Affinity, Stats, Unit } from '../types';
-import { SUPPORT_PAIRS } from '../story/script';
+import { SUPPORT_PAIRS } from '../story/supports';
 import { cloneWeapon, WEXP_THRESHOLD } from './weapons';
 
 /** 能力値をまとめて書くための省略。順番は Stats のとおり */
@@ -287,16 +287,26 @@ export function build(seed: Seed, team: 'player' | 'enemy'): Unit {
   };
 }
 
-/** 自軍を作る。章をまたいで同じ配列を使い回す */
-export function createRoster(): Unit[] {
-  const units = ROSTER.map((s) => build(s, 'player'));
-  // 支援会話が用意されているペアだけ、支援の枠を作っておく
+/**
+ * 支援会話が用意されているペアだけ、支援の枠を作る。
+ *
+ * **説得で後から加わった者にも張り直せるように、外に出してある。** コルウィンは
+ * 第1章の敵として盤に出て、説得されて自軍になる —— ROSTER を作った時点では
+ * 隊にいないので、そのままだと誰とも友好度が溜まらない。
+ */
+export function linkSupports(units: Unit[]) {
   for (const [a, b] of SUPPORT_PAIRS) {
     const ua = units.find((u) => u.id === a);
     const ub = units.find((u) => u.id === b);
     if (!ua || !ub) continue;
-    ua.supports.push({ with: b, points: 0, rank: 0 });
-    ub.supports.push({ with: a, points: 0, rank: 0 });
+    if (!ua.supports.some((s) => s.with === b)) ua.supports.push({ with: b, points: 0, rank: 0 });
+    if (!ub.supports.some((s) => s.with === a)) ub.supports.push({ with: a, points: 0, rank: 0 });
   }
+}
+
+/** 自軍を作る。章をまたいで同じ配列を使い回す */
+export function createRoster(): Unit[] {
+  const units = ROSTER.map((s) => build(s, 'player'));
+  linkSupports(units);
   return units;
 }

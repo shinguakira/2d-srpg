@@ -37,7 +37,7 @@ See [characters.md](characters.md) for writing briefs and
 | 7 | **Bryn** | `p_bryn` ✅ | Archer | Ch3 | — | Shena huntress. Speaks in single words. |
 | 8 | **Fenn** | `p_fenn` ✅ | Thief | Ch4 | — | Suza pickpocket. Feeds people with stolen keys. |
 | 9 | **Elin** | `p_elin` ✅ | Pegasus Knight | Ch5 | — | Sky Watch rider. Sees the blight from above first. |
-| 10 | **Corwin** | `p_corwin` ✅ | Mercenary | Ch6 | — | Sellsword. The company's memento mori. |
+| 10 | **Corwin** | `p_corwin` ✅ | Mercenary | **Ch1** (persuaded) | — | Sellsword. The company's memento mori. Recruited in Ch1 rather than Ch6, so he is not in `ROSTER` —— he is a chapter-1 enemy who defects, and the persuade adds him to the campaign roster and wires his support links. |
 | 11 | **Nadine** | `p_nadine` ✅ | Troubadour | Ch6 | — | Heals both armies and will not be argued out of it. |
 | 12 | **Viviane** | `p_viviane` ✅ | Dancer | Ch9 | — | Performer. Refresh ability. Grief chapter's counterweight. |
 | 13 | *TBD* | — | Shaman | Ch11 | — | Arc 3 — dark magic that answers the blight in its own language. |

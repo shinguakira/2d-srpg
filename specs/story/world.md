@@ -36,6 +36,26 @@ themselves were laid inland, under **Taragi**, in ground no layman may walk on.
 
 For four centuries the seal held.
 
+### Two doors, not one
+
+The coast road to Arn is two men wide. An army cannot march it, so before the
+sealing the engineers cut a gallery straight through the last headland — **the
+Stone Gate** — and the 347 went up it in column.
+
+Afterwards it was filled with stone and warded, and the realm has spent four
+centuries assuming that was done to keep people away from the seal. It was not.
+**The Stone Gate is the outer door and the seal at Arn is the inner one**, and
+the ward on the fill is not a lock but a note, in the hand of somebody who was
+staying behind: *do not open this, we are still holding.*
+
+Nobody who knew that lived to say it, so the shrine songs record a gallery being
+closed for reverence. Chapter 23 is where the party learns what the oath really
+was; chapter 24 is where they have to open the outer door anyway, from the wrong
+side, to reach the inner one.
+
+Takeshi never needed it. He came alone, by sea, in under the arch at low tide.
+One man can. That is the whole reason the last approach is a chapter.
+
 ## The Inciting Event
 
 Eleven months before the campaign opens, **Takeshi**, Emperor of **Kurogane**, came
@@ -67,6 +87,7 @@ waist by a narrow channel — **the Cut** — into two countries:
 | **Sarz** | The west valley. The Sarz river rises on Yatan's north face, turns west, and runs seven miles to the sea past Shimba, Kashina and Shena. |
 | **Kodo Beach** | Where the Sarz river meets the western sea. Flat sand between cliffs — the one place on this coast an army can land, which is why it always does. |
 | **Arn** | West coast, four miles north of Kodo, sheer cliff either side. A river, a natural sea arch, and the oldest shrine in the realm standing over the seal. |
+| **The Stone Gate** | The last headland before Arn. A gallery cut through the rock by Amagi engineers so the 347 could march an army up a two-wide cliff path — then filled and warded from the Arn side once the sealing was done. See below. |
 | **Asha Bay** | The great bay in the island's waist — a drowned maze of inlets, headlands and islets with more shoreline than the rest of the coast combined. Impossible to blockade, impossible to navigate without a local. |
 | **Kandel** | The ancient border fortress above Asha Bay's south shore. Built four centuries ago to watch the western sea; garrisoned ever since out of habit. |
 | **Shirato** | Twin-peaked holy mountain, 518m, above Asha Bay's south shore. Primeval forest, and the northern Sacred Flame. |

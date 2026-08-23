@@ -112,7 +112,11 @@ in the uncut wood under Taragi.
 
 - **Ch21-23 — Taragi.** The the Dreadful Place, the forbidden ground, and the wall
   the 347 names are carved into.
-- **Ch24 — The Cliffs of Arn.** The last approach along the west coast.
+- **Ch24 — The Cliffs of Arn.** The last approach along the west coast from Kodo,
+  and the **Stone Gate** —— the gallery the 347 cut through the final headland,
+  filled and warded behind them. The party breaks it open from the outside while
+  the road behind them falls into the sea. It is the outer half of the door
+  Ch23 explains.
 - **Ch25 — Final: The Sea Gate.** The shrine above the natural arch at Arn, over the
   seal itself. Takeshi never concedes the argument; the best outcome is his choosing
   to put it down.

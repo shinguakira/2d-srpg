@@ -189,6 +189,19 @@ Text is 28px, which is what FE8's 16px on a 240px-wide screen works out to at
 960. Ours was 21px in a fixed 832px band with a name plate and cream paper — a
 later-Fire-Emblem look, not this one.
 
+**Turn events run the chapters that need staging.** `ChapterDef.events` is a
+list of `{ turn, script?, spawn?, defect?, toNpc?, kill?, log? }` fired at the
+head of that turn's player phase, before the player can act. It is what lets a
+unit arrive mid-battle (Fenn on Ch4 turn 3, Nadine on Ch6 turn 4, Viviane on Ch9
+turn 3), and what makes **Halvar's nine turns** work — turn 4 hands him to the
+enemy AI as an NPC, turn 13 kills him outright. A scripted death is not a
+casualty: nothing the player does reaches him, which is the chapter.
+
+Objectives are `seize | rout | boss | survive`, and **`guard` composes with any
+of them** — a list of ids that lose the chapter if they fall. FE's "protect X"
+is a defeat condition, not a win condition, and Ch10's Elder Ilse is one:
+an `allies` unit with mov 0 and no weapon, who costs no deployment slot.
+
 **Every script belongs to a chapter.** `ChapterScripts` — opening, ending,
 defeat, boss conversation, and one persuade script per recruitable id — hangs off
 `ChapterDef`, and the chapter files under `story/chapters/` are the only place a

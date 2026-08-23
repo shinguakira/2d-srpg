@@ -9,9 +9,15 @@ are the ids in this table, prefixed `p_`, and the `name` field is the katakana
 the game prints. Only Akira's two differ, because ジェイガン is the alias he uses
 in the campaign.
 
-Everyone from Halvar down is still a design target. Nobody's **join chapter** is
-implemented either — the whole roster deploys from chapter 1 — so Bryn and Elin
-speak in chapters they have not officially joined yet.
+**Join chapters are implemented.** `joinsAt` on the seed (0-based) keeps a unit
+out of the preparation list until the chapter after they join, and the join
+chapter itself puts them on the board with a scripted spawn — Halvar on Ch2
+turn 3, Fenn on Ch4 turn 3, Nadine on Ch6 turn 4, Viviane on Ch9 turn 3.
+
+Two exceptions, both deliberate: Bryn and Elin are simply deployable from Ch3
+and Ch5 rather than walking on mid-battle, and Gareth and Mirelle are on the
+field from the start of Ch1 even though the script has them arriving on turn 2
+and in the epilogue. Everyone from #11 down is still a design target.
 
 See [characters.md](characters.md) for writing briefs and
 [arc-structure.md](arc-structure.md) for chapter context.
@@ -27,13 +33,13 @@ See [characters.md](characters.md) for writing briefs and
 | 3 | **Lisette** | `p_lisette` ✅ | Mage | Ch1 | — | Court scholar. Tracks the blight. Crisis chapter is Ch7. |
 | 4 | **Mirelle** | `p_mirelle` ✅ | Cleric | Ch1 (epilogue) | — | Shrine maiden of Shirato. Supplies the setting's folklore. |
 | 5 | **Gareth** | `p_gareth` ✅ | Fighter | Ch1 (turn 2) | — | Woodcutter. Asks the questions the player is thinking. |
-| 6 | **Halvar** | `halvar` | Soldier | Ch2 (defects) | **Ch8 (dies)** | Kurogane sergeant. His death is the campaign's turning point. |
+| 6 | **Halvar** | `p_halvar` ✅ | Soldier | Ch2 (defects) | **Ch8 (dies)** | Kurogane sergeant. His death is the campaign's turning point. |
 | 7 | **Bryn** | `p_bryn` ✅ | Archer | Ch3 | — | Shena huntress. Speaks in single words. |
-| 8 | **Fenn** | `fenn` | Thief | Ch4 | — | Suza pickpocket. Feeds people with stolen keys. |
+| 8 | **Fenn** | `p_fenn` ✅ | Thief | Ch4 | — | Suza pickpocket. Feeds people with stolen keys. |
 | 9 | **Elin** | `p_elin` ✅ | Pegasus Knight | Ch5 | — | Sky Watch rider. Sees the blight from above first. |
 | 10 | **Corwin** | `p_corwin` ✅ | Mercenary | Ch6 | — | Sellsword. The company's memento mori. |
-| 11 | **Nadine** | `nadine` | Troubadour | Ch6 | — | Heals both armies and will not be argued out of it. |
-| 12 | **Viviane** | `viviane` | Dancer | Ch9 | — | Performer. Refresh ability. Grief chapter's counterweight. |
+| 11 | **Nadine** | `p_nadine` ✅ | Troubadour | Ch6 | — | Heals both armies and will not be argued out of it. |
+| 12 | **Viviane** | `p_viviane` ✅ | Dancer | Ch9 | — | Performer. Refresh ability. Grief chapter's counterweight. |
 | 13 | *TBD* | — | Shaman | Ch11 | — | Arc 3 — dark magic that answers the blight in its own language. |
 | 14 | *TBD* | — | Wyvern Rider | Ch13 | Conditional | Arc 3 — partially blighted. Can be saved or lost. |
 | 15 | **Ald** | `p_ald` ✅ | Monk | Ch14 | — | Arc 3 — **Suza warden** (not the Shirato keeper of Ch19). Light magic, effective on the blight's units, and the ward-reader Ch24 needs. |
@@ -51,7 +57,7 @@ See [characters.md](characters.md) for writing briefs and
 | Ch2 | 5 | `p_shigeru` |
 | Ch3 | 6 | `p_shigeru` |
 | Ch4-5 | 7 | `p_shigeru` |
-| Ch6-9 | 8 | `p_shigeru`; Ch8 also `halvar` — he must be present to hold the corridor |
+| Ch6-9 | 8 | `p_shigeru`; Ch8 also `p_halvar` — he must be present to hold the corridor |
 | Ch10 | 9 | `p_shigeru` |
 | Ch11-13 | 10 | `p_shigeru` |
 | Ch14-16 | 11 | `p_shigeru` |

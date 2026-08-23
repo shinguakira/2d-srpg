@@ -21,7 +21,9 @@ import {
   ARENA_LEVEL,
   chapterDef,
   CHESTS,
+  createAllies,
   createEnemies,
+  EVENTS,
   loadChapter,
   MAP,
   MAP_H,
@@ -31,6 +33,7 @@ import {
   SHOP,
   TITLE,
   VILLAGES,
+  type ChapterEvent,
   type Reinforcement,
 } from '../data/chapters';
 import { build } from '../data/roster';
@@ -199,6 +202,9 @@ export class Game {
    */
   private scripts: ChapterScripts;
 
+  /** まだ来ていないターン事件。自軍フェイズの頭で消化する */
+  private pendingEvents: ChapterEvent[] = [];
+
   private enemyQueue: Unit[] = [];
   private enemyTimer = 0;
   private afterBattle?: () => void;
@@ -213,7 +219,8 @@ export class Game {
   ) {
     loadChapter(campaign.chapter);
     this.scripts = chapterDef(campaign.chapter).scripts ?? {};
-    this.units = [...campaign.fielded(), ...createEnemies(build)];
+    this.units = [...campaign.fielded(), ...createAllies(build), ...createEnemies(build)];
+    this.pendingEvents = EVENTS.slice();
     this.gold = campaign.gold;
     this.objective = OBJECTIVE;
     this.options = { ...campaign.options };
@@ -1271,6 +1278,59 @@ export class Game {
     const first = this.alive('player').find((u) => !u.acted && !u.carried) ?? this.alive('player')[0];
     if (first) this.cursor = { x: first.x, y: first.y };
     if (this.options.showObjective) this.objectiveNotice = 2.2;
+    this.runEvents();
+  }
+
+  /**
+   * そのターンぶんの事件を起こす。**盤を動かしてから喋る。**
+   *
+   * 寝返り・退場・湧き・台本どおりの戦死。会話を持つものは順に流し、終わったら
+   * 勝敗を見直す —— 守る相手が台本で倒れる章があるので。
+   */
+  private runEvents() {
+    const due = this.pendingEvents.filter((e) => e.turn <= this.turn);
+    if (!due.length) return;
+    this.pendingEvents = this.pendingEvents.filter((e) => e.turn > this.turn);
+    const scripts: Script[] = [];
+    for (const e of due) {
+      if (e.defect) {
+        const u = this.byId(e.defect);
+        if (u && !u.dead) {
+          u.team = 'player';
+          u.ai = undefined;
+          u.recruitableBy = undefined;
+          u.acted = true;
+          this.log(`${u.name} が仲間になった`);
+        }
+      }
+      if (e.toNpc) {
+        const u = this.byId(e.toNpc);
+        if (u && !u.dead) {
+          u.ai = 'aggressive';
+          u.acted = true;
+        }
+      }
+      for (const sp of e.spawn ?? []) {
+        const spot = this.freeNear({ x: sp.seed.x, y: sp.seed.y });
+        if (!spot) continue;
+        const u = build({ ...sp.seed, x: spot.x, y: spot.y }, sp.team);
+        u.px = spot.x;
+        u.py = spot.y;
+        u.acted = true;
+        this.units.push(u);
+      }
+      if (e.kill) {
+        const u = this.byId(e.kill);
+        if (u && !u.dead) {
+          u.dead = true;
+          u.hp = 0;
+        }
+      }
+      if (e.log) this.log(e.log);
+      if (e.script) scripts.push(e.script);
+    }
+    if (scripts.length) this.playScripts(scripts, () => this.checkResult());
+    else this.checkResult();
   }
 
   /**
@@ -1362,9 +1422,30 @@ export class Game {
 
   checkResult() {
     if (this.result || this.flags.ending) return;
+    const obj = this.objective;
 
-    // 制圧の章では敵を全滅させても勝ちにはならない。玉座に立つまで続く。
-    if (this.objective.kind !== 'seize' && this.alive('enemy').length === 0) {
+    // 守る相手が倒れたら、その場で負け。**勝ち筋より先に見る**
+    if (obj.guard?.some((id) => this.byId(id)?.dead !== false)) {
+      this.flags.ending = true;
+      this.lose();
+      return;
+    }
+
+    if (obj.kind === 'survive') {
+      // 耐える章は敵を殺し切っても終わらない。ターンが来るまで続く
+      if (this.turn > (obj.turns ?? 12)) {
+        this.flags.ending = true;
+        this.win();
+        return;
+      }
+    } else if (obj.kind === 'boss') {
+      if (this.units.find((u) => u.isBoss)?.dead) {
+        this.flags.ending = true;
+        this.win();
+        return;
+      }
+    } else if (obj.kind !== 'seize' && this.alive('enemy').length === 0) {
+      // 制圧の章では敵を全滅させても勝ちにはならない。玉座に立つまで続く。
       this.flags.ending = true;
       this.win();
       return;
@@ -1372,13 +1453,16 @@ export class Game {
     const lord = this.units.find((u) => u.isLord);
     if (this.alive('player').length === 0 || (lord && lord.dead)) {
       this.flags.ending = true;
-      const lost = () => {
-        this.result = 'lose';
-        this.mode = 'result';
-        this.showBanner('DEFEAT', '#ff7070');
-      };
-      this.playScript(this.scripts.defeat ?? DEFEAT, lost);
+      this.lose();
     }
+  }
+
+  private lose() {
+    this.playScript(this.scripts.defeat ?? DEFEAT, () => {
+      this.result = 'lose';
+      this.mode = 'result';
+      this.showBanner('DEFEAT', '#ff7070');
+    });
   }
 
   // ---------------------------------------------------------------- update

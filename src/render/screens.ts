@@ -128,16 +128,23 @@ export interface WorldNode {
 }
 
 const CHAPTER_NODES = [
-  { x: 300, y: 430, name: 'クレハ' },
-  { x: 380, y: 320, name: 'サーズ' },
-  { x: 300, y: 210, name: 'シェナ' },
+  { x: 452, y: 470, name: 'クレハ' },
+  { x: 330, y: 430, name: 'サーズ' },
+  { x: 268, y: 372, name: 'シェナ' },
+  { x: 356, y: 508, name: 'スザ' },
+  { x: 262, y: 252, name: 'カンデル' },
+  { x: 396, y: 208, name: 'ケシュ' },
+  { x: 430, y: 132, name: '海峡' },
+  { x: 330, y: 300, name: 'ヤタン' },
+  { x: 288, y: 330, name: 'マイシ' },
+  { x: 186, y: 356, name: 'コド' },
 ];
 
 export function worldNodes(c: Campaign): WorldNode[] {
   const out: WorldNode[] = CHAPTER_NODES.map((n, i) => ({ kind: 'chapter', x: n.x, y: n.y, name: n.name, chapter: i }));
-  out.push({ kind: 'shop', x: 232, y: 366, name: '行商' });
-  if (c.cleared >= 2) out.push({ kind: 'tower', x: 350, y: 148, name: '影の塔' });
-  if (c.cleared >= 1) out.push({ kind: 'skirmish', x: 262, y: 268, name: '魔物の群れ' });
+  out.push({ kind: 'shop', x: 208, y: 208, name: '行商' });
+  if (c.cleared >= 2) out.push({ kind: 'tower', x: 470, y: 300, name: '影の塔' });
+  if (c.cleared >= 1) out.push({ kind: 'skirmish', x: 224, y: 452, name: '魔物の群れ' });
   return out;
 }
 
@@ -288,7 +295,7 @@ export function drawPrep(ctx: CanvasRenderingContext2D, c: Campaign, index: numb
     cursorRow(ctx, PREP_MENU_X, y, 260, on);
     text(ctx, label, PREP_MENU_X, y, { size: 20, color: on ? '#ffffff' : '#b9c6e6' });
   }
-  const sel = c.roster[0];
+  const sel = c.available()[0];
   if (sel) drawFacePortrait(ctx, sel, 760, CANVAS_H - 60, 320, -1);
   if (!touchUI) {
     text(ctx, '↑↓ 選ぶ  /  Z 決定  /  X 戻る', CANVAS_W / 2, CANVAS_H - 30, { size: 14, align: 'center', color: '#7d8cb0' });
@@ -314,7 +321,7 @@ export function drawPrepUnits(ctx: CanvasRenderingContext2D, c: Campaign, index:
   prepHeader(ctx, c, 'ユニット');
 
   let y = UNITS_Y;
-  for (const [i, u] of c.roster.entries()) {
+  for (const [i, u] of c.available().entries()) {
     const on = i === index;
     const out = c.deployed.includes(u.id);
     if (on) {
@@ -333,7 +340,7 @@ export function drawPrepUnits(ctx: CanvasRenderingContext2D, c: Campaign, index:
     y += UNITS_STEP;
   }
 
-  const sel = c.roster[index];
+  const sel = c.available()[index];
   if (sel) drawFacePortrait(ctx, sel, 760, CANVAS_H - 90, 300, -1);
 
   drawButtons(ctx, UNITS_BTN);
@@ -364,7 +371,7 @@ const ITEM_BTN = [sbtn('back', '戻る', 48, CANVAS_H - 84)];
 
 /** その行が何を指すか。手持ちなら 'unit'、輸送隊なら 'convoy' */
 export function prepItemRows(c: Campaign, unitIndex: number) {
-  const u = c.roster[unitIndex];
+  const u = c.available()[unitIndex];
   const rows: { kind: 'unit' | 'convoy'; i: number; name: string; uses: number }[] = [];
   if (u) for (const [i, w] of u.items.entries()) rows.push({ kind: 'unit', i, name: w.name, uses: w.uses });
   for (const [i, w] of c.convoy.entries()) rows.push({ kind: 'convoy', i, name: w.name, uses: w.uses });
@@ -373,7 +380,7 @@ export function prepItemRows(c: Campaign, unitIndex: number) {
 
 export function drawPrepItems(ctx: CanvasRenderingContext2D, c: Campaign, unitIndex: number, itemIndex: number) {
   prepHeader(ctx, c, 'アイテム');
-  const u = c.roster[unitIndex];
+  const u = c.available()[unitIndex];
   text(ctx, `◀ ${u?.name ?? '-'} ▶`, 60, 140, { size: 18, color: '#ffd24a' });
   text(ctx, `持ち物 ${u?.items.length ?? 0} / 5`, 300, 140, { size: 14, color: '#9fb0d8' });
   text(ctx, `輸送隊 ${c.convoy.length}`, 460, 140, { size: 14, color: '#9fb0d8' });
@@ -420,9 +427,9 @@ const SUP_BTN = [sbtn('back', '戻る', 48, CANVAS_H - 84)];
 /** 支援の一覧に並べる組。まだ 0 の組も出す。誰と誰が組めるかが分かるのが値打ち */
 export function supportRows(c: Campaign) {
   const rows: { a: string; b: string; rank: number; points: number }[] = [];
-  for (const u of c.roster) {
+  for (const u of c.available()) {
     for (const s of u.supports) {
-      const partner = c.roster.find((p) => p.id === s.with);
+      const partner = c.available().find((p) => p.id === s.with);
       if (!partner) continue;
       if (rows.some((r) => r.a === partner.name && r.b === u.name)) continue;
       rows.push({ a: u.name, b: partner.name, rank: s.rank, points: s.points });

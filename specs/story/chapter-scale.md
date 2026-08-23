@@ -35,9 +35,13 @@ without scrolling, and that is a property of those two chapters, not a limit.
 ## Reinforcements
 
 The engine spawns them: a chapter lists `reinforcements` as `{turn, at, seed}`
-and they arrive at the start of that turn's player phase. Ch2 and Ch3 carry the
-waves this table gives them; Ch1 has none, as listed. Everything from Ch4 on is
-still only a row here.
+and they arrive at the start of that turn's player phase. **Ch1-10 all carry the
+waves this table gives them**, give or take a body where the board wanted one
+somewhere else. Ch11 on is still only a row.
+
+Separately, `events` fires scripted things on the turn counter — arrivals,
+defections, Halvar's nine turns, the Ch10 Colossus. See
+`specs/systems/presentation.md`.
 
 ## The table
 
@@ -65,10 +69,10 @@ defence; Ch10 is the arc's set-piece.
 | Ch | Title | Size | Deploy | Enemies | Reinforcements | Objective |
 |---|---|---|---|---|---|---|
 | 6 | The Harbour at Kesh | 24×16 | 8 | 14 | 3 on turns 3 and 6 | Defeat Captain Aeryn |
-| 7 | What the Wall Held | 24×18 | 8 | 15 | 3 on turns 3, 5, 7, 9 | Survive 12 turns |
-| 8 | The Last Stand on Yatan | 26×18 | 8 | 16 | 3 per turn, turns 4-9, two edges | Defeat General Wulfram and seize |
-| 9 | The Empty Place | 24×16 | 8 | 12 | 3 on turn 6 | Rout |
-| 10 | The Sands of Kodo | 26×18 | 9 | 18 | 4 on turns 3, 6, 9 | Defeat Ezrin, protect Elder Ilse |
+| 7 | What the Wall Held | 24×19 | 8 | 15 | 3 on turns 3, 5, 7, 9 | Survive 12 turns |
+| 8 | The Last Stand on Yatan | 24×19 | 8 | 16 | 3 per turn, turns 4-9, two edges | Defeat General Wulfram and seize |
+| 9 | The Empty Place | 24×17 | 8 | 12 | 3 on turn 6 | Rout |
+| 10 | The Sands of Kodo | 24×17 | 9 | 18 | 4 on turns 3, 6, 9 | Defeat Ezrin, protect Elder Ilse |
 
 ### Arc 3 — The Ash Road
 

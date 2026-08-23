@@ -1,6 +1,6 @@
 # Chapter 5: Kandel, Above the Clouds
 
-Not implemented.
+Built. `src/data/chapters/ch5.ts` and `src/story/chapters/ch5.ts`. **The scripted terrain is not**: the turn-3 rewrite, the turn-5 Abyssal Rift and the turn-7 move are dialogue only, because nothing can rewrite terrain on a schedule yet and rifts do not exist as a tile. Elin is deployable from this chapter rather than arriving mid-battle.
 
 ## Summary
 

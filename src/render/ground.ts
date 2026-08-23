@@ -35,6 +35,7 @@ const FAMILY: Record<string, Family | undefined> = {
   sand: 'sand',
   water: 'water',
   wall: 'stone',
+  floor: 'stone',
   // 以下は周りに従う
   village: undefined,
   shop: undefined,

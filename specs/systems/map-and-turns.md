@@ -15,6 +15,7 @@ The map is an array of strings and each character is a terrain. `src/data/terrai
 | `h` | 山 mountain | 1 | 30 | 4 | ∞ | 1 | |
 | `^` | 峰 peak | 2 | 40 | ∞ | ∞ | 1 | |
 | `s` | 砂地 sand | 0 | 5 | 2 | 3 | 1 | |
+| `_` | 石床 floor | 0 | 0 | 1 | 1 | 1 | |
 | `~` | 水辺 water | 0 | 10 | 3 | ∞ | 1 | |
 | `w` | 岩壁 wall | 0 | 0 | ∞ | ∞ | ∞ | |
 | `V` | 村 village | 0 | 10 | 1 | 1 | 1 | |
@@ -29,6 +30,13 @@ The map is an array of strings and each character is a terrain. `src/data/terrai
 Peaks and mountains stop cavalry outright. Water is wadeable at cost 3 rather
 than a flier-only lane. The **throne also adds +5 res**, which is why a boss
 sitting on one is worse for mages than the def figure suggests.
+
+**`_` exists for the inside of buildings and costs nothing to walk.** It is
+there for the bake, not for the rules: without it a fortress interior is plain
+or grass and the whole board renders as a field with walls standing in it, and
+paving it with road instead makes `ground.ts` draw each tile as its own patch of
+earth — a checkerboard, which is the one thing that renderer exists to avoid.
+Ch7 and Ch8 are floored with it.
 
 **Fliers get nothing from terrain** except on forts, gates and thrones. Standing
 a pegasus in a forest buys no avoid.

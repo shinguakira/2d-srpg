@@ -18,6 +18,7 @@ const TERRAIN: Record<string, TerrainDef> = {
   w: { id: 'wall', name: '岩壁', color: '#2a2b33', color2: '#34363f', def: 0, avo: 0, cost: [INF, INF, INF] },
   '~': { id: 'water', name: '水辺', color: '#22506e', color2: '#2b6389', def: 0, avo: 10, cost: [3, INF, 1] },
   s: { id: 'sand', name: '砂地', color: '#9c8757', color2: '#ab9666', def: 0, avo: 5, cost: [2, 3, 1] },
+  _: { id: 'floor', name: '石床', color: '#59565f', color2: '#66636d', def: 0, avo: 0, cost: [1, 1, 1] },
   F: { id: 'fort', name: '砦', color: '#6d6a80', color2: '#7f7c95', def: 2, avo: 20, cost: [1, 1, 1], heal: 0.2 },
   V: { id: 'village', name: '村', color: '#7a5b3a', color2: '#8d6c47', def: 0, avo: 10, cost: [1, 1, 1] },
   D: { id: 'door', name: '扉', color: '#5a4632', color2: '#6b543c', def: 0, avo: 0, cost: [INF, INF, INF] },

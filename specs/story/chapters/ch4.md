@@ -1,6 +1,6 @@
 # Chapter 4: The Cape of Suza
 
-Not implemented.
+Built. Map, eleven raiders, three storehouses-as-villages, two chests behind doors, the shop and the dock reinforcements are in `src/data/chapters/ch4.ts`; the prologue, the boss conversation, the persuade and the epilogue in `src/story/chapters/ch4.ts`. Fenn arrives on turn 3 as a scripted spawn.
 
 ## Summary
 

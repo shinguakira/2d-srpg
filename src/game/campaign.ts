@@ -1,6 +1,6 @@
 import type { Unit, Weapon } from '../types';
 import { CHAPTERS, chapterDef, isStoryChapter, loadChapter, START_GOLD } from '../data/chapters';
-import { build, createRoster, ROSTER } from '../data/roster';
+import { build, createRoster, joinedBy, ROSTER } from '../data/roster';
 import { DEFAULT_OPTIONS, type GameOptions } from './options';
 
 const SAVE_KEY = 'srpg-save-v1';
@@ -36,17 +36,28 @@ export class Campaign {
     return chapterDef(this.chapter);
   }
 
+  /**
+   * いま出撃させられる面々。**まだ加入していない者は名簿に出ない。**
+   *
+   * 加入章は roster.ts の `joinsAt`（0 起点）。章の途中で入る者は、その章の
+   * `events` が盤に置いたうえで、次の章からここに並ぶ。
+   */
+  available(): Unit[] {
+    return this.roster.filter((u) => !u.dead && joinedBy(u.id, this.chapter));
+  }
+
   /** 出撃枠ぶんだけ上から詰める。ロードは必ず出る */
   autoDeploy() {
     const slots = this.def.deploy;
-    const lord = this.roster.find((u) => u.isLord);
-    const rest = this.roster.filter((u) => !u.isLord && !u.dead);
+    const pool = this.available();
+    const lord = pool.find((u) => u.isLord);
+    const rest = pool.filter((u) => !u.isLord);
     this.deployed = [lord?.id ?? '', ...rest.map((u) => u.id)].filter(Boolean).slice(0, slots);
   }
 
   toggle(id: string) {
     const u = this.roster.find((r) => r.id === id);
-    if (!u || u.isLord) return;
+    if (!u || u.isLord || !joinedBy(u.id, this.chapter)) return;
     const at = this.deployed.indexOf(id);
     if (at >= 0) this.deployed.splice(at, 1);
     else if (this.deployed.length < this.def.deploy) this.deployed.push(id);

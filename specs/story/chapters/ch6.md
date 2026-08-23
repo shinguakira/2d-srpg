@@ -1,6 +1,6 @@
 # Chapter 6: The Harbour at Kesh
 
-Not implemented.
+Built. `src/data/chapters/ch6.ts` and `src/story/chapters/ch6.ts`. Nadine arrives on turn 4 as a scripted spawn; Corwin was recruited back in Ch1 and is already in the company. The Imasa discovery is the second half of the epilogue.
 
 ## Summary
 

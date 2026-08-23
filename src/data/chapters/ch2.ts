@@ -209,5 +209,31 @@ export const CH2: ChapterDef = {
       },
     },
   ],
+  events: [
+    {
+      turn: 3,
+      script: CH2_SCRIPTS.recruit?.p_halvar,
+      spawn: [
+        {
+          team: 'player',
+          seed: {
+            id: 'p_halvar',
+            name: 'ハルヴァル',
+            classId: 'soldier',
+            level: 6,
+            x: 10,
+            y: 6,
+            affinity: 'ice',
+            stats: st(27, 9, 0, 7, 6, 4, 8, 2, 12, 5),
+            growth: st(85, 50, 0, 40, 35, 25, 45, 15, 0, 0),
+            weapons: ['ironLance', 'javelin'],
+            wexp: { lance: 90 },
+            potion: 1,
+          },
+        },
+      ],
+      log: 'ハルヴァル が仲間になった',
+    },
+  ],
   scripts: CH2_SCRIPTS,
 };

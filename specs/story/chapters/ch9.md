@@ -1,6 +1,6 @@
 # Chapter 9: The Empty Place
 
-Not implemented.
+Built. `src/data/chapters/ch9.ts` and `src/story/chapters/ch9.ts`. Viviane joins on turn 3. **The reduced stats are not implemented** — the company fights this chapter at full strength, which is the one thing the chapter is about.
 
 ## Summary
 

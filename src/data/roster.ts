@@ -37,6 +37,8 @@ export interface Seed {
   isLord?: boolean;
   isBoss?: boolean;
   recruitableBy?: string;
+  /** 加入する章（0 起点）。無ければ最初から居る */
+  joinsAt?: number;
 }
 
 /**
@@ -46,8 +48,10 @@ export interface Seed {
  * 分かれているのはジェイガンの都合で、彼の設計名は Akira、劇中で名乗るのは
  * ジェイガンという別名。他の面々は素直に一致する。
  *
- * 加入章は設計側にあるが（ガレスは第1章の2ターン目、ブリンは第3章…）、
- * ここは今のところ全員を最初から並べている。加入の段取りはまだ無い。
+ * **加入章は `joinsAt` に入っている**（0 起点。第3章なら 2）。campaign が
+ * それを見て、まだ加入していない者を出撃名簿から外す。章の途中で入る者は
+ * 章の `events` が盤に置く —— ハルヴァルの寝返り、フェンの登場、ヴィヴィアンの
+ * 乱入。設計は specs/story/roster.md。
  */
 export const ROSTER: Seed[] = [
   {
@@ -109,6 +113,7 @@ export const ROSTER: Seed[] = [
     weapons: ['ironBow'],
     wexp: { bow: 40 },
     potion: 1,
+    joinsAt: 2,
   },
   {
     id: 'p_lisette',
@@ -152,6 +157,7 @@ export const ROSTER: Seed[] = [
     weapons: ['ironLance', 'javelin'],
     wexp: { lance: 45 },
     potion: 1,
+    joinsAt: 4,
   },
   {
     id: 'p_ald',
@@ -166,8 +172,77 @@ export const ROSTER: Seed[] = [
     weapons: ['lightning'],
     wexp: { light: 35 },
     potion: 1,
+    joinsAt: 14,
+  },
+  {
+    id: 'p_halvar',
+    name: 'ハルヴァル',
+    classId: 'soldier',
+    level: 6,
+    x: 9,
+    y: 12,
+    affinity: 'ice',
+    stats: st(27, 9, 0, 7, 6, 4, 8, 2, 12, 5),
+    growth: st(85, 50, 0, 40, 35, 25, 45, 15, 0, 0),
+    weapons: ['ironLance', 'javelin'],
+    wexp: { lance: 90 },
+    potion: 1,
+    // 第2章で寝返り、第8章で死ぬ。どちらも章の events が動かす
+    joinsAt: 2,
+  },
+  {
+    id: 'p_fenn',
+    name: 'フェン',
+    classId: 'thief',
+    level: 3,
+    x: 9,
+    y: 12,
+    affinity: 'wind',
+    stats: st(18, 5, 0, 11, 13, 7, 3, 1, 5, 6),
+    growth: st(60, 35, 0, 60, 70, 45, 15, 20, 0, 0),
+    weapons: ['ironSword'],
+    wexp: { sword: 20 },
+    keys: 4,
+    potion: 1,
+    joinsAt: 4,
+  },
+  {
+    id: 'p_nadine',
+    name: 'ナディーヌ',
+    classId: 'troubadour',
+    level: 3,
+    x: 9,
+    y: 12,
+    affinity: 'light',
+    stats: st(17, 1, 6, 6, 9, 8, 3, 8, 5, 7),
+    growth: st(50, 10, 50, 40, 55, 55, 15, 55, 0, 0),
+    weapons: ['heal', 'physic'],
+    wexp: { staff: 110 },
+    potion: 2,
+    joinsAt: 6,
+  },
+  {
+    id: 'p_viviane',
+    name: 'ヴィヴィアン',
+    classId: 'dancer',
+    level: 2,
+    x: 9,
+    y: 12,
+    affinity: 'anima',
+    stats: st(16, 2, 2, 8, 14, 10, 2, 4, 4, 6),
+    growth: st(45, 15, 15, 50, 70, 70, 10, 35, 0, 0),
+    weapons: ['slimSword'],
+    wexp: { sword: 20 },
+    potion: 1,
+    joinsAt: 9,
   },
 ];
+
+/** その章までに加入しているか。章は 0 起点 */
+export function joinedBy(id: string, chapter: number): boolean {
+  const seed = ROSTER.find((s) => s.id === id);
+  return !seed || (seed.joinsAt ?? 0) <= chapter;
+}
 
 export function build(seed: Seed, team: 'player' | 'enemy'): Unit {
   const items = seed.weapons.map(cloneWeapon);

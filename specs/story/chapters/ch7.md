@@ -1,6 +1,6 @@
 # Chapter 7: What the Wall Held
 
-Not implemented.
+Built. `src/data/chapters/ch7.ts` and `src/story/chapters/ch7.ts`. A `survive` objective — twelve turns, and killing everything does not end it. Varro sits on the throne and is optional; he drops nothing, because there is no drop system.
 
 ## Summary
 

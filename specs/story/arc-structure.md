@@ -1,6 +1,6 @@
 # Arc Structure — 25 Chapters
 
-Five arcs of five chapters, all of them in the **Lower Country** of Amagi. The
+**Chapters 1-10 are built and playable.** Five arcs of five chapters, all of them in the **Lower Country** of Amagi. The
 campaign runs two clocks: the **war** with Kurogane (fast, chapter-scale, winnable)
 and the **blight** creeping inland from the broken seal at **Arn** on the west coast
 (slow, campaign-scale, not winnable by fighting). Arc 1 is the first. Arc 2 is

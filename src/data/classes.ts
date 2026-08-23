@@ -96,6 +96,17 @@ const CLASSES: Record<string, UnitClass> = {
     accent: '#ffd8e8',
     dance: true,
   },
+  /** 騎馬の杖。歩きの僧より届く範囲が広く、そのぶん打たれ弱い */
+  troubadour: {
+    id: 'troubadour',
+    name: 'トルバドール',
+    moveType: 'mounted',
+    ranks: { staff: 'A' },
+    color: '#c98fb0',
+    accent: '#ffe6f2',
+    promotion: { item: 'masterSeal', options: ['valkyrie', 'mageKnight'] },
+    promoGain: { hp: 3, mag: 2, skl: 2, spd: 2, def: 3, res: 2, con: 1 },
+  },
   pegasus: {
     id: 'pegasus',
     name: 'ペガサスナイト',
@@ -315,6 +326,21 @@ const CLASSES: Record<string, UnitClass> = {
     color: '#4a5560',
     accent: '#cfd8e4',
     tags: ['monster', 'flier'],
+  },
+  /**
+   * 黒炎の巨兵。**屍兵とは別物で、元は一人ではない。** 複数から組み上げられて
+   * いる、というのが第10章でリゼットが言う区別（specs/story/chapters/ch10.md）。
+   * 硬く、遅く、狙いを変えない。
+   */
+  colossus: {
+    id: 'colossus',
+    name: '巨兵',
+    moveType: 'foot',
+    ranks: { monster: 'A' },
+    color: '#3a3340',
+    accent: '#9c8fb0',
+    tags: ['monster', 'armor'],
+    promoted: true,
   },
 };
 

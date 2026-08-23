@@ -1,6 +1,6 @@
 # Chapter 8: The Last Stand on Yatan
 
-Not implemented.
+Built. `src/data/chapters/ch8.ts` and `src/story/chapters/ch8.ts`. **The nine turns are on the turn counter and nothing the player does changes them**: turn 4 takes Halvar out of the player's hands, turn 13 kills him. Not a casualty — a scripted death, so no healing and no rescue reaches him.
 
 **Halvar dies here.** This
 is the campaign's turning point and the chapter everything before it is building

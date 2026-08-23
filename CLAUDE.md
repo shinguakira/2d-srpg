@@ -87,9 +87,9 @@ in battle everyone else is drawn in code by `sprites.ts`, inherited from the
 PoC. That is not a licence to add more: see `AGENTS.md`.
 
 **Dialogue portraits are a separate set, and they are art for everyone who
-speaks.** `assets/portraits/` holds one per unit; the ten that are not
-Shigeru's or Akira's were generated from Shigeru's portrait as a style image,
-so the conversation cast is one artist's hand. What is drawn in code is the
+speaks.** `assets/portraits/` holds one per unit; everything that is not Shigeru's or
+Akira's was generated from Shigeru's portrait as a style image, so the whole
+conversation cast —— forty speakers by the end —— is one artist's hand. What is drawn in code is the
 fallback for units without an entry. `assets/portraits/README.md` has the
 recipe and the three ways it goes wrong.
 

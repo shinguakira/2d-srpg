@@ -21,7 +21,20 @@ The other ten came later, from **`shigeru.png` handed to
 | `hagen.png` `vidar.png` `olrik.png` `brask.png` `roderic.png` `aeryn.png` `varro.png` `wulfram.png` `ezrin.png` | the bosses of chapters 1-10 |
 | `ilse.png` `takeshi.png` | the Ch10 elder, and the Emperor |
 
-All twenty are 128px with the head in the same place, which is why they share
+Fourteen more came the same way with Arcs 3-5:
+
+| | who |
+|---|---|
+| `jorn.png` `selma.png` `rolf.png` | the shaman, the wyvern rider and the armour knight who defects |
+| `targ.png` `verda.png` `keve.png` `haug.png` `halvik.png` `dorg.png` `sorg.png` `volker.png` `gerhard.png` `rear.png` | the bosses of chapters 11-24 |
+| `keeper.png` `warden.png` | the Shirato keeper, and the thing still on watch under Taragi |
+
+**Two people get one drawing each.** `c25_boss` is `takeshi.png`, the same face
+the Emperor wears in Ch10, and `p_aeryn` is `aeryn.png`, the same face she wore
+as the Ch6 boss. Commissioning a second portrait of a character you already have
+gets you a different person wearing their name.
+
+All of them are 128px with the head in the same place, which is why they share
 `height: 128` in the registry — the face size comes from the frame, not from
 how far down each drawing happens to stop.
 
@@ -49,6 +62,23 @@ Vidar, Roderic and Varro all needed it.
 And the older the character, the harder you have to push: `very old`, an age in
 years, and `young, middle aged` in the negative, or a seventy-year-old general
 comes back at forty.
+
+**Describing the body is what summons the second person.** The Arc 3-5 batch put
+fourteen through the same prompt shape, and the four that came back as two heads
+were the four that described a build — `a big man`, `a squat powerful man`,
+`thickset`. Say what the *face* looks like and stop there; the model has been
+asked for a bust and will draw a bust, but asked about a body it sometimes
+reaches for a whole small figure to put one on.
+
+**And saying more about the framing makes it worse, not better.** Adding `only
+one head in the picture, a single face` to four prompts turned three of them
+from one head into two. The wording that works is the plain one at the top —
+`a close bust of ONE person, nobody else in the picture` — and past that it is a
+sampling lottery. Re-roll rather than argue.
+
+**`--detail` with a value crashes the tool.** `--detail "high detail"` and
+`--detail high-detail` both take the node process down with a libuv assertion
+before the request lands. Leave it off.
 
 Two more are kept and deliberately **not** registered:
 

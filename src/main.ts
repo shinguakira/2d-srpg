@@ -719,9 +719,11 @@ let frozen = false;
   const params = new URLSearchParams(location.search);
   const dev = params.get('dev');
   if (dev === 'story') {
-    // 台本の閲覧。章に入らずに、書いたものを全部読む
+    // 台本の閲覧。章に入らずに、書いたものを全部読む。
+    // ?s=40 でその行から開く —— 百三十行を矢印で送るのは検証にならない
     devList = storyEntries();
-    devIndex = devList.findIndex((e) => e.script);
+    const s = Number(params.get('s') ?? 0);
+    devIndex = s > 0 ? Math.min(devList.length - 1, s - 1) : devList.findIndex((e) => e.script);
     screen = 'devStory';
   } else if (dev === 'maps') {
     // 盤の閲覧。章に入らずに、組んだ盤を全部見る。

@@ -334,17 +334,25 @@ six clips —— he has no walk, so walk falls back to idle).
 
 **The dialogue portrait is not the map sprite, and it is art for the whole
 speaking cast.** `PORTRAIT_UNITS` in `sprites.ts` maps a unit id to a PNG in
-`assets/portraits/`, and **everyone who says a line has one** —— twenty-two of
-them: the thirteen of the roster, the nine bosses and named speakers of the ten
-built chapters, and Takeshi. All but Shigeru and Akira were generated one call
-each with **Shigeru's portrait as bitforge's `style_image`**, so the conversation
-reads as one artist rather than as a gallery. The code-drawn face is what a unit
-with no entry falls back to —— nameless enemies, villagers —— not what the cast
-uses.
+`assets/portraits/`, and **everyone who says a line has one** —— forty of them:
+the sixteen of the roster, the named bosses of twenty-three chapters, and the
+handful of people who speak without ever holding a weapon. All but Shigeru and
+Akira were generated one call each with **Shigeru's portrait as bitforge's
+`style_image`**, so the conversation reads as one artist rather than as a
+gallery. The code-drawn face is what a unit with no entry falls back to ——
+nameless enemies, villagers —— not what the cast uses.
+
+**Two ids share one drawing where they are one person.** `c25_boss` uses
+Takeshi's Ch10 portrait and `p_aeryn` uses her Ch6 one. A second commission for
+a face that already exists comes back as somebody else with the same name.
 
 **Two speakers are deliberately faceless.** The Ch9 raider captain has no
 portrait and no death line because Ch9's enemies are not characters, and the
-Colossus is not a person. Everything else with a name has both.
+Colossus is not a person. Everything else with a name has both, including the
+Ch24 rearguard commander, who has a rank instead of a name but is a character.
+
+Ch12, Ch20 and Ch23 have **no boss at all**, which is a different kind of
+absence: nothing on those boards can be talked to, threatened or spared.
 
 **A speaker does not have to be a unit.** `Game.speaker` looks on the board, then
 in the campaign roster, then in `story/cameo.ts` —— which exists for Takeshi, who

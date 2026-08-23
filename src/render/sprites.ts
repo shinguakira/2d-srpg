@@ -25,6 +25,22 @@ import mirellePortraitUrl from '../assets/portraits/mirelle.png';
 import olrikPortraitUrl from '../assets/portraits/olrik.png';
 import shigeruPortraitUrl from '../assets/portraits/shigeru.png';
 import vidarPortraitUrl from '../assets/portraits/vidar.png';
+// アーク3〜5で口をきく面々。同じ手順（シゲルの一枚を style_image に）で起こした
+import jornPortraitUrl from '../assets/portraits/jorn.png';
+import selmaPortraitUrl from '../assets/portraits/selma.png';
+import rolfPortraitUrl from '../assets/portraits/rolf.png';
+import targPortraitUrl from '../assets/portraits/targ.png';
+import verdaPortraitUrl from '../assets/portraits/verda.png';
+import kevePortraitUrl from '../assets/portraits/keve.png';
+import haugPortraitUrl from '../assets/portraits/haug.png';
+import halvikPortraitUrl from '../assets/portraits/halvik.png';
+import dorgPortraitUrl from '../assets/portraits/dorg.png';
+import sorgPortraitUrl from '../assets/portraits/sorg.png';
+import volkerPortraitUrl from '../assets/portraits/volker.png';
+import keeperPortraitUrl from '../assets/portraits/keeper.png';
+import wardenPortraitUrl from '../assets/portraits/warden.png';
+import gerhardPortraitUrl from '../assets/portraits/gerhard.png';
+import rearPortraitUrl from '../assets/portraits/rear.png';
 import akiraSheetUrl from '../assets/sprites/akira-sheet.png';
 import shigeruSheetUrl from '../assets/sprites/shigeru-sheet.png';
 
@@ -358,6 +374,26 @@ const PORTRAIT_UNITS: Record<string, { url: string; cx: number; bottom: number; 
   c10_boss: { url: ezrinPortraitUrl, cx: 63.5, bottom: 128, height: 128 },
   c10_ilse: { url: ilsePortraitUrl, cx: 64, bottom: 128, height: 128 },
   c10_takeshi: { url: takeshiPortraitUrl, cx: 63.5, bottom: 128, height: 128 },
+
+  // アーク3〜5。加入する四人と、各章のボス。**第25章のタケシは第10章と同じ絵**で、
+  // エイリンも第6章と同じ —— 同じ人物に二枚描かせると別人になる
+  p_jorn: { url: jornPortraitUrl, cx: 63.5, bottom: 122, height: 128 },
+  p_selma: { url: selmaPortraitUrl, cx: 63.5, bottom: 124, height: 128 },
+  p_rolf: { url: rolfPortraitUrl, cx: 64, bottom: 128, height: 128 },
+  p_aeryn: { url: aerynPortraitUrl, cx: 64, bottom: 114, height: 128 },
+  c11_boss: { url: targPortraitUrl, cx: 64, bottom: 128, height: 128 },
+  c13_boss: { url: verdaPortraitUrl, cx: 64, bottom: 106, height: 128 },
+  c14_boss: { url: kevePortraitUrl, cx: 64.5, bottom: 115, height: 128 },
+  c15_boss: { url: haugPortraitUrl, cx: 64, bottom: 128, height: 128 },
+  c16_boss: { url: halvikPortraitUrl, cx: 64.5, bottom: 128, height: 128 },
+  c17_boss: { url: dorgPortraitUrl, cx: 64, bottom: 128, height: 128 },
+  c18_boss: { url: sorgPortraitUrl, cx: 64, bottom: 120, height: 128 },
+  c19_boss: { url: volkerPortraitUrl, cx: 61, bottom: 123, height: 128 },
+  c19_keeper: { url: keeperPortraitUrl, cx: 60, bottom: 128, height: 128 },
+  c21_boss: { url: wardenPortraitUrl, cx: 64, bottom: 128, height: 128 },
+  c22_boss: { url: gerhardPortraitUrl, cx: 64, bottom: 128, height: 128 },
+  c24_boss: { url: rearPortraitUrl, cx: 64, bottom: 114, height: 128 },
+  c25_boss: { url: takeshiPortraitUrl, cx: 63.5, bottom: 128, height: 128 },
 };
 
 const sheetImages = new Map<string, HTMLImageElement>();

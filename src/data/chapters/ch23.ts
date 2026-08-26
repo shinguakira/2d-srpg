@@ -135,9 +135,10 @@ export const CH23: ChapterDef = {
       script: {
         id: 'ch23_t4',
         lines: [
-          { text: '広間の壁に、上から下まで名前が彫ってあった。十七人ずつ、二十行と、端数が七。' },
-          { speaker: 'ミレイユ', who: 'p_mirelle', side: 'right', text: '……当番表です。' },
-          { speaker: 'ヨルン', who: 'p_jorn', side: 'right', text: 'なら、いま当番なのは誰だ。' },
+          // 前口上でミレイユが「当番表です」と言い切っているので、ここは
+          // 見つけ直さない。表の続きを見つけて、その先を訊く
+          { text: '奥の広間にも、同じ表があった。最後の一行だけ、名前が彫られずに空けてある。' },
+          { speaker: 'ヨルン', who: 'p_jorn', side: 'right', text: '……ここが空いてる。なら、いま当番なのは誰だ。' },
           { speaker: 'ミレイユ', who: 'p_mirelle', side: 'right', text: '……全員です。四百年、ずっと。' },
         ],
       },

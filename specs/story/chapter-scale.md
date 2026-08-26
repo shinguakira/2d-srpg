@@ -35,11 +35,15 @@ without scrolling, and that is a property of those two chapters, not a limit.
 ## Reinforcements
 
 The engine spawns them: a chapter lists `reinforcements` as `{turn, at, seed}`
-and they arrive at the start of that turn's player phase. **Ch1-10 all carry the
-waves this table gives them**, give or take a body where the board wanted one
-somewhere else. **Ch11-25 carry them too**, allowing for the boards being narrower
-than the table assumed —— Ch24 in particular is a four-wide ledge and could not
-hold thirty standing enemies, so it leans on its four triggers instead.
+and they arrive at the start of that turn's player phase. Adding `when: {x, y, r}`
+makes a wave **triggered** — it waits until a player unit comes within `r` of that
+point, and `turn` becomes a floor rather than a date.
+
+**Every chapter carries the waves this table gives it**, give or take a body
+where the board wanted one somewhere else, and allowing for the later boards
+coming out narrower than the table assumed — Ch24 in particular is a four-wide
+ledge and could not hold thirty standing enemies, so it leans on its four
+triggers instead.
 
 Separately, `events` fires scripted things on the turn counter — arrivals,
 defections, Halvar's nine turns, the Ch10 Colossus. See

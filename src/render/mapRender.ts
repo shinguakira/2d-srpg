@@ -538,16 +538,16 @@ function drawForecast(ctx: CanvasRenderingContext2D, g: Game) {
  * オプションの「目標表示」を切ると出なくなる。
  */
 /**
- * 石の洞門の進み具合。`breach` の章にしか出ない。
+ * 岩山を抜く進み具合。`breach` の章にしか出ない。
  *
  * 第24章には残りターンの表示が無い（道が減っていくのがそれ）。代わりに要るのは
- * 「あと何ターン唱えるのか」「あと何回叩けば開くのか」で、それはこの一行。
+ * 「あと何ターン石を読むのか」「あと何回叩けば抜けるのか」で、それはこの一行。
  */
 function gateLine(g: Game): string | undefined {
   const o = g.objective;
   if (o.kind !== 'breach') return undefined;
-  const need = o.wardTurns ?? 3;
-  if (g.ward < need) return `解呪 ${g.ward} / ${need}`;
+  const need = o.seamTurns ?? 3;
+  if (g.seam < need) return `見立て ${g.seam} / ${need}`;
   return `破石 ${g.broken} / ${o.breakTotal ?? 60}`;
 }
 
@@ -746,7 +746,7 @@ function drawStatus(ctx: CanvasRenderingContext2D, g: Game) {
   const rows: [string, string][] = [
     ['章', TITLE],
     ['目標', g.objective.label],
-    ...((gateLine(g) ? [['石の洞門', gateLine(g)!]] : []) as [string, string][]),
+    ...((gateLine(g) ? [['岩を抜く', gateLine(g)!]] : []) as [string, string][]),
     ['敗北条件', `${lord?.name ?? 'ロード'}の死亡`],
     ['ターン', String(g.turn)],
     ['自軍', `${g.alive('player').length} 人`],

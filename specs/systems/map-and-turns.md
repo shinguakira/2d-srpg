@@ -30,10 +30,11 @@ The map is an array of strings and each character is a terrain. `src/data/terrai
 | `#` | 灰 blight | −1 | −10 | 1 | 1 | 1 | −10% |
 | `x` | 深淵の裂け目 rift | 0 | 0 | ∞ | ∞ | ∞ | |
 | `H` | 聖域 hallow | 1 | 10 | 1 | 1 | 1 | |
+| `R` | 岩の面 face | 0 | 0 | 1 | 1 | 1 | |
 
 ### The Arc 3 ground
 
-The last four rows arrive with Ch11 and are what the back half of the campaign
+The last five rows arrive with Ch11 and are what the back half of the campaign
 is built on.
 
 **`#` 灰 is walkable and unlivable.** At the start of its own team's phase every
@@ -51,6 +52,11 @@ when they do is shoved to a neighbouring tile if one is free and lost if not.
 +3 res. Ch14's shrine precinct establishes it, Ch15 uses it as the only way out
 of a burning town, Ch21 makes it the only safe footing on the board, and Ch25 is
 fought on it.
+
+**`R` 岩の面 is a place to stand against rock, and nothing else.** No bonus, no
+penalty, no history —— it marks the working face in Ch24 so the player can see
+where to put people. It is deliberately not a gate: there is nothing there until
+the party cuts one.
 
 **`o` 外海 is a hard boundary; `~` 水辺 is not.** Water is wadeable at cost 3 and
 fliers cross it freely, so a cliff road with `~` on the seaward side is not a

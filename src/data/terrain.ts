@@ -45,6 +45,11 @@ const TERRAIN: Record<string, TerrainDef> = {
   o: { id: 'sea', name: '外海', color: '#1a3c66', color2: '#22497c', def: 0, avo: 0, cost: [INF, INF, INF] },
   '#': { id: 'blight', name: '灰', color: '#6e6a62', color2: '#7c786e', def: -1, avo: -10, cost: [1, 1, 1], blight: 0.1 },
   x: { id: 'rift', name: '深淵の裂け目', color: '#1a1220', color2: '#241a2e', def: 0, avo: 0, cost: [INF, INF, INF] },
+  /**
+   * 岩の面。**第24章で取りつく場所。** 門ではない —— そこはただの岩で、
+   * 抜けるのは掘ったあと。歩けるのは足場のぶんだけで、地形の得も損も無い。
+   */
+  R: { id: 'face', name: '岩の面', color: '#6a6560', color2: '#79736c', def: 0, avo: 0, cost: [1, 1, 1] },
   H: { id: 'hallow', name: '聖域', color: '#c8bc98', color2: '#d8ccaa', def: 1, avo: 10, cost: [1, 1, 1], res: 3, hallow: true },
 };
 

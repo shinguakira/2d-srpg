@@ -41,22 +41,27 @@ themselves were laid inland, under **Taragi**, in ground no layman may walk on.
 
 For four centuries the seal held.
 
-### Two doors, not one
+### How anyone ever got to Arn
 
-The coast road to Arn is two men wide. An army cannot march it, so before the
-sealing the engineers cut a gallery straight through the last headland — **the
-Stone Gate** — and the 347 went up it in column.
+**By sea.** Arn's river mouth is one of only two places on that coast where a
+hull can be brought in, and four centuries ago there were hulls. The 347 sailed;
+so did everyone who tended the shrine afterwards, while there was anyone left to
+tend it.
 
-Afterwards it was filled with stone and warded, and the realm has spent four
-centuries assuming that was done to keep people away from the seal. It was not.
-**The Stone Gate is the outer door and the seal at Arn is the inner one**, and
-the ward on the fill is not a lock but a note, in the hand of somebody who was
-staying behind: *do not open this, we are still holding.*
+The coast road from Kodo is two men wide and it does not reach. Six kilometres
+north it runs into the spine of the mountain, which goes into the sea, and that
+is the end of it. **Nobody has ever cut through that headland**, because nobody
+has ever needed to move more than one person past it, and one person can wade
+under the sea arch at low tide.
 
-Nobody who knew that lived to say it, so the shrine songs record a gallery being
-closed for reverence. Chapter 23 is where the party learns what the oath really
-was; chapter 24 is where they have to open the outer door anyway, from the wrong
-side, to reach the inner one.
+That is how Takeshi went in, alone, and it is the reason he never posts a guard
+on the rock. There is nothing there to guard. There is a mountain.
+
+**Chapter 24 is where that stops being true.** The party has no ships, the road
+is falling in behind them, and sixteen people in armour cannot go under the arch.
+So they cut a hole through the headland in a day, and afterwards it has a name:
+**洞門**, the cave gate. It is the newest thing in the setting and the only piece
+of the world this company made.
 
 Takeshi never needed it. He came alone, by sea, in under the arch at low tide.
 One man can. That is the whole reason the last approach is a chapter.
@@ -93,7 +98,7 @@ waist by a narrow channel — **the Cut** — into two countries:
 | **Sarz** | The west valley. The Sarz river rises on Yatan's north face, turns west, and runs eleven kilometres to the sea past Shimba, Kashina and Shena. |
 | **Kodo Beach** | Where the Sarz river meets the western sea. Flat sand between cliffs — the one place on this coast an army can land, which is why it always does. |
 | **Arn** | West coast, six kilometres north of Kodo, sheer cliff either side. A river, a natural sea arch, and the oldest shrine in the realm standing over the seal. |
-| **The Stone Gate** | The last headland before Arn. A gallery cut through the rock by Amagi engineers so the 347 could march an army up a two-wide cliff path — then filled and warded from the Arn side once the sealing was done. See below. |
+| **The last headland** | Where the Kodo coast road ends, six kilometres north. The mountain spine runs into the sea and the path stops. Unmarked, uncut, unsealed —— simply rock. The party cuts through it in Ch24 and it is called **洞門** afterwards. |
 | **Imasa** | Asha Bay's south shore, under Shirato. The road ends here. **There is no coast road south to Arn and there never was one** —— the cliffs come down onto the water and there is nowhere on that shore to land. |
 | **Kesh** | The crossroads at the island's neck, where the east coast and the bay all but touch. Everything that crosses Amagi goes through it. |
 | **Asha Bay** | The great bay in the island's waist — a drowned maze of inlets, headlands and islets with more shoreline than the rest of the coast combined. Impossible to blockade, impossible to navigate without a local. |

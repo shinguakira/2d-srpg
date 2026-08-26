@@ -55,8 +55,14 @@ import { supportScript } from '../story/supports';
 import { decideAction } from './ai';
 import type { Pos, Stats, StatusKind, Unit, Weapon } from '../types';
 
-/** 封じの言葉に触れられる者。光魔法か杖 —— 二十四章ぶん支援に回されてきた側 */
-const canUnward = (u: Unit) => u.items.some((w) => (w.type === 'light' || w.type === 'staff') && canUse(u, w));
+/**
+ * 石の目を読める者。**魔道書か杖を持つ者 —— 二十四章ぶん殴らずに来た側。**
+ *
+ * 岩を割るには、どこに刃を入れるかを先に見つけないといけない。叩いて音を聞き、
+ * 筋を探す仕事で、それができるのは測る者と社の者だ。
+ */
+const canRead = (u: Unit) =>
+  u.items.some((w) => (w.type === 'staff' || w.type === 'anima' || w.type === 'light' || w.type === 'dark') && canUse(u, w));
 
 export type Mode = 'free' | 'move' | 'menu' | 'target' | 'result' | 'status' | 'unit' | 'options' | 'roster' | 'guide';
 export type TargetKind = 'attack' | 'staff' | 'talk' | 'support' | 'trade' | 'rescue' | 'drop' | 'take' | 'steal' | 'dance';
@@ -181,13 +187,14 @@ export class Game {
   pendingReinforcements: Reinforcement[] = [];
 
   /**
-   * 石の洞門（`breach` の章）。**解呪してから掘る、の二段。**
+   * 岩山を抜く（`breach` の章）。**石の目を読んでから掘る、の二段。**
    *
-   * `ward` は光か杖の者が門のマスに立ち続けたターン数。降ろされれば 0 に戻る。
-   * `broken` は解呪後、門とその両隣に立つ者の力を自軍フェイズの終わりに足した値。
+   * `seam` は石の目を読める者が face のマスに立ち続けたターン数。降ろされれば 0。
+   * `broken` は筋が見えたあと、そのマスと両隣に立つ者の力を自軍フェイズの終わりに
+   * 足した値。
    * 第24章の設計（specs/story/chapters/ch24.md）をそのまま数にしたもの。
    */
-  ward = 0;
+  seam = 0;
   broken = 0;
 
   /** 中断から戻ったあとの立て直し。カメラと危険域を今の盤面に合わせる */
@@ -1334,22 +1341,22 @@ export class Game {
   }
 
   /**
-   * 門のマスを見る。自軍フェイズの終わりに一度だけ。
+   * 岩に取りついているマスを見る。自軍フェイズの終わりに一度だけ。
    *
-   * **解呪はミレイユかアルドの仕事で、掘るのはガレスの仕事。** 二十四章かけて
-   * 支援役として扱われてきた者にしかできない仕事と、腕力にしかできない仕事を
-   * 一つの章に並べる —— それがこの目標の全部（specs/story/chapters/ch24.md）。
+   * **見立てはリゼットかミレイユの仕事で、掘るのはガレスの仕事。** 二十四章かけて
+   * 殴る役だった者にはできない仕事と、腕力にしかできない仕事を一つの章に並べる ——
+   * それがこの目標の全部（specs/story/chapters/ch24.md）。
    */
   private tickGate() {
     const obj = this.objective;
     if (obj.kind !== 'breach' || obj.x === undefined || obj.y === undefined) return;
-    const need = obj.wardTurns ?? 3;
+    const need = obj.seamTurns ?? 3;
 
-    if (this.ward < need) {
-      const keeper = this.alive('player').find((u) => u.x === obj.x && u.y === obj.y && canUnward(u));
-      this.ward = keeper ? this.ward + 1 : 0;
-      if (this.ward >= need) this.log('封じの言葉がほどけた。あとは石だ');
-      else if (keeper) this.log(`解呪 ${this.ward} / ${need}`);
+    if (this.seam < need) {
+      const reader = this.alive('player').find((u) => u.x === obj.x && u.y === obj.y && canRead(u));
+      this.seam = reader ? this.seam + 1 : 0;
+      if (this.seam >= need) this.log('石の筋が見えた。あとは腕だ');
+      else if (reader) this.log(`見立て ${this.seam} / ${need}`);
       return;
     }
 

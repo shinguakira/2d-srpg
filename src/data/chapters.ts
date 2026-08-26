@@ -113,9 +113,9 @@ export interface ChapterDef {
     y?: number;
     /** survive: 耐えるターン数 */
     turns?: number;
-    /** breach: 解呪に必要な連続ターン数（既定 3） */
-    wardTurns?: number;
-    /** breach: 門が開く破石値（既定 60） */
+    /** breach: 石の目を読むのに要る連続ターン数（既定 3） */
+    seamTurns?: number;
+    /** breach: 岩が抜ける破石値（既定 60） */
     breakTotal?: number;
     /**
      * 倒れたら即座に負けになるユニット。**勝ち方とは独立**していて、どの kind

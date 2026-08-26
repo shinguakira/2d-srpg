@@ -81,12 +81,18 @@ keep it there.
 The same rule one level up from vocabulary. **Before writing a line, ask where
 that person learned it.** They were not reading the design document.
 
-Takeshi opened the finale with 「洞門を開けたな」 — he cannot know that. The
-Stone Gate is the route nobody takes: he came under the arch by sea, alone,
-because one man can and an army cannot, and the gate had not opened in four
-centuries. He had a rearguard on the cliff road, so the road he knows; the gate
-he has ruled out. Handing him the answer also threw away the chapter that earned
-it.
+Takeshi opened the finale with 「洞門を開けたな」 — he cannot know that, and the
+sentence contains two separate impossibilities. He cannot know the route the
+party took. And **there was no 洞門 for him to have a word for**: the headland at
+the end of the Arn road is a piece of mountain, uncut and unremarkable, and it
+only becomes a 洞門 in the last minutes of Ch24 because this company put a hole
+in it. What he knows is the cliff road, because he posted a rearguard on it. His
+whole plan is that the road runs out and they stand in front of a mountain.
+
+**A thing that does not exist yet cannot be referred to, by anybody, including
+the narration.** The name belongs to the people who made it, and it may not be
+used before they name it. Handing Takeshi the answer also threw away the chapter
+that earned it.
 
 Three questions that catch most of it:
 

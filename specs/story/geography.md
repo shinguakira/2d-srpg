@@ -69,8 +69,8 @@ prohibition or the forest; they build inside one that exists.
 **Cutting through the land when it is in the way is what this island does.** At
 Kofunakoshi, boats were hauled overland across the neck between the two seas.
 In 1672 the Sō cut Ōfunakoshi-seto so larger hulls could pass. In 1900 the navy
-cut Manzeki-seto. **The Stone Gate in Ch24 is the fourth time**, four centuries
-earlier, and it is in character for the place.
+cut Manzeki-seto. **Ch24 is the fourth time**, done by hand in a day by people
+with no training for it, and it is entirely in character for the place.
 
 ---
 
@@ -86,8 +86,8 @@ location.
 - **The Cut is natural here and artificial there.** Manzeki-seto was dug in 1900.
   Making Amagi's channel man-made as well is an open question rather than an
   error: it would let the setting say *this island cuts through what is in its
-  way* in two places instead of one, and put the Stone Gate's engineers in the
-  same lineage as whoever split the country. Not adopted yet.
+  way* in two places instead of one, and put whoever split the country in the same
+  lineage as the company that cuts the headland in Ch24. Not adopted yet.
 - **Arn's sea arch is invented.** There are sea caves and stacks along that coast;
   there is no famous arch at Aren. The seal needs somewhere to be, and this is
   where the design stops borrowing.
@@ -115,7 +115,8 @@ south-west of it. On a map that is an afternoon.
 Arn is a hundred metres of cliff with the mountains coming down onto it, and
 nobody has ever had a reason to cut a path along a shore with nowhere to land.
 The two places you *can* land on that coast — Kodo and Arn — are both reached
-from inland, which is exactly why the 347 had to cut the Stone Gate.
+from inland or from the water, which is why everyone who ever went to Arn went
+by sea. The 347 sailed. So did Takeshi, alone, under the arch at low tide.
 
 So the party turns west at Kandel, walks to Imasa, and finds out that **west is
 not a direction you can travel on this island.** To reach a thing fifteen kilometres
@@ -126,8 +127,8 @@ Lisette should be the one who measures it and says the number out loud.
 ### From the south — Kodo, Ch10
 
 The second attempt has a road: six kilometres of cliff path north from Kodo Beach.
-They take it, and it ends at the **Stone Gate**, filled and warded, with Arn
-visible past the headland and no way through.
+They take it, and it ends —— the mountain spine runs into the sea and the path
+stops against bare rock, with Arn somewhere past it and nothing to walk on.
 
 **This is what makes Takeshi's offer at Ch10 land.** He walks down the hill road
 at the one place they have just been stopped, and offers to carry the sword the
@@ -136,12 +137,13 @@ tide — and he knows perfectly well that an army cannot.
 
 ### The rule the route is built on
 
-> **Arn cannot be reached until the Stone Gate is opened, and the Stone Gate
-> cannot be opened by the company that is standing at Kodo in Ch10.**
+> **Arn cannot be reached until somebody cuts the headland, and the company
+> standing at Kodo in Ch10 cannot cut it.**
 
-Opening it needs the Suza warden who can read the ward (recruited Ch14), enough bodies
-to hold a closing road (deployment reaches 16 by Ch23), and Lisette's rules about
-running water and hallowed ground (Ch17, Ch21). Everything Arcs 3 and 4 hand the
+Cutting it needs somebody who can read rock and is willing to stand still in the
+open for three turns to do it (Lisette, Mirelle, and the Suza warden recruited
+Ch14), enough bodies to hold a closing road (deployment reaches 16 by Ch23), and
+Lisette's rules about running water and hallowed ground (Ch17, Ch21). Everything Arcs 3 and 4 hand the
 player is a component of Ch24, and the player should be able to feel that
 without being told.
 

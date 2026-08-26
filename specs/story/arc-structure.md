@@ -41,7 +41,7 @@ the long way round, and the last six kilometres are behind a door.
                  ╎                            |
               ARN(25)                    Uzia(11-13)
                  |                            |
-      ═══ Stone Gate ═══ (24)           Taragi(20-23)
+      ═══ 岩山 / 洞門 ═══ (24)          Taragi(20-23)
                  |                            |
               Kodo(10) ──────────────────── Suza(4,14,15)
 ```
@@ -50,8 +50,9 @@ Two walls, and everything between Ch6 and Ch24 is the detour around them:
 
 - **`╎` Imasa → Arn.** Fifteen kilometres of cliff with nowhere to land. No road was
   ever cut, so the company turns around at Ch6 and goes the length of the island.
-- **`═══` Kodo → Arn.** Six kilometres of cliff path that ends at the Stone Gate,
-  filled and warded. They reach it in Ch10 and cannot open it until Ch24.
+- **`═══` Kodo → Arn.** Six kilometres of cliff path that ends against the
+  mountain. Not sealed, not blocked —— simply rock, with no way round it. They
+  reach it in Ch10 and cannot get through until Ch24, when they cut a hole.
 
 ---
 
@@ -114,8 +115,8 @@ assembled on the run down the east coast and then west across the island.
 - **Ch10 — The Sands of Kodo.** The invasion beach, one arc later: village below,
   fortified hill above. Boss: Grand Magus Ezrin. A **Blackflame Colossus** spawns on
   turn 6 and goes for Elder Ilse's chronicle. Afterwards the party takes the cliff
-  road north and is stopped six kilometres short at the **Stone Gate** — the second
-  failed approach. **Arc close: Takeshi appears in person**, unarmed, offers to
+  road north and is stopped six kilometres short by **the last headland** — bare
+  rock, no way round, the second failed approach. **Arc close: Takeshi appears in person**, unarmed, offers to
   carry the Flamebrand the six kilometres they cannot walk it, and is refused.
 
 ## Arc 3 — The Ash Road (Ch11-15)
@@ -136,10 +137,9 @@ in the uncut wood under Taragi.
 - **Ch21-23 — Taragi.** The the Dreadful Place, the forbidden ground, and the wall
   the 347 names are carved into.
 - **Ch24 — The Cliffs of Arn.** The last approach along the west coast from Kodo,
-  and the **Stone Gate** —— the gallery the 347 cut through the final headland,
-  filled and warded behind them. The party breaks it open from the outside while
-  the road behind them falls into the sea. It is the outer half of the door
-  Ch23 explains.
+  ending at a headland nobody has ever cut. **The party cuts it**, by hand, in a
+  day, while the road behind them falls into the sea. Afterwards it has a name ——
+  **洞門** —— and it is the only piece of the world this company made.
 - **Ch25 — Final: The Sea Gate.** The shrine above the natural arch at Arn, over the
   seal itself. Takeshi never concedes the argument; the best outcome is his choosing
   to put it down.

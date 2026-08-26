@@ -37,6 +37,7 @@ const FAMILY: Record<string, Family | undefined> = {
   sea: 'water',
   wall: 'stone',
   floor: 'stone',
+  face: 'stone',
   blight: 'ash',
   rift: 'rift',
   hallow: 'hallow',

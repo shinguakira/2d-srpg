@@ -11,7 +11,7 @@ import type { Script } from './dialogue';
 
 /** 死亡時の一言（FE 恒例） */
 const DEATH_QUOTES: Record<string, string> = {
-  p_shigeru: '父上……まだ、南へ……',
+  p_shigeru: '父上……まだ、着いていない……',
   p_akira: '殿下の……盾に、なれましたか……',
   p_gareth: 'く……前に出すぎたか。わりぃな……',
   p_bryn: '矢が……届かない……',

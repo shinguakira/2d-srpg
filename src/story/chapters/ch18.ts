@@ -78,7 +78,7 @@ export const CH18_SCRIPTS: ChapterScripts = {
         L('エイリン', 'p_aeryn', 'right', '判決はまだ出ない。誰も出せない。出すと、命令のほうが裁かれる。'),
         L('シゲル', 'p_shigeru', 'left', 'ならこちらへ来い。'),
         L('エイリン', 'p_aeryn', 'right', 'アマギの旗の下にか。'),
-        L('シゲル', 'p_shigeru', 'left', '旗は無い。焼けた。'),
+        L('シゲル', 'p_shigeru', 'left', '旗は下ろした。掲げる国が無い。'),
         L('エイリン', 'p_aeryn', 'right', '……そうだったな。'),
         L('エイリン', 'p_aeryn', 'right', 'いいだろう。旗の無いところなら、私の判決も要らん。'),
       ],

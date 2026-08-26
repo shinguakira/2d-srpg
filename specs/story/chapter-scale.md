@@ -87,7 +87,7 @@ with everyone". Blight edges replace some reinforcements as the pressure.
 
 | Ch | Title | Size | Deploy | Enemies | Reinforcements | Objective |
 |---|---|---|---|---|---|---|
-| 11 | The Ash Road | 28×18 | 10 | 16 | 3 per turn, turns 3-7, behind | Escape west with everyone alive |
+| 11 | The Ash Road | 28×18 | 10 | 16 | 3 per turn, turns 3-7, behind | Escape upriver with everyone alive |
 | 12 | The Silent Village | 26×18 | 10 | 14 | triggered, 4 per trigger, 3 triggers | Survive, night, fog of war |
 | 13 | The Uzia Basin | 28×20 | 10 | 20 | 4 on turns 2, 5, 8 | Seize the far bridgehead |
 | 14 | The Shrine on the Cape | 26×20 | 11 | 18 | 3 per turn, turns 4-8 | Defend the shrine precinct |

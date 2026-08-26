@@ -111,7 +111,7 @@ them are on their boards now.**
 | 14 | **ケーヴェ** | Reached the cape first and made Shigeru's argument with better manners and more gold. Ordered to put the flame out; did not ask why; says so plainly. Fourth in a row. |
 | 15 | **ハウグ** | Has thrown away the standard and is running north with three hundred of eight hundred. Not from the party. The first Kurogane officer the player watches break. |
 | 16 | **総督ハルヴィク** | Has kept the grey out of his emperor's sight for a year by not filing the reports. Not mad, holds his sword badly, and is the first enemy in the campaign who asks the party to keep going after he loses. |
-| 17 | **ドルグ** | Wants the fords. Knows the blight will not cross running water — three months of staying alive taught him — and wants the bridge anyway, because eight hundred pairs of feet get wet otherwise. |
+| 17 | **ドルグ** | Wants the fords. Knows the blight will not cross running water — three months of staying alive taught him — and wants the bridge anyway, because six hundred pairs of feet get wet otherwise. |
 | 18 | **ソルグ** | Half his own officer corps has stopped fighting. He has not, because the Emperor saved his life forty years ago. He knows the argument is on the other side. He calls it 義理 and stands there. |
 | 19 | **ヴォルカー** | Sent to put the northern flame out. Did not ask why. Fifth. When Shigeru names the other four he works out for himself that nobody in the chain ever asked. |
 | 20 | — | **No boss.** Revenants and four-century-old armour; the reveal at the end is what the chapter has instead. |

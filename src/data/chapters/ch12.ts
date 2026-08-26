@@ -123,7 +123,7 @@ export const CH12: ChapterDef = {
         id: 'ch12_t8',
         lines: [
           { speaker: 'ミレイユ', who: 'p_mirelle', side: 'right', text: '……百八十。百八十一。' },
-          { speaker: 'ナディーン', who: 'p_nadine', side: 'right', text: 'ミレイユさん。少し休んで。声が。' },
+          { speaker: 'ナディーヌ', who: 'p_nadine', side: 'right', text: 'ミレイユさん。少し休んで。声が。' },
           { speaker: 'ミレイユ', who: 'p_mirelle', side: 'right', text: '休むと、どこまで数えたか分からなくなります。' },
         ],
       },

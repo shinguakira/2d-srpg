@@ -141,7 +141,7 @@ export const CH17: ChapterDef = {
         lines: [
           { text: '対岸で、灰が水際まで来た。そこで止まった。触れもしなかった。' },
           { speaker: 'アルド', who: 'p_ald', side: 'right', text: '……止まりました。' },
-          { speaker: 'リゼット', who: 'p_lisette', side: 'right', text: 'まだ五ターンあります。' },
+          { speaker: 'リゼット', who: 'p_lisette', side: 'right', text: 'まだ終わっていません。' },
         ],
       },
     },
@@ -151,7 +151,7 @@ export const CH17: ChapterDef = {
         id: 'ch17_t9',
         lines: [
           { speaker: 'ガレス', who: 'p_gareth', side: 'left', text: 'おい学者。もう笑っていいぞ。' },
-          { speaker: 'リゼット', who: 'p_lisette', side: 'right', text: 'まだ一ターンあります。' },
+          { speaker: 'リゼット', who: 'p_lisette', side: 'right', text: 'まだです。' },
           { speaker: 'ガレス', who: 'p_gareth', side: 'left', text: '……そういうとこだよ。' },
         ],
       },

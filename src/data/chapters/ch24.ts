@@ -210,11 +210,16 @@ export const CH24: ChapterDef = {
       script: {
         id: 'ch24_t2',
         lines: [
-          { speaker: 'ミレイユ', who: 'p_mirelle', side: 'right', text: '……三ターン、私が門の上にいます。降ろされたら、また一からです。' },
+          {
+            speaker: 'ミレイユ',
+            who: 'p_mirelle',
+            side: 'right',
+            text: '……私が門の上に立ち続けます。途中で降ろされたら、また一からです。',
+          },
           { speaker: 'アルド', who: 'p_ald', side: 'right', text: '私が替わりに立てます。二人いれば、どちらかは立っていられる。' },
           { speaker: 'ガレス', who: 'p_gareth', side: 'left', text: 'で、そのあいだ壁を殴るのは誰だ。' },
           { speaker: 'シゲル', who: 'p_shigeru', side: 'left', text: 'お前だ。' },
-          { speaker: 'ガレス', who: 'p_gareth', side: 'left', text: '……二十四章かかったな、その台詞。' },
+          { speaker: 'ガレス', who: 'p_gareth', side: 'left', text: '……ずいぶん待たされたな、その台詞。' },
         ],
       },
     },

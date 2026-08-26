@@ -16,6 +16,28 @@ import type { Line } from './story/dialogue';
 /** 吹き出し一つに収めるには長い、と判断する字数 */
 const LONG = 64;
 
+/**
+ * **登場人物が知っているはずのない言葉。** 規則は `AGENTS.md`。
+ *
+ * 島に住んでいる人間は「三章前」とも「十二ターン」とも言わない。どちらも
+ * 製品の単位であって、その人の暮らしの単位ではない。地の文も同じ。
+ *
+ * 例外は `［目標］` と `（このターン、〜）` —— あれは画面がプレイヤーに向かって
+ * 喋っているので、括弧が付いたまま素通しにする。
+ */
+const GAME_WORDS = ['章', 'ターン', '盤', 'マス', 'フェイズ', 'ユニット', 'レベル', '経験値', 'クラスチェンジ', '必殺', 'プレイ', 'ゲーム'];
+
+/** 紋章・文章・楽章。「章」を含むだけの普通の語まで拾わないための除外 */
+const NOT_META = /紋章|文章|楽章|憲章|勲章|印章/g;
+
+function gameWords(text: string): string[] {
+  // `［目標］…` は行ぜんぶが画面の言葉。頭の札だけでなく後ろの本文も含めて素通し
+  if (text.startsWith('［')) return [];
+  // 地の文の末尾に付く `（このターン、〜の守備 −2）` は文の途中から始まる
+  const clean = text.replace(/（[^）]*）/g, '').replace(NOT_META, '');
+  return GAME_WORDS.filter((w) => clean.includes(w));
+}
+
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
 
 const slug = (s: string, i: number) => `s${i}-${s.replace(/[^\p{L}\p{N}]+/gu, '-').slice(0, 24)}`;
@@ -25,6 +47,9 @@ function lineHtml(l: Line): string {
   const cls = ['line', narration ? 'n' : l.side === 'right' ? 'r' : 'l'].join(' ');
 
   const flags: string[] = [];
+  // 登場人物はゲームの言葉を知らない（AGENTS.md）。地の文も同じ
+  const meta = gameWords(l.text);
+  if (meta.length) flags.push(`ゲームの言葉「${meta.join('」「')}」`);
   // 吹き出しは太字を出せない。仕様書を書く癖がそのまま台詞に混ざることがある
   if (l.text.includes('**')) flags.push('** が本文に混ざっている');
   if (l.text.length >= LONG) flags.push(`${l.text.length} 字`);

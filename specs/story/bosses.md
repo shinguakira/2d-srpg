@@ -59,8 +59,12 @@ player should feel the cost of each one.
 - Pegasus Knight · AI: aggressive
 - Reported the hole in the sky as weather, twice. The second report came back with
   her commission attached and a note telling her to fly lower.
-- **Arc 4 hook**: if spared in a later route she is a recruit and an ending flag
-  (`aerynRecruited`).
+- **Arc 4 hook**: **the chapter's objective is the harbourmaster's office, not her.**
+  Leave her alive and she comes back on Ch18 turn 6; kill her and she does not,
+  and she never appears in the preparation list either. That is the first ending
+  flag the code actually keeps —— `Campaign.slain` records named enemies killed,
+  `ChapterEvent.unless` skips the arrival, and `Seed.unlessSlain` keeps her off
+  the roster.
 
 ### Ch7 — Admiral Varro *(optional)*
 - General Soldier · AI: stationary

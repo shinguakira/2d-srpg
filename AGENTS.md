@@ -76,6 +76,38 @@ these words, skipping `［…］` lines and `（…）` inserts, so a new script
 breaks the rule shows up the next time anybody reads the page. It is at zero;
 keep it there.
 
+## A character may only know what they were shown
+
+The same rule one level up from vocabulary. **Before writing a line, ask where
+that person learned it.** They were not reading the design document.
+
+Takeshi opened the finale with 「洞門を開けたな」 — he cannot know that. The
+Stone Gate is the route nobody takes: he came under the arch by sea, alone,
+because one man can and an army cannot, and the gate had not opened in four
+centuries. He had a rearguard on the cliff road, so the road he knows; the gate
+he has ruled out. Handing him the answer also threw away the chapter that earned
+it.
+
+Three questions that catch most of it:
+
+- **Who told them?** If nobody did, the line is either a deduction — write it as
+  one, out loud — or it does not belong to that character yet.
+- **Does the payoff have a setup?** Ch17 has Lisette bet the company on a rule
+  she「この川の水際で」first saw. That line is only worth anything because Ch2
+  now contains the observation, and her refusing to generalise from one sighting.
+- **Is the number the same everywhere?** Three sacred flames bought four
+  centuries; Arn's went out before Ch1, Suza's goes out in Ch15. So Ch14 has two
+  burning and Ch21 has one. Written separately, those three chapters each said
+  something different.
+
+**A chapter must not make the next one impossible.** Ch6's objective was
+「エイリンの撃破」 while Ch18 had her walk in alive. Sparing somebody has to be
+something the board allows, so Ch6 seizes the harbourmaster's office instead and
+the flag is real: `Campaign.slain` records named enemies killed,
+`ChapterEvent.unless` skips an arrival, `Seed.unlessSlain` keeps them off the
+preparation list. Both halves are needed —— one alone leaves a dead woman in the
+roster.
+
 ## Never delete
 
 - `src/assets/sprites/*.png` and `tools/sprites/reference/`. They were

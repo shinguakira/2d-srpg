@@ -97,7 +97,8 @@ assembled on the run down the east coast and then west across the island.
 ## Arc 2 — The Broken Seal (Ch6-10)
 
 - **Ch6 — The Harbour at Kesh.** The crossroads at the island's neck. Boss:
-  Captain Aeryn. Joins: Corwin, Nadine. The blight has passed them and every road
+  Captain Aeryn —— but the objective is the harbourmaster's office, not her head, so
+  she can be left alive and come back in Ch18. Joins: Corwin, Nadine. The blight has passed them and every road
   south is cut —— and then the company learns at **Imasa** that there is no road
   west either, and never was. Arn is fifteen kilometres away and has to be walked at
   from the other end of the country. **This is why the campaign is twenty-five

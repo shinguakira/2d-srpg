@@ -141,7 +141,7 @@ export const CH18: ChapterDef = {
   enemies: [...SORG_MEN, ...STOOD_ASIDE, ROLF_ONBOARD, SORG],
   villages: [
     { x: 6, y: 3, weapon: 'hammer', text: '倉庫街の鍛冶。「両方の軍に売った。今日はどっちにも売らん」と言って、これを投げてよこした。' },
-    { x: 6, y: 15, potion: 2, text: '第6章で船を焼いた桟橋の下。網の陰に、包みが二つ。誰が置いたかは分からない。' },
+    { x: 6, y: 15, potion: 2, text: '船を焼いたあの桟橋の下。網の陰に、包みが二つ。誰が置いたかは分からない。' },
   ],
   chests: [],
   shop: [
@@ -177,6 +177,8 @@ export const CH18: ChapterDef = {
     },
     {
       turn: 6,
+      // 第6章で討ち取っていたら来ない。見逃した者だけが来る
+      unless: 'c6_boss',
       script: CH18_SCRIPTS.recruit?.p_aeryn,
       spawn: [
         {

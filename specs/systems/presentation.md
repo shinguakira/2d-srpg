@@ -204,7 +204,17 @@ every other turn; Ch24's cliff road goes grey behind the party and then falls
 away entirely, and anything standing on a tile that becomes a rift is shoved
 aside if there is room and lost if there is not.
 
-Objectives are `seize | rout | boss | survive | escape | breach`, and **`guard`
+**`unless` is how one chapter remembers another.** `Campaign.slain` collects the
+ids of named enemies the player actually killed, and an event carrying
+`unless: 'c6_boss'` does not fire if that one is on the list. Aeryn is the case
+it exists for: Ch6's objective is the harbourmaster's office rather than her
+head, so she can be left alive, and only then does she arrive on Ch18 turn 6.
+`Seed.unlessSlain` is the other half — without it she would still appear in the
+preparation list from Ch19, having never joined. This is the first of the ending
+conditions in `specs/story/arc-structure.md` that the code actually keeps; the
+rest are still unscored.
+
+Objectives are `seize | rout | boss | survive | escape | breach`| rout | boss | survive | escape | breach`, and **`guard`
 composes with any of them** — a list of ids that lose the chapter if they fall.
 FE's "protect X" is a defeat condition, not a win condition, and Ch10's Elder
 Ilse is one: an `allies` unit with mov 0 and no weapon, who costs no deployment

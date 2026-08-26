@@ -902,6 +902,9 @@ export class Game {
       for (const u of [attacker, defender]) {
         if (u.hp <= 0 && !u.dead) {
           u.dead = true;
+          // 名前のある敵は、討ち取ったことを章をまたいで覚えておく。
+          // 第6章でエイリンを殺したかどうかを、第18章が読む
+          if (u.team === 'enemy' && u.isBoss && !this.campaign.slain.includes(u.id)) this.campaign.slain.push(u.id);
           this.log(`${u.name} は倒れた`);
           const d = deathScript(u.id, u.name);
           if (d) deaths.push(d);
@@ -1419,6 +1422,8 @@ export class Game {
     this.pendingEvents = this.pendingEvents.filter((e) => e.turn > this.turn);
     const scripts: Script[] = [];
     for (const e of due) {
+      // 見逃さなかった相手は来ない。第6章でエイリンを討てば第18章の加入は起きない
+      if (e.unless && this.campaign.slain.includes(e.unless)) continue;
       if (e.defect) {
         const u = this.byId(e.defect);
         if (u && !u.dead) {

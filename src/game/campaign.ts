@@ -28,6 +28,18 @@ export class Campaign {
   /** オプション。章をまたいで残るので campaign が持ち、Game が借りる */
   options: GameOptions = { ...DEFAULT_OPTIONS };
 
+  /**
+   * 討ち取った名前付きの敵の id。
+   *
+   * **見逃したかどうかを、後の章が知るためのもの。** 第6章でエイリンを殺せば、
+   * 第18章に彼女は来ない —— 台本のほうを条件付きにするのではなく、盤で起きた
+   * ことを覚えておいて `ChapterEvent.unless` が読む。
+   *
+   * `specs/story/arc-structure.md` のエンディング条件（`aerynRecruited` など）は
+   * まだ集計していないが、その最初の一つがこれ。
+   */
+  slain: string[] = [];
+
   constructor() {
     this.autoDeploy();
   }
@@ -43,7 +55,18 @@ export class Campaign {
    * `events` が盤に置いたうえで、次の章からここに並ぶ。
    */
   available(): Unit[] {
-    return this.roster.filter((u) => !u.dead && joinedBy(u.id, this.chapter));
+    return this.roster.filter((u) => !u.dead && joinedBy(u.id, this.chapter) && this.recruited(u.id));
+  }
+
+  /**
+   * 加入そのものが起きたか。**討ち取った相手は仲間にならない。**
+   *
+   * 第6章でエイリンを討てば第18章の加入事件は起きず（`ChapterEvent.unless`）、
+   * ここが名簿からも外す。片方だけだと、来ていない人物が準備画面に並ぶ。
+   */
+  private recruited(id: string) {
+    const seed = ROSTER.find((s) => s.id === id);
+    return !seed?.unlessSlain || !this.slain.includes(seed.unlessSlain);
   }
 
   /** その章で外せない者。ロードと、章が名指ししている者 */
@@ -116,6 +139,7 @@ export class Campaign {
       cleared: this.cleared,
       gold: this.gold,
       deployed: this.deployed,
+      slain: this.slain,
       roster: this.roster.map((u) => ({
         id: u.id,
         level: u.level,
@@ -175,6 +199,7 @@ export class Campaign {
       Object.assign(u, saved);
     }
     c.deployed = data.deployed ?? [];
+    c.slain = data.slain ?? [];
     loadChapter(c.chapter);
     if (!c.deployed.length) c.autoDeploy();
     return c;
@@ -187,6 +212,7 @@ export class Campaign {
       cleared: 0,
       gold: 0,
       deployed: [] as string[],
+      slain: [] as string[],
       roster: [] as (Partial<Unit> & { id: string })[],
     };
   }

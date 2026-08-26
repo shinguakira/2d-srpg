@@ -74,7 +74,7 @@ defence; Ch10 is the arc's set-piece.
 
 | Ch | Title | Size | Deploy | Enemies | Reinforcements | Objective |
 |---|---|---|---|---|---|---|
-| 6 | The Harbour at Kesh | 24×16 | 8 | 14 | 3 on turns 3 and 6 | Defeat Captain Aeryn |
+| 6 | The Harbour at Kesh | 24×16 | 8 | 14 | 3 on turns 3 and 6 | Seize the harbourmaster's office |
 | 7 | What the Wall Held | 24×19 | 8 | 15 | 3 on turns 3, 5, 7, 9 | Survive 12 turns |
 | 8 | The Last Stand on Yatan | 24×19 | 8 | 16 | 3 per turn, turns 4-9, two edges | Defeat General Wulfram and seize |
 | 9 | The Empty Place | 24×17 | 8 | 12 | 3 on turn 6 | Rout |
@@ -122,9 +122,9 @@ Ch19-20 mould, with the deployment to match.
 ## Notes on the shape
 
 **Deployment 5 → 16.** Slower to open than FE8, which is at 9 by its Ch4,
-because our roster only reaches 12 named units at Ch9 and the Arc 3-5 slots are
-still unwritten. Ch23-24 take the FE8 Ch19-20 spike; the finale drops back to 12
-so the last chapter is the team the player chose, not everyone they own.
+because our roster only reaches 12 named units at Ch9. Ch23-24 take the FE8
+Ch19-20 spike; the finale drops back to 12 so the last chapter is the team the
+player chose, not everyone they own.
 
 **Enemies 6 → 30.** Roughly 1.5 to 2 enemies per deployed unit for most of the
 campaign, tightening in defence chapters where the attackers arrive over time

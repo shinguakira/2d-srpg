@@ -39,6 +39,13 @@ export interface Seed {
   recruitableBy?: string;
   /** 加入する章（0 起点）。無ければ最初から居る */
   joinsAt?: number;
+  /**
+   * この id を討ち取っていたら、そもそも仲間にならない。
+   *
+   * エイリンは第6章のボスで、討てば第18章に来ない。来ないのに準備画面へ
+   * 並んでいたら同じ矛盾を一段下でやることになる（`Campaign.available`）。
+   */
+  unlessSlain?: string;
   /** 味方 NPC。自軍だが操作できず、行動済みで始まる */
   npc?: boolean;
 }
@@ -286,6 +293,7 @@ export const ROSTER: Seed[] = [
     wexp: { lance: 190 },
     potion: 1,
     joinsAt: 18,
+    unlessSlain: 'c6_boss',
   },
   {
     // 第18章。まず退き、次に寝返る。クロガネの将校団が割れる章の、割れ目そのもの

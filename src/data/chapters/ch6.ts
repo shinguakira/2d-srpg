@@ -64,7 +64,7 @@ export const CH6: ChapterDef = {
     'w.,,f...,,~~,,....,,f,.w',
     'w,..,,f.,,~~,,.f..,,..,w',
     'wf.V..,,.,~~,..,,C.,,f.w',
-    'w..,,..bb,~~,bb,,..,,..w',
+    'w..,,..bb,~~,bb,,..,,T.w',
     'w,,f..bb,,~~,,bb..f.,,,w',
     'w..,,bb,,,~~,,,bb,,..,.w',
     'wS.,bb,,,,GG,,,,bb,.,.Sw',
@@ -77,7 +77,9 @@ export const CH6: ChapterDef = {
     'w,,,,f,,,,~~,,,,,f,,,,,w',
     'wwwwwwwwwwwwwwwwwwwwwwww',
   ],
-  objective: { kind: 'boss', label: 'エイリンの撃破' },
+  // 港を空けるのが目的で、エイリンを殺すことではない。第18章で彼女が来るには
+  // 見逃せる余地が要る —— `boss` だと必ず殺すことになり、あの加入が成立しない
+  objective: { kind: 'seize', x: 21, y: 4, label: '港湾長の館を制圧せよ' },
   deploy: 8,
   starts: [
     { x: 3, y: 7 },

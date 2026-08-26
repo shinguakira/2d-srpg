@@ -28,6 +28,10 @@ interface SuspendData {
   opened: string[];
   flags: { bossTalked: boolean; ending: boolean };
   pending: Reinforcement[];
+  /** 岩を抜く章の途中経過。盤の書き換えだけでは見立ても破石も戻らない */
+  seam: number;
+  broken: number;
+  through: boolean;
 }
 
 export function hasSuspend() {
@@ -63,6 +67,9 @@ export function saveSuspend(campaign: Campaign, game: Game): boolean {
     opened: [...game.opened],
     flags: game.flags,
     pending: game.pendingReinforcements,
+    seam: game.seam,
+    broken: game.broken,
+    through: game.through,
   };
   try {
     localStorage.setItem(KEY, JSON.stringify(data));
@@ -111,6 +118,9 @@ export function loadSuspend(): { campaign: Campaign; game: Game } | undefined {
   game.opened = new Set(data.opened ?? []);
   game.flags = data.flags ?? { bossTalked: false, ending: false };
   game.pendingReinforcements = data.pending ?? [];
+  game.seam = data.seam ?? 0;
+  game.broken = data.broken ?? 0;
+  game.through = data.through ?? false;
   game.banner = undefined;
   game.dialogue = undefined;
   game.resumeFromSuspend();

@@ -196,6 +196,8 @@ export class Game {
    */
   seam = 0;
   broken = 0;
+  /** 岩に穴が通ったか。`objective.exit` があるとき、ここから先は歩いて抜ける話 */
+  through = false;
 
   /** 中断から戻ったあとの立て直し。カメラと危険域を今の盤面に合わせる */
   resumeFromSuspend() {
@@ -458,9 +460,18 @@ export class Game {
   // ---------------------------------------------------------------- menus
 
   /** 隣接していて会話できる相手（説得 / ボス戦闘前会話） */
-  /** ロードが目標の玉座に立っていれば制圧できる */
+  /**
+   * ロードが目標の玉座に立っていれば制圧できる。
+   *
+   * 岩を抜く章では玉座の代わりに `exit` —— 穴の向こう側の一マス。穴が
+   * 通るまでは立てないので、条件は「抜けたあとに、そこまで歩いた」になる。
+   */
   canSeize(u: Unit) {
-    return !!u.isLord && this.objective.kind === 'seize' && u.x === this.objective.x && u.y === this.objective.y;
+    const o = this.objective;
+    if (!u.isLord) return false;
+    if (o.kind === 'seize') return u.x === o.x && u.y === o.y;
+    if (o.kind === 'breach' && o.exit) return this.through && u.x === o.exit.x && u.y === o.exit.y;
+    return false;
   }
 
   /**
@@ -549,7 +560,7 @@ export class Game {
     const cls = classOf(u.classId);
 
     const items: MenuItem[] = [];
-    if (this.canSeize(u)) items.push({ id: 'seize', label: '制圧', enabled: true });
+    if (this.canSeize(u)) items.push({ id: 'seize', label: this.objective.kind === 'breach' ? '抜ける' : '制圧', enabled: true });
     if (this.canEscape(u)) items.push({ id: 'escape', label: '脱出', enabled: true });
     if (this.villageAt(u.x, u.y)) items.push({ id: 'visit', label: '訪問', enabled: true });
     if (this.chestAt(u.x, u.y)) items.push({ id: 'chest', label: '宝箱', enabled: u.keys > 0, sub: `鍵${u.keys}` });
@@ -1161,7 +1172,7 @@ export class Game {
 
   /** 制圧。FE の勝利条件で、敵を殺し切る必要はない */
   private doSeize(u: Unit) {
-    this.log(`${u.name} は玉座を制圧した`);
+    this.log(this.objective.kind === 'breach' ? `${u.name} は岩山を抜けた` : `${u.name} は玉座を制圧した`);
     this.flags.ending = true;
     this.win();
   }
@@ -1366,6 +1377,33 @@ export class Game {
     if (!gain) return;
     this.broken = Math.min(total, this.broken + gain);
     this.log(`破石 ${this.broken} / ${total}`);
+    if (this.broken >= total && !this.through) this.openTunnel();
+  }
+
+  /**
+   * 岩が抜けた。**面から向こう側まで一直線に石床へ書き換える。**
+   *
+   * ここで章は終わらない。終わるのはロードが北の口に立ったときで、
+   * それまでは後ろの道が落ち続ける。壊すことではなく通り抜けることが目標。
+   */
+  private openTunnel() {
+    this.through = true;
+    const obj = this.objective;
+    if (!obj.exit || obj.x === undefined || obj.y === undefined) return;
+    const rows = MAP.slice();
+    const dx = Math.sign(obj.exit.x - obj.x);
+    const dy = Math.sign(obj.exit.y - obj.y);
+    let x = obj.x;
+    let y = obj.y;
+    for (let i = 0; i < 64; i++) {
+      if (y < 0 || y >= rows.length || x < 0 || x >= rows[y].length) break;
+      rows[y] = rows[y].slice(0, x) + '_' + rows[y].slice(x + 1);
+      if (x === obj.exit.x && y === obj.exit.y) break;
+      x += dx;
+      y += dy;
+    }
+    setMap(rows);
+    this.log('岩が抜けた。向こう側の光が差している');
   }
 
   endPlayerPhase() {
@@ -1621,8 +1659,9 @@ export class Game {
         return;
       }
     } else if (obj.kind === 'breach') {
-      // 門が開けば勝ち。敵を殺し切っても石は退かない
-      if (this.broken >= (obj.breakTotal ?? 60)) {
+      // 抜けた先が決まっている章は、そこにロードが立つまで終わらない（canSeize）。
+      // 敵を殺し切っても石は退かないのは、どちらにしても同じ
+      if (!obj.exit && this.broken >= (obj.breakTotal ?? 60)) {
         this.flags.ending = true;
         this.win();
         return;

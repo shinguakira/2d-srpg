@@ -119,18 +119,24 @@ them are on their boards now.**
 | 22 | **ゲルハルト** | Stood at the oath-taking and carried the water. His company killed King Sadao on the sand at Kodo, not Takeshi, and he says so before he dies because it is the last thing anyone can still tell Shigeru. |
 | 23 | — | **No boss.** The wall of names is the chapter. |
 
-### Ch24 — the rearguard commander
+### Ch24 — **no boss**
 
-- Kurogane officer holding **the last headland** on the Arn road · AI: boss
+The party is not advancing on anybody. They are standing at a dead end with their
+backs to a rock and the enemy behind them. There is nothing at the far end of this
+board to kill, because the far end of this board is a mountain.
+
+**The rearguard commander** is on it, coming up the road with the rest · AI:
+aggressive, and he sits on nothing.
+
 - He has not been told to win. He has been told to make them late, and he knows
   what being late costs them, because he has watched the road behind them going.
 - **Key line**: *"He does not need you dead. He needs you tired. There is a
   difference and you will feel it tomorrow."*
-- **Mechanic**: killing him does not get anybody through the rock and the rock
-  does not need him dead. He is a tax on the turns the seam and the stone cost ——
-  the first boss in the campaign who stands in front of a clock rather than a
-  door. Asked whether he thinks they can cut through, he says no. So does
-  everyone, which is why nobody has ever tried.
+- **Mechanic**: killing him is optional and buys road, nothing else. The rock does
+  not retreat when he does, and ignoring him to keep digging is a real line of
+  play. He is a tax on turns, and turns are the only currency this chapter has.
+- Asked whether he thinks they can cut through, he says no. So does everyone,
+  which is why nobody has ever tried.
 
 ### Ch25 — Takeshi, Emperor of Ash ★★★ *(final boss)*
 - Shaven-headed, a head taller than anyone else on the field, both arms burned to

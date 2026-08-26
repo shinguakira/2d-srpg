@@ -541,14 +541,17 @@ function drawForecast(ctx: CanvasRenderingContext2D, g: Game) {
  * 岩山を抜く進み具合。`breach` の章にしか出ない。
  *
  * 第24章には残りターンの表示が無い（道が減っていくのがそれ）。代わりに要るのは
- * 「あと何ターン石を読むのか」「あと何回叩けば抜けるのか」で、それはこの一行。
+ * 「あと何ターン石を読むのか」「あと何回叩けば抜けるのか」、抜けたあとは
+ * 「どこへ行けば終わるのか」で、それはこの一行。
  */
 function gateLine(g: Game): string | undefined {
   const o = g.objective;
   if (o.kind !== 'breach') return undefined;
   const need = o.seamTurns ?? 3;
   if (g.seam < need) return `見立て ${g.seam} / ${need}`;
-  return `破石 ${g.broken} / ${o.breakTotal ?? 60}`;
+  if (!g.through) return `破石 ${g.broken} / ${o.breakTotal ?? 60}`;
+  // 抜けたあとに残る仕事は一つだけ。壊すことではなく通ることが目標なので
+  return o.exit ? '北の口へ' : undefined;
 }
 
 function drawObjectiveNotice(ctx: CanvasRenderingContext2D, g: Game) {

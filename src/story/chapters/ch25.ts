@@ -2,7 +2,10 @@ import type { ChapterScripts } from '../dialogue';
 import { L, N } from './common';
 
 /**
- * 終章「海の門」。設計は `specs/story/chapters/ch25.md`、人物は `bosses.md`。
+ * 終章「アレの社」。設計は `specs/story/chapters/ch25.md`、人物は `bosses.md`。
+ *
+ * **場所はアレ —— 島の西岸、川が海に出るところの集落。** 海の上ではない。海の門は
+ * 谷の外の水に立っていて、社はその上の崖にある。盤に出るのは社と谷のほう。
  *
  * 書きかたの規則は四つ、どれも外せない：
  *
@@ -17,7 +20,7 @@ import { L, N } from './common';
 export const CH25_SCRIPTS: ChapterScripts = {
   opening: {
     id: 'ch25_opening',
-    title: '終章  「海の門」',
+    title: '終章  「アレの社」',
     lines: [
       N('アレ。海に立つ石の門の上、崖の社。四百年前に黒炎が上がった場所。'),
       N('社の床に、男が一人、座っていた。武器は持っていなかった。'),

@@ -101,7 +101,7 @@ Commands are offered only when they apply:
 
 | | |
 |---|---|
-| 制圧 | the lord standing on the objective's throne |
+| 制圧 | the lord standing on the objective's throne. On a `breach` chapter the same command reads **抜ける** and wants the lord on `exit` — the far side of the hole, which does not exist until the rock gives |
 | 脱出 | anybody standing on an `escape` chapter's exit tile. **The lord leaving ends the chapter**, so the order is the whole question |
 | 訪問 / 宝箱 / 扉 / 武器屋 / 闘技場 | standing on (or beside, for a door) that terrain |
 | 攻撃 | some weapon in the pack reaches somebody. Choosing it opens a **weapon list** first, with how many targets each reaches |

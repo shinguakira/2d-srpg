@@ -116,8 +116,8 @@ Ch19-20 mould, with the deployment to match.
 | 21 | The Forbidden Ground | 30×22 | 12 | 22 | 3 per turn, turns 3-8 | Reach the stone at the centre |
 | 22 | Sworn Brothers | 30×20 | 12 | 24 | 4 on turns 4 and 7 | Boss kill |
 | 23 | The Oath of Three Hundred | 32×24 | **16** | 28 | 4 per turn, turns 2-10 | Advance through the seal chamber |
-| 24 | The Cliffs of Arn | 32×24 | **16** | 30 | triggered, 5 per trigger, 4 triggers | **Cut through the headland** (find the seam 3 turns, then 力 accumulates) |
-| 25 | The Sea Gate | 34×24 | 12 | 26 | triggered waves, 10 turns | Defeat Takeshi |
+| 24 | The Cliffs of Arn | 32×24 | **16** | 22 | 3 per turn from behind, turns 2-12 | **Cut through the headland and walk out** (seam 3 turns → 力 accumulates → the lord reaches the north mouth). **No boss** |
+| 25 | The Shrine at Arn | 34×24 | 12 | 26 | triggered waves, 10 turns | Defeat Takeshi |
 
 ## Notes on the shape
 

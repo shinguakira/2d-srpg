@@ -137,10 +137,12 @@ in the uncut wood under Taragi.
 - **Ch21-23 — Taragi.** The the Dreadful Place, the forbidden ground, and the wall
   the 347 names are carved into.
 - **Ch24 — The Cliffs of Arn.** The last approach along the west coast from Kodo,
-  ending at a headland nobody has ever cut. **The party cuts it**, by hand, in a
-  day, while the road behind them falls into the sea. Afterwards it has a name ——
+  ending at a headland nobody has ever cut. The chapter opens with them already at
+  the dead end and the rearguard coming up behind: **no boss, and nothing ahead to
+  break through to.** They cut it by hand, in a day, while the road behind them
+  falls into the sea, and then walk out the far side. Afterwards it has a name ——
   **洞門** —— and it is the only piece of the world this company made.
-- **Ch25 — Final: The Sea Gate.** The shrine above the natural arch at Arn, over the
+- **Ch25 — Final: The Shrine at Arn.** The shrine above the natural arch at Arn, over the
   seal itself. Takeshi never concedes the argument; the best outcome is his choosing
   to put it down.
 
